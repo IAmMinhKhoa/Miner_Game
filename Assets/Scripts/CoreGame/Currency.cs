@@ -37,8 +37,9 @@ public class Currency
 
         return currency;
     }
+}
 
-    enum CurrencyUnit
+enum CurrencyUnit
 {
     None,
     K,
@@ -151,7 +152,6 @@ public class Currency
     Spc,
     Occ,
     Noc,
-}
 }
 
 

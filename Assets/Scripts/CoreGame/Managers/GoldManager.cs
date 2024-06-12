@@ -15,14 +15,14 @@ public class GoldManager : Patterns.Singleton<GoldManager>
 
     public BigInteger CurrentGold { get; private set; }
 
-    private void AddGold(BigInteger amount)
+    public void AddGold(BigInteger amount)
     {
         CurrentGold += amount;
         PlayerPrefs.SetString(m_goldKey, CurrentGold.ToString());
         PlayerPrefs.Save();
     }
 
-    private void SpendGold(BigInteger amount)
+    public void RemoveGold(BigInteger amount)
     {
         CurrentGold -= amount;
         PlayerPrefs.SetString(m_goldKey, CurrentGold.ToString());
@@ -32,10 +32,12 @@ public class GoldManager : Patterns.Singleton<GoldManager>
     private void LoadGold()
     {
         string gold = PlayerPrefs.GetString(m_goldKey, m_startingGold);
+        Debug.Log("Gold from PlayerPrefs:" + gold);
 
         //Parse string must be constant
         if (BigInteger.TryParse(gold.ToString(), out BigInteger result))
         {
+            Debug.Log("Current gold:" + result);
             CurrentGold = result;
         }
         else
@@ -50,10 +52,5 @@ public class GoldManager : Patterns.Singleton<GoldManager>
     void Start()
     {
         LoadGold();
-    }
-    void Update()
-    {
-        m_goldText.text = Currency.DisplayCurrency(CurrentGold.ToString());
-        CurrentGold = (CurrentGold * 101) / 100;
     }
 }
