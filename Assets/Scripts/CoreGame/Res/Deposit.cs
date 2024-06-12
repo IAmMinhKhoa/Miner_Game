@@ -7,10 +7,10 @@ public class Deposit : MonoBehaviour
 {
     public BigInteger CurrentGold { get; set; }
 
-    void Start()
-    {
-        CurrentGold = 0;
-    }
+    // void Start()
+    // {
+    //     CurrentGold = 0;
+    // }
     public bool CanCollectGold()
     {
         return CurrentGold > 0;
@@ -50,5 +50,23 @@ public class Deposit : MonoBehaviour
         {
             return collectCapacity;
         }
+    }
+
+    //---new code---
+    public float CurrentPaw { get; private set; }
+    
+    void Start()
+    {
+        CurrentPaw = 0;
+    }
+
+    public bool CanCollectPaw()
+    {
+        return CurrentPaw > 0;
+    }
+
+    public void DepositPaw(float amount)
+    {
+        CurrentPaw += amount;
     }
 }
