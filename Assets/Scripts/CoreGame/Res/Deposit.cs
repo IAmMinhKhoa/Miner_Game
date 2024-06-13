@@ -5,55 +5,7 @@ using System.Numerics;
 
 public class Deposit : MonoBehaviour
 {
-    public BigInteger CurrentGold { get; set; }
-
-    // void Start()
-    // {
-    //     CurrentGold = 0;
-    // }
-    public bool CanCollectGold()
-    {
-        return CurrentGold > 0;
-    }
-
-    public BigInteger CollectGold(BaseMiner miner)
-    {
-        BigInteger currentCapacity = miner.GoldCapacity - miner.CurrentGold;
-        return EvaluateAmountCollect(currentCapacity);
-    }
-
-    public BigInteger RemoveGold(BigInteger amount)
-    {
-        if (CurrentGold < amount)
-        {
-            return 0;
-        }
-        else
-        {
-            CurrentGold -= amount;
-            return amount;
-        }
-    }
-
-    public void DepositGold(BigInteger amount)
-    {
-        CurrentGold += amount;
-    }
-
-    public BigInteger EvaluateAmountCollect(BigInteger collectCapacity)
-    {
-        if (CurrentGold < collectCapacity)
-        {
-            return CurrentGold;
-        }
-        else
-        {
-            return collectCapacity;
-        }
-    }
-
-    //---new code---
-    public float CurrentPaw { get; private set; }
+    public double CurrentPaw { get; private set; }
     
     void Start()
     {
@@ -65,8 +17,20 @@ public class Deposit : MonoBehaviour
         return CurrentPaw > 0;
     }
 
-    public void DepositPaw(float amount)
+    public void AddPaw(double amount)
     {
         CurrentPaw += amount;
+    }
+
+    public void RemovePaw(double amount)
+    {
+        if (CurrentPaw <= amount)
+        {
+            CurrentPaw = 0;
+        }
+        else
+        {
+            CurrentPaw -= amount;
+        }
     }
 }

@@ -11,17 +11,22 @@ public class Brewer : BaseWorker
     public Shaft CurrentShaft { get; set; }
 
     [SerializeField] private bool isWorking = false;
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            if (!isWorking)
+        // if (Input.GetKeyDown(KeyCode.N))
+        // {
+        //     if (!isWorking)
+        //     {
+        //         isWorking = true;
+        //         Move(CurrentShaft.BrewLocation.position);
+        //     }
+        // }
+
+        if (!isWorking)
             {
                 isWorking = true;
                 Move(CurrentShaft.BrewLocation.position);
             }
-        }
     }
 
     protected override async void Collect()
@@ -33,7 +38,7 @@ public class Brewer : BaseWorker
 
     protected override void Deposit()
     {
-        CurrentShaft.CurrentDeposit.DepositPaw(CurrentProduct);
+        CurrentShaft.CurrentDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
         ChangeGoal();
         isWorking = false;
@@ -42,8 +47,8 @@ public class Brewer : BaseWorker
 
     protected override async UniTask IECollect()
     {
-        await UniTask.Delay((int)WorkingTime * 1000);
-        CurrentProduct = ProductPerSecond * WorkingTime;
+        await UniTask.Delay((int)config.WorkingTime * 1000);
+        CurrentProduct = config.ProductPerSecond * config.WorkingTime * CurrentShaft.BoostScale;
         Move(CurrentShaft.BrewerLocation.position);
     }
 }

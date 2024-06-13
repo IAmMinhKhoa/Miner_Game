@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 
 public class Currency
 {
@@ -14,6 +15,41 @@ public class Currency
         char firstChar = gold[0];
         char secondChar = gold[1];
         char thirdChar = gold[2];
+
+        int div = goldLength % 3;
+        int unit = (goldLength - 1) / 3;
+        string goldUnit = Enum.GetName(typeof(CurrencyUnit), unit);
+        switch (div)
+        {
+            case 0:
+                currency = $"{firstChar}{secondChar}{thirdChar}{goldUnit}";
+                break;
+            case 1:
+                currency = $"{firstChar}.{secondChar}{thirdChar}{goldUnit}";
+                break;
+            case 2:
+                currency = $"{firstChar}{secondChar}.{thirdChar}{goldUnit}";
+                break;
+        }
+
+        return currency;
+    }
+
+    public static string DisplayCurrency(double gold)
+    {
+        if (gold < 1000)
+        {
+            return gold.ToString("F1");
+        }
+
+        BigInteger goldInt = (BigInteger)gold;
+        string goldString = goldInt.ToString();
+        int goldLength = goldString.Length;
+
+        string currency = string.Empty;
+        char firstChar = goldString[0];
+        char secondChar = goldString[1];
+        char thirdChar = goldString[2];
 
         int div = goldLength % 3;
         int unit = (goldLength - 1) / 3;

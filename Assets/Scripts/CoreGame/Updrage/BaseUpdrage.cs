@@ -22,14 +22,8 @@ public class BaseUpdrage : MonoBehaviour
     [SerializeField]
     private BigInteger m_costMultiplier = 2;
 
-    public int CurrentLevel { get; private set; }
+    public int CurrentLevel { get; set; }
     public BigInteger CurrentCost { get; private set; }
-
-    private void Start()
-    {
-        CurrentLevel = 1;
-        CurrentCost = initialCost;
-    }
 
     public virtual void Upgrade(BigInteger updateAmount)
     {
@@ -48,16 +42,22 @@ public class BaseUpdrage : MonoBehaviour
     {
         GoldManager.Instance.RemoveGold(CurrentCost);
         CurrentLevel++;
+        Debug.Log("Upgrade success" + CurrentLevel);
         OnUpgrade?.Invoke(this, CurrentLevel);
     }
 
     protected virtual void UpdateUpgradeValue()
     {
-        CurrentCost *= m_costMultiplier;
+
     }
 
     protected virtual void RunUpdrage()
     {
         
+    }
+
+    protected virtual float GetNextUpgradeScale()
+    {
+        return 0f;
     }
 }

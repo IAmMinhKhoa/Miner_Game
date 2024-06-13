@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elevator : MonoBehaviour
+public class ElevatorSystem : MonoBehaviour
 {
     [SerializeField]
     private Deposit elevatorDeposit;
+
     [SerializeField]
-    private Transform depositLocation;
+    private Transform elevatorLocation;
 
     public Deposit ElevatorDeposit => elevatorDeposit;
-    public Transform DepositLocation => depositLocation;
+    public Transform ElevatorLocation => elevatorLocation;
 }

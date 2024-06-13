@@ -17,6 +17,15 @@ public class Shaft : MonoBehaviour
     public Transform DepositLocation => m_depositLocation;
     public Transform BrewerLocation => m_brewerLocation;
 
+    [Header("Boost")]
+    [SerializeField] private double m_boostScale = 1f;
+
+    public double BoostScale
+    {
+        get { return m_boostScale; }
+        set { m_boostScale = value; }
+    }
+
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
 
@@ -27,12 +36,6 @@ public class Shaft : MonoBehaviour
         Brewer brewer = Instantiate(m_brewerPrefab, m_brewerLocation.position, Quaternion.identity);
         brewer.transform.SetParent(m_brewerLocation);
         brewer.CurrentShaft = this;
-
-        if (_brewers.Count > 0)
-        {
-            brewer.ProductPerSecond = _brewers[0].ProductPerSecond;
-            brewer.WorkingTime = _brewers[0].WorkingTime;
-        }
 
         _brewers.Add(brewer);
     }

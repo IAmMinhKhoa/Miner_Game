@@ -145,6 +145,8 @@ GameObject:
   - component: {fileID: 7114616491723363005}
   - component: {fileID: 6929720461273042312}
   - component: {fileID: 5495485229208593781}
+  - component: {fileID: 8836729101838696248}
+  - component: {fileID: 6487789743481721627}
   m_Layer: 0
   m_Name: Shaft
   m_TagString: Untagged
@@ -161,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 688754584837884837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.639, y: -0.042, z: 0}
+  m_LocalPosition: {x: 0.656, y: -0.039, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -240,6 +242,37 @@ MonoBehaviour:
   m_brewLocation: {fileID: 536735485171221435}
   m_depositLocation: {fileID: 4123226211434088239}
   m_brewerLocation: {fileID: 9210719222164301099}
+  m_boostScale: 1
+--- !u!114 &8836729101838696248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688754584837884837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a01eb113a1d21748ba78f7beb6c7a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_pawText: {fileID: 1101122645278566373}
+  m_upgradeButton: {fileID: 8411232489873325345}
+  m_buyNewShaftButton: {fileID: 4657606624823947628}
+--- !u!114 &6487789743481721627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688754584837884837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1cfedd63c0afd4469453922ce94e5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collectPerSecondMutiplier: 2
+  m_collectCapacityMutiplier: 2
+  m_moveSpeedMutiplier: 2
 --- !u!1 &1084460341952155850
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +298,7 @@ Transform:
   m_GameObject: {fileID: 1084460341952155850}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.82, y: -0.54, z: 0}
+  m_LocalPosition: {x: -1.82, y: -0.053, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -584,7 +617,7 @@ GameObject:
   - component: {fileID: 5545380178091507113}
   - component: {fileID: 1101122645278566373}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PawText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
