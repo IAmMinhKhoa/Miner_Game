@@ -11,12 +11,12 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private Button m_buyNewShaftButton;
 
     private Shaft m_shaft;
-    private ShaftUpdrage m_shaftUpdrage;
+    private ShaftUpgrade m_shaftUpgrade;
 
     void Awake()
     {
         m_shaft = GetComponent<Shaft>();
-        m_shaftUpdrage = GetComponent<ShaftUpdrage>();
+        m_shaftUpgrade = GetComponent<ShaftUpgrade>();
     }
 
     void Update()
@@ -27,25 +27,25 @@ public class ShaftUI : MonoBehaviour
     void OnEnable()
     {
         m_upgradeButton.onClick.AddListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade += UpdateUpgradeButton;
+        BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
     }
 
     void OnDisable()
     {
         m_upgradeButton.onClick.RemoveListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade -= UpdateUpgradeButton;
+        BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
     }
 
     void CallUpgrade()
     {
-        m_shaftUpdrage.Upgrade(1);
+        m_shaftUpgrade.Upgrade(1);
     }
 
-    void UpdateUpgradeButton(BaseUpdrage updrage, int level)
+    void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
-        if (updrage == m_shaftUpdrage)
+        if (upgrade == m_shaftUpgrade)
         {
             m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
         }

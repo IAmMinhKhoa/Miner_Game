@@ -4,17 +4,9 @@ using UnityEngine;
 using System.Numerics;
 using System;
 
-public class BaseUpdrage : MonoBehaviour
+public class BaseUpgrade : MonoBehaviour
 {
-    public static Action<BaseUpdrage,int> OnUpgrade;
-
-    [Header("Upgrade Info")]
-    [SerializeField]
-    protected float m_collectPerSecondMutiplier = 2;
-    [SerializeField]
-    protected float m_collectCapacityMutiplier = 2;
-    [SerializeField]
-    protected float m_moveSpeedMutiplier = 2;
+    public static Action<BaseUpgrade,int> OnUpgrade;
 
     [Header("Upgrade Cost")]
     [SerializeField]
@@ -33,7 +25,7 @@ public class BaseUpdrage : MonoBehaviour
             {
                 UpgradeSuccess();
                 UpdateUpgradeValue();
-                RunUpdrage();
+                RunUpgrade();
             }
         }
     }
@@ -51,7 +43,7 @@ public class BaseUpdrage : MonoBehaviour
 
     }
 
-    protected virtual void RunUpdrage()
+    protected virtual void RunUpgrade()
     {
         
     }
