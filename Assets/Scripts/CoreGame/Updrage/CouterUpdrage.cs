@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CouterUpdrage : BaseUpdrage
+public class CouterUpdrage : BaseUpgrade
 {
     private Couter couter;
 
@@ -11,9 +11,9 @@ public class CouterUpdrage : BaseUpdrage
         couter = GetComponent<Couter>();
         CurrentLevel = 1;
     }
-    protected override void RunUpdrage()
+    protected override void RunUpgrade()
     {
-        float nextScale = GeNextUpdrageScale(CurrentLevel);
+        float nextScale = GeNextUpgradeScale(CurrentLevel);
         couter.BoostScale *= 1 + nextScale;
 
         if (CurrentLevel == 10 || CurrentLevel == 50 || CurrentLevel == 100 || CurrentLevel == 200 || CurrentLevel == 400)
@@ -21,7 +21,7 @@ public class CouterUpdrage : BaseUpdrage
             couter.CreateTransporter();
         }
     }
-    private float GeNextUpdrageScale(int CurrentLevel)
+    private float GeNextUpgradeScale(int CurrentLevel)
     {
         if (CurrentLevel > 1 && CurrentLevel < 10)
         {

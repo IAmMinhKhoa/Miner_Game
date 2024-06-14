@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorUpdrage : BaseUpdrage
+public class ElevatorUpgrade : BaseUpgrade
 {
     private ElevatorSystem elevatorSystem;
 
@@ -12,7 +12,7 @@ public class ElevatorUpdrage : BaseUpdrage
         CurrentLevel = 1;
     }
 
-    protected override void RunUpdrage()
+    protected override void RunUpgrade()
     {
         double nextScale = GeNextMoveTimeScale(CurrentLevel);
         elevatorSystem.MoveTimeScale *= nextScale;

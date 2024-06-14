@@ -10,12 +10,12 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private Button m_upgradeButton;
 
     private ElevatorSystem m_elevator;
-    private ElevatorUpdrage m_elevatorUpdrage;
+    private ElevatorUpgrade m_elevatorUpgrade;
 
     void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
-        m_elevatorUpdrage = GetComponent<ElevatorUpdrage>();
+        m_elevatorUpgrade = GetComponent<ElevatorUpgrade>();
     }
 
     void Update()
@@ -26,23 +26,23 @@ public class ElevatorUI : MonoBehaviour
     void OnEnable()
     {
         m_upgradeButton.onClick.AddListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade += UpdateUpgradeButton;
+        BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
     void OnDisable()
     {
         m_upgradeButton.onClick.RemoveListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade -= UpdateUpgradeButton;
+        BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
     void CallUpgrade()
     {
-        m_elevatorUpdrage.Upgrade(1);
+        m_elevatorUpgrade.Upgrade(1);
     }
 
-    void UpdateUpgradeButton(BaseUpdrage updrage, int level)
+    void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
-        if (updrage == m_elevatorUpdrage)
+        if (upgrade == m_elevatorUpgrade)
         {
             m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
         }

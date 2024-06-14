@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CouterUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_pawText;
-    [SerializeField] private Button m_upgradeButton;
+    [SerializeField] private Button m_updrageButton;
 
     private Couter m_couter;
     private CouterUpdrage m_couterUpdrage;
@@ -25,14 +25,14 @@ public class CouterUI : MonoBehaviour
 
     void OnEnable()
     {
-        m_upgradeButton.onClick.AddListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade += UpdateUpgradeButton;
+        m_updrageButton.onClick.AddListener(CallUpgrade);
+        BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
     void OnDisable()
     {
-        m_upgradeButton.onClick.RemoveListener(CallUpgrade);
-        BaseUpdrage.OnUpgrade -= UpdateUpgradeButton;
+        m_updrageButton.onClick.RemoveListener(CallUpgrade);
+        BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
     void CallUpgrade()
@@ -40,11 +40,11 @@ public class CouterUI : MonoBehaviour
         m_couterUpdrage.Upgrade(1);
     }
 
-    void UpdateUpgradeButton(BaseUpdrage updrage, int level)
+    void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
-        if (updrage == m_couterUpdrage)
+        if (upgrade == m_couterUpdrage)
         {
-            m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            m_updrageButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
         }
     }
 }
