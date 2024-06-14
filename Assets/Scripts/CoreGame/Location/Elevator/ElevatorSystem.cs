@@ -12,4 +12,20 @@ public class ElevatorSystem : MonoBehaviour
 
     public Deposit ElevatorDeposit => elevatorDeposit;
     public Transform ElevatorLocation => elevatorLocation;
+
+    [SerializeField]
+    private double moveTimeScale = 1;
+    [SerializeField]
+    private double loadSpeedScale = 1;
+    public double MoveTimeScale
+    {
+        get => moveTimeScale;
+        set => moveTimeScale = value;
+    }
+
+    public double LoadSpeedScale
+    {
+        get => loadSpeedScale;
+        set => loadSpeedScale = value;
+    }
 }

@@ -19,6 +19,8 @@ public class ElevatorController : BaseWorker
 
     [SerializeField] private bool isWorking = false;
 
+    private double checkWorkingTime = 0;
+
     private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
@@ -59,11 +61,14 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[0];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            moveBackTime = config.MoveTime * firstShaftMoveTimeScale;
+            moveBackTime = config.MoveTime * firstShaftMoveTimeScale * (float) elevator.MoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
 
-            Move(fixPos, config.MoveTime * firstShaftMoveTimeScale);
+            float nextTime = moveBackTime;
+
+            Move(fixPos, nextTime);
+            return;
         }
         else if (_currentShaftIndex == ShaftManager.Instance.Shafts.Count)
         {
@@ -79,11 +84,12 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[_currentShaftIndex];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
+            float nextTime = config.MoveTime * (float) elevator.MoveTimeScale;
 
-            moveBackTime += config.MoveTime;
+            moveBackTime += nextTime;
 
             _currentDeposit = currentShaft.CurrentDeposit;
-            Move(fixPos);
+            Move(fixPos, nextTime);
         }
     }
 
@@ -98,19 +104,30 @@ public class ElevatorController : BaseWorker
 
         float collectTime = 0;
         double amount = 0;
-        double maxCapacity = config.ProductPerSecond * config.WorkingTime;
+        double productPerSecond = config.ProductPerSecond * elevator.LoadSpeedScale;
+
+        double maxCapacity = config.WorkingTime * productPerSecond;
+        Debug.Log("maxCapacity: " + maxCapacity);
 
         //if the amount of paw in the deposit is less than the max capacity, collect and move back
         if (CurrentProduct + _currentDeposit.CurrentPaw > maxCapacity)
         {
             amount = maxCapacity - CurrentProduct;
-            collectTime = (float)(amount / config.ProductPerSecond);
+            collectTime = (float)(amount / productPerSecond);
+            if (collectTime > 4f)
+            {
+                Debug.LogError("Collect time is too long!");
+            }
             ChangeGoal();
         }
         else
         {
             amount = _currentDeposit.CurrentPaw;
-            collectTime = (float)(amount / config.ProductPerSecond);
+            collectTime = (float)(amount / productPerSecond);
+            if (collectTime > 4f)
+            {
+                Debug.LogError("Collect time is too long!");
+            }
 
         }
 
@@ -120,6 +137,7 @@ public class ElevatorController : BaseWorker
     protected override async UniTask IECollect(double amount, float collectTime)
     {
         await UniTask.Delay((int)(collectTime * 1000));
+        checkWorkingTime += collectTime;
         CurrentProduct += amount;
         _currentDeposit.RemovePaw(amount);
         MoveToNextShaft();
@@ -135,6 +153,11 @@ public class ElevatorController : BaseWorker
         await UniTask.Delay((int)(config.WorkingTime * 1000));
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
+        Debug.Log("Deposit" + moveBackTime);
+        
+        Debug.Log("checkWorkingTime: " + checkWorkingTime);
+        checkWorkingTime = 0;
+
         _currentShaftIndex = -1;
         ChangeGoal();
         isWorking = false;
