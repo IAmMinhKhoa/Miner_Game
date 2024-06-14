@@ -58,18 +58,8 @@ namespace NOOD
         #endregion
 
 #if UNITY_EDITOR
-        private int _dictionaryCountOld;
-
-        private void Awake() 
-        {
-            _dictionaryCountOld = prefabPathDictionary.Count;     
-        }
-
         #region Update Asset Path
-        [ShowIf("CheckNeedRefresh")]
-        [GUIColor("red")]
         [Button("Refresh Data", ButtonSizes.Large)]
-        // [OnStateUpdate("CheckNeedRefresh")]
         private void UpdateAssetPath()
         {
             foreach(PrefabPathClass prefabPathClass in prefabPathDictionary.Values)
@@ -80,13 +70,21 @@ namespace NOOD
                 prefabPathClass.pathInResources = resourcesPath;
             }
 
-            string folderPath = RootPathExtension<GameData>.FolderPath(".cs");
-            EnumCreator.WriteToEnum<PrefabEnum>(folderPath, "PrefabEnum", prefabPathDictionary.Keys.ToList(), "NOOD");
-            _dictionaryCountOld = prefabPathDictionary.Count;
-        }
-        private bool CheckNeedRefresh()
-        {
-            return prefabPathDictionary.Values.Any(x => string.IsNullOrEmpty(x.pathInResources)) || _dictionaryCountOld != prefabPathDictionary.Count;
+            bool isNeedToRefreshEnum = false;
+            foreach(string key in prefabPathDictionary.Keys)
+            {
+                if(PrefabEnum.TryParse(key, out PrefabEnum prefabEnum) == false)
+                {
+                    isNeedToRefreshEnum = true;
+                    break;
+                }
+            }
+
+            if(isNeedToRefreshEnum)
+            {
+                string folderPath = RootPathExtension<GameData>.FolderPath(".cs");
+                EnumCreator.WriteToEnum<PrefabEnum>(folderPath, "PrefabEnum", prefabPathDictionary.Keys.ToList(), "NOOD");
+            }
         }
         #endregion
 #endif

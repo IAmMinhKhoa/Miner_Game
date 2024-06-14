@@ -86,7 +86,6 @@ namespace NOOD.Extension
                 file.WriteLine("}");
                 AssetDatabase.ImportAsset(filePath);
                 Debug.Log("Create Success " + typeof(T) + " at " + filePath);
-                Debug.Log(Directory.Exists(enumFolderPath));
                 if(string.IsNullOrEmpty(_namespace) == false)
                 {
                     file.WriteLine("}");

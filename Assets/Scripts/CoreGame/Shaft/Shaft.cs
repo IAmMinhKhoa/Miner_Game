@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD;
 using UnityEngine;
 
 public class Shaft : MonoBehaviour
 {
-    [Header("Prefab")]
-    [SerializeField] private Brewer m_brewerPrefab;
-    [SerializeField] private Deposit m_depositPrefab;
-
-   [Header("Location")]
+    [Header("Location")]
     [SerializeField] private Transform m_brewLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_brewerLocation;
@@ -33,16 +30,19 @@ public class Shaft : MonoBehaviour
 
     public void CreateBrewer()
     {
-        Brewer brewer = Instantiate(m_brewerPrefab, m_brewerLocation.position, Quaternion.identity);
-        brewer.transform.SetParent(m_brewerLocation);
-        brewer.CurrentShaft = this;
+        GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
+        brewGO.transform.position = m_brewLocation.position;
+        brewGO.transform.SetParent(m_brewerLocation);
+        brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
-        _brewers.Add(brewer);
+        _brewers.Add(brewGO.GetComponent<Brewer>());
     }
 
     private void CreateDeposit()
     {
-        Deposit deposit = Instantiate(m_depositPrefab, m_depositLocation.position, Quaternion.identity);
+        GameObject depositGO = GameData.Instance.InstantiatePrefab(PrefabEnum.ShaftDeposit);
+        depositGO.transform.position = m_depositLocation.position;
+        Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
         CurrentDeposit = deposit;
     }
