@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using TMPro;
+using NOOD;
 
 public class ElevatorController : BaseWorker
 {
     private int _currentShaftIndex = -1;
     private Deposit _currentDeposit;
+
+    private TextMeshPro numberText;
 
     [SerializeField]
     private ElevatorSystem elevator;
@@ -25,6 +29,10 @@ public class ElevatorController : BaseWorker
     private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
+
+        numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
+        numberText.transform.SetParent(this.transform);
+        numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
     }
     private void Update()
     {
@@ -162,5 +170,17 @@ public class ElevatorController : BaseWorker
         _currentShaftIndex = -1;
         ChangeGoal();
         isWorking = false;
+    }
+
+    private async void PlayTextAnimation(double amount)
+    {
+        double temp = 0; 
+        while(temp < amount)
+        {
+            await UniTask.Yield();
+            temp += config.ProductPerSecond * elevator.LoadSpeedScale * Time.deltaTime;
+            numberText.SetText(Currency.DisplayCurrency(temp));
+        }
+        numberText.SetText(Currency.DisplayCurrency(amount));
     }
 }

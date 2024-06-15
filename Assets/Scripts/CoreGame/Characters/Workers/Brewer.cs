@@ -76,6 +76,7 @@ public class Brewer : BaseWorker
             temp += config.ProductPerSecond * CurrentShaft.BoostScale * Time.deltaTime;
             numberText.SetText(Currency.DisplayCurrency(temp));
         }
+        numberText.SetText(Currency.DisplayCurrency(max));
     }
 
 }
