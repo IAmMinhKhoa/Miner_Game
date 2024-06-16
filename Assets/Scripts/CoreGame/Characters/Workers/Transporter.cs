@@ -82,7 +82,7 @@ public class Transporter : BaseWorker
         }
         else
         {
-            double temp = CurrentProduct;
+            double temp = 0;
             double max = amount;
             while (temp < max)
             {
