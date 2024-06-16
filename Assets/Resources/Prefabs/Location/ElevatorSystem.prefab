@@ -260,6 +260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevatorDeposit: {fileID: 8213994204210898061}
   elevatorLocation: {fileID: 5138391384094889390}
+  moveTimeScale: 1
+  loadSpeedScale: 1
 --- !u!114 &2152784299790734889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,9 +274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6956b34408b4d46b21031fa118dcd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectPerSecondMutiplier: 2
-  m_collectCapacityMutiplier: 2
-  m_moveSpeedMutiplier: 2
 --- !u!114 &105320455232065589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +391,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
 --- !u!1 &4955070403277034899
 GameObject:
   m_ObjectHideFlags: 0

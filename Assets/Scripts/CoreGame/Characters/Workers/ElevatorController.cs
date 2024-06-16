@@ -31,7 +31,7 @@ public class ElevatorController : BaseWorker
         transform.position = elevator.ElevatorLocation.position;
 
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform);
+        numberText.transform.SetParent(this.transform.Find("Body").transform);
         numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
     }
     private void Update()
@@ -46,10 +46,10 @@ public class ElevatorController : BaseWorker
         // }
 
         if (!isWorking)
-            {
-                isWorking = true;
-                MoveToNextShaft();
-            }
+        {
+            isWorking = true;
+            MoveToNextShaft();
+        }
     }
 
     private void MoveToNextShaft()
@@ -70,7 +70,7 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[0];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            moveBackTime = config.MoveTime * firstShaftMoveTimeScale * (float) elevator.MoveTimeScale;
+            moveBackTime = config.MoveTime * firstShaftMoveTimeScale * (float)elevator.MoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
 
@@ -93,7 +93,7 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[_currentShaftIndex];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            float nextTime = config.MoveTime * (float) elevator.MoveTimeScale;
+            float nextTime = config.MoveTime * (float)elevator.MoveTimeScale;
 
             moveBackTime += nextTime;
 
@@ -145,6 +145,7 @@ public class ElevatorController : BaseWorker
 
     protected override async UniTask IECollect(double amount, float collectTime)
     {
+        PlayTextAnimation(amount);
         await UniTask.Delay((int)(collectTime * 1000));
         checkWorkingTime += collectTime;
         CurrentProduct += amount;
@@ -159,11 +160,12 @@ public class ElevatorController : BaseWorker
 
     protected override async UniTask IEDeposit()
     {
+        PlayTextAnimation(CurrentProduct, true);
         await UniTask.Delay((int)(config.WorkingTime * 1000));
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
         Debug.Log("Deposit" + moveBackTime);
-        
+
         Debug.Log("checkWorkingTime: " + checkWorkingTime);
         checkWorkingTime = 0;
 
@@ -172,15 +174,33 @@ public class ElevatorController : BaseWorker
         isWorking = false;
     }
 
-    private async void PlayTextAnimation(double amount)
+    private async void PlayTextAnimation(double amount, bool reverse = false)
     {
-        double temp = 0; 
-        while(temp < amount)
+        if (reverse)
         {
-            await UniTask.Yield();
-            temp += config.ProductPerSecond * elevator.LoadSpeedScale * Time.deltaTime;
-            numberText.SetText(Currency.DisplayCurrency(temp));
+            double temp = CurrentProduct;
+            double firstValue = CurrentProduct;
+            double lastValue = 0;
+            while (temp > lastValue)
+            {
+                await UniTask.Yield();
+                temp -= firstValue * Time.deltaTime / config.WorkingTime;
+                numberText.SetText(Currency.DisplayCurrency(temp));
+            }
+            numberText.SetText(Currency.DisplayCurrency(lastValue));
+            return;
         }
-        numberText.SetText(Currency.DisplayCurrency(amount));
+        else
+        {
+            double temp = CurrentProduct;
+            double max = temp + amount;
+            while (temp < max)
+            {
+                await UniTask.Yield();
+                temp += config.ProductPerSecond * elevator.LoadSpeedScale * Time.deltaTime;
+                numberText.SetText(Currency.DisplayCurrency(temp));
+            }
+            numberText.SetText(Currency.DisplayCurrency(max));
+        }
     }
 }

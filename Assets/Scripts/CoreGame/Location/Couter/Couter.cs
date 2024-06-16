@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD;
 using UnityEngine;
 
 public class Couter : MonoBehaviour
@@ -12,6 +13,9 @@ public class Couter : MonoBehaviour
     [SerializeField] private Transform m_couterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
+
+    [Header("Elevator")]
+    [SerializeField] private ElevatorSystem m_elevatorSystem;
 
     public Transform CouterLocation => m_couterLocation;
     public Transform DepositLocation => m_depositLocation;
@@ -29,13 +33,16 @@ public class Couter : MonoBehaviour
     private List<Transporter> _transporters = new();
     public List<Transporter> Transporters => _transporters;
 
-    public Deposit CurrentDeposit { get; set; }
-    public double CurrentProduct { get; set; }
+    public Deposit CouterDeposit { get; set; }
+
+    public Deposit ElevatorDeposit { get; set; }
 
     public void CreateTransporter()
     {
-        Transporter transporter = Instantiate(m_transporterPrefab, m_transporterLocation.position, Quaternion.identity);
-        transporter.transform.SetParent(m_transporterLocation);
+        GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
+        transporterGO.transform.position = m_transporterLocation.position;
+        transporterGO.transform.SetParent(m_transporterLocation);
+        Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Couter = this;
 
         _transporters.Add(transporter);
@@ -43,9 +50,13 @@ public class Couter : MonoBehaviour
 
     private void CreateDeposit()
     {
-        Deposit deposit = Instantiate(m_depositPrefab, m_depositLocation.position, Quaternion.identity);
-        deposit.transform.SetParent(transform);
-        CurrentDeposit = deposit;
+        ElevatorDeposit = m_elevatorSystem.ElevatorDeposit;
+
+        GameObject depositGO = GameData.Instance.InstantiatePrefab(PrefabEnum.ShaftDeposit);
+        depositGO.transform.position = m_depositLocation.position;
+        depositGO.transform.SetParent(m_depositLocation);
+
+        CouterDeposit = depositGO.GetComponent<Deposit>();
     }
 
     void Start()

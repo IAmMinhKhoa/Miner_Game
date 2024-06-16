@@ -6,5 +6,6 @@ public enum PrefabEnum
 	ElevatorController = 1,
 	HeadText = 2,
 	ShaftDeposit = 3,
+	Transporter = 4,
 }
 }

@@ -20,7 +20,7 @@ public class CouterUI : MonoBehaviour
 
     void Update()
     {
-        m_pawText.text = Currency.DisplayCurrency(m_couter.CurrentDeposit.CurrentPaw);
+        m_pawText.text = Currency.DisplayCurrency(m_couter.CouterDeposit.CurrentPaw);
     }
 
     void OnEnable()

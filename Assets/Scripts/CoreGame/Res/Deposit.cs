@@ -33,4 +33,17 @@ public class Deposit : MonoBehaviour
             CurrentPaw -= amount;
         }
     }
+
+    public double CaculateAmountPawCanCollect(double capacity)
+    {
+        if (capacity - CurrentPaw >= 0)
+        {
+            double paw = CurrentPaw;
+            return paw;
+        }
+        else
+        {
+            return capacity;
+        }
+    }
 }

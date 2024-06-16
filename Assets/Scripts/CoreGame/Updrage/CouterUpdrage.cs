@@ -13,39 +13,42 @@ public class CouterUpdrage : BaseUpgrade
     }
     protected override void RunUpgrade()
     {
-        float nextScale = GeNextUpgradeScale(CurrentLevel);
+        float nextScale = GetNextExtractionSpeedScale(CurrentLevel);
         couter.BoostScale *= 1 + nextScale;
 
-        if (CurrentLevel == 10 || CurrentLevel == 50 || CurrentLevel == 100 || CurrentLevel == 200 || CurrentLevel == 400)
+        if (IsNeedCreateTransporter(CurrentLevel))
         {
             couter.CreateTransporter();
         }
     }
-    private float GeNextUpgradeScale(int CurrentLevel)
+
+    private float GetNextExtractionSpeedScale(int level)
     {
-        if (CurrentLevel > 1 && CurrentLevel < 10)
+        switch (level)
         {
-            return 0.098f;
+            case 25:
+                return 1.6f;
+            case 50:
+            case 100:
+            case 200:
+            case 400:
+                return 1.2f;
+            default:
+                if (level > 1 && level < 25)
+                {
+                    return 0.3f;
+                }
+                else if (level <= 2400)
+                {
+                    return 0.1f;
+                }
+
+                return 0;
         }
-        else if (CurrentLevel == 10 || CurrentLevel == 25)
-        {
-            return 1.2f;
-        }
-        else if (CurrentLevel < 25)
-        {
-            return 0.088f;
-        }
-        else if (CurrentLevel == 50 || CurrentLevel == 100 || CurrentLevel == 200 || CurrentLevel == 400)
-        {
-            return 2.5f;
-        }
-        else if (CurrentLevel <= 800)
-        {
-            return 0.078f;
-        }
-        else
-        {
-            return 0;
-        }
+    }
+
+    private bool IsNeedCreateTransporter(int level)
+    {
+        return level == 10 || level == 100 || level == 300 || level == 500;
     }
 }
