@@ -16,4 +16,9 @@ public class CustomCamera : MonoBehaviour
     {
         _camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
     }
+
+    void Update()
+    {
+        NoodyCustomCode.DragCamera(this.gameObject, horizontal: false, vertical: true, direction: -1);
+    }
 }

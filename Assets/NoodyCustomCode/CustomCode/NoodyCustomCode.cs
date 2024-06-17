@@ -273,28 +273,37 @@ namespace NOOD
             _camera.transform.position = center;
             _camera.orthographicSize = size;
         }
+        private static Vector3 DCMousePosition = Vector3.zero;
+        private static Vector3 DCDir;
+        private static Vector3 tempPos;
+        private static Vector3 campPos;
         /// <summary>
         /// Move camera base on your input (Put this function in Update to track the input), direction = -1 for opposite direction, 1 for follow direction
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
-        /// <param name="direction">-1 for oposite direction, 1 for follow direction</param>
-        private static Vector3 DCMousePostion = Vector3.zero;
-        private static Vector3 DCDir;
-        private static Vector3 tempPos;
-        private static Vector3 campPos;
-        public static void DragCamera(GameObject camera, int direction = 1)
+        /// <param name="direction">-1 for opposite direction, 1 for follow direction</param>
+        public static void DragCamera(GameObject camera, bool horizontal = true, bool vertical = true, int direction = 1)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                DCMousePostion = MouseToWorldPoint2D();
+                DCMousePosition = MouseToWorldPoint2D();
             }
 
             if (Input.GetMouseButton(0))
             {
-                if (MouseToWorldPoint2D() != DCMousePostion)
+                if (MouseToWorldPoint2D() != DCMousePosition)
                 {
-                    DCDir = MouseToWorldPoint2D() - DCMousePostion;
+                    DCDir = MouseToWorldPoint2D() - DCMousePosition;
+                    if(horizontal == false)
+                    {
+                        DCDir.x = 0;
+                    }
+                    if(vertical == false)
+                    {
+                        DCDir.y = 0;
+                    }
                     camera.transform.position += direction * DCDir;
+                    DCMousePosition = MouseToWorldPoint2D();
                 }
             }
         }
@@ -308,14 +317,14 @@ namespace NOOD
         {
             if (Input.GetMouseButtonDown(0))
             {
-                DCMousePostion = MouseToWorldPoint2D();
+                DCMousePosition = MouseToWorldPoint2D();
             }
 
             if (Input.GetMouseButton(0))
             {
-                if (MouseToWorldPoint2D() != DCMousePostion)
+                if (MouseToWorldPoint2D() != DCMousePosition)
                 {
-                    DCDir = MouseToWorldPoint2D() - DCMousePostion;
+                    DCDir = MouseToWorldPoint2D() - DCMousePosition;
 
                     tempPos = direction * DCDir;
                     campPos = camera.transform.position;
@@ -339,25 +348,25 @@ namespace NOOD
         /// Move camera base on your input (Put this function in Update to track the input), direction = -1 for opposite direction, 1 for follow direction
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
-        /// <param name="direction">-1 for oposite direction, 1 for follow direction</param>
+        /// <param name="direction">-1 for opposite direction, 1 for follow direction</param>
         public static void DragCamera2Finger(GameObject camera, float minX, float maxX, float minY, float maxY, int direction = 1)
         {
             if (Input.touchCount >= 2)
             {
                 Touch touchZero = Input.GetTouch(0);
                 Touch touchOne = Input.GetTouch(1);
-                Vector2 avergare = (touchOne.position + touchZero.position) / 2;
+                Vector2 average = (touchOne.position + touchZero.position) / 2;
                 if (touchOne.phase == TouchPhase.Began)
                 {
 
-                    DCMousePostion = ScreenPointToWorldPoint(avergare);
+                    DCMousePosition = ScreenPointToWorldPoint(average);
 
                 }
                 if (touchOne.phase == TouchPhase.Moved)
                 {
-                    if (ScreenPointToWorldPoint(avergare) != DCMousePostion)
+                    if (ScreenPointToWorldPoint(average) != DCMousePosition)
                     {
-                        DCDir = ScreenPointToWorldPoint(avergare) - DCMousePostion;
+                        DCDir = ScreenPointToWorldPoint(average) - DCMousePosition;
 
                         tempPos = direction * DCDir;
                         campPos = camera.transform.position;
