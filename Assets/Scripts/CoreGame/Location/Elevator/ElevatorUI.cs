@@ -9,6 +9,8 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
 
+    [SerializeField] private TextMeshProUGUI m_levelText;
+
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 
@@ -44,7 +46,8 @@ public class ElevatorUI : MonoBehaviour
     {
         if (upgrade == m_elevatorUpgrade)
         {
-            m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            //m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            m_levelText.text = "Level " + level;
         }
     }
 }

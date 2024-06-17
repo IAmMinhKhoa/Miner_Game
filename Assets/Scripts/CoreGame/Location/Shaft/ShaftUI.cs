@@ -10,6 +10,8 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_buyNewShaftButton;
 
+    [SerializeField] private TextMeshProUGUI m_levelText;
+
     private Shaft m_shaft;
     private ShaftUpgrade m_shaftUpgrade;
 
@@ -47,7 +49,8 @@ public class ShaftUI : MonoBehaviour
     {
         if (upgrade == m_shaftUpgrade)
         {
-            m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            //m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            m_levelText.text = "Level " + level;
         }
     }
 

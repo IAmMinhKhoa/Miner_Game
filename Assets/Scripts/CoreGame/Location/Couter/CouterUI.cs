@@ -9,6 +9,8 @@ public class CouterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_updrageButton;
 
+    [SerializeField] private TextMeshProUGUI m_levelText;
+
     private Couter m_couter;
     private CouterUpdrage m_couterUpdrage;
 
@@ -45,7 +47,8 @@ public class CouterUI : MonoBehaviour
     {
         if (upgrade == m_couterUpdrage)
         {
-            m_updrageButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            //m_updrageButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
+            m_levelText.text = "Level " + level;
         }
     }
 }
