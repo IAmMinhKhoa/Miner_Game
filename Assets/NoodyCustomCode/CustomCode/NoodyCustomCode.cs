@@ -240,6 +240,40 @@ namespace NOOD
         }
 
         /// <summary>
+        /// Make camera size always show all object with collider (2D and 3D)
+        /// (center, size) = CalculateOrthoCamsize();
+        /// </summary>
+        /// <param name="_camera">Main camera</param>
+        /// <param name="_padding">Amount of padding size</param>
+        /// <returns></returns>
+        public static void ApplyOrthoCamSize(Camera _camera, float _padding)
+        {
+            Bounds bound = new Bounds(); //Create bound with center Vector3.zero;
+
+            foreach (Collider2D col in UnityEngine.Object.FindObjectsOfType<Collider2D>())
+            {
+                bound.Encapsulate(col.bounds);
+            }
+
+            foreach (Collider col in UnityEngine.Object.FindObjectsOfType<Collider>())
+            {
+                bound.Encapsulate(col.bounds);
+            }
+
+            bound.Expand(_padding);
+
+            float vertical = bound.size.y;
+            float horizontal = bound.size.x * _camera.pixelHeight / _camera.pixelWidth;
+
+            //Debug.Log("V: " + vertical + ", H: " + horizontal);
+
+            float size = Mathf.Max(horizontal, vertical) * 0.5f;
+            Vector3 center = bound.center + new Vector3(0f, 0f, -10f);
+
+            _camera.transform.position = center;
+            _camera.orthographicSize = size;
+        }
+        /// <summary>
         /// Move camera base on your input (Put this function in Update to track the input), direction = -1 for opposite direction, 1 for follow direction
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
