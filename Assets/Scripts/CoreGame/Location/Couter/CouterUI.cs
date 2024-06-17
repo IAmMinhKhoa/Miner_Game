@@ -20,7 +20,8 @@ public class CouterUI : MonoBehaviour
 
     void Update()
     {
-        m_pawText.text = Currency.DisplayCurrency(m_couter.CouterDeposit.CurrentPaw);
+        //m_pawText.text = Currency.DisplayCurrency(m_couter.CouterDeposit.CurrentPaw);
+        GameUI.Instance.pawText.GetComponentInChildren<TextMeshProUGUI>().text = Currency.DisplayCurrency(m_couter.CouterDeposit.CurrentPaw);
     }
 
     void OnEnable()
