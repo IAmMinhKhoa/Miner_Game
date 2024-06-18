@@ -28,6 +28,14 @@ public class Shaft : MonoBehaviour
 
     public Deposit CurrentDeposit { get; set; }
 
+    private double defaultScaleSpeed = 1;
+
+    public double DefaultScaleSpeed
+    {
+        get { return defaultScaleSpeed; }
+        set { defaultScaleSpeed = value; }
+    }
+
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
