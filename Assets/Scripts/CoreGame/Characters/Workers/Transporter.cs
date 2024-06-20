@@ -42,9 +42,9 @@ public class Transporter : BaseWorker
 
     protected override async void Deposit()
     {
-        Debug.Log("Transporter Deposit");
         double amount = CurrentProduct;
-        Couter.CouterDeposit.AddPaw(amount);
+        //Couter.CouterDeposit.AddPaw(amount);
+        PawManager.Instance.AddPaw(amount);
         CurrentProduct = 0;
         await IEDeposit(amount, 0);
     }

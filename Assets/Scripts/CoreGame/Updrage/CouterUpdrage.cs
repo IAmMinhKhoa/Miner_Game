@@ -42,4 +42,12 @@ public class CouterUpdrage : BaseUpgrade
     {
         return level == 10 || level == 100 || level == 300 || level == 500;
     }
+    protected override float GetNextUpgradeCostScale()
+    {
+        return CurrentLevel switch
+        {
+            < 2400 => 0.2f,
+            _ => 0f
+        };
+    }
 }

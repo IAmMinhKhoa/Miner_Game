@@ -9,8 +9,10 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_buyNewShaftButton;
+    [SerializeField] public TextMeshProUGUI NewShaftCostText;
 
     [SerializeField] private TextMeshProUGUI m_levelText;
+    [SerializeField] private TextMeshProUGUI m_costText;
 
     private Shaft m_shaft;
     private ShaftUpgrade m_shaftUpgrade;
@@ -24,6 +26,8 @@ public class ShaftUI : MonoBehaviour
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
+        m_levelText.text = "Level " + m_shaftUpgrade.CurrentLevel;
+        m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
     }
 
     void OnEnable()
@@ -42,15 +46,18 @@ public class ShaftUI : MonoBehaviour
 
     void CallUpgrade()
     {
-        m_shaftUpgrade.Upgrade(1);
+        if (PawManager.Instance.CurrentPaw >= m_shaftUpgrade.CurrentCost)
+        {
+            m_shaftUpgrade.Upgrade(1);
+        }
     }
 
     void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
         if (upgrade == m_shaftUpgrade)
         {
-            //m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
             m_levelText.text = "Level " + level;
+            m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
         }
     }
 

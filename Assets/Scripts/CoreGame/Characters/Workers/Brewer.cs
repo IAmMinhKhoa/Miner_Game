@@ -7,13 +7,14 @@ using NOOD;
 
 public class Brewer : BaseWorker
 {
-    // [SerializeField] private Transform m_brewLocation;
-    // [SerializeField] private Transform m_depositLocation;
-
     public Shaft CurrentShaft { get; set; }
     private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
+    public double ProductPerSecond
+    {
+        get => config.ProductPerSecond * CurrentShaft.LevelBoost * CurrentShaft.IndexBoost;
+    }
 
     void Start()
     {
@@ -25,15 +26,6 @@ public class Brewer : BaseWorker
 
     private void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.N))
-        // {
-        //     if (!isWorking)
-        //     {
-        //         isWorking = true;
-        //         Move(CurrentShaft.BrewLocation.position);
-        //     }
-        // }
-
         if (!isWorking)
             {
                 isWorking = true;
@@ -43,7 +35,6 @@ public class Brewer : BaseWorker
 
     protected override async void Collect()
     {
-        Debug.Log("Brewing");
         ChangeGoal();
         await IECollect();
     }
@@ -62,18 +53,18 @@ public class Brewer : BaseWorker
     {
         PlayTextAnimation();
         await UniTask.Delay((int)config.WorkingTime * 1000);
-        CurrentProduct = config.ProductPerSecond * config.WorkingTime * CurrentShaft.BoostScale;
+        CurrentProduct = ProductPerSecond * config.WorkingTime;
         Move(CurrentShaft.BrewerLocation.position);
     }
 
     private async void PlayTextAnimation()
     {
-        double max = config.ProductPerSecond * config.WorkingTime * CurrentShaft.BoostScale;
+        double max = ProductPerSecond * config.WorkingTime;
         double temp = 0; 
         while(temp < max)
         {
             await UniTask.Yield();
-            temp += config.ProductPerSecond * CurrentShaft.BoostScale * Time.deltaTime;
+            temp += ProductPerSecond * CurrentShaft.LevelBoost * Time.deltaTime;
             numberText.SetText(Currency.DisplayCurrency(temp));
         }
         numberText.SetText(Currency.DisplayCurrency(max));

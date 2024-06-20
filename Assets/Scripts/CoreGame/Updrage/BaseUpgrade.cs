@@ -9,15 +9,13 @@ public class BaseUpgrade : MonoBehaviour
     public static Action<BaseUpgrade,int> OnUpgrade;
 
     [Header("Upgrade Cost")]
-    [SerializeField]
-    private BigInteger initialCost = 10;
-    [SerializeField]
-    private BigInteger m_costMultiplier = 2;
+    [SerializeField] private double initialCost = 100;
+    [SerializeField] private double currentCost = 100;
 
     public int CurrentLevel { get; set; }
-    public BigInteger CurrentCost { get; private set; }
+    public double CurrentCost { get => currentCost; set => currentCost = value; }
 
-    public virtual void Upgrade(BigInteger updateAmount)
+    public virtual void Upgrade(int updateAmount)
     {
         if (updateAmount > 0)
         {
@@ -32,14 +30,15 @@ public class BaseUpgrade : MonoBehaviour
 
     protected virtual void UpgradeSuccess()
     {
-        GoldManager.Instance.RemoveGold(CurrentCost);
-        CurrentLevel++;
-        Debug.Log("Upgrade success" + CurrentLevel);
-        OnUpgrade?.Invoke(this, CurrentLevel);
+        PawManager.Instance.RemovePaw(CurrentCost);
+        
     }
 
     protected virtual void UpdateUpgradeValue()
     {
+        CurrentLevel++;
+        CurrentCost *= 1 + GetNextUpgradeCostScale();
+        OnUpgrade?.Invoke(this, CurrentLevel);
 
     }
 
@@ -48,7 +47,7 @@ public class BaseUpgrade : MonoBehaviour
         
     }
 
-    protected virtual float GetNextUpgradeScale()
+    protected virtual float GetNextUpgradeCostScale()
     {
         return 0f;
     }

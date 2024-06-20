@@ -8,8 +8,8 @@ public class ElevatorUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
-
     [SerializeField] private TextMeshProUGUI m_levelText;
+    [SerializeField] private TextMeshProUGUI m_costText;
 
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
@@ -20,6 +20,13 @@ public class ElevatorUI : MonoBehaviour
         m_elevatorUpgrade = GetComponent<ElevatorUpgrade>();
     }
 
+    void Start()
+    {
+        m_elevatorUpgrade.CurrentLevel = 1;
+
+        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
+        m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
+    }
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
@@ -39,15 +46,18 @@ public class ElevatorUI : MonoBehaviour
 
     void CallUpgrade()
     {
-        m_elevatorUpgrade.Upgrade(1);
+        if (PawManager.Instance.CurrentPaw >= m_elevatorUpgrade.CurrentCost)
+        {
+            m_elevatorUpgrade.Upgrade(1);
+        }
     }
 
     void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
         if (upgrade == m_elevatorUpgrade)
         {
-            //m_upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + level;
             m_levelText.text = "Level " + level;
+            m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         }
     }
 }

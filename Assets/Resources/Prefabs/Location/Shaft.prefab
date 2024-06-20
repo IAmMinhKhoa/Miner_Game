@@ -240,7 +240,8 @@ MonoBehaviour:
   m_brewLocation: {fileID: 536735485171221435}
   m_depositLocation: {fileID: 4123226211434088239}
   m_brewerLocation: {fileID: 9210719222164301099}
-  m_boostScale: 1
+  m_levelBoost: 1
+  m_indexBoost: 1
 --- !u!114 &8836729101838696248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +257,9 @@ MonoBehaviour:
   m_pawText: {fileID: 1101122645278566373}
   m_upgradeButton: {fileID: 8411232489873325345}
   m_buyNewShaftButton: {fileID: 4657606624823947628}
+  NewShaftCostText: {fileID: 411151657400590608}
   m_levelText: {fileID: 4291391310138318722}
+  m_costText: {fileID: 1739736572757586327}
 --- !u!114 &6487789743481721627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cfedd63c0afd4469453922ce94e5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialCost: 100
+  currentCost: 100
 --- !u!1 &1084460341952155850
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +748,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 500
+  m_text: 500K
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -776,8 +781,8 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_fontStyle: 1
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -806,7 +811,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.17854309, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1246,7 +1251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4707450411225019019
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1294,7 +1299,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level 1
+  m_text: 999k
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1321,13 +1326,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.1
-  m_fontSizeBase: 0.1
+  m_fontSize: 0.15
+  m_fontSizeBase: 0.15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1337,7 +1342,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

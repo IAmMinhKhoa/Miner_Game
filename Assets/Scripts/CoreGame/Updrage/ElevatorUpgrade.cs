@@ -39,4 +39,12 @@ public class ElevatorUpgrade : BaseUpgrade
             }
         };
     }
+    protected override float GetNextUpgradeCostScale()
+    {
+        return CurrentLevel switch
+        {
+            < 2400 => 0.2f,
+            _ => 0f
+        };
+    }
 }

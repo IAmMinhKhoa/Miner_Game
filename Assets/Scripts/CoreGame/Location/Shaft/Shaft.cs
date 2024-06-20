@@ -15,27 +15,25 @@ public class Shaft : MonoBehaviour
     public Transform BrewerLocation => m_brewerLocation;
 
     [Header("Boost")]
-    [SerializeField] private double m_boostScale = 1f;
+    [SerializeField] private double m_levelBoost = 1f;
+    [SerializeField] private double m_indexBoost = 1f;
 
-    public double BoostScale
+    public double LevelBoost
     {
-        get { return m_boostScale; }
-        set { m_boostScale = value; }
+        get { return m_levelBoost; }
+        set { m_levelBoost = value; }
+    }
+
+    public double IndexBoost
+    {
+        get { return m_indexBoost; }
+        set { m_indexBoost = value; }
     }
 
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
-
     public Deposit CurrentDeposit { get; set; }
-
-    private double defaultScaleSpeed = 1;
-
-    public double DefaultScaleSpeed
-    {
-        get { return defaultScaleSpeed; }
-        set { defaultScaleSpeed = value; }
-    }
-
+    public int ShaftIndex { get; set; }
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
