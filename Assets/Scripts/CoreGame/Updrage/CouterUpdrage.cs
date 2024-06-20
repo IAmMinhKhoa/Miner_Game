@@ -24,27 +24,18 @@ public class CouterUpdrage : BaseUpgrade
 
     private float GetNextExtractionSpeedScale(int level)
     {
-        switch (level)
+        return level switch
         {
-            case 25:
-                return 1.6f;
-            case 50:
-            case 100:
-            case 200:
-            case 400:
-                return 1.2f;
-            default:
-                if (level > 1 && level < 25)
-                {
-                    return 0.3f;
-                }
-                else if (level <= 2400)
-                {
-                    return 0.1f;
-                }
-
-                return 0;
-        }
+            < 2 => 0,
+            25 => 1.6f,
+            50 or 100 or 200 or 400 => 1.2f,
+            _ => level switch
+            {
+                < 25 => 0.3f,
+                <= 2400 => 0.1f,
+                _ => 0
+            }
+        };
     }
 
     private bool IsNeedCreateTransporter(int level)
