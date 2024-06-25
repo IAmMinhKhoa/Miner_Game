@@ -15,6 +15,13 @@ public class BaseUpgrade : MonoBehaviour
     public int CurrentLevel { get; set; }
     public double CurrentCost { get => currentCost; set => currentCost = value; }
 
+    /*
+        * Upgrade the current upgrade
+        * @param updateAmount: the amount of upgrade
+        UpgradeSuccess: the action when upgrade success (remove paw)
+        UpdateUpgradeValue: update the current level and cost -> update the UI
+        RunUpgrade: the action when upgrade success
+    */
     public virtual void Upgrade(int updateAmount)
     {
         if (updateAmount > 0)

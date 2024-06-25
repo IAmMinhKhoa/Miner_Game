@@ -40,7 +40,7 @@ public class Couter : MonoBehaviour
     public void CreateTransporter()
     {
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
-        transporterGO.transform.position = m_transporterLocation.position;
+        transporterGO.transform.position = m_couterLocation.position;
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Couter = this;
