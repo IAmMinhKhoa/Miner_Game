@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.Reflection.Editor;
 using UnityEngine;
 
 public class ShaftUpgrade : BaseUpgrade
