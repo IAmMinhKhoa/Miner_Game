@@ -9,7 +9,6 @@ public class CouterUpdrage : BaseUpgrade
     private void Start()
     {
         couter = GetComponent<Couter>();
-        CurrentLevel = 1;
     }
     protected override void RunUpgrade()
     {
@@ -46,8 +45,13 @@ public class CouterUpdrage : BaseUpgrade
     {
         return CurrentLevel switch
         {
-            < 2400 => 0.2f,
+            <= 2400 => 0.2f,
             _ => 0f
         };
+    }
+
+    public void InitValue(int level)
+    {
+        Init(1041.67f, level);
     }
 }

@@ -22,10 +22,15 @@ public class CouterUI : MonoBehaviour
 
     void Start()
     {
-        m_couterUpdrage.CurrentLevel = 1;
-
         m_levelText.text = "Level " + m_couterUpdrage.CurrentLevel;
         m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
+    }
+
+    void Update()
+    {
+        m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
+        m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
+        m_levelText.text = "Level " + m_couterUpdrage.CurrentLevel;
     }
 
     void OnEnable()

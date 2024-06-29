@@ -9,11 +9,23 @@ public class BaseUpgrade : MonoBehaviour
     public static Action<BaseUpgrade,int> OnUpgrade;
 
     [Header("Upgrade Cost")]
-    [SerializeField] private double initialCost = 100;
-    [SerializeField] private double currentCost = 100;
+    [SerializeField] protected double initialCost = 100;
+    [SerializeField] private double costScale = 1.00;
+    [SerializeField] int level = 1;
 
-    public int CurrentLevel { get; set; }
-    public double CurrentCost { get => currentCost; set => currentCost = value; }
+    public int CurrentLevel => level;
+    public double CurrentCost
+    {
+        get => initialCost * costScale;
+    }
+
+    protected void Init(double initialCost, int level)
+    {
+        this.initialCost = initialCost;
+        this.level = level;
+
+        this.costScale = CalculateScaleBaseOnLevel(level);
+    }
 
     /*
         * Upgrade the current upgrade
@@ -43,8 +55,8 @@ public class BaseUpgrade : MonoBehaviour
 
     protected virtual void UpdateUpgradeValue()
     {
-        CurrentLevel++;
-        CurrentCost *= 1 + GetNextUpgradeCostScale();
+        level++;
+        costScale *= 1 + GetNextUpgradeCostScale();
         OnUpgrade?.Invoke(this, CurrentLevel);
 
     }
@@ -53,9 +65,18 @@ public class BaseUpgrade : MonoBehaviour
     {
         
     }
-
     protected virtual float GetNextUpgradeCostScale()
     {
         return 0f;
+    }
+
+    private double CalculateScaleBaseOnLevel(int level)
+    {
+        double scale = 1.00;
+        for (int i = 1; i <= level; i++)
+        {
+            scale *= 1 + GetNextUpgradeCostScale();
+        }
+        return scale;
     }
 }

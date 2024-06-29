@@ -5,10 +5,9 @@ using UnityEngine;
 public class ShaftUpgrade : BaseUpgrade
 {
     private Shaft shaft;
-    private void Start()
+    private void Awake()
     {
         shaft = GetComponent<Shaft>();
-        CurrentLevel = 1;
     }
     protected override void RunUpgrade()
     {
@@ -45,19 +44,29 @@ public class ShaftUpgrade : BaseUpgrade
 
     protected override float GetNextUpgradeCostScale()
     {
-        return shaft.ShaftIndex switch
+        return shaft.shaftIndex switch
         {
             0 => CurrentLevel switch
             {
-                < 10 => 0.3f,
-                < 800 => 0.15f,
+                <= 10 => 0.3f,
+                <= 800 => 0.15f,
                 _ => 0f
             },
             _ => CurrentLevel switch
             {
-                < 800 => 0.15f,
+                <= 800 => 0.15f,
                 _ => 0f
             }
         };
+    }
+
+    public double GetInitialCost()
+    {
+        return initialCost;
+    }
+
+    public void SetInitialValue(double initialCost, int level)
+    {
+        Init(initialCost, level);
     }
 }

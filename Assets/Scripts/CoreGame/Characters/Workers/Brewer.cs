@@ -46,7 +46,6 @@ public class Brewer : BaseWorker
         numberText.text = "0";
         ChangeGoal();
         isWorking = false;
-        Debug.Log("Brewing finished" + isWorking);
     }
 
     protected override async UniTask IECollect()
@@ -64,7 +63,7 @@ public class Brewer : BaseWorker
         while(temp < max)
         {
             await UniTask.Yield();
-            temp += ProductPerSecond * CurrentShaft.LevelBoost * Time.deltaTime;
+            temp += ProductPerSecond * Time.deltaTime;
             numberText.SetText(Currency.DisplayCurrency(temp));
         }
         numberText.SetText(Currency.DisplayCurrency(max));

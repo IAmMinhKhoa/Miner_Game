@@ -8,10 +8,12 @@ using NOOD;
 public class Transporter : BaseWorker
 {
     public Couter Couter { get; set; }
-
     private TextMeshPro numberText;
-
     [SerializeField] private bool isWorking = false;
+    public double ProductPerSecond
+    {
+        get => config.ProductPerSecond * Couter.BoostScale;
+    }
 
     private void Start()
     {
@@ -32,34 +34,34 @@ public class Transporter : BaseWorker
     protected override async void Collect()
     {
         ChangeGoal();
-        double maxCapacity = config.ProductPerSecond * config.WorkingTime * Couter.BoostScale;
+        double maxCapacity = ProductPerSecond * config.WorkingTime;
         double amount = Couter.ElevatorDeposit.CaculateAmountPawCanCollect(maxCapacity);
 
-        Couter.ElevatorDeposit.RemovePaw(amount);
-        CurrentProduct += amount;
+        //make some changes here
+        // Couter.ElevatorDeposit.RemovePaw(amount);
+        // CurrentProduct += amount;
         await IECollect(amount ,config.WorkingTime);
     }
-
-    protected override async void Deposit()
-    {
-        double amount = CurrentProduct;
-        //Couter.CouterDeposit.AddPaw(amount);
-        PawManager.Instance.AddPaw(amount);
-        CurrentProduct = 0;
-        await IEDeposit(amount, 0);
-    }
-
     protected override async UniTask IECollect(double amount, float time)
     {
         PlayTextAnimation(amount);
         await UniTask.Delay((int)config.WorkingTime * 1000);
+        CurrentProduct += Couter.ElevatorDeposit.TakePawn(amount);
+        numberText.SetText(Currency.DisplayCurrency(CurrentProduct));
         Move(Couter.CouterLocation.position);
+    }
+        protected override async void Deposit()
+    {
+        double amount = CurrentProduct;
+        await IEDeposit(amount, 0);
     }
 
     protected override async UniTask IEDeposit(double amount = 0, float time = 0)
     {
         PlayTextAnimation(amount, true);
         await UniTask.Delay((int)config.WorkingTime * 1000);
+        PawManager.Instance.AddPaw(amount);
+        CurrentProduct = 0;
         ChangeGoal();
         isWorking = false;
     }
@@ -70,14 +72,13 @@ public class Transporter : BaseWorker
         {
             double temp = amount;
             double firstValue = amount;
-            double lastValue = 0;
-            while (temp > lastValue)
+            while (temp > 0)
             {
                 await UniTask.Yield();
                 temp -= firstValue * Time.deltaTime / config.WorkingTime;
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
-            numberText.SetText(Currency.DisplayCurrency(lastValue));
+            numberText.SetText(Currency.DisplayCurrency(0));
             return;
         }
         else

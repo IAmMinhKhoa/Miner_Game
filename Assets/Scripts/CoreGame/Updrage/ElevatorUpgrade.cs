@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class ElevatorUpgrade : BaseUpgrade
 {
@@ -9,17 +10,17 @@ public class ElevatorUpgrade : BaseUpgrade
     private void Start()
     {
         elevatorSystem = GetComponent<ElevatorSystem>();
-        CurrentLevel = 1;
+        //Init(1041.67f, 1);
     }
 
     protected override void RunUpgrade()
     {
-        double nextScale = GeNextMoveTimeScale(CurrentLevel);
+        double nextScale = GetMoveTimeScale(CurrentLevel);
         elevatorSystem.MoveTimeScale *= nextScale;
         elevatorSystem.LoadSpeedScale *= 1 + GetNextLoadingSpeedScale(CurrentLevel);
     }
 
-    private double GeNextMoveTimeScale(int level)
+    private double GetMoveTimeScale(int level)
     {
         return 1f - 15 / (0.15f * (level - 1) + 5) / 100;
     }
@@ -43,8 +44,13 @@ public class ElevatorUpgrade : BaseUpgrade
     {
         return CurrentLevel switch
         {
-            < 2400 => 0.2f,
+            <= 2400 => 0.2f,
             _ => 0f
         };
+    }
+
+    public void InitValue(int level)
+    {
+        Init(1041.67f, level);
     }
 }

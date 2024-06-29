@@ -10,21 +10,22 @@ public class ElevatorController : BaseWorker
 {
     private int _currentShaftIndex = -1;
     private Deposit _currentDeposit;
-
     private TextMeshPro numberText;
-
-    [SerializeField]
-    private ElevatorSystem elevator;
-
-    [SerializeField]
-    private float moveBackTime = 0f;
-
-    [SerializeField]
-    private float firstShaftMoveTimeScale = 0.724f;
-
+    [SerializeField] public ElevatorSystem elevator;
+    [SerializeField] private float moveBackTime = 0f;
+    [SerializeField] private float firstShaftMoveTimeScale = 0.724f;
     [SerializeField] private bool isWorking = false;
-
     private double checkWorkingTime = 0;
+
+    public double ProductPerSecond
+    {
+        get => config.ProductPerSecond * elevator.LoadSpeedScale;
+    }
+
+    public float MoveSpeed
+    {
+        get => config.MoveTime * (float)elevator.MoveTimeScale;
+    }
 
     private void Start()
     {
@@ -36,15 +37,6 @@ public class ElevatorController : BaseWorker
     }
     private void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     if (!isWorking)
-        //     {
-        //         isWorking = true;
-        //         MoveToNextShaft();
-        //     }
-        // }
-
         if (!isWorking)
         {
             isWorking = true;
@@ -54,6 +46,12 @@ public class ElevatorController : BaseWorker
 
     private void MoveToNextShaft()
     {
+        if (ShaftManager.Instance.Shafts.Count == 0)
+        {
+            isWorking = false;
+            return;
+        }
+
         if (!IsCollecting)
         {
             Vector2 nextPosition = elevator.ElevatorLocation.position;
@@ -70,7 +68,7 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[0];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            moveBackTime = config.MoveTime * firstShaftMoveTimeScale * (float)elevator.MoveTimeScale;
+            moveBackTime = MoveSpeed * firstShaftMoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
 
@@ -93,12 +91,10 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[_currentShaftIndex];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            float nextTime = config.MoveTime * (float)elevator.MoveTimeScale;
-
-            moveBackTime += nextTime;
+            moveBackTime += MoveSpeed;
 
             _currentDeposit = currentShaft.CurrentDeposit;
-            Move(fixPos, nextTime);
+            Move(fixPos, MoveSpeed);
         }
     }
 
@@ -111,18 +107,16 @@ public class ElevatorController : BaseWorker
             return;
         }
 
-        float collectTime = 0;
-        double amount = 0;
-        double productPerSecond = config.ProductPerSecond * elevator.LoadSpeedScale;
-
-        double maxCapacity = config.WorkingTime * productPerSecond;
+        float collectTime;
+        double amount;
+        double maxCapacity = config.WorkingTime * ProductPerSecond;
         Debug.Log("maxCapacity: " + maxCapacity);
 
         //if the amount of paw in the deposit is less than the max capacity, collect and move back
         if (CurrentProduct + _currentDeposit.CurrentPaw > maxCapacity)
         {
             amount = maxCapacity - CurrentProduct;
-            collectTime = (float)(amount / productPerSecond);
+            collectTime = (float)(amount / ProductPerSecond);
             if (collectTime > 4f)
             {
                 Debug.LogError("Collect time is too long!");
@@ -132,7 +126,7 @@ public class ElevatorController : BaseWorker
         else
         {
             amount = _currentDeposit.CurrentPaw;
-            collectTime = (float)(amount / productPerSecond);
+            collectTime = (float)(amount / ProductPerSecond);
             if (collectTime > 4f)
             {
                 Debug.LogError("Collect time is too long!");
@@ -197,7 +191,7 @@ public class ElevatorController : BaseWorker
             while (temp < max)
             {
                 await UniTask.Yield();
-                temp += config.ProductPerSecond * elevator.LoadSpeedScale * Time.deltaTime;
+                temp += ProductPerSecond * Time.deltaTime;
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
             numberText.SetText(Currency.DisplayCurrency(max));

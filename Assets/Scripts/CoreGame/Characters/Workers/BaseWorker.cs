@@ -20,7 +20,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target)
     {
-        transform.DOMove(target, config.MoveTime).OnComplete(() =>
+        transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>
         {
             if (isCollecting)
             {
@@ -35,7 +35,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float time)
     {
-        transform.DOMove(target, time).OnComplete(() =>
+        transform.DOMove(target, time).SetEase(Ease.Linear).OnComplete(() =>
         {
             if (isCollecting)
             {
@@ -45,7 +45,7 @@ public class BaseWorker : MonoBehaviour
             {
                 Deposit();
             }
-        }).Play();
+        }).Play();        
     }
 
     protected virtual void Collect()

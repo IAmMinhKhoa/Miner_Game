@@ -7,7 +7,7 @@ public class Deposit : MonoBehaviour
 {
     public double CurrentPaw { get; private set; }
     
-    void Start()
+    void Awake()
     {
         CurrentPaw = 0;
     }
@@ -32,6 +32,22 @@ public class Deposit : MonoBehaviour
         {
             CurrentPaw -= amount;
         }
+    }
+
+    public double TakePawn(double amount)
+    {
+        double amountToTake = amount;
+        if (CurrentPaw < amount)
+        {
+            amountToTake = CurrentPaw;
+            CurrentPaw = 0;
+        }
+        else
+        {
+            CurrentPaw -= amount;
+        }
+
+        return amountToTake;
     }
 
     public double CaculateAmountPawCanCollect(double capacity)

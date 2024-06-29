@@ -9,6 +9,7 @@ public class Shaft : MonoBehaviour
     [SerializeField] private Transform m_brewLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_brewerLocation;
+    [SerializeField] public int shaftIndex;
 
     public Transform BrewLocation => m_brewLocation;
     public Transform DepositLocation => m_depositLocation;
@@ -17,6 +18,8 @@ public class Shaft : MonoBehaviour
     [Header("Boost")]
     [SerializeField] private double m_levelBoost = 1f;
     [SerializeField] private double m_indexBoost = 1f;
+
+    public int numberBrewer = 1;
 
     public double LevelBoost
     {
@@ -33,7 +36,6 @@ public class Shaft : MonoBehaviour
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
-    public int ShaftIndex { get; set; }
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
@@ -53,9 +55,21 @@ public class Shaft : MonoBehaviour
         CurrentDeposit = deposit;
     }
 
-    void Start()
+    void Awake()
     {
         CreateDeposit();
-        CreateBrewer();
+    }
+
+    void Start()
+    {
+        for (int i = 0; i < numberBrewer; i++)
+        {
+            CreateBrewer();
+        }
+    }
+
+    public void SetDepositValue(double value)
+    {
+        CurrentDeposit.AddPaw(value);
     }
 }

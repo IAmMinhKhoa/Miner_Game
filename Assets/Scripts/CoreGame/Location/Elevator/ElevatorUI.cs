@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -22,14 +23,15 @@ public class ElevatorUI : MonoBehaviour
 
     void Start()
     {
-        m_elevatorUpgrade.CurrentLevel = 1;
-
         m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
+        m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
     }
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
+        m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
+        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
     }
 
     void OnEnable()

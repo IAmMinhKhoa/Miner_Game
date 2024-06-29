@@ -16,6 +16,9 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     {
         Debug.Log("Application ending after " + Time.time + " seconds");
         PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
+        ShaftManager.Instance.Save();
+        ElevatorSystem.Instance.Save();
+        Couter.Instance.Save();
     }
 
     void OnApplicationFocus(bool focus)

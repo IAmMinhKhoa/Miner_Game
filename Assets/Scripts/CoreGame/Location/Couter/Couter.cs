@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using NOOD;
 using UnityEngine;
+using Newtonsoft.Json;
 
-public class Couter : MonoBehaviour
+public class Couter : Patterns.Singleton<Couter>
 {
     [Header("Prefab")]
     [SerializeField] private Transporter m_transporterPrefab;
@@ -58,10 +59,56 @@ public class Couter : MonoBehaviour
 
         CouterDeposit = depositGO.GetComponent<Deposit>();
     }
-
     void Start()
     {
-        CreateDeposit();
-        CreateTransporter();
+        if (!Load())
+        {
+            CreateDeposit();
+            m_elevatorSystem.GetComponent<ElevatorUpgrade>().InitValue(1);
+            CreateTransporter();
+        }
+    }
+
+    public void Save()
+    {
+        Dictionary<string, object> saveData = new Dictionary<string, object>
+        {
+            { "boostScale", m_boostScale },
+            {"transporter", _transporters.Count},
+            {"level", gameObject.GetComponent<CouterUpdrage>().CurrentLevel},
+        };
+
+        string json = JsonConvert.SerializeObject(saveData);
+        Debug.Log("save couter: " + json);
+        PlayerPrefs.SetString("Couter", json);
+    }
+
+    private bool Load()
+    {
+        if (PlayerPrefs.HasKey("Couter"))
+        {
+            string json = PlayerPrefs.GetString("Couter");
+            Data saveData = JsonConvert.DeserializeObject<Data>(json);
+
+            m_boostScale = saveData.boostScale;
+            gameObject.GetComponent<CouterUpdrage>().InitValue(saveData.level);
+            ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
+
+            for (int i = 0; i < saveData.transporter; i++)
+            {
+                CreateTransporter();
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    class Data
+    {
+        public double boostScale;
+        public double elevatorDeposit;
+        public int transporter;
+        public int level;
     }
 }
