@@ -9,6 +9,8 @@ public class Brewer : BaseWorker
 {
     public Shaft CurrentShaft { get; set; }
     private TextMeshPro numberText;
+    private Vector3 targetPos;
+    private bool isArrive;
 
     [SerializeField] private bool isWorking = false;
     public double ProductPerSecond
@@ -27,10 +29,33 @@ public class Brewer : BaseWorker
     private void Update()
     {
         if (!isWorking)
+        {
+            isWorking = true;
+            // Move(CurrentShaft.BrewLocation.position);
+            targetPos = CurrentShaft.BrewLocation.position;       
+        }
+        if(Vector3.Distance(this.transform.position, targetPos) < 0.1f)
+        {
+            if(isArrive == false)
             {
-                isWorking = true;
-                Move(CurrentShaft.BrewLocation.position);
+                if(IsCollecting)
+                {
+                    Collect();
+                }
+                else
+                {
+                    Deposit();
+                }
+                isArrive = true;
             }
+        }
+        else
+        {
+            isArrive = false;
+            Vector3 dir = (targetPos - transform.position).normalized;
+            this.transform.position += dir * config.MoveTime * Time.deltaTime;
+        }
+
     }
 
     protected override async void Collect()
@@ -53,7 +78,8 @@ public class Brewer : BaseWorker
         PlayTextAnimation();
         await UniTask.Delay((int)config.WorkingTime * 1000);
         CurrentProduct = ProductPerSecond * config.WorkingTime;
-        Move(CurrentShaft.BrewerLocation.position);
+        // Move(CurrentShaft.BrewerLocation.position);
+        targetPos = CurrentShaft.BrewerLocation.position;
     }
 
     private async void PlayTextAnimation()

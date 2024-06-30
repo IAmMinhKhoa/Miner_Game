@@ -39,7 +39,10 @@ public class Shaft : MonoBehaviour
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
-        brewGO.transform.position = m_brewLocation.position;
+        float randomX = Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);
+        Vector3 spawnPosition = m_brewerLocation.position;
+        spawnPosition.x = randomX;
+        brewGO.transform.position = spawnPosition;
         brewGO.transform.SetParent(m_brewerLocation);
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 

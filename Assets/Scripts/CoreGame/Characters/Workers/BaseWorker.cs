@@ -18,6 +18,7 @@ public class BaseWorker : MonoBehaviour
         set { currentProduct = value; }
     }
 
+
     public virtual void Move(Vector3 target)
     {
         transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>

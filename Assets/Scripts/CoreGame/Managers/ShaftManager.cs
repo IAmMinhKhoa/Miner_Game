@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -30,12 +31,12 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         Shaft newShaft = Instantiate(shaftPrefab, lastShaft.position, Quaternion.identity);
         newShaft.transform.localPosition += new Vector3(0, -shaftYOffset, 0);
         newShaft.IndexBoost = BaseShaftIndexScale();
+        newShaft.shaftIndex = Shafts.Count;
 
         ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
         shaftUpgrade.SetInitialValue(CalculateNextShaftCost(), 1);
 
         Shafts.Add(newShaft);
-        newShaft.shaftIndex = Shafts.Count - 1;
         newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
     }
 
@@ -149,6 +150,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
                 Shafts.Add(shaft);
             }
+            Shafts.Last().gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
             return true;
         }
         return false;
