@@ -44,7 +44,8 @@ public class ShaftUpgrade : BaseUpgrade
 
     protected override float GetNextUpgradeCostScale()
     {
-        return shaft.shaftIndex switch
+        
+        var value = shaft.shaftIndex switch
         {
             0 => CurrentLevel switch
             {
@@ -58,6 +59,8 @@ public class ShaftUpgrade : BaseUpgrade
                 _ => 0f
             }
         };
+        Debug.Log(shaft.shaftIndex + " " + CurrentLevel + " " + value);
+        return value;
     }
 
     public double GetInitialCost()

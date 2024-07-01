@@ -6,32 +6,39 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     private void OnApplicationPause(bool pause)
     {
-        if(pause)
+        if (pause)
         {
-            PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
+            Save();
         }
     }
 
     void OnApplicationQuit()
     {
         Debug.Log("Application ending after " + Time.time + " seconds");
-        PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
-        ShaftManager.Instance.Save();
-        ElevatorSystem.Instance.Save();
-        Couter.Instance.Save();
+        Save();
     }
 
     void OnApplicationFocus(bool focus)
     {
-        if(focus)
+        if (focus)
         {
             string lastTimeQuit = PlayerPrefs.GetString("LastTimeQuit");
-            if(!string.IsNullOrEmpty(lastTimeQuit))
+            if (!string.IsNullOrEmpty(lastTimeQuit))
             {
                 System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
                 System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
                 Debug.Log("Time span: " + timeSpan.TotalSeconds);
             }
         }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
+        ShaftManager.Instance.Save();
+        ElevatorSystem.Instance.Save();
+        Couter.Instance.Save();
+
+        PawManager.Instance.Save();
     }
 }
