@@ -68,8 +68,9 @@ public class ShaftUpgrade : BaseUpgrade
         return initialCost;
     }
 
-    public void SetInitialValue(double initialCost, int level)
+    public void SetInitialValue(int index, double initialCost, int level)
     {
+        shaft.shaftIndex = index;
         Init(initialCost, level);
     }
 }

@@ -64,7 +64,7 @@ public class Couter : Patterns.Singleton<Couter>
         if (!Load())
         {
             CreateDeposit();
-            m_elevatorSystem.GetComponent<ElevatorUpgrade>().InitValue(1);
+            gameObject.GetComponent<CouterUpdrage>().InitValue(1);
             CreateTransporter();
         }
     }

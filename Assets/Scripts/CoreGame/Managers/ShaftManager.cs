@@ -31,10 +31,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         Shaft newShaft = Instantiate(shaftPrefab, lastShaft.position, Quaternion.identity);
         newShaft.transform.localPosition += new Vector3(0, -shaftYOffset, 0);
         newShaft.IndexBoost = BaseShaftIndexScale();
-        newShaft.shaftIndex = Shafts.Count;
 
         ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
-        shaftUpgrade.SetInitialValue(CalculateNextShaftCost(), 1);
+        shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
 
         Shafts.Add(newShaft);
         newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
@@ -46,10 +45,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         {
             Shaft firstShaft = Instantiate(shaftPrefab, firstShaftPosition, Quaternion.identity);
             Shafts.Add(firstShaft);
-            firstShaft.shaftIndex = Shafts.Count - 1;
 
             ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
-            shaftUpgrade.SetInitialValue(10, 1);
+            shaftUpgrade.SetInitialValue(0 ,10, 1);
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
         }
@@ -143,13 +141,13 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
                 Shaft shaft = Instantiate(shaftPrefab, position, Quaternion.identity);
                 shaft.LevelBoost = levelBoost;
                 shaft.IndexBoost = indexBoost;
-                shaft.shaftIndex = index;
                 shaft.numberBrewer = brewers;
-                shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(initCost, level);
+                shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
                 shaft.SetDepositValue(currentDeposit);
-
+                shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
                 Shafts.Add(shaft);
             }
+            Shafts.Last().gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(true);
             Shafts.Last().gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
             return true;
         }

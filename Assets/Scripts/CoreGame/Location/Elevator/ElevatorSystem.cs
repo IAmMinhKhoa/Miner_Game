@@ -29,15 +29,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         set => loadSpeedScale = value;
     }
 
-    void Awake()
-    {
-        CreateElevator();
-    }
-
     void Start()
     {
         if (!Load())
         {
+            CreateElevator();
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
         }
     }
@@ -73,6 +69,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             loadSpeedScale = saveData.loadSpeedScale;
             elevatorDeposit.AddPaw(saveData.elevatorDeposit);
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(saveData.level);
+
+            CreateElevator();
             return true;
         }
         else

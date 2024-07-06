@@ -8,7 +8,7 @@ public class ShaftUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
-    [SerializeField] private Button m_buyNewShaftButton;
+    [SerializeField] public Button m_buyNewShaftButton;
     [SerializeField] public TextMeshProUGUI NewShaftCostText;
 
     [SerializeField] private TextMeshProUGUI m_levelText;

@@ -37,15 +37,19 @@ public class Transporter : BaseWorker
         double maxCapacity = ProductPerSecond * config.WorkingTime;
         double amount = Couter.ElevatorDeposit.CaculateAmountPawCanCollect(maxCapacity);
 
-        //make some changes here
-        // Couter.ElevatorDeposit.RemovePaw(amount);
-        // CurrentProduct += amount;
-        await IECollect(amount ,config.WorkingTime);
+        if (amount == 0)
+        {
+            await IECollect(amount , 0);
+        }
+        else
+        {
+            await IECollect(amount ,config.WorkingTime);
+        }
     }
     protected override async UniTask IECollect(double amount, float time)
     {
         PlayTextAnimation(amount);
-        await UniTask.Delay((int)config.WorkingTime * 1000);
+        await UniTask.Delay((int)time * 1000);
         CurrentProduct += Couter.ElevatorDeposit.TakePawn(amount);
         numberText.SetText(Currency.DisplayCurrency(CurrentProduct));
         Move(Couter.CouterLocation.position);
@@ -53,13 +57,20 @@ public class Transporter : BaseWorker
         protected override async void Deposit()
     {
         double amount = CurrentProduct;
-        await IEDeposit(amount, 0);
+        if (amount == 0)
+        {
+            await IEDeposit(amount, 0);
+        }
+        else
+        {
+            await IEDeposit(amount, config.WorkingTime);
+        }
     }
 
     protected override async UniTask IEDeposit(double amount = 0, float time = 0)
     {
         PlayTextAnimation(amount, true);
-        await UniTask.Delay((int)config.WorkingTime * 1000);
+        await UniTask.Delay((int)time * 1000);
         PawManager.Instance.AddPaw(amount);
         CurrentProduct = 0;
         ChangeGoal();
