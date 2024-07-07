@@ -17,6 +17,7 @@ public class Brewer : BaseWorker
     private bool isArrive;
 
     [SerializeField] private bool isWorking = false;
+    public bool isBrewing = false;
     public double ProductPerSecond
     {
         get => config.ProductPerSecond * CurrentShaft.LevelBoost * CurrentShaft.IndexBoost;
@@ -127,8 +128,10 @@ public class Brewer : BaseWorker
                 break;
             case WorkerState.Working:
                 skeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                isBrewing = true;
                 break;
             case WorkerState.Moving:
+                isBrewing = false;
                 if (direction)
                 {
                     skeletonAnimation.skeleton.ScaleX = 1;
