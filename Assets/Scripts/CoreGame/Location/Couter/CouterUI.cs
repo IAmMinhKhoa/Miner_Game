@@ -11,12 +11,12 @@ public class CouterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    private Couter m_couter;
+    private Counter m_couter;
     private CouterUpdrage m_couterUpdrage;
 
     void Awake()
     {
-        m_couter = GetComponent<Couter>();
+        m_couter = GetComponent<Counter>();
         m_couterUpdrage = GetComponent<CouterUpdrage>();
     }
 

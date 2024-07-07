@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CouterUpdrage : BaseUpgrade
 {
-    private Couter couter;
+    private Counter couter;
 
     private void Start()
     {
-        couter = GetComponent<Couter>();
+        couter = GetComponent<Counter>();
     }
     protected override void RunUpgrade()
     {

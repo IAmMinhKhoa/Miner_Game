@@ -13,8 +13,6 @@ public class Brewer : BaseWorker
 
     public Shaft CurrentShaft { get; set; }
     private TextMeshPro numberText;
-    private Vector3 targetPos;
-    private bool isArrive;
 
     [SerializeField] private bool isWorking = false;
     public bool isBrewing = false;
@@ -36,32 +34,9 @@ public class Brewer : BaseWorker
         if (!isWorking)
         {
             isWorking = true;
-            // PlayAnimation();
+            PlayAnimation();
             Move(CurrentShaft.BrewLocation.position);
-            //targetPos = CurrentShaft.BrewLocation.position;       
         }
-        // if(Vector3.Distance(this.transform.position, targetPos) < 0.1f)
-        // {
-        //     if(isArrive == false)
-        //     {
-        //         if(IsCollecting)
-        //         {
-        //             Collect();
-        //         }
-        //         else
-        //         {
-        //             Deposit();
-        //         }
-        //         isArrive = true;
-        //     }
-        // }
-        // else
-        // {
-        //     isArrive = false;
-        //     Vector3 dir = (targetPos - transform.position).normalized;
-        //     this.transform.position += dir * config.MoveTime * Time.deltaTime;
-        // }
-
     }
 
     protected override async void Collect()

@@ -50,7 +50,7 @@ public class Deposit : MonoBehaviour
         return amountToTake;
     }
 
-    public double CaculateAmountPawCanCollect(double capacity)
+    public double CalculateAmountPawCanCollect(double capacity)
     {
         if (capacity - CurrentPaw >= 0)
         {

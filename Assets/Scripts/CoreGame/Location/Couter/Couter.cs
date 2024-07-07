@@ -4,7 +4,7 @@ using NOOD;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class Couter : Patterns.Singleton<Couter>
+public class Counter : Patterns.Singleton<Counter>
 {
     [Header("Prefab")]
     [SerializeField] private Transporter m_transporterPrefab;
@@ -18,7 +18,7 @@ public class Couter : Patterns.Singleton<Couter>
     [Header("Elevator")]
     [SerializeField] private ElevatorSystem m_elevatorSystem;
 
-    public Transform CouterLocation => m_couterLocation;
+    public Transform CounterLocation => m_couterLocation;
     public Transform DepositLocation => m_depositLocation;
     public Transform TransporterLocation => m_transporterLocation;
 
@@ -44,7 +44,7 @@ public class Couter : Patterns.Singleton<Couter>
         transporterGO.transform.position = m_couterLocation.position;
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
-        transporter.Couter = this;
+        transporter.Counter = this;
 
         _transporters.Add(transporter);
     }

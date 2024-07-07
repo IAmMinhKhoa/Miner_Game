@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
+using Cysharp.Threading.Tasks;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -82,21 +83,20 @@ public class ShaftUI : MonoBehaviour
         }
     }
 
-    public void PlayCollectAnimation(bool isBrewing)
+    public async void PlayCollectAnimation(bool isBrewing)
     {
-        if (_isBrewing == isBrewing)
+        if (isBrewing == false) return;
+        if (_isBrewing == true)
         {
             return;
         }
-        _isBrewing = isBrewing;
+        _isBrewing = true;
 
-        if (isBrewing)
-        {
-            tableAnimation.AnimationState.SetAnimation(0, "Active", false);
-        }
-        else
-        {
-            tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
-        }
+        Debug.Log("Play Active");
+        tableAnimation.AnimationState.SetAnimation(0, "Active", false);
+        await UniTask.Delay((int)tableAnimation.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Active").Duration * 1000);
+        Debug.Log("Play Idle");
+        tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
+        _isBrewing = false;
     }
 }

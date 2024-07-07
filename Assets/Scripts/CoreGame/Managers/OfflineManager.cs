@@ -37,7 +37,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
         ShaftManager.Instance.Save();
         ElevatorSystem.Instance.Save();
-        Couter.Instance.Save();
+        Counter.Instance.Save();
 
         PawManager.Instance.Save();
     }

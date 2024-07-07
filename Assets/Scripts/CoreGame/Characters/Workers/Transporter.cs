@@ -7,12 +7,12 @@ using NOOD;
 
 public class Transporter : BaseWorker
 {
-    public Couter Couter { get; set; }
+    public Counter Counter { get; set; }
     private TextMeshPro numberText;
     [SerializeField] private bool isWorking = false;
     public double ProductPerSecond
     {
-        get => config.ProductPerSecond * Couter.BoostScale;
+        get => config.ProductPerSecond * Counter.BoostScale;
     }
 
     private void Start()
@@ -27,7 +27,7 @@ public class Transporter : BaseWorker
         if (!isWorking)
         {
             isWorking = true;
-            Move(Couter.TransporterLocation.position);
+            Move(Counter.TransporterLocation.position);
         }
     }
 
@@ -35,7 +35,7 @@ public class Transporter : BaseWorker
     {
         ChangeGoal();
         double maxCapacity = ProductPerSecond * config.WorkingTime;
-        double amount = Couter.ElevatorDeposit.CaculateAmountPawCanCollect(maxCapacity);
+        double amount = Counter.ElevatorDeposit.CalculateAmountPawCanCollect(maxCapacity);
 
         if (amount == 0)
         {
@@ -50,9 +50,9 @@ public class Transporter : BaseWorker
     {
         PlayTextAnimation(amount);
         await UniTask.Delay((int)time * 1000);
-        CurrentProduct += Couter.ElevatorDeposit.TakePawn(amount);
+        CurrentProduct += Counter.ElevatorDeposit.TakePawn(amount);
         numberText.SetText(Currency.DisplayCurrency(CurrentProduct));
-        Move(Couter.CouterLocation.position);
+        Move(Counter.CounterLocation.position);
     }
         protected override async void Deposit()
     {

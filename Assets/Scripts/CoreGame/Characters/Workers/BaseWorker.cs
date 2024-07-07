@@ -13,6 +13,7 @@ public class BaseWorker : MonoBehaviour
     [SerializeField] private double currentProduct = 0;
 
     protected WorkerState state = WorkerState.Idle;
+    protected bool isArrive = false;
 
     public bool IsCollecting => isCollecting;
     public double CurrentProduct
@@ -24,39 +25,57 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target)
     {
-        state = WorkerState.Moving;
-        bool direction = transform.position.x > target.x;
-        PlayAnimation(state, direction);
-        transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            if (isCollecting)
-            {
-                Collect();
-            }
-            else
-            {
-                Deposit();
-            }
-        }).Play();
+        Move(target, config.MoveTime);
+        // transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>
+        // {
+        //     if (isCollecting)
+        //     {
+        //         Collect();
+        //     }
+        //     else
+        //     {
+        //         Deposit();
+        //     }
+        // }).Play();
     }
 
-    public virtual void Move(Vector3 target, float time)
+    public virtual async void Move(Vector3 target, float moveTime)
     {
+        Debug.Log("target: " + target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
+        float distance = Vector3.Distance(target, this.transform.position);
         PlayAnimation(state, direction);
-        transform.DOMove(target, time).SetEase(Ease.Linear).OnComplete(() =>
+
+        isArrive = false;
+        while (isArrive == false)
         {
-            if (isCollecting)
+            await UniTask.Yield();
+            if(Vector3.Distance(this.transform.position, target) < 0.1f)
             {
-                Collect();
+                if(isArrive == false)
+                {
+                    if(IsCollecting)
+                    {
+                        Collect();
+                    }
+                    else
+                    {
+                        Deposit();
+                    }
+                    isArrive = true;
+                }
             }
             else
             {
-                Deposit();
+                isArrive = false;
+                Vector3 dir = (target - transform.position).normalized;
+                this.transform.position += dir * distance/moveTime * Time.deltaTime;
             }
-        }).Play();        
+        }
     }
+
+    
 
     protected virtual async void Collect()
     {
