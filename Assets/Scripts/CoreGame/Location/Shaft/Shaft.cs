@@ -71,8 +71,25 @@ public class Shaft : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        gameObject.GetComponent<ShaftUI>().PlayCollectAnimation(IsTableUsing());
+    }
+
     public void SetDepositValue(double value)
     {
         CurrentDeposit.AddPaw(value);
+    }
+
+    private bool IsTableUsing()
+    {
+        foreach (var brewer in _brewers)
+        {
+            if (brewer.isBrewing)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

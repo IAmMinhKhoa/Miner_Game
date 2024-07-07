@@ -21,6 +21,8 @@ public class ShaftUI : MonoBehaviour
     private Shaft m_shaft;
     private ShaftUpgrade m_shaftUpgrade;
 
+    private bool _isBrewing = false;
+
     void Awake()
     {
         m_shaft = GetComponent<Shaft>();
@@ -82,9 +84,15 @@ public class ShaftUI : MonoBehaviour
 
     public void PlayCollectAnimation(bool isBrewing)
     {
+        if (_isBrewing == isBrewing)
+        {
+            return;
+        }
+        _isBrewing = isBrewing;
+
         if (isBrewing)
         {
-            tableAnimation.AnimationState.SetAnimation(0, "Active", true);
+            tableAnimation.AnimationState.SetAnimation(0, "Active", false);
         }
         else
         {
