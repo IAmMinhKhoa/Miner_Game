@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Spine.Unity;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
+    [SerializeField] private GameObject m_spineData;
+    private SkeletonAnimation tableAnimation;
+
     private Shaft m_shaft;
     private ShaftUpgrade m_shaftUpgrade;
 
@@ -21,6 +25,11 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
+    }
+
+    void Start()
+    {
+        tableAnimation = m_spineData.GetComponent<SkeletonAnimation>();
     }
 
     void Update()
@@ -68,6 +77,18 @@ public class ShaftUI : MonoBehaviour
             PawManager.Instance.RemovePaw(ShaftManager.Instance.CurrentCost);
             ShaftManager.Instance.AddShaft();
             m_buyNewShaftButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void PlayCollectAnimation(bool isBrewing)
+    {
+        if (isBrewing)
+        {
+            tableAnimation.AnimationState.SetAnimation(0, "Active", true);
+        }
+        else
+        {
+            tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
         }
     }
 }
