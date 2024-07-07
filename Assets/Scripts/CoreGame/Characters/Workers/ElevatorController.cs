@@ -110,7 +110,7 @@ public class ElevatorController : BaseWorker
         float collectTime;
         double amount;
         double maxCapacity = config.WorkingTime * ProductPerSecond;
-        Debug.Log("maxCapacity: " + maxCapacity);
+        //Debug.Log("maxCapacity: " + maxCapacity);
 
         //if the amount of paw in the deposit is less than the max capacity, collect and move back
         if (CurrentProduct + _currentDeposit.CurrentPaw > maxCapacity)
@@ -158,9 +158,9 @@ public class ElevatorController : BaseWorker
         await UniTask.Delay((int)(config.WorkingTime * 1000));
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
-        Debug.Log("Deposit" + moveBackTime);
+        //Debug.Log("Deposit" + moveBackTime);
 
-        Debug.Log("checkWorkingTime: " + checkWorkingTime);
+        //Debug.Log("checkWorkingTime: " + checkWorkingTime);
         checkWorkingTime = 0;
 
         _currentShaftIndex = -1;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -11,6 +12,8 @@ public class BaseWorker : MonoBehaviour
     [SerializeField] private bool isCollecting = true;
     [SerializeField] private double currentProduct = 0;
 
+    protected WorkerState state = WorkerState.Idle;
+
     public bool IsCollecting => isCollecting;
     public double CurrentProduct
     {
@@ -21,6 +24,9 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target)
     {
+        state = WorkerState.Moving;
+        bool direction = transform.position.x > target.x;
+        PlayAnimation(state, direction);
         transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>
         {
             if (isCollecting)
@@ -36,6 +42,9 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float time)
     {
+        state = WorkerState.Moving;
+        bool direction = transform.position.x > target.x;
+        PlayAnimation(state, direction);
         transform.DOMove(target, time).SetEase(Ease.Linear).OnComplete(() =>
         {
             if (isCollecting)
@@ -49,14 +58,18 @@ public class BaseWorker : MonoBehaviour
         }).Play();        
     }
 
-    protected virtual void Collect()
+    protected virtual async void Collect()
     {
-        
+        ChangeGoal();
+        state = WorkerState.Working;
+        PlayAnimation(state, false);
     }
 
-    protected virtual void Deposit()
+    protected virtual async void Deposit()
     {
-        
+        ChangeGoal();
+        state = WorkerState.Idle;
+        PlayAnimation(state, false);
     }
 
     protected virtual void ChangeGoal()
@@ -66,27 +79,33 @@ public class BaseWorker : MonoBehaviour
 
     protected virtual async UniTask IECollect()
     {
-        await UniTask.Delay((int)(config.WorkingTime * 1000));
+        
     }
 
     protected virtual async UniTask IEDeposit()
     {
-        await UniTask.Delay((int)(config.WorkingTime * 1000));
+
     }
 
     protected virtual async UniTask IECollect(double amount, float collectTime)
     {
-        await UniTask.Delay((int)(collectTime * 1000));
-        CurrentProduct += amount;
-        ChangeGoal();
-        Move(transform.position);
+
     }
 
     protected virtual async UniTask IEDeposit(double amount, float depositTime)
     {
-        await UniTask.Delay((int)(depositTime * 1000));
-        CurrentProduct -= amount;
-        ChangeGoal();
-        Move(transform.position);
+        
+    }
+
+    protected enum WorkerState
+    {
+        Idle,
+        Working,
+        Moving
+    }
+
+    protected virtual void PlayAnimation(WorkerState state, bool direction)
+    {
+        
     }
 }
