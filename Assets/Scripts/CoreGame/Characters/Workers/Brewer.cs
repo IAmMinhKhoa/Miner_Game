@@ -34,7 +34,7 @@ public class Brewer : BaseWorker
         if (!isWorking)
         {
             isWorking = true;
-            PlayAnimation();
+            //PlayAnimation();
             Move(CurrentShaft.BrewLocation.position);
         }
     }
