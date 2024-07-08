@@ -9,9 +9,13 @@ public class ManagerElementUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Image _icon;
+    private ManagerDataSO _data;
 
-    public void SetData()
+    public void SetData(ManagerDataSO managerDataSO)
     {
-        
+        _data = managerDataSO;
+        _levelText.text = managerDataSO.managerLevel.ToString();
+        _timerText.text = managerDataSO.boostTime.ToString();
+        _icon.sprite = managerDataSO.icon;
     }
 }

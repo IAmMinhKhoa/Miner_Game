@@ -3,61 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManagerData
+[CreateAssetMenu (menuName = "ScriptableObjects/ManagerData")]
+public class ManagerDataSO : ScriptableObject
 {
     public string managerName;
+    public float boostTime;
+    public Sprite icon;
+    public ManagerSpecie managerSpecie;
     public ManagerLevel managerLevel;
     public BoostType boostType;
     public ManagerLocation managerLocation;
     public ManagerName managerNameEnum;
-
-    public static ManagerData CreateManagerData(ManagerLocation location)
-    {
-        ManagerData managerData = new ManagerData();
-        managerData.managerLevel = GetRandomManagerLevel();
-        managerData.managerNameEnum = GetRandomManagerName();
-        managerData.boostType = GetRandomBoostType();
-        managerData.managerLocation = location;
-
-        managerData.managerName = managerData.managerLevel.ToString() + " " + managerData.managerNameEnum.ToString();
-        return managerData;
-    }
-
-    private static ManagerLevel GetRandomManagerLevel()
-    {
-        // Define ratios for each level
-        float juniorRatio = 0.65f;
-        float seniorRatio = 0.25f;
-
-        float randomValue = UnityEngine.Random.value; // Generates a random number between 0.0 and 1.0
-
-        if (randomValue < juniorRatio)
-        {
-            return ManagerLevel.Junior;
-        }
-        else if (randomValue < juniorRatio + seniorRatio)
-        {
-            return ManagerLevel.Senior;
-        }
-        else
-        {
-            return ManagerLevel.Excutive;
-        }
-    }
-
-    private static ManagerName GetRandomManagerName()
-    {
-        int count = (int)ManagerName.Count;
-        int randomValue = UnityEngine.Random.Range(0, count);
-        return (ManagerName)randomValue;
-    }
-
-    private static BoostType GetRandomBoostType()
-    {
-        int count = (int)BoostType.Count;
-        int randomValue = UnityEngine.Random.Range(0, count);
-        return (BoostType)randomValue;
-    }
 }
 
 public enum ManagerLevel
@@ -66,7 +22,7 @@ public enum ManagerLevel
     Junior,
     Senior,
     Lead,
-    Excutive,
+    Executive,
 }
 
 public enum BoostType
@@ -81,7 +37,7 @@ public enum ManagerLocation
 {
     Shaft,
     Elevator,
-    Couter,
+    Counter,
 }
 
 public enum ManagerName
@@ -96,4 +52,10 @@ public enum ManagerName
     Seven,
     Eight,
     Count,
+}
+
+public enum ManagerSpecie
+{
+    Elephant,
+    Mouse,
 }

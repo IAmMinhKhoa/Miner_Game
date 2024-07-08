@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class ManagersController : MonoBehaviour
+public class ManagersController : Patterns.Singleton<ManagersController>
 {
-    // Start is called before the first frame update
-    void CreateManagers()
+    public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
+    private List<ManagerDataSO> _managerDataSOList = new List<ManagerDataSO>();
+
+    void Start()
     {
-        //ramdomly create managers
-        //create manager data
-        
+        LoadManagerData();
+    }
+    private void LoadManagerData()
+    {
+        _managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects").ToList();
     }
 }
