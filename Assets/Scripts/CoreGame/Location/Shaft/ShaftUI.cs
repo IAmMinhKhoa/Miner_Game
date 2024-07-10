@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Spine.Unity;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class ShaftUI : MonoBehaviour
 {
+    public static Action<int> OnUpdrageRequest;
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] public Button m_buyNewShaftButton;
@@ -44,14 +46,14 @@ public class ShaftUI : MonoBehaviour
 
     void OnEnable()
     {
-        m_upgradeButton.onClick.AddListener(CallUpgrade);
+        m_upgradeButton.onClick.AddListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
     }
 
     void OnDisable()
     {
-        m_upgradeButton.onClick.RemoveListener(CallUpgrade);
+        m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
     }
@@ -98,5 +100,10 @@ public class ShaftUI : MonoBehaviour
         Debug.Log("Play Idle");
         tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
         _isBrewing = false;
+    }
+
+    public void UpgradeRequest()
+    {
+        OnUpdrageRequest?.Invoke(m_shaft.shaftIndex);
     }
 }

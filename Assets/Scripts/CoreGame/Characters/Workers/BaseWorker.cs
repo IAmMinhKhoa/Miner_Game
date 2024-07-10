@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class BaseWorker : MonoBehaviour
 {
@@ -21,61 +18,63 @@ public class BaseWorker : MonoBehaviour
         get { return currentProduct; }
         set { currentProduct = value; }
     }
-
+    private CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
     public virtual void Move(Vector3 target)
     {
         Move(target, config.MoveTime);
-        // transform.DOMove(target, config.MoveTime).SetEase(Ease.Linear).OnComplete(() =>
-        // {
-        //     if (isCollecting)
-        //     {
-        //         Collect();
-        //     }
-        //     else
-        //     {
-        //         Deposit();
-        //     }
-        // }).Play();
     }
 
-    public virtual async void Move(Vector3 target, float moveTime)
+    public virtual void Move(Vector3 target, float moveTime)
     {
         Debug.Log("target: " + target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
-        float distance = Vector3.Distance(target, this.transform.position);
         PlayAnimation(state, direction);
 
-        isArrive = false;
-        while (isArrive == false)
-        {
-            await UniTask.Yield();
-            if(Vector3.Distance(this.transform.position, target) < 0.1f)
-            {
-                if(isArrive == false)
-                {
-                    if(IsCollecting)
-                    {
-                        Collect();
-                    }
-                    else
-                    {
-                        Deposit();
-                    }
-                    isArrive = true;
-                }
-            }
-            else
-            {
-                isArrive = false;
-                Vector3 dir = (target - transform.position).normalized;
-                this.transform.position += dir * distance/moveTime * Time.deltaTime;
-            }
-        }
+        IEMove(target, moveTime);
     }
 
-    
+    private async UniTaskVoid IEMove(Vector3 target, float moveTime)
+    {
+        try
+        {
+            float distance = Vector3.Distance(target, this.transform.position);
+            isArrive = false;
+            while (isArrive == false)
+            {
+                await UniTask.Yield(cancellationToken.Token);
+                if (Vector3.Distance(this.transform.position, target) < 0.1f)
+                {
+                    if (isArrive == false)
+                    {
+                        if (IsCollecting)
+                        {
+                            Collect();
+                        }
+                        else
+                        {
+                            Deposit();
+                        }
+                        isArrive = true;
+                    }
+                }
+                else
+                {
+                    isArrive = false;
+                    Vector3 dir = (target - transform.position).normalized;
+                    this.transform.position += dir * distance / moveTime * Time.deltaTime;
+                }
+            }
+        }
+        catch (Exception ex) when (!(ex is OperationCanceledException)) // when (ex is not OperationCanceledException) at C# 9.0
+        {
+            return;
+        }
+
+    }
+
+
 
     protected virtual async void Collect()
     {
@@ -98,7 +97,7 @@ public class BaseWorker : MonoBehaviour
 
     protected virtual async UniTask IECollect()
     {
-        
+
     }
 
     protected virtual async UniTask IEDeposit()
@@ -113,7 +112,7 @@ public class BaseWorker : MonoBehaviour
 
     protected virtual async UniTask IEDeposit(double amount, float depositTime)
     {
-        
+
     }
 
     protected enum WorkerState
@@ -125,6 +124,12 @@ public class BaseWorker : MonoBehaviour
 
     protected virtual void PlayAnimation(WorkerState state, bool direction)
     {
-        
+
+    }
+
+    private void OnDestroy()
+    {
+        cancellationToken.Cancel();
+        cancellationToken.Dispose();
     }
 }
