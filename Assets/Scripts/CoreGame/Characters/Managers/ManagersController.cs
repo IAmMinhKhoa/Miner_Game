@@ -6,14 +6,5 @@ using UnityEngine;
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
-    private List<ManagerDataSO> _managerDataSOList = new List<ManagerDataSO>();
-
-    void Start()
-    {
-        LoadManagerData();
-    }
-    private void LoadManagerData()
-    {
-        _managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects").ToList();
-    }
+    private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
 }
