@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NOOD;
-using UnityEngine.UI;
+using System;
 
-public class UpgradeUI : MonoBehaviour
+public class UpgradeManager : MonoBehaviour
 {
-    [Header("Upgrade Panel Elements")]
+    public static Action<int> OnUpdrageRequest;
+
+    [Header("Upgrade Panel Prefab")]
     [SerializeField] private GameObject m_upgradePanel;
-    [SerializeField] private Button closeButton;
+
 
     private Shaft _shaft;
     private ShaftUpgrade _shaftUpgrade;
@@ -16,19 +18,19 @@ public class UpgradeUI : MonoBehaviour
     #region ----Unity Methods----
     private void Start()
     {
-        m_upgradePanel.transform.SetParent(GameUI.Instance.transform, false);
+        m_upgradePanel = Instantiate(m_upgradePanel, GameUI.Instance.transform);
         m_upgradePanel.SetActive(false);
     }
     private void OnEnable()
     {
         ShaftUI.OnUpdrageRequest += ShowUpgradePanel;
-        closeButton.onClick.AddListener(ClosePanel);
+        UpgradeManager.OnUpdrageRequest += OnUpgradeAction;
     }
 
     private void OnDisable()
     {
         ShaftUI.OnUpdrageRequest -= ShowUpgradePanel;
-        closeButton.onClick.RemoveListener(ClosePanel);
+        UpgradeManager.OnUpdrageRequest -= OnUpgradeAction;
     }
     #endregion
 
@@ -53,10 +55,21 @@ public class UpgradeUI : MonoBehaviour
         m_upgradePanel.SetActive(open);
     }
 
-    void ClosePanel()
+    private void OnUpgradeAction(int amount)
     {
-        ControlPannel(false);
+        if (_shaft != null)
+        {
+            if (PawManager.Instance.CurrentPaw >= _shaftUpgrade.CurrentCost)
+            {
+                PawManager.Instance.RemovePaw(_shaftUpgrade.CurrentCost);
+                _shaftUpgrade.Upgrade(amount);
+            }
+            else
+            {
+                Debug.Log("Not enough paw");
+            }
+            ControlPannel(false);
+        }
     }
-    
-    #endregion
-}
+        #endregion
+    }
