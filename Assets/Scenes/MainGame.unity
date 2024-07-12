@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -128,6 +128,50 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8939933945922742501, guid: 195c86061091e6a4793295d39cc43c17, type: 3}
   m_PrefabInstance: {fileID: 758176776}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &386667340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 386667342}
+  - component: {fileID: 386667341}
+  m_Layer: 0
+  m_Name: DataLoadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &386667341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386667340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4762f24860a931948ac035e35a65cf7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &386667342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386667340}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &449296998
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,8 +793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 339113aed147a2f4fa481385afd744de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradePanelPrefab: {fileID: 501543820154765956, guid: 195c86061091e6a4793295d39cc43c17, type: 3}
   m_upgradePanel: {fileID: 501543820154765956, guid: 195c86061091e6a4793295d39cc43c17, type: 3}
+  closeButton: {fileID: 0}
 --- !u!224 &2146290285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1097,3 +1141,4 @@ SceneRoots:
   - {fileID: 868835065}
   - {fileID: 1709222670}
   - {fileID: 2146290285}
+  - {fileID: 386667342}

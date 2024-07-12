@@ -7,7 +7,7 @@ using UnityEngine;
 public class BaseGameManager : MonoBehaviour
 {
     #region ----Enums----
-    private enum GameState
+    protected enum GameState
     {
         CheckingForUpdates,
         LoadData,
@@ -21,7 +21,7 @@ public class BaseGameManager : MonoBehaviour
     #region ----Variables----
     protected static BaseGameManager s_instance;
     //protected BaseManagerSetting gameManagerSetting;
-    private GameState baseGameState;
+    protected GameState baseGameState;
     protected string gameStateContent;
     protected int totalGameStates;
     protected int gameStateCount;
@@ -107,9 +107,13 @@ public class BaseGameManager : MonoBehaviour
         }
     }
 
-    void SetState(GameState newState)
+    protected void SetState(GameState newState)
     {
         baseGameState = newState;
+    }
+    protected void NextState()
+    {
+        baseGameState++;
     }
     #endregion
 }
