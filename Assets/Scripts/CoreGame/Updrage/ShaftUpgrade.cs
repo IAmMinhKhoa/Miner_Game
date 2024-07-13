@@ -59,7 +59,7 @@ public class ShaftUpgrade : BaseUpgrade
                 _ => 0f
             }
         };
-        Debug.Log(shaft.shaftIndex + " " + CurrentLevel + " " + value);
+        //Debug.Log(shaft.shaftIndex + " " + CurrentLevel + " " + value);
         return value;
     }
 

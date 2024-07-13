@@ -94,10 +94,10 @@ public class ShaftUI : MonoBehaviour
         }
         _isBrewing = true;
 
-        Debug.Log("Play Active");
+        //Debug.Log("Play Active");
         tableAnimation.AnimationState.SetAnimation(0, "Active", false);
         await UniTask.Delay((int)tableAnimation.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Active").Duration * 1000);
-        Debug.Log("Play Idle");
+        //Debug.Log("Play Idle");
         tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
         _isBrewing = false;
     }

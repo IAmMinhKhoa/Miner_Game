@@ -61,7 +61,6 @@ public class UpgradeManager : MonoBehaviour
         {
             if (PawManager.Instance.CurrentPaw >= _shaftUpgrade.CurrentCost)
             {
-                PawManager.Instance.RemovePaw(_shaftUpgrade.CurrentCost);
                 _shaftUpgrade.Upgrade(amount);
             }
             else

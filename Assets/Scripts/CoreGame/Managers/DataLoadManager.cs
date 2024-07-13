@@ -49,5 +49,6 @@ public class DataLoadManager : BaseGameManager
     {
         MainGameData.managerDataSOList = new List<ManagerDataSO>();
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects").ToList();
+        Debug.Log("ManagerDataSO count: " + MainGameData.managerDataSOList.Count);
     }
 }

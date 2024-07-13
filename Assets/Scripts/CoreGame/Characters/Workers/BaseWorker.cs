@@ -27,7 +27,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float moveTime)
     {
-        Debug.Log("target: " + target);
+        //Debug.Log("target: " + target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
         PlayAnimation(state, direction);
