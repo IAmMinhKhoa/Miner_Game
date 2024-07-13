@@ -8,6 +8,7 @@ public class ManagerDataSO : ScriptableObject
 {
     public string managerName;
     public float boostTime;
+    public float cooldownTime;
     public Sprite icon;
     public ManagerSpecie managerSpecie;
     public ManagerLevel managerLevel;
@@ -30,7 +31,6 @@ public enum BoostType
     Costs,
     Speed,
     Efficiency,
-    Count,
 }
 
 public enum ManagerLocation
@@ -51,7 +51,6 @@ public enum ManagerName
     Six,
     Seven,
     Eight,
-    Count,
 }
 
 public enum ManagerSpecie

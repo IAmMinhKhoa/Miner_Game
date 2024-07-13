@@ -10,7 +10,12 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
 
+    private List<Manager> _ShaftManagers = new List<Manager>();
+    private List<Manager> _ElevatorManagers = new List<Manager>();
+    private List<Manager> _CouterManagers = new List<Manager>();
+
     [SerializeField] private GameObject managerPanel;
+    [SerializeField] private GameObject managerDetailPanel;
 
     public BaseManagerLocation CurrentManagerLocation { get; set; }
     private Camera _mainCamera;
@@ -39,13 +44,18 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                     if (managerLocation != null)
                     {
                         CurrentManagerLocation = managerLocation;
+                        var manager = managerLocation.Manager;
                         OpenManagerPanel(true);
+                        if (manager != null)
+                        {
+                            ManagerChooseUI.onManagerTabChanged?.Invoke(manager.Data.boostType);
+                        }
+                        else
+                        {
+                            ManagerChooseUI.onManagerTabChanged?.Invoke(BoostType.Costs);
+                        }
                     }
                 }
-            }
-            else
-            {
-                Debug.LogError("_mainCamera is not assigned.");
             }
         }
     }
@@ -53,5 +63,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public void OpenManagerPanel(bool isOpen)
     {
         managerPanel.SetActive(isOpen);
+    }
+
+    public void OpenManagerDetailPanel(bool isOpen, ManagerDataSO data)
+    {
+        
+        managerDetailPanel.SetActive(isOpen);
     }
 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ManagerElementUI : MonoBehaviour
+public class ManagerElementUI : Selectable, ISelectHandler
 {
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _timerText;
@@ -17,5 +19,11 @@ public class ManagerElementUI : MonoBehaviour
         _levelText.text = managerDataSO.managerLevel.ToString();
         _timerText.text = managerDataSO.boostTime.ToString();
         _icon.sprite = managerDataSO.icon;
+    }
+
+    public void OnSelect(BaseEventData _)
+    {
+        Debug.Log("Selected " + _data.managerName);
+        ManagersController.Instance.OpenManagerDetailPanel(true, _data);
     }
 }
