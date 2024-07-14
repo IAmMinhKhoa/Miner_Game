@@ -10,9 +10,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
 
-    private List<Manager> _ShaftManagers = new List<Manager>();
-    private List<Manager> _ElevatorManagers = new List<Manager>();
-    private List<Manager> _CouterManagers = new List<Manager>();
+    public List<ManagerDataSO> ShaftManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Shaft).ToList();
+    public List<ManagerDataSO> ElevatorManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Elevator).ToList();
+    public List<ManagerDataSO> CouterManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Counter).ToList();
 
     [SerializeField] private GameObject managerPanel;
     [SerializeField] private GameObject managerDetailPanel;
@@ -46,14 +46,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                         CurrentManagerLocation = managerLocation;
                         var manager = managerLocation.Manager;
                         OpenManagerPanel(true);
-                        if (manager != null)
-                        {
-                            ManagerChooseUI.onManagerTabChanged?.Invoke(manager.Data.boostType);
-                        }
-                        else
-                        {
-                            ManagerChooseUI.onManagerTabChanged?.Invoke(BoostType.Costs);
-                        }
                     }
                 }
             }
@@ -63,11 +55,19 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public void OpenManagerPanel(bool isOpen)
     {
         managerPanel.SetActive(isOpen);
+        
+        if (CurrentManagerLocation.Manager != null)
+        {
+            managerPanel.GetComponent<ManagerChooseUI>().SetupTab(CurrentManagerLocation.Manager.Data.boostType,CurrentManagerLocation.LocationType);
+        }
+        else
+        {
+            managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs,CurrentManagerLocation.LocationType);
+        }
     }
 
     public void OpenManagerDetailPanel(bool isOpen, ManagerDataSO data)
     {
-        
         managerDetailPanel.SetActive(isOpen);
     }
 }

@@ -12,31 +12,49 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private ManagerSectionList _managerSectionList;
     [SerializeField] private Button _closeButton;
 
+    private List<ManagerDataSO> _manager;
+
     void Start()
     {
-        _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
-        SetupTab(BoostType.Costs);
+
     }
 
     void OnEnable()
     {
+        _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
     }
 
     void OnDisable()
     {
+        _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
     }
 
     private void OnManagerTabChanged(BoostType type)
     {
-        Debug.Log("Type: " + type);
-        Debug.Log("Count: " + ManagersController.Instance.managerDataSOs.Where(x => x.boostType == type).ToList());
-        _managerSectionList.ShowManagers(ManagersController.Instance.managerDataSOs.Where(x => x.boostType == type).ToList());
+        if (_manager == null)
+        {
+            return;
+        }
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.boostType == type));
     }
 
-    public void SetupTab(BoostType type)
+    public void SetupData(ManagerLocation location)
     {
+        _manager = location switch
+        {
+            ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers,
+            ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers,
+            ManagerLocation.Counter => ManagersController.Instance.CouterManagers,
+            _ => throw new ArgumentOutOfRangeException(nameof(location), location, null)
+        };
+    
+    }
+
+    public void SetupTab(BoostType type, ManagerLocation managerLocation)
+    {
+        SetupData(managerLocation);
         _managerTabUI.onManagerTabChanged?.Invoke(type);
     }
 
