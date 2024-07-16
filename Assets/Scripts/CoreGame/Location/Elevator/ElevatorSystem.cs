@@ -31,7 +31,21 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         set => loadSpeedScale = value;
     }
 
-    public float GetManagerBoost(BoostType currentBoostAction)
+    public double EfficiencyBoost
+    {
+        get { return GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public float SpeedBoost
+    {
+        get { return GetManagerBoost(BoostType.Speed); }
+    }
+
+    public float CostsBoost
+    {
+        get { return GetManagerBoost(BoostType.Costs); }
+    }
+    private float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }

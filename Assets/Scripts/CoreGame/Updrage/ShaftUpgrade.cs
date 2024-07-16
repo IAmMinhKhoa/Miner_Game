@@ -6,11 +6,11 @@ public class ShaftUpgrade : BaseUpgrade
 {
     private Shaft shaft;
 
-    public override double CurrentCost
+    protected override float CostsBoost
     {
         get
         {
-            return base.CurrentCost * shaft.CostsBoost;
+            return shaft.CostsBoost;
         }
     }
     private void Awake()
@@ -67,7 +67,7 @@ public class ShaftUpgrade : BaseUpgrade
                 _ => 0f
             }
         };
-        //Debug.Log(shaft.shaftIndex + " " + CurrentLevel + " " + value);
+
         return value;
     }
 

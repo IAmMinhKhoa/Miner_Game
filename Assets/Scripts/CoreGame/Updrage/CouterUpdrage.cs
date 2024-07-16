@@ -6,6 +6,10 @@ public class CouterUpdrage : BaseUpgrade
 {
     private Counter couter;
 
+    protected override float CostsBoost
+    {
+        get => couter.CostsBoost;
+    }
     private void Start()
     {
         couter = GetComponent<Counter>();

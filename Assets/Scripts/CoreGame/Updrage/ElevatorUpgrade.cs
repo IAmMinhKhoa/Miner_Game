@@ -7,6 +7,11 @@ public class ElevatorUpgrade : BaseUpgrade
 {
     private ElevatorSystem elevatorSystem;
 
+    protected override float CostsBoost
+    {
+        get => elevatorSystem.CostsBoost;
+    }
+
     private void Start()
     {
         elevatorSystem = GetComponent<ElevatorSystem>();

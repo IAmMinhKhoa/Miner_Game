@@ -33,6 +33,21 @@ public class Counter : Patterns.Singleton<Counter>
         set { m_boostScale = value; }
     }
 
+    public double EfficiencyBoost
+    {
+        get { return GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public float SpeedBoost
+    {
+        get { return GetManagerBoost(BoostType.Speed); }
+    }
+
+    public float CostsBoost
+    {
+        get { return GetManagerBoost(BoostType.Costs); }
+    }
+
     private List<Transporter> _transporters = new();
     public List<Transporter> Transporters => _transporters;
 
@@ -62,7 +77,7 @@ public class Counter : Patterns.Singleton<Counter>
         CouterDeposit = depositGO.GetComponent<Deposit>();
     }
 
-    public float GetManagerBoost(BoostType currentBoostAction)
+    private float GetManagerBoost(BoostType currentBoostAction)
     {
         return m_managerLocation.GetManagerBoost(currentBoostAction);
     }

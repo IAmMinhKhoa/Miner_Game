@@ -12,7 +12,12 @@ public class Transporter : BaseWorker
     [SerializeField] private bool isWorking = false;
     public double ProductPerSecond
     {
-        get => config.ProductPerSecond * Counter.BoostScale;
+        get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
+    }
+
+    protected override float WorkingTime
+    {
+        get => config.WorkingTime / Counter.SpeedBoost;
     }
 
     private void Start()

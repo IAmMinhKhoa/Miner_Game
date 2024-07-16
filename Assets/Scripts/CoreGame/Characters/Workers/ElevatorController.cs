@@ -19,12 +19,17 @@ public class ElevatorController : BaseWorker
 
     public double ProductPerSecond
     {
-        get => config.ProductPerSecond * elevator.LoadSpeedScale;
+        get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
     }
 
     public float MoveSpeed
     {
-        get => config.MoveTime * (float)elevator.MoveTimeScale;
+        get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
+    }
+
+    protected override float WorkingTime
+    {
+        get => config.WorkingTime / elevator.SpeedBoost;
     }
 
     private void Start()
@@ -109,7 +114,7 @@ public class ElevatorController : BaseWorker
 
         float collectTime;
         double amount;
-        double maxCapacity = config.WorkingTime * ProductPerSecond;
+        double maxCapacity = WorkingTime * ProductPerSecond;
         //Debug.Log("maxCapacity: " + maxCapacity);
 
         //if the amount of paw in the deposit is less than the max capacity, collect and move back
@@ -155,12 +160,12 @@ public class ElevatorController : BaseWorker
     protected override async UniTask IEDeposit()
     {
         PlayTextAnimation(CurrentProduct, true);
-        await UniTask.Delay((int)(config.WorkingTime * 1000));
+        await UniTask.Delay((int)(WorkingTime * 1000));
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
-        //Debug.Log("Deposit" + moveBackTime);
+        Debug.Log("Deposit" + moveBackTime);
 
-        //Debug.Log("checkWorkingTime: " + checkWorkingTime);
+        Debug.Log("checkWorkingTime: " + checkWorkingTime);
         checkWorkingTime = 0;
 
         _currentShaftIndex = -1;
@@ -178,7 +183,7 @@ public class ElevatorController : BaseWorker
             while (temp > lastValue)
             {
                 await UniTask.Yield();
-                temp -= firstValue * Time.deltaTime / config.WorkingTime;
+                temp -= firstValue * Time.deltaTime / WorkingTime;
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
             numberText.SetText(Currency.DisplayCurrency(lastValue));

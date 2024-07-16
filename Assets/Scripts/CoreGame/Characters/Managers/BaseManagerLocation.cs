@@ -46,7 +46,7 @@ public class BaseManagerLocation : MonoBehaviour
             {
                 BoostType.Costs => 1f - Manager.BoostValue,
                 BoostType.Efficiency => Manager.BoostValue,
-                BoostType.Speed => 1f / Manager.BoostValue,
+                BoostType.Speed => Manager.BoostValue,
             };
         }
     }
