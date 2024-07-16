@@ -6,11 +6,29 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public BaseManagerLocation Location { get; set; }
-    public ManagerDataSO Data => _data;
-    private float _cooldownTime = 0f;
-    private float _boostTime = 0f;
+    //public ManagerDataSO Data => _data;
     [SerializeField] private GameObject splineData;
     [SerializeField] private ManagerDataSO _data;
+    [SerializeField] private ManagerSpecieDataSO _specieData;
+    [SerializeField] private ManagerTimeDataSO _timeData;
+
+    public Sprite Icon => _specieData.icon;
+    public ManagerSpecie Specie => _specieData.managerSpecie;
+    public string Name => _data.managerName;
+    public ManagerLocation LocationType => _data.managerLocation;
+    public ManagerLevel Level => _data.managerLevel;
+    public BoostType BoostType => _data.boostType;
+    public float BoostValue => _data.boostValue;
+    public float BoostTime => _timeData.boostTime;
+    public float CooldownTime => _timeData.cooldownTime;
+
+
+    private bool _isBoosting = false;
+    public bool IsBoosting => _isBoosting;
+    public float currentBoostTime;
+    public float currentCooldownTime;
+
+
 
     void Awake()
     {
@@ -21,7 +39,7 @@ public class Manager : MonoBehaviour
     {
         get
         {
-            return Data.managerLocation switch
+            return LocationType switch
             {
                 ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers.IndexOf(this),
                 ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers.IndexOf(this),
@@ -66,31 +84,80 @@ public class Manager : MonoBehaviour
 
     public void RunBoost()
     {
+        if (_isBoosting)
+        {
+            return;
+        }
         ActiveBoost();
+    }
+
+    private bool CheckMergeConditions(Manager otherManager)
+    {
+        if (otherManager.Level == ManagerLevel.Executive)
+        {
+            return false;
+        }
+
+        if (otherManager.LocationType != LocationType)
+        {
+            return false;
+        }
+
+        if (otherManager.Specie != Specie)
+        {
+            return false;
+        }
+
+        if (otherManager.Level != Level)
+        {
+            return false;
+        }
+        //Select new SO there
+
+        return true;
+    }
+
+    public void Merge(Manager otherManager)
+    {
+        if (!CheckMergeConditions(otherManager))
+        {
+            return;
+        }
+
+        ManagersController.Instance.RemoveManager(otherManager);
+        Destroy(otherManager.gameObject);
     }
 
     private async UniTaskVoid ActiveBoost()
     {
-        _boostTime = Data.boostTime;
-        _cooldownTime = Data.cooldownTime;
-        while (_boostTime > 0)
+        _isBoosting = true;
+        currentBoostTime = BoostTime;
+        currentCooldownTime = CooldownTime;
+        while (currentBoostTime > 0)
         {
-            _boostTime -= Time.deltaTime;
+            currentBoostTime -= Time.deltaTime;
             await UniTask.Yield();
         }
+        _isBoosting = false;
         await Cooldown();
     }
 
     private async UniTask Cooldown()
     {
-        while (_cooldownTime > 0)
+        while (currentCooldownTime > 0)
         {
-            _cooldownTime -= Time.deltaTime;
+            currentCooldownTime -= Time.deltaTime;
             await UniTask.Yield();
         }
+        _isBoosting = false;
     }
     public void SetData(ManagerDataSO data)
     {
         _data = data;
+    }
+
+    public bool CanActiveBoost()
+    {
+        return currentCooldownTime <= 0;
     }
 }

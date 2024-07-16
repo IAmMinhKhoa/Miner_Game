@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
 {
-    [SerializeField] private string m_startingPaw = "100000";
+    [SerializeField] private string m_startingPaw = "100000000";
 
     [SerializeField] private readonly string m_pawKey = "PawVollume";
 
@@ -33,7 +33,8 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     private void LoadPaw()
     {
-        var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
+        //var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
+        var paw = m_startingPaw;
         Debug.Log("Paw from PlayerPrefs:" + paw);
 
         if (Double.TryParse(paw.ToString(), out double result))

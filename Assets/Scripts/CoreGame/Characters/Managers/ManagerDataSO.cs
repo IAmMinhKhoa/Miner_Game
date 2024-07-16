@@ -7,14 +7,10 @@ using UnityEngine;
 public class ManagerDataSO : ScriptableObject
 {
     public string managerName;
-    public float boostTime;
-    public float cooldownTime;
-    public Sprite icon;
-    public ManagerSpecie managerSpecie;
+    public float boostValue = 1;
     public ManagerLevel managerLevel;
     public BoostType boostType;
     public ManagerLocation managerLocation;
-    public ManagerName managerNameEnum;
 }
 
 public enum ManagerLevel
@@ -39,20 +35,6 @@ public enum ManagerLocation
     Elevator,
     Counter,
 }
-
-public enum ManagerName
-{
-    Zero,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-}
-
 public enum ManagerSpecie
 {
     Elephant,

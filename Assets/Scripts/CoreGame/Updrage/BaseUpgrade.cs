@@ -10,11 +10,11 @@ public class BaseUpgrade : MonoBehaviour
 
     [Header("Upgrade Cost")]
     [SerializeField] protected double initialCost = 100;
-    [SerializeField] private double costScale = 1.00;
+    [SerializeField] protected double costScale = 1.00;
     [SerializeField] int level = 1;
 
     public int CurrentLevel => level;
-    public double CurrentCost
+    public virtual double CurrentCost
     {
         get => initialCost * costScale;
     }

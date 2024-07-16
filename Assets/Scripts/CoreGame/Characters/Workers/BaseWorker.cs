@@ -18,11 +18,17 @@ public class BaseWorker : MonoBehaviour
         get { return currentProduct; }
         set { currentProduct = value; }
     }
+
+    protected virtual float WorkingTime
+    {
+        get { return config.WorkingTime; }
+    }
     private CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
     public virtual void Move(Vector3 target)
     {
-        Move(target, config.MoveTime);
+        Debug.Log("target: " + WorkingTime);
+        Move(target, WorkingTime);
     }
 
     public virtual void Move(Vector3 target, float moveTime)
@@ -46,25 +52,22 @@ public class BaseWorker : MonoBehaviour
                 await UniTask.Yield(cancellationToken.Token);
                 if (Vector3.Distance(this.transform.position, target) < 0.1f)
                 {
-                    if (isArrive == false)
-                    {
-                        if (IsCollecting)
-                        {
-                            Collect();
-                        }
-                        else
-                        {
-                            Deposit();
-                        }
-                        isArrive = true;
-                    }
+                    isArrive = true;
                 }
                 else
                 {
-                    isArrive = false;
                     Vector3 dir = (target - transform.position).normalized;
                     this.transform.position += dir * distance / moveTime * Time.deltaTime;
                 }
+            }
+
+            if (IsCollecting)
+            {
+                Collect();
+            }
+            else
+            {
+                Deposit();
             }
         }
         catch (Exception ex) when (!(ex is OperationCanceledException)) // when (ex is not OperationCanceledException) at C# 9.0

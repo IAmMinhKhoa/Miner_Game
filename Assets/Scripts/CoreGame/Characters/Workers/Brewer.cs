@@ -18,7 +18,12 @@ public class Brewer : BaseWorker
     public bool isBrewing = false;
     public double ProductPerSecond
     {
-        get => config.ProductPerSecond * CurrentShaft.LevelBoost * CurrentShaft.IndexBoost;
+        get => config.ProductPerSecond  * CurrentShaft.EfficiencyBoost / CurrentShaft.SpeedBoost;
+    }
+
+    protected override float WorkingTime
+    {
+        get => config.WorkingTime * CurrentShaft.SpeedBoost;
     }
 
     void Start()
@@ -60,8 +65,9 @@ public class Brewer : BaseWorker
         PlayTextAnimation();
         // skeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
         // CurrentShaft.gameObject.GetComponent<ShaftUI>().PlayCollectAnimation(true);
-        await UniTask.Delay((int)config.WorkingTime * 1000);
-        CurrentProduct = ProductPerSecond * config.WorkingTime;
+        await UniTask.Delay((int)WorkingTime * 1000);
+        CurrentProduct = ProductPerSecond * WorkingTime;
+        Debug.Log("Collect: " + ProductPerSecond + " Time:" + WorkingTime);
         // PlayAnimation();
         // CurrentShaft.gameObject.GetComponent<ShaftUI>().PlayCollectAnimation(false);
         Move(CurrentShaft.BrewerLocation.position);
@@ -69,7 +75,7 @@ public class Brewer : BaseWorker
 
     private async void PlayTextAnimation()
     {
-        double max = ProductPerSecond * config.WorkingTime;
+        double max = ProductPerSecond * WorkingTime;
         double temp = 0;
         while (temp < max)
         {

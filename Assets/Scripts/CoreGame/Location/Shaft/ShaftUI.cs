@@ -13,12 +13,14 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] public Button m_buyNewShaftButton;
+    [SerializeField] private Button m_managerButton;
     [SerializeField] public TextMeshProUGUI NewShaftCostText;
 
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
     [SerializeField] private GameObject m_spineData;
+    [SerializeField] private GameObject mainPanel;
     private SkeletonAnimation tableAnimation;
 
     private Shaft m_shaft;
@@ -35,6 +37,7 @@ public class ShaftUI : MonoBehaviour
     void Start()
     {
         tableAnimation = m_spineData.GetComponent<SkeletonAnimation>();
+        mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
     }
 
     void Update()
@@ -49,6 +52,7 @@ public class ShaftUI : MonoBehaviour
         m_upgradeButton.onClick.AddListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
+        m_managerButton.onClick.AddListener(OpenManagerPanel);
     }
 
     void OnDisable()
@@ -56,6 +60,13 @@ public class ShaftUI : MonoBehaviour
         m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
+        m_managerButton.onClick.RemoveListener(OpenManagerPanel);
+    }
+
+    void OpenManagerPanel()
+    {
+        Debug.Log("Open Manager Panel");
+        ManagersController.Instance.OpenManagerPanel(m_shaft.ManagerLocation);
     }
 
     void CallUpgrade()
@@ -105,5 +116,10 @@ public class ShaftUI : MonoBehaviour
     public void UpgradeRequest()
     {
         OnUpdrageRequest?.Invoke(m_shaft.shaftIndex);
+    }
+
+    void OnDestroy()
+    {
+        Destroy(mainPanel);
     }
 }

@@ -7,6 +7,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
     [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
+    [SerializeField] private BaseManagerLocation managerLocation;
+    public BaseManagerLocation ManagerLocation => managerLocation;
 
     public Deposit ElevatorDeposit => elevatorDeposit;
     public Transform ElevatorLocation => elevatorLocation;
@@ -27,6 +29,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         get => loadSpeedScale;
         set => loadSpeedScale = value;
+    }
+
+    public float GetManagerBoost(BoostType currentBoostAction)
+    {
+        return managerLocation.GetManagerBoost(currentBoostAction);
     }
 
     void Start()

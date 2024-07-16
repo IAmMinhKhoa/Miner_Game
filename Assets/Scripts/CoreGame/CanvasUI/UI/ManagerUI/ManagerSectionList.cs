@@ -15,11 +15,11 @@ public class ManagerSectionList : MonoBehaviour
 
     public void ShowManagers(List<Manager> managerDatas)
     {
-        List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Data.managerSpecie).Distinct().ToList();
+        List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Specie).Distinct().OrderBy(specie => specie).ToList();
         AddOrRemoveManagerSectionUIs(managerSpecie);
         for(int i = 0; i < managerSpecie.Count; i++)
         {
-            _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Data.managerSpecie == managerSpecie[i]).ToList());
+            _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i]).ToList());
         }
     }
 

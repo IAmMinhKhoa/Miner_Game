@@ -14,6 +14,8 @@ public class Counter : Patterns.Singleton<Counter>
     [SerializeField] private Transform m_couterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
+    [SerializeField] private BaseManagerLocation m_managerLocation;
+    public BaseManagerLocation ManagerLocation => m_managerLocation;
 
     [Header("Elevator")]
     [SerializeField] private ElevatorSystem m_elevatorSystem;
@@ -58,6 +60,11 @@ public class Counter : Patterns.Singleton<Counter>
         depositGO.transform.SetParent(m_depositLocation);
 
         CouterDeposit = depositGO.GetComponent<Deposit>();
+    }
+
+    public float GetManagerBoost(BoostType currentBoostAction)
+    {
+        return m_managerLocation.GetManagerBoost(currentBoostAction);
     }
     void Start()
     {

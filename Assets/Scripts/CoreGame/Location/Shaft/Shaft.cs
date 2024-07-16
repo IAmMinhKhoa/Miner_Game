@@ -10,6 +10,8 @@ public class Shaft : MonoBehaviour
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_brewerLocation;
     [SerializeField] public int shaftIndex;
+    [SerializeField] private BaseManagerLocation managerLocation;
+    public BaseManagerLocation ManagerLocation => managerLocation;
 
     public Transform BrewLocation => m_brewLocation;
     public Transform DepositLocation => m_depositLocation;
@@ -18,6 +20,7 @@ public class Shaft : MonoBehaviour
     [Header("Boost")]
     [SerializeField] private double m_levelBoost = 1f;
     [SerializeField] private double m_indexBoost = 1f;
+    [SerializeField] private double managerBoost = 1f;
 
     public int numberBrewer = 1;
 
@@ -31,6 +34,21 @@ public class Shaft : MonoBehaviour
     {
         get { return m_indexBoost; }
         set { m_indexBoost = value; }
+    }
+
+    public double EfficiencyBoost
+    {
+        get { return IndexBoost * LevelBoost * GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public float SpeedBoost
+    {
+        get { return GetManagerBoost(BoostType.Speed); }
+    }
+
+    public float CostsBoost
+    {
+        get { return GetManagerBoost(BoostType.Costs); }
     }
 
     private List<Brewer> _brewers = new();
@@ -56,6 +74,11 @@ public class Shaft : MonoBehaviour
         Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
         CurrentDeposit = deposit;
+    }
+
+    private float GetManagerBoost(BoostType currentBoostAction)
+    {
+        return managerLocation.GetManagerBoost(currentBoostAction);
     }
 
     void Awake()

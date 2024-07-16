@@ -8,10 +8,18 @@ public class BaseManagerLocation : MonoBehaviour
     public Manager Manager => _manager;
     [SerializeField] private int locationType;
     public ManagerLocation LocationType => (ManagerLocation)locationType;
+    private bool isBoosting;
+
+    
 
     public virtual void RunBoost()
     {
+        if (_manager == null || _manager.CanActiveBoost() == false)
+        {
+            return;
+        }
 
+        _manager.RunBoost();
     }
 
     public void SetManager(Manager manager)
@@ -22,5 +30,24 @@ public class BaseManagerLocation : MonoBehaviour
             return;
         }
         manager.gameObject.transform.position = transform.position;
+    }
+
+    public float GetManagerBoost(BoostType currentBoostAction)
+    {
+        if (Manager == null
+        || Manager.BoostType != currentBoostAction)
+        //|| Manager.IsBoosting == false)
+        {
+            return 1f;
+        }
+        else
+        {
+            return Manager.BoostType switch
+            {
+                BoostType.Costs => 1f - Manager.BoostValue,
+                BoostType.Efficiency => Manager.BoostValue,
+                BoostType.Speed => 1f / Manager.BoostValue,
+            };
+        }
     }
 }

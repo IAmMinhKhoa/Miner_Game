@@ -7,6 +7,7 @@ public class ManagerPanelUI : MonoBehaviour
 {
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _hireOrFiredButton;
+    [SerializeField] private Button _sellButton;
 
     [SerializeField] private Manager _manager;
 
@@ -14,12 +15,14 @@ public class ManagerPanelUI : MonoBehaviour
     {
         _closeButton.onClick.AddListener(ClosePanel);
         _hireOrFiredButton.onClick.AddListener(HireOrFireManager);
+        _sellButton.onClick.AddListener(SellManager);
     }
 
     void OnDisable()
     {
         _closeButton.onClick.RemoveListener(ClosePanel);
         _hireOrFiredButton.onClick.RemoveListener(HireOrFireManager);
+        _sellButton.onClick.RemoveListener(SellManager);
     }
 
     private void ClosePanel()
@@ -40,6 +43,12 @@ public class ManagerPanelUI : MonoBehaviour
             _manager.AssignManager();
             ClosePanel();
         }
+    }
+
+    private void SellManager()
+    {
+        ManagersController.Instance.SellManager(_manager);
+        ClosePanel();
     }
 
     public void SetManager(Manager manager)

@@ -12,19 +12,19 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Image _icon;
     private Manager _data;
+    public Manager Data => _data;
 
     public void SetData(Manager managerData)
     {
         _data = managerData;
-        _levelText.text = _data.Data.managerLevel.ToString();
-        _timerText.text = _data.Data.boostTime.ToString();
-        _icon.sprite = _data.Data.icon;
+        _levelText.text = _data.Level.ToString();
+        _timerText.text = _data.BoostTime.ToString();
+        _icon.sprite = _data.Icon;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (DragAndDropManager.Instance.DragAndDropObject == this.gameObject) return;
         ManagersController.Instance.OpenManagerDetailPanel(true, _data);
-        Debug.Log("Click: " + _data.Data.managerSpecie);
     }
 }

@@ -5,6 +5,14 @@ using UnityEngine;
 public class ShaftUpgrade : BaseUpgrade
 {
     private Shaft shaft;
+
+    public override double CurrentCost
+    {
+        get
+        {
+            return base.CurrentCost * shaft.CostsBoost;
+        }
+    }
     private void Awake()
     {
         shaft = GetComponent<Shaft>();

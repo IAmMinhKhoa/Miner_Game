@@ -9,6 +9,7 @@ public class ElevatorUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private Button m_upgradeButton;
+    [SerializeField] private Button m_managerButton;
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
@@ -37,12 +38,14 @@ public class ElevatorUI : MonoBehaviour
     void OnEnable()
     {
         m_upgradeButton.onClick.AddListener(CallUpgrade);
+        m_managerButton.onClick.AddListener(OpenManagerPanel);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
     void OnDisable()
     {
         m_upgradeButton.onClick.RemoveListener(CallUpgrade);
+        m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
@@ -61,5 +64,10 @@ public class ElevatorUI : MonoBehaviour
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         }
+    }
+
+    void OpenManagerPanel()
+    {
+        ManagersController.Instance.OpenManagerPanel(m_elevator.ManagerLocation);
     }
 }
