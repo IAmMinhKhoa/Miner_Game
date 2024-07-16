@@ -13,13 +13,13 @@ public class ManagerSectionList : MonoBehaviour
         _managerSectionUIPrefab.gameObject.SetActive(false);
     }
 
-    public void ShowManagers(List<ManagerDataSO> managerDataSOs)
+    public void ShowManagers(List<Manager> managerDatas)
     {
-        List<ManagerSpecie> managerSpecie = managerDataSOs.Select(x => x.managerSpecie).Distinct().ToList();
+        List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Data.managerSpecie).Distinct().ToList();
         AddOrRemoveManagerSectionUIs(managerSpecie);
         for(int i = 0; i < managerSpecie.Count; i++)
         {
-            _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDataSOs.Where(x => x.managerSpecie == managerSpecie[i]).ToList());
+            _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Data.managerSpecie == managerSpecie[i]).ToList());
         }
     }
 

@@ -28,6 +28,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IDragAndDropEvent
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("End drag");
         ForceRefreshParentLayout();
     }
 

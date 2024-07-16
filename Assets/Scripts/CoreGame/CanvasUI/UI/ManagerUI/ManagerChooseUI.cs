@@ -12,7 +12,7 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private ManagerSectionList _managerSectionList;
     [SerializeField] private Button _closeButton;
 
-    private List<ManagerDataSO> _manager;
+    private List<Manager> _manager;
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class ManagerChooseUI : MonoBehaviour
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.boostType == type));
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.Data.boostType == type));
     }
 
     public void SetupData(ManagerLocation location)

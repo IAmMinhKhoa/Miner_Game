@@ -6,24 +6,22 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ManagerElementUI : Selectable, ISelectHandler
+public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Image _icon;
-    private ManagerDataSO _data;
+    private Manager _data;
 
-    public void SetData(ManagerDataSO managerDataSO)
+    public void SetData(Manager managerData)
     {
-        _data = managerDataSO;
-        _levelText.text = managerDataSO.managerLevel.ToString();
-        _timerText.text = managerDataSO.boostTime.ToString();
-        _icon.sprite = managerDataSO.icon;
+        _data = managerData;
+        _levelText.text = _data.Data.managerLevel.ToString();
+        _timerText.text = _data.Data.boostTime.ToString();
+        _icon.sprite = _data.Data.icon;
     }
-
-    public void OnSelect(BaseEventData _)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Selected " + _data.managerName);
         ManagersController.Instance.OpenManagerDetailPanel(true, _data);
     }
 }

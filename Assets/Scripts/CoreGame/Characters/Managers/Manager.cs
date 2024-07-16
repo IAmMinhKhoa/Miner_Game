@@ -6,12 +6,33 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public BaseManagerLocation Location { get; set; }
-    public ManagerDataSO Data { get; set; }
+    public ManagerDataSO Data => _data;
     private float _cooldownTime = 0f;
     private float _boostTime = 0f;
+    [SerializeField] private GameObject splineData;
+    [SerializeField] private ManagerDataSO _data;
+
+    void Awake()
+    {
+        splineData.SetActive(false);
+    }
+
+    public int Index
+    {
+        get
+        {
+            return Data.managerLocation switch
+            {
+                ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers.IndexOf(this),
+                ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers.IndexOf(this),
+                ManagerLocation.Counter => ManagersController.Instance.CouterManagers.IndexOf(this),
+                _ => 0,
+            };
+        }
+    }
 
 
-    private bool IsAssigned
+    public bool IsAssigned
     {
         get
         {
@@ -27,13 +48,15 @@ public class Manager : MonoBehaviour
         }
 
         Location = ManagersController.Instance.CurrentManagerLocation;
-        Location.Manager = this;
+        Location.SetManager(this);
+        splineData.SetActive(true);
     }
 
     public void UnassignManager()
     {
-        Location.Manager = null;
+        Location.SetManager(null);
         Location = null;
+        splineData.SetActive(false);
     }
 
     public void SwapManager()
@@ -65,5 +88,9 @@ public class Manager : MonoBehaviour
             _cooldownTime -= Time.deltaTime;
             await UniTask.Yield();
         }
+    }
+    public void SetData(ManagerDataSO data)
+    {
+        _data = data;
     }
 }

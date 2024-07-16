@@ -13,27 +13,27 @@ public class ManagerGridUI : MonoBehaviour
         _managerElementPrefab.gameObject.SetActive(false);
     }
 
-    public void ShowMangers(List<ManagerDataSO> managerDataSOs)
+    public void ShowMangers(List<Manager> managerDatas)
     {
         // Make sure ui is the same count with data
-        AddOrRemoveManagerElementUIs(managerDataSOs);
-        for(int i = 0; i < managerDataSOs.Count; i++) 
+        AddOrRemoveManagerElementUIs(managerDatas);
+        for(int i = 0; i < managerDatas.Count; i++) 
         {
-            _managerElementUiList[i].SetData(managerDataSOs[i]);
+            _managerElementUiList[i].SetData(managerDatas[i]);
         }
     }
 
-    private void AddOrRemoveManagerElementUIs(List<ManagerDataSO> managerDataSOs)
+    private void AddOrRemoveManagerElementUIs(List<Manager> managerDatas)
     {
-        while(_managerElementUiList.Count != managerDataSOs.Count)
+        while(_managerElementUiList.Count != managerDatas.Count)
         {
-            if(_managerElementUiList.Count < managerDataSOs.Count)
+            if(_managerElementUiList.Count < managerDatas.Count)
             {
                 var managerElementUI = Instantiate(_managerElementPrefab, transform);
                 _managerElementUiList.Add(managerElementUI);
                 managerElementUI.gameObject.SetActive(true);
             }
-            if(_managerElementUiList.Count > managerDataSOs.Count)
+            if(_managerElementUiList.Count > managerDatas.Count)
             {
                 Destroy(_managerElementUiList[0].gameObject);
                 _managerElementUiList.RemoveAt(0);

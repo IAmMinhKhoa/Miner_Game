@@ -8,9 +8,9 @@ public class ManagerSectionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _sectionText;
     [SerializeField] private ManagerGridUI _managerGridUI;
 
-    public void SetData(string sectionName, List<ManagerDataSO> managerDataSOs)
+    public void SetData(string sectionName, List<Manager> managerDatas)
     {
         _sectionText.text = sectionName;
-        _managerGridUI.ShowMangers(managerDataSOs);
+        _managerGridUI.ShowMangers(managerDatas);
     }
 }

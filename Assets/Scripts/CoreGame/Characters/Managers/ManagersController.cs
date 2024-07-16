@@ -7,12 +7,13 @@ using System;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
+    [SerializeField] private GameObject managerPrefab;
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
 
-    public List<ManagerDataSO> ShaftManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Shaft).ToList();
-    public List<ManagerDataSO> ElevatorManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Elevator).ToList();
-    public List<ManagerDataSO> CouterManagers => _managerDataSOList.Where(x => x.managerLocation == ManagerLocation.Counter).ToList();
+    public List<Manager> ShaftManagers = new List<Manager>();
+    public List<Manager> ElevatorManagers = new List<Manager>();
+    public List<Manager> CouterManagers = new List<Manager>();
 
     [SerializeField] private GameObject managerPanel;
     [SerializeField] private GameObject managerDetailPanel;
@@ -39,7 +40,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
                 if (hit.collider != null)
                 {
-                    Debug.Log("Target:" + hit.collider.gameObject.name);
                     var managerLocation = hit.transform.GetComponent<BaseManagerLocation>();
                     if (managerLocation != null)
                     {
@@ -66,8 +66,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
     }
 
-    public void OpenManagerDetailPanel(bool isOpen, ManagerDataSO data)
+    public void OpenManagerDetailPanel(bool isOpen, Manager data)
     {
+        managerDetailPanel.GetComponent<ManagerPanelUI>().SetManager(data);
         managerDetailPanel.SetActive(isOpen);
     }
 }
