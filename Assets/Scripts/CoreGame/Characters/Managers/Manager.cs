@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour
             {
                 ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers.IndexOf(this),
                 ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers.IndexOf(this),
-                ManagerLocation.Counter => ManagersController.Instance.CouterManagers.IndexOf(this),
+                ManagerLocation.Counter => ManagersController.Instance.CounterManagers.IndexOf(this),
                 _ => 0,
             };
         }

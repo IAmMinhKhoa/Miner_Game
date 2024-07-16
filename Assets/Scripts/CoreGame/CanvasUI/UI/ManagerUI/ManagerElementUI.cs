@@ -20,8 +20,11 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
         _timerText.text = _data.Data.boostTime.ToString();
         _icon.sprite = _data.Data.icon;
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (DragAndDropManager.Instance.DragAndDropObject == this.gameObject) return;
         ManagersController.Instance.OpenManagerDetailPanel(true, _data);
+        Debug.Log("Click: " + _data.Data.managerSpecie);
     }
 }

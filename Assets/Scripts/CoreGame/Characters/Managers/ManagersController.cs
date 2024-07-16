@@ -13,7 +13,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public List<Manager> ShaftManagers = new List<Manager>();
     public List<Manager> ElevatorManagers = new List<Manager>();
-    public List<Manager> CouterManagers = new List<Manager>();
+    public List<Manager> CounterManagers = new List<Manager>();
 
     [SerializeField] private GameObject managerPanel;
     [SerializeField] private GameObject managerDetailPanel;

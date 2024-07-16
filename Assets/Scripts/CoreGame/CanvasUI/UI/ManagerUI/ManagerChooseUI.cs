@@ -12,7 +12,7 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private ManagerSectionList _managerSectionList;
     [SerializeField] private Button _closeButton;
 
-    private List<Manager> _manager;
+    [SerializeField] private List<Manager> _manager;
 
     void Start()
     {
@@ -27,7 +27,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     void OnDisable()
     {
-        _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
+        _managerTabUI.onManagerTabChanged -= OnManagerTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
     }
 
@@ -46,7 +46,7 @@ public class ManagerChooseUI : MonoBehaviour
         {
             ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers,
             ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers,
-            ManagerLocation.Counter => ManagersController.Instance.CouterManagers,
+            ManagerLocation.Counter => ManagersController.Instance.CounterManagers,
             _ => throw new ArgumentOutOfRangeException(nameof(location), location, null)
         };
     

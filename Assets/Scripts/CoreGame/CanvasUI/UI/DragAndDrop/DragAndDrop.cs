@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IDragAndDropEvent, IDropHandler, IDragHandler, IEndDragHandler
+public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform _rectTransform;
 
@@ -23,30 +23,25 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IDragAndDropEvent
         {
             _rectTransform.anchoredPosition += eventData.delta;
         }
-        Debug.Log(this.name + " drag");
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("End drag");
+        DragAndDropManager.Instance.DragAndDropObject = null;
         ForceRefreshParentLayout();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if(DragAndDropManager.Instance.DragAndDropObject != null)
+        if(DragAndDropManager.Instance.LastDragObject != null)
         {
-            Debug.Log("Drag object " + DragAndDropManager.Instance.DragAndDropObject.name);
+            Debug.Log("Drag object " + DragAndDropManager.Instance.LastDragObject.name);
         }
         else
         {
             Debug.Log("No drag and drop object");
         }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        DragAndDropManager.Instance.DragAndDropObject = this.gameObject;
     }
 
     private void ForceRefreshParentLayout()
@@ -57,5 +52,10 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IDragAndDropEvent
             layoutGroup.enabled = true;
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        DragAndDropManager.Instance.DragAndDropObject = this.gameObject;
     }
 }
