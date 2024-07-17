@@ -22,14 +22,14 @@ public class ElevatorController : BaseWorker
         get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
     }
 
-    public float MoveSpeed
-    {
-        get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
-    }
-
     protected override float WorkingTime
     {
         get => config.WorkingTime / elevator.SpeedBoost;
+    }
+
+    protected override float MoveTime
+    {
+        get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
     }
 
     private void Start()
@@ -73,7 +73,7 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[0];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            moveBackTime = MoveSpeed * firstShaftMoveTimeScale;
+            moveBackTime = MoveTime * firstShaftMoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
 
@@ -96,10 +96,10 @@ public class ElevatorController : BaseWorker
             Shaft currentShaft = ShaftManager.Instance.Shafts[_currentShaftIndex];
             Vector2 nextPos = currentShaft.DepositLocation.position;
             Vector2 fixPos = new(transform.position.x, nextPos.y);
-            moveBackTime += MoveSpeed;
+            moveBackTime += MoveTime;
 
             _currentDeposit = currentShaft.CurrentDeposit;
-            Move(fixPos, MoveSpeed);
+            Move(fixPos, MoveTime);
         }
     }
 

@@ -26,6 +26,11 @@ public class Brewer : BaseWorker
         get => config.WorkingTime / CurrentShaft.SpeedBoost;
     }
 
+    protected override float MoveTime
+    {
+        get => config.MoveTime / CurrentShaft.SpeedBoost;
+    }
+
     void Start()
     {
         skeletonAnimation = spineData.GetComponent<SkeletonAnimation>();

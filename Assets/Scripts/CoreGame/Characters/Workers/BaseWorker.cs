@@ -23,17 +23,21 @@ public class BaseWorker : MonoBehaviour
     {
         get { return config.WorkingTime; }
     }
+
+    protected virtual float MoveTime
+    {
+        get { return config.MoveTime; }
+    }
+
     private CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
     public virtual void Move(Vector3 target)
     {
-        Debug.Log("target: " + WorkingTime);
-        Move(target, WorkingTime);
+        Move(target, MoveTime);
     }
 
     public virtual void Move(Vector3 target, float moveTime)
     {
-        //Debug.Log("target: " + target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
         PlayAnimation(state, direction);
@@ -50,7 +54,7 @@ public class BaseWorker : MonoBehaviour
             while (isArrive == false)
             {
                 await UniTask.Yield(cancellationToken.Token);
-                if (Vector3.Distance(this.transform.position, target) < 0.1f)
+                if (Vector3.Distance(this.transform.position, target) < 0.3f)
                 {
                     isArrive = true;
                 }
