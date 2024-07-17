@@ -41,7 +41,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
     private void InitializeShafts()
     {
-        //if (!Load())
+        if (!Load())
         {
             Shaft firstShaft = Instantiate(shaftPrefab, firstShaftPosition, Quaternion.identity);
             Shafts.Add(firstShaft);
