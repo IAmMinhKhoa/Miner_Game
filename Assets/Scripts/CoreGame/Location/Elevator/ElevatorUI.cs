@@ -7,9 +7,13 @@ using Cysharp.Threading.Tasks;
 
 public class ElevatorUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_pawText;
+    [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
+    [SerializeField] private Button m_boostButton;
+
+    [Header("UI Text")]
+    [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
@@ -39,6 +43,7 @@ public class ElevatorUI : MonoBehaviour
     {
         m_upgradeButton.onClick.AddListener(CallUpgrade);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
+        m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
@@ -46,6 +51,7 @@ public class ElevatorUI : MonoBehaviour
     {
         m_upgradeButton.onClick.RemoveListener(CallUpgrade);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
+        m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
@@ -64,6 +70,11 @@ public class ElevatorUI : MonoBehaviour
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         }
+    }
+
+    void ActiveBoost()
+    {
+        m_elevator.RunBoost();
     }
 
     void OpenManagerPanel()

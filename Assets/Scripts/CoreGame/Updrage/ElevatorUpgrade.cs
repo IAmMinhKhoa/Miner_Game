@@ -12,7 +12,7 @@ public class ElevatorUpgrade : BaseUpgrade
         get => elevatorSystem.CostsBoost;
     }
 
-    private void Start()
+    private void Awake()
     {
         elevatorSystem = GetComponent<ElevatorSystem>();
         //Init(1041.67f, 1);

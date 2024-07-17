@@ -81,6 +81,11 @@ public class Counter : Patterns.Singleton<Counter>
     {
         return m_managerLocation.GetManagerBoost(currentBoostAction);
     }
+
+    public void RunBoost()
+    {
+        m_managerLocation.RunBoost();
+    }
     void Start()
     {
         if (!Load())

@@ -50,6 +50,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
 
+    public void RunBoost()
+    {
+        managerLocation.RunBoost();
+    }
+
     void Start()
     {
         if (!Load())

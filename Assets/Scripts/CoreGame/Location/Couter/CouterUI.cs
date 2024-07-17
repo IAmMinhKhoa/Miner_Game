@@ -6,9 +6,13 @@ using UnityEngine.UI;
 
 public class CouterUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_pawText;
+    [Header("UI Button")]
     [SerializeField] private Button m_updrageButton;
     [SerializeField] private Button m_managerButton;
+    [SerializeField] private Button m_boostButton;
+
+    [Header("UI Text")]
+    [SerializeField] private TextMeshProUGUI m_pawText;
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
@@ -38,6 +42,7 @@ public class CouterUI : MonoBehaviour
     {
         m_updrageButton.onClick.AddListener(CallUpgrade);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
+        m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
@@ -45,6 +50,7 @@ public class CouterUI : MonoBehaviour
     {
         m_updrageButton.onClick.RemoveListener(CallUpgrade);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
+        m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
@@ -63,6 +69,11 @@ public class CouterUI : MonoBehaviour
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
         }
+    }
+
+    void ActiveBoost()
+    {
+        m_couter.RunBoost();
     }
 
     void OpenManagerPanel()
