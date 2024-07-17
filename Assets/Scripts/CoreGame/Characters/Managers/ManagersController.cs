@@ -184,5 +184,123 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         return true;
     }
 
+    public void HireManager()
+    {
+        var locationType = CurrentManagerLocation.LocationType;
+
+    }
+
+    private Manager GetNewManagerData(ManagerLocation location)
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        ManagerLevel level = randomValue switch
+        {
+            < 65 => ManagerLevel.Intern,
+            < 90 => ManagerLevel.Junior,
+            _ => ManagerLevel.Senior
+        };
+        BoostType type = UnityEngine.Random.Range(0, 3) switch
+        {
+            0 => BoostType.Costs,
+            1 => BoostType.Efficiency,
+            _ => BoostType.Speed
+        };
+
+        var managerData = GetManagerData(location, type, level);
+        var timeData = GetManagerTimeData(level);
+        var specieDataList = _managerSpecieDataSOList.Where(x => x.managerLevel == level).ToList();
+        var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
+
+        Manager manager = new();
+        manager.SetManagerData(managerData);
+        manager.SetTimeData(timeData);
+        manager.SetSpecieData(specieData);
+
+        return manager;
+    }
+
+    public Manager CreateManager()
+    {
+        if (CurrentManagerLocation == null)
+        {
+            return null;
+        }
+
+        Manager manager = GetNewManagerData(CurrentManagerLocation.LocationType);
+        switch (manager.LocationType)
+        {
+            case ManagerLocation.Shaft:
+                ShaftManagers.Add(manager);
+                break;
+            case ManagerLocation.Elevator:
+                ElevatorManagers.Add(manager);
+                break;
+            case ManagerLocation.Counter:
+                CounterManagers.Add(manager);
+                break;
+        }
+
+        return manager;
+    }
+
+    #endregion
+
+    #region ----Load Save Region----
+    public void SaveData()
+    {
+        List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();
+        List<ManagerSaveData> saveElevatorManagers = new List<ManagerSaveData>();
+        List<ManagerSaveData> saveCounterManagers = new List<ManagerSaveData>();
+
+        foreach (var manager in ShaftManagers)
+        {
+            saveShaftManagers.Add(new ManagerSaveData
+            {
+                location = manager.LocationType,
+                boostType = manager.BoostType,
+                level = manager.Level,
+                specie = manager.Specie,
+                currentBoostTime = manager.CurrentBoostTime,
+                currentCooldownTime = manager.CurrentCooldownTime
+            });
+        }
+
+        foreach (var manager in ElevatorManagers)
+        {
+            saveElevatorManagers.Add(new ManagerSaveData
+            {
+                location = manager.LocationType,
+                boostType = manager.BoostType,
+                level = manager.Level,
+                specie = manager.Specie,
+                currentBoostTime = manager.CurrentBoostTime,
+                currentCooldownTime = manager.CurrentCooldownTime
+            });
+        }
+
+        foreach (var manager in CounterManagers)
+        {
+            saveCounterManagers.Add(new ManagerSaveData
+            {
+                location = manager.LocationType,
+                boostType = manager.BoostType,
+                level = manager.Level,
+                specie = manager.Specie,
+                currentBoostTime = manager.CurrentBoostTime,
+                currentCooldownTime = manager.CurrentCooldownTime
+            });
+        }
+
+
+    }
+    class ManagerSaveData
+    {
+        public ManagerLocation location;
+        public BoostType boostType;
+        public ManagerLevel level;
+        public ManagerSpecie specie;
+        public float currentBoostTime;
+        public float currentCooldownTime;
+    }
     #endregion
 }
