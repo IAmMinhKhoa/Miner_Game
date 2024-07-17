@@ -10,7 +10,7 @@ public class CouterUpdrage : BaseUpgrade
     {
         get => couter.CostsBoost;
     }
-    private void Start()
+    private void Awake()
     {
         couter = GetComponent<Counter>();
     }

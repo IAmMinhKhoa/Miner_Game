@@ -47,8 +47,10 @@ public class DataLoadManager : BaseGameManager
 
     private void LoadData()
     {
-        MainGameData.managerDataSOList = new List<ManagerDataSO>();
-        MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects").ToList();
+        //MainGameData.managerDataSOList = new List<ManagerDataSO>();
+        MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
+        MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
+        MainGameData.managerTimeDataSOList = Resources.LoadAll<ManagerTimeDataSO>("ScriptableObjects/ManagerTimeData").ToList();
         Debug.Log("ManagerDataSO count: " + MainGameData.managerDataSOList.Count);
     }
 }

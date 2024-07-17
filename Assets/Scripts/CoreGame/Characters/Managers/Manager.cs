@@ -28,15 +28,18 @@ public class Manager : MonoBehaviour
 
     private bool _isBoosting = false;
     public bool IsBoosting => _isBoosting;
-    public float currentBoostTime;
-    public float currentCooldownTime;
+    private float currentBoostTime;
+    private float currentCooldownTime;
+
+    public float CurrentBoostTime => currentBoostTime;
+    public float CurrentCooldownTime => currentCooldownTime;
 
 
 
-    void Awake()
-    {
-        splineData.SetActive(false);
-    }
+    // void Awake()
+    // {
+    //     splineData.SetActive(false);
+    // }
 
     public int Index
     {
