@@ -10,12 +10,16 @@ using System;
 public class ShaftUI : MonoBehaviour
 {
     public static Action<int> OnUpdrageRequest;
-    [SerializeField] private TextMeshProUGUI m_pawText;
+
+    [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] public Button m_buyNewShaftButton;
     [SerializeField] private Button m_managerButton;
-    [SerializeField] public TextMeshProUGUI NewShaftCostText;
+    [SerializeField] private Button m_boostButton;
 
+    [Header("UI Text")]
+    [SerializeField] private TextMeshProUGUI m_pawText;
+    [SerializeField] public TextMeshProUGUI NewShaftCostText;
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
@@ -53,6 +57,7 @@ public class ShaftUI : MonoBehaviour
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
+        m_boostButton.onClick.AddListener(ActiveBoost);
     }
 
     void OnDisable()
@@ -61,6 +66,7 @@ public class ShaftUI : MonoBehaviour
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
+        m_boostButton.onClick.RemoveListener(ActiveBoost);
     }
 
     void OpenManagerPanel()
@@ -116,6 +122,14 @@ public class ShaftUI : MonoBehaviour
     public void UpgradeRequest()
     {
         OnUpdrageRequest?.Invoke(m_shaft.shaftIndex);
+    }
+
+    public void ActiveBoost()
+    {
+        if (m_shaft.ManagerLocation.Manager != null)
+        {
+            m_shaft.ManagerLocation.RunBoost();
+        }
     }
 
     void OnDestroy()

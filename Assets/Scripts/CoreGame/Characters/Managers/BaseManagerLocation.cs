@@ -18,7 +18,7 @@ public class BaseManagerLocation : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Mnanager run boost");
         _manager.RunBoost();
     }
 
@@ -35,8 +35,8 @@ public class BaseManagerLocation : MonoBehaviour
     public float GetManagerBoost(BoostType currentBoostAction)
     {
         if (Manager == null
-        || Manager.BoostType != currentBoostAction)
-        //|| Manager.IsBoosting == false)
+        || Manager.BoostType != currentBoostAction
+        || !Manager.IsBoosting)
         {
             return 1f;
         }

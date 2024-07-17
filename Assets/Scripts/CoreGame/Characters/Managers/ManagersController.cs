@@ -10,6 +10,8 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     [SerializeField] private GameObject managerPrefab;
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
+    private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
+    private List<ManagerTimeDataSO> _managerTimeDataSOList => MainGameData.managerTimeDataSOList;
 
     public List<Manager> ShaftManagers = new List<Manager>();
     public List<Manager> ElevatorManagers = new List<Manager>();

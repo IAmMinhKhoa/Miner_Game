@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1846860108048632461}
-  - component: {fileID: 2288287274191111220}
   - component: {fileID: 2760149033723924885}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: ManagerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,24 +33,6 @@ Transform:
   - {fileID: 4476222062302025742}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2288287274191111220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3952446573370366655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17778d4b3c203ba46a7d49738a8f5fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splineData: {fileID: 5809353697852222466}
-  _data: {fileID: 0}
-  _specieData: {fileID: 0}
-  _timeData: {fileID: 0}
-  currentBoostTime: 0
-  currentCooldownTime: 0
 --- !u!114 &2760149033723924885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +62,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4476222062302025742
 Transform:
   m_ObjectHideFlags: 0

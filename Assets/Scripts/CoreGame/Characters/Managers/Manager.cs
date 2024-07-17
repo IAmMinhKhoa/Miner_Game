@@ -12,6 +12,9 @@ public class Manager : MonoBehaviour
     [SerializeField] private ManagerSpecieDataSO _specieData;
     [SerializeField] private ManagerTimeDataSO _timeData;
 
+    private string viewPath = "Prefabs/Character/ManagerView";
+    private ManagerView _view;
+
     public Sprite Icon => _specieData.icon;
     public ManagerSpecie Specie => _specieData.managerSpecie;
     public string Name => _data.managerName;
@@ -64,10 +67,14 @@ public class Manager : MonoBehaviour
         {
             UnassignManager();
         }
+        var currentManager = ManagersController.Instance.CurrentManagerLocation.Manager;
+        currentManager?.UnassignManager();
 
         Location = ManagersController.Instance.CurrentManagerLocation;
         Location.SetManager(this);
-        splineData.SetActive(true);
+        //splineData.SetActive(true);
+        _view = Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _view.transform.position = Location.transform.position;
     }
 
     public void UnassignManager()
@@ -75,6 +82,7 @@ public class Manager : MonoBehaviour
         Location.SetManager(null);
         Location = null;
         splineData.SetActive(false);
+        Destroy(_view.gameObject);
     }
 
     public void SwapManager()
@@ -86,8 +94,9 @@ public class Manager : MonoBehaviour
     {
         if (_isBoosting)
         {
-            return;
+           return;
         }
+        Debug.Log("Run Boost");
         ActiveBoost();
     }
 
@@ -130,11 +139,14 @@ public class Manager : MonoBehaviour
 
     private async UniTaskVoid ActiveBoost()
     {
+        //Debug.Log("Active Boost");
         _isBoosting = true;
-        currentBoostTime = BoostTime;
-        currentCooldownTime = CooldownTime;
+        //Debug.Log("Boosting:" + _isBoosting);
+        currentBoostTime = BoostTime * 60;
+        currentCooldownTime = CooldownTime * 60;
         while (currentBoostTime > 0)
         {
+            Debug.Log("Boosting:" + LocationType + "/" + currentBoostTime);
             currentBoostTime -= Time.deltaTime;
             await UniTask.Yield();
         }
@@ -146,6 +158,7 @@ public class Manager : MonoBehaviour
     {
         while (currentCooldownTime > 0)
         {
+            Debug.Log("Boosting:" + LocationType + "/" + currentCooldownTime);
             currentCooldownTime -= Time.deltaTime;
             await UniTask.Yield();
         }
