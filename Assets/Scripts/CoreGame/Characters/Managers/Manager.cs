@@ -34,12 +34,26 @@ public class Manager : MonoBehaviour
     public float CurrentBoostTime => currentBoostTime;
     public float CurrentCooldownTime => currentCooldownTime;
 
+    public void SetSpecieData(ManagerSpecieDataSO data)
+    {
+        _specieData = data;
+    }
 
+    public void SetTimeData(ManagerTimeDataSO data)
+    {
+        _timeData = data;
+    }
 
-    // void Awake()
-    // {
-    //     splineData.SetActive(false);
-    // }
+    public void SetManagerData(ManagerDataSO data)
+    {
+        _data = data;
+    }
+
+    public void SetCurrentTime(float boostTime, float cooldownTime)
+    {
+        currentBoostTime = boostTime;
+        currentCooldownTime = cooldownTime;
+    }
 
     public int Index
     {
@@ -102,44 +116,6 @@ public class Manager : MonoBehaviour
         Debug.Log("Run Boost");
         ActiveBoost();
     }
-
-    private bool CheckMergeConditions(Manager otherManager)
-    {
-        if (otherManager.Level == ManagerLevel.Executive)
-        {
-            return false;
-        }
-
-        if (otherManager.LocationType != LocationType)
-        {
-            return false;
-        }
-
-        if (otherManager.Specie != Specie)
-        {
-            return false;
-        }
-
-        if (otherManager.Level != Level)
-        {
-            return false;
-        }
-        //Select new SO there
-
-        return true;
-    }
-
-    public void Merge(Manager otherManager)
-    {
-        if (!CheckMergeConditions(otherManager))
-        {
-            return;
-        }
-
-        ManagersController.Instance.RemoveManager(otherManager);
-        Destroy(otherManager.gameObject);
-    }
-
     private async UniTaskVoid ActiveBoost()
     {
         //Debug.Log("Active Boost");

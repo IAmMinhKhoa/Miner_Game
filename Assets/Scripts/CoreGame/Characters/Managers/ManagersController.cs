@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using log4net.Core;
+using Codice.CM.Common;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -108,6 +110,78 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         RemoveManager(manager);
         Destroy(manager.gameObject);
         ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
+    }
+
+    private ManagerDataSO GetManagerData(ManagerLocation location, BoostType type, ManagerLevel level)
+    {
+        var managerData = _managerDataSOList.FirstOrDefault(x => x.managerLocation == location && x.boostType == type && x.managerLevel == level);
+        return managerData;
+    }
+
+    private ManagerTimeDataSO GetManagerTimeData(ManagerLevel level)
+    {
+        var managerTimeData = _managerTimeDataSOList.FirstOrDefault(x => x.managerLevel == level);
+        return managerTimeData;
+    }
+
+    private ManagerSpecieDataSO GetManagerSpecieData(ManagerSpecie specie, ManagerLevel level)
+    {
+        var managerSpecieData = _managerSpecieDataSOList.FirstOrDefault(x => x.managerSpecie == specie && x.managerLevel == level);
+        return managerSpecieData;
+    }
+
+    public void UpgradeManager(Manager manager)
+    {
+        if (manager.Level == ManagerLevel.Executive)
+        {
+            return;
+        }
+
+        var upgradeData = GetManagerData(manager.LocationType, manager.BoostType, manager.Level + 1);
+        var timeData = GetManagerTimeData(upgradeData.managerLevel);
+        var specieData = GetManagerSpecieData(manager.Specie, upgradeData.managerLevel);
+        manager.SetManagerData(upgradeData);
+        manager.SetTimeData(timeData);
+        manager.SetSpecieData(specieData);
+    }
+
+    public void MergeManager(Manager firstManager, Manager secondManager)
+    {
+        if (!CheckMergeConditions(firstManager, secondManager))
+        {
+            return;
+        }
+
+        firstManager.SetCurrentTime(Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
+        Mathf.Max(firstManager.CurrentCooldownTime, secondManager.CurrentCooldownTime));
+
+        RemoveManager(secondManager);
+        UpgradeManager(firstManager);
+    }
+
+    private bool CheckMergeConditions(Manager firstManager, Manager secondManager)
+    {
+        if (firstManager.Level == ManagerLevel.Executive || secondManager.Level == ManagerLevel.Executive)
+        {
+            return false;
+        }
+
+        if (firstManager.LocationType != secondManager.LocationType)
+        {
+            return false;
+        }
+
+        if (firstManager.Level != secondManager.Level)
+        {
+            return false;
+        }
+
+        if (firstManager.Specie != secondManager.Specie)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     #endregion

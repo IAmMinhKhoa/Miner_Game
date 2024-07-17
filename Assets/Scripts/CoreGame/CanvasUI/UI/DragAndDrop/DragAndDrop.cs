@@ -36,9 +36,11 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDrag
     {
         if(DragAndDropManager.Instance.LastDragObject != null)
         {
-            Debug.Log("Drag object " + DragAndDropManager.Instance.LastDragObject.name);
-            DragAndDropManager.Instance.LastDragObject.GetComponent<ManagerElementUI>().Data.Merge(this.GetComponent<ManagerElementUI>().Data);
-            ManagerChooseUI.OnRefreshManagerTab?.Invoke(this.GetComponent<ManagerElementUI>().Data.BoostType);
+            var firstManager = this.GetComponent<ManagerElementUI>().Data;
+            var secondManager = DragAndDropManager.Instance.LastDragObject.GetComponent<ManagerElementUI>().Data;
+            ManagersController.Instance.MergeManager(firstManager, secondManager);
+            ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
+
         }
         else
         {
