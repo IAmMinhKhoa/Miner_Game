@@ -1,29 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ManagerGridUI : MonoBehaviour
 {
     [SerializeField] private ManagerElementUI _managerElementPrefab;
     private List<ManagerElementUI> _managerElementUiList = new List<ManagerElementUI>();
+    private RectTransform _rectTransform;
+
+    void Awake()
+    {
+        _rectTransform = this.GetComponent<RectTransform>();
+    }
 
     void Start()
     {
         _managerElementPrefab.gameObject.SetActive(false);
     }
 
-    public void ShowMangers(List<Manager> managerDatas)
+    public async UniTask ShowMangers(List<Manager> managerDatas)
     {
         // Make sure ui is the same count with data
         AddOrRemoveManagerElementUIs(managerDatas);
+        // Set data
         for(int i = 0; i < managerDatas.Count; i++) 
         {
             _managerElementUiList[i].SetData(managerDatas[i]);
         }
+
+        await UniTask.WaitUntil(() => _managerElementUiList.Count == managerDatas.Count);
+        await UniTask.WaitForEndOfFrame(this);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
     }
 
-    private void AddOrRemoveManagerElementUIs(List<Manager> managerDatas)
+    private async void AddOrRemoveManagerElementUIs(List<Manager> managerDatas)
     {
         while(_managerElementUiList.Count != managerDatas.Count)
         {
@@ -39,5 +53,6 @@ public class ManagerGridUI : MonoBehaviour
                 _managerElementUiList.RemoveAt(0);
             }
         }
+        await UniTask.WaitUntil(() => _managerElementUiList.Count == managerDatas.Count);
     }
 }
