@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Manager
 {
     public BaseManagerLocation Location { get; set; }
     //public ManagerDataSO Data => _data;
-    [SerializeField] private GameObject splineData;
+    //[SerializeField] private GameObject splineData;
     [SerializeField] private ManagerDataSO _data;
     [SerializeField] private ManagerSpecieDataSO _specieData;
     [SerializeField] private ManagerTimeDataSO _timeData;
@@ -90,7 +90,7 @@ public class Manager : MonoBehaviour
         Location = ManagersController.Instance.CurrentManagerLocation;
         Location.SetManager(this);
         //splineData.SetActive(true);
-        _view = Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
         _view.transform.position = Location.transform.position;
     }
 
@@ -98,8 +98,8 @@ public class Manager : MonoBehaviour
     {
         Location.SetManager(null);
         Location = null;
-        splineData.SetActive(false);
-        Destroy(_view.gameObject);
+        //splineData.SetActive(false);
+        GameObject.Destroy(_view.gameObject);
     }
 
     public void SwapManager()

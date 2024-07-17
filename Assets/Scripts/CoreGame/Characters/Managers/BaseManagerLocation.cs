@@ -25,11 +25,11 @@ public class BaseManagerLocation : MonoBehaviour
     public void SetManager(Manager manager)
     {
         _manager = manager;
-        if (manager == null)
-        {
-            return;
-        }
-        manager.gameObject.transform.position = transform.position;
+        // if (manager == null)
+        // {
+        //     return;
+        // }
+        // manager.gameObject.transform.position = transform.position;
     }
 
     public float GetManagerBoost(BoostType currentBoostAction)

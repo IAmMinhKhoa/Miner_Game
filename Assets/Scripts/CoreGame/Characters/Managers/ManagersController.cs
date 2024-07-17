@@ -108,7 +108,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             manager.UnassignManager();
         }
         RemoveManager(manager);
-        Destroy(manager.gameObject);
+        //Destroy(manager.gameObject);
         ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
     }
 
@@ -145,11 +145,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         manager.SetSpecieData(specieData);
     }
 
-    public void MergeManager(Manager firstManager, Manager secondManager)
+    public bool MergeManager(Manager firstManager, Manager secondManager)
     {
         if (!CheckMergeConditions(firstManager, secondManager))
         {
-            return;
+            return false;
         }
 
         firstManager.SetCurrentTime(Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
@@ -157,6 +157,8 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
         RemoveManager(secondManager);
         UpgradeManager(firstManager);
+
+        return true;
     }
 
     private bool CheckMergeConditions(Manager firstManager, Manager secondManager)
@@ -182,12 +184,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
 
         return true;
-    }
-
-    public void HireManager()
-    {
-        var locationType = CurrentManagerLocation.LocationType;
-
     }
 
     private Manager GetNewManagerData(ManagerLocation location)

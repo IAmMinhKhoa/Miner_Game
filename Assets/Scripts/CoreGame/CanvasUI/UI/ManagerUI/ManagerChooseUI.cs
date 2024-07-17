@@ -10,7 +10,10 @@ public class ManagerChooseUI : MonoBehaviour
     public static Action<BoostType> OnRefreshManagerTab;
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
+
+    [Header("UI Button")]
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Button _hireButton;
 
     [SerializeField] private List<Manager> _manager;
 
@@ -23,6 +26,7 @@ public class ManagerChooseUI : MonoBehaviour
     {
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
+        _hireButton.onClick.AddListener(HireManager);
         OnRefreshManagerTab += RefreshData;
     }
 
@@ -30,6 +34,7 @@ public class ManagerChooseUI : MonoBehaviour
     {
         _managerTabUI.onManagerTabChanged -= OnManagerTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
+        _hireButton.onClick.RemoveListener(HireManager);
         OnRefreshManagerTab -= RefreshData;
     }
 
@@ -70,6 +75,13 @@ public class ManagerChooseUI : MonoBehaviour
         };
 
         OnManagerTabChanged(type);        
+    }
+
+    void HireManager()
+    {
+        Debug.Log("Hire Manager");
+        var manager = ManagersController.Instance.CreateManager();
+        OnRefreshManagerTab?.Invoke(manager.BoostType);
     }
 
     private void ClosePanel()
