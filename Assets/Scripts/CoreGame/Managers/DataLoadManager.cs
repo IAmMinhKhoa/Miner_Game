@@ -16,7 +16,9 @@ public class DataLoadManager : BaseGameManager
         LoadingManagerData,
         LoadShaftData,
         LoadingShaftData,
+        LoadElevatorData,
         LoadingElevatorData,
+        LoadCounterData,
         LoadingCounterData,
         Done
     }
@@ -60,12 +62,34 @@ public class DataLoadManager : BaseGameManager
                 }
                 break;
             case GameState.LoadShaftData:
+                LoadShaftData();
+                SetState(GameState.LoadingShaftData);
                 break;
             case GameState.LoadingShaftData:
+                if (CheckShaftData())
+                {
+                    SetState(GameState.LoadElevatorData);
+                }
+                break;
+            case GameState.LoadElevatorData:
+                LoadElevatorData();
+                SetState(GameState.LoadingElevatorData);
                 break;
             case GameState.LoadingElevatorData:
+                if (CheckElevatorData())
+                {
+                    SetState(GameState.LoadCounterData);
+                }
+                break;
+            case GameState.LoadCounterData:
+                LoadCounterData();
+                SetState(GameState.LoadingCounterData);
                 break;
             case GameState.LoadingCounterData:
+                if (CheckCounterData())
+                {
+                    SetState(GameState.Done);
+                }
                 break;
             case GameState.Done:
                 break;
@@ -89,7 +113,8 @@ public class DataLoadManager : BaseGameManager
         return dataGameState == GameState.Done;
     }
 
-    public async UniTaskVoid LoadTemplateData()
+    #region ----Private Methods----
+    private async UniTaskVoid LoadTemplateData()
     {
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
         MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
@@ -113,4 +138,38 @@ public class DataLoadManager : BaseGameManager
     {
         return ManagersController.Instance.IsDone;
     }
+
+    private async UniTaskVoid LoadShaftData()
+    {
+        var shaftManager = ShaftManager.Instance;
+        shaftManager.InitializeShafts();
+    }
+
+    private bool CheckShaftData()
+    {
+        return ShaftManager.Instance.IsDone;
+    }
+
+    private async UniTaskVoid LoadElevatorData()
+    {
+        var elevatorManager = ElevatorSystem.Instance;
+        elevatorManager.InitializeElevators();
+    }
+
+    private bool CheckElevatorData()
+    {
+        return ElevatorSystem.Instance.IsDone;
+    }
+
+    private void LoadCounterData()
+    {
+        var counterManager = Counter.Instance;
+        counterManager.InitializeCounter();
+    }
+
+    private bool CheckCounterData()
+    {
+        return Counter.Instance.IsDone;
+    }
+    #endregion
 }

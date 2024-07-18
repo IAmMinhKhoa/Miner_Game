@@ -94,6 +94,15 @@ public class Manager
         _view.transform.position = Location.transform.position;
     }
 
+    public void SetupLocation(BaseManagerLocation location)
+    {
+        Location = location;
+        Location.SetManager(this);
+        Debug.Log("Setup Location: " + location.LocationType + "/" + this.IsAssigned);
+        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _view.transform.position = Location.transform.position;
+    }
+
     public void UnassignManager()
     {
         Location.SetManager(null);

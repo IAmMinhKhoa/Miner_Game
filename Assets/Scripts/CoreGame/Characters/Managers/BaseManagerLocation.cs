@@ -14,7 +14,13 @@ public class BaseManagerLocation : MonoBehaviour
 
     public virtual void RunBoost()
     {
-        if (_manager == null || _manager.CanActiveBoost() == false)
+        if (_manager == null)
+        {
+            return;
+        }
+        Debug.Log("Have manager" + _manager.CurrentBoostTime + " " + _manager.CurrentCooldownTime);
+
+        if (!_manager.CanActiveBoost())
         {
             return;
         }
@@ -25,11 +31,6 @@ public class BaseManagerLocation : MonoBehaviour
     public void SetManager(Manager manager)
     {
         _manager = manager;
-        // if (manager == null)
-        // {
-        //     return;
-        // }
-        // manager.gameObject.transform.position = transform.position;
     }
 
     public float GetManagerBoost(BoostType currentBoostAction)
