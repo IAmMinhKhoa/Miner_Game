@@ -38,6 +38,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         ShaftManager.Instance.Save();
         ElevatorSystem.Instance.Save();
         Counter.Instance.Save();
+        ManagersController.Instance.Save();
 
         PawManager.Instance.Save();
     }

@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using log4net.Core;
 using Codice.CM.Common;
+using Newtonsoft.Json;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -41,11 +42,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public BaseManagerLocation CurrentManagerLocation { get; set; }
 
-    private Camera _mainCamera;
-
     private void Start()
     {
-        _mainCamera = Camera.main;
+        Load();
     }
 
     public void OpenManagerPanel(BaseManagerLocation location)
@@ -280,8 +279,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     #endregion
 
     #region ----Load Save Region----
-    public void SaveData()
+    public void Save()
     {
+        Dictionary<string, object> saveData = new Dictionary<string, object>();
         List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();
         List<ManagerSaveData> saveElevatorManagers = new List<ManagerSaveData>();
         List<ManagerSaveData> saveCounterManagers = new List<ManagerSaveData>();
@@ -325,7 +325,57 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             });
         }
 
+        saveData.Add("ShaftManagers", saveShaftManagers);
+        saveData.Add("ElevatorManagers", saveElevatorManagers);
+        saveData.Add("CounterManagers", saveCounterManagers);
+        saveData.Add("ShaftHireCost", _ShaftHireCost);
+        saveData.Add("ElevatorHireCost", _ElevatorHireCost);
+        saveData.Add("CounterHireCost", _CounterHireCost);
+        string json = JsonConvert.SerializeObject(saveData);
+        PlayerPrefs.SetString("ManagersController", json);
+    }
 
+    public void Load()
+    {
+        if (PlayerPrefs.HasKey("ManagersController"))
+        {
+            string json = PlayerPrefs.GetString("ManagersController");
+            Data saveData = JsonConvert.DeserializeObject<Data>(json);
+
+            _ShaftHireCost = saveData.ShaftHireCost;
+            _ElevatorHireCost = saveData.ElevatorHireCost;
+            _CounterHireCost = saveData.CounterHireCost;
+
+            foreach (var managerData in saveData.ShaftManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                ShaftManagers.Add(manager);
+            }
+
+            foreach (var managerData in saveData.ElevatorManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                ElevatorManagers.Add(manager);
+            }
+
+            foreach (var managerData in saveData.CounterManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                CounterManagers.Add(manager);
+            }
+        }
     }
     class ManagerSaveData
     {
@@ -335,6 +385,16 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         public ManagerSpecie specie;
         public float currentBoostTime;
         public float currentCooldownTime;
+    }
+
+    class Data
+    {
+        public List<ManagerSaveData> ShaftManagers;
+        public List<ManagerSaveData> ElevatorManagers;
+        public List<ManagerSaveData> CounterManagers;
+        public double ShaftHireCost;
+        public double ElevatorHireCost;
+        public double CounterHireCost;
     }
     #endregion
 }
