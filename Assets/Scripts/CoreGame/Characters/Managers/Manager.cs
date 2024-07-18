@@ -89,7 +89,6 @@ public class Manager
 
         Location = ManagersController.Instance.CurrentManagerLocation;
         Location.SetManager(this);
-        //splineData.SetActive(true);
         _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
         _view.transform.position = Location.transform.position;
     }
@@ -107,7 +106,6 @@ public class Manager
     {
         Location.SetManager(null);
         Location = null;
-        //splineData.SetActive(false);
         GameObject.Destroy(_view.gameObject);
     }
 
@@ -123,13 +121,13 @@ public class Manager
            return;
         }
         Debug.Log("Run Boost");
-        _isBoosting = true;
         currentBoostTime = BoostTime * 60;
         currentCooldownTime = CooldownTime * 60;
         ActiveBoost();
     }
     private async UniTaskVoid ActiveBoost()
-    {        
+    {
+        _isBoosting = true;        
         while (currentBoostTime > 0)
         {
             Debug.Log("Boosting:" + LocationType + "/" + currentBoostTime);
