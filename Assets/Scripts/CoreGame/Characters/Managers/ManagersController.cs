@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
     [SerializeField] private GameObject managerPrefab;
+    [SerializeField] private GameObject managerDetailPrefab;
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
     private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
@@ -42,9 +43,23 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public BaseManagerLocation CurrentManagerLocation { get; set; }
 
+    private bool isDone = false;
+    public bool IsDone => isDone;
+
     private void Start()
     {
-        Load();
+        Setup();
+    }
+
+    private void Setup()
+    {
+        managerPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerChooseUI");
+        managerDetailPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerPanelUI");
+
+        managerPanel = Instantiate(managerPrefab, GameUI.Instance.transform);
+        managerPanel.SetActive(false);
+        managerDetailPanel = Instantiate(managerDetailPrefab, GameUI.Instance.transform);
+        managerDetailPanel.SetActive(false);
     }
 
     public void OpenManagerPanel(BaseManagerLocation location)
@@ -376,6 +391,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                 CounterManagers.Add(manager);
             }
         }
+        isDone = true;
     }
     class ManagerSaveData
     {

@@ -1,56 +1,116 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class DataLoadManager : BaseGameManager
 {
+    #region ----Enums----
+    private enum GameState
+    {
+        LoadTemplateData,
+        LoadingTemplateData,
+        LoadManagerData,
+        LoadingManagerData,
+        LoadShaftData,
+        LoadingShaftData,
+        LoadingElevatorData,
+        LoadingCounterData,
+        Done
+    }
+    #endregion
+
+    #region ----Variables----
+    private GameState dataGameState;
+    #endregion
+
     protected override void Update()
     {
         base.Update();
+        UpdateGameStates();
+        Debug.Log("DataLoadManager Update:" + dataGameState);
     }
 
-    protected override void UpdateGameStates()
+    void UpdateGameStates()
     {
-        switch (baseGameState)
+        if (!base.IsDone()) return;
+
+        switch (dataGameState)
         {
-            case GameState.CheckingForUpdates:
-                gameStateContent = "Checking for updates...";
-                gameStateCount++;
-                NextState();
+            case GameState.LoadTemplateData:
+                LoadTemplateData();
+                SetState(GameState.LoadingTemplateData);
                 break;
-            case GameState.LoadData:
-                gameStateContent = "Loading data...";
-                gameStateCount++;
-                LoadData();
-                NextState();
+            case GameState.LoadingTemplateData:
+                if (CheckTemplateData())
+                {
+                    SetState(GameState.LoadManagerData);
+                }
                 break;
-            case GameState.ProcessLoadingData:
-                gameStateContent = "Processing data...";
-                gameStateCount++;
-                NextState();
+            case GameState.LoadManagerData:
+                LoadManagerData();
+                SetState(GameState.LoadingManagerData);
                 break;
-            case GameState.LoadAudio:
-                gameStateContent = "Loading audio...";
-                gameStateCount++;
-                NextState();
+            case GameState.LoadingManagerData:
+                if (CheckManagerData())
+                {
+                    SetState(GameState.LoadShaftData);
+                }
                 break;
-            case GameState.ProcessLoadingAudio:
-                gameStateContent = "Processing audio...";
-                gameStateCount++;
-                NextState();
+            case GameState.LoadShaftData:
+                break;
+            case GameState.LoadingShaftData:
+                break;
+            case GameState.LoadingElevatorData:
+                break;
+            case GameState.LoadingCounterData:
                 break;
             case GameState.Done:
                 break;
         }
     }
 
-    private void LoadData()
+    protected override void Init()
     {
-        //MainGameData.managerDataSOList = new List<ManagerDataSO>();
+        base.Init();
+        totalGameStates += Enum.GetNames(typeof(GameState)).Length - 1;
+        SetState(GameState.LoadTemplateData);
+    }
+
+    private void SetState(GameState state)
+    {
+        dataGameState = state;
+    }
+
+    protected new bool IsDone()
+    {
+        return dataGameState == GameState.Done;
+    }
+
+    public async UniTaskVoid LoadTemplateData()
+    {
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
         MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
         MainGameData.managerTimeDataSOList = Resources.LoadAll<ManagerTimeDataSO>("ScriptableObjects/ManagerTimeData").ToList();
-        Debug.Log("ManagerDataSO count: " + MainGameData.managerDataSOList.Count);
+
+        MainGameData.isDone = true;
+    }
+
+    private bool CheckTemplateData()
+    {
+        return MainGameData.isDone;
+    }
+
+    private void LoadManagerData()
+    {
+        var managersController = ManagersController.Instance;
+        managersController.Load();
+    }
+
+    private bool CheckManagerData()
+    {
+        return ManagersController.Instance.IsDone;
     }
 }
