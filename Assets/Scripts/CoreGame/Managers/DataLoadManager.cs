@@ -20,6 +20,8 @@ public class DataLoadManager : BaseGameManager
         LoadingElevatorData,
         LoadCounterData,
         LoadingCounterData,
+        LoadOfflineData,
+        LoadingOfflineData,
         Done
     }
     #endregion
@@ -87,6 +89,16 @@ public class DataLoadManager : BaseGameManager
                 break;
             case GameState.LoadingCounterData:
                 if (CheckCounterData())
+                {
+                    SetState(GameState.LoadOfflineData);
+                }
+                break;
+            case GameState.LoadOfflineData:
+                LoadOfflineData();
+                SetState(GameState.LoadingOfflineData);
+                break;
+            case GameState.LoadingOfflineData:
+                if (CheckOfflineData())
                 {
                     SetState(GameState.Done);
                 }
@@ -170,6 +182,17 @@ public class DataLoadManager : BaseGameManager
     private bool CheckCounterData()
     {
         return Counter.Instance.IsDone;
+    }
+    
+    private void LoadOfflineData()
+    {
+        var offlineManager = OfflineManager.Instance;
+        offlineManager.LoadOfflineData();
+    }
+
+    private bool CheckOfflineData()
+    {
+        return OfflineManager.Instance.IsDone;
     }
     #endregion
 }
