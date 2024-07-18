@@ -79,9 +79,16 @@ public class ManagerChooseUI : MonoBehaviour
 
     void HireManager()
     {
+        if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
+        {
+            return;
+        }
+        
+        _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
         OnRefreshManagerTab?.Invoke(manager.BoostType);
+        _hireButton.interactable = true;
     }
 
     private void ClosePanel()

@@ -14,6 +14,23 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
     private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
     private List<ManagerTimeDataSO> _managerTimeDataSOList => MainGameData.managerTimeDataSOList;
+    private double _ShaftHireCost = 100;
+    private double _ElevatorHireCost = 1000;
+    private double _CounterHireCost = 1000;
+
+    public double CurrentCost
+    {
+        get
+        {
+            return CurrentManagerLocation.LocationType switch
+            {
+                ManagerLocation.Shaft => _ShaftHireCost,
+                ManagerLocation.Elevator => _ElevatorHireCost,
+                ManagerLocation.Counter => _CounterHireCost,
+                _ => 0
+            };
+        }
+    }
 
     public List<Manager> ShaftManagers = new List<Manager>();
     public List<Manager> ElevatorManagers = new List<Manager>();
@@ -23,38 +40,12 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     [SerializeField] private GameObject managerDetailPanel;
 
     public BaseManagerLocation CurrentManagerLocation { get; set; }
+
     private Camera _mainCamera;
 
     private void Start()
     {
         _mainCamera = Camera.main;
-    }
-
-    void Update()
-    {
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     if (_mainCamera != null)
-        //     {
-        //         Vector2 rayOrigin = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        //         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.zero);
-
-        //         // Visualize the ray in Scene view
-        //         Debug.DrawLine(rayOrigin, rayOrigin + Vector2.up * 100, Color.red, 2f);
-
-        //         if (hit.collider != null)
-        //         {
-        //             Debug.Log(hit.collider.name);
-        //             var managerLocation = hit.transform.GetComponent<BaseManagerLocation>();
-        //             if (managerLocation != null)
-        //             {
-        //                 CurrentManagerLocation = managerLocation;
-        //                 var manager = managerLocation.Manager;
-        //                 OpenManagerPanel(true);
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     public void OpenManagerPanel(BaseManagerLocation location)
@@ -107,8 +98,10 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         {
             manager.UnassignManager();
         }
+        var sellCost = GetSellCost(manager);
+        Debug.Log("Sell Cost: " + sellCost);
+        PawManager.Instance.AddPaw(sellCost);
         RemoveManager(manager);
-        //Destroy(manager.gameObject);
         ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
     }
 
@@ -163,6 +156,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     private bool CheckMergeConditions(Manager firstManager, Manager secondManager)
     {
+        Debug.Log("First index: " + firstManager.Index + " Second index: " + secondManager.Index);
         if (firstManager.Level == ManagerLevel.Executive || secondManager.Level == ManagerLevel.Executive)
         {
             return false;
@@ -235,8 +229,52 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                 CounterManagers.Add(manager);
                 break;
         }
+        PawManager.Instance.RemovePaw(GetHireCost());
+        SetNewCost(CurrentManagerLocation.LocationType);
 
         return manager;
+    }
+
+    public double GetHireCost()
+    {
+        if (CurrentManagerLocation == null)
+        {
+            return 0;
+        }
+
+        return CurrentManagerLocation.LocationType switch
+        {
+            ManagerLocation.Shaft => _ShaftHireCost,
+            ManagerLocation.Elevator => _ElevatorHireCost,
+            ManagerLocation.Counter => _CounterHireCost,
+            _ => 0
+        };
+    }
+
+    public double GetSellCost(Manager manager)
+    {
+        return manager.LocationType switch
+        {
+            ManagerLocation.Shaft => _ShaftHireCost * 0.2,
+            ManagerLocation.Elevator => _ElevatorHireCost * 0.2,
+            ManagerLocation.Counter => _CounterHireCost * 0.2,
+        };
+    }
+
+    private void SetNewCost(ManagerLocation managerLocation)
+    {
+        switch (managerLocation)
+        {
+            case ManagerLocation.Shaft:
+                _ShaftHireCost *= 1.8;
+                break;
+            case ManagerLocation.Elevator:
+                _ElevatorHireCost *= 2;
+                break;
+            case ManagerLocation.Counter:
+                _CounterHireCost *= 2;
+                break;
+        }
     }
 
     #endregion
