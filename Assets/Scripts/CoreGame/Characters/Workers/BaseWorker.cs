@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 
 public class BaseWorker : MonoBehaviour
@@ -23,17 +24,21 @@ public class BaseWorker : MonoBehaviour
     {
         get { return config.WorkingTime; }
     }
+
+    protected virtual float MoveTime
+    {
+        get { return config.MoveTime; }
+    }
+
     private CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
     public virtual void Move(Vector3 target)
     {
-        Debug.Log("target: " + WorkingTime);
-        Move(target, WorkingTime);
+        Move(target, MoveTime);
     }
 
     public virtual void Move(Vector3 target, float moveTime)
     {
-        //Debug.Log("target: " + target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
         PlayAnimation(state, direction);
@@ -50,15 +55,16 @@ public class BaseWorker : MonoBehaviour
             while (isArrive == false)
             {
                 await UniTask.Yield(cancellationToken.Token);
-                if (Vector3.Distance(this.transform.position, target) < 0.1f)
+                Vector3 dir = (target - transform.position).normalized;
+                Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
+
+                if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
                 {
+                    this.transform.position = target;
                     isArrive = true;
                 }
-                else
-                {
-                    Vector3 dir = (target - transform.position).normalized;
-                    this.transform.position += dir * distance / moveTime * Time.deltaTime;
-                }
+
+                this.transform.position = tempPos;
             }
 
             if (IsCollecting)

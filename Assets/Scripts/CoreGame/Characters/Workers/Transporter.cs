@@ -20,6 +20,11 @@ public class Transporter : BaseWorker
         get => config.WorkingTime / Counter.SpeedBoost;
     }
 
+    protected override float MoveTime
+    {
+        get => config.MoveTime / Counter.SpeedBoost;
+    }
+
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -39,7 +44,7 @@ public class Transporter : BaseWorker
     protected override async void Collect()
     {
         ChangeGoal();
-        double maxCapacity = ProductPerSecond * config.WorkingTime;
+        double maxCapacity = ProductPerSecond * WorkingTime;
         double amount = Counter.ElevatorDeposit.CalculateAmountPawCanCollect(maxCapacity);
 
         if (amount == 0)
@@ -48,7 +53,7 @@ public class Transporter : BaseWorker
         }
         else
         {
-            await IECollect(amount ,config.WorkingTime);
+            await IECollect(amount ,WorkingTime);
         }
     }
     protected override async UniTask IECollect(double amount, float time)
@@ -68,7 +73,7 @@ public class Transporter : BaseWorker
         }
         else
         {
-            await IEDeposit(amount, config.WorkingTime);
+            await IEDeposit(amount, WorkingTime);
         }
     }
 
@@ -91,7 +96,7 @@ public class Transporter : BaseWorker
             while (temp > 0)
             {
                 await UniTask.Yield();
-                temp -= firstValue * Time.deltaTime / config.WorkingTime;
+                temp -= firstValue * Time.deltaTime / WorkingTime;
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
             numberText.SetText(Currency.DisplayCurrency(0));
@@ -104,7 +109,7 @@ public class Transporter : BaseWorker
             while (temp < max)
             {
                 await UniTask.Yield();
-                temp += max * Time.deltaTime / config.WorkingTime;
+                temp += max * Time.deltaTime / WorkingTime;
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
             numberText.SetText(Currency.DisplayCurrency(max));
