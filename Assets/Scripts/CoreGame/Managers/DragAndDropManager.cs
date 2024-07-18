@@ -12,7 +12,8 @@ public class DragAndDropManager : Patterns.Singleton<DragAndDropManager>
         set
         {
             _dragAndDropObject = value;
-            LastDragObject = value;
+            if(_dragAndDropObject != null)
+                LastDragObject = value;
         } 
     }
 }

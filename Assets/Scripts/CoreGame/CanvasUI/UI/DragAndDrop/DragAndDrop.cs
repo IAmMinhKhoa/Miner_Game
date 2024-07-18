@@ -4,7 +4,6 @@ using NOOD;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDragHandler, IEndDragHandler
 {
@@ -29,6 +28,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDrag
     {
         Debug.Log("End drag");
         DragAndDropManager.Instance.DragAndDropObject = null;
+        DragAndDropManager.Instance.LastDragObject.GetComponent<Image>().raycastTarget = true;
         ForceRefreshParentLayout();
     }
 
@@ -41,8 +41,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDrag
             
             if (ManagersController.Instance.MergeManager(firstManager, secondManager))
             {
+                Debug.Log("Merge manager: " + firstManager.Name + " " + secondManager.Name);
                 ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
             }
+            DragAndDropManager.Instance.LastDragObject.GetComponent<Image>().raycastTarget = true;
         }
         else
         {
@@ -63,5 +65,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDropHandler, IDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         DragAndDropManager.Instance.DragAndDropObject = this.gameObject;
+        DragAndDropManager.Instance.DragAndDropObject.GetComponent<Image>().raycastTarget = false;
     }
 }
