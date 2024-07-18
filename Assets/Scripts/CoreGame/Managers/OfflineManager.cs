@@ -85,6 +85,60 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                 manager.RunTimer();
             }
         }
+
+        foreach (var manager in ManagersController.Instance.ElevatorManagers)
+        {
+            if (manager.CurrentBoostTime > 0 || manager.CurrentCooldownTime > 0)
+            {
+                var time = manager.CurrentBoostTime - seconds;
+                if (time < 0)
+                {
+                    time -= manager.CurrentCooldownTime;
+
+                    if (time <= 0)
+                    {
+                        manager.SetCurrentTime(0, 0);
+                    }
+                    else
+                    {
+                        manager.SetCurrentTime(0, (float)time);
+                    }
+                }
+                else
+                {
+                    manager.SetCurrentTime((float)time, manager.CurrentCooldownTime);
+                }
+
+                manager.RunTimer();
+            }
+        }
+
+        foreach (var manager in ManagersController.Instance.CounterManagers)
+        {
+            if (manager.CurrentBoostTime > 0 || manager.CurrentCooldownTime > 0)
+            {
+                var time = manager.CurrentBoostTime - seconds;
+                if (time < 0)
+                {
+                    time -= manager.CurrentCooldownTime;
+
+                    if (time <= 0)
+                    {
+                        manager.SetCurrentTime(0, 0);
+                    }
+                    else
+                    {
+                        manager.SetCurrentTime(0, (float)time);
+                    }
+                }
+                else
+                {
+                    manager.SetCurrentTime((float)time, manager.CurrentCooldownTime);
+                }
+
+                manager.RunTimer();
+            }
+        }
     }
 
     private double PawBonus(double seconds)
