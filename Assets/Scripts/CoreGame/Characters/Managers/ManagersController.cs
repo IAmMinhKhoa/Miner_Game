@@ -7,6 +7,7 @@ using System;
 using log4net.Core;
 using Codice.CM.Common;
 using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -294,7 +295,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     #endregion
 
     #region ----Load Save Region----
-    public void Save()
+    public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>();
         List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();

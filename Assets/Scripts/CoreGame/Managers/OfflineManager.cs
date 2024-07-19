@@ -36,13 +36,13 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     private void Save()
     {
-        PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
         ShaftManager.Instance.Save();
         ElevatorSystem.Instance.Save();
         Counter.Instance.Save();
         ManagersController.Instance.Save();
-
         PawManager.Instance.Save();
+
+        PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
     }
 
     public void LoadOfflineData()

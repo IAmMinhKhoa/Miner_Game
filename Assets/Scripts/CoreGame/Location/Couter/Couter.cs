@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NOOD;
 using UnityEngine;
 using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
 
 public class Counter : Patterns.Singleton<Counter>
 {
@@ -104,7 +105,7 @@ public class Counter : Patterns.Singleton<Counter>
         isDone = true;
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {

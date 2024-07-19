@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UIElements;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -87,7 +88,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         return scale;
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         //create JSON to save data
         Dictionary<string, object> saveData = new Dictionary<string, object>();

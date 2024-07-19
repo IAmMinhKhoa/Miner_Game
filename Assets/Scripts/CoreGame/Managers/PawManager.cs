@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
@@ -25,7 +26,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         PlayerPrefs.Save();
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
         PlayerPrefs.Save();

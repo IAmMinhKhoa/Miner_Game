@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         elevatorGO.elevator = this;
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {
