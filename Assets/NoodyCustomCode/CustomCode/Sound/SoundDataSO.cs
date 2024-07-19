@@ -12,9 +12,9 @@ namespace NOOD.Sound
     [CreateAssetMenu(fileName = "SoundData", menuName = "SoundData")]
     public class SoundDataSO : ScriptableObject
     {
-        [SerializeField] public SerializableDictionary<string, AudioClip> soundDic = new SerializableDictionary<string, AudioClip>();
-        [SerializeField] public SerializableDictionary<string, AudioClip> musicDic = new SerializableDictionary<string, AudioClip>();
-
+         [SerializeField] public SerializableDictionary<string, AudioClip> soundDic = new SerializableDictionary<string, AudioClip>();
+         [SerializeField] public SerializableDictionary<string, AudioClip> musicDic = new SerializableDictionary<string, AudioClip>();
+         
     #if UNITY_EDITOR
         public void GenerateSoundEnum()
         {
