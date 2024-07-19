@@ -23,13 +23,13 @@ public class UpgradeManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        ShaftUI.OnUpdrageRequest += ShowUpgradePanel;
+        ShaftUI.OnUpgradeRequest += ShowUpgradePanel;
         UpgradeManager.OnUpdrageRequest += OnUpgradeAction;
     }
 
     private void OnDisable()
     {
-        ShaftUI.OnUpdrageRequest -= ShowUpgradePanel;
+        ShaftUI.OnUpgradeRequest -= ShowUpgradePanel;
         UpgradeManager.OnUpdrageRequest -= OnUpgradeAction;
     }
     #endregion

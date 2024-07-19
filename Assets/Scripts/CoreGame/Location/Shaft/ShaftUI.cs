@@ -9,7 +9,7 @@ using System;
 
 public class ShaftUI : MonoBehaviour
 {
-    public static Action<int> OnUpdrageRequest;
+    public static Action<int> OnUpgradeRequest;
 
     [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
@@ -121,7 +121,7 @@ public class ShaftUI : MonoBehaviour
 
     public void UpgradeRequest()
     {
-        OnUpdrageRequest?.Invoke(m_shaft.shaftIndex);
+        OnUpgradeRequest?.Invoke(m_shaft.shaftIndex);
     }
 
     public void ActiveBoost()
