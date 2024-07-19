@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BaseManagerLocation : MonoBehaviour
 {
+    public event Action<Manager> OnChangeManager;
     private Manager _manager;
     public Manager Manager => _manager;
     [SerializeField] private int locationType;
@@ -31,6 +33,7 @@ public class BaseManagerLocation : MonoBehaviour
     public void SetManager(Manager manager)
     {
         _manager = manager;
+        OnChangeManager?.Invoke(_manager);
     }
 
     public float GetManagerBoost(BoostType currentBoostAction)
