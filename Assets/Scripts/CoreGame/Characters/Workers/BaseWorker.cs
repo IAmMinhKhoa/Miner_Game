@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 
 public class BaseWorker : MonoBehaviour
@@ -62,6 +61,7 @@ public class BaseWorker : MonoBehaviour
                 {
                     this.transform.position = target;
                     isArrive = true;
+                    break;
                 }
 
                 this.transform.position = tempPos;
