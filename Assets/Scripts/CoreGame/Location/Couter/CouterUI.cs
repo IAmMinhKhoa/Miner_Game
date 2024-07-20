@@ -4,10 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CouterUI : MonoBehaviour
+public class CounterUI : MonoBehaviour
 {
     [Header("UI Button")]
-    [SerializeField] private Button m_updrageButton;
+    [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
     [SerializeField] private Button m_boostButton;
 
@@ -16,31 +16,34 @@ public class CouterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    private Counter m_couter;
-    private CouterUpdrage m_couterUpdrage;
+    // [Header("Visual object")]
+    // [SerializeField] private GameObject m_quayGiaoNuocHolder;
+
+    private Counter m_counter;
+    private CounterUpgrade m_counterUpgrade;
 
     void Awake()
     {
-        m_couter = GetComponent<Counter>();
-        m_couterUpdrage = GetComponent<CouterUpdrage>();
+        m_counter = GetComponent<Counter>();
+        m_counterUpgrade = GetComponent<CounterUpgrade>();
     }
 
     void Start()
     {
-        m_levelText.text = "Level " + m_couterUpdrage.CurrentLevel;
-        m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
+        m_levelText.text = "Level " + m_counterUpgrade.CurrentLevel;
+        m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
     }
 
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
-        m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
-        m_levelText.text = "Level " + m_couterUpdrage.CurrentLevel;
+        m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
+        m_levelText.text = "Level " + m_counterUpgrade.CurrentLevel;
     }
 
     void OnEnable()
     {
-        m_updrageButton.onClick.AddListener(CallUpgrade);
+        m_upgradeButton.onClick.AddListener(CallUpgrade);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
@@ -48,7 +51,7 @@ public class CouterUI : MonoBehaviour
 
     void OnDisable()
     {
-        m_updrageButton.onClick.RemoveListener(CallUpgrade);
+        m_upgradeButton.onClick.RemoveListener(CallUpgrade);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
@@ -56,28 +59,28 @@ public class CouterUI : MonoBehaviour
 
     void CallUpgrade()
     {
-        if (PawManager.Instance.CurrentPaw >= m_couterUpdrage.CurrentCost)
+        if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)
         {
-            m_couterUpdrage.Upgrade(1);
+            m_counterUpgrade.Upgrade(1);
         }
     }
 
     void UpdateUpgradeButton(BaseUpgrade upgrade, int level)
     {
-        if (upgrade == m_couterUpdrage)
+        if (upgrade == m_counterUpgrade)
         {
             m_levelText.text = "Level " + level;
-            m_costText.text = Currency.DisplayCurrency(m_couterUpdrage.CurrentCost);
+            m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
         }
     }
 
     void ActiveBoost()
     {
-        m_couter.RunBoost();
+        m_counter.RunBoost();
     }
 
     void OpenManagerPanel()
     {
-        ManagersController.Instance.OpenManagerPanel(m_couter.ManagerLocation);
+        ManagersController.Instance.OpenManagerPanel(m_counter.ManagerLocation);
     }
 }

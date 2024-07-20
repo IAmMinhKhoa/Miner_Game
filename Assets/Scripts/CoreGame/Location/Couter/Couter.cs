@@ -99,7 +99,7 @@ public class Counter : Patterns.Singleton<Counter>
         if (!Load())
         {
             CreateDeposit();
-            gameObject.GetComponent<CouterUpdrage>().InitValue(1);
+            gameObject.GetComponent<CounterUpgrade>().InitValue(1);
             CreateTransporter();
         }
         isDone = true;
@@ -111,7 +111,7 @@ public class Counter : Patterns.Singleton<Counter>
         {
             { "boostScale", m_boostScale },
             {"transporter", _transporters.Count},
-            {"level", gameObject.GetComponent<CouterUpdrage>().CurrentLevel},
+            {"level", gameObject.GetComponent<CounterUpgrade>().CurrentLevel},
             {"managerIndex", m_managerLocation.Manager != null ? m_managerLocation.Manager.Index : -1}
         };
 
@@ -128,7 +128,7 @@ public class Counter : Patterns.Singleton<Counter>
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
             m_boostScale = saveData.boostScale;
-            gameObject.GetComponent<CouterUpdrage>().InitValue(saveData.level);
+            gameObject.GetComponent<CounterUpgrade>().InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
             for (int i = 0; i < saveData.transporter; i++)

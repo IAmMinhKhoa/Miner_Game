@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Numerics;
+using System;
 
 public class Deposit : MonoBehaviour
 {
+    public Action<double> OnChangePaw;
     public double CurrentPaw { get; private set; }
     
     void Awake()
@@ -20,6 +22,7 @@ public class Deposit : MonoBehaviour
     public void AddPaw(double amount)
     {
         CurrentPaw += amount;
+        OnChangePaw?.Invoke(CurrentPaw);
     }
 
     public void RemovePaw(double amount)
@@ -32,6 +35,7 @@ public class Deposit : MonoBehaviour
         {
             CurrentPaw -= amount;
         }
+        OnChangePaw?.Invoke(CurrentPaw);
     }
 
     public double TakePawn(double amount)
@@ -47,6 +51,7 @@ public class Deposit : MonoBehaviour
             CurrentPaw -= amount;
         }
 
+        OnChangePaw?.Invoke(CurrentPaw);
         return amountToTake;
     }
 

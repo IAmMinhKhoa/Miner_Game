@@ -17,6 +17,10 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
+    [Header("Visual object")]
+    [SerializeField] private GameObject m_quayNhanLyNuocHolder;
+    [SerializeField] private GameObject m_lyNuocPref;
+
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 

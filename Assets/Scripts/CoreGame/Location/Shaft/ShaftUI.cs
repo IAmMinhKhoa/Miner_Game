@@ -23,12 +23,15 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
+    [Header("Visual object")]
     [SerializeField] private GameObject m_spineData;
+    [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
-    private SkeletonAnimation tableAnimation;
+    
 
-    private Shaft m_shaft;
+    private SkeletonAnimation tableAnimation;
     private ShaftUpgrade m_shaftUpgrade;
+    private Shaft m_shaft;
 
     private bool _isBrewing = false;
 
@@ -36,6 +39,7 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
+        m_lyNuocHolder.gameObject.SetActive(false);
     }
 
     void Start()
@@ -53,20 +57,35 @@ public class ShaftUI : MonoBehaviour
 
     void OnEnable()
     {
-        m_upgradeButton.onClick.AddListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
+        m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
+        m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
     }
 
     void OnDisable()
     {
-        m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
+        m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
+        m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
+    }
+
+    private void ChangePawHandler(double value)
+    {
+        Debug.Log("Change Paw: " + value);
+        if(value > 0)
+        {
+            m_lyNuocHolder.gameObject.SetActive(true);
+        }
+        else
+        {
+            m_lyNuocHolder.gameObject.SetActive(false);
+        }
     }
 
     void OpenManagerPanel()
