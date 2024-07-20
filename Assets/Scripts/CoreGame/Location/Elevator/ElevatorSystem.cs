@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -6,11 +7,13 @@ using UnityEngine;
 
 public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
+    public Action<ElevatorController> OnCreateElevatorController;
+
     [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
-    public BaseManagerLocation ManagerLocation => managerLocation;
 
+    public BaseManagerLocation ManagerLocation => managerLocation;
     public Deposit ElevatorDeposit => elevatorDeposit;
     public Transform ElevatorLocation => elevatorLocation;
 
@@ -78,6 +81,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         ElevatorController elevatorGO = Instantiate(elevatorPrefab, elevatorLocation.position, Quaternion.identity);
         elevatorGO.elevator = this;
+        OnCreateElevatorController?.Invoke(elevatorGO);
     }
 
     public async UniTaskVoid Save()

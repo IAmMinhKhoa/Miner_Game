@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BaseWorker : MonoBehaviour
 {
+    public Action<Vector3> OnMoveToTarget;
+
     [SerializeField] protected BaseConfig config;
     [SerializeField] private bool isCollecting = true;
     [SerializeField] private double currentProduct = 0;
@@ -13,6 +15,7 @@ public class BaseWorker : MonoBehaviour
     protected WorkerState state = WorkerState.Idle;
     protected bool isArrive = false;
 
+    public bool IsArrive => isArrive;
     public bool IsCollecting => isCollecting;
     public double CurrentProduct
     {
@@ -39,6 +42,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float moveTime)
     {
+        OnMoveToTarget?.Invoke(target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
         PlayAnimation(state, direction);
