@@ -59,17 +59,7 @@ public class BaseWorker : MonoBehaviour
                 Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
                 currentTime += Time.deltaTime;
 
-                // if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
-                // {
-                //     this.transform.position = target;
-                //     isArrive = true;
-                // }
-                // else
-                // {
-                //     this.transform.position = tempPos;
-                // }
-
-                if (currentTime >= moveTime)
+                if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
                 {
                     this.transform.position = target;
                     isArrive = true;
@@ -79,6 +69,10 @@ public class BaseWorker : MonoBehaviour
                     this.transform.position = tempPos;
                 }
 
+                if (currentTime >= moveTime)
+                {
+                    isArrive = true;
+                }
             }
 
             if (IsCollecting)
