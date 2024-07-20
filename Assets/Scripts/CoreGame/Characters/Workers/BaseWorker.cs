@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 
 public class BaseWorker : MonoBehaviour
@@ -51,6 +50,7 @@ public class BaseWorker : MonoBehaviour
         try
         {
             float distance = Vector3.Distance(target, this.transform.position);
+            float currentTime = 0f;
             isArrive = false;
             float time = 0;
             while (isArrive == false)
@@ -59,6 +59,7 @@ public class BaseWorker : MonoBehaviour
                 time += Time.deltaTime;
                 Vector3 dir = (target - transform.position).normalized;
                 Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
+                currentTime += Time.deltaTime;
 
                 if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
                 {
@@ -69,7 +70,11 @@ public class BaseWorker : MonoBehaviour
                 {
                     this.transform.position = tempPos;
                 }
-                if (time > moveTime) isArrive = true;
+
+                if (currentTime >= moveTime)
+                {
+                    isArrive = true;
+                }
             }
 
             if (IsCollecting)

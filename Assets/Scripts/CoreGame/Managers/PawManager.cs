@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
 {
-    [SerializeField] private string m_startingPaw = "500";
+    [SerializeField] private string m_startingPaw = "10000000000";
 
     [SerializeField] private readonly string m_pawKey = "PawVollume";
 
