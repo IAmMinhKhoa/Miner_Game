@@ -5,6 +5,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using NOOD;
+using System.Runtime.CompilerServices;
+using Spine.Unity;
 
 public class ElevatorController : BaseWorker
 {
@@ -15,7 +17,13 @@ public class ElevatorController : BaseWorker
     [SerializeField] private float moveBackTime = 0f;
     [SerializeField] private float firstShaftMoveTimeScale = 0.724f;
     [SerializeField] private bool isWorking = false;
+    [SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff;
     private double checkWorkingTime = 0;
+
+    public bool IsWorking => isWorking;
+    public SkeletonAnimation FrontElevator => _frontElevator;
+    public SkeletonAnimation BackElevator => _backElevator;
+    public SkeletonAnimation ElevatorStaff => _elevatorStaff;
 
     public double ProductPerSecond
     {
@@ -37,8 +45,8 @@ public class ElevatorController : BaseWorker
         transform.position = elevator.ElevatorLocation.position;
 
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform.Find("Body").transform);
-        numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
+        numberText.transform.SetParent(this.transform);
+        numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
     }
     private void Update()
     {

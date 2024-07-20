@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BaseWorker : MonoBehaviour
 {
+    public Action<Vector3> OnMoveToTarget;
+
     [SerializeField] protected BaseConfig config;
     [SerializeField] private bool isCollecting = true;
     [SerializeField] private double currentProduct = 0;
@@ -13,6 +15,7 @@ public class BaseWorker : MonoBehaviour
     protected WorkerState state = WorkerState.Idle;
     protected bool isArrive = false;
 
+    public bool IsArrive => isArrive;
     public bool IsCollecting => isCollecting;
     public double CurrentProduct
     {
@@ -39,6 +42,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float moveTime)
     {
+        OnMoveToTarget?.Invoke(target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
         PlayAnimation(state, direction);
@@ -52,19 +56,24 @@ public class BaseWorker : MonoBehaviour
         {
             float distance = Vector3.Distance(target, this.transform.position);
             isArrive = false;
+            float time = 0;
             while (isArrive == false)
             {
                 await UniTask.Yield(cancellationToken.Token);
+                time += Time.deltaTime;
                 Vector3 dir = (target - transform.position).normalized;
                 Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
 
-                if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
+                if (Vector3.Distance(this.transform.position, target) <= Vector3.Distance(tempPos, target))
                 {
                     this.transform.position = target;
                     isArrive = true;
                 }
-
-                this.transform.position = tempPos;
+                else
+                {
+                    this.transform.position = tempPos;
+                }
+                if (time > moveTime) isArrive = true;
             }
 
             if (IsCollecting)

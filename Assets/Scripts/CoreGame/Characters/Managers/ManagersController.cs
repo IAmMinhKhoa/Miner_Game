@@ -6,10 +6,13 @@ using UnityEngine;
 using System;
 using log4net.Core;
 using Codice.CM.Common;
+using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
     [SerializeField] private GameObject managerPrefab;
+    [SerializeField] private GameObject managerDetailPrefab;
     public List<ManagerDataSO> managerDataSOs => _managerDataSOList;
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
     private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
@@ -41,11 +44,23 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public BaseManagerLocation CurrentManagerLocation { get; set; }
 
-    private Camera _mainCamera;
+    private bool isDone = false;
+    public bool IsDone => isDone;
 
     private void Start()
     {
-        _mainCamera = Camera.main;
+        Setup();
+    }
+
+    private void Setup()
+    {
+        managerPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerChooseUI");
+        managerDetailPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerPanelUI");
+
+        managerPanel = Instantiate(managerPrefab, GameUI.Instance.transform);
+        managerPanel.SetActive(false);
+        managerDetailPanel = Instantiate(managerDetailPrefab, GameUI.Instance.transform);
+        managerDetailPanel.SetActive(false);
     }
 
     public void OpenManagerPanel(BaseManagerLocation location)
@@ -121,63 +136,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         var managerSpecieData = _managerSpecieDataSOList.FirstOrDefault(x => x.managerSpecie == specie && x.managerLevel == level);
         return managerSpecieData;
-    }
-
-    public void UpgradeManager(Manager manager)
-    {
-        if (manager.Level == ManagerLevel.Executive)
-        {
-            return;
-        }
-
-        var upgradeData = GetManagerData(manager.LocationType, manager.BoostType, manager.Level + 1);
-        var timeData = GetManagerTimeData(upgradeData.managerLevel);
-        var specieData = GetManagerSpecieData(manager.Specie, upgradeData.managerLevel);
-        manager.SetManagerData(upgradeData);
-        manager.SetTimeData(timeData);
-        manager.SetSpecieData(specieData);
-    }
-
-    public bool MergeManager(Manager firstManager, Manager secondManager)
-    {
-        if (!CheckMergeConditions(firstManager, secondManager))
-        {
-            return false;
-        }
-
-        firstManager.SetCurrentTime(Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
-        Mathf.Max(firstManager.CurrentCooldownTime, secondManager.CurrentCooldownTime));
-
-        RemoveManager(secondManager);
-        UpgradeManager(firstManager);
-
-        return true;
-    }
-
-    private bool CheckMergeConditions(Manager firstManager, Manager secondManager)
-    {
-        Debug.Log("First index: " + firstManager.Index + " Second index: " + secondManager.Index);
-        if (firstManager.Level == ManagerLevel.Executive || secondManager.Level == ManagerLevel.Executive)
-        {
-            return false;
-        }
-
-        if (firstManager.LocationType != secondManager.LocationType)
-        {
-            return false;
-        }
-
-        if (firstManager.Level != secondManager.Level)
-        {
-            return false;
-        }
-
-        if (firstManager.Specie != secondManager.Specie)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     private Manager GetNewManagerData(ManagerLocation location)
@@ -280,8 +238,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     #endregion
 
     #region ----Load Save Region----
-    public void SaveData()
+    public async UniTaskVoid Save()
     {
+        Dictionary<string, object> saveData = new Dictionary<string, object>();
         List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();
         List<ManagerSaveData> saveElevatorManagers = new List<ManagerSaveData>();
         List<ManagerSaveData> saveCounterManagers = new List<ManagerSaveData>();
@@ -325,7 +284,59 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             });
         }
 
+        saveData.Add("ShaftManagers", saveShaftManagers);
+        saveData.Add("ElevatorManagers", saveElevatorManagers);
+        saveData.Add("CounterManagers", saveCounterManagers);
+        saveData.Add("ShaftHireCost", _ShaftHireCost);
+        saveData.Add("ElevatorHireCost", _ElevatorHireCost);
+        saveData.Add("CounterHireCost", _CounterHireCost);
+        string json = JsonConvert.SerializeObject(saveData);
+        Debug.Log("save: " + json);
+        PlayerPrefs.SetString("ManagersController", json);
+    }
 
+    public void Load()
+    {
+        if (PlayerPrefs.HasKey("ManagersController"))
+        {
+            string json = PlayerPrefs.GetString("ManagersController");
+            Data saveData = JsonConvert.DeserializeObject<Data>(json);
+
+            _ShaftHireCost = saveData.ShaftHireCost;
+            _ElevatorHireCost = saveData.ElevatorHireCost;
+            _CounterHireCost = saveData.CounterHireCost;
+
+            foreach (var managerData in saveData.ShaftManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                ShaftManagers.Add(manager);
+            }
+
+            foreach (var managerData in saveData.ElevatorManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                ElevatorManagers.Add(manager);
+            }
+
+            foreach (var managerData in saveData.CounterManagers)
+            {
+                Manager manager = new();
+                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+                manager.SetTimeData(GetManagerTimeData(managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
+                CounterManagers.Add(manager);
+            }
+        }
+        isDone = true;
     }
     class ManagerSaveData
     {
@@ -335,6 +346,16 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         public ManagerSpecie specie;
         public float currentBoostTime;
         public float currentCooldownTime;
+    }
+
+    class Data
+    {
+        public List<ManagerSaveData> ShaftManagers;
+        public List<ManagerSaveData> ElevatorManagers;
+        public List<ManagerSaveData> CounterManagers;
+        public double ShaftHireCost;
+        public double ElevatorHireCost;
+        public double CounterHireCost;
     }
     #endregion
 }

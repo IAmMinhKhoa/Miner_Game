@@ -24,7 +24,6 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (DragAndDropManager.Instance.DragAndDropObject == this.gameObject) return;
         ManagersController.Instance.OpenManagerDetailPanel(true, _data);
     }
 }

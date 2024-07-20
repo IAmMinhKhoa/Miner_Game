@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CouterUpdrage : BaseUpgrade
+public class CounterUpgrade : BaseUpgrade
 {
     private Counter couter;
 
