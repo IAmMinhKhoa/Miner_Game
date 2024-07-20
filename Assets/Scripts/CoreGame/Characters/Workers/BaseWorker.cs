@@ -50,21 +50,35 @@ public class BaseWorker : MonoBehaviour
         try
         {
             float distance = Vector3.Distance(target, this.transform.position);
+            float currentTime = 0f;
             isArrive = false;
             while (isArrive == false)
             {
                 await UniTask.Yield(cancellationToken.Token);
                 Vector3 dir = (target - transform.position).normalized;
                 Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
+                currentTime += Time.deltaTime;
 
-                if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
+                // if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
+                // {
+                //     this.transform.position = target;
+                //     isArrive = true;
+                // }
+                // else
+                // {
+                //     this.transform.position = tempPos;
+                // }
+
+                if (currentTime >= moveTime)
                 {
                     this.transform.position = target;
                     isArrive = true;
-                    break;
+                }
+                else
+                {
+                    this.transform.position = tempPos;
                 }
 
-                this.transform.position = tempPos;
             }
 
             if (IsCollecting)
