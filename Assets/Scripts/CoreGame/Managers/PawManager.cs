@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
 {
-    [SerializeField] private string m_startingPaw = "100000000";
+    [SerializeField] private string m_startingPaw = "500";
 
     [SerializeField] private readonly string m_pawKey = "PawVollume";
 
@@ -25,7 +26,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         PlayerPrefs.Save();
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
         PlayerPrefs.Save();
@@ -33,8 +34,7 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     private void LoadPaw()
     {
-        //var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
-        var paw = m_startingPaw;
+        var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
         Debug.Log("Paw from PlayerPrefs:" + paw);
 
         if (Double.TryParse(paw.ToString(), out double result))

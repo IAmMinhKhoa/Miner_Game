@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NOOD;
 using UnityEngine;
 using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
 
 public class Counter : Patterns.Singleton<Counter>
 {
@@ -55,6 +56,9 @@ public class Counter : Patterns.Singleton<Counter>
 
     public Deposit ElevatorDeposit { get; set; }
 
+    private bool isDone = false;
+    public bool IsDone => isDone;
+
     public void CreateTransporter()
     {
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
@@ -88,21 +92,27 @@ public class Counter : Patterns.Singleton<Counter>
     }
     void Start()
     {
+    }
+
+    public void InitializeCounter()
+    {
         if (!Load())
         {
             CreateDeposit();
-            gameObject.GetComponent<CouterUpdrage>().InitValue(1);
+            gameObject.GetComponent<CounterUpgrade>().InitValue(1);
             CreateTransporter();
         }
+        isDone = true;
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {
             { "boostScale", m_boostScale },
             {"transporter", _transporters.Count},
-            {"level", gameObject.GetComponent<CouterUpdrage>().CurrentLevel},
+            {"level", gameObject.GetComponent<CounterUpgrade>().CurrentLevel},
+            {"managerIndex", m_managerLocation.Manager != null ? m_managerLocation.Manager.Index : -1}
         };
 
         string json = JsonConvert.SerializeObject(saveData);
@@ -118,12 +128,17 @@ public class Counter : Patterns.Singleton<Counter>
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
             m_boostScale = saveData.boostScale;
-            gameObject.GetComponent<CouterUpdrage>().InitValue(saveData.level);
+            gameObject.GetComponent<CounterUpgrade>().InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
             for (int i = 0; i < saveData.transporter; i++)
             {
                 CreateTransporter();
+            }
+
+            if (saveData.managerIndex != -1)
+            {
+                ManagersController.Instance.CounterManagers[saveData.managerIndex].SetupLocation(m_managerLocation);
             }
 
             return true;
@@ -137,5 +152,6 @@ public class Counter : Patterns.Singleton<Counter>
         public double elevatorDeposit;
         public int transporter;
         public int level;
+        public int managerIndex;
     }
 }

@@ -89,7 +89,15 @@ public class Manager
 
         Location = ManagersController.Instance.CurrentManagerLocation;
         Location.SetManager(this);
-        //splineData.SetActive(true);
+        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _view.transform.position = Location.transform.position;
+    }
+
+    public void SetupLocation(BaseManagerLocation location)
+    {
+        Location = location;
+        Location.SetManager(this);
+        Debug.Log("Setup Location: " + location.LocationType + "/" + this.IsAssigned);
         _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
         _view.transform.position = Location.transform.position;
     }
@@ -98,7 +106,6 @@ public class Manager
     {
         Location.SetManager(null);
         Location = null;
-        //splineData.SetActive(false);
         GameObject.Destroy(_view.gameObject);
     }
 
@@ -114,15 +121,13 @@ public class Manager
            return;
         }
         Debug.Log("Run Boost");
+        currentBoostTime = BoostTime * 60;
+        currentCooldownTime = CooldownTime * 60;
         ActiveBoost();
     }
     private async UniTaskVoid ActiveBoost()
     {
-        //Debug.Log("Active Boost");
-        _isBoosting = true;
-        //Debug.Log("Boosting:" + _isBoosting);
-        currentBoostTime = BoostTime * 60;
-        currentCooldownTime = CooldownTime * 60;
+        _isBoosting = true;        
         while (currentBoostTime > 0)
         {
             Debug.Log("Boosting:" + LocationType + "/" + currentBoostTime);
@@ -132,7 +137,6 @@ public class Manager
         _isBoosting = false;
         await Cooldown();
     }
-
     private async UniTask Cooldown()
     {
         while (currentCooldownTime > 0)
@@ -151,5 +155,17 @@ public class Manager
     public bool CanActiveBoost()
     {
         return currentCooldownTime <= 0;
+    }
+
+    public void RunTimer()
+    {
+        if (currentBoostTime > 0)
+        {
+            ActiveBoost();
+        }
+        else if (currentCooldownTime > 0)
+        {
+            Cooldown();
+        }
     }
 }

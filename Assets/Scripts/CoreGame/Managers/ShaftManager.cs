@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.UIElements;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -20,9 +21,12 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     [SerializeField] int maxShaftCount = 30;
 
     public double CurrentCost => currentCost;
+
+    private bool isDone = false;
+    public bool IsDone => isDone;
     private void Start()
     {
-        InitializeShafts();
+        //InitializeShafts();
     }
 
     public void AddShaft()
@@ -39,7 +43,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
     }
 
-    private void InitializeShafts()
+    public void InitializeShafts()
     {
         if (!Load())
         {
@@ -51,6 +55,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
         }
+
+        isDone = true;
     }
 
     private double CalculateNextShaftCost()
@@ -82,7 +88,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         return scale;
     }
 
-    public void Save()
+    public async UniTaskVoid Save()
     {
         //create JSON to save data
         Dictionary<string, object> saveData = new Dictionary<string, object>();
@@ -100,7 +106,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
                 { "Brewers", shaft.Brewers.Count },
                 { "CurrentDeposit", shaft.CurrentDeposit.CurrentPaw },
                 {"Level", shaft.gameObject.GetComponent<ShaftUpgrade>().CurrentLevel},
-                {"InitCost", shaft.gameObject.GetComponent<ShaftUpgrade>().GetInitialCost()}
+                {"InitCost", shaft.gameObject.GetComponent<ShaftUpgrade>().GetInitialCost()},
+                {"ManagerIndex", shaft.ManagerLocation.Manager != null ? shaft.ManagerLocation.Manager.Index : -1}
             };
             shafts.Add(shaftData);
         }
@@ -144,8 +151,14 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
                 shaft.numberBrewer = brewers;
                 shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
                 shaft.SetDepositValue(currentDeposit);
+
                 shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
                 Shafts.Add(shaft);
+
+                if (shaftData.ManagerIndex != -1)
+                {
+                    ManagersController.Instance.ShaftManagers[index].SetupLocation(shaft.ManagerLocation);
+                }
             }
             Shafts.Last().gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(true);
             Shafts.Last().gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
@@ -171,6 +184,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         public double CurrentDeposit { get; set; }
         public int Level { get; set; }
         public double InitCost { get; set; }
+        public int ManagerIndex { get; set; }
     }
 }
 

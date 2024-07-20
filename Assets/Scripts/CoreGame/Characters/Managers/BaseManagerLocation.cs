@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BaseManagerLocation : MonoBehaviour
 {
+    public event Action<Manager> OnChangeManager;
     private Manager _manager;
     public Manager Manager => _manager;
     [SerializeField] private int locationType;
@@ -14,7 +16,13 @@ public class BaseManagerLocation : MonoBehaviour
 
     public virtual void RunBoost()
     {
-        if (_manager == null || _manager.CanActiveBoost() == false)
+        if (_manager == null)
+        {
+            return;
+        }
+        Debug.Log("Have manager" + _manager.CurrentBoostTime + " " + _manager.CurrentCooldownTime);
+
+        if (!_manager.CanActiveBoost())
         {
             return;
         }
@@ -25,11 +33,7 @@ public class BaseManagerLocation : MonoBehaviour
     public void SetManager(Manager manager)
     {
         _manager = manager;
-        // if (manager == null)
-        // {
-        //     return;
-        // }
-        // manager.gameObject.transform.position = transform.position;
+        OnChangeManager?.Invoke(_manager);
     }
 
     public float GetManagerBoost(BoostType currentBoostAction)
