@@ -60,7 +60,7 @@ public class BaseWorker : MonoBehaviour
                 Vector3 dir = (target - transform.position).normalized;
                 Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
 
-                if (Vector3.Distance(this.transform.position, target) < Vector3.Distance(tempPos, target))
+                if (Vector3.Distance(this.transform.position, target) <= Vector3.Distance(tempPos, target))
                 {
                     this.transform.position = target;
                     isArrive = true;
