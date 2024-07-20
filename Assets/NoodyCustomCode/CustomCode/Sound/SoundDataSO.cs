@@ -13,7 +13,7 @@ namespace NOOD.Sound
     public class SoundDataSO : ScriptableObject
     {
          [SerializeField] public SerializableDictionary<string, AudioClip> soundDic = new SerializableDictionary<string, AudioClip>();
-         [SerializeField] public SerializableDictionary<string, AudioClip> musicDic = new SerializableDictionary<string, AudioClip>();
+         [SerializeField] public SerializableDictionary<string, DataMusic> musicDic = new SerializableDictionary<string, DataMusic>();
          
     #if UNITY_EDITOR
         public void GenerateSoundEnum()
@@ -33,5 +33,13 @@ namespace NOOD.Sound
         }
     #endif
     }
+    [System.Serializable]
+    public class DataMusic
+    {
+        public string name;
+        public AudioClip audioClip;
+    }
+
+       
 
 }

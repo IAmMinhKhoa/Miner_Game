@@ -223,7 +223,7 @@ namespace NOOD.Sound
         public static void PlayMusic(MusicEnum musicEnum, float volume = 1, bool alwaysPlay = false,bool loop=false)
         {
             InitIfNeed();
-            if(soundData == null)
+            if (soundData == null)
             {
                 FindSoundData();
             }
@@ -231,7 +231,7 @@ namespace NOOD.Sound
             if (enableMusicPlayers.Any(x => x.musicType == musicEnum)) return;
 
             MusicPlayer musicPlayer;
-            if(disableMusicPlayers.Any(x => x.musicType == musicEnum))
+            if (disableMusicPlayers.Any(x => x.musicType == musicEnum))
             {
                 musicPlayer = disableMusicPlayers.First(x => x.musicType == musicEnum);
                 musicPlayer.gameObject.SetActive(true);
@@ -248,12 +248,14 @@ namespace NOOD.Sound
             musicPlayer.isAlwaysPlay = alwaysPlay;
             enableMusicPlayers.Add(musicPlayer);
 
-            AudioSource musicAudioSource;
-            musicAudioSource = musicPlayer.gameObject.AddComponent<AudioSource>();
-            AudioClip audioClip = musicAudioSource.clip = soundData.musicDic.Dictionary[musicEnum.ToString()];
-           
-            musicAudioSource.volume = volume;
+            AudioSource musicAudioSource = musicPlayer.GetComponent<AudioSource>();
+            if (musicAudioSource == null)
+            {
+                musicAudioSource = musicPlayer.gameObject.AddComponent<AudioSource>();
+            }
 
+            AudioClip audioClip = soundData.musicDic.Dictionary[musicEnum.ToString()].audioClip;
+            musicAudioSource.volume = volume;
             musicAudioSource.clip = audioClip;
             musicAudioSource.loop = loop;
             musicAudioSource.Play();
@@ -307,7 +309,7 @@ namespace NOOD.Sound
                 Fade(musicAudioSource, 0.2f, 0, onComplete: () =>
                 {
                     musicPlayer.musicType = toMusicEnum;
-                    musicAudioSource.clip = soundData.musicDic.Dictionary[toMusicEnum.ToString()];
+                    musicAudioSource.clip = soundData.musicDic.Dictionary[toMusicEnum.ToString()].audioClip;
                     Fade(musicAudioSource, 0.2f, 1);
                 });
             }
@@ -378,12 +380,15 @@ namespace NOOD.Sound
             for (int i = enableMusicPlayers.Count - 1; i >= 0; i--)
             {
                 var musicPlayer = enableMusicPlayers[i];
-                musicPlayer.GetComponent<AudioSource>().Stop();
+
+                AudioSource audioSource = musicPlayer.GetComponent<AudioSource>();
+                audioSource.Stop();
                 musicPlayer.gameObject.SetActive(false);
                 enableMusicPlayers.RemoveAt(i);
                 disableMusicPlayers.Add(musicPlayer);
+                            
             }
-
+                
         }
         /// <summary>
         /// Resume all MusicPlayers found
@@ -401,7 +406,7 @@ namespace NOOD.Sound
 
                 audioSource.Play();
                 audioSource.volume = GlobalMusicVolume;
-
+                
                 musicPlayer.gameObject.SetActive(true);
                 enableMusicPlayers.Add(musicPlayer);
                 disableMusicPlayers.Remove(musicPlayer);
@@ -447,7 +452,7 @@ namespace NOOD.Sound
             {
                 FindSoundData();
             }
-            return soundData.musicDic.Dictionary[musicEnum.ToString()].length;
+            return soundData.musicDic.Dictionary[musicEnum.ToString()].audioClip.length;
         }
         public static bool IsMusicPlaying(MusicEnum musicEnum)
         {
@@ -495,44 +500,74 @@ namespace NOOD.Sound
         /// <returns></returns>
         public static MusicEnum GetCurrentMusic() 
         {
+            Debug.Log("Count enableMusicPlayers : "+ enableMusicPlayers.Count);
+            Debug.Log("Count disableMusicPlayers : " + disableMusicPlayers.Count);
             if (enableMusicPlayers.Count > 0)
             {
                 MusicEnum currentEnumMs = enableMusicPlayers[enableMusicPlayers.Count - 1].musicType;
                 return currentEnumMs;
             }
+            else
+            {
+                if(disableMusicPlayers.Count>0) return disableMusicPlayers[disableMusicPlayers.Count - 1].musicType;
+                return GetRandomMusic();
+            }
             Debug.LogError("enableMusicPlayers COUNT COUNT = 0");
             return 0;
             
         }
-        
+       public static MusicEnum GetRandomMusic()
+        {
+            // L?y t?t c? các giá tr? enum
+            var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
+            // T?o m?t giá tr? ng?u nhiên
+            var random = new System.Random();
+            // Tr? v? m?t giá tr? ng?u nhiên t? enum
+            return values[random.Next(values.Length)];
+        }
         public static MusicEnum GetNextMusicEnum(MusicEnum current)
         {
             // Get all enum values
             var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
-        
+            Debug.Log("khoa1 :" + values.Count());
             // Find the index of the current value
             int index = Array.IndexOf(values, current);
-        
+            Debug.Log("khoa2 :" + index+"/"+current);
             // Get the next index, wrapping around if necessary
             int nextIndex = index + 1;
-            nextIndex= nextIndex>values.Length? 0 : nextIndex;
-        
+            nextIndex= nextIndex>=values.Count()? 0 : nextIndex;
+            Debug.Log("khoa3 :" + nextIndex);
             return values[nextIndex];
         }
         public static MusicEnum GetPreviousMusicEnum(MusicEnum current)
         {
             // Get all enum values
             var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
-        
+            Debug.Log("khoa1 :" + values.Count());
             // Find the index of the current value
-            int index = Array.IndexOf(values, current);
-            
+            int index = Array.IndexOf(values, current)+1;
+            Debug.Log("khoa2 :" + index + "/" + current);
             int nextIndex = index - 1;
-            nextIndex= nextIndex<0? 0 : nextIndex;
-        
-            return values[nextIndex];
+            nextIndex= nextIndex<=0? values.Count() : nextIndex;
+            Debug.Log("khoa3 :" + nextIndex);
+            return values[nextIndex-1];
         }
-#endregion
+
+        public static DataMusic GetDataMusic(MusicEnum current)
+        {
+            return soundData.musicDic.Dictionary[current.ToString()];
+        }
+        public static List<DataMusic> GetAllDataMusic()
+        {
+            if (soundData == null || soundData.musicDic == null)
+            {
+                Debug.LogError("Sound data or music dictionary is null.");
+                return new List<DataMusic>();
+            }
+
+            return soundData.musicDic.Dictionary.Values.ToList();
+        }
+        #endregion
     }
 
     public class SoundPlayer : MonoBehaviour 

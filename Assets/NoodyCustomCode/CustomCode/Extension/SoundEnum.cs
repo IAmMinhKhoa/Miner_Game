@@ -1,7 +1,6 @@
 namespace NOOD.Sound
 { 
-    public enum SoundEnum
-    { 
-        a,b,c
-    }
+public enum SoundEnum
+{ 
+}
 }
