@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using Spine.Unity;
+using System;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -22,7 +24,10 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private GameObject m_lyNuocPref;
 
     private ElevatorSystem m_elevator;
+    private ElevatorController m_elevatorController;
     private ElevatorUpgrade m_elevatorUpgrade;
+    private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff;
+    private Vector3 _target;
 
     void Awake()
     {
@@ -36,11 +41,17 @@ public class ElevatorUI : MonoBehaviour
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
     }
+
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-        m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
+        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
+        if (m_elevatorController != null && m_elevatorController.IsArrive)
+        {
+            _frontElevator.AnimationState.SetAnimation(0, "Thangmay - Idle", true);
+            _backElevator.AnimationState.SetAnimation(0, "Thangmay - Idle", true);
+        }
     }
 
     void OnEnable()
@@ -48,6 +59,7 @@ public class ElevatorUI : MonoBehaviour
         m_upgradeButton.onClick.AddListener(CallUpgrade);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
+        m_elevator.OnCreateElevatorController += OnCreateElevatorControllerHandler;
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
@@ -56,7 +68,35 @@ public class ElevatorUI : MonoBehaviour
         m_upgradeButton.onClick.RemoveListener(CallUpgrade);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
+        m_elevator.OnCreateElevatorController -= OnCreateElevatorControllerHandler;
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
+    }
+
+    private void OnCreateElevatorControllerHandler(ElevatorController controller)
+    {
+        m_elevatorController = controller;
+        m_elevatorController.OnMoveToTarget += OnMoveToTargetHandler;
+        _frontElevator = m_elevatorController.FrontElevator;
+        _backElevator = m_elevatorController.BackElevator;
+        _elevatorStaff = m_elevatorController.ElevatorStaff;
+    }
+
+    private void OnMoveToTargetHandler(Vector3 vector)
+    {
+        _target = vector;
+        if(this.transform.position.y > vector.y)
+        {
+            // Move down
+            _frontElevator.AnimationState.SetAnimation(0, "Thangmay - Down", true);
+            _backElevator.AnimationState.SetAnimation(0, "Thangmay - Down", true);
+        }
+        else
+        {
+            // Move up
+            _frontElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
+            _backElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
+        }
+        _elevatorStaff.AnimationState.SetAnimation(0, "Idle", true);
     }
 
     void CallUpgrade()

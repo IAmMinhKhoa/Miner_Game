@@ -146,63 +146,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         return managerSpecieData;
     }
 
-    public void UpgradeManager(Manager manager)
-    {
-        if (manager.Level == ManagerLevel.Executive)
-        {
-            return;
-        }
-
-        var upgradeData = GetManagerData(manager.LocationType, manager.BoostType, manager.Level + 1);
-        var timeData = GetManagerTimeData(upgradeData.managerLevel);
-        var specieData = GetManagerSpecieData(manager.Specie, upgradeData.managerLevel);
-        manager.SetManagerData(upgradeData);
-        manager.SetTimeData(timeData);
-        manager.SetSpecieData(specieData);
-    }
-
-    public bool MergeManager(Manager firstManager, Manager secondManager)
-    {
-        if (!CheckMergeConditions(firstManager, secondManager))
-        {
-            return false;
-        }
-
-        firstManager.SetCurrentTime(Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
-        Mathf.Max(firstManager.CurrentCooldownTime, secondManager.CurrentCooldownTime));
-
-        RemoveManager(secondManager);
-        UpgradeManager(firstManager);
-
-        return true;
-    }
-
-    private bool CheckMergeConditions(Manager firstManager, Manager secondManager)
-    {
-        Debug.Log("First index: " + firstManager.Index + " Second index: " + secondManager.Index);
-        if (firstManager.Level == ManagerLevel.Executive || secondManager.Level == ManagerLevel.Executive)
-        {
-            return false;
-        }
-
-        if (firstManager.LocationType != secondManager.LocationType)
-        {
-            return false;
-        }
-
-        if (firstManager.Level != secondManager.Level)
-        {
-            return false;
-        }
-
-        if (firstManager.Specie != secondManager.Specie)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     private Manager GetNewManagerData(ManagerLocation location)
     {
         int randomValue = UnityEngine.Random.Range(0, 100);
