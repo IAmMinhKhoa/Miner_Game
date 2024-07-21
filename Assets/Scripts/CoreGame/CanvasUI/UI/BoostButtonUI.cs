@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BoostButtonUI : MonoBehaviour
 {
+
+    #region UI
     [SerializeField] private Image boostImage;
     [SerializeField] private Image cooldownImage;
     [SerializeField] private Image activeImage;
+    [SerializeField] private TMP_Text textTiming;
+    #endregion
 
+
+
+    #region Controller
     private Manager _manager;
 
     [SerializeField] private BaseManagerLocation baseManagerLocation;
+
+    [ReadOnly] float TickRate = 1f;
+    private float _timerTickRate = 0;
+    #endregion
+
 
     void OnEnable()
     {
@@ -40,31 +54,50 @@ public class BoostButtonUI : MonoBehaviour
             // Show active image
             activeImage.fillAmount = 1;
             cooldownImage.fillAmount = 0;
-            boostImage.fillAmount = 0;
+            boostImage.fillAmount = 1;
 
             var boostType = _manager.BoostType;
-            boostImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][0]);
+            boostImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][2]);
             cooldownImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][1]);
-            activeImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][2]);
+            activeImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][0]);
         }
     }
 
     void Update()
     {
-        if (_manager == null)
-        {
-            return;
-        }
+        _timerTickRate += Time.deltaTime;
 
-        if (_manager.CurrentBoostTime > 0)
+        if (_timerTickRate >= TickRate) // Ki?m tra n?u ?ã qua 1 giây
         {
-            float value = _manager.CurrentBoostTime / (_manager.BoostTime * 60);
-            boostImage.fillAmount = value;
+            _timerTickRate = 0f; // ??t l?i bi?n ??m
+
+            if (_manager == null)
+            {
+                return;
+            }
+
+            if (_manager.CurrentBoostTime > 0)
+            {
+                float value = _manager.CurrentBoostTime / (_manager.BoostTime * 60);
+                activeImage.fillAmount = value;
+                SetUiTiming(_manager.CurrentBoostTime);
+            }
+            else if (_manager.CurrentCooldownTime > 0)
+            {
+                float value = _manager.CurrentCooldownTime / (_manager.CooldownTime * 60);
+                cooldownImage.fillAmount = value;
+                SetUiTiming(_manager.CurrentCooldownTime);
+            }
+            else
+            {
+                activeImage.fillAmount = 1;
+                textTiming.text = "";
+            }
         }
-        else if (_manager.CurrentCooldownTime > 0)
-        {
-            float value = _manager.CurrentBoostTime / (_manager.BoostTime * 60);
-            cooldownImage.fillAmount = value;
-        }
+    }
+
+    private void SetUiTiming(float value)
+    {
+        textTiming.text = Common.ConvertSecondsToMinutes(value).ToString();
     }
 }

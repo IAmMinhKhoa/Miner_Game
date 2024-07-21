@@ -222,7 +222,8 @@ namespace NOOD.Sound
         /// <param name="musicEnum"></param>
         public static void PlayMusic(MusicEnum musicEnum, float volume = 1, bool alwaysPlay = false,bool loop=false)
         {
-            InitIfNeed();
+            //  InitIfNeed();
+   
             if (soundData == null)
             {
                 FindSoundData();
@@ -259,7 +260,7 @@ namespace NOOD.Sound
             musicAudioSource.clip = audioClip;
             musicAudioSource.loop = loop;
             musicAudioSource.Play();
-            Fade(musicAudioSource, 0.5f, 1);
+            Fade(musicAudioSource, 0.5f, globalMusicVolume);
         }
         /// <summary>
         /// Play music with globalMusicVolume
@@ -267,6 +268,7 @@ namespace NOOD.Sound
         /// <param name="musicEnum"></param>
         public static void PlayMusic(MusicEnum musicEnum)
         {
+            Debug.Log("soundma:" + globalMusicVolume);
             PlayMusic(musicEnum, GlobalMusicVolume);
         }
         /// <summary>
@@ -372,7 +374,7 @@ namespace NOOD.Sound
         /// </summary>
         public static void StopAllMusic()
         {
-            InitIfNeed();
+         //  InitIfNeed();
             if(soundData == null)
             {
                 FindSoundData();

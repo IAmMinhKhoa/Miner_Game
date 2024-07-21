@@ -32,7 +32,7 @@ public class ElevatorUI : MonoBehaviour
 
     void Start()
     {
-        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
+        m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
     }
@@ -40,7 +40,7 @@ public class ElevatorUI : MonoBehaviour
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
+        m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
     }
 
     void OnEnable()

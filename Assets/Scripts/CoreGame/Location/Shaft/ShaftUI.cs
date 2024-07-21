@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Spine.Unity;
 using Cysharp.Threading.Tasks;
 using System;
+using Sirenix.OdinInspector;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class ShaftUI : MonoBehaviour
 
     private bool _isBrewing = false;
 
+
+    #region TOOL DEBUG
+    #endregion
+
     void Awake()
     {
         m_shaft = GetComponent<Shaft>();
@@ -46,12 +51,20 @@ public class ShaftUI : MonoBehaviour
     {
         tableAnimation = m_spineData.GetComponent<SkeletonAnimation>();
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
-    }
 
+
+        //First init Data frame by current lvl of shaft
+        UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
+
+    }
+    private void checklevel(int currentLvl)
+    {
+
+    }
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
-        m_levelText.text = "Level " + m_shaftUpgrade.CurrentLevel;
+        m_levelText.text =m_shaftUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
     }
 
@@ -108,8 +121,33 @@ public class ShaftUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
+            UpdateFrameButtonUpgrade(level);
+            Debug.Log("conc ac:" + level);
         }
     }
+
+    void UpdateFrameButtonUpgrade(int currentLevel)
+    {
+
+        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>(); 
+        if (currentLevel <= 200)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][0]);
+        }
+        else if( currentLevel>200 && currentLevel <= 400)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][1]);
+        }
+        else if (currentLevel > 400 && currentLevel <= 600)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][2]);
+        }
+        else if (currentLevel > 600 && currentLevel <= 800)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][3]);
+        }
+    }
+
 
     void BuyNewShaft()
     {
@@ -155,4 +193,12 @@ public class ShaftUI : MonoBehaviour
     {
         Destroy(mainPanel);
     }
+
+    #region DEBUG
+    [Button]
+    private void AddLevel(int valueAdd)
+    {
+        m_shaftUpgrade.Upgrade(valueAdd);
+    }
+    #endregion
 }

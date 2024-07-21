@@ -8,6 +8,7 @@ using log4net.Core;
 using Codice.CM.Common;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -46,6 +47,13 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     private bool isDone = false;
     public bool IsDone => isDone;
+
+
+
+    #region TOOL DEBUG
+    [Range(0, 10)]
+    [SerializeField] private float _debugSpeedGame = 1;
+    #endregion
 
     private void Start()
     {
@@ -413,6 +421,15 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         public double ShaftHireCost;
         public double ElevatorHireCost;
         public double CounterHireCost;
+    }
+    #endregion
+
+
+    #region ----SUPPORT----
+    [Button]
+    public void ScaleTime()
+    {
+        Time.timeScale = _debugSpeedGame;
     }
     #endregion
 }

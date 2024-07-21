@@ -34,7 +34,7 @@ public class DataLoadManager : BaseGameManager
     {
         base.Update();
         UpdateGameStates();
-        Debug.Log("DataLoadManager Update:" + dataGameState);
+      //  Debug.Log("DataLoadManager Update:" + dataGameState);
     }
 
     void UpdateGameStates()

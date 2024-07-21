@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NOOD.Sound;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,8 @@ public class SoundSetting : MonoBehaviour
 
 
 
-    [Header("UI")][SerializeField] private Button btnRandomMs;
+    [Header("UI")]
+    [SerializeField] private Button btnRandomMs;
     [SerializeField] private Button btnPreviousMs;
     [SerializeField] private Button btnNextMs;
     [SerializeField] private Button btnPlay;
@@ -28,18 +30,69 @@ public class SoundSetting : MonoBehaviour
 
     [SerializeField] private TMP_Text textNameMusic;
 
+    [Header("SPINE")]
+    #region SPINE 
+    [SerializeField] SkeletonGraphic spineDiaThan;
+    [SerializeField] SkeletonGraphic spineCanGat;
+    [SerializeField] SkeletonGraphic spineRandom;
+    [SerializeField] SkeletonGraphic spinePrevious;
+    [SerializeField] SkeletonGraphic spineNext;
+    [SerializeField] SkeletonGraphic spinePause;
+    [SerializeField] SkeletonGraphic spineLoop;
+    #endregion
     [Header("TOGGLE")]
     private bool _togglePauseMusic = false;
     private bool _toggleLoopMusic = false;
     private bool _toggleRandomMusic = false;
+    public bool TogglePauseMusic
+    {
+        get => _togglePauseMusic;
+        set
+        {
+            _togglePauseMusic = value;
+            if(value)
+            {
+                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle", false);
 
+                spineDiaThan.AnimationState.SetAnimation(0, "DiaThan - Idle", false);
+
+                spineCanGat.AnimationState.SetAnimation(0, "Caygat - Idle", false);
+            }
+            else
+            {
+                spineDiaThan.AnimationState.SetAnimation(0, "DiaThan - Active", true);
+
+                spineCanGat.AnimationState.SetAnimation(0, "Caygat - Active", false);
+
+                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
+            }
+        }
+    }
     public bool ToggleLoopMusic
     {
         get => _toggleLoopMusic;
         set
         {
             _toggleLoopMusic = value;
-            if (value) _toggleRandomMusic = false;
+  
+
+            if (value)
+            {
+                spineLoop.AnimationState.SetAnimation(0, "Loop - Active", false);
+                _toggleRandomMusic = false;
+                //return button random
+                spineRandom.AnimationState.SetAnimation(0, "Randoom - Idle", false);
+            }
+            else
+            {
+                var trackEntry = spineLoop.AnimationState.SetAnimation(0, "Loop - Active", false);
+                trackEntry.TrackTime = trackEntry.AnimationEnd;
+                trackEntry.TimeScale = -1f;
+                StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
+                {
+                    spineLoop.AnimationState.SetAnimation(0, "Loop - Idle", false);
+                }));
+            }
         }
     }
 
@@ -49,12 +102,32 @@ public class SoundSetting : MonoBehaviour
         set
         {
             _toggleRandomMusic = value;
-            if (value) _toggleLoopMusic = false;
+          
+
+            if (value)
+            {
+                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Randoom - Active", false);
+                _toggleLoopMusic = false;
+                //return button loop
+                spineLoop.AnimationState.SetAnimation(0, "Loop - Idle", false);
+            }
+            else
+            {
+                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Randoom - Active", false);
+                trackEntry.TrackTime = trackEntry.AnimationEnd;
+                trackEntry.TimeScale = -1f;
+
+                StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
+                {
+                    spineRandom.AnimationState.SetAnimation(0, "Randoom - Idle", false);
+                }));
+            }
+
+
         }
     }
 
     private MusicEnum currentMusic => SoundManager.GetCurrentMusic();
-
 
     private Coroutine _coroutineCurrentMusic;
     private void Awake()
@@ -63,13 +136,16 @@ public class SoundSetting : MonoBehaviour
     }
     private void Start()
     {
+        sliderMusic.value = SoundManager.GlobalMusicVolume;
+        sliderSFX.value = SoundManager.GlobalSoundVolume;
+
+
         btnPlay.onClick.AddListener(togglePauseMusic);
         btnNextMs.onClick.AddListener(nextMusic);
         btnPreviousMs.onClick.AddListener(previousMusic);
 
         btnRandomMs.onClick.AddListener(toggleRandomMusic);
         btnLoop.onClick.AddListener(toggleloopMusic);
-
 
         sliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
         sliderSFX.onValueChanged.AddListener(ChangeSFXVolume);
@@ -86,16 +162,13 @@ public class SoundSetting : MonoBehaviour
 
         btnRandomMs.onClick.RemoveAllListeners();
         btnLoop.onClick.RemoveAllListeners();
+
+        sliderMusic.onValueChanged.RemoveAllListeners();
+        sliderSFX.onValueChanged.RemoveAllListeners();
     }
 
-    private IEnumerator TimmingNextMusic()
-    {
-        MusicEnum _currentMusic = currentMusic;
-        float timeMusic = SoundManager.GetMusicLength(_currentMusic);
-        yield return new WaitForSeconds(timeMusic + 2);
-        Debug.Log("End of music");
-        PlayMusic(); // Play next music
-    }
+
+
 
 
     /// <summary>
@@ -123,6 +196,8 @@ public class SoundSetting : MonoBehaviour
             }
         }
 
+        textNameMusic.text = GetDataMusic(musicEnum).name;
+
         SoundManager.StopAllMusic();
         SoundManager.PlayMusic(musicEnum);
 
@@ -135,10 +210,22 @@ public class SoundSetting : MonoBehaviour
 
     }
 
+  
+
+    #region Logic
+
+    private DataMusic GetDataMusic(MusicEnum type)
+    {
+        return SoundManager.GetDataMusic(type);
+    }
+
+    private List<DataMusic> GetAllDataMusic()
+    {
+        return SoundManager.GetAllDataMusic();
+    }
     private MusicEnum ValidateMusic(BahaviorMS behavior = BahaviorMS.Next)
     {
         MusicEnum musicEnum = currentMusic;
-        Debug.Log("cc 1:" + musicEnum);
         switch (behavior)
         {
             case BahaviorMS.Next:
@@ -153,8 +240,6 @@ public class SoundSetting : MonoBehaviour
             default:
                 break;
         }
-        Debug.Log("cc 2:" + musicEnum);
-
         if (_toggleLoopMusic)
         {
             musicEnum = currentMusic;
@@ -163,21 +248,19 @@ public class SoundSetting : MonoBehaviour
         {
             musicEnum = SoundManager.GetRandomMusic();
         }
-        Debug.Log("cc 3:" + musicEnum);
         return musicEnum;
     }
-
-    #region Logic
-
-    private DataMusic GetDataMusic(MusicEnum type)
+    private IEnumerator TimmingNextMusic()
     {
-        return SoundManager.GetDataMusic(type);
+        MusicEnum _currentMusic = currentMusic;
+        float timeMusic = SoundManager.GetMusicLength(_currentMusic);
+        yield return new WaitForSeconds(timeMusic + 2);
+        Debug.Log("End of music");
+        PlayMusic(); // Play next music
     }
+    #endregion
 
-    private List<DataMusic> GetAllDataMusic()
-    {
-        return SoundManager.GetAllDataMusic();
-    }
+    #region Support
 
     #endregion
 
@@ -185,30 +268,36 @@ public class SoundSetting : MonoBehaviour
 
     private void togglePauseMusic()
     {
-        if (!_togglePauseMusic)
+        if (!TogglePauseMusic)
         {
             StopCoroutine(_coroutineCurrentMusic);
             _coroutineCurrentMusic = null;
             SoundManager.StopAllMusic();
         }
 
-        else PlayMusic(BahaviorMS.Current);
-        _togglePauseMusic = !_togglePauseMusic;
+        else
+        {
+            PlayMusic(BahaviorMS.Current);
+        }
+        TogglePauseMusic = !TogglePauseMusic;
     }
 
     private void nextMusic()
     {
         PlayMusic();
-        _togglePauseMusic = false;
+        TogglePauseMusic = false;
+        spineNext.AnimationState.SetAnimation(0, "PlayNext - Active", false);
     }
     private void previousMusic()
     {
         PlayMusic(BahaviorMS.Previous);
-        _togglePauseMusic = false;
+        
+        TogglePauseMusic = false;
+        spinePrevious.AnimationState.SetAnimation(0, "PlayBack - Active", false);
     }
 
     private void toggleloopMusic()
-    {
+    {      
         ToggleLoopMusic = !ToggleLoopMusic;
     }
 
@@ -217,13 +306,12 @@ public class SoundSetting : MonoBehaviour
         ToggleRandomMusic = !ToggleRandomMusic;
     }
 
-    // Hàm thay ??i volume c?a nh?c
     private void ChangeMusicVolume(float value)
     {
         SoundManager.GlobalMusicVolume = value;
+        Debug.Log("ccc:"+value);
     }
 
-    // Hàm thay ??i volume c?a hi?u ?ng âm thanh
     private void ChangeSFXVolume(float value)
     {
         SoundManager.GlobalSoundVolume = value;

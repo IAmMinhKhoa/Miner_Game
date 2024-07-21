@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
@@ -12,6 +13,7 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     public double CurrentPaw { get; private set; }
 
+    [Button]
     public void AddPaw(double amount)
     {
         CurrentPaw += amount;
