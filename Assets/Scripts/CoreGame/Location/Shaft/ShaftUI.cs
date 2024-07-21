@@ -122,7 +122,7 @@ public class ShaftUI : MonoBehaviour
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
             UpdateFrameButtonUpgrade(level);
-            Debug.Log("conc ac:" + level);
+   
         }
     }
 
@@ -198,7 +198,7 @@ public class ShaftUI : MonoBehaviour
     [Button]
     private void AddLevel(int valueAdd)
     {
-        m_shaftUpgrade.Upgrade(valueAdd);
+        m_shaftUpgrade.Upgrade(valueAdd );
     }
     #endregion
 }

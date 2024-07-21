@@ -46,7 +46,7 @@ public class ElevatorUI : MonoBehaviour
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-        m_levelText.text = "Level " + m_elevatorUpgrade.CurrentLevel;
+        m_levelText.text = m_elevatorUpgrade.CurrentLevel.ToString();
         if (m_elevatorController != null && m_elevatorController.IsArrive)
         {
             _frontElevator.AnimationState.SetAnimation(0, "Thangmay - Idle", true);

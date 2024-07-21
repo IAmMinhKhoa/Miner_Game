@@ -30,7 +30,7 @@ public class CounterUI : MonoBehaviour
 
     void Start()
     {
-        m_levelText.text = "Level " + m_counterUpgrade.CurrentLevel;
+        m_levelText.text =  m_counterUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
     }
 
@@ -38,7 +38,7 @@ public class CounterUI : MonoBehaviour
     {
         m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
-        m_levelText.text = "Level " + m_counterUpgrade.CurrentLevel;
+        m_levelText.text =  m_counterUpgrade.CurrentLevel.ToString();
     }
 
     void OnEnable()
