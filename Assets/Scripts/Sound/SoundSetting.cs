@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using NOOD;
 using NOOD.Sound;
+using Sirenix.OdinInspector;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -18,6 +21,7 @@ public class SoundSetting : MonoBehaviour
 
 
     [Header("UI")]
+    [SerializeField] GameObject Container;
     [SerializeField] private Button btnRandomMs;
     [SerializeField] private Button btnPreviousMs;
     [SerializeField] private Button btnNextMs;
@@ -255,7 +259,7 @@ public class SoundSetting : MonoBehaviour
         MusicEnum _currentMusic = currentMusic;
         float timeMusic = SoundManager.GetMusicLength(_currentMusic);
         yield return new WaitForSeconds(timeMusic + 2);
-        Debug.Log("End of music");
+       
         PlayMusic(); // Play next music
     }
     #endregion
@@ -315,6 +319,27 @@ public class SoundSetting : MonoBehaviour
     private void ChangeSFXVolume(float value)
     {
         SoundManager.GlobalSoundVolume = value;
+    }
+    #endregion
+    #region AnimateUI
+    [Button]
+    public void FadeInContainer()
+    {
+        Container.SetActive(true);
+        Container.transform.localPosition = new Vector2(-1000, 0); //Under Screen
+        Container.transform.DOMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+
+
+    }
+    [Button]
+    public void FadeOutContainer()
+    {
+
+        Container.transform.DOMoveX(1000f, 0.9f).SetEase(Ease.InQuart).OnComplete(() =>
+        {
+            Container.SetActive(false);
+        });
+       
     }
     #endregion
 }

@@ -74,6 +74,7 @@ public class Shaft : MonoBehaviour
         depositGO.transform.position = m_depositLocation.position;
         Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
+        Debug.Log("create:" + depositGO);
         CurrentDeposit = deposit;
     }
 
