@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shaftPrefab: {fileID: 5495485229208593781, guid: 93c313a66144c82428780d9c61b5b54f, type: 3}
-  shaftYOffset: 1.716
+  shaftYOffset: 1.65
   currentCost: 0
   Shafts: []
   firstShaftPosition: {x: 0.656, y: -0.039, z: 0}
@@ -316,6 +316,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d14717e6f4b70409b79d9a928577c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &592633893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 592633895}
+  - component: {fileID: 592633894}
+  m_Layer: 0
+  m_Name: PawManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &592633894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592633893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366bed5c7d5dd5b4f8ad98d035dd720e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_startingPaw: 10000000000
+--- !u!4 &592633895
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592633893}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &628707517
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +814,7 @@ MonoBehaviour:
   managerDetailPrefab: {fileID: 0}
   managerPanel: {fileID: 0}
   managerDetailPanel: {fileID: 0}
+  _debugSpeedGame: 1
 --- !u!4 &1395491204
 Transform:
   m_ObjectHideFlags: 0
@@ -840,6 +886,14 @@ PrefabInstance:
     - target: {fileID: 3689301631835646440, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7689037421544409237, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7689037421544409237, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 8950147580416224407, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
       propertyPath: m_Name
@@ -1403,3 +1457,4 @@ SceneRoots:
   - {fileID: 4398975843536615051}
   - {fileID: 868835065}
   - {fileID: 1709222670}
+  - {fileID: 592633895}

@@ -11,6 +11,8 @@ public class BaseWorker : MonoBehaviour
     [SerializeField] private bool isCollecting = true;
     [SerializeField] private double currentProduct = 0;
 
+    protected Transform collectTransform, depositTransform;
+
     protected WorkerState state = WorkerState.Idle;
     protected bool isArrive = false;
 
@@ -53,7 +55,7 @@ public class BaseWorker : MonoBehaviour
     {
         try
         {
-            float distance = Vector3.Distance(target, this.transform.position);
+            float distance = Vector3.Distance(collectTransform.position, depositTransform.position);
             float currentTime = 0f;
             isArrive = false;
             float time = 0;
@@ -62,7 +64,7 @@ public class BaseWorker : MonoBehaviour
                 await UniTask.Yield(cancellationToken.Token);
                 time += Time.deltaTime;
                 Vector3 dir = (target - transform.position).normalized;
-                Vector3 tempPos = this.transform.position + dir * distance / moveTime * Time.deltaTime;
+                Vector3 tempPos = this.transform.position + dir * (distance / moveTime) * Time.deltaTime;
                 currentTime += Time.deltaTime;
 
                 if (Vector3.Distance(this.transform.position, target) <= Vector3.Distance(tempPos, target))
