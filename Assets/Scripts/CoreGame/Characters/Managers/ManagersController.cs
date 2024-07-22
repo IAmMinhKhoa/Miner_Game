@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
-using log4net.Core;
-using Codice.CM.Common;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;

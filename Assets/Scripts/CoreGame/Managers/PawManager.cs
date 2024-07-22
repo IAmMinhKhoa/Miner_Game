@@ -12,7 +12,10 @@ public class PawManager : Patterns.Singleton<PawManager>
     [SerializeField] private readonly string m_pawKey = "PawVollume";
 
     public double CurrentPaw { get; private set; }
-
+    private void Awake()
+    {
+        LoadPaw();
+    }
     [Button]
     public void AddPaw(double amount)
     {
@@ -50,9 +53,6 @@ public class PawManager : Patterns.Singleton<PawManager>
         }
     }
 
-    void Start()
-    {
-        LoadPaw();
-    }
+
 }
 

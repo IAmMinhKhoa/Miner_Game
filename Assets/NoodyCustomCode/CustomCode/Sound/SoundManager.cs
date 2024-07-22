@@ -268,7 +268,6 @@ namespace NOOD.Sound
         /// <param name="musicEnum"></param>
         public static void PlayMusic(MusicEnum musicEnum)
         {
-            Debug.Log("soundma:" + globalMusicVolume);
             PlayMusic(musicEnum, GlobalMusicVolume);
         }
         /// <summary>
@@ -502,8 +501,6 @@ namespace NOOD.Sound
         /// <returns></returns>
         public static MusicEnum GetCurrentMusic() 
         {
-            Debug.Log("Count enableMusicPlayers : "+ enableMusicPlayers.Count);
-            Debug.Log("Count disableMusicPlayers : " + disableMusicPlayers.Count);
             if (enableMusicPlayers.Count > 0)
             {
                 MusicEnum currentEnumMs = enableMusicPlayers[enableMusicPlayers.Count - 1].musicType;
@@ -520,38 +517,29 @@ namespace NOOD.Sound
         }
        public static MusicEnum GetRandomMusic()
         {
-            // L?y t?t c? các giá tr? enum
             var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
-            // T?o m?t giá tr? ng?u nhiên
             var random = new System.Random();
-            // Tr? v? m?t giá tr? ng?u nhiên t? enum
             return values[random.Next(values.Length)];
         }
         public static MusicEnum GetNextMusicEnum(MusicEnum current)
         {
             // Get all enum values
             var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
-            Debug.Log("khoa1 :" + values.Count());
             // Find the index of the current value
             int index = Array.IndexOf(values, current);
-            Debug.Log("khoa2 :" + index+"/"+current);
             // Get the next index, wrapping around if necessary
             int nextIndex = index + 1;
             nextIndex= nextIndex>=values.Count()? 0 : nextIndex;
-            Debug.Log("khoa3 :" + nextIndex);
             return values[nextIndex];
         }
         public static MusicEnum GetPreviousMusicEnum(MusicEnum current)
         {
             // Get all enum values
             var values = (MusicEnum[])Enum.GetValues(typeof(MusicEnum));
-            Debug.Log("khoa1 :" + values.Count());
             // Find the index of the current value
             int index = Array.IndexOf(values, current)+1;
-            Debug.Log("khoa2 :" + index + "/" + current);
             int nextIndex = index - 1;
             nextIndex= nextIndex<=0? values.Count() : nextIndex;
-            Debug.Log("khoa3 :" + nextIndex);
             return values[nextIndex-1];
         }
 

@@ -56,6 +56,9 @@ public class ShaftUI : MonoBehaviour
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
+
+
+       
     }
     private void checklevel(int currentLvl)
     {
@@ -75,6 +78,7 @@ public class ShaftUI : MonoBehaviour
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
+        Debug.Log("khoa:" + m_shaft.CurrentDeposit);
         m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
     }
 
@@ -85,7 +89,7 @@ public class ShaftUI : MonoBehaviour
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
-        m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
+       // m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
     }
 
     private void ChangePawHandler(double value)
