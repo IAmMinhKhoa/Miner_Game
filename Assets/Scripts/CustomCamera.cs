@@ -19,6 +19,7 @@ public class CustomCamera : MonoBehaviour
 
     void Update()
     {
-        NoodyCustomCode.DragCamera(this.gameObject, horizontal: false, vertical: true, direction: -1);
+        if(NoodyCustomCode.IsPointerOverUIElement() == false)
+            NoodyCustomCode.DragCamera(this.gameObject, horizontal: false, vertical: true, direction: -1);
     }
 }

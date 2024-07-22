@@ -18,6 +18,7 @@ public class ElevatorController : BaseWorker
     [SerializeField] private float firstShaftMoveTimeScale = 0.724f;
     [SerializeField] private bool isWorking = false;
     [SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff;
+    [SerializeField] private GameObject lyNuocs;
     private double checkWorkingTime = 0;
 
     public bool IsWorking => isWorking;
@@ -47,6 +48,8 @@ public class ElevatorController : BaseWorker
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
+        collectTransform = this.transform;
+        ActiveLyNuocs(CurrentProduct > 0);
     }
     private void Update()
     {
@@ -55,6 +58,11 @@ public class ElevatorController : BaseWorker
             isWorking = true;
             MoveToNextShaft();
         }
+    }
+
+    private void ActiveLyNuocs(bool active)
+    {
+        lyNuocs.SetActive(active);
     }
 
     private void MoveToNextShaft()
@@ -70,6 +78,7 @@ public class ElevatorController : BaseWorker
             Vector2 nextPosition = elevator.ElevatorLocation.position;
 
             _currentDeposit = elevator.ElevatorDeposit;
+            depositTransform = _currentDeposit.transform;
 
             Move(nextPosition, moveBackTime);
             return;
@@ -84,6 +93,7 @@ public class ElevatorController : BaseWorker
             moveBackTime = MoveTime * firstShaftMoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
+            depositTransform = _currentDeposit.transform;
 
             float nextTime = moveBackTime;
 
@@ -96,6 +106,7 @@ public class ElevatorController : BaseWorker
             Vector2 nextPosition = elevator.ElevatorLocation.position;
 
             _currentDeposit = elevator.ElevatorDeposit;
+            depositTransform = elevator.ElevatorLocation;
 
             Move(nextPosition, moveBackTime);
         }
@@ -107,6 +118,7 @@ public class ElevatorController : BaseWorker
             moveBackTime += MoveTime;
 
             _currentDeposit = currentShaft.CurrentDeposit;
+            depositTransform = _currentDeposit.transform;
             Move(fixPos, MoveTime);
         }
     }
@@ -154,6 +166,7 @@ public class ElevatorController : BaseWorker
     {
         PlayTextAnimation(amount);
         await UniTask.Delay((int)(collectTime * 1000));
+        ActiveLyNuocs(amount > 0);
         checkWorkingTime += collectTime;
         CurrentProduct += amount;
         _currentDeposit.RemovePaw(amount);
@@ -169,6 +182,7 @@ public class ElevatorController : BaseWorker
     {
         PlayTextAnimation(CurrentProduct, true);
         await UniTask.Delay((int)(WorkingTime * 1000));
+        ActiveLyNuocs(false);
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
         Debug.Log("Deposit" + moveBackTime);

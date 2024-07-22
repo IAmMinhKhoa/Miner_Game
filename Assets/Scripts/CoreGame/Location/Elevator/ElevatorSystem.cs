@@ -12,6 +12,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
+    [SerializeField] private GameObject lyNuocs;
 
     public BaseManagerLocation ManagerLocation => managerLocation;
     public Deposit ElevatorDeposit => elevatorDeposit;
@@ -64,7 +65,19 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     void Start()
     {
-        
+        elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
+    }
+
+    private void ElevatorDeposit_OnChangePawHandler(double value)
+    {
+        if(value > 0)
+        {
+            lyNuocs.SetActive(true);
+        }
+        else
+        {
+            lyNuocs.SetActive(false);
+        }
     }
 
     public void InitializeElevators()
