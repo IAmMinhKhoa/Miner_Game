@@ -8,8 +8,9 @@ using Spine.Unity;
 
 public class Brewer : BaseWorker
 {
-    [SerializeField] private GameObject spineData;
-    private SkeletonAnimation skeletonAnimation;
+    [SerializeField] private GameObject brewerView;
+    [SerializeField] private GameObject brewerSpineData, cartSpineData;
+    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation;
 
     public Shaft CurrentShaft { get; set; }
     private TextMeshPro numberText;
@@ -33,10 +34,13 @@ public class Brewer : BaseWorker
 
     void Start()
     {
-        skeletonAnimation = spineData.GetComponent<SkeletonAnimation>();
+        brewerSkeletonAnimation = brewerSpineData.GetComponent<SkeletonAnimation>();
+        cartSkeletonAnimation = cartSpineData.GetComponent<SkeletonAnimation>();
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
+        collectTransform = CurrentShaft.BrewLocation;
+        depositTransform = CurrentShaft.BrewerLocation;
     }
 
     private void Update()
@@ -91,42 +95,32 @@ public class Brewer : BaseWorker
         numberText.SetText(Currency.DisplayCurrency(max));
     }
 
-    private void PlayAnimation()
-    {
-        if (IsCollecting)
-        {
-            skeletonAnimation.skeleton.ScaleX = -1;
-            skeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
-        }
-        else
-        {
-            skeletonAnimation.skeleton.ScaleX = 1;
-            skeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
-        }
-    }
-
     protected override void PlayAnimation(WorkerState state, bool direction)
     {
         switch (state)
         {
             case WorkerState.Idle:
-                skeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Working:
-                skeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 isBrewing = true;
                 break;
             case WorkerState.Moving:
                 isBrewing = false;
                 if (direction)
                 {
-                    skeletonAnimation.skeleton.ScaleX = 1;
+                    brewerView.transform.localScale = new Vector3(1, 1, 1);
+                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active2", true);
                 }
                 else
                 {
-                    skeletonAnimation.skeleton.ScaleX = -1;
+                    brewerView.transform.localScale = new Vector3(-1, 1, 1);
+                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
-                skeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
+                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
                 break;
         }
     }

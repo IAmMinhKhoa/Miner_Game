@@ -47,6 +47,7 @@ public class ElevatorController : BaseWorker
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
+        collectTransform = this.transform;
     }
     private void Update()
     {
@@ -70,6 +71,7 @@ public class ElevatorController : BaseWorker
             Vector2 nextPosition = elevator.ElevatorLocation.position;
 
             _currentDeposit = elevator.ElevatorDeposit;
+            depositTransform = _currentDeposit.transform;
 
             Move(nextPosition, moveBackTime);
             return;
@@ -84,6 +86,7 @@ public class ElevatorController : BaseWorker
             moveBackTime = MoveTime * firstShaftMoveTimeScale;
 
             _currentDeposit = currentShaft.CurrentDeposit;
+            depositTransform = _currentDeposit.transform;
 
             float nextTime = moveBackTime;
 
@@ -96,6 +99,7 @@ public class ElevatorController : BaseWorker
             Vector2 nextPosition = elevator.ElevatorLocation.position;
 
             _currentDeposit = elevator.ElevatorDeposit;
+            depositTransform = elevator.ElevatorLocation;
 
             Move(nextPosition, moveBackTime);
         }
@@ -107,6 +111,7 @@ public class ElevatorController : BaseWorker
             moveBackTime += MoveTime;
 
             _currentDeposit = currentShaft.CurrentDeposit;
+            depositTransform = _currentDeposit.transform;
             Move(fixPos, MoveTime);
         }
     }
