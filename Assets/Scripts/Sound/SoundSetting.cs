@@ -48,6 +48,9 @@ public class SoundSetting : MonoBehaviour
     private bool _togglePauseMusic = false;
     private bool _toggleLoopMusic = false;
     private bool _toggleRandomMusic = false;
+    //----- Quick On/Off Music & Sound -----
+    private bool _toggleMusic = false;
+    private bool _togglesound = false;
     public bool TogglePauseMusic
     {
         get => _togglePauseMusic;
@@ -56,7 +59,7 @@ public class SoundSetting : MonoBehaviour
             _togglePauseMusic = value;
             if(value)
             {
-                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle", false);
+               
 
                 spineDiaThan.AnimationState.SetAnimation(0, "DiaThan - Idle", false);
 
@@ -68,7 +71,7 @@ public class SoundSetting : MonoBehaviour
 
                 spineCanGat.AnimationState.SetAnimation(0, "Caygat - Active", false);
 
-                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
+               
             }
         }
     }
@@ -85,17 +88,17 @@ public class SoundSetting : MonoBehaviour
                 spineLoop.AnimationState.SetAnimation(0, "Loop - Active", false);
                 _toggleRandomMusic = false;
                 //return button random
-                spineRandom.AnimationState.SetAnimation(0, "Randoom - Idle", false);
+                spineRandom.AnimationState.SetAnimation(0, "Random - Idle", false);
             }
             else
             {
-                var trackEntry = spineLoop.AnimationState.SetAnimation(0, "Loop - Active", false);
-                trackEntry.TrackTime = trackEntry.AnimationEnd;
+                var trackEntry = spineLoop.AnimationState.SetAnimation(0, "Loop - Active2", false);
+               /* trackEntry.TrackTime = trackEntry.AnimationEnd;
                 trackEntry.TimeScale = -1f;
                 StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
                 {
                     spineLoop.AnimationState.SetAnimation(0, "Loop - Idle", false);
-                }));
+                }));*/
             }
         }
     }
@@ -110,21 +113,21 @@ public class SoundSetting : MonoBehaviour
 
             if (value)
             {
-                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Randoom - Active", false);
+                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Random - Active", false);
                 _toggleLoopMusic = false;
                 //return button loop
                 spineLoop.AnimationState.SetAnimation(0, "Loop - Idle", false);
             }
             else
             {
-                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Randoom - Active", false);
-                trackEntry.TrackTime = trackEntry.AnimationEnd;
+                var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Random - Active2", false);
+               /* trackEntry.TrackTime = trackEntry.AnimationEnd;
                 trackEntry.TimeScale = -1f;
 
                 StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
                 {
                     spineRandom.AnimationState.SetAnimation(0, "Randoom - Idle", false);
-                }));
+                }));*/
             }
 
 
@@ -277,11 +280,22 @@ public class SoundSetting : MonoBehaviour
             StopCoroutine(_coroutineCurrentMusic);
             _coroutineCurrentMusic = null;
             SoundManager.StopAllMusic();
+
+            spinePause.AnimationState.SetAnimation(0, "PlayStop - Active2", false);
+            StartCoroutine(Common.IeDoSomeThing(0.25f, () =>
+            {
+                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle", false);
+            }));
         }
 
         else
         {
             PlayMusic(BahaviorMS.Current);
+            spinePause.AnimationState.SetAnimation(0, "PlayStop - Active", false);
+            StartCoroutine(Common.IeDoSomeThing(0.25f, () =>
+            {
+                spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
+            }));
         }
         TogglePauseMusic = !TogglePauseMusic;
     }
@@ -290,6 +304,7 @@ public class SoundSetting : MonoBehaviour
     {
         PlayMusic();
         TogglePauseMusic = false;
+        spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
         spineNext.AnimationState.SetAnimation(0, "PlayNext - Active", false);
     }
     private void previousMusic()
@@ -297,6 +312,7 @@ public class SoundSetting : MonoBehaviour
         PlayMusic(BahaviorMS.Previous);
         
         TogglePauseMusic = false;
+        spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
         spinePrevious.AnimationState.SetAnimation(0, "PlayBack - Active", false);
     }
 
@@ -313,12 +329,39 @@ public class SoundSetting : MonoBehaviour
     private void ChangeMusicVolume(float value)
     {
         SoundManager.GlobalMusicVolume = value;
-        Debug.Log("ccc:"+value);
     }
 
     private void ChangeSFXVolume(float value)
     {
         SoundManager.GlobalSoundVolume = value;
+    }
+    public void ToggleMusic()
+    {
+        if (!_toggleMusic)
+        {
+            ChangeMusicVolume(0);
+            sliderMusic.value = 0;
+        }
+        else
+        {
+            ChangeMusicVolume(1);
+            sliderMusic.value = 1;
+        }
+        _toggleMusic = !_toggleMusic;
+    }
+    public void ToggleSound()
+    {
+        if (!_togglesound)
+        {
+            ChangeSFXVolume(0);
+            sliderSFX.value = 0;
+        }
+        else
+        {
+            ChangeSFXVolume(1);
+            sliderSFX.value = 1;
+        }
+        _togglesound = !_togglesound;
     }
     #endregion
     #region AnimateUI

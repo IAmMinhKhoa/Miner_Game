@@ -8,13 +8,15 @@ using UnityEngine.UI;
 internal enum ButtonState
 {
     Idle,
+    Click,
     Hover
 }
 
-public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,IPointerClickHandler
 {
     public Image frame;
     public Sprite idleFrame;
+    private Sprite defaultImage;
     public Color idleTextColor;
     public Sprite hoverFrame;
     public Color hoverTextColor;
@@ -25,6 +27,7 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private ButtonState _state;
 
     public SoundEnum clickSoundFx;
+    private bool toggleBtn = false;
 
     // Start is called before the first frame update
     private void Awake()
@@ -34,7 +37,7 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             frame = GetComponentInChildren<Image>();
         }
-
+        defaultImage=frame.sprite;
         var btn = GetComponent<Button>();
         if (btn == null) return;
 
@@ -61,6 +64,13 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 {
                     frame.sprite = idleFrame;
                     SetText(idleTextColor);
+                }
+                break;
+            case ButtonState.Click:
+                if (idleFrame != null)
+                {
+                    frame.sprite = defaultImage;
+             
                 }
                 break;
             case ButtonState.Hover:
@@ -91,7 +101,7 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        SetState(ButtonState.Idle);
+       
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -106,5 +116,14 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             SetState(ButtonState.Idle);
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!toggleBtn)
+            SetState(ButtonState.Idle);
+        else
+            SetState(ButtonState.Click);
+        toggleBtn = !toggleBtn;
     }
 }
