@@ -34,6 +34,8 @@ public class SoundSetting : MonoBehaviour
 
     [SerializeField] private TMP_Text textNameMusic;
 
+    [SerializeField] ButtonBehavior btnMusic;
+    [SerializeField] ButtonBehavior btnSound;
     [Header("SPINE")]
     #region SPINE 
     [SerializeField] SkeletonGraphic spineDiaThan;
@@ -49,8 +51,8 @@ public class SoundSetting : MonoBehaviour
     private bool _toggleLoopMusic = false;
     private bool _toggleRandomMusic = false;
     //----- Quick On/Off Music & Sound -----
-    private bool _toggleMusic = false;
-    private bool _togglesound = false;
+    private bool _toggleMusic = true;
+    private bool _togglesound = true;
     public bool TogglePauseMusic
     {
         get => _togglePauseMusic;
@@ -59,8 +61,6 @@ public class SoundSetting : MonoBehaviour
             _togglePauseMusic = value;
             if(value)
             {
-               
-
                 spineDiaThan.AnimationState.SetAnimation(0, "DiaThan - Idle", false);
 
                 spineCanGat.AnimationState.SetAnimation(0, "Caygat - Idle", false);
@@ -70,8 +70,6 @@ public class SoundSetting : MonoBehaviour
                 spineDiaThan.AnimationState.SetAnimation(0, "DiaThan - Active", true);
 
                 spineCanGat.AnimationState.SetAnimation(0, "Caygat - Active", false);
-
-               
             }
         }
     }
@@ -323,45 +321,77 @@ public class SoundSetting : MonoBehaviour
 
     private void toggleRandomMusic()
     {
+     
         ToggleRandomMusic = !ToggleRandomMusic;
     }
 
     private void ChangeMusicVolume(float value)
     {
+
+        if (value > 0 && !_toggleMusic)
+        {
+            _toggleMusic = true;
+            btnMusic.SetState(ButtonState.Default); // Sound on state
+        }
+        else if (value == 0 && _toggleMusic)
+        {
+            _toggleMusic = false;
+            btnMusic.SetState(ButtonState.Click); // Muted state
+        }
         SoundManager.GlobalMusicVolume = value;
     }
 
     private void ChangeSFXVolume(float value)
     {
+        if (value > 0 && !_togglesound)
+        {
+            _togglesound = true;
+            btnSound.SetState(ButtonState.Default); // Sound on state
+        }
+        else if (value == 0 && _togglesound)
+        {
+            _togglesound = false;
+            btnSound.SetState(ButtonState.Click); // Muted state
+        }
         SoundManager.GlobalSoundVolume = value;
     }
     public void ToggleMusic()
     {
+        _toggleMusic = !_toggleMusic;
         if (!_toggleMusic)
         {
+            
             ChangeMusicVolume(0);
             sliderMusic.value = 0;
+            btnMusic.SetState(ButtonState.Click);
         }
         else
         {
+            
             ChangeMusicVolume(1);
             sliderMusic.value = 1;
+            btnMusic.SetState(ButtonState.Default);
         }
-        _toggleMusic = !_toggleMusic;
+        
     }
     public void ToggleSound()
     {
+        _togglesound = !_togglesound;
         if (!_togglesound)
         {
+            
             ChangeSFXVolume(0);
             sliderSFX.value = 0;
+            btnSound.SetState(ButtonState.Click);
         }
         else
         {
+           
             ChangeSFXVolume(1);
             sliderSFX.value = 1;
+            btnSound.SetState(ButtonState.Default);
         }
-        _togglesound = !_togglesound;
+        
     }
     #endregion
     #region AnimateUI

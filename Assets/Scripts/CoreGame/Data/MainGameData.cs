@@ -30,7 +30,7 @@ public static class MainGameData
             "UI/Icon Buff/Speed_3"
         }}
     };
-    public readonly static Dictionary<ManagerLocation, List<string>> FrameLevelSmall = new Dictionary<ManagerLocation, List<string>>
+    public readonly static Dictionary<ManagerLocation, List<string>> FrameLevelButton = new Dictionary<ManagerLocation, List<string>>
     {
         {ManagerLocation.Shaft, new List<string>
         {
@@ -42,15 +42,17 @@ public static class MainGameData
         }},
         {ManagerLocation.Counter, new List<string>
         {
-            "UI/Icon Buff/Efficiency_1",
-            "UI/Icon Buff/Efficiency_2",
-            "UI/Icon Buff/Efficiency_3"
+            "UI/Frame lvl big/LV 1-600",
+            "UI/Frame lvl big/LV 601-1200",
+            "UI/Frame lvl big/LV 1201-1800",
+            "UI/Frame lvl big/LV 1801-2400",
         }},
         {ManagerLocation.Elevator, new List<string>
         {
-            "UI/Icon Buff/Speed_1",
-            "UI/Icon Buff/Speed_2",
-            "UI/Icon Buff/Speed_3"
+           "UI/Frame lvl big/LV 1-600",
+            "UI/Frame lvl big/LV 601-1200",
+            "UI/Frame lvl big/LV 1201-1800",
+            "UI/Frame lvl big/LV 1801-2400",
         }}
     };
 }

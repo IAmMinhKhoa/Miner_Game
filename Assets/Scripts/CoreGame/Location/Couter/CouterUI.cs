@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using log4net.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ public class CounterUI : MonoBehaviour
     {
         m_levelText.text =  m_counterUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
+        UpdateFrameButtonUpgrade(m_counterUpgrade.CurrentLevel);
     }
 
     void Update()
@@ -71,9 +73,30 @@ public class CounterUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
+            UpdateFrameButtonUpgrade(level);
         }
     }
+    void UpdateFrameButtonUpgrade(int currentLevel)
+    {
 
+        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>();
+        if (currentLevel <= 600)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Counter][0]);
+        }
+        else if (currentLevel > 600 && currentLevel <= 1200)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Counter][1]);
+        }
+        else if (currentLevel > 1200 && currentLevel <= 1800)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Counter][2]);
+        }
+        else if (currentLevel > 1800 && currentLevel <= 2400)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Counter][3]);
+        }
+    }
     void ActiveBoost()
     {
         m_counter.RunBoost();

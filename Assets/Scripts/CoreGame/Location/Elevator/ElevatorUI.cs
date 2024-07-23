@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
+using log4net.Core;
+using Sirenix.OdinInspector;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -40,6 +42,7 @@ public class ElevatorUI : MonoBehaviour
         m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
+        UpdateFrameButtonUpgrade(m_elevatorUpgrade.CurrentLevel);
     }
 
     void Update()
@@ -113,6 +116,28 @@ public class ElevatorUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
+            UpdateFrameButtonUpgrade(level);
+        }
+    }
+    void UpdateFrameButtonUpgrade(int currentLevel)
+    {
+
+        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>();
+        if (currentLevel <= 600)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Elevator][0]);
+        }
+        else if (currentLevel > 600 && currentLevel <= 1200)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Elevator][1]);
+        }
+        else if (currentLevel > 1200 && currentLevel <= 1800)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Elevator][2]);
+        }
+        else if (currentLevel > 1800 && currentLevel <= 2400)
+        {
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Elevator][3]);
         }
     }
 
@@ -125,4 +150,11 @@ public class ElevatorUI : MonoBehaviour
     {
         ManagersController.Instance.OpenManagerPanel(m_elevator.ManagerLocation);
     }
+    #region DEBUG
+    [Button]
+    private void AddLevel(int valueAdd)
+    {
+        m_elevatorUpgrade.Upgrade(valueAdd);
+    }
+    #endregion
 }

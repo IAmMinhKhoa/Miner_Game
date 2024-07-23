@@ -136,19 +136,19 @@ public class ShaftUI : MonoBehaviour
         Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>(); 
         if (currentLevel <= 200)
         {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][0]);
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][0]);
         }
         else if( currentLevel>200 && currentLevel <= 400)
         {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][1]);
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][1]);
         }
         else if (currentLevel > 400 && currentLevel <= 600)
         {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][2]);
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][2]);
         }
         else if (currentLevel > 600 && currentLevel <= 800)
         {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelSmall[ManagerLocation.Shaft][3]);
+            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][3]);
         }
     }
 

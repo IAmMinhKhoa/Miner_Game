@@ -5,10 +5,10 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-internal enum ButtonState
+public enum ButtonState
 {
-    Idle,
     Click,
+    Default,
     Hover
 }
 
@@ -48,25 +48,25 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void Start()
     {
-        _state = ButtonState.Idle;
+        _state = ButtonState.Click;
     }
+        
 
-
-    private void SetState(ButtonState state)
+    public void SetState(ButtonState state)
     {
         _state = state;
-
+        Debug.Log("cpncc:" + state);    
         // Change frame
         switch (state)
         {
-            case ButtonState.Idle:
+            case ButtonState.Click:
                 if (idleFrame != null)
                 {
                     frame.sprite = idleFrame;
                     SetText(idleTextColor);
                 }
                 break;
-            case ButtonState.Click:
+            case ButtonState.Default:
                 if (idleFrame != null)
                 {
                     frame.sprite = defaultImage;
@@ -114,16 +114,16 @@ public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         if (gameObject == null)
         {
-            SetState(ButtonState.Idle);
+            SetState(ButtonState.Click);
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!toggleBtn)
-            SetState(ButtonState.Idle);
+       /* if (!toggleBtn)
+            SetState(ButtonState.Click  );
         else
-            SetState(ButtonState.Click);
-        toggleBtn = !toggleBtn;
+            SetState(ButtonState.Default);
+        toggleBtn = !toggleBtn;*/
     }
 }
