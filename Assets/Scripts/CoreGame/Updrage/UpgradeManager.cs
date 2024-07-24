@@ -67,7 +67,6 @@ public class UpgradeManager : MonoBehaviour
             {
                 Debug.Log("Not enough paw");
             }
-            ControlPannel(false);
         }
     }
         #endregion

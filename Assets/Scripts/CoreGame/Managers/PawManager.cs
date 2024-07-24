@@ -14,10 +14,8 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     public double CurrentPaw { get; private set; }
 
-    void Start()
-    {
-        LoadPaw();
-    }
+    private bool isDone = false;
+    public bool IsDone => isDone;
 
     [Button]
     public void AddPaw(double amount)
@@ -42,7 +40,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         PlayerPrefs.Save();
     }
 
-    private void LoadPaw()
+    public void LoadPaw()
     {
         var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
         Debug.Log("Paw from PlayerPrefs:" + paw);
@@ -51,6 +49,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         {
             Debug.Log("Current paw:" + result);
             CurrentPaw = result;
+            isDone = true;
         }
         else
         {
