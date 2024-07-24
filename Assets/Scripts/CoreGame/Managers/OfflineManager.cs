@@ -54,6 +54,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         CalculateManagerCooldown(seconds);
         double offlinePaw = PawBonus(seconds);
+        // update ADS double up or something here
+        PawManager.Instance.AddPaw(offlinePaw);
         isDone = true;
     }
 
