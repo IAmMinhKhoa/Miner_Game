@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PawManager : Patterns.Singleton<PawManager>
 {
+    public Action<double> OnPawChanged;
     [SerializeField] private string m_startingPaw = "10000000000";
 
     [SerializeField] private readonly string m_pawKey = "PawVollume";
@@ -21,6 +22,7 @@ public class PawManager : Patterns.Singleton<PawManager>
     {
         CurrentPaw += amount;
         PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
+        OnPawChanged?.Invoke(CurrentPaw);
         PlayerPrefs.Save();
     }
 
@@ -28,6 +30,7 @@ public class PawManager : Patterns.Singleton<PawManager>
     {
         CurrentPaw -= amount;
         PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
+        OnPawChanged?.Invoke(CurrentPaw);
         PlayerPrefs.Save();
     }
 
