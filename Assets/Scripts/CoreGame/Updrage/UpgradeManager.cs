@@ -10,9 +10,6 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 
     [Header("Upgrade Panel Prefab")]
     [SerializeField] private UpgradeUI m_upgradePanel;
-
-
-    private Shaft _shaft;
     private BaseUpgrade _baseUpgrade;
 
     #region ----Unity Methods----
@@ -23,33 +20,48 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
     }
     private void OnEnable()
     {
-        ShaftUI.OnUpgradeRequest += ShowUpgradePanel;
+        ShaftUI.OnUpgradeRequest += ShowShaftUpgradePanel;
+        ElevatorUI.OnUpgradeRequest += ShowElevatorUpgradePanel;
+        CounterUI.OnUpgradeRequest += ShowCounterUpgradePanel;
         OnUpdrageRequest += OnUpgradeAction;
         BaseUpgrade.OnUpgradeSuccess += ResertPanel;
     }
 
     private void OnDisable()
     {
-        ShaftUI.OnUpgradeRequest -= ShowUpgradePanel;
+        ShaftUI.OnUpgradeRequest -= ShowShaftUpgradePanel;
+        ElevatorUI.OnUpgradeRequest -= ShowElevatorUpgradePanel;
+        CounterUI.OnUpgradeRequest -= ShowCounterUpgradePanel;
         OnUpdrageRequest -= OnUpgradeAction;
         BaseUpgrade.OnUpgradeSuccess -= ResertPanel;
     }
     #endregion
 
     #region ----Methods----
-    private void ShowUpgradePanel(int index)
+    private void ShowShaftUpgradePanel(int index)
     {
         List<Shaft> shafts = ShaftManager.Instance.Shafts;
         foreach (var shaft in shafts)
         {
             if (shaft.shaftIndex == index)
             {
-                _shaft = shaft;
                 _baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
                 break;
             }
         }
 
+        ResertPanel();
+    }
+
+    private void ShowElevatorUpgradePanel()
+    {
+        _baseUpgrade = ElevatorSystem.Instance.gameObject.GetComponent<ElevatorUpgrade>();
+        ResertPanel();
+    }
+
+    private void ShowCounterUpgradePanel()
+    {
+        _baseUpgrade = Counter.Instance.gameObject.GetComponent<CounterUpgrade>();
         ResertPanel();
     }
 
@@ -66,7 +78,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 
     private void OnUpgradeAction(int amount)
     {
-        if (_shaft != null)
+        if (_baseUpgrade != null)
         {
             if (PawManager.Instance.CurrentPaw >= GetUpgradeCost(amount))
             {
