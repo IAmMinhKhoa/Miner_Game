@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -278,6 +278,7 @@ MonoBehaviour:
   Shafts: []
   firstShaftPosition: {x: 0.656, y: -0.039, z: 0}
   maxShaftCount: 30
+  initCost: 100
 --- !u!4 &449297000
 Transform:
   m_ObjectHideFlags: 0
@@ -975,6 +976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395491204}
   - component: {fileID: 1395491203}
+  - component: {fileID: 1395491205}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1014,6 +1016,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1395491205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395491202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366bed5c7d5dd5b4f8ad98d035dd720e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_startingPaw: 10000000000
 --- !u!224 &1507635320 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2209080003912633094, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
@@ -1164,7 +1179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 339113aed147a2f4fa481385afd744de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_upgradePanel: {fileID: 501543820154765956, guid: 195c86061091e6a4793295d39cc43c17, type: 3}
+  m_upgradePanel: {fileID: 3275376181261567729, guid: 195c86061091e6a4793295d39cc43c17, type: 3}
 --- !u!224 &2146290285
 RectTransform:
   m_ObjectHideFlags: 0
