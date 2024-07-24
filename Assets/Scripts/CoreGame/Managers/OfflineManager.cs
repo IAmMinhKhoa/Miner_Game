@@ -48,6 +48,12 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     public void LoadOfflineData()
     {
         string lastTimeQuit = PlayerPrefs.GetString("LastTimeQuit");
+        if (string.IsNullOrEmpty(lastTimeQuit))
+        {
+            isDone = true;
+            return;
+        }
+        
         System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
         System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
         double seconds = timeSpan.TotalSeconds;

@@ -4,33 +4,35 @@ using UnityEngine;
 using NOOD;
 using System;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 {
-    public static Action<int> OnUpdrageRequest;
+    public Action<int> OnUpdrageRequest;
 
     [Header("Upgrade Panel Prefab")]
-    [SerializeField] private GameObject m_upgradePanel;
+    [SerializeField] private UpgradeUI m_upgradePanel;
 
 
     private Shaft _shaft;
-    private ShaftUpgrade _shaftUpgrade;
+    private BaseUpgrade _baseUpgrade;
 
     #region ----Unity Methods----
     private void Start()
     {
         m_upgradePanel = Instantiate(m_upgradePanel, GameUI.Instance.transform);
-        m_upgradePanel.SetActive(false);
+        m_upgradePanel.gameObject.SetActive(false);
     }
     private void OnEnable()
     {
         ShaftUI.OnUpgradeRequest += ShowUpgradePanel;
-        UpgradeManager.OnUpdrageRequest += OnUpgradeAction;
+        OnUpdrageRequest += OnUpgradeAction;
+        BaseUpgrade.OnUpgradeSuccess += ResertPanel;
     }
 
     private void OnDisable()
     {
         ShaftUI.OnUpgradeRequest -= ShowUpgradePanel;
-        UpgradeManager.OnUpdrageRequest -= OnUpgradeAction;
+        OnUpdrageRequest -= OnUpgradeAction;
+        BaseUpgrade.OnUpgradeSuccess -= ResertPanel;
     }
     #endregion
 
@@ -43,25 +45,32 @@ public class UpgradeManager : MonoBehaviour
             if (shaft.shaftIndex == index)
             {
                 _shaft = shaft;
-                _shaftUpgrade = shaft.GetComponent<ShaftUpgrade>();
+                _baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
                 break;
             }
         }
-        ControlPannel(true);
+
+        ResertPanel();
     }
 
     private void ControlPannel(bool open)
     {
-        m_upgradePanel.SetActive(open);
+        m_upgradePanel.gameObject.SetActive(open);
+    }
+
+    private void ResertPanel()
+    {
+        m_upgradePanel.SetUpPanel(CalculateUpgradeAmount());
+        ControlPannel(true);
     }
 
     private void OnUpgradeAction(int amount)
     {
         if (_shaft != null)
         {
-            if (PawManager.Instance.CurrentPaw >= _shaftUpgrade.CurrentCost)
+            if (PawManager.Instance.CurrentPaw >= GetUpgradeCost(amount))
             {
-                _shaftUpgrade.Upgrade(amount);
+                _baseUpgrade.Upgrade(amount);
             }
             else
             {
@@ -69,5 +78,42 @@ public class UpgradeManager : MonoBehaviour
             }
         }
     }
-        #endregion
+
+    private int CalculateUpgradeAmount()
+    {
+        int amount = 0;
+        double paw = PawManager.Instance.CurrentPaw;
+        double cost = _baseUpgrade.CurrentCost;
+        int level = _baseUpgrade.CurrentLevel;
+        while (paw >= cost)
+        {
+            amount++;
+            paw -= cost;
+            level++;
+            cost *= 1 + _baseUpgrade.GetNextUpgradeCostScale(level);
+        }
+
+        return amount;
+    }
+
+    public double GetUpgradeCost(int amount)
+    {
+        double total = 0;
+        double cost = _baseUpgrade.CurrentCost;
+        int level = _baseUpgrade.CurrentLevel;
+        for (int i = 1; i <= amount; i++)
+        {
+            total += cost;
+            level++;
+            cost *= 1 + _baseUpgrade.GetNextUpgradeCostScale(level);
+        }
+
+        return total;
+    }
+
+    public double GetInitCost()
+    {
+        return _baseUpgrade.GetInitialCost();
+    }
+    #endregion
     }

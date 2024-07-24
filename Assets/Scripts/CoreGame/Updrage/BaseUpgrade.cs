@@ -7,6 +7,7 @@ using System;
 public class BaseUpgrade : MonoBehaviour
 {
     public static Action<BaseUpgrade,int> OnUpgrade;
+    public static Action OnUpgradeSuccess;
 
     [Header("Upgrade Cost")]
     [SerializeField] protected double initialCost = 100;
@@ -46,6 +47,7 @@ public class BaseUpgrade : MonoBehaviour
                 UpdateUpgradeValue();
                 RunUpgrade();
             }
+            OnUpgradeSuccess?.Invoke();
         }
     }
 
@@ -58,7 +60,7 @@ public class BaseUpgrade : MonoBehaviour
     protected virtual void UpdateUpgradeValue()
     {
         level++;
-        costScale *= 1 + GetNextUpgradeCostScale();
+        costScale *= 1 + GetNextUpgradeCostScale(level);
         OnUpgrade?.Invoke(this, CurrentLevel);
 
     }
@@ -67,7 +69,7 @@ public class BaseUpgrade : MonoBehaviour
     {
         
     }
-    protected virtual float GetNextUpgradeCostScale()
+    public virtual float GetNextUpgradeCostScale(int level)
     {
         return 0f;
     }
@@ -77,8 +79,13 @@ public class BaseUpgrade : MonoBehaviour
         double scale = 1.00;
         for (int i = 1; i <= level; i++)
         {
-            scale *= 1 + GetNextUpgradeCostScale();
+            scale *= 1 + GetNextUpgradeCostScale(level);
         }
         return scale;
+    }
+
+    public double GetInitialCost()
+    {
+        return initialCost;
     }
 }

@@ -45,9 +45,9 @@ public class ElevatorUpgrade : BaseUpgrade
             }
         };
     }
-    protected override float GetNextUpgradeCostScale()
+    public override float GetNextUpgradeCostScale(int level)
     {
-        return CurrentLevel switch
+        return level switch
         {
             <= 2400 => 0.2f,
             _ => 0f
