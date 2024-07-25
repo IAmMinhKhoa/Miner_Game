@@ -76,19 +76,17 @@ public class ElevatorControllerView : MonoBehaviour
         _elevatorStaff.AnimationState.SetAnimation(0, "Idle", true);
     }
 
-    private async void OpenRefrigerator(bool isOpen)
+    private void OpenRefrigerator(bool isOpen)
     {
         if(isOpen)
         {
-            _refrigeratorDoor.AnimationState.SetAnimation(0, "Open", true);
+            _refrigeratorDoor.AnimationState.SetAnimation(0, "Cuatulanh - Open", false);
         }
         else
         {
-            if(_refrigeratorDoor.AnimationName == "Open")
+            if(_refrigeratorDoor.AnimationName == "Cuatulanh - Open")
             {
-                _refrigeratorDoor.AnimationState.SetAnimation(0, "Close", true); 
-                await UniTask.Delay((int) _refrigeratorDoor.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Close").Duration * 1000);
-                _refrigeratorDoor.AnimationState.SetAnimation(0, "Idle", true);
+                _refrigeratorDoor.AnimationState.SetAnimation(0, "Cuatulanh - Idle", true);
             }
         }
     }
