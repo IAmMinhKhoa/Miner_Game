@@ -127,5 +127,21 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
     {
         return _baseUpgrade.GetInitialCost();
     }
+
+    public int CalculateUpgradeAmount(double paw, BaseUpgrade baseUpgrade)
+    {
+        int amount = 0;
+        double cost = baseUpgrade.CurrentCost;
+        int level = baseUpgrade.CurrentLevel;
+        while (paw >= cost)
+        {
+            amount++;
+            paw -= cost;
+            level++;
+            cost *= 1 + baseUpgrade.GetNextUpgradeCostScale(level);
+        }
+
+        return amount;
+    }
     #endregion
     }
