@@ -33,7 +33,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     {
         Transform lastShaft = Shafts[^1].transform;
         Shaft newShaft = Instantiate(shaftPrefab, lastShaft.position, Quaternion.identity);
-        newShaft.transform.localPosition += new Vector3(0, -shaftYOffset, 0);
+        newShaft.transform.localPosition += new Vector3(0, shaftYOffset, 0);
         newShaft.IndexBoost = BaseShaftIndexScale();
 
         ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
@@ -142,7 +142,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
                 Vector3 position = Shafts.Count switch
                 {
                     0 => firstShaftPosition,
-                    _ => Shafts[^1].transform.position + new Vector3(0, -shaftYOffset, 0),
+                    _ => Shafts[^1].transform.position + new Vector3(0, shaftYOffset, 0),
                 };
 
                 Shaft shaft = Instantiate(shaftPrefab, position, Quaternion.identity);
