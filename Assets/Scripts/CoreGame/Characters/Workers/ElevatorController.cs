@@ -20,16 +20,8 @@ public class ElevatorController : BaseWorker
     private double checkWorkingTime = 0;
 
     public bool IsWorking => isWorking;
-<<<<<<< HEAD
-    public SkeletonAnimation FrontElevator => _frontElevator;
-    public SkeletonAnimation BackElevator => _backElevator;
-    public SkeletonAnimation ElevatorStaff => _elevatorStaff;
-
-    public override double ProductPerSecond
-=======
     public double MaxCapacity{ get; private set; }
-    public double ProductPerSecond
->>>>>>> main
+    public override double ProductPerSecond
     {
         get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
     }
