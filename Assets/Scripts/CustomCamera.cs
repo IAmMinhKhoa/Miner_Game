@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NOOD;
 using UnityEngine;
 
-public class CustomCamera : MonoBehaviour
+public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
     private Camera _camera;
 
@@ -22,4 +22,11 @@ public class CustomCamera : MonoBehaviour
         if(NoodyCustomCode.IsPointerOverUIElement() == false)
             NoodyCustomCode.DragCamera(this.gameObject, horizontal: false, vertical: true, direction: -1);
     }
+
+    public Transform GetCurrentTranform()
+    {
+        return transform;
+    }
+
+        
 }
