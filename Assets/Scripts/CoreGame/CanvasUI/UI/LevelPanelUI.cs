@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelPanelUI : MonoBehaviour
 {
-    [SerializeField] private GameObject imageUpgarde;
+    [SerializeField] private Image imageUpgarde;
     [SerializeField] private BaseUpgrade baseUpgrade;
 
     void OnEnable()
@@ -19,6 +20,25 @@ public class LevelPanelUI : MonoBehaviour
 
     private void OnPawChanged(double paw)
     {
-        imageUpgarde.SetActive(paw >= baseUpgrade.CurrentCost);
+        bool isActive = paw >= baseUpgrade.CurrentCost;
+        imageUpgarde.gameObject.SetActive(isActive);
+
+        if (isActive)
+        {
+            int amount = UpgradeManager.Instance.CalculateUpgradeAmount(paw, baseUpgrade);
+
+            if (amount < 51 && amount > 0)
+            {
+                imageUpgarde.sprite = Resources.Load<Sprite>(MainGameData.CanUpgradeButton[0]);
+            }
+            else if (amount < 101)
+            {
+                imageUpgarde.sprite = Resources.Load<Sprite>(MainGameData.CanUpgradeButton[1]);
+            }
+            else
+            {
+                imageUpgarde.sprite = Resources.Load<Sprite>(MainGameData.CanUpgradeButton[2]);
+            }
+        }
     }
 }
