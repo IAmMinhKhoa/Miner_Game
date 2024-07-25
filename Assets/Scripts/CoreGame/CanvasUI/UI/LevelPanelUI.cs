@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class LevelPanelUI : MonoBehaviour
 {
     [SerializeField] private Image imageUpgarde;
     [SerializeField] private BaseUpgrade baseUpgrade;
+    private float y_pos;
+    private Tween tween;
 
     void OnEnable()
     {
         PawManager.Instance.OnPawChanged += OnPawChanged;
+        y_pos = imageUpgarde.gameObject.GetComponent<RectTransform>().position.y;
     }
 
     void OnDisable()
@@ -39,6 +42,20 @@ public class LevelPanelUI : MonoBehaviour
             {
                 imageUpgarde.sprite = Resources.Load<Sprite>(MainGameData.CanUpgradeButton[2]);
             }
+            var rect = imageUpgarde.gameObject.GetComponent<RectTransform>();
+            if (tween == null || !tween.IsActive())
+            {
+                tween = rect.DOMoveY(y_pos + 0.05f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+            }
+        }
+        else
+        {
+            if (tween != null)
+            {
+                tween.Kill();
+            }
+            var rect = imageUpgarde.gameObject.GetComponent<RectTransform>();
+            rect.position = new Vector3(rect.position.x, y_pos, rect.position.z);
         }
     }
 }
