@@ -96,7 +96,6 @@ public class Transporter : BaseWorker
 
     protected override void PlayAnimation(WorkerState state, bool direction)
     {
-        Debug.Log("Play Animation: " + state);
         switch (state)
         {
             case WorkerState.Idle:

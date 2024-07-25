@@ -17,15 +17,10 @@ public class ElevatorController : BaseWorker
     [SerializeField] private float moveBackTime = 0f;
     [SerializeField] private float firstShaftMoveTimeScale = 0.724f;
     [SerializeField] private bool isWorking = false;
-    [SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff;
-    [SerializeField] private GameObject lyNuocs;
     private double checkWorkingTime = 0;
 
     public bool IsWorking => isWorking;
-    public SkeletonAnimation FrontElevator => _frontElevator;
-    public SkeletonAnimation BackElevator => _backElevator;
-    public SkeletonAnimation ElevatorStaff => _elevatorStaff;
-
+    public double MaxCapacity{ get; private set; }
     public double ProductPerSecond
     {
         get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
@@ -49,7 +44,6 @@ public class ElevatorController : BaseWorker
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
         collectTransform = this.transform;
-        ActiveLyNuocs(CurrentProduct > 0);
     }
     private void Update()
     {
@@ -60,10 +54,6 @@ public class ElevatorController : BaseWorker
         }
     }
 
-    private void ActiveLyNuocs(bool active)
-    {
-        lyNuocs.SetActive(active);
-    }
 
     private void MoveToNextShaft()
     {
@@ -73,8 +63,10 @@ public class ElevatorController : BaseWorker
             return;
         }
 
+        Debug.Log("MoveToNextShaft");
         if (!IsCollecting)
         {
+            Debug.Log("IsCollecting false");
             Vector2 nextPosition = elevator.ElevatorLocation.position;
 
             _currentDeposit = elevator.ElevatorDeposit;
@@ -125,6 +117,7 @@ public class ElevatorController : BaseWorker
 
     protected override async void Collect()
     {
+        Debug.Log("Collect");
         //put in different place
         if (_currentDeposit && !_currentDeposit.CanCollectPaw())
         {
@@ -134,13 +127,13 @@ public class ElevatorController : BaseWorker
 
         float collectTime;
         double amount;
-        double maxCapacity = WorkingTime * ProductPerSecond;
+        MaxCapacity = WorkingTime * ProductPerSecond;
         //Debug.Log("maxCapacity: " + maxCapacity);
 
         //if the amount of paw in the deposit is less than the max capacity, collect and move back
-        if (CurrentProduct + _currentDeposit.CurrentPaw > maxCapacity)
+        if (CurrentProduct + _currentDeposit.CurrentPaw > MaxCapacity)
         {
-            amount = maxCapacity - CurrentProduct;
+            amount = MaxCapacity - CurrentProduct;
             collectTime = (float)(amount / ProductPerSecond);
             if (collectTime > 4f)
             {
@@ -166,23 +159,24 @@ public class ElevatorController : BaseWorker
     {
         PlayTextAnimation(amount);
         await UniTask.Delay((int)(collectTime * 1000));
-        ActiveLyNuocs(amount > 0);
         checkWorkingTime += collectTime;
         CurrentProduct += amount;
         _currentDeposit.RemovePaw(amount);
         MoveToNextShaft();
+        OnChangePawDone?.Invoke(CurrentProduct);
     }
 
     protected override async void Deposit()
     {
+        Debug.Log("Deposit");
         await IEDeposit();
+        OnChangePawDone?.Invoke(CurrentProduct);
     }
 
     protected override async UniTask IEDeposit()
     {
         PlayTextAnimation(CurrentProduct, true);
         await UniTask.Delay((int)(WorkingTime * 1000));
-        ActiveLyNuocs(false);
         elevator.ElevatorDeposit.AddPaw(CurrentProduct);
         CurrentProduct = 0;
         Debug.Log("Deposit" + moveBackTime);
