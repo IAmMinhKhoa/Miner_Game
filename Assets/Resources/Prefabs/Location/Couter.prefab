@@ -213,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 1626022306239459331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.57, y: -0.7070002, z: 0}
+  m_LocalPosition: {x: 1.57, y: -0.646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -364,7 +364,7 @@ Transform:
   m_GameObject: {fileID: 4300726940915890837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.64, y: -0.7070002, z: 0}
+  m_LocalPosition: {x: -1.64, y: -0.646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -813,7 +813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2791865796135574131}
   m_Layer: 0
-  m_Name: CouterLocation
+  m_Name: CounterLocation
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -828,7 +828,7 @@ Transform:
   m_GameObject: {fileID: 7903993540822295861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.54, y: -0.70700026, z: 0}
+  m_LocalPosition: {x: 1.54, y: -0.646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -920,7 +920,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1119817961
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7616711153819495923, guid: 4bae993b36dfc804088ba09631cf875d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1159,9 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74488eb741c539840a8dcde89cb8a062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_transporterPrefab: {fileID: 0}
-  m_depositPrefab: {fileID: 0}
-  m_couterLocation: {fileID: 2791865796135574131}
+  m_counterLocation: {fileID: 2791865796135574131}
   m_depositLocation: {fileID: 576670462233119536}
   m_transporterLocation: {fileID: 5176851737167018853}
   m_managerLocation: {fileID: 411046411454595188}
@@ -1401,6 +1399,10 @@ PrefabInstance:
     - target: {fileID: 4911777184703565707, guid: c25231552f936d0469ee5214ad397844, type: 3}
       propertyPath: m_Name
       value: levelPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5586194355588742573, guid: c25231552f936d0469ee5214ad397844, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6207077764003220029, guid: c25231552f936d0469ee5214ad397844, type: 3}
       propertyPath: m_SizeDelta.x
