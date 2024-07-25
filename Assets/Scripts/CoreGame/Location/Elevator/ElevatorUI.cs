@@ -6,11 +6,10 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
-using log4net.Core;
-using Sirenix.OdinInspector;
 
 public class ElevatorUI : MonoBehaviour
 {
+    public static Action OnUpgradeRequest;
     [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
@@ -52,7 +51,7 @@ public class ElevatorUI : MonoBehaviour
 
     void OnEnable()
     {
-        m_upgradeButton.onClick.AddListener(CallUpgrade);
+        m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
@@ -60,7 +59,7 @@ public class ElevatorUI : MonoBehaviour
 
     void OnDisable()
     {
-        m_upgradeButton.onClick.RemoveListener(CallUpgrade);
+        m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
@@ -114,11 +113,17 @@ public class ElevatorUI : MonoBehaviour
     {
         ManagersController.Instance.OpenManagerPanel(m_elevator.ManagerLocation);
     }
-    #region DEBUG
-    [Button]
-    private void AddLevel(int valueAdd)
+
+    public void UpgradeRequest()
     {
-        m_elevatorUpgrade.Upgrade(valueAdd);
+        OnUpgradeRequest?.Invoke();
     }
+    
+    #region DEBUG
+    // [Button]
+    // private void AddLevel(int valueAdd)
+    // {
+    //     m_elevatorUpgrade.Upgrade(valueAdd);
+    // }
     #endregion
 }

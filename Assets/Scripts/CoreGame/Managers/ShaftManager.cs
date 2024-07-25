@@ -19,6 +19,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     [Header("Shaft")]
     [SerializeField] private Vector3 firstShaftPosition = new(0.656000018f, -0.0390000008f, 0);
     [SerializeField] int maxShaftCount = 30;
+    [SerializeField] private double initCost = 100;
 
     public double CurrentCost => currentCost;
 
@@ -51,7 +52,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
             Shafts.Add(firstShaft);
 
             ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
-            shaftUpgrade.SetInitialValue(0 ,10, 1);
+            shaftUpgrade.SetInitialValue(0 ,initCost, 1);
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
         }

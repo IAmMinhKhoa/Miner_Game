@@ -45,9 +45,9 @@ public class CounterUpgrade : BaseUpgrade
     {
         return level == 10 || level == 100 || level == 300 || level == 500;
     }
-    protected override float GetNextUpgradeCostScale()
+    public override float GetNextUpgradeCostScale(int level)
     {
-        return CurrentLevel switch
+        return level switch
         {
             <= 2400 => 0.2f,
             _ => 0f
