@@ -17,17 +17,17 @@ public class Brewer : BaseWorker
 
     [SerializeField] private bool isWorking = false;
     public bool isBrewing = false;
-    public double ProductPerSecond
+    public override double ProductPerSecond
     {
         get => config.ProductPerSecond  * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost;
     }
 
-    protected override float WorkingTime
+    public override float WorkingTime
     {
         get => config.WorkingTime / CurrentShaft.SpeedBoost;
     }
 
-    protected override float MoveTime
+    public override float MoveTime
     {
         get => config.MoveTime / CurrentShaft.SpeedBoost;
     }

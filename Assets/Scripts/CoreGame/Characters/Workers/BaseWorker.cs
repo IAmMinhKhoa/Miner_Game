@@ -24,12 +24,17 @@ public class BaseWorker : MonoBehaviour
         set { currentProduct = value; }
     }
 
-    protected virtual float WorkingTime
+    public virtual double ProductPerSecond
+    {
+        get { return config.ProductPerSecond; }
+    }
+
+    public virtual float WorkingTime
     {
         get { return config.WorkingTime; }
     }
 
-    protected virtual float MoveTime
+    public virtual float MoveTime
     {
         get { return config.MoveTime; }
     }

@@ -62,4 +62,29 @@ public static class MainGameData
         "UI/Icon-CanUpgrade/IconUpgrade-2",
         "UI/Icon-CanUpgrade/IconUpgrade-3",
     };
+
+    public readonly static Dictionary<ManagerLocation, List<string>> UpgradeDetailInfo = new Dictionary<ManagerLocation, List<string>>
+    {
+        {ManagerLocation.Shaft, new List<string>
+        {
+            "Hầm pha chế cấp ",
+            "Tốc độ pha chế",
+            "Nhân viên pha chế",
+            "Tổng Sản Lượng",
+        }},
+        {ManagerLocation.Elevator, new List<string>
+        {
+            "Thang máy cấp ",
+            "Tốc độ thu gom",
+            "Tốc độ thang máy",
+            "Tổng khối lượng",
+        }},
+        {ManagerLocation.Counter, new List<string>
+        {
+            "Quầy bán hàng cấp ",
+            "Tốc độ thu gom",
+            "Nhân viên vận chuyển",
+            "Tổng khối lượng",
+        }}
+    };
 }

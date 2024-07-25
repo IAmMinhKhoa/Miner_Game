@@ -18,6 +18,9 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public Deposit ElevatorDeposit => elevatorDeposit;
     public Transform ElevatorLocation => elevatorLocation;
 
+    private ElevatorController elevatorController;
+    public ElevatorController ElevatorController => elevatorController;
+
     [SerializeField] private double moveTimeScale = 1;
     [SerializeField] private double loadSpeedScale = 1;
 
@@ -93,6 +96,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     private void CreateElevator()
     {
         ElevatorController elevatorGO = Instantiate(elevatorPrefab, elevatorLocation.position, Quaternion.identity);
+        elevatorController = elevatorGO;
         elevatorGO.elevator = this;
         OnCreateElevatorController?.Invoke(elevatorGO);
     }

@@ -13,17 +13,17 @@ public class Transporter : BaseWorker
     [SerializeField] private bool isWorking = false;
     [SerializeField] private GameObject transporterView;
     [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation;
-    public double ProductPerSecond
+    public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
     }
 
-    protected override float WorkingTime
+    public override float WorkingTime
     {
         get => config.WorkingTime / Counter.SpeedBoost;
     }
 
-    protected override float MoveTime
+    public override float MoveTime
     {
         get => config.MoveTime / Counter.SpeedBoost;
     }

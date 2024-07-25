@@ -26,17 +26,17 @@ public class ElevatorController : BaseWorker
     public SkeletonAnimation BackElevator => _backElevator;
     public SkeletonAnimation ElevatorStaff => _elevatorStaff;
 
-    public double ProductPerSecond
+    public override double ProductPerSecond
     {
         get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
     }
 
-    protected override float WorkingTime
+    public override float WorkingTime
     {
         get => config.WorkingTime / elevator.SpeedBoost;
     }
 
-    protected override float MoveTime
+    public override float MoveTime
     {
         get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
     }
