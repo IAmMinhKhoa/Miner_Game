@@ -48,6 +48,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         {
             Debug.Log("Current paw:" + result);
             CurrentPaw = result;
+            OnPawChanged?.Invoke(CurrentPaw);
             isDone = true;
         }
         else
