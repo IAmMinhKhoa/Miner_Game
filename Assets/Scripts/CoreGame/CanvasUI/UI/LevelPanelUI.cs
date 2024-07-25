@@ -12,7 +12,7 @@ public class LevelPanelUI : MonoBehaviour
 
     void Start()
     {
-        y_pos = imageUpgarde.gameObject.GetComponent<RectTransform>().position.y;
+        
     }
 
     void OnEnable()
@@ -49,6 +49,7 @@ public class LevelPanelUI : MonoBehaviour
             var rect = imageUpgarde.gameObject.GetComponent<RectTransform>();
             if (tween == null || !tween.IsActive())
             {
+                y_pos = imageUpgarde.gameObject.GetComponent<RectTransform>().position.y;
                 tween = rect.DOMoveY(y_pos + 0.05f, 0.5f).SetLoops(-1, LoopType.Yoyo);
             }
         }
