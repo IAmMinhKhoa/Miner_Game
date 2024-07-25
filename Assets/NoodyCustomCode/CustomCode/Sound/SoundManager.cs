@@ -557,6 +557,15 @@ namespace NOOD.Sound
 
             return soundData.musicDic.Dictionary.Values.ToList();
         }
+        public static Dictionary<string, DataMusic> GetAllDataMusicDictionary()
+        {
+            if (soundData == null || soundData.musicDic == null || soundData.musicDic.Dictionary == null)
+            {
+                return new Dictionary<string, DataMusic>();
+            }
+
+            return soundData.musicDic.Dictionary;
+        }
         #endregion
     }
 
