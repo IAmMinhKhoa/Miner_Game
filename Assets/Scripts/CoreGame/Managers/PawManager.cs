@@ -9,8 +9,7 @@ public class PawManager : Patterns.Singleton<PawManager>
 {
     public Action<double> OnPawChanged;
     [SerializeField] private string m_startingPaw = "10000000000";
-
-    [SerializeField] private readonly string m_pawKey = "PawVollume";
+    [SerializeField] private readonly string m_pawKey = "PawVolume";
 
     public double CurrentPaw { get; private set; }
 

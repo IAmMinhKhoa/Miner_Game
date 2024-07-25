@@ -6,6 +6,8 @@ using UnityEngine;
 public class BaseWorker : MonoBehaviour
 {
     public Action<Vector3> OnMoveToTarget;
+    public Action<Vector3> OnArriveTarget;
+    public Action<double> OnChangePawDone;
 
     [SerializeField] protected BaseConfig config;
     [SerializeField] private bool isCollecting = true;
@@ -16,6 +18,7 @@ public class BaseWorker : MonoBehaviour
     protected WorkerState state = WorkerState.Idle;
     protected bool isArrive = false;
 
+    Vector3 target;    
     public bool IsArrive => isArrive;
     public bool IsCollecting => isCollecting;
     public double CurrentProduct
@@ -48,6 +51,7 @@ public class BaseWorker : MonoBehaviour
 
     public virtual void Move(Vector3 target, float moveTime)
     {
+        this.target = target;
         OnMoveToTarget?.Invoke(target);
         state = WorkerState.Moving;
         bool direction = transform.position.x > target.x;
@@ -63,11 +67,9 @@ public class BaseWorker : MonoBehaviour
             float distance = Vector3.Distance(collectTransform.position, depositTransform.position);
             float currentTime = 0f;
             isArrive = false;
-            float time = 0;
             while (isArrive == false)
             {
                 await UniTask.Yield(cancellationToken.Token);
-                time += Time.deltaTime;
                 Vector3 dir = (target - transform.position).normalized;
                 Vector3 tempPos = this.transform.position + dir * (distance / moveTime) * Time.deltaTime;
                 currentTime += Time.deltaTime;
@@ -76,6 +78,7 @@ public class BaseWorker : MonoBehaviour
                 {
                     this.transform.position = target;
                     isArrive = true;
+                    OnArriveTarget?.Invoke(target);
                 }
                 else
                 {
@@ -85,9 +88,12 @@ public class BaseWorker : MonoBehaviour
                 if (currentTime >= moveTime)
                 {
                     isArrive = true;
+                    OnArriveTarget?.Invoke(target);
                 }
             }
 
+            if (this is ElevatorController)
+                Debug.Log("IsCollecting: " + IsCollecting);
             if (IsCollecting)
             {
                 Collect();
@@ -99,6 +105,7 @@ public class BaseWorker : MonoBehaviour
         }
         catch (Exception ex) when (!(ex is OperationCanceledException)) // when (ex is not OperationCanceledException) at C# 9.0
         {
+            Debug.LogError(ex);
             return;
         }
 

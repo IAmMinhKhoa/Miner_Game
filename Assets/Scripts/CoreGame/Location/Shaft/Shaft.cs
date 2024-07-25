@@ -55,6 +55,7 @@ public class Shaft : MonoBehaviour
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
+    
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
