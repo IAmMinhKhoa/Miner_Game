@@ -10,10 +10,14 @@ public class LevelPanelUI : MonoBehaviour
     private float y_pos;
     private Tween tween;
 
+    void Start()
+    {
+        y_pos = imageUpgarde.gameObject.GetComponent<RectTransform>().position.y;
+    }
+
     void OnEnable()
     {
         PawManager.Instance.OnPawChanged += OnPawChanged;
-        y_pos = imageUpgarde.gameObject.GetComponent<RectTransform>().position.y;
     }
 
     void OnDisable()
