@@ -11,7 +11,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     [Header("Prefab")]
     [SerializeField] private Shaft shaftPrefab;
     [SerializeField] private float shaftYOffset = 1.716f;
+    [SerializeField] private float roofOffset = 2f;
     [SerializeField] private double currentCost = 0;
+    [SerializeField] private GameObject _roof;
 
     [Header("Basement")]
     [SerializeField] public List<Shaft> Shafts = new();
@@ -42,6 +44,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
         Shafts.Add(newShaft);
         newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
+        float newY = newShaft.transform.position.y;
+        newY += roofOffset;
+        _roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
     }
 
     public void InitializeShafts()
@@ -55,6 +60,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
             shaftUpgrade.SetInitialValue(0 ,initCost, 1);
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
+            float newY = firstShaft.transform.position.y;
+            newY += roofOffset;
+            _roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
         }
 
         isDone = true;
@@ -155,6 +163,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
                 shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
                 Shafts.Add(shaft);
+                float newY = shaft.transform.position.y;
+                newY += roofOffset;
+                _roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
 
                 if (shaftData.ManagerIndex != -1)
                 {
