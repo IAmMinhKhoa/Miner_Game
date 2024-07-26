@@ -409,16 +409,17 @@ public class SoundSetting : MonoBehaviour
     public void FadeInContainer()
     {
         Container.SetActive(true);
-        Container.transform.localPosition = new Vector2(-1000, 0); //Under Screen
-        Container.transform.DOMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Container.transform.localPosition = new Vector2(0, posCam.y-2000); //Under Screen
+        Container.transform.DOMoveY(0, 0.6f).SetEase(Ease.OutQuart);
 
 
     }
     [Button]
     public void FadeOutContainer()
     {
-
-        Container.transform.DOMoveX(1000f, 0.9f).SetEase(Ease.InQuart).OnComplete(() =>
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Container.transform.DOMoveY(posCam.y+2000f, 0.9f).SetEase(Ease.InQuart).OnComplete(() =>
         {
             Container.SetActive(false);
         });
