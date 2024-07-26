@@ -38,6 +38,9 @@ namespace NOOD.Sound
     {
         public string name;
         public AudioClip audioClip;
+        public string author;
+        public Sprite icon;
+            
     }
 
        

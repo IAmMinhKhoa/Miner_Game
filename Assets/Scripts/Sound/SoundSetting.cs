@@ -18,7 +18,7 @@ internal enum BahaviorMS
 public class SoundSetting : MonoBehaviour
 {
 
-
+    [SerializeField] PlayList _playList;
 
     [Header("UI")]
     [SerializeField] GameObject Container;
@@ -138,6 +138,7 @@ public class SoundSetting : MonoBehaviour
     private void Awake()
     {
         SoundManager.InitSoundManager();
+        PlayMusic(forceMusic: "b");
     }
     private void Start()
     {
@@ -151,12 +152,13 @@ public class SoundSetting : MonoBehaviour
 
         btnRandomMs.onClick.AddListener(toggleRandomMusic);
         btnLoop.onClick.AddListener(toggleloopMusic);
+        btnListMusic.onClick.AddListener(OpenModalListMusic);
 
         sliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
         sliderSFX.onValueChanged.AddListener(ChangeSFXVolume);
 
-
-        PlayMusic(forceMusic: "a");
+      
+       
     }
 
     private void OnDestroy()
@@ -167,6 +169,7 @@ public class SoundSetting : MonoBehaviour
 
         btnRandomMs.onClick.RemoveAllListeners();
         btnLoop.onClick.RemoveAllListeners();
+        btnListMusic.onClick.RemoveAllListeners();
 
         sliderMusic.onValueChanged.RemoveAllListeners();
         sliderSFX.onValueChanged.RemoveAllListeners();
@@ -391,7 +394,14 @@ public class SoundSetting : MonoBehaviour
             sliderSFX.value = 1;
             btnSound.SetState(ButtonState.Default);
         }
-        
+    }
+    private void OpenModalListMusic()
+    {
+        PlayList currentPlayList= Instantiate(_playList.gameObject, this.transform).GetComponent<PlayList>();
+        currentPlayList.InitData((string enumSong) =>
+        {
+            PlayMusic(forceMusic: enumSong);
+        });
     }
     #endregion
     #region AnimateUI
@@ -399,16 +409,17 @@ public class SoundSetting : MonoBehaviour
     public void FadeInContainer()
     {
         Container.SetActive(true);
-        Container.transform.localPosition = new Vector2(-1000, 0); //Under Screen
-        Container.transform.DOMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Container.transform.localPosition = new Vector2(0, posCam.y-2000); //Under Screen
+        Container.transform.DOMoveY(0, 0.6f).SetEase(Ease.OutQuart);
 
 
     }
     [Button]
     public void FadeOutContainer()
     {
-
-        Container.transform.DOMoveX(1000f, 0.9f).SetEase(Ease.InQuart).OnComplete(() =>
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Container.transform.DOMoveY(posCam.y+2000f, 0.9f).SetEase(Ease.InQuart).OnComplete(() =>
         {
             Container.SetActive(false);
         });
