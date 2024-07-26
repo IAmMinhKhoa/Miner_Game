@@ -50,18 +50,18 @@ public class ShaftUpgrade : BaseUpgrade
         };
     }
 
-    protected override float GetNextUpgradeCostScale()
+    public override float GetNextUpgradeCostScale(int level)
     {
         
         var value = shaft.shaftIndex switch
         {
-            0 => CurrentLevel switch
+            0 => level switch
             {
                 <= 10 => 0.3f,
                 <= 800 => 0.15f,
                 _ => 0f
             },
-            _ => CurrentLevel switch
+            _ => level switch
             {
                 <= 800 => 0.15f,
                 _ => 0f

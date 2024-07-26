@@ -19,6 +19,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     [Header("Shaft")]
     [SerializeField] private Vector3 firstShaftPosition = new(0.656000018f, -0.0390000008f, 0);
     [SerializeField] int maxShaftCount = 30;
+    [SerializeField] private double initCost = 100;
 
     public double CurrentCost => currentCost;
 
@@ -33,7 +34,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
     {
         Transform lastShaft = Shafts[^1].transform;
         Shaft newShaft = Instantiate(shaftPrefab, lastShaft.position, Quaternion.identity);
-        newShaft.transform.localPosition += new Vector3(0, -shaftYOffset, 0);
+        newShaft.transform.localPosition += new Vector3(0, shaftYOffset, 0);
         newShaft.IndexBoost = BaseShaftIndexScale();
 
         ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
@@ -51,7 +52,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
             Shafts.Add(firstShaft);
 
             ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
-            shaftUpgrade.SetInitialValue(0 ,10, 1);
+            shaftUpgrade.SetInitialValue(0 ,initCost, 1);
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
         }
@@ -142,7 +143,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
                 Vector3 position = Shafts.Count switch
                 {
                     0 => firstShaftPosition,
-                    _ => Shafts[^1].transform.position + new Vector3(0, -shaftYOffset, 0),
+                    _ => Shafts[^1].transform.position + new Vector3(0, shaftYOffset, 0),
                 };
 
                 Shaft shaft = Instantiate(shaftPrefab, position, Quaternion.identity);

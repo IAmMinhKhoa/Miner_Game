@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class CounterUpgrade : BaseUpgrade
 {
-    private Counter couter;
+    private Counter counter;
 
     protected override float CostsBoost
     {
-        get => couter.CostsBoost;
+        get => counter.CostsBoost;
     }
     private void Awake()
     {
-        couter = GetComponent<Counter>();
+        counter = GetComponent<Counter>();
     }
     protected override void RunUpgrade()
     {
         float nextScale = GetNextExtractionSpeedScale(CurrentLevel);
-        couter.BoostScale *= 1 + nextScale;
+        counter.BoostScale *= 1 + nextScale;
 
         if (IsNeedCreateTransporter(CurrentLevel))
         {
-            couter.CreateTransporter();
+            counter.CreateTransporter();
         }
     }
 
@@ -45,9 +45,9 @@ public class CounterUpgrade : BaseUpgrade
     {
         return level == 10 || level == 100 || level == 300 || level == 500;
     }
-    protected override float GetNextUpgradeCostScale()
+    public override float GetNextUpgradeCostScale(int level)
     {
-        return CurrentLevel switch
+        return level switch
         {
             <= 2400 => 0.2f,
             _ => 0f

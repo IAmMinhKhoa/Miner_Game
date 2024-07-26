@@ -32,7 +32,7 @@ public class Transporter : BaseWorker
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
-        numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
+        numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
         collectTransform = Counter.TransporterLocation;
         depositTransform = Counter.CounterLocation;
     }
@@ -96,7 +96,6 @@ public class Transporter : BaseWorker
 
     protected override void PlayAnimation(WorkerState state, bool direction)
     {
-        Debug.Log("Play Animation: " + state);
         switch (state)
         {
             case WorkerState.Idle:

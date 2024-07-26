@@ -55,4 +55,11 @@ public static class MainGameData
             "UI/Frame lvl big/LV 1801-2400",
         }}
     };
+
+    public readonly static List<string> CanUpgradeButton = new List<string>
+    {
+        "UI/Icon-CanUpgrade/IconUpgrade-1",
+        "UI/Icon-CanUpgrade/IconUpgrade-2",
+        "UI/Icon-CanUpgrade/IconUpgrade-3",
+    };
 }

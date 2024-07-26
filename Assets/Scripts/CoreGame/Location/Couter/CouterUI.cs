@@ -4,9 +4,12 @@ using log4net.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class CounterUI : MonoBehaviour
 {
+    public static Action OnUpgradeRequest;
+
     [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
@@ -45,7 +48,7 @@ public class CounterUI : MonoBehaviour
 
     void OnEnable()
     {
-        m_upgradeButton.onClick.AddListener(CallUpgrade);
+        m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
@@ -53,7 +56,7 @@ public class CounterUI : MonoBehaviour
 
     void OnDisable()
     {
-        m_upgradeButton.onClick.RemoveListener(CallUpgrade);
+        m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
@@ -105,5 +108,10 @@ public class CounterUI : MonoBehaviour
     void OpenManagerPanel()
     {
         ManagersController.Instance.OpenManagerPanel(m_counter.ManagerLocation);
+    }
+
+    public void UpgradeRequest()
+    {
+        OnUpgradeRequest?.Invoke();
     }
 }

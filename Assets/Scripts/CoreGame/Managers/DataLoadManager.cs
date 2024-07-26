@@ -20,6 +20,8 @@ public class DataLoadManager : BaseGameManager
         LoadingElevatorData,
         LoadCounterData,
         LoadingCounterData,
+        LoadPawData,
+        LoadingPawData,
         LoadOfflineData,
         LoadingOfflineData,
         Done
@@ -89,6 +91,16 @@ public class DataLoadManager : BaseGameManager
                 break;
             case GameState.LoadingCounterData:
                 if (CheckCounterData())
+                {
+                    SetState(GameState.LoadPawData);
+                }
+                break;
+            case GameState.LoadPawData:
+                LoadPawData();
+                SetState(GameState.LoadingPawData);
+                break;
+            case GameState.LoadingPawData:
+                if (CheckPawData())
                 {
                     SetState(GameState.LoadOfflineData);
                 }
@@ -175,6 +187,7 @@ public class DataLoadManager : BaseGameManager
 
     private void LoadCounterData()
     {
+        Debug.Log("LoadCounterData");
         var counterManager = Counter.Instance;
         counterManager.InitializeCounter();
     }
@@ -182,6 +195,17 @@ public class DataLoadManager : BaseGameManager
     private bool CheckCounterData()
     {
         return Counter.Instance.IsDone;
+    }
+
+    private void LoadPawData()
+    {
+        var pawManager = PawManager.Instance;
+        pawManager.LoadPaw();
+    }
+
+    private bool CheckPawData()
+    {
+        return PawManager.Instance.IsDone;
     }
     
     private void LoadOfflineData()
