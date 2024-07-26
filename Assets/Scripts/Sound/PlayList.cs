@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
+using NOOD;
 using NOOD.Sound;
 using UnityEngine;
 
@@ -60,7 +62,14 @@ public class PlayList : MonoBehaviour
     }
     public void CloseModal()
     {
-        Destroy(this.gameObject);
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        transform.DOLocalMoveY(posCam.y + 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
+        {
+            Destroy(this.gameObject);
+        });
+
+
+        
     }
     #endregion
 }
