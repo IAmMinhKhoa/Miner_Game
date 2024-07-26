@@ -14,9 +14,6 @@ public class Counter : Patterns.Singleton<Counter>
     [SerializeField] private BaseManagerLocation m_managerLocation;
     public BaseManagerLocation ManagerLocation => m_managerLocation;
 
-    [Header("Elevator")]
-    [SerializeField] private ElevatorSystem m_elevatorSystem;
-
     public Transform CounterLocation => m_counterLocation;
     public Transform DepositLocation => m_depositLocation;
     public Transform TransporterLocation => m_transporterLocation;
@@ -69,7 +66,7 @@ public class Counter : Patterns.Singleton<Counter>
 
     private void CreateDeposit()
     {
-        ElevatorDeposit = m_elevatorSystem.ElevatorDeposit;
+        ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
         GameObject depositGO = GameData.Instance.InstantiatePrefab(PrefabEnum.ShaftDeposit);
         depositGO.transform.position = m_depositLocation.position;

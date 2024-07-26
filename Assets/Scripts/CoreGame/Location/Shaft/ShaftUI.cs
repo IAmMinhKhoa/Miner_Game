@@ -160,6 +160,7 @@ public class ShaftUI : MonoBehaviour
             PawManager.Instance.RemovePaw(ShaftManager.Instance.CurrentCost);
             ShaftManager.Instance.AddShaft();
             m_buyNewShaftButton.gameObject.SetActive(false);
+            PawManager.Instance.OnPawChanged?.Invoke(PawManager.Instance.CurrentPaw);
         }
     }
 

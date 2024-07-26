@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NOOD;
 using System;
+using System.Linq;
 
 public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 {
@@ -11,6 +12,9 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
     [Header("Upgrade Panel Prefab")]
     [SerializeField] private UpgradeUI m_upgradePanel;
     private BaseUpgrade _baseUpgrade;
+    private ManagerLocation _locationType;
+    private BaseWorker _baseWorkerRef;
+    private int _number;
 
     #region ----Unity Methods----
     private void Start()
@@ -46,6 +50,9 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
             if (shaft.shaftIndex == index)
             {
                 _baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
+                _locationType = ManagerLocation.Shaft;
+                _baseWorkerRef = shaft.Brewers.First();
+                _number = shaft.Brewers.Count;
                 break;
             }
         }
@@ -56,12 +63,17 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
     private void ShowElevatorUpgradePanel()
     {
         _baseUpgrade = ElevatorSystem.Instance.gameObject.GetComponent<ElevatorUpgrade>();
+        _locationType = ManagerLocation.Elevator;
+        _baseWorkerRef = ElevatorSystem.Instance.ElevatorController;
         ResertPanel();
     }
 
     private void ShowCounterUpgradePanel()
     {
         _baseUpgrade = Counter.Instance.gameObject.GetComponent<CounterUpgrade>();
+        _locationType = ManagerLocation.Counter;
+        _baseWorkerRef = Counter.Instance.Transporters.First();
+        _number = Counter.Instance.Transporters.Count;
         ResertPanel();
     }
 
@@ -73,6 +85,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
     private void ResertPanel()
     {
         m_upgradePanel.SetUpPanel(CalculateUpgradeAmount());
+        switch (_locationType)
+        {
+            case ManagerLocation.Shaft:
+                m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _number.ToString(), _baseWorkerRef.ProductPerSecond * _number * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+                break;
+            case ManagerLocation.Elevator:
+                m_upgradePanel.SetWorkerInfo(_locationType, "Chó đáng yêu", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+                break;
+            case ManagerLocation.Counter:
+                m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _number.ToString(), _baseWorkerRef.ProductPerSecond * _number * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+                break;
+        }
         ControlPannel(true);
     }
 
