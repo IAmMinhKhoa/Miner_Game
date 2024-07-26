@@ -187,6 +187,7 @@ public class DataLoadManager : BaseGameManager
 
     private void LoadCounterData()
     {
+        Debug.Log("LoadCounterData");
         var counterManager = Counter.Instance;
         counterManager.InitializeCounter();
     }

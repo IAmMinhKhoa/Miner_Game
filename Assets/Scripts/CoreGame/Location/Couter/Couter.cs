@@ -7,18 +7,14 @@ using Cysharp.Threading.Tasks;
 
 public class Counter : Patterns.Singleton<Counter>
 {
-    [Header("Prefab")]
-    [SerializeField] private Transporter m_transporterPrefab;
-    [SerializeField] private Deposit m_depositPrefab;
-
     [Header("Location")]
-    [SerializeField] private Transform m_couterLocation;
+    [SerializeField] private Transform m_counterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
     [SerializeField] private BaseManagerLocation m_managerLocation;
     public BaseManagerLocation ManagerLocation => m_managerLocation;
 
-    public Transform CounterLocation => m_couterLocation;
+    public Transform CounterLocation => m_counterLocation;
     public Transform DepositLocation => m_depositLocation;
     public Transform TransporterLocation => m_transporterLocation;
 
@@ -49,7 +45,7 @@ public class Counter : Patterns.Singleton<Counter>
     private List<Transporter> _transporters = new();
     public List<Transporter> Transporters => _transporters;
 
-    public Deposit CouterDeposit { get; set; }
+    public Deposit CounterDeposit { get; set; }
 
     public Deposit ElevatorDeposit { get; set; }
 
@@ -58,8 +54,9 @@ public class Counter : Patterns.Singleton<Counter>
 
     public void CreateTransporter()
     {
+        Debug.Log("Create Transporter");
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
-        transporterGO.transform.position = m_couterLocation.position;
+        transporterGO.transform.position = m_counterLocation.position;
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
@@ -75,7 +72,7 @@ public class Counter : Patterns.Singleton<Counter>
         depositGO.transform.position = m_depositLocation.position;
         depositGO.transform.SetParent(m_depositLocation);
 
-        CouterDeposit = depositGO.GetComponent<Deposit>();
+        CounterDeposit = depositGO.GetComponent<Deposit>();
     }
 
     private float GetManagerBoost(BoostType currentBoostAction)
@@ -95,6 +92,7 @@ public class Counter : Patterns.Singleton<Counter>
     {
         if (!Load())
         {
+            Debug.Log("Count Init");
             CreateDeposit();
             gameObject.GetComponent<CounterUpgrade>().InitValue(1);
             CreateTransporter();
@@ -113,15 +111,15 @@ public class Counter : Patterns.Singleton<Counter>
         };
 
         string json = JsonConvert.SerializeObject(saveData);
-        Debug.Log("save couter: " + json);
-        PlayerPrefs.SetString("Couter", json);
+        Debug.Log("save counter: " + json);
+        PlayerPrefs.SetString("Counter", json);
     }
 
     private bool Load()
     {
-        if (PlayerPrefs.HasKey("Couter"))
+        if (PlayerPrefs.HasKey("Counter"))
         {
-            string json = PlayerPrefs.GetString("Couter");
+            string json = PlayerPrefs.GetString("Counter");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
             m_boostScale = saveData.boostScale;
