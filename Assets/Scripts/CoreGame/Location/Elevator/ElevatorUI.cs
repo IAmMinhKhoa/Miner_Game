@@ -21,12 +21,11 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_costText;
 
     [Header("Visual object")]
-    [SerializeField] private GameObject m_quayNhanLyNuocHolder;
-    [SerializeField] private GameObject m_lyNuocPref;
+    [SerializeField] private SkeletonAnimation m_quayNhanLyNuocHolder;
+    [SerializeField] private SkeletonAnimation m_refrigeratorHolder;
 
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
-    private Vector3 _target;
 
     void Awake()
     {
@@ -55,6 +54,7 @@ public class ElevatorUI : MonoBehaviour
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
+        m_elevator.OnElevatorControllerArrive += ElevatorSystem_OnElevatorControllerArriveHandler;
     }
 
     void OnDisable()
@@ -63,6 +63,27 @@ public class ElevatorUI : MonoBehaviour
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
+        m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
+    }
+
+    private async void ElevatorSystem_OnElevatorControllerArriveHandler()
+    {
+        m_refrigeratorHolder.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Active", true);
+        await UniTask.WaitForSeconds(4);
+        m_refrigeratorHolder.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Idle", true);
+    }
+
+    public void ShowManagerButton(bool isShow)
+    {
+        m_managerButton.transform.GetChild(0).gameObject.SetActive(isShow);
+        if(isShow)
+        {
+            m_managerButton.image.color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            m_managerButton.image.color = new Color(1, 1, 1, 0);
+        }
     }
 
     void CallUpgrade()

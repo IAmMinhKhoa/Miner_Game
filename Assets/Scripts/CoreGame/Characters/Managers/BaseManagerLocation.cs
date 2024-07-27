@@ -26,7 +26,7 @@ public class BaseManagerLocation : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Mnanager run boost");
+        Debug.Log("Manager run boost");
         _manager.RunBoost();
     }
 

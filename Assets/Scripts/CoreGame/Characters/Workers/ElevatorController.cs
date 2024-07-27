@@ -5,8 +5,6 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using NOOD;
-using System.Runtime.CompilerServices;
-using Spine.Unity;
 
 public class ElevatorController : BaseWorker
 {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
-    public Action<ElevatorController> OnCreateElevatorController;
+    public Action OnElevatorControllerArrive;
 
     [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
@@ -26,6 +25,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     [Header("Prefabs")]
     [SerializeField] private ElevatorController elevatorPrefab;
+    private ElevatorUI elevatorUI;
     
     public double MoveTimeScale
     {
@@ -92,13 +92,22 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         }
         isDone = true;   
     }
-
+    
     private void CreateElevator()
     {
-        ElevatorController elevatorGO = Instantiate(elevatorPrefab, elevatorLocation.position, Quaternion.identity);
-        elevatorController = elevatorGO;
-        elevatorGO.elevator = this;
-        OnCreateElevatorController?.Invoke(elevatorGO);
+        ElevatorController elevatorCtrl = Instantiate(elevatorPrefab, elevatorLocation.position, Quaternion.identity);
+        this.elevatorController = elevatorCtrl;
+        elevatorCtrl.elevator = this;
+        elevatorCtrl.OnArriveTarget += ElevatorController_OnArriveTargetHandler;
+    }
+
+    private void ElevatorController_OnArriveTargetHandler(Vector3 vector)
+    {
+        if(vector == elevatorLocation.position)
+        {
+            // Arrive and start deposit paw
+            OnElevatorControllerArrive?.Invoke();
+        }
     }
 
     public async UniTaskVoid Save()
