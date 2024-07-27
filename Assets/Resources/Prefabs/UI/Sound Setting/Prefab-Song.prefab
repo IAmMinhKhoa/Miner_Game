@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 3421470968991183708}
   - component: {fileID: 2666135208704250505}
   - component: {fileID: 5080002898199924024}
+  - component: {fileID: 8039389198657558508}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -231,6 +232,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8039389198657558508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657674050555441364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d009ebd9cb03aeb45bc7dab718cc189a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frame: {fileID: 0}
+  idleFrame: {fileID: 0}
+  hoverFrame: {fileID: 0}
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  clickSoundFx: 0
 --- !u!1 &5866972449140905233
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,8 +285,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -103.21, y: -37.6}
-  m_SizeDelta: {x: 214.77, y: 50}
+  m_AnchoredPosition: {x: 70.802, y: -33.80001}
+  m_SizeDelta: {x: 562.8, y: 42.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3546236305036864651
 CanvasRenderer:
@@ -298,15 +318,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'tac gia: holmes'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 29f0795e999c4a44589ca3f48bd1bf13, type: 2}
+  m_sharedMaterial: {fileID: -3668175076491820459, guid: 29f0795e999c4a44589ca3f48bd1bf13, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286159804
-  m_fontColor: {r: 0.7372549, g: 0.60784316, b: 0.47450984, a: 1}
+    rgba: 3107798333
+  m_fontColor: {r: 0.23773581, g: 0.23773581, b: 0.23773581, a: 0.7254902}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -323,15 +343,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.7
-  m_fontSizeBase: 36
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 16
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

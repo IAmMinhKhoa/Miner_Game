@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using log4net.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +38,7 @@ public class TitleSong : MonoBehaviour
     {
         _avatar.sprite = icon;
         _nameSong.text = namesong;
-        _author.text = nameAuthor;
+        _author.text = "Tac Gia : "+ nameAuthor;
         IsPlay=isPlay;
 
     }

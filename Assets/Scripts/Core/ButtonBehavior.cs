@@ -8,122 +8,70 @@ using UnityEngine.UI;
 public enum ButtonState
 {
     Click,
-    Default,
-    Hover
+    Default
 }
 
-public class ButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,IPointerClickHandler
+public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
 {
+    [Header("UI Components")]
     public Image frame;
     public Sprite idleFrame;
     private Sprite defaultImage;
-    public Color idleTextColor;
     public Sprite hoverFrame;
-    public Color hoverTextColor;
 
-    public TextMeshProUGUI btnText;
-    public UnityEvent onClickEvent; // public UnityEvent
+    [Header("Events")]
+    public UnityEvent onClickEvent;
+
+    [Header("Audio")]
+    public SoundEnum clickSoundFx = SoundEnum.click;
 
     private ButtonState _state;
 
-    public SoundEnum clickSoundFx;
-    private bool toggleBtn = false;
-
-    // Start is called before the first frame update
     private void Awake()
     {
-        frame = GetComponent<Image>();
         if (frame == null)
         {
-            frame = GetComponentInChildren<Image>();
+            frame = GetComponent<Image>() ?? GetComponentInChildren<Image>();
         }
-        defaultImage=frame.sprite;
-        var btn = GetComponent<Button>();
-        if (btn == null) return;
 
-        var navigation = new Navigation();
-        navigation.mode = Navigation.Mode.None;
-        btn.navigation = navigation;
+        defaultImage = frame.sprite;
+
+        var btn = GetComponent<Button>();
+        if (btn != null)
+        {
+            var navigation = new Navigation { mode = Navigation.Mode.None };
+            btn.navigation = navigation;
+        }
     }
 
     private void Start()
     {
-        _state = ButtonState.Click;
+     //   SetState(ButtonState.Default);
     }
-        
 
     public void SetState(ButtonState state)
     {
         _state = state;
-        Debug.Log("cpncc:" + state);    
-        // Change frame
-        switch (state)
+        frame.sprite = state switch
         {
-            case ButtonState.Click:
-                if (idleFrame != null)
-                {
-                    frame.sprite = idleFrame;
-                    SetText(idleTextColor);
-                }
-                break;
-            case ButtonState.Default:
-                if (idleFrame != null)
-                {
-                    frame.sprite = defaultImage;
-             
-                }
-                break;
-            case ButtonState.Hover:
-                if (hoverFrame != null)
-                {
-                    frame.sprite = hoverFrame;
-                    SetText(hoverTextColor);
+            ButtonState.Click when idleFrame != null => idleFrame,
+            ButtonState.Default when defaultImage != null => defaultImage,
+            _ => frame.sprite
+        };
+    }
 
-                }
-                break;
-        }
-    }
-    public void SetText(string text)
-    {
-        if (btnText == null) return;
-        btnText.text = text;
-    }
-    public void SetText(Color color)
-    {
-        if (btnText == null || color == null) return;
-        color.a = 1f;
-        btnText.color = color;
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetState(ButtonState.Hover);
 
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-       
-    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        gameObject.TryGetComponent<Button>(out var button);
-
-        if (button.interactable)
+        if (TryGetComponent(out Button button) && button.interactable)
         {
-            //SoundManager.Instance.PlaySfx(clickSoundFx);
+            // SoundManager.Instance.PlaySfx(clickSoundFx);
+            SoundManager.PlaySound(SoundEnum.click);
             onClickEvent?.Invoke();
         }
-        if (gameObject == null)
-        {
-            SetState(ButtonState.Click);
-        }
+
+        SetState(ButtonState.Click);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-       /* if (!toggleBtn)
-            SetState(ButtonState.Click  );
-        else
-            SetState(ButtonState.Default);
-        toggleBtn = !toggleBtn;*/
-    }
 }
