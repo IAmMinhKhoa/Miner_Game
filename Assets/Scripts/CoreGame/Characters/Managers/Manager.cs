@@ -90,6 +90,7 @@ public class Manager
         Location = ManagersController.Instance.CurrentManagerLocation;
         Location.SetManager(this);
         _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        Debug.Log("local pos manager:" + Location.transform.position);
         _view.transform.position = Location.transform.position;
         _view.SetManager(this);
     }
