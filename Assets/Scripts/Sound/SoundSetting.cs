@@ -408,6 +408,8 @@ public class SoundSetting : MonoBehaviour
         currentPlayList.InitData((string enumSong) =>
         {
             PlayMusic(forceMusic: enumSong);
+            TogglePauseMusic = false;
+            spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
         });
     }
     #endregion
