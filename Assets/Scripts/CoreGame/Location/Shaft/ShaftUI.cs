@@ -49,6 +49,8 @@ public class ShaftUI : MonoBehaviour
 
     void Start()
     {
+        m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
+        
         tableAnimation = m_spineData.GetComponent<SkeletonAnimation>();
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
 
@@ -79,7 +81,6 @@ public class ShaftUI : MonoBehaviour
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         Debug.Log("khoa:" + m_shaft.CurrentDeposit);
-        m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
     }
 
     void OnDisable()

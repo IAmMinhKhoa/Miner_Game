@@ -35,6 +35,8 @@ public class ElevatorUI : MonoBehaviour
 
     void Start()
     {
+        m_elevator.OnElevatorControllerArrive += ElevatorSystem_OnElevatorControllerArriveHandler;
+
         m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
@@ -54,7 +56,6 @@ public class ElevatorUI : MonoBehaviour
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
-        m_elevator.OnElevatorControllerArrive += ElevatorSystem_OnElevatorControllerArriveHandler;
     }
 
     void OnDisable()
@@ -63,7 +64,7 @@ public class ElevatorUI : MonoBehaviour
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
-        m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
+        //m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
     }
 
     private async void ElevatorSystem_OnElevatorControllerArriveHandler()
