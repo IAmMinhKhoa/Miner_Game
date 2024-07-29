@@ -81,7 +81,7 @@ public class ElevatorControllerView : MonoBehaviour
         if(isOpen)
         {
             _refrigeratorDoor.AnimationState.SetAnimation(0, "Cuatulanh - Open", false);
-            await UniTask.WaitForSeconds(_refrigeratorDoor.AnimationState.GetCurrent(0).Animation.Duration);
+            await UniTask.WaitForSeconds(_refrigeratorDoor.AnimationState.GetCurrent(0).Animation.Duration/2);
             double temp = _elevatorController.CurrentProduct;
             double firstValue = _elevatorController.CurrentProduct;
             double lastValue = 0;
@@ -99,7 +99,6 @@ public class ElevatorControllerView : MonoBehaviour
                     }
                     _lyNuocs[i].SetActive(i < percent);
                 }
-                Debug.Log("temp: " + temp);
             }
         }
         else
