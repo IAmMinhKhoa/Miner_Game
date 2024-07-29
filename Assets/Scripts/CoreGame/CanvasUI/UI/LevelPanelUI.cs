@@ -12,22 +12,13 @@ public class LevelPanelUI : MonoBehaviour
 
     void Start()
     {
-        
-    }
-
-    void OnEnable()
-    {
         PawManager.Instance.OnPawChanged += OnPawChanged;
-    }
-
-    void OnDisable()
-    {
-        PawManager.Instance.OnPawChanged -= OnPawChanged;
     }
 
     private void OnPawChanged(double paw)
     {
         bool isActive = paw >= baseUpgrade.CurrentCost;
+        Debug.Log("Current paw:" + paw + " Current cost:" + baseUpgrade.CurrentCost);
         imageUpgarde.gameObject.SetActive(isActive);
 
         if (isActive)
@@ -59,8 +50,6 @@ public class LevelPanelUI : MonoBehaviour
             {
                 tween.Kill();
             }
-            var rect = imageUpgarde.gameObject.GetComponent<RectTransform>();
-            rect.position = new Vector3(rect.position.x, y_pos, rect.position.z);
         }
     }
 }
