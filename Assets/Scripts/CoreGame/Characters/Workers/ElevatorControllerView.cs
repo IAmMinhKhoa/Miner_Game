@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
-using NOOD;
 using Sirenix.Utilities;
 using Spine.Unity;
 
@@ -36,7 +33,7 @@ public class ElevatorControllerView : MonoBehaviour
 
     private void ElevatorController_OnChangePawDoneHandler(double amount)
     {
-        int percent = (int)((amount / _elevatorController.MaxCapacity * 100)/10);
+        int percent = (int)(amount / _elevatorController.MaxCapacity * 10);
         for(int i = 0; i < _lyNuocs.Length; i++)
         {
             if (i == 0 && amount > 0) 
@@ -46,6 +43,9 @@ public class ElevatorControllerView : MonoBehaviour
             }
             _lyNuocs[i].SetActive(i < percent);
         }
+
+        if(amount == 0) _lyNuocs[0].transform.parent.gameObject.SetActive(false);
+        else _lyNuocs[0].transform.parent.gameObject.SetActive(true);
     }
 
     private void ElevatorControllerController_OnArriveHandler(Vector3 vector)
@@ -76,11 +76,31 @@ public class ElevatorControllerView : MonoBehaviour
         _elevatorStaff.AnimationState.SetAnimation(0, "Idle", true);
     }
 
-    private void OpenRefrigerator(bool isOpen)
+    private async void OpenRefrigerator(bool isOpen)
     {
         if(isOpen)
         {
             _refrigeratorDoor.AnimationState.SetAnimation(0, "Cuatulanh - Open", false);
+            await UniTask.WaitForSeconds(_refrigeratorDoor.AnimationState.GetCurrent(0).Animation.Duration);
+            double temp = _elevatorController.CurrentProduct;
+            double firstValue = _elevatorController.CurrentProduct;
+            double lastValue = 0;
+            while(temp > lastValue)
+            {
+                await UniTask.Yield();
+                temp -= firstValue * Time.deltaTime / _elevatorController.WorkingTime * 1.25f;
+                int percent = (int)(temp / _elevatorController.MaxCapacity * 10);
+                for(int i = 0; i < _lyNuocs.Length; i++)
+                {
+                    if(i == 0 && firstValue > 0)
+                    {
+                        _lyNuocs[i].SetActive(true);
+                        continue;
+                    }
+                    _lyNuocs[i].SetActive(i < percent);
+                }
+                Debug.Log("temp: " + temp);
+            }
         }
         else
         {
