@@ -312,8 +312,13 @@ namespace NOOD
         /// Move camera base on your input (Put this function in Update to track the input), direction = -1 for opposite direction, 1 for follow direction
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
-        /// <param name="direction">-1 for oposite direction, 1 for follow direction</param>
+        /// <param name="direction">-1 for opposite direction, 1 for follow direction</param>
         public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, int direction = 1)
+        {
+            DragCamera(camera, minX, maxX, minY, maxY, true, true, direction);
+        }
+
+        public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, bool isHorizontal, bool isVertical, int direction = 1)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -329,12 +334,12 @@ namespace NOOD
                     tempPos = direction * DCDir;
                     campPos = camera.transform.position;
 
-                    if (campPos.x + tempPos.x > minX && campPos.x + tempPos.x < maxX)
+                    if (campPos.x + tempPos.x > minX && campPos.x + tempPos.x < maxX && isHorizontal)
                     {
                         campPos.x += tempPos.x;
                     }
 
-                    if (campPos.y + tempPos.y > minY && campPos.y + tempPos.y < maxY)
+                    if (campPos.y + tempPos.y > minY && campPos.y + tempPos.y < maxY && isVertical)
                     {
                         campPos.y += tempPos.y;
                     }
