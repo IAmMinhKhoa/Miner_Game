@@ -62,7 +62,7 @@ public class PlayList : MonoBehaviour
     }
     public void CloseModal()
     {
-        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         transform.DOLocalMoveY(posCam.y + 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {
             Destroy(this.gameObject);

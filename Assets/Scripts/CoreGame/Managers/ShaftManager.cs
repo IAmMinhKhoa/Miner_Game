@@ -47,6 +47,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         float newY = newShaft.transform.position.y;
         newY += roofOffset;
         _roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
+
+        CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
     }
 
     public void InitializeShafts()
@@ -66,6 +68,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         }
 
         isDone = true;
+        CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
     }
 
     private double CalculateNextShaftCost()

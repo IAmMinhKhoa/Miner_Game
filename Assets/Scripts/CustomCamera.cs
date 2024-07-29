@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using NOOD;
 using UnityEngine;
 
 public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
+    [SerializeField] private float minY, maxY;
     private Camera _camera;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _camera = this.GetComponent<Camera>();
     }
 
@@ -20,10 +20,16 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
     void Update()
     {
         if(NoodyCustomCode.IsPointerOverUIElement() == false)
-            NoodyCustomCode.DragCamera(this.gameObject, horizontal: false, vertical: true, direction: -1);
+            NoodyCustomCode.DragCamera(this.gameObject, minX: 0, maxX: 0, minY, maxY, isHorizontal: false, isVertical: true, direction: -1);
+        
     }
 
-    public Transform GetCurrentTranform()
+    public void SetMaxY(float y)
+    {
+        maxY = y;
+    }
+
+    public Transform GetCurrentTransform()
     {
         return transform;
     }

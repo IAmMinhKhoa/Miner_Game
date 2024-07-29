@@ -399,7 +399,7 @@ public class SoundSetting : MonoBehaviour
     {
         PlayList currentPlayList= Instantiate(_playList.gameObject, this.transform).GetComponent<PlayList>();
 
-        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 
         currentPlayList.gameObject.transform.localPosition= new Vector2(0, posCam.y - 2000); //Under Screen
 
@@ -418,7 +418,7 @@ public class SoundSetting : MonoBehaviour
     public void FadeInContainer()
     {
         Container.SetActive(true);
-        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Debug.Log("khoaa:" + posCam);
         Container.transform.localPosition = new Vector2(0, posCam.y-2000); //Under Screen
         Container.transform.DOLocalMoveY(0, 0.6f).SetEase(Ease.OutQuart);
@@ -428,7 +428,7 @@ public class SoundSetting : MonoBehaviour
     [Button]
     public void FadeOutContainer()
     {
-        Vector2 posCam = CustomCamera.Instance.GetCurrentTranform().position;
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Container.transform.DOLocalMoveY(posCam.y+2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {
             Container.SetActive(false);
