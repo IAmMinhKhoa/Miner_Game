@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,30 +12,33 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
 
+    [Header("UI text")]
+    [SerializeField] private TextMeshProUGUI _currentCostText;
+
     [Header("UI Button")]
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _hireButton;
+    [SerializeField] private Button _boostButton;
 
     [SerializeField] private List<Manager> _manager;
-
-    void Start()
-    {
-
-    }
 
     void OnEnable()
     {
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
+        ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
         _hireButton.onClick.AddListener(HireManager);
+        _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
     }
 
     void OnDisable()
     {
         _managerTabUI.onManagerTabChanged -= OnManagerTabChanged;
+        ManagerLocationUI.OnTabChanged -= OnLocationTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
         _hireButton.onClick.RemoveListener(HireManager);
+        _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
     }
 
@@ -47,6 +51,12 @@ public class ManagerChooseUI : MonoBehaviour
         _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type));
     }
 
+    private void OnLocationTabChanged(ManagerLocation location)
+    {
+        SetupData(location);
+        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Costs);
+    }
+
     public void SetupData(ManagerLocation location)
     {
         _manager = location switch
@@ -56,6 +66,8 @@ public class ManagerChooseUI : MonoBehaviour
             ManagerLocation.Counter => ManagersController.Instance.CounterManagers,
             _ => throw new ArgumentOutOfRangeException(nameof(location), location, null)
         };
+        Debug.Log("SetupData");
+        _currentCostText.text = Currency.DisplayCurrency(ManagersController.Instance.CurrentCost);
     
     }
 
@@ -67,12 +79,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     public void RefreshData(BoostType type)
     {
-        _manager = ManagersController.Instance.CurrentManagerLocation.LocationType switch
-        {
-            ManagerLocation.Shaft => ManagersController.Instance.ShaftManagers,
-            ManagerLocation.Elevator => ManagersController.Instance.ElevatorManagers,
-            ManagerLocation.Counter => ManagersController.Instance.CounterManagers,
-        };
+        SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
 
         OnManagerTabChanged(type);        
     }
@@ -87,8 +94,13 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
-        OnRefreshManagerTab?.Invoke(manager.BoostType);
+        //OnRefreshManagerTab?.Invoke(manager.BoostType);
         _hireButton.interactable = true;
+    }
+
+    private void Boost()
+    {
+        ManagersController.Instance.BoostAllManager();
     }
 
     private void ClosePanel()

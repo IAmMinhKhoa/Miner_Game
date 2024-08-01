@@ -52,6 +52,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     [SerializeField] private float _debugSpeedGame = 1;
     #endregion
 
+    private void OnEnable()
+    {
+        ManagerLocationUI.OnTabChanged += SetUpCurrentManagerLocation;
+    }
+
     private void Start()
     {
         Setup();
@@ -87,6 +92,17 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         managerDetailPanel.GetComponent<ManagerPanelUI>().SetManager(data);
         managerDetailPanel.SetActive(isOpen);
+    }
+
+    private void SetUpCurrentManagerLocation(ManagerLocation location)
+    {
+        CurrentManagerLocation = location switch
+        {
+            ManagerLocation.Shaft => ShaftManager.Instance.Shafts[0].ManagerLocation,
+            ManagerLocation.Elevator => ElevatorSystem.Instance.ManagerLocation,
+            ManagerLocation.Counter => Counter.Instance.ManagerLocation,
+            _ => null
+        };
     }
 
     #region ----Manager Control Methods----
@@ -194,6 +210,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType);
 
         return manager;
     }
@@ -240,6 +257,43 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
     }
 
+    public void BoostAllManager()
+    {
+        switch (CurrentManagerLocation.LocationType)
+        {
+            case ManagerLocation.Shaft:
+                var shafts = ShaftManager.Instance.Shafts;
+                foreach (var shaft in shafts)
+                {
+                    shaft.ManagerLocation.RunBoost();
+                }
+                break;
+            default:
+                CurrentManagerLocation.RunBoost();
+                break;
+        }
+    }
+
+    public void AssignManager(Manager manager, BaseManagerLocation newLocation)
+    {
+        var managerOldLocation = manager.Location;
+        var locationOldManager = newLocation.Manager;
+
+        if (managerOldLocation != null && locationOldManager != null)
+        {
+            locationOldManager.AssignManager(managerOldLocation);
+            manager.AssignManager(newLocation);
+        }
+        else
+        {
+            manager.AssignManager(newLocation);
+        }
+    }
+
+    public void UnassignManager(Manager manager)
+    {
+        manager.UnassignManager();
+    }
     #endregion
 
     #region ----Load Save Region----

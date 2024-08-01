@@ -46,17 +46,30 @@ public class ManagerPanelUI : MonoBehaviour
 
     private void HireOrFireManager()
     {
-        if (_manager.IsAssigned && _manager.Location == ManagersController.Instance.CurrentManagerLocation)
+        // if (_manager.IsAssigned && _manager.Location == ManagersController.Instance.CurrentManagerLocation)
+        // {
+        //     _manager.UnassignManager();
+        //     ClosePanel();
+        //     return;
+        // }
+        // else
+        // {
+        //     _manager.AssignManager();
+        //     ClosePanel();
+        // }
+
+        var  managersController = ManagersController.Instance;
+
+        if (_manager.IsAssigned)
         {
-            _manager.UnassignManager();
-            ClosePanel();
-            return;
+            managersController.UnassignManager(_manager);
         }
         else
         {
-            _manager.AssignManager();
-            ClosePanel();
+            managersController.AssignManager(_manager, managersController.CurrentManagerLocation);
         }
+
+        ClosePanel();
     }
 
     private void SellManager()
@@ -82,5 +95,23 @@ public class ManagerPanelUI : MonoBehaviour
         _descriptionText.text = "Nothing here yet";
         _infoIcon.sprite = _manager.Icon;
         _cooldownTimeText.text = _manager.CooldownTime + "m";
+
+        if (ManagersController.Instance.CurrentManagerLocation.LocationType == ManagerLocation.Shaft)
+        {
+            _hireOrFiredButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            _hireOrFiredButton.gameObject.SetActive(true);
+        }
+
+        if (_manager.IsAssigned)
+        {
+            _hireOrFiredButton.GetComponentInChildren<TextMeshProUGUI>().text = "Nghỉ";
+        }
+        else
+        {
+            _hireOrFiredButton.GetComponentInChildren<TextMeshProUGUI>().text = "Chọn";
+        }
     }
 }
