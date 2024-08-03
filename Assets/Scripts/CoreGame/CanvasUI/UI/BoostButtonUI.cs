@@ -79,6 +79,7 @@ public class BoostButtonUI : MonoBehaviour
             }
             else if (_manager.CurrentCooldownTime > 0)
             {
+                activeImage.fillAmount = 0;
                 float value = _manager.CurrentCooldownTime / (_manager.CooldownTime * 60);
                 cooldownImage.fillAmount = value;
                 SetUiTiming(_manager.CurrentCooldownTime);

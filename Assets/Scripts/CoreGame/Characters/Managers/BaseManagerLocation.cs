@@ -20,13 +20,12 @@ public class BaseManagerLocation : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Have manager" + _manager.CurrentBoostTime + " " + _manager.CurrentCooldownTime);
 
         if (!_manager.CanActiveBoost())
         {
             return;
         }
-        Debug.Log("Manager run boost");
+
         _manager.RunBoost();
     }
 
@@ -35,7 +34,6 @@ public class BaseManagerLocation : MonoBehaviour
         _manager = manager;
         OnChangeManager?.Invoke(_manager);
     }
-
     public float GetManagerBoost(BoostType currentBoostAction)
     {
         if (Manager == null
@@ -51,6 +49,7 @@ public class BaseManagerLocation : MonoBehaviour
                 BoostType.Costs => 1f - Manager.BoostValue,
                 BoostType.Efficiency => Manager.BoostValue,
                 BoostType.Speed => Manager.BoostValue,
+                _ => throw new NotImplementedException(),
             };
         }
     }

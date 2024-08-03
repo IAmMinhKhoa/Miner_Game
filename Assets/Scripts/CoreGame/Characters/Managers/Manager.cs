@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Manager
 {
     public BaseManagerLocation Location { get; set; }
-    //public ManagerDataSO Data => _data;
-    //[SerializeField] private GameObject splineData;
     [SerializeField] private ManagerDataSO _data;
     [SerializeField] private ManagerSpecieDataSO _specieData;
     [SerializeField] private ManagerTimeDataSO _timeData;
@@ -33,6 +32,8 @@ public class Manager
 
     public float CurrentBoostTime => currentBoostTime;
     public float CurrentCooldownTime => currentCooldownTime;
+
+    private CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
     public void SetSpecieData(ManagerSpecieDataSO data)
     {
@@ -95,6 +96,23 @@ public class Manager
         _view.SetManager(this);
     }
 
+    public void AssignManager(BaseManagerLocation newLocation)
+    {
+        if (IsAssigned)
+        {
+            UnassignManager();
+        }
+        var currentManager = newLocation.Manager;
+        currentManager?.UnassignManager();
+
+        Location = newLocation;
+        Location.SetManager(this);
+        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        Debug.Log("local pos manager:" + Location.transform.position);
+        _view.transform.position = Location.transform.position;
+        _view.SetManager(this);
+    }
+
     public void SetupLocation(BaseManagerLocation location)
     {
         Location = location;
@@ -109,6 +127,7 @@ public class Manager
     {
         Location.SetManager(null);
         Location = null;
+        StopBoost();
         GameObject.Destroy(_view.gameObject);
     }
 
@@ -128,28 +147,7 @@ public class Manager
         currentCooldownTime = CooldownTime * 60;
         ActiveBoost();
     }
-    private async UniTaskVoid ActiveBoost()
-    {
-        _isBoosting = true;        
-        while (currentBoostTime > 0)
-        {
-            Debug.Log("Boosting:" + LocationType + "/" + currentBoostTime);
-            currentBoostTime -= Time.deltaTime;
-            await UniTask.Yield();
-        }
-        _isBoosting = false;
-        await Cooldown();
-    }
-    private async UniTask Cooldown()
-    {
-        while (currentCooldownTime > 0)
-        {
-            Debug.Log("Boosting:" + LocationType + "/" + currentCooldownTime);
-            currentCooldownTime -= Time.deltaTime;
-            await UniTask.Yield();
-        }
-        _isBoosting = false;
-    }
+    
     public void SetData(ManagerDataSO data)
     {
         _data = data;
@@ -171,4 +169,46 @@ public class Manager
             Cooldown();
         }
     }
+
+    #region ---- Private Method ----
+    private async UniTaskVoid ActiveBoost()
+    {
+        _isBoosting = true;        
+        while (currentBoostTime > 0)
+        {
+            Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);
+            currentBoostTime -= Time.deltaTime;
+            await UniTask.Yield(cancellationToken.Token);
+        }
+        _isBoosting = false;
+        Cooldown();
+    }
+    private async UniTaskVoid Cooldown()
+    {
+        while (currentCooldownTime > 0)
+        {
+            Debug.Log("Not boosting:" + LocationType + "/" + currentCooldownTime);
+            currentCooldownTime -= Time.deltaTime;
+            await UniTask.Yield();
+        }
+        _isBoosting = false;
+    }
+
+    private void StopBoost()
+    {
+        if (!_isBoosting)
+        {
+           return;
+        }
+        cancellationToken.Cancel();
+        _isBoosting = false;
+        currentBoostTime = 0;
+        Cooldown();
+    }
+
+    private void OnDestroy()
+    {
+        cancellationToken.Cancel();
+    }
+    #endregion
 }
