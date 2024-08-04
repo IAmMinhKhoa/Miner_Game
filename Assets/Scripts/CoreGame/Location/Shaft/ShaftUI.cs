@@ -80,7 +80,7 @@ public class ShaftUI : MonoBehaviour
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
-        Debug.Log("khoa:" + m_shaft.CurrentDeposit);
+
     }
 
     void OnDisable()
