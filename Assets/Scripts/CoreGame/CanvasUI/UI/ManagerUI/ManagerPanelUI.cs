@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ManagerPanelUI : MonoBehaviour
 {
@@ -68,13 +66,14 @@ public class ManagerPanelUI : MonoBehaviour
         {
             managersController.AssignManager(_manager, managersController.CurrentManagerLocation);
         }
-
+        ManagerSelectionShaft.OnReloadManager?.Invoke();
         ClosePanel();
     }
 
     private void SellManager()
     {
         ManagersController.Instance.SellManager(_manager);
+        ManagerSelectionShaft.OnReloadManager?.Invoke();    
         ClosePanel();
     }
 

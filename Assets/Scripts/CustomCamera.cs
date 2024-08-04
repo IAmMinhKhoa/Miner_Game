@@ -26,7 +26,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 
     public void SetMaxY(float y)
     {
-        maxY = y;
+        maxY = y-3f;
     }
 
     public Transform GetCurrentTransform()

@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class ManagerSelectionShaft : MonoBehaviour
+{
+    public static Action OnReloadManager;
+    [SerializeField] InformationBlockShaft _prefabShaft;
+    [SerializeField] Transform _parentContent;
+    private List<Shaft> _shaftManagers
+    {
+        get
+        {
+            return ShaftManager.Instance.Shafts;
+        }
+    }
+    private void Start()
+    {
+       
+    }
+    private void OnDisable()
+    {
+        OnReloadManager -= RenderData;
+
+    }
+    private void OnEnable()
+    {
+        _prefabShaft.gameObject.SetActive(false);
+        OnReloadManager += RenderData;
+        RenderData();
+    }
+
+    private void RenderData()
+    {
+        ClearChildrenExceptFirst(_parentContent);
+        for (int index = 0; index < _shaftManagers.Count; index++)
+        {
+            var item = _shaftManagers[index];
+            InformationBlockShaft prefab = Instantiate(_prefabShaft, _parentContent);
+            prefab.gameObject.SetActive(true);
+
+            prefab.SetDataInit(item); 
+        }
+    }
+    void ClearChildrenExceptFirst(Transform parentContent)
+    {
+  
+        if (parentContent.childCount <= 1) return;
+
+        for (int i = parentContent.childCount - 1; i > 0; i--)
+        {
+         
+            Transform child = parentContent.GetChild(i);
+        
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+}

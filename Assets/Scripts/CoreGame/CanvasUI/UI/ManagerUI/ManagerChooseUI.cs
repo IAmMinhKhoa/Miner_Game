@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManagerChooseUI : MonoBehaviour
+public class ManagerChooseUI : MonoBehaviour    
 {
     public static Action<BoostType> OnRefreshManagerTab;
     [SerializeField] private ManagerTabUI _managerTabUI;
@@ -96,7 +96,7 @@ public class ManagerChooseUI : MonoBehaviour
         var manager = ManagersController.Instance.CreateManager();
         //OnRefreshManagerTab?.Invoke(manager.BoostType);
         _hireButton.interactable = true;
-    }
+    }   
 
     private void Boost()
     {

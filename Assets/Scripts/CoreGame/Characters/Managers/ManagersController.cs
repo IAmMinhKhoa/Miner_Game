@@ -293,7 +293,62 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public void UnassignManager(Manager manager)
     {
         manager.UnassignManager();
+        BoostType type = manager.BoostType;
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
+        ManagerSelectionShaft.OnReloadManager?.Invoke();
+
     }
+    public bool MergeManager(Manager firstManager, Manager secondManager)
+    {
+        bool CanMerge = CanMergeManagers(firstManager, secondManager);
+        if (!CanMerge)
+        {
+            return false;
+        }
+        
+
+        MergeManagerTimes(firstManager, secondManager);
+        RemoveManager(secondManager);
+        UpgradeManager(firstManager);
+
+        return true;
+    }
+
+    private void MergeManagerTimes(Manager firstManager, Manager secondManager)
+    {
+        firstManager.SetCurrentTime(
+            Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
+            Mathf.Max(firstManager.CurrentCooldownTime, secondManager.CurrentCooldownTime)
+        );
+    }
+
+    public void UpgradeManager(Manager manager)
+    {
+        if (manager.Level == ManagerLevel.Executive)
+        {
+            return;
+        }
+
+        var upgradeData = GetManagerData(manager.LocationType, manager.BoostType, manager.Level + 1);
+        var timeData = GetManagerTimeData(upgradeData.managerLevel);
+        var specieData = GetManagerSpecieData(manager.Specie, upgradeData.managerLevel);
+
+        manager.SetManagerData(upgradeData);
+        manager.SetTimeData(timeData);
+        manager.SetSpecieData(specieData);
+    }
+
+    private bool CanMergeManagers(Manager firstManager, Manager secondManager)
+    {
+        Debug.Log($"First index: {firstManager.Index} Second index: {secondManager.Index}");
+    
+        return firstManager.Level != ManagerLevel.Executive &&
+               secondManager.Level != ManagerLevel.Executive &&
+               firstManager.LocationType == secondManager.LocationType &&
+               firstManager.Level == secondManager.Level &&
+               firstManager.Specie == secondManager.Specie;
+    }
+
     #endregion
 
     #region ----Load Save Region----

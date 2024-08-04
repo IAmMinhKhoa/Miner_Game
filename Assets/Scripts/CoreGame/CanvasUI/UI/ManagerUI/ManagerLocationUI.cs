@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ManagerLocationUI : MonoBehaviour
 {
     public static Action<ManagerLocation> OnTabChanged;
-
+    [SerializeField] GameObject panelShaftManager;
     [SerializeField] private SerializableDictionary<Button, ManagerLocation> _managerTabFilter = new SerializableDictionary<Button, ManagerLocation>();
     private ManagerLocation _currentManagerLocation;
 
@@ -27,6 +27,8 @@ public class ManagerLocationUI : MonoBehaviour
         {
             return;
         }
+        if (managerLocation == ManagerLocation.Shaft) panelShaftManager.SetActive(true);
+        else panelShaftManager.SetActive(false);
         _currentManagerLocation = managerLocation;
         OnTabChanged?.Invoke(managerLocation);
     }
