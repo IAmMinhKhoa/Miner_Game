@@ -27,10 +27,14 @@ public class BoostButtonUI : MonoBehaviour
     private float _timerTickRate = 0;
     #endregion
 
-    void Start()
+    void OnEnable()
     {
-        //wait for all init
         baseManagerLocation.OnChangeManager += OnChangeManager;
+    }
+
+    void OnDisable()
+    {
+        baseManagerLocation.OnChangeManager -= OnChangeManager;
     }
 
     void OnChangeManager(Manager manager)
