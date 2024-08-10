@@ -73,7 +73,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     public void SetupTab(BoostType type, ManagerLocation managerLocation)
     {
-        SetupData(managerLocation);
+        ManagerLocationUI.OnTabChanged?.Invoke(managerLocation);
         _managerTabUI.onManagerTabChanged?.Invoke(type);
     }
 
@@ -81,7 +81,7 @@ public class ManagerChooseUI : MonoBehaviour
     {
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
 
-        OnManagerTabChanged(type);        
+        _managerTabUI.onManagerTabChanged.Invoke(type);       
     }
 
     void HireManager()
