@@ -5,13 +5,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private CanvasGroup canvasGroup;
     private GameObject dragObject;
     private Camera mainCamera;
     private bool isDragging = false;
-
+    [SerializeField] ManagerElementUI currentCard;
+    private void Update()
+    {
+    }
     private void Awake()
     {
         InitializeComponents();
@@ -27,15 +30,15 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (isDragging) return;
         isDragging = true;
-
-        PrepareForDrag();
         CreateDragObject();
+        PrepareForDrag();
+       
     }
 
     private void PrepareForDrag()
     {
         canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.6f;
+        currentCard.IsSelected = true;
     }
 
     private void CreateDragObject()
@@ -78,15 +81,15 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDragging) return;
+        if (!isDragging|| eventData.pointerEnter == null) return;
 
         HandleDropOnShaft(eventData);
+         HandleManagerMerge(eventData.pointerEnter);
         CleanupAfterDrag();
     }
 
     private void HandleDropOnShaft(PointerEventData eventData)
     {
-        if (eventData.pointerEnter == null) return;
 
         if (eventData.pointerEnter.TryGetComponent(out InformationBlockShaft blockShaftManager))
         {
@@ -108,19 +111,14 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
-    public void OnDrop(PointerEventData eventData)
+
+    private void HandleManagerMerge( GameObject pointerEnterSecond)
     {
-        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<DraggableCard>()!=null) return;
+        if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
 
-        HandleManagerMerge(eventData.pointerDrag, eventData.pointerEnter);
-        isDragging = false;
-    }
-
-    private void HandleManagerMerge(GameObject pointerDrag, GameObject pointerEnter)
-    {
-        var firstManager = pointerDrag.GetComponent<ManagerElementUI>().Data;
-        var secondManager = pointerEnter.GetComponent<ManagerElementUI>().Data;
-
+        var firstManager = currentCard.Data;
+        var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>().Data;
+        Debug.Log("Handle-Merge:" + firstManager.Name + "/" + secondManager.Name);
         if (ManagersController.Instance.MergeManager(firstManager, secondManager))
         {
             ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
@@ -161,7 +159,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void RestoreCanvasGroup()
     {
-        canvasGroup.alpha = 1f;
+        currentCard.IsSelected = false ;
         canvasGroup.blocksRaycasts = true;
     }
 

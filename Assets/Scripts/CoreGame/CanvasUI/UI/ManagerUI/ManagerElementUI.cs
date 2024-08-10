@@ -10,9 +10,13 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Image _icon;
-    [SerializeField] CanvasGroup _canvasGroup;
+    [SerializeField] GameObject _maskSelected;
     private Manager _data;
-    public Manager Data => _data;   
+    public Manager Data => _data;
+    public bool IsSelected { set {
+            _maskSelected.SetActive(value);
+        } }
+
     public void SetData(Manager managerData)
     {
         _data = managerData;

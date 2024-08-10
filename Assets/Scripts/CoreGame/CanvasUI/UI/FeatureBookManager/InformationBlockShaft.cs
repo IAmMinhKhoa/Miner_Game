@@ -11,11 +11,19 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     [SerializeField] TMP_Text textIndex;
     [SerializeField] Image icon;
     [SerializeField] TMP_Text textLevel;
+    [SerializeField] Image sliderTimeActive;
+    [SerializeField] Image sliderTimeCD;
+    [SerializeField] GameObject objDrag;
 
     private Shaft shaft;
     private GameObject dragObject;
     private Camera mainCamera;
     private bool isDragging = false;
+
+    private float tickRate = 1.5f;
+    private float nextTickTime = 0f;
+
+    #region Initialization
 
     private void Start()
     {
@@ -26,6 +34,42 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         this.shaft = shaft;
         UpdateUI();
+    }
+
+    #endregion
+
+    #region UI Updates
+
+    private void Update()
+    {
+        if (Time.time >= nextTickTime)
+        {
+            // Do something periodically
+            RenderSkillManager();
+            nextTickTime = Time.time + tickRate;
+        }
+    }
+
+    private void RenderSkillManager()
+    {
+        if (shaft.ManagerLocation.Manager == null) return;
+
+        Manager manager = shaft.ManagerLocation.Manager;
+        if (manager.CurrentBoostTime > 0)
+        {
+            float value = manager.CurrentBoostTime / (manager.BoostTime * 60);
+            sliderTimeActive.fillAmount = value;
+        }
+        else if (manager.CurrentCooldownTime > 0)
+        {
+            sliderTimeActive.fillAmount = 0;
+            float value = manager.CurrentCooldownTime / (manager.CooldownTime * 60);
+            sliderTimeCD.fillAmount = value;
+        }
+        else
+        {
+            sliderTimeActive.fillAmount = 1;
+        }
     }
 
     private void UpdateUI()
@@ -60,6 +104,10 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
     }
 
+    #endregion
+
+    #region Event Handling
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsDraggable(eventData))
@@ -68,26 +116,9 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
     }
 
-    private bool IsDraggable(PointerEventData eventData)
-    {
-        return eventData.pointerDrag != null &&
-               (eventData.pointerDrag.GetComponent<DraggableCard>() != null || 
-                eventData.pointerDrag.GetComponent<InformationBlockShaft>() != null);
-    }
-
-    private void ScaleUp()
-    {
-        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
-    }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         ScaleDown();
-    }
-
-    private void ScaleDown()
-    {
-        transform.DOScale(new Vector2(1f, 1f), 0.2f);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -98,6 +129,10 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
     }
 
+    #endregion
+
+    #region Dragging Logic
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (!CanBeginDrag()) return;
@@ -106,46 +141,10 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         CreateDragObject();
     }
 
-    private bool CanBeginDrag()
-    {
-        return shaft.ManagerLocation.Manager != null && !isDragging;
-    }
-
-    private void CreateDragObject()
-    {
-        dragObject = Instantiate(gameObject, transform);
-        dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
-        AddDragCanvas(dragObject);
-    }
-
-    private void AddDragCanvas(GameObject obj)
-    {
-        var canvas = obj.AddComponent<Canvas>();
-        canvas.overrideSorting = true;
-        canvas.sortingLayerName = "GameUI";
-        canvas.sortingOrder = 1;
-
-        var dragCanvasGroup = obj.GetComponent<CanvasGroup>();
-        dragCanvasGroup.blocksRaycasts = false;
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (!CanDrag()) return;
         UpdateDragObjectPosition();
-    }
-
-    private bool CanDrag()
-    {
-        return shaft.ManagerLocation.Manager != null && isDragging;
-    }
-
-    private void UpdateDragObjectPosition()
-    {
-        var screenPoint = Input.mousePosition;
-        screenPoint.z = 1000f; // Distance from the camera
-
-        dragObject.transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -155,6 +154,31 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         HandleDrop(eventData);
         DestroyDragObject();
         isDragging = false;
+    }
+
+    private bool CanBeginDrag()
+    {
+        return shaft.ManagerLocation.Manager != null && !isDragging;
+    }
+
+    private bool CanDrag()
+    {
+        return shaft.ManagerLocation.Manager != null && isDragging;
+    }
+
+    private void CreateDragObject()
+    {
+        dragObject = Instantiate(objDrag, transform);
+        dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+        AddDragCanvas(dragObject);
+    }
+
+    private void UpdateDragObjectPosition()
+    {
+        var screenPoint = Input.mousePosition;
+        screenPoint.z = 1000f; // Distance from the camera
+
+        dragObject.transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     private void HandleDrop(PointerEventData eventData)
@@ -171,6 +195,26 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
     }
 
+    private void DestroyDragObject()
+    {
+        if (dragObject != null)
+        {
+            Destroy(dragObject);
+            dragObject = null;
+        }
+    }
+
+    #endregion
+
+    #region Helper Methods
+
+    private bool IsDraggable(PointerEventData eventData)
+    {
+        return eventData.pointerDrag != null &&
+               (eventData.pointerDrag.GetComponent<DraggableCard>() != null ||
+                eventData.pointerDrag.GetComponent<InformationBlockShaft>() != null);
+    }
+
     private bool IsDroppingOutside(GameObject target)
     {
         return !target.GetComponent<InformationBlockShaft>();
@@ -180,6 +224,27 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         return eventData.pointerEnter != gameObject &&
                eventData.pointerEnter.GetComponent<InformationBlockShaft>() != null;
+    }
+
+    private void ScaleUp()
+    {
+        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+    }
+
+    private void ScaleDown()
+    {
+        transform.DOScale(new Vector2(1f, 1f), 0.2f);
+    }
+
+    private void AddDragCanvas(GameObject obj)
+    {
+        var canvas = obj.AddComponent<Canvas>();
+        canvas.overrideSorting = true;
+        canvas.sortingLayerName = "GameUI";
+        canvas.sortingOrder = 1;
+
+        var dragCanvasGroup = obj.GetComponent<CanvasGroup>();
+        dragCanvasGroup.blocksRaycasts = false;
     }
 
     private void SwapManager(PointerEventData eventData)
@@ -194,12 +259,5 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
-    private void DestroyDragObject()
-    {
-        if (dragObject != null)
-        {
-            Destroy(dragObject);
-            dragObject = null;
-        }
-    }
+    #endregion
 }
