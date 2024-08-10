@@ -10,31 +10,17 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Image _icon;
+    [SerializeField] CanvasGroup _canvasGroup;
     private Manager _data;
-    public Manager Data => _data;
-    public bool IsAssigned
-    {
-        set
-        {
-            if(value) _icon.color = Color.gray;
-            else _icon.color = Color.white;
-        }
-    }
+    public Manager Data => _data;   
     public void SetData(Manager managerData)
     {
         _data = managerData;
         _levelText.text = _data.Level.ToString();
         _timerText.text = _data.BoostTime.ToString();
         _icon.sprite = _data.Icon;
-        
-        if (managerData.IsAssigned)
-        {
-            _icon.color = Color.gray;
-        }
-        else
-        {
-            _icon.color = Color.white;
-        }
+       
+       
     }
 
     public void OnPointerClick(PointerEventData eventData)

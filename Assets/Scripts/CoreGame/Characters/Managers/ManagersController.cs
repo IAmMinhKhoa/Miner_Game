@@ -297,8 +297,8 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         manager.UnassignManager();
         BoostType type = manager.BoostType;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
-        ManagerSelectionShaft.OnReloadManager?.Invoke();
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type); //reload list manager in inventory
+        ManagerSelectionShaft.OnReloadManager?.Invoke();//reload scroll selected manager
 
     }
     public bool MergeManager(Manager firstManager, Manager secondManager)
@@ -341,7 +341,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         manager.SetSpecieData(specieData);
     }
 
-    private bool CanMergeManagers(Manager firstManager, Manager secondManager)
+    public bool CanMergeManagers(Manager firstManager, Manager secondManager)
     {
         Debug.Log($"First index: {firstManager.Index} Second index: {secondManager.Index}");
     

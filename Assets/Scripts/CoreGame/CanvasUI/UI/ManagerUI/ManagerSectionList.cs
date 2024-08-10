@@ -34,7 +34,7 @@ public class ManagerSectionList : MonoBehaviour
     {
         for(int i = 0; i < managerSpecie.Count; i++)
         {
-            await _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i]).ToList());
+            await _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i] && !x.IsAssigned).ToList());
         }
     }
 

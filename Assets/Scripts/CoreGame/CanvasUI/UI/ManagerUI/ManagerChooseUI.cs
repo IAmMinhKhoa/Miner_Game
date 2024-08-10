@@ -48,7 +48,7 @@ public class ManagerChooseUI : MonoBehaviour
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type));
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
     }
 
     private void OnLocationTabChanged(ManagerLocation location)
@@ -80,7 +80,7 @@ public class ManagerChooseUI : MonoBehaviour
     public void RefreshData(BoostType type)
     {
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
-
+       
         _managerTabUI.onManagerTabChanged.Invoke(type);       
     }
 

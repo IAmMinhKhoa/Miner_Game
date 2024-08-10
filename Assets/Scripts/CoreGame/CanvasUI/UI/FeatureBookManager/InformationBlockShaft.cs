@@ -12,21 +12,27 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     [SerializeField] Image icon;
     [SerializeField] TMP_Text textLevel;
 
-
-    private Shaft _shaft;
-    private GameObject _dragObject;
-    private Camera _MainCamera;
+    private Shaft shaft;
+    private GameObject dragObject;
+    private Camera mainCamera;
+    private bool isDragging = false;
 
     private void Start()
     {
-        _MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mainCamera = Camera.main;
     }
+
     public void SetDataInit(Shaft shaft)
     {
-        textIndex.text = (shaft.shaftIndex + 1).ToString();
-        _shaft = shaft;
+        this.shaft = shaft;
+        UpdateUI();
+    }
 
+    private void UpdateUI()
+    {
+        textIndex.text = (shaft.shaftIndex + 1).ToString();
         Manager manager = shaft.ManagerLocation.Manager;
+
         if (manager != null)
         {
             icon.sprite = manager.Icon;
@@ -35,7 +41,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         else
         {
             icon.sprite = null;
-            textLevel.text = "";
+            textLevel.text = string.Empty;
         }
     }
 
@@ -45,84 +51,155 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         {
             icon.sprite = manager.Icon;
             textLevel.text = ((int)manager.Level).ToString();
-            ManagersController.Instance.AssignManager(manager, _shaft.ManagerLocation);
-           
+            ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
         }
         else
         {
             icon.sprite = null;
-            textLevel.text = "";
+            textLevel.text = string.Empty;
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<DraggableCard>())
-            transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+        if (IsDraggable(eventData))
+        {
+            ScaleUp();
+        }
+    }
+
+    private bool IsDraggable(PointerEventData eventData)
+    {
+        return eventData.pointerDrag != null &&
+               (eventData.pointerDrag.GetComponent<DraggableCard>() != null || 
+                eventData.pointerDrag.GetComponent<InformationBlockShaft>() != null);
+    }
+
+    private void ScaleUp()
+    {
+        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        ScaleDown();
+    }
+
+    private void ScaleDown()
     {
         transform.DOScale(new Vector2(1f, 1f), 0.2f);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
-        ManagersController.Instance.OpenManagerDetailPanel(true, _shaft.ManagerLocation.Manager);
+        if (shaft.ManagerLocation.Manager != null)
+        {
+            ManagersController.Instance.OpenManagerDetailPanel(true, shaft.ManagerLocation.Manager);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (_shaft.ManagerLocation.Manager == null) return;
+        if (!CanBeginDrag()) return;
 
-        /* _originalParent = objIcon.transform.parent;
-         _originalPosition = _rectTransform.anchoredPosition;
-         objIcon.transform.SetParent(transform.root, true);*/
+        isDragging = true;
+        CreateDragObject();
+    }
 
+    private bool CanBeginDrag()
+    {
+        return shaft.ManagerLocation.Manager != null && !isDragging;
+    }
 
-        _dragObject = Instantiate(gameObject, transform);
-        _dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+    private void CreateDragObject()
+    {
+        dragObject = Instantiate(gameObject, transform);
+        dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+        AddDragCanvas(dragObject);
+    }
 
-        var canvas = _dragObject.AddComponent<Canvas>();
+    private void AddDragCanvas(GameObject obj)
+    {
+        var canvas = obj.AddComponent<Canvas>();
         canvas.overrideSorting = true;
         canvas.sortingLayerName = "GameUI";
         canvas.sortingOrder = 1;
-        _dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false   ;
+
+        var dragCanvasGroup = obj.GetComponent<CanvasGroup>();
+        dragCanvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
-    { 
-        if ( _shaft.ManagerLocation.Manager == null) return;
-        var screenPoint = (Vector3)Input.mousePosition;
-        screenPoint.z = 1000f; //distance of the plane from the camera
+    {
+        if (!CanDrag()) return;
+        UpdateDragObjectPosition();
+    }
 
-        _dragObject.transform.position = _MainCamera.ScreenToWorldPoint(screenPoint);
+    private bool CanDrag()
+    {
+        return shaft.ManagerLocation.Manager != null && isDragging;
+    }
+
+    private void UpdateDragObjectPosition()
+    {
+        var screenPoint = Input.mousePosition;
+        screenPoint.z = 1000f; // Distance from the camera
+
+        dragObject.transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (_shaft.ManagerLocation.Manager == null) return;
+        if (shaft.ManagerLocation.Manager == null) return;
 
-       
-
-        if (eventData.pointerEnter != null)
-        {
-            if (!eventData.pointerEnter.GetComponent<InformationBlockShaft>())
-            {
-                Debug.Log("Drag end drag on: " + eventData.pointerEnter.name);
-                ManagersController.Instance.UnassignManager(_shaft.ManagerLocation.Manager);
-            }
-        }
-
+        HandleDrop(eventData);
         DestroyDragObject();
-
+        isDragging = false;
     }
+
+    private void HandleDrop(PointerEventData eventData)
+    {
+        if (eventData.pointerEnter == null) return;
+
+        if (IsDroppingOutside(eventData.pointerEnter))
+        {
+            ManagersController.Instance.UnassignManager(shaft.ManagerLocation.Manager);
+        }
+        else if (IsSwappingManager(eventData))
+        {
+            SwapManager(eventData);
+        }
+    }
+
+    private bool IsDroppingOutside(GameObject target)
+    {
+        return !target.GetComponent<InformationBlockShaft>();
+    }
+
+    private bool IsSwappingManager(PointerEventData eventData)
+    {
+        return eventData.pointerEnter != gameObject &&
+               eventData.pointerEnter.GetComponent<InformationBlockShaft>() != null;
+    }
+
+    private void SwapManager(PointerEventData eventData)
+    {
+        var targetBlockShaft = eventData.pointerEnter.GetComponent<InformationBlockShaft>();
+        if (targetBlockShaft == null) return;
+
+        var currentManager = eventData.pointerDrag.GetComponent<InformationBlockShaft>().shaft.ManagerLocation.Manager;
+        targetBlockShaft.SetData(currentManager);
+
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType);
+        ManagerSelectionShaft.OnReloadManager?.Invoke();
+    }
+
     private void DestroyDragObject()
     {
-        ManagerSelectionShaft.CanDragCardManager = false;
-
-        Destroy(_dragObject);
-        _dragObject = null;
+        if (dragObject != null)
+        {
+            Destroy(dragObject);
+            dragObject = null;
+        }
     }
 }

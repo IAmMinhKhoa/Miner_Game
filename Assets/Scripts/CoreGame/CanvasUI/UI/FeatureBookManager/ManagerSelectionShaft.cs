@@ -7,7 +7,6 @@ using UnityEngine;
 public class ManagerSelectionShaft : MonoBehaviour
 {
     public static Action OnReloadManager;
-    public static bool CanDragCardManager;
     [SerializeField] InformationBlockShaft _prefabShaft;
     [SerializeField] Transform _parentContent;
     private List<Shaft> _shaftManagers
@@ -17,10 +16,7 @@ public class ManagerSelectionShaft : MonoBehaviour
             return ShaftManager.Instance.Shafts;
         }
     }
-    private void Start()
-    {
-       
-    }
+  
     private void OnDisable()
     {
         OnReloadManager -= RenderData;
@@ -29,6 +25,7 @@ public class ManagerSelectionShaft : MonoBehaviour
     private void OnEnable()
     {
         _prefabShaft.gameObject.SetActive(false);
+       // gameObject.SetActive(true);
         OnReloadManager += RenderData;
         RenderData();
     }

@@ -1,105 +1,186 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-   
     private CanvasGroup canvasGroup;
-    private GameObject _dragObject;
-    private Camera _MainCamera;
+    private GameObject dragObject;
+    private Camera mainCamera;
+    private bool isDragging = false;
+
     private void Awake()
     {
-        this.TryGetComponent<CanvasGroup>(out canvasGroup);
-        _MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        InitializeComponents();
+    }
+
+    private void InitializeComponents()
+    {
+        TryGetComponent(out canvasGroup);
+        mainCamera = Camera.main;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (isDragging) return;
+        isDragging = true;
+
+        PrepareForDrag();
+        CreateDragObject();
+    }
+
+    private void PrepareForDrag()
+    {
         canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.6f;
+    }
 
-        _dragObject = Instantiate(gameObject, transform);
-        _dragObject.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 250);
+    private void CreateDragObject()
+    {
+        dragObject = Instantiate(gameObject, transform);
+        var rectTransform = dragObject.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(200, 250);
 
-        var canvas = _dragObject.AddComponent<Canvas>();
+        AddDragCanvas(dragObject);
+        DisableRaycasts(dragObject);
+    }
+
+    private void AddDragCanvas(GameObject obj)
+    {
+        var canvas = obj.AddComponent<Canvas>();
         canvas.overrideSorting = true;
         canvas.sortingLayerName = "GameUI";
         canvas.sortingOrder = 1;
-        _dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    private void DisableRaycasts(GameObject obj)
+    {
+        var dragCanvasGroup = obj.GetComponent<CanvasGroup>();
+        dragCanvasGroup.blocksRaycasts = false;
+        dragCanvasGroup.interactable = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        var screenPoint = (Vector3)Input.mousePosition;
-        screenPoint.z = 1000f; //distance of the plane from the camera
+        if (!isDragging) return;
+        UpdateDragObjectPosition();
+    }
 
-        _dragObject.transform.position = _MainCamera.ScreenToWorldPoint(screenPoint);
+    private void UpdateDragObjectPosition()
+    {
+        var screenPoint = Input.mousePosition;
+        screenPoint.z = 1000f; // Distance of the plane from the camera
+        dragObject.transform.position = mainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isDragging) return;
+
+        HandleDropOnShaft(eventData);
+        CleanupAfterDrag();
+    }
+
+    private void HandleDropOnShaft(PointerEventData eventData)
+    {
         if (eventData.pointerEnter == null) return;
-        canvasGroup.blocksRaycasts = true;
-  
-      
 
-
-        InformationBlockShaft _blockShaftManager;
-        eventData.pointerEnter.TryGetComponent<InformationBlockShaft>(out _blockShaftManager);
-        if (_blockShaftManager != null)
+        if (eventData.pointerEnter.TryGetComponent(out InformationBlockShaft blockShaftManager))
         {
-            var _currentDataCard = eventData.pointerDrag.GetComponent<ManagerElementUI>().Data;
-            _blockShaftManager.SetData(_currentDataCard);
-            eventData.pointerDrag.GetComponent<ManagerElementUI>().IsAssigned = true;
-
-            ManagerSelectionShaft.OnReloadManager?.Invoke();
-
+            AssignManagerToShaft(blockShaftManager, eventData.pointerDrag);
+            RefreshUI();
         }
+    }
 
+    private void AssignManagerToShaft(InformationBlockShaft blockShaftManager, GameObject pointerDrag)
+    {
+        var managerData = pointerDrag.GetComponent<ManagerElementUI>().Data;
+        blockShaftManager.SetData(managerData);
+    }
 
-        DestroyDragObject();    
-        ForceRefreshParentLayout();
+    private void RefreshUI()
+    {
+        var currentManager = canvasGroup.GetComponent<ManagerElementUI>().Data;
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType);
+        ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
+        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<DraggableCard>()!=null) return;
 
+        HandleManagerMerge(eventData.pointerDrag, eventData.pointerEnter);
+        isDragging = false;
+    }
 
-        if (eventData.pointerEnter != null && eventData.pointerEnter.GetComponent<DraggableCard>())
+    private void HandleManagerMerge(GameObject pointerDrag, GameObject pointerEnter)
+    {
+        var firstManager = pointerDrag.GetComponent<ManagerElementUI>().Data;
+        var secondManager = pointerEnter.GetComponent<ManagerElementUI>().Data;
+
+        if (ManagersController.Instance.MergeManager(firstManager, secondManager))
         {
-            // Handle merge logic here
-            var draggedCard = eventData.pointerDrag.GetComponent<DraggableCard>();
-            var targetCard = eventData.pointerEnter.GetComponent<DraggableCard>();
-            if (draggedCard == null || targetCard == null || draggedCard == targetCard) return;
-
-            var firstM = draggedCard.GetComponent<ManagerElementUI>().Data;
-            var secondM = targetCard.GetComponent<ManagerElementUI>().Data;
-
-            if (ManagersController.Instance.MergeManager(firstM, secondM))
-            {
-                ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstM.BoostType);
-                ManagerSelectionShaft.OnReloadManager?.Invoke(); //after merge -> reload render srollview shaft
-            }
+            ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
+            ManagerSelectionShaft.OnReloadManager?.Invoke();
         }
-       
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<DraggableCard>() != null)
+        {
+            ScaleUp();
+        }
+    }
+
+    private void ScaleUp()
+    {
+        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ScaleDown();
+    }
+
+    private void ScaleDown()
+    {
+        transform.DOScale(new Vector2(1f, 1f), 0.2f);
+    }
+
+    private void CleanupAfterDrag()
+    {
+        RestoreCanvasGroup();
+        DestroyDragObject();
+        ForceRefreshParentLayout();
+        isDragging = false;
+    }
+
+    private void RestoreCanvasGroup()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    private void DestroyDragObject()
+    {
+        if (dragObject != null)
+        {
+            Destroy(dragObject);
+            dragObject = null;
+        }
     }
 
     private void ForceRefreshParentLayout()
     {
-        LayoutGroup layoutGroup = GetComponentInParent<LayoutGroup>();
-        if (layoutGroup)
+        var layoutGroup = GetComponentInParent<LayoutGroup>();
+        if (layoutGroup != null)
         {
             layoutGroup.enabled = true;
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
-    }
-    private void DestroyDragObject()
-    {
-        ManagerSelectionShaft.CanDragCardManager = false;
-
-        Destroy(_dragObject);
-        _dragObject = null;
     }
 }

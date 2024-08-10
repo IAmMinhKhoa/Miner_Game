@@ -37,7 +37,7 @@ public class ManagerLocationUI : MonoBehaviour
         {
             return;
         }
-        if (managerLocation == ManagerLocation.Shaft) panelShaftManager.SetActive(true);
+       
         else panelShaftManager.SetActive(false);
         _currentManagerLocation = managerLocation;
         OnTabChanged?.Invoke(managerLocation);
@@ -45,6 +45,7 @@ public class ManagerLocationUI : MonoBehaviour
 
     private void ChangeTabUI(ManagerLocation locationType)
     {
+        if (locationType == ManagerLocation.Shaft) panelShaftManager.SetActive(true);
         foreach (var btn in _managerTabFilter.Dictionary)
         {
             if (btn.Value == locationType)
