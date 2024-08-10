@@ -15,6 +15,7 @@ namespace NOOD
 {
     public static class NoodyCustomCode
     {
+        static float time = 0;
         public static Thread newThread;
 
         #region Look, mouse and Vector zone
@@ -274,7 +275,7 @@ namespace NOOD
             _camera.orthographicSize = size;
         }
         private static Vector3 DCMousePosition = Vector3.zero;
-        private static Vector3 DCDir;
+        private static Vector3 DCDelta;
         private static Vector3 tempPos;
         private static Vector3 campPos;
         /// <summary>
@@ -282,7 +283,7 @@ namespace NOOD
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
         /// <param name="direction">-1 for opposite direction, 1 for follow direction</param>
-        public static void DragCamera(GameObject camera, bool horizontal = true, bool vertical = true, int direction = 1)
+        public static void DragCamera(GameObject camera, bool horizontal = true, bool vertical = true, int direction = 1, float moveSpeed = 1)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -293,16 +294,16 @@ namespace NOOD
             {
                 if (MouseToWorldPoint2D() != DCMousePosition)
                 {
-                    DCDir = MouseToWorldPoint2D() - DCMousePosition;
+                    DCDelta = MouseToWorldPoint2D() - DCMousePosition;
                     if(horizontal == false)
                     {
-                        DCDir.x = 0;
+                        DCDelta.x = 0;
                     }
                     if(vertical == false)
                     {
-                        DCDir.y = 0;
+                        DCDelta.y = 0;
                     }
-                    camera.transform.position += direction * DCDir;
+                    camera.transform.position += direction * DCDelta;
                     DCMousePosition = MouseToWorldPoint2D();
                 }
             }
@@ -313,25 +314,27 @@ namespace NOOD
         /// </summary>
         /// <param name="camera">Camera you want to move</param>
         /// <param name="direction">-1 for opposite direction, 1 for follow direction</param>
-        public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, int direction = 1)
+        public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, int direction = 1, float moveSpeed = 1)
         {
-            DragCamera(camera, minX, maxX, minY, maxY, true, true, direction);
+            DragCamera(camera, minX, maxX, minY, maxY, true, true, direction, moveSpeed);
         }
 
-        public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, bool isHorizontal, bool isVertical, int direction = 1)
+        public static void DragCamera(GameObject camera, float minX, float maxX, float minY, float maxY, bool isHorizontal, bool isVertical, int direction = 1, float moveSpeed = 0.25f)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 DCMousePosition = MouseToWorldPoint2D();
+                time = 0;
             }
 
             if (Input.GetMouseButton(0))
             {
+                time += Time.deltaTime * moveSpeed;
                 if (MouseToWorldPoint2D() != DCMousePosition)
                 {
-                    DCDir = MouseToWorldPoint2D() - DCMousePosition;
+                    DCDelta = MouseToWorldPoint2D() - DCMousePosition;
 
-                    tempPos = direction * DCDir;
+                    tempPos = direction * DCDelta;
                     campPos = camera.transform.position;
 
                     if (campPos.x + tempPos.x > minX && campPos.x + tempPos.x < maxX && isHorizontal)
@@ -343,9 +346,8 @@ namespace NOOD
                     {
                         campPos.y += tempPos.y;
                     }
-
-                    camera.transform.position = campPos;
                 }
+                camera.transform.position = Vector3.Lerp(camera.transform.position, campPos, time);
             }
         }
 
@@ -371,9 +373,9 @@ namespace NOOD
                 {
                     if (ScreenPointToWorldPoint(average) != DCMousePosition)
                     {
-                        DCDir = ScreenPointToWorldPoint(average) - DCMousePosition;
+                        DCDelta = ScreenPointToWorldPoint(average) - DCMousePosition;
 
-                        tempPos = direction * DCDir;
+                        tempPos = direction * DCDelta;
                         campPos = camera.transform.position;
 
                         if (campPos.x + tempPos.x > minX && campPos.x + tempPos.x < maxX)
