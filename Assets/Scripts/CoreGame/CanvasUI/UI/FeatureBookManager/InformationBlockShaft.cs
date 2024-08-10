@@ -6,26 +6,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IDropHandler, IEndDragHandler
+public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] TMP_Text textIndex;
     [SerializeField] Image icon;
     [SerializeField] TMP_Text textLevel;
-    [SerializeField] GameObject objIcon;
 
-    private RectTransform _rectTransform;
-    private Vector2 _originalPosition;
-    private Transform _originalParent;
-    private Canvas _parentCanvas;
+
     private Shaft _shaft;
+    private GameObject _dragObject;
+    private Camera _MainCamera;
 
-    private void Awake()
-    {
-        _rectTransform = objIcon.GetComponent<RectTransform>();
-    }
     private void Start()
     {
-        _parentCanvas = GetComponentInParent<Canvas>();
+        _MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     public void SetDataInit(Shaft shaft)
     {
@@ -82,23 +76,35 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         if (_shaft.ManagerLocation.Manager == null) return;
 
-        _originalParent = objIcon.transform.parent;
-        _originalPosition = _rectTransform.anchoredPosition;
-        objIcon.transform.SetParent(transform.root, true);
+        /* _originalParent = objIcon.transform.parent;
+         _originalPosition = _rectTransform.anchoredPosition;
+         objIcon.transform.SetParent(transform.root, true);*/
+
+
+        _dragObject = Instantiate(gameObject, transform);
+        _dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+
+        var canvas = _dragObject.AddComponent<Canvas>();
+        canvas.overrideSorting = true;
+        canvas.sortingLayerName = "GameUI";
+        canvas.sortingOrder = 1;
+        _dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false   ;
     }
 
     public void OnDrag(PointerEventData eventData)
     { 
-        if (_rectTransform == null || _shaft.ManagerLocation.Manager == null) return;
-        _rectTransform.anchoredPosition += eventData.delta/_parentCanvas.scaleFactor;
+        if ( _shaft.ManagerLocation.Manager == null) return;
+        var screenPoint = (Vector3)Input.mousePosition;
+        screenPoint.z = 1000f; //distance of the plane from the camera
+
+        _dragObject.transform.position = _MainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (_shaft.ManagerLocation.Manager == null) return;
 
-        objIcon.transform.SetParent(_originalParent, true);
-        _rectTransform.anchoredPosition = _originalPosition;
+       
 
         if (eventData.pointerEnter != null)
         {
@@ -108,11 +114,15 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
                 ManagersController.Instance.UnassignManager(_shaft.ManagerLocation.Manager);
             }
         }
-            
-    }
 
-    public void OnDrop(PointerEventData eventData)
+        DestroyDragObject();
+
+    }
+    private void DestroyDragObject()
     {
-     
+        ManagerSelectionShaft.CanDragCardManager = false;
+
+        Destroy(_dragObject);
+        _dragObject = null;
     }
 }

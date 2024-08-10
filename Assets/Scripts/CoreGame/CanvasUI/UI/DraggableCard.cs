@@ -6,32 +6,36 @@ using UnityEngine.UI;
 
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private RectTransform _rectTransform;
+   
     private CanvasGroup canvasGroup;
-    private Transform originalParent;
-    private int originalSiblingIndex;
-    private Canvas _parentCanvas;
+    private GameObject _dragObject;
+    private Camera _MainCamera;
     private void Awake()
     {
         this.TryGetComponent<CanvasGroup>(out canvasGroup);
-        this.TryGetComponent<RectTransform>(out _rectTransform);
-        _parentCanvas = GetComponentInParent<Canvas>();
+        _MainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = false;
 
-        originalParent = transform.parent;
-        originalSiblingIndex = transform.GetSiblingIndex();
+        _dragObject = Instantiate(gameObject, transform);
+        _dragObject.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 250);
 
-        transform.SetParent(transform.root, true);
+        var canvas = _dragObject.AddComponent<Canvas>();
+        canvas.overrideSorting = true;
+        canvas.sortingLayerName = "GameUI";
+        canvas.sortingOrder = 1;
+        _dragObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_rectTransform == null) return;
-        _rectTransform.anchoredPosition += eventData.delta / _parentCanvas.scaleFactor;
+        var screenPoint = (Vector3)Input.mousePosition;
+        screenPoint.z = 1000f; //distance of the plane from the camera
+
+        _dragObject.transform.position = _MainCamera.ScreenToWorldPoint(screenPoint);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -39,8 +43,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (eventData.pointerEnter == null) return;
         canvasGroup.blocksRaycasts = true;
   
-        transform.SetParent(originalParent, true);
-        transform.SetSiblingIndex(originalSiblingIndex);
+      
 
 
         InformationBlockShaft _blockShaftManager;
@@ -56,7 +59,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
 
-
+        DestroyDragObject();    
         ForceRefreshParentLayout();
     }
 
@@ -91,5 +94,12 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             layoutGroup.enabled = true;
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
+    }
+    private void DestroyDragObject()
+    {
+        ManagerSelectionShaft.CanDragCardManager = false;
+
+        Destroy(_dragObject);
+        _dragObject = null;
     }
 }

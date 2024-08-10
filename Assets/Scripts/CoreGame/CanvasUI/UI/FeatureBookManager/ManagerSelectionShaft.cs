@@ -7,6 +7,7 @@ using UnityEngine;
 public class ManagerSelectionShaft : MonoBehaviour
 {
     public static Action OnReloadManager;
+    public static bool CanDragCardManager;
     [SerializeField] InformationBlockShaft _prefabShaft;
     [SerializeField] Transform _parentContent;
     private List<Shaft> _shaftManagers
