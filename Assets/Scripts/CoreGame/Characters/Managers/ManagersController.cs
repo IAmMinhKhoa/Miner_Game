@@ -75,17 +75,20 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public void OpenManagerPanel(BaseManagerLocation location)
     {
-        CurrentManagerLocation = location;
-        managerPanel.SetActive(true);
+        // CurrentManagerLocation = location;
+        // managerPanel.SetActive(true);
         
-        if (CurrentManagerLocation.Manager != null)
-        {
-            managerPanel.GetComponent<ManagerChooseUI>().SetupTab(CurrentManagerLocation.Manager.BoostType,CurrentManagerLocation.LocationType);
-        }
-        else
-        {
-            managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs,CurrentManagerLocation.LocationType);
-        }
+        // if (CurrentManagerLocation.Manager != null)
+        // {
+        //     managerPanel.GetComponent<ManagerChooseUI>().SetupTab(CurrentManagerLocation.Manager.BoostType,CurrentManagerLocation.LocationType);
+        // }
+        // else
+        // {
+        //     managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs,CurrentManagerLocation.LocationType);
+        // }
+        CurrentManagerLocation = ShaftManager.Instance.Shafts[0].ManagerLocation;
+        managerPanel.SetActive(true);
+        managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs, ManagerLocation.Shaft);
     }
 
     public void OpenManagerDetailPanel(bool isOpen, Manager data)
