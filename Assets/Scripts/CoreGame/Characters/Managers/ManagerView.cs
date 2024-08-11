@@ -24,13 +24,13 @@ public class ManagerView : MonoBehaviour
         {
             if(m_manager.IsBoosting)
             {
-                if(m_managerSkeletonAnimation.AnimationName != "Quan Ly Ho - Buff")
-                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Quan Ly Ho - Buff", true);
+                if(m_managerSkeletonAnimation.AnimationName != "Active")
+                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
             }
             else
             {
-                if(m_managerSkeletonAnimation.AnimationName != "Quan Ly Ho - Idle")
-                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Quan Ly Ho - Idle", true);
+                if(m_managerSkeletonAnimation.AnimationName != "Idle")
+                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
             }
         }
     }

@@ -37,6 +37,7 @@ public enum ManagerLocation
 }
 public enum ManagerSpecie
 {
-    Elephant,
-    Mouse,
+    Tiger,
+    Bear,
+    Dog,
 }

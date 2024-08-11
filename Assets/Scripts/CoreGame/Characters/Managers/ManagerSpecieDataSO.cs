@@ -6,6 +6,6 @@ using UnityEngine;
 public class ManagerSpecieDataSO : ScriptableObject
 {
     public ManagerSpecie managerSpecie;
-    public ManagerLevel managerLevel;
     public Sprite icon;
+    public string viewPath;
 }
