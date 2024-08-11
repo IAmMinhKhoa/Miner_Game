@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ManagerSelectionShaft : MonoBehaviour
 {
     public static Action OnReloadManager;
     [SerializeField] InformationBlockShaft _prefabShaft;
     [SerializeField] Transform _parentContent;
+
+    [SerializeField] private ScrollRect scrollRect;   // Reference to the Scroll View's ScrollRect component
+    [SerializeField] private float scrollSpeed = 0.1f; // Speed at which the scroll happens
+
     private List<Shaft> _shaftManagers
     {
         get
@@ -55,4 +60,23 @@ public class ManagerSelectionShaft : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
     }
+
+    public void ScrollUp()
+    {
+        // Move the scroll position up
+        scrollRect.verticalNormalizedPosition += scrollSpeed;
+
+        // Clamp the position to 1 (max scroll up)
+        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0, 1);
+    }
+
+    public void ScrollDown()
+    {
+        // Move the scroll position down
+        scrollRect.verticalNormalizedPosition -= scrollSpeed;
+
+        // Clamp the position to 0 (max scroll down)
+        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0, 1);
+    }
+
 }

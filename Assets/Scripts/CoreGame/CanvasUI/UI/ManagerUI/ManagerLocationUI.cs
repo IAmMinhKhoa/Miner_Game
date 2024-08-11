@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using NOOD.SerializableDictionary;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ManagerLocationUI : MonoBehaviour
 {
@@ -46,25 +47,49 @@ public class ManagerLocationUI : MonoBehaviour
     private void ChangeTabUI(ManagerLocation locationType)
     {
         if (locationType == ManagerLocation.Shaft) panelShaftManager.SetActive(true);
+
         foreach (var btn in _managerTabFilter.Dictionary)
         {
             if (btn.Value == locationType)
             {
-                btn.Key.interactable = false;
-                HighlightButton(btn.Key, true);
+                HighlightStateButton(btn.Key, true);  // Highlight and change the state of the selected button
+                ScaleButton(btn.Key, true);           // Scale up the selected button
             }
             else
             {
-                btn.Key.interactable = true;
-                HighlightButton(btn.Key, false);
+                HighlightStateButton(btn.Key, false); // Reset the state of unselected buttons
+                ScaleButton(btn.Key, false);          // Scale down the unselected buttons
             }
         }
     }
 
-    private void HighlightButton(Button button, bool highlight)
+    private void HighlightStateButton(Button button, bool highlight)
     {
-        var colors = button.colors;
-        colors.normalColor = highlight ? Color.green : Color.white;
-        button.colors = colors;
+        var spriteState = button.spriteState;
+        if (highlight)
+        {
+            // Use the pressed sprite as the selected sprite
+         
+
+            button.image.sprite = button.spriteState.pressedSprite; // Manually set the pressed sprite as the current sprite
+        }
+        else
+        {
+            // Reset to the normal sprite state
+        
+
+            button.image.sprite = button.spriteState.highlightedSprite; // Reset to the highlighted or normal sprite
+        }
+    }
+    private void ScaleButton(Button button, bool scaleUp)
+    {
+        if (scaleUp)
+        {
+            button.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.2f).SetEase(Ease.OutBack);
+        }
+        else
+        {
+            button.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using NOOD.SerializableDictionary;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class ManagerTabUI : MonoBehaviour
     {
         onManagerTabChanged -= ChangeTabUI;
     }
+
     void Start()
     {
         foreach (var btn in _managerTabFilter.Dictionary)
@@ -40,13 +42,13 @@ public class ManagerTabUI : MonoBehaviour
         {
             if (btn.Value == boostType)
             {
-                btn.Key.interactable = false;
                 HighlightButton(btn.Key, true);
+                ScaleButton(btn.Key, true); // Scale up the selected button
             }
             else
             {
-                btn.Key.interactable = true;
                 HighlightButton(btn.Key, false);
+                ScaleButton(btn.Key, false); // Scale down the unselected buttons
             }
         }
     }
@@ -54,7 +56,30 @@ public class ManagerTabUI : MonoBehaviour
     private void HighlightButton(Button button, bool highlight)
     {
         var colors = button.colors;
-        colors.normalColor = highlight ? Color.green : Color.white;
+        if (highlight)
+        {
+            colors.normalColor = Color.white; // Selected button stays normal
+            colors.highlightedColor = Color.white; // Highlighted color stays normal
+            colors.pressedColor = Color.white; // Pressed color stays normal
+        }
+        else
+        {
+            colors.normalColor = Color.gray; // Unselected buttons become gray
+            colors.highlightedColor = Color.gray; // Also gray when highlighted
+            colors.pressedColor = Color.gray; // Also gray when pressed
+        }
         button.colors = colors;
+    }
+
+    private void ScaleButton(Button button, bool scaleUp)
+    {
+        if (scaleUp)
+        {
+            button.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f).SetEase(Ease.OutBack);
+        }
+        else
+        {
+            button.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        }
     }
 }

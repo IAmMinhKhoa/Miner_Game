@@ -14,6 +14,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     [SerializeField] Image sliderTimeActive;
     [SerializeField] Image sliderTimeCD;
     [SerializeField] GameObject objDrag;
+    [SerializeField] Sprite iconDefault;
 
     private Shaft shaft;
     private GameObject dragObject;
@@ -84,12 +85,12 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
         else
         {
-            icon.sprite = null;
+            icon.sprite = iconDefault;
             textLevel.text = string.Empty;
         }
     }
 
-    public void SetData(Manager manager)
+    public void SetData(Manager manager) //use in case when drag and drop card to list shaft -> update data to shaft
     {
         if (manager != null)
         {
@@ -99,7 +100,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         }
         else
         {
-            icon.sprite = null;
+            icon.sprite = iconDefault;
             textLevel.text = string.Empty;
         }
     }
