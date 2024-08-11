@@ -34,7 +34,7 @@ public class ManagerView : MonoBehaviour
                     m_boostVFXSkeletonAnimation.gameObject.SetActive(true);
                     int level = (int)m_manager.Level;
                     string boostLevel = "Lv" + (level + 1).ToString();
-                    m_boostVFXSkeletonAnimation.AnimationState.SetAnimation(0, "Lv" + boostLevel, true);
+                    m_boostVFXSkeletonAnimation.AnimationState.SetAnimation(0, boostLevel, true);
                 }
             }
             else
