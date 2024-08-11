@@ -21,8 +21,7 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_costText;
 
     [Header("Visual object")]
-    [SerializeField] private SkeletonAnimation m_quayNhanLyNuocHolder;
-    [SerializeField] private SkeletonAnimation m_refrigeratorHolder;
+    [SerializeField] private SkeletonAnimation m_refrigeratorAnimation;
 
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
@@ -69,9 +68,9 @@ public class ElevatorUI : MonoBehaviour
 
     private async void ElevatorSystem_OnElevatorControllerArriveHandler()
     {
-        m_refrigeratorHolder.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Active", true);
+        m_refrigeratorAnimation.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Active", true);
         await UniTask.WaitForSeconds(4);
-        m_refrigeratorHolder.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Idle", true);
+        m_refrigeratorAnimation.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Idle", true);
     }
 
     public void ShowManagerButton(bool isShow)
