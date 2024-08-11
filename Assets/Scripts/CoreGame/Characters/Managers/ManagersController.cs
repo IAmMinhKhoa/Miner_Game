@@ -156,9 +156,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         return managerTimeData;
     }
 
-    private ManagerSpecieDataSO GetManagerSpecieData(ManagerSpecie specie, ManagerLevel level)
+    private ManagerSpecieDataSO GetManagerSpecieData(ManagerSpecie specie)
     {
-        var managerSpecieData = _managerSpecieDataSOList.FirstOrDefault(x => x.managerSpecie == specie && x.managerLevel == level);
+        var managerSpecieData = _managerSpecieDataSOList.FirstOrDefault(x => x.managerSpecie == specie);
         return managerSpecieData;
     }
 
@@ -180,7 +180,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
         var managerData = GetManagerData(location, type, level);
         var timeData = GetManagerTimeData(level);
-        var specieDataList = _managerSpecieDataSOList.Where(x => x.managerLevel == level).ToList();
+        var specieDataList = _managerSpecieDataSOList.ToList();
         var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
 
         Manager manager = new();
@@ -334,7 +334,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
         var upgradeData = GetManagerData(manager.LocationType, manager.BoostType, manager.Level + 1);
         var timeData = GetManagerTimeData(upgradeData.managerLevel);
-        var specieData = GetManagerSpecieData(manager.Specie, upgradeData.managerLevel);
+        var specieData = GetManagerSpecieData(manager.Specie);
 
         manager.SetManagerData(upgradeData);
         manager.SetTimeData(timeData);
@@ -428,7 +428,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                 Manager manager = new();
                 manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
                 manager.SetTimeData(GetManagerTimeData(managerData.level));
-                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie));
                 manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
                 ShaftManagers.Add(manager);
             }
@@ -438,7 +438,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                 Manager manager = new();
                 manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
                 manager.SetTimeData(GetManagerTimeData(managerData.level));
-                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie));
                 manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
                 ElevatorManagers.Add(manager);
             }
@@ -448,7 +448,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                 Manager manager = new();
                 manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
                 manager.SetTimeData(GetManagerTimeData(managerData.level));
-                manager.SetSpecieData(GetManagerSpecieData(managerData.specie, managerData.level));
+                manager.SetSpecieData(GetManagerSpecieData(managerData.specie));
                 manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);
                 CounterManagers.Add(manager);
             }
