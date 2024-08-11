@@ -110,13 +110,12 @@ public class Transporter : BaseWorker
                 if (direction)
                 {
                     transporterView.transform.localScale = new Vector3(1, 1, 1);
-                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
                 else
                 {
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
-                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active2", true);
                 }
+                cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
                 break;
         }
