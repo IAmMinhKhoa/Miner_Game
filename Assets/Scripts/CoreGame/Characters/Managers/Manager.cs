@@ -12,7 +12,7 @@ public class Manager
     [SerializeField] private ManagerTimeDataSO _timeData;
 
     private string viewPath = "Prefabs/Character/ManagerView";
-    private ManagerView _view;
+    private ManagerView _managerView;
 
     public Sprite Icon => _specieData.icon;
     public ManagerSpecie Specie => _specieData.managerSpecie;
@@ -79,23 +79,6 @@ public class Manager
         }
     }
 
-    public void AssignManager()
-    {
-        if (IsAssigned)
-        {
-            UnassignManager();
-        }
-        var currentManager = ManagersController.Instance.CurrentManagerLocation.Manager;
-        currentManager?.UnassignManager();
-
-        Location = ManagersController.Instance.CurrentManagerLocation;
-        Location.SetManager(this);
-        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
-        Debug.Log("local pos manager:" + Location.transform.position);
-        _view.transform.position = Location.transform.position;
-        _view.SetManager(this);
-    }
-
     public void AssignManager(BaseManagerLocation newLocation)
     {
         if (IsAssigned)
@@ -107,10 +90,10 @@ public class Manager
 
         Location = newLocation;
         Location.SetManager(this);
-        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _managerView = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
         Debug.Log("local pos manager:" + Location.transform.position);
-        _view.transform.position = Location.transform.position;
-        _view.SetManager(this);
+        _managerView.transform.position = Location.transform.position;
+        _managerView.SetManager(this);
     }
 
     public void SetupLocation(BaseManagerLocation location)
@@ -118,9 +101,9 @@ public class Manager
         Location = location;
         Location.SetManager(this);
         Debug.Log("Setup Location: " + location.LocationType + "/" + this.IsAssigned);
-        _view = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
-        _view.transform.position = Location.transform.position;
-        _view.SetManager(this);
+        _managerView = GameObject.Instantiate(Resources.Load<ManagerView>(viewPath), ManagersController.Instance.transform);
+        _managerView.transform.position = Location.transform.position;
+        _managerView.SetManager(this);
     }
 
     public void UnassignManager()
@@ -128,7 +111,7 @@ public class Manager
         Location.SetManager(null);
         Location = null;
         StopBoost();
-        GameObject.Destroy(_view.gameObject);
+        GameObject.Destroy(_managerView.gameObject);
     }
 
     public void SwapManager()

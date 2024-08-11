@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Spine.Unity;
 using UnityEngine;
 
@@ -24,19 +25,27 @@ public class ManagerView : MonoBehaviour
         {
             if(m_manager.IsBoosting)
             {
-                if(m_managerSkeletonAnimation.AnimationName != "Quan Ly Ho - Buff")
-                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Quan Ly Ho - Buff", true);
+                if(m_managerSkeletonAnimation.AnimationName != "Active")
+                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
             }
             else
             {
-                if(m_managerSkeletonAnimation.AnimationName != "Quan Ly Ho - Idle")
-                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Quan Ly Ho - Idle", true);
+                if(m_managerSkeletonAnimation.AnimationName != "Idle")
+                    m_managerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
             }
         }
+
     }
 
     public void SetManager(Manager manager)
     {
         m_manager = manager;
+    }
+
+    [Button]
+    public void SwapManager(SkeletonDataAsset skeletonDataAsset)
+    {
+        m_managerSkeletonAnimation.skeletonDataAsset = skeletonDataAsset;
+        m_managerSkeletonAnimation.Initialize(true, true);
     }
 }
