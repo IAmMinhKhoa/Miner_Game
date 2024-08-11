@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,15 +12,18 @@ public class ManagerPanelUI : MonoBehaviour
 
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _levelText;
-    [SerializeField] private TextMeshProUGUI _descriptionText;
-    [SerializeField] private TextMeshProUGUI _cooldownTimeText;
+    [SerializeField] private TextMeshProUGUI _textTimeSkill;
+    [SerializeField] private TextMeshProUGUI _textTimeCD;
+    [SerializeField] private TextMeshProUGUI _textValueBuff;
+
 
     [Header("UI Image")]
-    [SerializeField] private Image _infoIcon;
-
-    [Header("UI Slider")]
-    [SerializeField] private Slider _cooldownSlider;
+    [SerializeField] private Image _imgNumberIcon;
+    [SerializeField] private Image _imgFrame;
+    [SerializeField] private Image _imgStroke;
+    [SerializeField] private Image _icon;
+    [SerializeField] List<Sprite> _imgStrokeLevels=new List<Sprite>();
+    [SerializeField] List<Sprite> _imgBtnHireFire = new List<Sprite>();
 
     [SerializeField] private Manager _manager;
 
@@ -44,18 +48,6 @@ public class ManagerPanelUI : MonoBehaviour
 
     private void HireOrFireManager()
     {
-        // if (_manager.IsAssigned && _manager.Location == ManagersController.Instance.CurrentManagerLocation)
-        // {
-        //     _manager.UnassignManager();
-        //     ClosePanel();
-        //     return;
-        // }
-        // else
-        // {
-        //     _manager.AssignManager();
-        //     ClosePanel();
-        // }
-
         var  managersController = ManagersController.Instance;
 
         if (_manager.IsAssigned)
@@ -79,21 +71,17 @@ public class ManagerPanelUI : MonoBehaviour
 
     void Update()
     {
-        if (_manager == null)
-        {
-            return;
-        }
-        _cooldownSlider.value = _manager.CurrentCooldownTime / _manager.CooldownTime;
+      
     }
 
     public void SetManager(Manager manager)
     {
         _manager = manager;
         _nameText.text = _manager.Specie.ToString();
-        _levelText.text = _manager.Level.ToString();
-        _descriptionText.text = "Nothing here yet";
-        _infoIcon.sprite = _manager.Icon;
-        _cooldownTimeText.text = _manager.CooldownTime + "m";
+
+
+        ValidateData(manager);
+
 
         if (ManagersController.Instance.CurrentManagerLocation.LocationType == ManagerLocation.Shaft)
         {
@@ -106,11 +94,23 @@ public class ManagerPanelUI : MonoBehaviour
 
         if (_manager.IsAssigned)
         {
-            _hireOrFiredButton.GetComponentInChildren<TextMeshProUGUI>().text = "Nghỉ";
+            _hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[0];
         }
         else
         {
-            _hireOrFiredButton.GetComponentInChildren<TextMeshProUGUI>().text = "Chọn";
+            _hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[1];
         }
+    }
+    private void ValidateData(Manager _data)
+    {
+        _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
+        _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);
+        _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
+        _imgStroke.sprite = _imgStrokeLevels[(int)_data.Level];
+
+        //set data description
+        _textTimeSkill.text = _data.BoostTime.ToString() +" Phút";
+        _textTimeCD.text = _data.CooldownTime.ToString() + " Phút";
+        _textValueBuff.text = _data.BoostValue.ToString()+" %";
     }
 }

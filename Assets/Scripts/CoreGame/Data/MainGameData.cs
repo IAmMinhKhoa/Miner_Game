@@ -56,6 +56,24 @@ public static class MainGameData
         }}
     };
 
+    public readonly static List<string> IconLevelNumber = new List<string>
+    {
+        "UI/Icon level/Level-1",
+        "UI/Icon level/Level-2",
+        "UI/Icon level/Level-3",
+        "UI/Icon level/Level-4",
+        "UI/Icon level/Level-5"
+    };
+    public readonly static List<string> FrameLevelAvatar = new List<string>
+    {
+        "UI/Frame Avatar/Frame-lvl-1",
+        "UI/Frame Avatar/Frame-lvl-2",
+        "UI/Frame Avatar/Frame-lvl-3",
+        "UI/Frame Avatar/Frame-lvl-4",
+        "UI/Frame Avatar/Frame-lvl-5"
+
+
+    };
     public readonly static List<string> CanUpgradeButton = new List<string>
     {
         "UI/Icon-CanUpgrade/IconUpgrade-1",

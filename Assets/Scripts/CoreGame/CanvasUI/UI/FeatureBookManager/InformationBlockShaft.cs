@@ -8,13 +8,16 @@ using UnityEngine.UI;
 
 public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] TMP_Text textIndex;
-    [SerializeField] Image icon;
-    [SerializeField] TMP_Text textLevel;
+    [SerializeField] private Image _imgNumberIcon;
+    [SerializeField] private Image _imgFrame;
+    [SerializeField] private Image _icon;
+    [SerializeField] TMP_Text _textIndexShaft;
+
     [SerializeField] Image sliderTimeActive;
     [SerializeField] Image sliderTimeCD;
     [SerializeField] GameObject objDrag;
     [SerializeField] Sprite iconDefault;
+    [SerializeField] GameObject loadingSwap;
 
     private Shaft shaft;
     private GameObject dragObject;
@@ -75,18 +78,17 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
 
     private void UpdateUI()
     {
-        textIndex.text = (shaft.shaftIndex + 1).ToString();
+        _textIndexShaft.text = (shaft.shaftIndex + 1).ToString();
         Manager manager = shaft.ManagerLocation.Manager;
 
         if (manager != null)
         {
-            icon.sprite = manager.Icon;
-            textLevel.text = ((int)manager.Level).ToString();
+            ValidateData(manager);
         }
         else
         {
-            icon.sprite = iconDefault;
-            textLevel.text = string.Empty;
+            _icon.sprite = iconDefault;
+          
         }
     }
 
@@ -94,17 +96,24 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         if (manager != null)
         {
-            icon.sprite = manager.Icon;
-            textLevel.text = ((int)manager.Level).ToString();
+            ValidateData(manager);
             ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
         }
         else
         {
-            icon.sprite = iconDefault;
-            textLevel.text = string.Empty;
+            _icon.sprite = iconDefault;
+           
         }
     }
+    private void ValidateData(Manager _data)
+    {
+        _imgFrame.gameObject.SetActive(true);
+        _imgNumberIcon.gameObject.SetActive(true);
 
+        _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
+        _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);
+        _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
+    }
     #endregion
 
     #region Event Handling
@@ -229,11 +238,13 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
 
     private void ScaleUp()
     {
+        if(shaft.ManagerLocation.Manager!=null) loadingSwap.SetActive(true);
         transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
     }
 
     private void ScaleDown()
     {
+        loadingSwap.SetActive(false);
         transform.DOScale(new Vector2(1f, 1f), 0.2f);
     }
 

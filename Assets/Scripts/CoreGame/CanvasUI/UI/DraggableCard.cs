@@ -45,7 +45,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         dragObject = Instantiate(gameObject, transform);
         var rectTransform = dragObject.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(200, 250);
+        rectTransform.sizeDelta = new Vector2(170, 170);
 
         AddDragCanvas(dragObject);
         DisableRaycasts(dragObject);
@@ -81,8 +81,9 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("Handle-Merge1:" + isDragging+"/"+ eventData.pointerEnter);
         if (!isDragging|| eventData.pointerEnter == null) return;
-
+        Debug.Log("Handle-Merge2:" + isDragging + "/" + eventData.pointerEnter);
         HandleDropOnShaft(eventData);
          HandleManagerMerge(eventData.pointerEnter);
         CleanupAfterDrag();
@@ -114,6 +115,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void HandleManagerMerge( GameObject pointerEnterSecond)
     {
+        Debug.Log("Handle-Merge:" + pointerEnterSecond.GetComponent<DraggableCard>());
         if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
 
         var firstManager = currentCard.Data;

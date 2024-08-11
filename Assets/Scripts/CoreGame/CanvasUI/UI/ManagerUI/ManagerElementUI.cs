@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private TextMeshProUGUI _levelText;
-    [SerializeField] private TextMeshProUGUI _timerText;
+    [SerializeField] private Image _imgNumberIcon;
+    [SerializeField] private Image _imgFrame;
     [SerializeField] private Image _icon;
     [SerializeField] GameObject _maskSelected;
     private Manager _data;
@@ -20,11 +20,14 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     public void SetData(Manager managerData)
     {
         _data = managerData;
-        _levelText.text = _data.Level.ToString();
-        _timerText.text = _data.BoostTime.ToString();
-        _icon.sprite = _data.Icon;
-       
-       
+;
+
+        _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
+        _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);
+        _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
+
+
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
