@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Shaft : MonoBehaviour
 {
+    public Action<int> OnUpgrade;
+
     [Header("Location")]
     [SerializeField] private Transform m_brewLocation;
     [SerializeField] private Transform m_depositLocation;
@@ -105,6 +107,11 @@ public class Shaft : MonoBehaviour
     public void SetDepositValue(double value)
     {
         CurrentDeposit.AddPaw(value);
+    }
+
+    public void UpgradeTable()
+    {
+        
     }
 
     private bool IsTableUsing()

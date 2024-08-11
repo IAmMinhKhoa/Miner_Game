@@ -51,7 +51,7 @@ public class UpgradeUI : MonoBehaviour
     private void Upgrade()
     {
         int upgradeAmount = (int)upgradeSlider.value;
-        UpgradeManager.Instance.OnUpdrageRequest?.Invoke(upgradeAmount);
+        UpgradeManager.Instance.OnUpgradeRequest?.Invoke(upgradeAmount);
     }
 
     private void UpdateUpgradeAmount(float value)

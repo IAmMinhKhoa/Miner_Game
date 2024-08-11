@@ -7,6 +7,8 @@ using Spine.Unity;
 using Cysharp.Threading.Tasks;
 using System;
 using Sirenix.OdinInspector;
+using NOOD.SerializableDictionary;
+using System.Linq;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -25,9 +27,10 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_costText;
 
     [Header("Visual object")]
-    [SerializeField] private GameObject m_spineData;
+    [SerializeField] private GameObject m_table;
     [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
+    [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
     
 
     private SkeletonAnimation tableAnimation;
@@ -37,30 +40,23 @@ public class ShaftUI : MonoBehaviour
     private bool _isBrewing = false;
 
 
-    #region TOOL DEBUG
-    #endregion
-
     void Awake()
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
         m_lyNuocHolder.gameObject.SetActive(false);
+        tableAnimation = m_table.GetComponent<SkeletonAnimation>();
     }
 
     void Start()
     {
         m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
         
-        tableAnimation = m_spineData.GetComponent<SkeletonAnimation>();
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
 
 
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
-
-
-
-       
     }
     private void checklevel(int currentLvl)
     {
@@ -80,7 +76,7 @@ public class ShaftUI : MonoBehaviour
         m_buyNewShaftButton.onClick.AddListener(BuyNewShaft);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
-
+        m_shaft.OnUpgrade += Shaft_OnUpgradeHandler;
     }
 
     void OnDisable()
@@ -90,7 +86,25 @@ public class ShaftUI : MonoBehaviour
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
+        m_shaft.OnUpgrade -= Shaft_OnUpgradeHandler;
        // m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
+    }
+
+    private void Shaft_OnUpgradeHandler(int currentLevel)
+    {
+        foreach(var item in skeletonDataAssetDic.Dictionary)
+        {
+            if(currentLevel >= item.Key)
+            {
+                UpgradeTable(item.Value);
+            }
+        }
+    }
+
+    private void UpgradeTable(SkeletonDataAsset tableDataAsset)
+    {
+        tableAnimation.skeletonDataAsset = tableDataAsset;
+        tableAnimation.Initialize(true, true);
     }
 
     private void ChangePawHandler(double value)
@@ -206,5 +220,5 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaftUpgrade.Upgrade(valueAdd );
     }
-    #endregion
+        #endregion
 }

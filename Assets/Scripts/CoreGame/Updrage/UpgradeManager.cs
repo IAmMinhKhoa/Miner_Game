@@ -7,7 +7,7 @@ using System.Linq;
 
 public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 {
-    public Action<int> OnUpdrageRequest;
+    public Action<int> OnUpgradeRequest;
 
     [Header("Upgrade Panel Prefab")]
     [SerializeField] private UpgradeUI m_upgradePanel;
@@ -27,8 +27,8 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
         ShaftUI.OnUpgradeRequest += ShowShaftUpgradePanel;
         ElevatorUI.OnUpgradeRequest += ShowElevatorUpgradePanel;
         CounterUI.OnUpgradeRequest += ShowCounterUpgradePanel;
-        OnUpdrageRequest += OnUpgradeAction;
-        BaseUpgrade.OnUpgradeSuccess += ResertPanel;
+        OnUpgradeRequest += OnUpgradeAction;
+        BaseUpgrade.OnUpgradeSuccess += ResetPanel;
     }
 
     private void OnDisable()
@@ -36,8 +36,8 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
         ShaftUI.OnUpgradeRequest -= ShowShaftUpgradePanel;
         ElevatorUI.OnUpgradeRequest -= ShowElevatorUpgradePanel;
         CounterUI.OnUpgradeRequest -= ShowCounterUpgradePanel;
-        OnUpdrageRequest -= OnUpgradeAction;
-        BaseUpgrade.OnUpgradeSuccess -= ResertPanel;
+        OnUpgradeRequest -= OnUpgradeAction;
+        BaseUpgrade.OnUpgradeSuccess -= ResetPanel;
     }
     #endregion
 
@@ -57,7 +57,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
             }
         }
 
-        ResertPanel();
+        ResetPanel();
     }
 
     private void ShowElevatorUpgradePanel()
@@ -65,7 +65,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
         _baseUpgrade = ElevatorSystem.Instance.gameObject.GetComponent<ElevatorUpgrade>();
         _locationType = ManagerLocation.Elevator;
         _baseWorkerRef = ElevatorSystem.Instance.ElevatorController;
-        ResertPanel();
+        ResetPanel();
     }
 
     private void ShowCounterUpgradePanel()
@@ -74,15 +74,15 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
         _locationType = ManagerLocation.Counter;
         _baseWorkerRef = Counter.Instance.Transporters.First();
         _number = Counter.Instance.Transporters.Count;
-        ResertPanel();
+        ResetPanel();
     }
 
-    private void ControlPannel(bool open)
+    private void ControlPanel(bool open)
     {
         m_upgradePanel.gameObject.SetActive(open);
     }
 
-    private void ResertPanel()
+    private void ResetPanel()
     {
         m_upgradePanel.SetUpPanel(CalculateUpgradeAmount());
         switch (_locationType)
@@ -97,7 +97,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
                 m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _number.ToString(), _baseWorkerRef.ProductPerSecond * _number * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
                 break;
         }
-        ControlPannel(true);
+        ControlPanel(true);
     }
 
     private void OnUpgradeAction(int amount)

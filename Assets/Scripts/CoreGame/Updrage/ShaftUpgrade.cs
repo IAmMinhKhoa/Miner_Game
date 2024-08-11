@@ -32,6 +32,8 @@ public class ShaftUpgrade : BaseUpgrade
                 shaft.CreateBrewer();
                 break;
         }
+
+        shaft.OnUpgrade?.Invoke(CurrentLevel);
     }
     private float GetNextUpgradeScale(int CurrentLevel)
     {
@@ -80,5 +82,6 @@ public class ShaftUpgrade : BaseUpgrade
     {
         shaft.shaftIndex = index;
         Init(initialCost, level);
+        shaft.OnUpgrade?.Invoke(level);
     }
 }
