@@ -6,23 +6,24 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     private bool isDone = false;
     public bool IsDone => isDone;
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            Save();
-        }
-    }
+    // private void OnApplicationPause(bool pause)
+    // {
+    //     if (pause)
+    //     {
+    //         Save();
+    //     }
+    // }
 
-    void OnApplicationQuit()
-    {
-        Debug.Log("Application ending after " + Time.time + " seconds");
-        Save();
-    }
+    // void OnApplicationQuit()
+    // {
+    //     Debug.Log("Application ending after " + Time.time + " seconds");
+    //     Save();
+    // }
 
     void OnApplicationFocus(bool focus)
     {
-        if (focus)
+        bool isPaused = !focus;
+        if (!isPaused)
         {
             string lastTimeQuit = PlayerPrefs.GetString("LastTimeQuit");
             if (!string.IsNullOrEmpty(lastTimeQuit))
@@ -31,6 +32,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                 System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
                 Debug.Log("Time span: " + timeSpan.TotalSeconds);
             }
+        }
+        else
+        {
+            Save();
         }
     }
 
