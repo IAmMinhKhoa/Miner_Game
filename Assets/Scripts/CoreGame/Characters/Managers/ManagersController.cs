@@ -88,7 +88,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         // }
         CurrentManagerLocation = ShaftManager.Instance.Shafts[0].ManagerLocation;
         managerPanel.SetActive(true);
-        managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs, ManagerLocation.Shaft);
+        managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Speed, ManagerLocation.Shaft);
     }
 
     public void OpenManagerDetailPanel(bool isOpen, Manager data)

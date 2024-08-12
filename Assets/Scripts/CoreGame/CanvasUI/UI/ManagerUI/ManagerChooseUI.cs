@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NOOD;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,9 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _hireButton;
     [SerializeField] private Button _boostButton;
+
+    [Header("UI Another")]
+    [SerializeField] private CanvasGroup _canvasGrList;
 
     [SerializeField] private List<Manager> _manager;
 
@@ -41,20 +45,28 @@ public class ManagerChooseUI : MonoBehaviour
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
     }
-
+    
     private void OnManagerTabChanged(BoostType type)
     {
         if (_manager == null)
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
+        DoFaceList(() =>
+        {
+            _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
+        });
+        
     }
 
     private void OnLocationTabChanged(ManagerLocation location)
     {
-        SetupData(location);
-        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Costs);
+        DoFaceList(() =>
+        {
+            SetupData(location);
+            _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed);
+        });
+        
     }
 
     public void SetupData(ManagerLocation location)
@@ -70,7 +82,20 @@ public class ManagerChooseUI : MonoBehaviour
         _currentCostText.text = Currency.DisplayCurrency(ManagersController.Instance.CurrentCost);
     
     }
+    private void DoFaceList(Action renderUI)
+    {
 
+        StartCoroutine(IeDoFadeList(_canvasGrList,
+            renderUI
+            ,0.3f,0.2f));
+    }
+    private IEnumerator IeDoFadeList(CanvasGroup group, Action renderUI, float timeIN,float timeOut)
+    {
+        yield return Common.FadeOut(group, timeOut);
+        renderUI?.Invoke();
+        yield return new WaitForSeconds(0.1f);
+        yield return Common.FadeIn(group, timeIN);
+    }
     public void SetupTab(BoostType type, ManagerLocation managerLocation)
     {
         ManagerLocationUI.OnTabChanged?.Invoke(managerLocation);

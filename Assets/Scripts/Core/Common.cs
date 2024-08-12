@@ -38,4 +38,39 @@ public class Common
             return $"{minutes}p{seconds}s";
         }       
     }
+
+    public static IEnumerator FadeOut(CanvasGroup canvasGroup, float duration = 0.5f)
+    {
+        float startAlpha = canvasGroup.alpha;
+        float time = 0;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0, time / duration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public static IEnumerator FadeIn(CanvasGroup canvasGroup, float duration = 0.5f)
+    {
+        float startAlpha = canvasGroup.alpha;
+        float time = 0;
+
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 1, time / duration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 1;
+    }
 }

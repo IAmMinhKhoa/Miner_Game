@@ -10,10 +10,14 @@ public class ManagerSelectionShaft : MonoBehaviour
     public static Action OnReloadManager;
     [SerializeField] InformationBlockShaft _prefabShaft;
     [SerializeField] Transform _parentContent;
+    [SerializeField] Button _btnTop;
+    [SerializeField] Button _btnBottom;
 
     [SerializeField] private ScrollRect scrollRect;   // Reference to the Scroll View's ScrollRect component
     [SerializeField] private float scrollSpeed = 0.1f; // Speed at which the scroll happens
 
+   
+  
     private List<Shaft> _shaftManagers
     {
         get
@@ -25,15 +29,39 @@ public class ManagerSelectionShaft : MonoBehaviour
     private void OnDisable()
     {
         OnReloadManager -= RenderData;
-
+        _btnTop.onClick.RemoveAllListeners();
+        _btnBottom.onClick.RemoveAllListeners();
     }
     private void OnEnable()
     {
         _prefabShaft.gameObject.SetActive(false);
-       // gameObject.SetActive(true);
         OnReloadManager += RenderData;
         RenderData();
+
+        _btnTop.onClick.AddListener(ScrollUp);
+        _btnBottom.onClick.AddListener(ScrollDown);
+
+
+
+        RectTransform contentRect = scrollRect.content;
+        RectTransform viewportRect = scrollRect.viewport;
+
+        // Ki?m tra xem n?i dung có l?n h?n viewport không (?? cu?n d?c)
+        if (contentRect.rect.height > viewportRect.rect.height)
+        {
+            Debug.Log("Reached the bottom of the content.");
+            _btnTop.gameObject.SetActive(true);
+            _btnBottom.gameObject.SetActive(true);
+        }
+        else
+        {
+            _btnTop.gameObject.SetActive(false);
+            _btnBottom.gameObject.SetActive(false);
+        }
+
+
     }
+
 
     private void RenderData()
     {
