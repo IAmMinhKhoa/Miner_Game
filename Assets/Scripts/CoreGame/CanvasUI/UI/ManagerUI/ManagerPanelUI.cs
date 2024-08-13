@@ -15,6 +15,7 @@ public class ManagerPanelUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _textTimeSkill;
     [SerializeField] private TextMeshProUGUI _textTimeCD;
     [SerializeField] private TextMeshProUGUI _textValueBuff;
+    [SerializeField] private TextMeshProUGUI _textQuoest;
 
 
     [Header("UI Image")]
@@ -112,5 +113,7 @@ public class ManagerPanelUI : MonoBehaviour
         _textTimeSkill.text = _data.BoostTime.ToString() +" Phút";
         _textTimeCD.text = _data.CooldownTime.ToString() + " Phút";
         _textValueBuff.text = _data.BoostValue.ToString()+" %";
+
+        _textQuoest.text = _data.Quoest;
     }
 }

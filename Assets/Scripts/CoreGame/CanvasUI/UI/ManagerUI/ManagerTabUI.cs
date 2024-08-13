@@ -55,20 +55,21 @@ public class ManagerTabUI : MonoBehaviour
 
     private void HighlightButton(Button button, bool highlight)
     {
-        var colors = button.colors;
-        if (highlight)
+        ButtonBehavior buttonBehavior;
+        if (button.gameObject.TryGetComponent<ButtonBehavior>(out buttonBehavior))
         {
-            colors.normalColor = Color.white; // Selected button stays normal
-            colors.highlightedColor = Color.white; // Highlighted color stays normal
-            colors.pressedColor = Color.white; // Pressed color stays normal
+            if (highlight)
+            {
+                buttonBehavior.SetState(ButtonState.Click);
+            }
+            else
+            {
+                buttonBehavior.SetState(ButtonState.Default);
+            }
         }
-        else
-        {
-            colors.normalColor = Color.gray; // Unselected buttons become gray
-            colors.highlightedColor = Color.gray; // Also gray when highlighted
-            colors.pressedColor = Color.gray; // Also gray when pressed
-        }
-        button.colors = colors;
+
+        
+
     }
 
     private void ScaleButton(Button button, bool scaleUp)

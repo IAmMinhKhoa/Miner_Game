@@ -52,21 +52,15 @@ public class ManagerChooseUI : MonoBehaviour
         {
             return;
         }
-        DoFaceList(() =>
-        {
-            _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
-        });
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
+      
         
     }
 
     private void OnLocationTabChanged(ManagerLocation location)
     {
-        DoFaceList(() =>
-        {
-            SetupData(location);
-            _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed);
-        });
-        
+        SetupData(location);
+        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed);
     }
 
     public void SetupData(ManagerLocation location)
@@ -82,20 +76,8 @@ public class ManagerChooseUI : MonoBehaviour
         _currentCostText.text = Currency.DisplayCurrency(ManagersController.Instance.CurrentCost);
     
     }
-    private void DoFaceList(Action renderUI)
-    {
-
-        StartCoroutine(IeDoFadeList(_canvasGrList,
-            renderUI
-            ,0.3f,0.2f));
-    }
-    private IEnumerator IeDoFadeList(CanvasGroup group, Action renderUI, float timeIN,float timeOut)
-    {
-        yield return Common.FadeOut(group, timeOut);
-        renderUI?.Invoke();
-        yield return new WaitForSeconds(0.1f);
-        yield return Common.FadeIn(group, timeIN);
-    }
+  
+ 
     public void SetupTab(BoostType type, ManagerLocation managerLocation)
     {
         ManagerLocationUI.OnTabChanged?.Invoke(managerLocation);

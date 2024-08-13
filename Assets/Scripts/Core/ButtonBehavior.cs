@@ -15,9 +15,8 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
 {
     [Header("UI Components")]
     public Image frame;
-    public Sprite idleFrame;
+    public Sprite clickImage;
     private Sprite defaultImage;
-    public Sprite hoverFrame;
 
     [Header("Events")]
     public UnityEvent onClickEvent;
@@ -44,17 +43,13 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    private void Start()
-    {
-     //   SetState(ButtonState.Default);
-    }
 
     public void SetState(ButtonState state)
     {
         _state = state;
         frame.sprite = state switch
         {
-            ButtonState.Click when idleFrame != null => idleFrame,
+            ButtonState.Click when clickImage != null => clickImage,
             ButtonState.Default when defaultImage != null => defaultImage,
             _ => frame.sprite
         };

@@ -25,6 +25,7 @@ public class ManagerSelectionShaft : MonoBehaviour
             return ShaftManager.Instance.Shafts;
         }
     }
+
   
     private void OnDisable()
     {
@@ -43,21 +44,6 @@ public class ManagerSelectionShaft : MonoBehaviour
 
 
 
-        RectTransform contentRect = scrollRect.content;
-        RectTransform viewportRect = scrollRect.viewport;
-
-        // Ki?m tra xem n?i dung có l?n h?n viewport không (?? cu?n d?c)
-        if (contentRect.rect.height > viewportRect.rect.height)
-        {
-            Debug.Log("Reached the bottom of the content.");
-            _btnTop.gameObject.SetActive(true);
-            _btnBottom.gameObject.SetActive(true);
-        }
-        else
-        {
-            _btnTop.gameObject.SetActive(false);
-            _btnBottom.gameObject.SetActive(false);
-        }
 
 
     }
@@ -87,6 +73,24 @@ public class ManagerSelectionShaft : MonoBehaviour
         
             GameObject.Destroy(child.gameObject);
         }
+
+
+        RectTransform contentRect = scrollRect.content;
+        RectTransform viewportRect = scrollRect.viewport;
+
+        // Ki?m tra xem n?i dung có l?n h?n viewport không (?? cu?n d?c)
+        if (contentRect.rect.height > viewportRect.rect.height)
+        {
+            Debug.Log("Reached the bottom of the content.");
+            _btnTop.gameObject.SetActive(true);
+            _btnBottom.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("NOT REACHED the bottom of the content.");
+            _btnTop.gameObject.SetActive(false);
+            _btnBottom.gameObject.SetActive(false);
+        }
     }
 
     public void ScrollUp()
@@ -104,7 +108,7 @@ public class ManagerSelectionShaft : MonoBehaviour
         scrollRect.verticalNormalizedPosition -= scrollSpeed;
 
         // Clamp the position to 0 (max scroll down)
-        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0, 1);
+        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0,1);
     }
 
 }

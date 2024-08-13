@@ -17,6 +17,7 @@ public class Manager
     public Sprite Icon => _specieData.icon;
     public Sprite IconSpecial => _specieData.icon_Special;
     public ManagerSpecie Specie => _specieData.managerSpecie;
+    public string Quoest => _specieData.contentQuoest;
     public string Name => _data.managerName;
     public ManagerLocation LocationType => _data.managerLocation;
     public ManagerLevel Level => _data.managerLevel;

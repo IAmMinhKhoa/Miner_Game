@@ -132,6 +132,17 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<DraggableCard>() != null)
         {
+            var dragManagerUI = eventData.pointerDrag.GetComponent<ManagerElementUI>();
+            var enterManagerUI = eventData.pointerEnter?.GetComponent<ManagerElementUI>();
+
+            if (dragManagerUI != null)
+            {
+              
+                bool CanMeger= ManagersController.Instance.CanMergeManagers(dragManagerUI.Data, enterManagerUI.Data);
+                enterManagerUI.CanMerge = CanMeger;
+            }
+           
+
             ScaleUp();
         }
     }
@@ -144,6 +155,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnPointerExit(PointerEventData eventData)
     {
         ScaleDown();
+        currentCard.ClearStateCard();
     }
 
     private void ScaleDown()
