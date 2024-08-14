@@ -94,7 +94,8 @@ public class ElevatorControllerView : MonoBehaviour
                 {
                     if(i == 0 && firstValue > 0)
                     {
-                        _lyNuocs[i].SetActive(true);
+                        if(_lyNuocs[i])
+                            _lyNuocs[i].SetActive(true);
                         continue;
                     }
                     _lyNuocs[i].SetActive(i < percent);
