@@ -75,7 +75,7 @@ public class ManagerSelectionShaft : MonoBehaviour
         }
 
 
-        RectTransform contentRect = scrollRect.content;
+       RectTransform contentRect = scrollRect.content;
         RectTransform viewportRect = scrollRect.viewport;
 
         // Ki?m tra xem n?i dung có l?n h?n viewport không (?? cu?n d?c)
