@@ -10,8 +10,10 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private Button upgradeButton;
 
-    [Header("Slider UI")]
+    [Header("Fast upgrade UI")]
     [SerializeField] private Slider upgradeSlider;
+    [SerializeField] private List<Button> fastUpgradeButtons;
+    [SerializeField] private Sprite btnNormalSprite, btnPressSprite;
 
     [Header("Text UI")]
     [SerializeField] private TextMeshProUGUI upgradeAmountText;
@@ -34,6 +36,27 @@ public class UpgradeUI : MonoBehaviour
         closeButton.onClick.AddListener(ClosePanel);
         upgradeButton.onClick.AddListener(Upgrade);
         upgradeSlider.onValueChanged.AddListener(UpdateUpgradeAmount);
+        for(int i = 0; i < fastUpgradeButtons.Count; i++)
+        {
+            Button button = fastUpgradeButtons[i];
+            button.image.sprite = btnNormalSprite;
+            int index = i;
+            switch(i)
+            {
+                case 0:
+                    fastUpgradeButtons[i].onClick.AddListener(() => PressBtn(index, 1));
+                    break;
+                case 1:
+                    fastUpgradeButtons[i].onClick.AddListener(() => PressBtn(index, 10));
+                    break;
+                case 2:
+                    fastUpgradeButtons[i].onClick.AddListener(() => PressBtn(index, 50));
+                    break;
+                case 3:
+                    fastUpgradeButtons[i].onClick.AddListener(() => PressBtn(index, upgradeSlider.maxValue));
+                    break;
+            }
+        }
     }
 
     private void OnDisable()
@@ -52,6 +75,16 @@ public class UpgradeUI : MonoBehaviour
     {
         int upgradeAmount = (int)upgradeSlider.value;
         UpgradeManager.Instance.OnUpgradeRequest?.Invoke(upgradeAmount);
+    }
+
+    private void PressBtn(int btnIndex, float btnValue)
+    {
+        foreach(var btn in fastUpgradeButtons)
+        {
+            btn.image.sprite = btnNormalSprite;
+        }
+        fastUpgradeButtons[btnIndex].image.sprite = btnPressSprite;
+        upgradeSlider.value = btnValue;
     }
 
     private void UpdateUpgradeAmount(float value)
