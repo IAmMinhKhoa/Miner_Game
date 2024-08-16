@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 7425465999651446241}
   - component: {fileID: 4641529569747346037}
   - component: {fileID: 4657606624823947628}
+  - component: {fileID: 8890597219626177418}
   m_Layer: 5
   m_Name: Add
   m_TagString: Untagged
@@ -346,6 +347,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8890597219626177418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506073398867054668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d009ebd9cb03aeb45bc7dab718cc189a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frame: {fileID: 0}
+  clickImage: {fileID: 0}
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  clickSoundFx: 0
 --- !u!1 &688754584837884837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2910,14 +2929,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8041409704059088885, guid: c25231552f936d0469ee5214ad397844, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9201843264830211583}
   m_SourcePrefab: {fileID: 100100000, guid: c25231552f936d0469ee5214ad397844, type: 3}
+--- !u!1 &953122510034368811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8041409704059088885, guid: c25231552f936d0469ee5214ad397844, type: 3}
+  m_PrefabInstance: {fileID: 7107516228345059038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9201843264830211583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953122510034368811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d009ebd9cb03aeb45bc7dab718cc189a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frame: {fileID: 0}
+  clickImage: {fileID: 0}
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  clickSoundFx: 0
 --- !u!114 &1328322469721770252 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8128397430585253842, guid: c25231552f936d0469ee5214ad397844, type: 3}
   m_PrefabInstance: {fileID: 7107516228345059038}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 953122510034368811}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
