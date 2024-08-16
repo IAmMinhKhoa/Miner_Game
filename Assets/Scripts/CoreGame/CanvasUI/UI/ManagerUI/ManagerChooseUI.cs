@@ -53,8 +53,6 @@ public class ManagerChooseUI : MonoBehaviour
             return;
         }
         _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
-      
-        
     }
 
     private void OnLocationTabChanged(ManagerLocation location)

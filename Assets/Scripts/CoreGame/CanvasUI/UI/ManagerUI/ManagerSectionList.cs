@@ -7,13 +7,19 @@ using UnityEngine.UI;
 
 public class ManagerSectionList : MonoBehaviour
 {
+    [SerializeField] private float _animationSpeed = 2;
     [SerializeField] private ManagerSectionUI _managerSectionUIPrefab;
     private List<ManagerSectionUI> _managerSectionUIList = new List<ManagerSectionUI>();
     private RectTransform _rectTransform;
+    private CanvasGroup _canvasGroup;
+    private bool _isPlayingAnimation;
+    private List<ManagerSpecie> managerSpecies = new List<ManagerSpecie>();
+    private List<Manager> managerDatas;
 
     void Awake()
     {
         _rectTransform = this.GetComponent<RectTransform>();
+        _canvasGroup = this.GetComponent<CanvasGroup>();
     }
 
     void Start()
@@ -21,13 +27,61 @@ public class ManagerSectionList : MonoBehaviour
         _managerSectionUIPrefab.gameObject.SetActive(false);
     }
 
+    async void OnEnable()
+    {
+        await SwitchAnimation();
+    }
+
     public async void ShowManagers(List<Manager> managerDatas)
     {
+        if (this.managerDatas != null && IsEqual(managerDatas, this.managerDatas)) return;
         List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Specie).Distinct().OrderBy(specie => specie).ToList();
-        AddOrRemoveManagerSectionUIs(managerSpecie);
-        await SetDatas(managerSpecie, managerDatas);
-        await UniTask.WaitForEndOfFrame(this);
+        this.managerDatas = managerDatas;
+        this.managerSpecies = managerSpecie;
+        if(_isPlayingAnimation == false)
+        {
+            await SwitchAnimation();
+        }
+    }
+
+    private bool IsEqual(List<Manager> managerDatas, List<Manager> managerDatas2)
+    {
+        if (managerDatas.Count != managerDatas2.Count) return false;
+
+        for(int i = 0; i < managerDatas.Count; i++)
+        {
+            if (managerDatas[i] != managerDatas2[i]) return false;
+        }
+        return true;
+    }
+
+    private async UniTask SwitchAnimation()
+    {
+        _isPlayingAnimation = true;
+
+        while(_canvasGroup.alpha > 0)
+        {
+            _canvasGroup.alpha -= Time.deltaTime * _animationSpeed;
+            await UniTask.Yield();           
+        }
+        AddOrRemoveManagerSectionUIs(managerSpecies);
+        await SetDatas(managerSpecies, managerDatas);
         LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
+        List<Manager> tempManagerList = managerDatas;
+        while(_canvasGroup.alpha < 1)
+        {
+            // Handle switch data when animating
+            if(tempManagerList != this.managerDatas)
+            {
+                AddOrRemoveManagerSectionUIs(managerSpecies);
+                await SetDatas(managerSpecies, managerDatas);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
+                tempManagerList = managerDatas;
+            }
+            _canvasGroup.alpha += Time.deltaTime * _animationSpeed;
+            await UniTask.Yield();           
+        }
+        _isPlayingAnimation = false;
     }
 
     private async UniTask SetDatas(List<ManagerSpecie> managerSpecie, List<Manager> managerDatas)
