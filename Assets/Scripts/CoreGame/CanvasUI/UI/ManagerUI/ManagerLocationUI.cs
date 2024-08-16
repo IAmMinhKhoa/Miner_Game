@@ -9,13 +9,14 @@ using DG.Tweening;
 public class ManagerLocationUI : MonoBehaviour
 {
     public static Action<ManagerLocation> OnTabChanged;
-    [SerializeField] GameObject panelShaftManager;
+    [SerializeField] Animator animatorTabScroll;
     [SerializeField] private SerializableDictionary<Button, ManagerLocation> _managerTabFilter = new SerializableDictionary<Button, ManagerLocation>();
     private ManagerLocation _currentManagerLocation;
 
     void OnEnable()
     {
         OnTabChanged += ChangeTabUI;
+        _currentManagerLocation = ManagerLocation.Shaft;
     }
 
     void OnDisable()
@@ -38,15 +39,24 @@ public class ManagerLocationUI : MonoBehaviour
         {
             return;
         }
-       
-        else panelShaftManager.SetActive(false);
+
+        else
+        {
+            bool currentState= animatorTabScroll.GetBool("active");
+            if(currentState!=false) animatorTabScroll.SetBool("active", false);
+        }
+        
         _currentManagerLocation = managerLocation;
         OnTabChanged?.Invoke(managerLocation);
     }
 
     private void ChangeTabUI(ManagerLocation locationType)
     {
-        if (locationType == ManagerLocation.Shaft) panelShaftManager.SetActive(true);
+        if (locationType == ManagerLocation.Shaft)
+        {
+            bool currentState = animatorTabScroll.GetBool("active");
+            if (currentState != true) animatorTabScroll.SetBool("active", true);
+        }
 
         foreach (var btn in _managerTabFilter.Dictionary)
         {

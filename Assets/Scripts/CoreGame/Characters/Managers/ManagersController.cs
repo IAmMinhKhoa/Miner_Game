@@ -483,16 +483,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         Time.timeScale = _debugSpeedGame;
     }
-    [Button]
-    public void ClearPlayerPrefs()
-    {
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-    }
+
     #endregion
 }

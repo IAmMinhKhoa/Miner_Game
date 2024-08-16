@@ -22,6 +22,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     void OnApplicationFocus(bool focus)
     {
+        Debug.Log("SYSTEM APPLICATION FOCUS:" + focus);
         bool isPaused = !focus;
         if (!isPaused)
         {
