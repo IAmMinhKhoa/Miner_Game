@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Spine.Unity;
 using UnityEngine;
 
 public class Manager
@@ -19,6 +20,7 @@ public class Manager
     public ManagerSpecie Specie => _specieData.managerSpecie;
     public string Quoest => _specieData.contentQuoest;
     public string Name => _data.managerName;
+    public SkeletonDataAsset SkeletonAsset=> _specieData.spineManager;
     public ManagerLocation LocationType => _data.managerLocation;
     public ManagerLevel Level => _data.managerLevel;
     public BoostType BoostType => _data.boostType;
