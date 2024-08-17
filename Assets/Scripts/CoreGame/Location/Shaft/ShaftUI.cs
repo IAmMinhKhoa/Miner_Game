@@ -58,10 +58,6 @@ public class ShaftUI : MonoBehaviour
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
     }
-    private void checklevel(int currentLvl)
-    {
-
-    }
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);

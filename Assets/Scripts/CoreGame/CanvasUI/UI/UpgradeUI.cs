@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using NOOD.SerializableDictionary;
 
 public class UpgradeUI : MonoBehaviour
 {
@@ -10,8 +11,14 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private Button upgradeButton;
 
-    [Header("Slider UI")]
+    [Header("Upgrade Icons")]
+    [SerializeField] private Image iconImage;
+    [SerializeField] private SerializableDictionary<float, Sprite> upgradeIconDic = new SerializableDictionary<float, Sprite>();
+
+    [Header("Fast upgrade UI")]
     [SerializeField] private Slider upgradeSlider;
+    [SerializeField] private List<Button> fastUpgradeButtons;
+    [SerializeField] private Sprite btnNormalSprite, btnPressSprite;
 
     [Header("Text UI")]
     [SerializeField] private TextMeshProUGUI upgradeAmountText;
@@ -28,6 +35,34 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI s_workerProduction;
     [SerializeField] private TextMeshProUGUI s_numberOrSpeed;
     [SerializeField] private TextMeshProUGUI s_totalProduction;
+
+    private float currentLevel;
+    private ManagerLocation managerLocation;
+
+    void Start()
+    {
+        for(int i = 0; i < fastUpgradeButtons.Count; i++)
+        {
+            Button button = fastUpgradeButtons[i];
+            button.image.sprite = btnNormalSprite;
+            int index = i;
+            switch(i)
+            {
+                case 0:
+                    fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 1));
+                    break;
+                case 1:
+                    fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 10));
+                    break;
+                case 2:
+                    fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 50));
+                    break;
+                case 3:
+                    fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, upgradeSlider.maxValue));
+                    break;
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -54,11 +89,44 @@ public class UpgradeUI : MonoBehaviour
         UpgradeManager.Instance.OnUpgradeRequest?.Invoke(upgradeAmount);
     }
 
+    private void OnFastUpgradeButtonPress(int btnIndex, float btnValue)
+    {
+        foreach(var btn in fastUpgradeButtons)
+        {
+            btn.image.sprite = btnNormalSprite;
+        }
+        fastUpgradeButtons[btnIndex].image.sprite = btnPressSprite;
+        upgradeSlider.value = btnValue;
+    }
+
     private void UpdateUpgradeAmount(float value)
     {
         upgradeAmountText.text = value.ToString();
         double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
         upgradeCostText.text = Currency.DisplayCurrency(cost);
+        UpdateIcon(currentLevel + value);
+    }
+
+    private void UpdateIcon(float value)
+    {
+        Debug.LogWarning("Update icon Level: " + value);
+        switch (managerLocation)
+        {
+            case ManagerLocation.Shaft:
+                foreach (var pair in upgradeIconDic.Dictionary)
+                {
+                    if(value >= pair.Key)
+                    {
+                        Sprite newIcon = pair.Value;
+                        iconImage.sprite = newIcon;
+                    }
+                }
+                break;
+            case ManagerLocation.Elevator:
+                break;
+            case ManagerLocation.Counter:
+                break;
+        }
     }
 
     public void SetUpPanel(int max)
@@ -72,9 +140,11 @@ public class UpgradeUI : MonoBehaviour
 
     public void SetWorkerInfo(ManagerLocation locationType, string name, double production, string number, double total, int level)
     {
+        managerLocation = locationType;
         switch (locationType)
         {
             case ManagerLocation.Shaft:
+                currentLevel = level;
                 titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + level.ToString();
                 s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][1];
                 s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
@@ -103,5 +173,6 @@ public class UpgradeUI : MonoBehaviour
         workerName.text = name;
         workerProduction.text = Currency.DisplayCurrency(production) + "/s";
         totalProduction.text = Currency.DisplayCurrency(total);
+        UpdateIcon(currentLevel);
     }
 }
