@@ -121,8 +121,8 @@ public class ManagerPanelUI : MonoBehaviour
         _spineManager.Initialize(true);
 
         //set data description
-        _textTimeSkill.text = _data.BoostTime.ToString() +" Phút";
-        _textTimeCD.text = _data.CooldownTime.ToString() + " Phút";
+        _textTimeSkill.text = _data.BoostTime.ToString() +" phút";
+        _textTimeCD.text = _data.CooldownTime.ToString() + " phút";
         _textValueBuff.text = _data.BoostValue.ToString()+" %";
 
         _textQuoest.text = _data.Quoest;
