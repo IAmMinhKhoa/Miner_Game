@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using NOOD;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,9 @@ using UnityEngine.UI;
 public class ManagerChooseUI : MonoBehaviour    
 {
     public static Action<BoostType> OnRefreshManagerTab;
+    public static Action<bool> MergeSuccess;
+    
+
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
 
@@ -23,6 +27,8 @@ public class ManagerChooseUI : MonoBehaviour
 
     [Header("UI Another")]
     [SerializeField] private CanvasGroup _canvasGrList;
+    [SerializeField] private GameObject _ContainerWarning;
+    [SerializeField] private RectTransform _imgContent;
 
     [SerializeField] private List<Manager> _manager;
 
@@ -34,6 +40,7 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.onClick.AddListener(HireManager);
         _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
+        MergeSuccess += AfterMegerManager;
     }
 
     void OnDisable()
@@ -44,6 +51,7 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.onClick.RemoveListener(HireManager);
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
+        MergeSuccess -= AfterMegerManager;
     }
     
     private void OnManagerTabChanged(BoostType type)
@@ -102,7 +110,27 @@ public class ManagerChooseUI : MonoBehaviour
         //OnRefreshManagerTab?.Invoke(manager.BoostType);
         _hireButton.interactable = true;
     }   
+    void AfterMegerManager(bool success)
+    {
+        if (success)
+        {
+            //do some thing
+        }
+        else
+        {
+            _ContainerWarning.SetActive(true);
+            _imgContent.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
 
+        }
+    }
+    public void CloseoWarning()
+    {
+        _imgContent.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            _ContainerWarning.SetActive(false);
+        });
+
+    }
     private void Boost()
     {
         ManagersController.Instance.BoostAllManager();
