@@ -161,10 +161,10 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateEvolutionSlider(float currentLevel, float updateLevel, float levelToEvo)
 	{
-		/*currentEvolutionSlider.maxValue = levelToEvo;
+		currentEvolutionSlider.maxValue = levelToEvo;
 		newEvolutionSlider.maxValue = levelToEvo;
 		currentEvolutionSlider.value = currentLevel;
-		newEvolutionSlider.value = updateLevel;*/
+		newEvolutionSlider.value = updateLevel;
 	}
 
 	public void SetUpPanel(int max)
