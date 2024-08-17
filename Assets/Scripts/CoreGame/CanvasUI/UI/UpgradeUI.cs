@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using NOOD.SerializableDictionary;
+using UnityEditor;
+using System.Linq;
 
 public class UpgradeUI : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private Slider upgradeSlider;
     [SerializeField] private List<Button> fastUpgradeButtons;
     [SerializeField] private Sprite btnNormalSprite, btnPressSprite;
+
+    [Header("Evolution")]
+    [SerializeField] private Slider currentEvolutionSlider, newEvolutionSlider;
 
     [Header("Text UI")]
     [SerializeField] private TextMeshProUGUI upgradeAmountText;
@@ -38,6 +43,7 @@ public class UpgradeUI : MonoBehaviour
 
     private float currentLevel;
     private ManagerLocation managerLocation;
+    private float maxEvoScale;
 
     void Start()
     {
@@ -130,16 +136,19 @@ public class UpgradeUI : MonoBehaviour
 
     private void UpdateIcon(float value)
     {
-        Debug.LogWarning("Update icon Level: " + value);
         switch (managerLocation)
         {
             case ManagerLocation.Shaft:
-                foreach (var pair in upgradeIconDic.Dictionary)
+                for(int i = 0; i < upgradeIconDic.Dictionary.Count; i++)
                 {
-                    if(value >= pair.Key)
+                    if(value >= upgradeIconDic.Dictionary.ElementAt(i).Key)
                     {
-                        Sprite newIcon = pair.Value;
+                        Sprite newIcon = upgradeIconDic.Dictionary.ElementAt(i).Value;
                         iconImage.sprite = newIcon;
+                        if(i+1 < upgradeIconDic.Dictionary.Count)
+                        {
+                            UpdateEvolutionSlider(currentLevel, value, upgradeIconDic.Dictionary.ElementAt(i+1).Key);
+                        }
                     }
                 }
                 break;
@@ -148,6 +157,14 @@ public class UpgradeUI : MonoBehaviour
             case ManagerLocation.Counter:
                 break;
         }
+    }
+
+    private void UpdateEvolutionSlider(float currentLevel, float updateLevel, float levelToEvo)
+    {
+        currentEvolutionSlider.maxValue = levelToEvo;
+        newEvolutionSlider.maxValue = levelToEvo;
+        currentEvolutionSlider.value = currentLevel;
+        newEvolutionSlider.value = updateLevel;
     }
 
     public void SetUpPanel(int max)
