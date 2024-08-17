@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.SerializableDictionary;
 using UnityEngine;
 
 public class ShaftUpgrade : BaseUpgrade
 {
     private Shaft shaft;
+    [SerializeField] private SerializableDictionary<int, int> evolutionLevelDic = new SerializableDictionary<int, int>();
 
     protected override float CostsBoost
     {
