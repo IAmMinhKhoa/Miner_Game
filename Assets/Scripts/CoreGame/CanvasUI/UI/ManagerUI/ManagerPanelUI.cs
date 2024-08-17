@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,12 +20,16 @@ public class ManagerPanelUI : MonoBehaviour
 
 
     [Header("UI Image")]
-    [SerializeField] private Image _imgNumberIcon;
-    [SerializeField] private Image _imgFrame;
-    [SerializeField] private Image _imgStroke;
-    [SerializeField] private Image _icon;
+    [SerializeField] Image _backGroundPanel;
+    [SerializeField] Image _bannerName  ;
+
+
+    [SerializeField] private SkeletonGraphic _spineManager;
     [SerializeField] List<Sprite> _imgStrokeLevels=new List<Sprite>();
+    [SerializeField] List<Sprite> _imgBannerNameLevels = new List<Sprite>();
     [SerializeField] List<Sprite> _imgBtnHireFire = new List<Sprite>();
+    [SerializeField] List<Image> _starts =new List<Image>();
+    [SerializeField] List<Sprite> _stateStart = new List<Sprite>(); //0 active, 1 unActive
 
     [SerializeField] private Manager _manager;
 
@@ -104,10 +109,16 @@ public class ManagerPanelUI : MonoBehaviour
     }
     private void ValidateData(Manager _data)
     {
-        _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
-        _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);
-        _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
-        _imgStroke.sprite = _imgStrokeLevels[(int)_data.Level];
+        /* _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
+         _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);*/
+        // _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
+        //  _imgStroke.sprite = _imgStrokeLevels[(int)_data.Level];
+
+        RenderStart((int)_data.Level);
+        _backGroundPanel.sprite = _imgStrokeLevels[(int)_data.Level];
+        _bannerName.sprite = _imgBannerNameLevels[(int)_data.Level];
+        _spineManager.skeletonDataAsset = _data.SkeletonAsset;
+        _spineManager.Initialize(true);
 
         //set data description
         _textTimeSkill.text = _data.BoostTime.ToString() +" Phút";
@@ -115,5 +126,17 @@ public class ManagerPanelUI : MonoBehaviour
         _textValueBuff.text = _data.BoostValue.ToString()+" %";
 
         _textQuoest.text = _data.Quoest;
+    }
+
+    private void RenderStart(int Currentlevel)
+    {
+        foreach (var item in _starts)
+        {
+            item.sprite = _stateStart[1];
+        }
+        for (int i = 0; i <= Currentlevel; i++)
+        {
+            _starts[i].sprite = _stateStart[0];
+        }
     }
 }

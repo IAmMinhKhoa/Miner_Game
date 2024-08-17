@@ -14,11 +14,11 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     //     }
     // }
 
-    // void OnApplicationQuit()
-    // {
-    //     Debug.Log("Application ending after " + Time.time + " seconds");
-    //     Save();
-    // }
+     void OnApplicationQuit()
+     {
+         Debug.Log("Application ending after " + Time.time + " seconds");
+         Save();
+     }
 
     void OnApplicationFocus(bool focus)
     {

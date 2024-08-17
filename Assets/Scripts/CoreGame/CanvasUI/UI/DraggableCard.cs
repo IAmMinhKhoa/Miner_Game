@@ -85,7 +85,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (!isDragging|| eventData.pointerEnter == null) return;
         Debug.Log("Handle-Merge2:" + isDragging + "/" + eventData.pointerEnter);
         HandleDropOnShaft(eventData);
-         HandleManagerMerge(eventData.pointerEnter);
+        HandleManagerMerge(eventData.pointerEnter);
         CleanupAfterDrag();
     }
 
@@ -113,7 +113,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
 
-    private void HandleManagerMerge( GameObject pointerEnterSecond)
+    private void HandleManagerMerge( GameObject pointerEnterSecond) //event run when drop card
     {
         Debug.Log("Handle-Merge:" + pointerEnterSecond.GetComponent<DraggableCard>());
         if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
@@ -121,10 +121,14 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         var firstManager = currentCard.Data;
         var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>().Data;
         Debug.Log("Handle-Merge:" + firstManager.Name + "/" + secondManager.Name);
-        if (ManagersController.Instance.MergeManager(firstManager, secondManager))
+        if (ManagersController.Instance.MergeManager(firstManager, secondManager)) //if can merge
         {
             ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
             ManagerSelectionShaft.OnReloadManager?.Invoke();
+        }
+        else //can not merge
+        {
+            ManagerChooseUI.MergeSuccess?.Invoke(false);
         }
     }
 

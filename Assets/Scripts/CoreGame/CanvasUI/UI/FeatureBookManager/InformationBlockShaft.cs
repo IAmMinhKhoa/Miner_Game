@@ -239,13 +239,24 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     private void ScaleUp()
     {
         if(shaft.ManagerLocation.Manager!=null) loadingSwap.SetActive(true);
-        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+        // transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
+        rectTransform.DOLocalMoveX(15f, 0.1f).OnComplete(() =>
+        {
+            rectTransform.DOScale(new Vector2(1.06f, 1.06f), 0.1f);
+        });
+
     }
 
     private void ScaleDown()
     {
         loadingSwap.SetActive(false);
-        transform.DOScale(new Vector2(1f, 1f), 0.2f);
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.DOLocalMoveX(0, 0.1f).OnComplete(() =>
+        {
+            rectTransform.DOScale(new Vector2(1f, 1f), 0.06f);
+        });
     }
 
     private void AddDragCanvas(GameObject obj)
