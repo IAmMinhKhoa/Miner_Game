@@ -3,19 +3,16 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NOOD;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
 	[SerializeField] private float minY, maxY;
-	[SerializeField] private float _dragSpeed = 1000;
-	[SerializeField] private float _endMoveSpeed = 0.1f;
+	[SerializeField] private float _decelerateSpeed = 0.1f;
 	private Camera _camera;
 	private Vector3 touchPos;
 	private bool isDragging;
 	private float _currentSpeed;
 	private Vector3 _oldPos;
-	private float _decelerateSpeed = 0.1f;
 
 	protected override void Awake()
 	{
@@ -40,14 +37,16 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		{
 			touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			isDragging = true;
+			_oldPos = transform.position;
 		}
+
+		_currentSpeed = Vector3.Distance(_oldPos, transform.position) * 30;
+		Vector3 dir = (this.transform.position - _oldPos).normalized;
+		_oldPos = transform.position;
 
 		// If the left mouse button is held down and dragging is active
 		if (isDragging && Input.GetMouseButton(0))
 		{
-			_currentSpeed = Vector3.Distance(_oldPos, transform.position) * 100;
-			_oldPos = transform.position;
-
 			Vector3 difference = touchPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector3 tempPos = transform.position + new Vector3(0, difference.y, 0);
 			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
@@ -62,7 +61,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 			isDragging = false;
 			Vector3 endTouchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			if (endTouchPos != touchPos)
-				OverShootAnimation((this.transform.position - endTouchPos).normalized);
+				OverShootAnimation(dir);
 		}
 	}
 
@@ -70,11 +69,11 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		while (_currentSpeed > 0.1f) // changed to use float instead of <= for more accurate calculation
 		{
-			Vector3 overShoot = direction * _currentSpeed * Time.deltaTime; // added deceleration logic
+			Vector3 overShoot = direction * _currentSpeed * Time.deltaTime;
 			Vector3 tempPos = transform.position + new Vector3(0, overShoot.y, 0);
 			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
 
-			_currentSpeed -= _endMoveSpeed; // added deceleration rate
+			_currentSpeed -= _decelerateSpeed;
 
 			transform.position = tempPos;
 			await UniTask.Yield();
