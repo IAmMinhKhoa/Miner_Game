@@ -1,4 +1,5 @@
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NOOD;
 using UnityEngine;
@@ -6,63 +7,90 @@ using UnityEngine.Rendering;
 
 public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
-    [SerializeField] private float minY, maxY;
-    [SerializeField] private float _dragSpeed = 1000;
-    private Camera _camera;
-    private Vector3 touchPos;
-    private bool isDragging;
+	[SerializeField] private float minY, maxY;
+	[SerializeField] private float _dragSpeed = 1000;
+	[SerializeField] private float _endMoveSpeed = 0.1f;
+	private Camera _camera;
+	private Vector3 touchPos;
+	private bool isDragging;
+	private float _currentSpeed;
+	private Vector3 _oldPos;
+	private float _decelerateSpeed = 0.1f;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        _camera = this.GetComponent<Camera>();
-    }
+	protected override void Awake()
+	{
+		base.Awake();
+		_camera = this.GetComponent<Camera>();
+	}
 
-    void Start()
-    {
-        _camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
-        float screenHeight = Camera.main.pixelHeight;
-        minY = screenHeight * minY / 1920;
-    }
+	void Start()
+	{
+		_camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
+		float screenHeight = Camera.main.pixelHeight;
+		minY = screenHeight * minY / 1920;
+	}
 
-    void Update()
-    {
-        if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
-        
-        // Detect left mouse button press (or touch)
-        if (Input.GetMouseButtonDown(0))
-        {
-            touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            isDragging = true;
-        }
+	void Update()
+	{
+		if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
 
-        // If the left mouse button is held down and dragging is active
-        if (isDragging && Input.GetMouseButton(0))
-        {
-            Vector3 difference = touchPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 tempPos = transform.position + new Vector3(0, difference.y, 0);
-            tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
 
-            // Move the camera by the difference
-            transform.position = tempPos;
-        }
+		// Detect left mouse button press (or touch)
+		if (Input.GetMouseButtonDown(0))
+		{
+			touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			isDragging = true;
+		}
 
-        // Reset dragging flag when the mouse button is released
-        if (Input.GetMouseButtonUp(0))
-        {
-            isDragging = false;
-        }
-    }
+		// If the left mouse button is held down and dragging is active
+		if (isDragging && Input.GetMouseButton(0))
+		{
+			_currentSpeed = Vector3.Distance(_oldPos, transform.position) * 100;
+			_oldPos = transform.position;
 
-    public void SetMaxY(float y)
-    {
-        maxY = y;
-    }
+			Vector3 difference = touchPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 tempPos = transform.position + new Vector3(0, difference.y, 0);
+			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
 
-    public Transform GetCurrentTransform()
-    {
-        return transform;
-    }
+			// Move the camera by the difference
+			transform.position = tempPos;
+		}
 
-        
+		// Reset dragging flag when the mouse button is released
+		if (Input.GetMouseButtonUp(0))
+		{
+			isDragging = false;
+			Vector3 endTouchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			if (endTouchPos != touchPos)
+				OverShootAnimation((this.transform.position - endTouchPos).normalized);
+		}
+	}
+
+	private async void OverShootAnimation(Vector3 direction)
+	{
+		while (_currentSpeed > 0.1f) // changed to use float instead of <= for more accurate calculation
+		{
+			Vector3 overShoot = direction * _currentSpeed * Time.deltaTime; // added deceleration logic
+			Vector3 tempPos = transform.position + new Vector3(0, overShoot.y, 0);
+			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
+
+			_currentSpeed -= 0.1f; // added deceleration rate
+
+			transform.position = tempPos;
+			await UniTask.Yield();
+		}
+	}
+
+
+	public void SetMaxY(float y)
+	{
+		maxY = y;
+	}
+
+	public Transform GetCurrentTransform()
+	{
+		return transform;
+	}
+
+
 }
