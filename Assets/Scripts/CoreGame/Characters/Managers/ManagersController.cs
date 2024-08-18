@@ -73,7 +73,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         managerDetailPanel.SetActive(false);
     }
 
-    public void OpenManagerPanel(BaseManagerLocation location)
+    public void OpenManagerPanel(BaseManagerLocation location=null)
     {
         // CurrentManagerLocation = location;
         // managerPanel.SetActive(true);

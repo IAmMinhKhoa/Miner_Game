@@ -19,6 +19,8 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
     public Image frame;
     public Sprite clickImage;
     private Sprite defaultImage;
+	private RectTransform _rectTransform;
+	private Vector3 _defaultScale;
 
     [Header("Events")]
     public UnityEvent onClickEvent;
@@ -36,7 +38,9 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
 
     private void Awake()
     {
-        if (frame == null)
+		_rectTransform = GetComponent<RectTransform>();
+		_defaultScale = _rectTransform.localScale;
+		if (frame == null)
         {
             frame = GetComponent<Image>() ?? GetComponentInChildren<Image>();
         }
@@ -80,12 +84,13 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
 	private void OnButtonClickAnimate()
 	{
 		if (!ActiveAniamate) return;
-		RectTransform buttonRect = GetComponent<RectTransform>();
-		buttonRect.DOScale(bounceScale, bounceDuration / 2)
+
+	
+		_rectTransform.DOScale(bounceScale, bounceDuration / 2)
 			.SetEase(Ease.OutQuad)
 			.OnComplete(() =>
 			{
-				buttonRect.DOScale(1f, bounceDuration / 2).SetEase(Ease.InQuad);
+				_rectTransform.DOScale(_defaultScale, bounceDuration / 2).SetEase(Ease.InQuad);
 			});
 	}
 

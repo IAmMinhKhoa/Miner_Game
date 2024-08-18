@@ -133,7 +133,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateUpgradeAmount(float value)
 	{
-		upgradeAmountText.text = value.ToString();
+		upgradeAmountText.text = "X"+value.ToString();
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
 		UpdateEvolutions(currentLevel + value);
@@ -197,7 +197,7 @@ public class UpgradeUI : MonoBehaviour
 			ActivateButton(fastUpgradeButtons[2]);
 		}
 
-		upgradeAmountText.text = "1";
+		upgradeAmountText.text = "X1";
 		upgradeCostText.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value));
 		Debug.Log("Max value:" + max + " Upgrade cost:" + UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value) + " Upgrade initial cost:" + UpgradeManager.Instance.GetInitCost());
 	}
