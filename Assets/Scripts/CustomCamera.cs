@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
     [SerializeField] private float minY, maxY;
-    [SerializeField] private float _dragSpeed = 1;
+    [SerializeField] private float _dragSpeed = 1000;
     private Camera _camera;
     private Vector3 touchPos;
     private bool isDragging;
