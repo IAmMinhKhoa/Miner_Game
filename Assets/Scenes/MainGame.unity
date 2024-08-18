@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1428,6 +1428,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 2.892
       objectReference: {fileID: 0}
+    - target: {fileID: 8618123233568332249, guid: 84850932782e1f642b14e56bc7cb569a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8671648507158157886, guid: 84850932782e1f642b14e56bc7cb569a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.4374766
@@ -1823,6 +1827,7 @@ MonoBehaviour:
   minY: 0
   maxY: 3.02
   _dragSpeed: 1000
+  _decelerateSpeed: 1
 --- !u!1 &1177280539
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,6 +3201,10 @@ PrefabInstance:
       propertyPath: btn_Manager
       value: 
       objectReference: {fileID: 2108956823}
+    - target: {fileID: 6186413816322130321, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 6692399593380874758, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Camera
       value: 
