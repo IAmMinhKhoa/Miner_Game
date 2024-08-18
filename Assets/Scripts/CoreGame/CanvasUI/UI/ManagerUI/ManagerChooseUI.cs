@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using NOOD;
+using NOOD.Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +42,11 @@ public class ManagerChooseUI : MonoBehaviour
         _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
-    }
+		PawManager.Instance.OnPawChanged += UpdateUI;
+
+		
+
+	}
 
     void OnDisable()
     {
@@ -52,7 +57,8 @@ public class ManagerChooseUI : MonoBehaviour
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
         MergeSuccess -= AfterMegerManager;
-    }
+		PawManager.Instance.OnPawChanged -= UpdateUI;
+	}
     
     private void OnManagerTabChanged(BoostType type)
     {
@@ -94,14 +100,28 @@ public class ManagerChooseUI : MonoBehaviour
     {
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
        
-        _managerTabUI.onManagerTabChanged.Invoke(type);       
-    }
+        _managerTabUI.onManagerTabChanged.Invoke(type);
+		UpdateUI();
+	}
+	void UpdateUI(double value=0)
+	{
+		if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
+		{
+			_hireButton.interactable = false;
+			return;
+		}
+		else
+		{
+			_hireButton.interactable = true;
+		}
+	}
 
     void HireManager()
     {
         if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
         {
-            return;
+			UpdateUI();
+			return;
         }
         
         _hireButton.interactable = false;
@@ -114,11 +134,12 @@ public class ManagerChooseUI : MonoBehaviour
     {
         if (success)
         {
-            //do some thing
+			SoundManager.PlaySound(SoundEnum.mergeSuccess);
         }
         else
         {
-            _ContainerWarning.SetActive(true);
+			SoundManager.PlaySound(SoundEnum.mergeFail);
+			_ContainerWarning.SetActive(true);
             _imgContent.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
 
         }

@@ -123,7 +123,8 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Debug.Log("Handle-Merge:" + firstManager.Name + "/" + secondManager.Name);
         if (ManagersController.Instance.MergeManager(firstManager, secondManager)) //if can merge
         {
-            ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
+			ManagerChooseUI.MergeSuccess?.Invoke(true);
+			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
             ManagerSelectionShaft.OnReloadManager?.Invoke();
         }
         else //can not merge

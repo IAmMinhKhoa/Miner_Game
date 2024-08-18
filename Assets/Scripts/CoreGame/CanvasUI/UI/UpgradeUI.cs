@@ -182,6 +182,21 @@ public class UpgradeUI : MonoBehaviour
 	{
 		upgradeSlider.maxValue = Mathf.Max(max, 1);
 		upgradeSlider.value = 1;
+		if (max < 10)
+		{
+			DeactivateButton(fastUpgradeButtons[1]);
+			DeactivateButton(fastUpgradeButtons[2]);
+		}
+		else if (max < 50)
+		{
+			DeactivateButton(fastUpgradeButtons[2]);
+		}
+		else
+		{
+			ActivateButton(fastUpgradeButtons[1]);
+			ActivateButton(fastUpgradeButtons[2]);
+		}
+
 		upgradeAmountText.text = "1";
 		upgradeCostText.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value));
 		Debug.Log("Max value:" + max + " Upgrade cost:" + UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value) + " Upgrade initial cost:" + UpgradeManager.Instance.GetInitCost());
@@ -224,5 +239,22 @@ public class UpgradeUI : MonoBehaviour
 
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
+	}
+
+	private void DeactivateButton(Button button)
+	{
+		button.interactable = false;
+		ColorBlock colors = button.colors;
+		ColorUtility.TryParseHtmlString("#C8C8C8", out Color disabledColor);
+		colors.disabledColor = disabledColor;
+		button.colors = colors;
+	}
+
+	private void ActivateButton(Button button)
+	{
+		button.interactable = true;
+		ColorBlock colors = button.colors;
+		colors.normalColor = Color.white;
+		button.colors = colors;
 	}
 }
