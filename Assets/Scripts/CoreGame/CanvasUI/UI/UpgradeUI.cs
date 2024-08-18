@@ -6,9 +6,18 @@ using TMPro;
 using NOOD.SerializableDictionary;
 using UnityEditor;
 using System.Linq;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
+using System.Security.Cryptography;
 
 public class UpgradeUI : MonoBehaviour
 {
+	[Header("Show Hide Transform")]
+	[SerializeField] private Transform showTrans;
+	[SerializeField] private Transform hideTrans;
+	[SerializeField] private CanvasGroup canvasGroup;
+	[SerializeField] private float showHideSpeed = 2f;
+
 	[Header("Buttons UI")]
 	[SerializeField] private Button closeButton;
 	[SerializeField] private Button upgradeButton;
@@ -43,7 +52,6 @@ public class UpgradeUI : MonoBehaviour
 
 	private float currentLevel;
 	private ManagerLocation managerLocation;
-	private float maxEvoScale;
 
 	void Start()
 	{
@@ -75,27 +83,6 @@ public class UpgradeUI : MonoBehaviour
 		closeButton.onClick.AddListener(ClosePanel);
 		upgradeButton.onClick.AddListener(Upgrade);
 		upgradeSlider.onValueChanged.AddListener(UpdateUpgradeAmount);
-		for (int i = 0; i < fastUpgradeButtons.Count; i++)
-		{
-			Button button = fastUpgradeButtons[i];
-			button.image.sprite = btnNormalSprite;
-			int index = i;
-			switch (i)
-			{
-				case 0:
-					fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 1));
-					break;
-				case 1:
-					fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 10));
-					break;
-				case 2:
-					fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, 50));
-					break;
-				case 3:
-					fastUpgradeButtons[i].onClick.AddListener(() => OnFastUpgradeButtonPress(index, upgradeSlider.maxValue));
-					break;
-			}
-		}
 	}
 
 	private void OnDisable()
@@ -105,9 +92,27 @@ public class UpgradeUI : MonoBehaviour
 		upgradeSlider.onValueChanged.RemoveListener(UpdateUpgradeAmount);
 	}
 
-	private void ClosePanel()
+	public async void OpenPanel()
 	{
-		gameObject.SetActive(false);
+		this.transform.DOMove(showTrans.position, 0.5f).SetEase(Ease.Flash);
+		while (canvasGroup.alpha < 1)
+		{
+			await UniTask.Yield();
+			canvasGroup.alpha += Time.deltaTime * showHideSpeed;
+			canvasGroup.interactable = false;
+		}
+		canvasGroup.interactable = true;
+	}
+
+	private async void ClosePanel()
+	{
+		this.transform.DOMove(hideTrans.position, 0.25f).SetEase(Ease.Flash);
+		while (canvasGroup.alpha > 0)
+		{
+			await UniTask.Yield();
+			canvasGroup.alpha -= Time.deltaTime * showHideSpeed;
+		}
+		this.transform.parent.gameObject.SetActive(false);
 	}
 
 	private void Upgrade()
@@ -131,10 +136,10 @@ public class UpgradeUI : MonoBehaviour
 		upgradeAmountText.text = value.ToString();
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
-		UpdateIcon(currentLevel + value);
+		UpdateEvolutions(currentLevel + value);
 	}
 
-	private void UpdateIcon(float value)
+	private void UpdateEvolutions(float value)
 	{
 		switch (managerLocation)
 		{
@@ -148,6 +153,7 @@ public class UpgradeUI : MonoBehaviour
 						if (i + 1 < upgradeIconDic.Dictionary.Count)
 						{
 							UpdateEvolutionSlider(currentLevel, value, upgradeIconDic.Dictionary.ElementAt(i + 1).Key);
+							UpdateEvolutionText(upgradeIconDic.Dictionary.ElementAt(i + 1).Key);
 						}
 					}
 				}
@@ -165,6 +171,11 @@ public class UpgradeUI : MonoBehaviour
 		newEvolutionSlider.maxValue = levelToEvo;
 		currentEvolutionSlider.value = currentLevel;
 		newEvolutionSlider.value = updateLevel;
+	}
+
+	private void UpdateEvolutionText(float levelToEvo)
+	{
+		workerName.text = $"MỞ KHÓA QUẦY HÀNG Ở CẤP {levelToEvo}";
 	}
 
 	public void SetUpPanel(int max)
@@ -188,6 +199,7 @@ public class UpgradeUI : MonoBehaviour
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][3];
 
+				UpdateEvolutions(currentLevel);
 				numberOrSpeed.text = number;
 				break;
 			case ManagerLocation.Elevator:
@@ -195,6 +207,7 @@ public class UpgradeUI : MonoBehaviour
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][3];
+				workerName.text = name;
 
 				numberOrSpeed.text = number + " s";
 				break;
@@ -203,14 +216,13 @@ public class UpgradeUI : MonoBehaviour
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][3];
+				workerName.text = name;
 
 				numberOrSpeed.text = number;
 				break;
 		}
 
-		workerName.text = name;
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
-		UpdateIcon(currentLevel);
 	}
 }
