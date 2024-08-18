@@ -74,7 +74,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 			Vector3 tempPos = transform.position + new Vector3(0, overShoot.y, 0);
 			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
 
-			_currentSpeed -= 0.1f; // added deceleration rate
+			_currentSpeed -= _endMoveSpeed; // added deceleration rate
 
 			transform.position = tempPos;
 			await UniTask.Yield();
