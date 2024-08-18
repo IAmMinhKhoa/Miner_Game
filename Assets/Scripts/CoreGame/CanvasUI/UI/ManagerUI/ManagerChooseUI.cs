@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class ManagerChooseUI : MonoBehaviour    
 {
-    public static Action<BoostType> OnRefreshManagerTab;
+    public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<bool> MergeSuccess;
     
 
@@ -60,19 +60,19 @@ public class ManagerChooseUI : MonoBehaviour
 		PawManager.Instance.OnPawChanged -= UpdateUI;
 	}
     
-    private void OnManagerTabChanged(BoostType type)
+    private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
         if (_manager == null)
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned));
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned),forceAnimation);
     }
-
+	
     private void OnLocationTabChanged(ManagerLocation location)
     {
         SetupData(location);
-        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed);
+        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed, true);
     }
 
     public void SetupData(ManagerLocation location)
@@ -90,18 +90,18 @@ public class ManagerChooseUI : MonoBehaviour
     }
   
  
-    public void SetupTab(BoostType type, ManagerLocation managerLocation)
+    public void SetupTab(BoostType type, ManagerLocation managerLocation,bool foceAnimation=true)
     {
         ManagerLocationUI.OnTabChanged?.Invoke(managerLocation);
-        _managerTabUI.onManagerTabChanged?.Invoke(type);
+        _managerTabUI.onManagerTabChanged?.Invoke(type, foceAnimation);
     }
 
-    public void RefreshData(BoostType type)
+    public void RefreshData(BoostType type, bool foceAnimation = true)
     {
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
        
-        _managerTabUI.onManagerTabChanged.Invoke(type);
-		UpdateUI();
+        _managerTabUI.onManagerTabChanged.Invoke(type, foceAnimation);
+		UpdateUI(); //update current paw -> disable button gacha 
 	}
 	void UpdateUI(double value=0)
 	{

@@ -13,6 +13,7 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject _maskSelect;
     [SerializeField] GameObject _maskRejectMerge;
     [SerializeField] GameObject _maskCanMerge;
+	[SerializeField] ParticleSystem fxSuccess;
     private Manager _data;
     public Manager Data => _data;
     public bool IsSelected { set {
@@ -44,4 +45,8 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
         _maskRejectMerge.SetActive(false);
         _maskCanMerge.SetActive(false);
     }
+	public void RunFxMergeSuccess()
+	{
+		if(fxSuccess!=null) fxSuccess.Play();
+	}
 }

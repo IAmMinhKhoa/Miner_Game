@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ManagerSectionList : MonoBehaviour
 {
-    [SerializeField] private float _animationSpeed = 2;
+    [SerializeField] private float _animationSpeed = 1.2f;
     [SerializeField] private ManagerSectionUI _managerSectionUIPrefab;
     private List<ManagerSectionUI> _managerSectionUIList = new List<ManagerSectionUI>();
     private RectTransform _rectTransform;
@@ -32,7 +32,7 @@ public class ManagerSectionList : MonoBehaviour
         await SwitchAnimation();
     }
 
-    public async void ShowManagers(List<Manager> managerDatas)
+    public async void ShowManagers(List<Manager> managerDatas, bool forceAnimation=true)
     {
         if (this.managerDatas != null && IsEqual(managerDatas, this.managerDatas)) return;
         List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Specie).Distinct().OrderBy(specie => specie).ToList();
@@ -40,7 +40,7 @@ public class ManagerSectionList : MonoBehaviour
         this.managerSpecies = managerSpecie;
         if(_isPlayingAnimation == false)
         {
-            await SwitchAnimation();
+            await SwitchAnimation(forceAnimation);
         }
     }
 
@@ -55,15 +55,20 @@ public class ManagerSectionList : MonoBehaviour
         return true;
     }
 
-    private async UniTask SwitchAnimation()
+    private async UniTask SwitchAnimation(bool forceAnimation=true)
     {
         _isPlayingAnimation = true;
 
-        while(_canvasGroup.alpha > 0)
-        {
-            _canvasGroup.alpha -= Time.deltaTime * _animationSpeed;
-            await UniTask.Yield();           
-        }
+
+
+		if (forceAnimation)
+		{
+			while (_canvasGroup.alpha > 0)
+			{
+				_canvasGroup.alpha -= Time.deltaTime * _animationSpeed;
+				await UniTask.Yield();
+			}
+		}
         AddOrRemoveManagerSectionUIs(managerSpecies);
         await SetDatas(managerSpecies, managerDatas);
         LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);

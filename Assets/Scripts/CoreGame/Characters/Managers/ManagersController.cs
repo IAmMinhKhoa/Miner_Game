@@ -141,7 +141,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         Debug.Log("Sell Cost: " + sellCost);
         PawManager.Instance.AddPaw(sellCost);
         RemoveManager(manager);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true);
     }
 
     private ManagerDataSO GetManagerData(ManagerLocation location, BoostType type, ManagerLevel level)
@@ -213,7 +213,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType,true);
 
         return manager;
     }
@@ -297,7 +297,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         manager.UnassignManager();
         BoostType type = manager.BoostType;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type); //reload list manager in inventory
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true); //reload list manager in inventory
         ManagerSelectionShaft.OnReloadManager?.Invoke();//reload scroll selected manager
 
     }

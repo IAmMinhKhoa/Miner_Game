@@ -108,7 +108,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void RefreshUI()
     {
         var currentManager = canvasGroup.GetComponent<ManagerElementUI>().Data;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType,true);
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
@@ -119,12 +119,13 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
 
         var firstManager = currentCard.Data;
-        var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>().Data;
-        Debug.Log("Handle-Merge:" + firstManager.Name + "/" + secondManager.Name);
-        if (ManagersController.Instance.MergeManager(firstManager, secondManager)) //if can merge
+        var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>();
+
+        if (ManagersController.Instance.MergeManager(firstManager, secondManager.Data)) //if can merge
         {
+			secondManager.RunFxMergeSuccess();
 			ManagerChooseUI.MergeSuccess?.Invoke(true);
-			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType);
+			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType,false);
             ManagerSelectionShaft.OnReloadManager?.Invoke();
         }
         else //can not merge

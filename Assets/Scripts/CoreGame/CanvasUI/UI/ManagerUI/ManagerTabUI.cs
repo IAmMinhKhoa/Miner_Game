@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ManagerTabUI : MonoBehaviour
 {
-    public Action<BoostType> onManagerTabChanged;
+    public Action<BoostType,bool> onManagerTabChanged;
 
     [SerializeField] private SerializableDictionary<Button, BoostType> _managerTabFilter = new SerializableDictionary<Button, BoostType>();
 
@@ -31,12 +31,12 @@ public class ManagerTabUI : MonoBehaviour
         }
     }
 
-    private void ChangeTab(BoostType boostType)
+    private void ChangeTab(BoostType boostType,bool forceAnimation=true)
     {
-        onManagerTabChanged?.Invoke(boostType);
+        onManagerTabChanged?.Invoke(boostType, forceAnimation);
     }
 
-    private void ChangeTabUI(BoostType boostType)
+    private void ChangeTabUI(BoostType boostType,bool forceAnimation)
     {
         foreach (var btn in _managerTabFilter.Dictionary)
         {

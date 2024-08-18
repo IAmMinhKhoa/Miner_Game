@@ -278,7 +278,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         var currentManager = eventData.pointerDrag.GetComponent<InformationBlockShaft>().shaft.ManagerLocation.Manager;
         targetBlockShaft.SetData(currentManager);
 
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType, true);
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
