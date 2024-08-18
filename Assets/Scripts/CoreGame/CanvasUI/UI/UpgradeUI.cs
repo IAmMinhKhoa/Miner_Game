@@ -233,7 +233,8 @@ public class UpgradeUI : MonoBehaviour
 	{
 		button.interactable = false;
 		ColorBlock colors = button.colors;
-		colors.normalColor = ColorBlock.defaultColorBlock.disabledColor;
+		ColorUtility.TryParseHtmlString("#C8C8C8", out Color disabledColor);
+		colors.disabledColor = disabledColor;
 		button.colors = colors;
 	}
 
@@ -241,7 +242,7 @@ public class UpgradeUI : MonoBehaviour
 	{
 		button.interactable = true;
 		ColorBlock colors = button.colors;
-		colors.normalColor = ColorBlock.defaultColorBlock.normalColor;
+		colors.normalColor = Color.white;
 		button.colors = colors;
 	}
 }
