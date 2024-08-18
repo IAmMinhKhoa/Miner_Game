@@ -108,7 +108,7 @@ RectTransform:
   m_Father: {fileID: 697814577176442434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -288,6 +288,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &539007175564718213
 GameObject:
@@ -389,9 +392,9 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.9169811, g: 0.9169811, b: 0.9169811, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.7607843}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -427,6 +430,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 1
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &562894123813643748
 GameObject:
@@ -1139,6 +1145,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &1636019856486210887
 GameObject:
@@ -1353,6 +1362,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &1809107348774582625
 GameObject:
@@ -1749,7 +1761,7 @@ RectTransform:
   m_Father: {fileID: 1998686375357384385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.99999994, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2609,8 +2621,8 @@ RectTransform:
   - {fileID: 6240598083203861261}
   m_Father: {fileID: 3987824901895404040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 313.44998, y: 0}
   m_SizeDelta: {x: 626.89996, y: 0}
   m_Pivot: {x: 0.5, y: 1}
@@ -2987,9 +2999,9 @@ RectTransform:
   - {fileID: 8985117279541326649}
   m_Father: {fileID: 6259875186274405914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 28, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 28, y: -44.4568}
   m_SizeDelta: {x: 598.89996, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6577891707330814206
@@ -3674,6 +3686,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &5824248357319946876
 GameObject:
@@ -4249,6 +4264,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &7456044477379350176
 GameObject:
@@ -4388,6 +4406,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 0
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &7472754639252552343
 GameObject:
@@ -4407,7 +4428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6978772603090936084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4710,7 +4731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 489.5, y: -1764}
+  m_AnchoredPosition: {x: 489.5, y: -1719}
   m_SizeDelta: {x: 978.99, y: 191.5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6223691955994318400
@@ -4864,7 +4885,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 978, y: -949.0492}
+  m_AnchoredPosition: {x: 978, y: -904.0492}
   m_SizeDelta: {x: 343.1726, y: 1248.5764}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &187511933327448638
@@ -5267,7 +5288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7818839122171863828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5551,9 +5572,9 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.9169811, g: 0.9169811, b: 0.9169811, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.7607843}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5589,6 +5610,9 @@ MonoBehaviour:
   onClickEvent:
     m_PersistentCalls:
       m_Calls: []
+  ActiveAniamate: 1
+  bounceScale: 1.2
+  bounceDuration: 0.2
   clickSoundFx: 0
 --- !u!1 &8669702517339779829
 GameObject:
@@ -5702,7 +5726,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 502, y: -949.0492}
+  m_AnchoredPosition: {x: 502, y: -904.0492}
   m_SizeDelta: {x: 739.1, y: 1496.3356}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6892431586391914330
