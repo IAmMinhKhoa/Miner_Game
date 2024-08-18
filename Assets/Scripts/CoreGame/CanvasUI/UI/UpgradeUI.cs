@@ -175,7 +175,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateEvolutionText(float levelToEvo)
 	{
-		workerName.text = $"MỞ KHÓA QUẦY HÀNG Ở CẤP {levelToEvo}";
+		workerName.text = $"mở khóa quầy hàng ở cấp : {levelToEvo}";
 	}
 
 	public void SetUpPanel(int max)

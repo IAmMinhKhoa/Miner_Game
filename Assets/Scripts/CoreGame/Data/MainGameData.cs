@@ -85,24 +85,24 @@ public static class MainGameData
     {
         {ManagerLocation.Shaft, new List<string>
         {
-            "Hầm pha chế cấp ",
-            "Tốc độ pha chế",
-            "Nhân viên pha chế",
-            "Tổng Sản Lượng",
+            "hầm pha chế cấp ",
+            "tốc độ pha chế",
+            "nhân viên pha chế",
+            "tổng Sản lượng",
         }},
         {ManagerLocation.Elevator, new List<string>
         {
-            "Thang máy cấp ",
-            "Tốc độ thu gom",
-            "Tốc độ thang máy",
-            "Tổng khối lượng",
+            "thang máy cấp ",
+            "tốc độ thu gom",
+            "tốc độ thang máy",
+            "tổng khối lượng",
         }},
         {ManagerLocation.Counter, new List<string>
         {
-            "Quầy bán hàng cấp ",
-            "Tốc độ thu gom",
-            "Nhân viên vận chuyển",
-            "Tổng khối lượng",
+            "quầy bán hàng cấp ",
+            "tốc độ thu gom",
+            "nhân viên vận chuyển",
+            "tổng khối lượng",
         }}
     };
 }
