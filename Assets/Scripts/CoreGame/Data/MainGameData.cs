@@ -87,7 +87,7 @@ public static class MainGameData
         {
             "hầm pha chế cấp ",
             "tốc độ pha chế",
-            "nhân viên vận chuyển",
+            "nhân viên \nvận chuyển",
             "tổng sản lượng",
         }},
         {ManagerLocation.Elevator, new List<string>
@@ -95,14 +95,14 @@ public static class MainGameData
             "thang máy cấp ",
             "tốc độ thu gom",
             "tốc độ thang máy",
-            "tổng khối lượng vận chuyển",
+            "tổng khối lượng \nvận chuyển",
         }},
         {ManagerLocation.Counter, new List<string>
         {
             "quầy bán hàng cấp ",
             "tốc độ thu gom",
-            "nhân viên vận chuyển",
-            "tổng khối lượng vận chuyển",
+            "nhân viên \nvận chuyển",
+            "tổng khối lượng \nvận chuyển",
         }}
     };
 }
