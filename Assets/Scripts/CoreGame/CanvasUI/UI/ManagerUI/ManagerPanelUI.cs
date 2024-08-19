@@ -32,8 +32,10 @@ public class ManagerPanelUI : MonoBehaviour
     [SerializeField] List<Sprite> _stateStart = new List<Sprite>(); //0 active, 1 unActive
 
     [SerializeField] private Manager _manager;
+	[SerializeField] ContentFitterRefresh refeshInforSize;
 
-    void OnEnable()
+
+	void OnEnable()
     {
         _closeButton.onClick.AddListener(ClosePanel);
         _hireOrFiredButton.onClick.AddListener(HireOrFireManager);
@@ -75,11 +77,6 @@ public class ManagerPanelUI : MonoBehaviour
         ClosePanel();
     }
 
-    void Update()
-    {
-      
-    }
-
     public void SetManager(Manager manager)
     {
         _manager = manager;
@@ -106,7 +103,9 @@ public class ManagerPanelUI : MonoBehaviour
         {
             _hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[1];
         }
-    }
+
+		refeshInforSize.RefreshContentFitters();
+	}
     private void ValidateData(Manager _data)
     {
         /* _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
@@ -126,7 +125,9 @@ public class ManagerPanelUI : MonoBehaviour
         _textValueBuff.text = _data.BoostValue.ToString()+" %";
 
         _textQuoest.text = _data.Quoest;
-    }
+
+
+	}
 
     private void RenderStart(int Currentlevel)
     {
