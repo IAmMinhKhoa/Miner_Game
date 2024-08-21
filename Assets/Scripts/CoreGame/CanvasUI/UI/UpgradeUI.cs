@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using NOOD.SerializableDictionary;
-using UnityEditor;
 using System.Linq;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
-using System.Security.Cryptography;
 
 public class UpgradeUI : MonoBehaviour
 {
@@ -44,6 +42,11 @@ public class UpgradeUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI workerProduction;
 	[SerializeField] private TextMeshProUGUI numberOrSpeed;
 	[SerializeField] private TextMeshProUGUI totalProduction;
+
+	[Header("Worker Increment")]
+	[SerializeField] private TextMeshProUGUI productIncrement;
+	[SerializeField] private TextMeshProUGUI speedIncrement;
+	[SerializeField] private TextMeshProUGUI totalProductIncrement;
 
 	[Header("Worker Info Name")]
 	[SerializeField] private TextMeshProUGUI s_workerProduction;
@@ -133,7 +136,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateUpgradeAmount(float value)
 	{
-		upgradeAmountText.text = "X"+value.ToString();
+		upgradeAmountText.text = "X" + value.ToString();
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
 		UpdateEvolutions(currentLevel + value);
