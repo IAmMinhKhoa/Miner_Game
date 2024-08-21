@@ -58,4 +58,20 @@ public class ElevatorUpgrade : BaseUpgrade
     {
         Init(1041.67f, level);
     }
+
+    public override double GetScaleBuff(int amoutOfNextLevel)
+    {
+        if (amoutOfNextLevel <= 0)
+        {
+            return 1d;
+        }
+
+        double scale = 1.00;
+        for (int i = 1; i <= amoutOfNextLevel; i++)
+        {
+            scale *= 1 + GetNextLoadingSpeedScale(CurrentLevel + i);
+        }
+
+        return scale;
+    }
 }

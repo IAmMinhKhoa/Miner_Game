@@ -158,6 +158,21 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		return total;
 	}
 
+	private double PreviewUpgradeEffect(int amount)
+	{
+		double total = 0;
+		double cost = _baseUpgrade.CurrentCost;
+		int level = _baseUpgrade.CurrentLevel;
+		for (int i = 1; i <= amount; i++)
+		{
+			total += cost;
+			level++;
+			cost *= 1 + _baseUpgrade.GetNextUpgradeCostScale(level);
+		}
+
+		return total;
+	}
+
 	public double GetInitCost()
 	{
 		return _baseUpgrade.GetInitialCost();
@@ -178,5 +193,39 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 
 		return amount;
 	}
+
+	public double GetProductIncrement(int amount)
+	{
+		return _baseWorkerRef.ProductPerSecond * (_baseUpgrade.GetScaleBuff(amount) - 1d);
+	}
+
+	public int GetWorkerIncrement(int amount, ManagerLocation location)
+	{
+		int currentWorker = location switch
+		{
+			ManagerLocation.Shaft => _brewers.Count,
+			ManagerLocation.Counter => _transporters.Count,
+			_ => 1
+		};
+		return _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) - currentWorker;
+	}
+
+	public double GetIncrementTotal(int amount, double currentTotal, ManagerLocation location)
+	{
+		var current = currentTotal * (_baseUpgrade.GetScaleBuff(amount) - 1d);
+		if (location == ManagerLocation.Shaft)
+		{
+			return current * _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) / _brewers.Count;
+		}
+		else if (location == ManagerLocation.Counter)
+		{
+			return current * _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) / _transporters.Count;
+		}
+		else
+		{
+			return current;
+		}
+	}
+
 	#endregion
 }

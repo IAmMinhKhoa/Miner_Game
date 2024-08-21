@@ -55,6 +55,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private float currentLevel;
 	private ManagerLocation managerLocation;
+	private double _total;
 
 	void Start()
 	{
@@ -140,6 +141,26 @@ public class UpgradeUI : MonoBehaviour
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
 		UpdateEvolutions(currentLevel + value);
+
+		//
+		switch (managerLocation)
+		{
+			case ManagerLocation.Shaft:
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
+				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				break;
+			case ManagerLocation.Elevator:
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
+				//speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				break;
+			case ManagerLocation.Counter:
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
+				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				break;
+		}
 	}
 
 	private void UpdateEvolutions(float value)
@@ -207,6 +228,7 @@ public class UpgradeUI : MonoBehaviour
 
 	public void SetWorkerInfo(ManagerLocation locationType, string name, double production, string number, double total, int level)
 	{
+		_total = total;
 		managerLocation = locationType;
 		switch (locationType)
 		{

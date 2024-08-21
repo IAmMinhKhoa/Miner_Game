@@ -84,8 +84,18 @@ public class BaseUpgrade : MonoBehaviour
 		return scale;
 	}
 
+	public virtual double GetScaleBuff(int amoutOfNextLevel)
+	{
+		return 0f;
+	}
+
 	public double GetInitialCost()
 	{
 		return initialCost;
+	}
+
+	public virtual int GetNumberWorkerAtLevel(int level)
+	{
+		return 0;
 	}
 }

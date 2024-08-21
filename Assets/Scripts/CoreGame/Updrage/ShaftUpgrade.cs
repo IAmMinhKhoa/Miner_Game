@@ -86,4 +86,18 @@ public class ShaftUpgrade : BaseUpgrade
 		Init(initialCost, level);
 		shaft.OnUpgrade?.Invoke(level);
 	}
+
+	public override int GetNumberWorkerAtLevel(int level)
+	{
+		int initWorker = 1;
+		return level switch
+		{
+			>= 400 => initWorker + 5,
+			>= 200 => initWorker + 4,
+			>= 100 => initWorker + 3,
+			>= 50 => initWorker + 2,
+			>= 10 => initWorker + 1,
+			_ => initWorker
+		};
+	}
 }

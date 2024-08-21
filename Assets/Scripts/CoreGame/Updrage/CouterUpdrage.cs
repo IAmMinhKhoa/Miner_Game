@@ -58,4 +58,33 @@ public class CounterUpgrade : BaseUpgrade
     {
         Init(1041.67f, level);
     }
+
+    public override int GetNumberWorkerAtLevel(int level)
+    {
+        int initWorker = 1;
+        return level switch
+        {
+            >= 500 => initWorker + 4,
+            >= 300 => initWorker + 3,
+            >= 100 => initWorker + 2,
+            >= 10 => initWorker + 1,
+            _ => initWorker
+        };
+    }
+
+    public override double GetScaleBuff(int amoutOfNextLevel)
+    {
+        if (amoutOfNextLevel <= 0)
+        {
+            return 1d;
+        }
+
+        double scale = 1.00;
+        for (int i = 1; i <= amoutOfNextLevel; i++)
+        {
+            scale *= 1 + GetNextExtractionSpeedScale(CurrentLevel + i);
+        }
+
+        return scale;
+    }
 }
