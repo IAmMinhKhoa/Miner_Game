@@ -26,7 +26,8 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    [Header("Visual object")]
+
+	[Header("Visual object")]
     [SerializeField] private GameObject m_table;
     [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
@@ -57,7 +58,8 @@ public class ShaftUI : MonoBehaviour
 
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
-    }
+
+	}
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
