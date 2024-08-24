@@ -107,7 +107,7 @@ public class ShaftUI : MonoBehaviour
 
     private void ChangePawHandler(double value)
     {
-        Debug.Log("Change Paw: " + value);
+     //   Debug.Log("Change Paw: " + value);
         if(value > 0)
         {
             m_lyNuocHolder.gameObject.SetActive(true);

@@ -162,7 +162,8 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         if (shaft.ManagerLocation.Manager == null) return;
 
         HandleDrop(eventData);
-        DestroyDragObject();
+	
+		DestroyDragObject();
         isDragging = false;
     }
 
@@ -278,7 +279,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         var currentManager = eventData.pointerDrag.GetComponent<InformationBlockShaft>().shaft.ManagerLocation.Manager;
         targetBlockShaft.SetData(currentManager);
 
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType, true);
+      
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 

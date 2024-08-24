@@ -141,12 +141,12 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         Debug.Log("Sell Cost: " + sellCost);
         PawManager.Instance.AddPaw(sellCost);
         RemoveManager(manager);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,false);
     }
 
     private ManagerDataSO GetManagerData(ManagerLocation location, BoostType type, ManagerLevel level)
     {
-        var managerData = _managerDataSOList.FirstOrDefault(x => x.managerLocation == location && x.boostType == type && x.managerLevel == level);
+        var managerData = _managerDataSOList.FirstOrDefault(x => x.managerLocation == location && x.managerLevel == level);
         return managerData;
     }
 
@@ -171,17 +171,19 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             < 90 => ManagerLevel.Junior,
             _ => ManagerLevel.Senior
         };
-        BoostType type = UnityEngine.Random.Range(0, 3) switch
+/*        BoostType type = UnityEngine.Random.Range(0, 3) switch
         {
             0 => BoostType.Costs,
             1 => BoostType.Efficiency,
             _ => BoostType.Speed
-        };
+        };*/
 
-        var managerData = GetManagerData(location, type, level);
+		var specieDataList = _managerSpecieDataSOList.ToList();
+		var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
+
+		var managerData = GetManagerData(location, specieData.BoostType, level);
         var timeData = GetManagerTimeData(level);
-        var specieDataList = _managerSpecieDataSOList.ToList();
-        var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
+       
 
         Manager manager = new();
         manager.SetManagerData(managerData);
@@ -213,7 +215,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType,true);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType,false);
 
         return manager;
     }
@@ -291,13 +293,16 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         {
             manager.AssignManager(newLocation);
         }
-    }
+		Debug.Log("AssignManager :" + newLocation);
+		ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType, false); //reload list manager in inventory
+
+	}
 
     public void UnassignManager(Manager manager)
     {
         manager.UnassignManager();
         BoostType type = manager.BoostType;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true); //reload list manager in inventory
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,false); //reload list manager in inventory
         ManagerSelectionShaft.OnReloadManager?.Invoke();//reload scroll selected manager
 
     }

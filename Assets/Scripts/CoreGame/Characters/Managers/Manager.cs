@@ -23,7 +23,7 @@ public class Manager
     public SkeletonDataAsset SkeletonAsset=> _specieData.spineManager;
     public ManagerLocation LocationType => _data.managerLocation;
     public ManagerLevel Level => _data.managerLevel;
-    public BoostType BoostType => _data.boostType;
+    public BoostType BoostType => _specieData.BoostType;
     public float BoostValue => _data.boostValue;
     public float BoostTime => _timeData.boostTime;
     public float CooldownTime => _timeData.cooldownTime;
