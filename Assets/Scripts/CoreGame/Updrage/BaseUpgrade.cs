@@ -84,8 +84,23 @@ public class BaseUpgrade : MonoBehaviour
 		return scale;
 	}
 
+	public virtual double GetProductionScale(int amoutOfNextLevel)
+	{
+		return 1f;
+	}
+
+	public virtual double GetSpeedScale(int amoutOfNextLevel)
+	{
+		return 0f;
+	}
+
 	public double GetInitialCost()
 	{
 		return initialCost;
+	}
+
+	public virtual int GetNumberWorkerAtLevel(int level)
+	{
+		return 0;
 	}
 }

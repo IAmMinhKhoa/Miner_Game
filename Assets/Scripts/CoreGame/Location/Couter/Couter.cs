@@ -109,9 +109,11 @@ public class Counter : Patterns.Singleton<Counter>
             {"level", gameObject.GetComponent<CounterUpgrade>().CurrentLevel},
             {"managerIndex", m_managerLocation.Manager != null ? m_managerLocation.Manager.Index : -1}
         };
-
+        if (saveData == null)
+        {
+            return;
+        }
         string json = JsonConvert.SerializeObject(saveData);
-        Debug.Log("save counter: " + json);
         PlayerPrefs.SetString("Counter", json);
     }
 

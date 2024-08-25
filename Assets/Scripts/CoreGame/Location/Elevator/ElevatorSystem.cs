@@ -26,7 +26,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [Header("Prefabs")]
     [SerializeField] private ElevatorController elevatorPrefab;
     private ElevatorUI elevatorUI;
-    
+
     public double MoveTimeScale
     {
         get => moveTimeScale;
@@ -73,7 +73,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private void ElevatorDeposit_OnChangePawHandler(double value)
     {
-        if(value > 0)
+        if (value > 0)
         {
             lyNuocs.SetActive(true);
         }
@@ -90,9 +90,9 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             CreateElevator();
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
         }
-        isDone = true;   
+        isDone = true;
     }
-    
+
     private void CreateElevator()
     {
         ElevatorController elevatorCtrl = Instantiate(elevatorPrefab, elevatorLocation.position, Quaternion.identity);
@@ -103,7 +103,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private void ElevatorController_OnArriveTargetHandler(Vector3 vector)
     {
-        if(vector == elevatorLocation.position)
+        if (vector == elevatorLocation.position)
         {
             // Arrive and start deposit paw
             OnElevatorControllerArrive?.Invoke();
@@ -120,7 +120,10 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {"level", gameObject.GetComponent<ElevatorUpgrade>().CurrentLevel},
             {"managerIndex", managerLocation.Manager != null ? managerLocation.Manager.Index : -1}
         };
-
+        if (saveData == null)
+        {
+            return;
+        }
         string json = JsonConvert.SerializeObject(saveData);
         PlayerPrefs.SetString("Elevator", json);
     }
