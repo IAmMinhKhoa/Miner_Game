@@ -110,7 +110,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         }
     }
 
-    public async UniTaskVoid Save()
+    public void Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {

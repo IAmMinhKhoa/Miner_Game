@@ -43,6 +43,7 @@ public class UpgradeUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI workerProduction;
 	[SerializeField] private TextMeshProUGUI numberOrSpeed;
 	[SerializeField] private TextMeshProUGUI totalProduction;
+	[SerializeField] private GameObject numberOrSpeedPanel;
 
 	[Header("Worker Increment")]
 	[SerializeField] private TextMeshProUGUI productIncrement;
@@ -252,6 +253,7 @@ public class UpgradeUI : MonoBehaviour
 		{
 			case ManagerLocation.Shaft:
 				currentLevel = level;
+				numberOrSpeedPanel.SetActive(true);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + level.ToString();
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
@@ -261,6 +263,7 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + "NV";
 				break;
 			case ManagerLocation.Elevator:
+				numberOrSpeedPanel.SetActive(false);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + level.ToString();
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
@@ -270,6 +273,7 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + " s";
 				break;
 			case ManagerLocation.Counter:
+				numberOrSpeedPanel.SetActive(true);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + level.ToString();
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
