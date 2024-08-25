@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using UnityEngine.UIElements;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
