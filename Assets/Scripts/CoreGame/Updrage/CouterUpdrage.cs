@@ -72,7 +72,7 @@ public class CounterUpgrade : BaseUpgrade
         };
     }
 
-    public override double GetScaleBuff(int amoutOfNextLevel)
+    public override double GetProductionScale(int amoutOfNextLevel)
     {
         if (amoutOfNextLevel <= 0)
         {

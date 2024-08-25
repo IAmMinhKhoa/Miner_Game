@@ -55,7 +55,6 @@ public class UpgradeUI : MonoBehaviour
 
 	private float currentLevel;
 	private ManagerLocation managerLocation;
-	private double _total;
 
 	void Start()
 	{
@@ -142,23 +141,28 @@ public class UpgradeUI : MonoBehaviour
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
 		UpdateEvolutions(currentLevel + value);
 
-		//
+		DisplayNextUpgrade((int)value);
+
+	}
+
+	private void DisplayNextUpgrade(int value)
+	{
 		switch (managerLocation)
 		{
 			case ManagerLocation.Shaft:
-				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value)) + "/s";
 				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
-				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, managerLocation));
 				break;
 			case ManagerLocation.Elevator:
-				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
-				//speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
-				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value)) + "/s"; ;
+				speedIncrement.text = UpgradeManager.Instance.GetDecreaseSpeed((int)value).ToString("F2");
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, managerLocation));
 				break;
 			case ManagerLocation.Counter:
-				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value));
+				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value)) + "/s";
 				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
-				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, _total, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, managerLocation));
 				break;
 		}
 	}
@@ -224,11 +228,11 @@ public class UpgradeUI : MonoBehaviour
 		upgradeAmountText.text = "X1";
 		upgradeCostText.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value));
 		Debug.Log("Max value:" + max + " Upgrade cost:" + UpgradeManager.Instance.GetUpgradeCost((int)upgradeSlider.value) + " Upgrade initial cost:" + UpgradeManager.Instance.GetInitCost());
+		OnFastUpgradeButtonPress(0, 1f);
 	}
 
 	public void SetWorkerInfo(ManagerLocation locationType, string name, double production, string number, double total, int level)
 	{
-		_total = total;
 		managerLocation = locationType;
 		switch (locationType)
 		{
@@ -264,6 +268,8 @@ public class UpgradeUI : MonoBehaviour
 
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
+
+		DisplayNextUpgrade(1);
 	}
 
 	private void DeactivateButton(Button button)

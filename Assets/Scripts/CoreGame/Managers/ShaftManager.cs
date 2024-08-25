@@ -59,7 +59,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
             Shafts.Add(firstShaft);
 
             ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
-            shaftUpgrade.SetInitialValue(0 ,initCost, 1);
+            shaftUpgrade.SetInitialValue(0, initCost, 1);
 
             firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
             float newY = firstShaft.transform.position.y;
@@ -123,10 +123,13 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
             };
             shafts.Add(shaftData);
         }
+        if (shafts.Count == 0)
+        {
+            return;
+        }
         saveData.Add("ShaftsData", shafts);
         Debug.Log("save data: " + saveData.ToString());
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-        Debug.Log("save: " + json);
         PlayerPrefs.SetString("ShaftManager", json);
     }
 

@@ -73,11 +73,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         managerDetailPanel.SetActive(false);
     }
 
-    public void OpenManagerPanel(BaseManagerLocation location=null)
+    public void OpenManagerPanel(BaseManagerLocation location = null)
     {
         // CurrentManagerLocation = location;
         // managerPanel.SetActive(true);
-        
+
         // if (CurrentManagerLocation.Manager != null)
         // {
         //     managerPanel.GetComponent<ManagerChooseUI>().SetupTab(CurrentManagerLocation.Manager.BoostType,CurrentManagerLocation.LocationType);
@@ -115,7 +115,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         {
             manager.UnassignManager();
         }
-        
+
         switch (manager.LocationType)
         {
             case ManagerLocation.Shaft:
@@ -141,7 +141,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         Debug.Log("Sell Cost: " + sellCost);
         PawManager.Instance.AddPaw(sellCost);
         RemoveManager(manager);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type, true);
     }
 
     private ManagerDataSO GetManagerData(ManagerLocation location, BoostType type, ManagerLevel level)
@@ -213,7 +213,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType,true);
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType, true);
 
         return manager;
     }
@@ -297,7 +297,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         manager.UnassignManager();
         BoostType type = manager.BoostType;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type,true); //reload list manager in inventory
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(type, true); //reload list manager in inventory
         ManagerSelectionShaft.OnReloadManager?.Invoke();//reload scroll selected manager
 
     }
@@ -308,7 +308,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         {
             return false;
         }
-        
+
 
         MergeManagerTimes(firstManager, secondManager);
         RemoveManager(secondManager);
@@ -344,7 +344,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     public bool CanMergeManagers(Manager firstManager, Manager secondManager)
     {
         Debug.Log($"First index: {firstManager.Index} Second index: {secondManager.Index}");
-    
+
         return firstManager.Level != ManagerLevel.Executive &&
                secondManager.Level != ManagerLevel.Executive &&
                firstManager.LocationType == secondManager.LocationType &&
@@ -407,8 +407,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         saveData.Add("ShaftHireCost", _ShaftHireCost);
         saveData.Add("ElevatorHireCost", _ElevatorHireCost);
         saveData.Add("CounterHireCost", _CounterHireCost);
+        if (saveData == null)
+        {
+            return;
+        }
         string json = JsonConvert.SerializeObject(saveData);
-        Debug.Log("save: " + json);
         PlayerPrefs.SetString("ManagersController", json);
     }
 

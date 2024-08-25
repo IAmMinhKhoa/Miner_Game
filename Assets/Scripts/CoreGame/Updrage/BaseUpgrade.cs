@@ -84,7 +84,12 @@ public class BaseUpgrade : MonoBehaviour
 		return scale;
 	}
 
-	public virtual double GetScaleBuff(int amoutOfNextLevel)
+	public virtual double GetProductionScale(int amoutOfNextLevel)
+	{
+		return 1f;
+	}
+
+	public virtual double GetSpeedScale(int amoutOfNextLevel)
 	{
 		return 0f;
 	}

@@ -100,4 +100,20 @@ public class ShaftUpgrade : BaseUpgrade
 			_ => initWorker
 		};
 	}
+
+	public override double GetProductionScale(int amoutOfNextLevel)
+	{
+		if (amoutOfNextLevel <= 0)
+		{
+			return 1d;
+		}
+
+		double scale = 1.00;
+		for (int i = 1; i <= amoutOfNextLevel; i++)
+		{
+			scale *= 1 + GetNextUpgradeScale(CurrentLevel + i);
+		}
+
+		return scale;
+	}
 }

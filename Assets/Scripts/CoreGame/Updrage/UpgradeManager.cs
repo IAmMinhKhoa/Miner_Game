@@ -99,13 +99,13 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		switch (_locationType)
 		{
 			case ManagerLocation.Shaft:
-				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), _baseWorkerRef.ProductPerSecond * _number * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
-				m_upgradePanel.SetWorkerInfo(_locationType, "Chó đáng yêu", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "Chó đáng yêu", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Counter:
-				m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), _baseWorkerRef.ProductPerSecond * _number * _baseWorkerRef.WorkingTime, _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 		}
 		ControlPanel(true);
@@ -158,21 +158,6 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		return total;
 	}
 
-	private double PreviewUpgradeEffect(int amount)
-	{
-		double total = 0;
-		double cost = _baseUpgrade.CurrentCost;
-		int level = _baseUpgrade.CurrentLevel;
-		for (int i = 1; i <= amount; i++)
-		{
-			total += cost;
-			level++;
-			cost *= 1 + _baseUpgrade.GetNextUpgradeCostScale(level);
-		}
-
-		return total;
-	}
-
 	public double GetInitCost()
 	{
 		return _baseUpgrade.GetInitialCost();
@@ -196,7 +181,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 
 	public double GetProductIncrement(int amount)
 	{
-		return _baseWorkerRef.ProductPerSecond * (_baseUpgrade.GetScaleBuff(amount) - 1d);
+		return _baseWorkerRef.ProductPerSecond * (_baseUpgrade.GetProductionScale(amount) - 1d);
 	}
 
 	public int GetWorkerIncrement(int amount, ManagerLocation location)
@@ -210,21 +195,40 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		return _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) - currentWorker;
 	}
 
-	public double GetIncrementTotal(int amount, double currentTotal, ManagerLocation location)
+	public double GetIncrementTotal(int amount, ManagerLocation location)
 	{
-		var current = currentTotal * (_baseUpgrade.GetScaleBuff(amount) - 1d);
-		if (location == ManagerLocation.Shaft)
+		var current = _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime;
+		var next = current * (_baseUpgrade.GetProductionScale(amount) - 1d);
+		var incrementWorker = GetWorkerIncrement(amount, location);
+		var currentNumberWorker = location switch
 		{
-			return current * _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) / _brewers.Count;
-		}
-		else if (location == ManagerLocation.Counter)
+			ManagerLocation.Shaft => _brewers.Count,
+			ManagerLocation.Counter => _transporters.Count,
+			_ => 1
+		};
+		if (location == ManagerLocation.Shaft || location == ManagerLocation.Counter)
 		{
-			return current * _baseUpgrade.GetNumberWorkerAtLevel(_baseUpgrade.CurrentLevel + amount) / _transporters.Count;
+			return current * incrementWorker + next * currentNumberWorker + next * incrementWorker;
 		}
 		else
 		{
-			return current;
+			return next;
 		}
+	}
+
+	public double GetTotalProduction()
+	{
+		return _locationType switch
+		{
+			ManagerLocation.Shaft => _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime * _brewers.Count,
+			ManagerLocation.Counter => _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime * _transporters.Count,
+			_ => _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime
+		};
+	}
+
+	public double GetDecreaseSpeed(int amount)
+	{
+		return _baseWorkerRef.MoveTime * (1d - _baseUpgrade.GetSpeedScale(amount));
 	}
 
 	#endregion
