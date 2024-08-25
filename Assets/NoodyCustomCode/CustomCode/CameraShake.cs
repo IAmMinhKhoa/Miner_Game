@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace NOOD.NoodCamera
-{ 
-    public class CameraShake : MonoBehaviorInstance<CameraShake>
-    {
-        #region Components
-        #endregion
+{
+	public class CameraShake : MonoBehaviorInstance<CameraShake>
+	{
+		#region Components
+		#endregion
 
-        #region Stats
-        [SerializeField] float duration = 0.2f, magnitude = 0.02f;
-        [SerializeField] float explodeMagnitude = 0.1f;
+		#region Stats
+		[SerializeField] float duration = 0.2f, magnitude = 0.02f;
+		[SerializeField] float explodeMagnitude = 0.1f;
 
-        [SerializeField] Vector3 offset;
-        [SerializeField] bool isShake;
-        [SerializeField] bool isHeavyShake;
-        #endregion
+		[SerializeField] Vector3 offset;
+		[SerializeField] bool isShake;
+		[SerializeField] bool isHeavyShake;
+		#endregion
 
-        private void Update()
-        {
-            if (isShake) Shake();
-            if (isHeavyShake) HeaveShake();
-        }
+		private void Update()
+		{
+			if (isShake) Shake();
+			if (isHeavyShake) HeaveShake();
+		}
 
-        public void Shake()
-        {
-            StartCoroutine(NOOD.NoodyCustomCode.ObjectShake(this.gameObject, duration, magnitude));
-            isShake = false;
-        }
+		public void Shake()
+		{
+			NOOD.NoodyCustomCode.ObjectShake(this.gameObject, duration, magnitude);
+			isShake = false;
+		}
 
-        public void HeaveShake()
-        {
-            StartCoroutine(NOOD.NoodyCustomCode.ObjectShake(this.gameObject, duration, explodeMagnitude));
-            isHeavyShake = false;
-        }
-    }
+		public void HeaveShake()
+		{
+			NOOD.NoodyCustomCode.ObjectShake(this.gameObject, duration, explodeMagnitude);
+			isHeavyShake = false;
+		}
+	}
 }

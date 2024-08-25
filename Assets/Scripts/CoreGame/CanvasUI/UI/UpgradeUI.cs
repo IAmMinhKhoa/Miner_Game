@@ -7,6 +7,7 @@ using NOOD.SerializableDictionary;
 using System.Linq;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using NOOD;
 
 public class UpgradeUI : MonoBehaviour
 {
@@ -79,6 +80,8 @@ public class UpgradeUI : MonoBehaviour
 					break;
 			}
 		}
+		// Deselect all button
+		OnFastUpgradeButtonPress(-1, -1);
 	}
 
 	private void OnEnable()
@@ -126,11 +129,22 @@ public class UpgradeUI : MonoBehaviour
 
 	private void OnFastUpgradeButtonPress(int btnIndex, float btnValue)
 	{
-		foreach (var btn in fastUpgradeButtons)
+		// foreach (var btn in fastUpgradeButtons)
+		// {
+		// 	btn.image.sprite = btnNormalSprite;
+		// }
+		for (int i = 0; i < fastUpgradeButtons.Count; i++)
 		{
-			btn.image.sprite = btnNormalSprite;
+			Button button = fastUpgradeButtons[i];
+			if (i == btnIndex)
+			{
+				button.image.sprite = btnPressSprite;
+				button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#873C10");
+				continue;
+			}
+			button.image.sprite = btnNormalSprite;
+			button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#B9987B");
 		}
-		fastUpgradeButtons[btnIndex].image.sprite = btnPressSprite;
 		upgradeSlider.value = btnValue;
 	}
 
@@ -244,7 +258,7 @@ public class UpgradeUI : MonoBehaviour
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][3];
 
 				UpdateEvolutions(currentLevel);
-				numberOrSpeed.text = number;
+				numberOrSpeed.text = number + "NV";
 				break;
 			case ManagerLocation.Elevator:
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + level.ToString();
@@ -262,7 +276,7 @@ public class UpgradeUI : MonoBehaviour
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][3];
 				workerName.text = name;
 
-				numberOrSpeed.text = number;
+				numberOrSpeed.text = number + "NV";
 				break;
 		}
 
@@ -275,10 +289,9 @@ public class UpgradeUI : MonoBehaviour
 	private void DeactivateButton(Button button)
 	{
 		button.interactable = false;
-		ColorBlock colors = button.colors;
-		ColorUtility.TryParseHtmlString("#C8C8C8", out Color disabledColor);
-		colors.disabledColor = disabledColor;
-		button.colors = colors;
+		Color disabledColor = NoodyCustomCode.HexToColor("#C8C8C8");
+		button.image.color = disabledColor;
+		button.GetComponentInChildren<TextMeshProUGUI>().color = disabledColor;
 	}
 
 	private void ActivateButton(Button button)
@@ -287,5 +300,6 @@ public class UpgradeUI : MonoBehaviour
 		ColorBlock colors = button.colors;
 		colors.normalColor = Color.white;
 		button.colors = colors;
+		button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#873C10");
 	}
 }
