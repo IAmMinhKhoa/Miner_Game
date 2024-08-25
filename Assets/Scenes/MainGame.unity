@@ -564,6 +564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 847704946}
   - component: {fileID: 847704945}
+  - component: {fileID: 847704947}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -617,27 +618,39 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 45.008373, y: 5.67}
-  m_AdaptiveModeThreshold: 0.5
+  m_Size: {x: 46.66, y: 5.67}
+  m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &847704946
-Transform:
+--- !u!224 &847704946
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847704944}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.056, y: -4.8275, z: 0}
-  m_LocalScale: {x: 0.19783516, y: 0.22803046, z: 1.2289501}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1714974, y: 0.1906758, z: 1.0276303}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.07, y: -4.77}
+  m_SizeDelta: {x: 34.66459, y: 4.35}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &847704947
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847704944}
+  m_CullTransparentMesh: 1
 --- !u!1001 &868835065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -839,7 +852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce263a85daf5c451d9c2a29baf85b061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: 0
+  minY: 0.2
   maxY: 13.3
   _decelerateSpeed: 0.5
 --- !u!1 &1328615100
@@ -1466,10 +1479,10 @@ SceneRoots:
   - {fileID: 1395491204}
   - {fileID: 1830659637}
   - {fileID: 1367742869}
-  - {fileID: 847704946}
   - {fileID: 743611336}
   - {fileID: 4398975843536615051}
   - {fileID: 868835065}
   - {fileID: 1709222670}
   - {fileID: 1574140672}
   - {fileID: 3981675004688389320}
+  - {fileID: 847704946}

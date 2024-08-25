@@ -120,11 +120,11 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
 
         var firstManager = currentCard.Data;
-        var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>().Data;
+        var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>();
 
-        if (ManagersController.Instance.MergeManager(firstManager, secondManager)) //if can merge
+        if (ManagersController.Instance.MergeManager(firstManager, secondManager.Data)) //if can merge
         {
-			//secondManager.RunFxMergeSuccess();
+		//	secondManager.RunFxMergeSuccess();
 			ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.Success);
 			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType,false);
             ManagerSelectionShaft.OnReloadManager?.Invoke();
@@ -132,7 +132,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         else //can not merge
         {
 
-			if (firstManager.Level == secondManager.Level && firstManager.Level == ManagerLevel.Executive)
+			if (firstManager.Level == secondManager.Data.Level && firstManager.Level == ManagerLevel.Executive)
 			{
 				ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.FailLevelMax);
 			}
