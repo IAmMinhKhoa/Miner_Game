@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -14,10 +15,14 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	private float _currentSpeed;
 	private Vector3 _oldPos;
 
+	[Header("Camera shake")]
+	[SerializeField] private float _duration = 0.2f;
+	[SerializeField] private float _magnitude = 0.1f;
+
 	protected override void Awake()
 	{
 		base.Awake();
-		_camera = this.GetComponent<Camera>();
+		_camera = this.GetComponentInChildren<Camera>();
 	}
 
 	void Start()
@@ -25,8 +30,8 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		_camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
 		float screenHeight = Camera.main.pixelHeight;
 		minY = screenHeight * minY / 1920;
+		ShaftManager.Instance.OnNewShaftCreated += ShaftManager_OnNewShaftCreated;
 	}
-
 	void Update()
 	{
 		if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
@@ -65,15 +70,21 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		}
 	}
 
+	private void ShaftManager_OnNewShaftCreated()
+	{
+		NoodyCustomCode.ObjectShake(_camera.gameObject, _duration, _magnitude);
+	}
+
 	private async void OverShootAnimation(Vector3 direction)
 	{
-		while (_currentSpeed > 0.1f) // changed to use float instead of <= for more accurate calculation
+		while (_currentSpeed != 0f) // changed to use float instead of <= for more accurate calculation
 		{
+			_currentSpeed -= _decelerateSpeed;
+			if (_currentSpeed < 0) _currentSpeed = 0;
+
 			Vector3 overShoot = direction * _currentSpeed * Time.deltaTime;
 			Vector3 tempPos = transform.position + new Vector3(0, overShoot.y, 0);
 			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
-
-			_currentSpeed -= _decelerateSpeed;
 
 			transform.position = tempPos;
 			await UniTask.Yield();
