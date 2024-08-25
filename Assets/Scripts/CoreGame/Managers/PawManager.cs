@@ -33,7 +33,7 @@ public class PawManager : Patterns.Singleton<PawManager>
         PlayerPrefs.Save();
     }
 
-    public async UniTaskVoid Save()
+    public void Save()
     {
         PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
         PlayerPrefs.Save();

@@ -100,7 +100,7 @@ public class Counter : Patterns.Singleton<Counter>
         isDone = true;
     }
 
-    public async UniTaskVoid Save()
+    public void Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {

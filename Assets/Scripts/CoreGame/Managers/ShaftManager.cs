@@ -100,7 +100,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
         return scale;
     }
 
-    public async UniTaskVoid Save()
+    public void Save()
     {
         //create JSON to save data
         Dictionary<string, object> saveData = new Dictionary<string, object>();

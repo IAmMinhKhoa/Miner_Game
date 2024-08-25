@@ -25,14 +25,15 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] public TextMeshProUGUI NewShaftCostText;
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
+    [SerializeField] private TextMeshProUGUI m_indexText;
 
 
-	[Header("Visual object")]
+    [Header("Visual object")]
     [SerializeField] private GameObject m_table;
     [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
-    
+
 
     private SkeletonAnimation tableAnimation;
     private ShaftUpgrade m_shaftUpgrade;
@@ -52,18 +53,19 @@ public class ShaftUI : MonoBehaviour
     void Start()
     {
         m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
-        
+
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
+        m_indexText.text = (m_shaft.shaftIndex + 1).ToString();
 
 
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
-	}
+    }
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
-        m_levelText.text =m_shaftUpgrade.CurrentLevel.ToString();
+        m_levelText.text = m_shaftUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
     }
 
@@ -85,14 +87,14 @@ public class ShaftUI : MonoBehaviour
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         m_shaft.OnUpgrade -= Shaft_OnUpgradeHandler;
-       // m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
+        // m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
     }
 
     private void Shaft_OnUpgradeHandler(int currentLevel)
     {
-        foreach(var item in skeletonDataAssetDic.Dictionary)
+        foreach (var item in skeletonDataAssetDic.Dictionary)
         {
-            if(currentLevel >= item.Key)
+            if (currentLevel >= item.Key)
             {
                 UpgradeTable(item.Value);
             }
@@ -107,8 +109,8 @@ public class ShaftUI : MonoBehaviour
 
     private void ChangePawHandler(double value)
     {
-     //   Debug.Log("Change Paw: " + value);
-        if(value > 0)
+        Debug.Log("Change Paw: " + value);
+        if (value > 0)
         {
             m_lyNuocHolder.gameObject.SetActive(true);
         }
@@ -139,19 +141,19 @@ public class ShaftUI : MonoBehaviour
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
             UpdateFrameButtonUpgrade(level);
-   
+
         }
     }
 
     void UpdateFrameButtonUpgrade(int currentLevel)
     {
 
-        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>(); 
+        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>();
         if (currentLevel <= 200)
         {
             imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][0]);
         }
-        else if( currentLevel>200 && currentLevel <= 400)
+        else if (currentLevel > 200 && currentLevel <= 400)
         {
             imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][1]);
         }
@@ -216,7 +218,7 @@ public class ShaftUI : MonoBehaviour
     [Button]
     private void AddLevel(int valueAdd)
     {
-        m_shaftUpgrade.Upgrade(valueAdd );
+        m_shaftUpgrade.Upgrade(valueAdd);
     }
-        #endregion
+    #endregion
 }
