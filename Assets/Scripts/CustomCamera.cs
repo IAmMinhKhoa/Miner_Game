@@ -29,7 +29,8 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		_camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
 		float screenHeight = Camera.main.pixelHeight;
-		minY = screenHeight * minY / 1920;
+		//minY = screenHeight * minY / 1920;
+		minY = maxY;
 		ShaftManager.Instance.OnNewShaftCreated += ShaftManager_OnNewShaftCreated;
 	}
 	void Update()
