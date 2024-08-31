@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SkinShaftBg
+{
+	BR1,
+	BR2
+}
 public class Common 
 {
 
@@ -25,7 +30,7 @@ public class Common
     /// <returns>Input:130s -> Output: "2p10s"</returns>
     public static string ConvertSecondsToMinutes(float totalSeconds)
     {
-        int totalSecondsInt = Mathf.FloorToInt(totalSeconds); // Chuy?n ??i float th‡nh int
+        int totalSecondsInt = Mathf.FloorToInt(totalSeconds); // Chuy?n ??i float th√†nh int
 
         if (totalSecondsInt < 60)
         {

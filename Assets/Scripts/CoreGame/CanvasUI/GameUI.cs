@@ -15,6 +15,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	private void Start()
 	{
 		btn_Manager.onClick.AddListener(OpenBookManager);
+		
 	}
 
 	#region EVENT

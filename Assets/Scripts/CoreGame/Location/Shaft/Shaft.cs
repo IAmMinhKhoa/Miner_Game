@@ -57,8 +57,12 @@ public class Shaft : MonoBehaviour
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
-    
-    public void CreateBrewer()
+	[Header("Skin")]
+	public SkinShaftBg idSkinBg= SkinShaftBg.BR2;
+	public string idSkinWaitTable;
+	public string idSkinCupMilk;
+
+	public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
         float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);

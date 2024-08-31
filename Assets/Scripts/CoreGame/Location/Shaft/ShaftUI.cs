@@ -33,9 +33,11 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
+	[Header("Skin Object")]
+	[SerializeField] private SpriteRenderer m_br;
 
 
-    private SkeletonAnimation tableAnimation;
+	private SkeletonAnimation tableAnimation;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
@@ -61,7 +63,14 @@ public class ShaftUI : MonoBehaviour
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
-    }
+
+
+		SkinManager.Instance.FindSkinData();
+		Debug.Log("khoa:" + m_shaft.idSkinBg);
+		m_shaft.idSkinBg = SkinShaftBg.BR2;
+		m_br.sprite = SkinManager.Instance.GetBrShaft(m_shaft.idSkinBg);	
+
+	}
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
