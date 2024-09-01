@@ -9,7 +9,8 @@ using static ShaftManager;
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
 	public static SkinDataSO SkinDataSO = null;
-	public void FindSkinData()
+	public bool isDone = false;
+	public void FindSkinDataSO()//INIT find data SO
 	{
 		SkinDataSO[] soundDataSOs = Resources.LoadAll<SkinDataSO>("");
 		if (soundDataSOs.Length > 0)
@@ -42,12 +43,12 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		//create JSON to save data
 		Dictionary<string, object> saveData = new Dictionary<string, object>();
 
-		Debug.Log("khoa: " + ShaftManager.Instance.Shafts.Count);
 		List<object> shafts = new List<object>();
 		foreach (var shaft in ShaftManager.Instance.Shafts)
 		{
 			Dictionary<string, object> shaftData = new Dictionary<string, object>
 			{
+				{ "index", shaft.shaftIndex },
 				{ "idBackGround", shaft.shaftSkin.idBackGround },
 
 			};
@@ -61,6 +62,25 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		Debug.Log("save data: " + saveData.ToString());
 		string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
 		PlayerPrefs.SetString("SkinManager", json);
+	}
+	public bool Load()
+	{
+		if (PlayerPrefs.HasKey("SkinManager"))
+		{
+			string json = PlayerPrefs.GetString("SkinManager");
+			Debug.Log(json);
+			DataSkin saveData = JsonConvert.DeserializeObject<DataSkin>(json);
+
+			int shaftsCount = saveData.shaftSkins.Count;
+			
+			for (int i = 0; i < saveData.shaftSkins.Count; i++)
+			{
+				ShaftManager.Instance.Shafts[i].shaftSkin = saveData.shaftSkins[i];
+			}
+			isDone = true;
+			return true;
+		}
+		return false;
 	}
 
 	#region Entity Skin Game

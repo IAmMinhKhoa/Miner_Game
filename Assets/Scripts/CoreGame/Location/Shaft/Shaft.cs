@@ -57,10 +57,27 @@ public class Shaft : MonoBehaviour
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
-	[Header("Skin")]
-	public ShaftSkin shaftSkin =new();
+    [Header("Skin")]
+    private ShaftSkin _shaftSkin;
 
-	public void CreateBrewer()
+    public ShaftSkin shaftSkin
+    {
+        get => _shaftSkin;
+        set
+        {
+            Debug.Log($"Set data to shaft {shaftIndex}");
+            _shaftSkin = value;
+            ShaftUI shaftUI;
+            TryGetComponent<ShaftUI>(out shaftUI);
+			if (shaftUI!=null){
+                //  shaftUI.OnChangeSkin?.Invoke(value);
+                shaftUI.ChangeSkin(value);
+            }
+        }
+    }
+
+
+    public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
         float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);
@@ -130,6 +147,7 @@ public class Shaft : MonoBehaviour
 }
 public class ShaftSkin
 {
-	public string idBackGround="69";
+    public int index=0;
+	public string idBackGround="1";
 
 }

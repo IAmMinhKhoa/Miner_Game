@@ -13,7 +13,7 @@ using System.Linq;
 public class ShaftUI : MonoBehaviour
 {
     public static Action<int> OnUpgradeRequest;
-
+   
     [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] public Button m_buyNewShaftButton;
@@ -63,13 +63,10 @@ public class ShaftUI : MonoBehaviour
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
+      
 
-
-/*		SkinManager.Instance.FindSkinData();
-		Debug.Log("khoa:" + m_shaft.idSkinBg+ SkinManager.SkinDataSO.skinBgShaft.Dictionary.Count);	
-		m_br.sprite = SkinManager.Instance.GetBrShaft(m_shaft.idSkinBg);	
-*/
-	}
+    }
+   
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
@@ -216,6 +213,13 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
+    public void ChangeSkin(ShaftSkin data)
+	{
+        //set init Data Skin shaft
+        SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
+        m_br.sprite = SkinManager.Instance.GetBrShaft(backgroundEnum);
+
+    }
 
     void OnDestroy()
     {
@@ -227,6 +231,12 @@ public class ShaftUI : MonoBehaviour
     private void AddLevel(int valueAdd)
     {
         m_shaftUpgrade.Upgrade(valueAdd);
+    }
+    [Button]
+    private void TestChangeSkinBackGround(SkinShaftBg value)
+    {
+        m_shaft.shaftSkin.idBackGround = ((int)value).ToString();
+        ChangeSkin(m_shaft.shaftSkin);
     }
     #endregion
 }
