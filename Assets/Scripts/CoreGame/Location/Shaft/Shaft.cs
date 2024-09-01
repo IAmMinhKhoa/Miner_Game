@@ -58,9 +58,7 @@ public class Shaft : MonoBehaviour
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
 	[Header("Skin")]
-	public SkinShaftBg idSkinBg= SkinShaftBg.BR2;
-	public string idSkinWaitTable;
-	public string idSkinCupMilk;
+	public ShaftSkin shaftSkin =new();
 
 	public void CreateBrewer()
     {
@@ -129,4 +127,9 @@ public class Shaft : MonoBehaviour
         }
         return false;
     }
+}
+public class ShaftSkin
+{
+	public string idBackGround="69";
+
 }

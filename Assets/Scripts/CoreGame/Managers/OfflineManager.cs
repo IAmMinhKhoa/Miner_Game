@@ -42,7 +42,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     private void Save()
     {
-        ShaftManager.Instance.Save();
+		Debug.Log("khoa: " + ShaftManager.Instance.Shafts.Count);
+		ShaftManager.Instance.Save();
+		Debug.Log("khoa: " + ShaftManager.Instance.Shafts.Count);
+		SkinManager.Instance.Save();
         ElevatorSystem.Instance.Save();
         Counter.Instance.Save();
         ManagersController.Instance.Save();

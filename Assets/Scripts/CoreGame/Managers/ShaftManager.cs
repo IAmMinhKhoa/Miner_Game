@@ -122,7 +122,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				{ "CurrentDeposit", shaft.CurrentDeposit.CurrentPaw },
 				{"Level", shaft.gameObject.GetComponent<ShaftUpgrade>().CurrentLevel},
 				{"InitCost", shaft.gameObject.GetComponent<ShaftUpgrade>().GetInitialCost()},
-				{"ManagerIndex", shaft.ManagerLocation.Manager != null ? shaft.ManagerLocation.Manager.Index : -1}
+				{"ManagerIndex", shaft.ManagerLocation.Manager != null ? shaft.ManagerLocation.Manager.Index : -1},
 			};
 			shafts.Add(shaftData);
 		}
@@ -156,7 +156,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				double currentDeposit = shaftData.CurrentDeposit;
 				int level = shaftData.Level;
 				double initCost = shaftData.InitCost;
-
+	
 				Vector3 position = Shafts.Count switch
 				{
 					0 => firstShaftPosition,
@@ -206,6 +206,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		public int Level { get; set; }
 		public double InitCost { get; set; }
 		public int ManagerIndex { get; set; }
+		public int Br { get; set; }
+
 	}
 }
 

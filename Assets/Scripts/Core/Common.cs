@@ -5,8 +5,9 @@ using UnityEngine;
 
 public enum SkinShaftBg
 {
-	BR1,
-	BR2
+	None=0,
+	BR1=1,
+	BR2=2
 }
 public class Common 
 {

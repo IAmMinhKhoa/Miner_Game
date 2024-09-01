@@ -65,11 +65,10 @@ public class ShaftUI : MonoBehaviour
 
 
 
-		SkinManager.Instance.FindSkinData();
-		Debug.Log("khoa:" + m_shaft.idSkinBg);
-		m_shaft.idSkinBg = SkinShaftBg.BR2;
+/*		SkinManager.Instance.FindSkinData();
+		Debug.Log("khoa:" + m_shaft.idSkinBg+ SkinManager.SkinDataSO.skinBgShaft.Dictionary.Count);	
 		m_br.sprite = SkinManager.Instance.GetBrShaft(m_shaft.idSkinBg);	
-
+*/
 	}
     void Update()
     {
