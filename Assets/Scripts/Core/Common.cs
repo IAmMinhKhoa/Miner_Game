@@ -3,12 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region Shaft Enum Skin
 public enum SkinShaftBg
 {
-	None=0,
-	BR1=1,
-	BR2=2
+    None = 0,
+    BR1 = 1,
+    BR2 = 2
 }
+public enum SkinShaftWaitTable
+{
+    None = 0,
+    WT1 = 1,
+    WT2 = 2
+}
+public enum SkinShaftMilkCup
+{
+    None = 0,
+    MC1 = 1,
+    MC2 = 2
+}
+#endregion
+
 public class Common 
 {
 

@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using NOOD.SerializableDictionary;
 using UnityEngine;
-using UnityEngine.UI;
 using static ShaftManager;
 
 public class SkinManager : Patterns.Singleton<SkinManager>
@@ -22,22 +20,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	}
 
 
-	public Sprite GetBrShaft(SkinShaftBg enumBr)
-	{
-		if (SkinDataSO.skinBgShaft.ContainsKey(enumBr))
-		{
-			DataSkinImage dataSkinImage = SkinDataSO.skinBgShaft.Dictionary[enumBr];
-				
-			return dataSkinImage.img;
-		}
-		else
-		{
-			Debug.LogError($"Key {enumBr} not found in skinBgShaft dictionary.");
-			return null; // Or return a default Sprite
-		}
-	}
-
-
+	
 	public void Save()
 	{
 		//create JSON to save data
@@ -50,6 +33,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			{
 				{ "index", shaft.shaftIndex },
 				{ "idBackGround", shaft.shaftSkin.idBackGround },
+				{ "idWaitTable", shaft.shaftSkin.idWaitTable },
+				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
 
 			};
 			shafts.Add(shaftData);

@@ -35,9 +35,10 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
 	[SerializeField] private SpriteRenderer m_br;
+    [SerializeField] private SpriteRenderer m_waitTable;
 
 
-	private SkeletonAnimation tableAnimation;
+    private SkeletonAnimation tableAnimation;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
@@ -213,13 +214,21 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
-    public void ChangeSkin(ShaftSkin data)
-	{
-        //set init Data Skin shaft
-        SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
-        m_br.sprite = SkinManager.Instance.GetBrShaft(backgroundEnum);
+        public void ChangeSkin(ShaftSkin data)
+	    {
+            //set init Data Skin shaft
+            SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
+            SkinShaftWaitTable waitTableEnum = (SkinShaftWaitTable)int.Parse(data.idWaitTable);
+            SkinShaftMilkCup milkCupEnum = (SkinShaftMilkCup)int.Parse(data.idMilkCup);
 
-    }
+
+            m_br.sprite = SkinManager.SkinDataSO.GetBrShaft(backgroundEnum);
+            m_waitTable.sprite = SkinManager.SkinDataSO.GetWaitTableShaft(waitTableEnum);
+            foreach (Transform child in m_lyNuocHolder.transform)
+            {
+              child.GetComponent<SpriteRenderer>().sprite = SkinManager.SkinDataSO.GetMilkCupShaft(milkCupEnum);
+            }
+        }
 
     void OnDestroy()
     {
@@ -233,9 +242,11 @@ public class ShaftUI : MonoBehaviour
         m_shaftUpgrade.Upgrade(valueAdd);
     }
     [Button]
-    private void TestChangeSkinBackGround(SkinShaftBg value)
+    private void TestChangeSkinShaft(SkinShaftBg value1, SkinShaftWaitTable value2, SkinShaftMilkCup value3)
     {
-        m_shaft.shaftSkin.idBackGround = ((int)value).ToString();
+        m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
+        m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();
+        m_shaft.shaftSkin.idMilkCup = ((int)value3).ToString();
         ChangeSkin(m_shaft.shaftSkin);
     }
     #endregion

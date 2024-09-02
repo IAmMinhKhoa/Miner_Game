@@ -147,7 +147,16 @@ public class Shaft : MonoBehaviour
 }
 public class ShaftSkin
 {
-    public int index=0;
-	public string idBackGround="1";
+    public int index;
+	public string idBackGround;
+    public string idWaitTable;
+    public string idMilkCup;
 
+    public ShaftSkin(int index, string idBackGround="1",string idWaitTable="1",string idMilkCup="1")
+    {
+        this.index = index;
+        this.idBackGround = idBackGround;
+        this.idWaitTable = idWaitTable;
+        this.idMilkCup = idMilkCup;
+    }
 }
