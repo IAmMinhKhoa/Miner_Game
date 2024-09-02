@@ -3,12 +3,14 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using NOOD;
+using TMPro;
 using UnityEngine;
 
 public class CustomCamera : Patterns.Singleton<CustomCamera>
 {
 	[SerializeField] private float minY, maxY;
 	[SerializeField] private float _decelerateSpeed = 0.1f;
+	[SerializeField] private TextMeshProUGUI _speedText;
 	private Camera _camera;
 	private Vector3 touchPos;
 	private bool isDragging;
@@ -81,8 +83,10 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		{
 			_currentSpeed -= _decelerateSpeed;
 			if (_currentSpeed < 0) _currentSpeed = 0;
+			float appliedSpeed = Mathf.Clamp(_currentSpeed, 0, 10);
+			_speedText.text = appliedSpeed.ToString("0.00");
 
-			Vector3 overShoot = direction * _currentSpeed * Time.deltaTime;
+			Vector3 overShoot = direction * appliedSpeed * Time.deltaTime;
 			Vector3 tempPos = transform.position + new Vector3(0, overShoot.y, 0);
 			tempPos.y = Mathf.Clamp(tempPos.y, minY, maxY);
 
