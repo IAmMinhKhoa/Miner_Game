@@ -18,7 +18,8 @@ public class CardInformation : MonoBehaviour
 	[Header("UI Image")]
 	[SerializeField] Image _backGroundPanel;
 	[SerializeField] Image _bannerName;
-
+	[Header("Skeletion Spine")]
+	[SerializeField] SkeletonGraphic _spineBoost;
 
 	[SerializeField] private SkeletonGraphic _spineManager;
 	
@@ -43,6 +44,19 @@ public class CardInformation : MonoBehaviour
 
 		_textQuoest.text = _data.Quoest;
 
+		
+		if (_data.BoostType == BoostType.Costs)
+		{
+			_spineBoost.AnimationState.SetAnimation(0, "Giam gia tien", loop: true);
+		}
+		if (_data.BoostType == BoostType.Efficiency)
+		{
+			_spineBoost.AnimationState.SetAnimation(0, "Tang tai trong", loop: true);
+		}
+		if (_data.BoostType == BoostType.Speed)
+		{
+			_spineBoost.AnimationState.SetAnimation(0, "Toc do di chuyen", loop: true);
+		}
 
 	}
 

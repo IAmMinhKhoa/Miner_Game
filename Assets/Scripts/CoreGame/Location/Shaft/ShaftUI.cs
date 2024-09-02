@@ -13,7 +13,7 @@ using System.Linq;
 public class ShaftUI : MonoBehaviour
 {
     public static Action<int> OnUpgradeRequest;
-
+   
     [Header("UI Button")]
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] public Button m_buyNewShaftButton;
@@ -33,6 +33,9 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private GameObject m_lyNuocHolder;
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
+	[Header("Skin Object")]
+	[SerializeField] private SpriteRenderer m_br;
+    [SerializeField] private SpriteRenderer m_waitTable;
 
 
     private SkeletonAnimation tableAnimation;
@@ -61,7 +64,10 @@ public class ShaftUI : MonoBehaviour
         //First init Data frame by current lvl of shaft
         UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
+      
+
     }
+   
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
@@ -208,6 +214,21 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
+        public void ChangeSkin(ShaftSkin data)
+	    {
+            //set init Data Skin shaft
+            SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
+            SkinShaftWaitTable waitTableEnum = (SkinShaftWaitTable)int.Parse(data.idWaitTable);
+            SkinShaftMilkCup milkCupEnum = (SkinShaftMilkCup)int.Parse(data.idMilkCup);
+
+
+            m_br.sprite = SkinManager.SkinDataSO.GetBrShaft(backgroundEnum);
+            m_waitTable.sprite = SkinManager.SkinDataSO.GetWaitTableShaft(waitTableEnum);
+            foreach (Transform child in m_lyNuocHolder.transform)
+            {
+              child.GetComponent<SpriteRenderer>().sprite = SkinManager.SkinDataSO.GetMilkCupShaft(milkCupEnum);
+            }
+        }
 
     void OnDestroy()
     {
@@ -219,6 +240,14 @@ public class ShaftUI : MonoBehaviour
     private void AddLevel(int valueAdd)
     {
         m_shaftUpgrade.Upgrade(valueAdd);
+    }
+    [Button]
+    private void TestChangeSkinShaft(SkinShaftBg value1, SkinShaftWaitTable value2, SkinShaftMilkCup value3)
+    {
+        m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
+        m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();
+        m_shaft.shaftSkin.idMilkCup = ((int)value3).ToString();
+        ChangeSkin(m_shaft.shaftSkin);
     }
     #endregion
 }
