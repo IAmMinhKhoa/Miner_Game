@@ -20,17 +20,15 @@ public class PawManager : Patterns.Singleton<PawManager>
     public void AddPaw(double amount)
     {
         CurrentPaw += amount;
-        PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
         OnPawChanged?.Invoke(CurrentPaw);
-        PlayerPrefs.Save();
+        Save();
     }
 
     public void RemovePaw(double amount)
     {
         CurrentPaw -= amount;
-        PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
         OnPawChanged?.Invoke(CurrentPaw);
-        PlayerPrefs.Save();
+        Save();
     }
 
     public void Save()

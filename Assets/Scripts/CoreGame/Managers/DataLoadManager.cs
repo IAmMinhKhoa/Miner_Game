@@ -36,7 +36,7 @@ public class DataLoadManager : BaseGameManager
     {
         base.Update();
         UpdateGameStates();
-      //  Debug.Log("DataLoadManager Update:" + dataGameState);
+        //  Debug.Log("DataLoadManager Update:" + dataGameState);
     }
 
     void UpdateGameStates()
@@ -203,11 +203,17 @@ public class DataLoadManager : BaseGameManager
         pawManager.LoadPaw();
     }
 
+    private void MoneyPawData()
+    {
+        var moneyManager = MoneyManager.Instance;
+        moneyManager.LoadMoney();
+    }
+
     private bool CheckPawData()
     {
         return PawManager.Instance.IsDone;
     }
-    
+
     private void LoadOfflineData()
     {
         var offlineManager = OfflineManager.Instance;
