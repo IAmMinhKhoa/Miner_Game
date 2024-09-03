@@ -11,15 +11,19 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	[SerializeField] private float minY, maxY;
 	[SerializeField] private float _decelerateSpeed = 0.1f;
 	[SerializeField] private TextMeshProUGUI _speedText;
-	private Camera _camera;
-	private Vector3 touchPos;
-	private bool isDragging;
-	private float _currentSpeed;
-	private Vector3 _oldPos;
+	[SerializeField] private float _maxSpeed = 10;
 
 	[Header("Camera shake")]
 	[SerializeField] private float _duration = 0.2f;
 	[SerializeField] private float _magnitude = 0.1f;
+
+	private Camera _camera;
+	private Vector3 touchPos;
+	private bool _isDragging;
+	private float _currentSpeed;
+	private Vector3 _oldPos;
+	private bool _isOverShooting;
+	private Vector3 _dir;
 
 	protected override void Awake()
 	{
@@ -43,16 +47,20 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		if (Input.GetMouseButtonDown(0))
 		{
 			touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			isDragging = true;
+			_isDragging = true;
+			_oldPos = transform.position;
+			_isOverShooting = false;
+		}
+
+		if (_isOverShooting == false)
+		{
+			_currentSpeed = Vector3.Distance(_oldPos, transform.position) * 30;
+			_dir = (this.transform.position - _oldPos).normalized;
 			_oldPos = transform.position;
 		}
 
-		_currentSpeed = Vector3.Distance(_oldPos, transform.position) * 30;
-		Vector3 dir = (this.transform.position - _oldPos).normalized;
-		_oldPos = transform.position;
-
 		// If the left mouse button is held down and dragging is active
-		if (isDragging && Input.GetMouseButton(0))
+		if (_isDragging && Input.GetMouseButton(0))
 		{
 			Vector3 difference = touchPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector3 tempPos = transform.position + new Vector3(0, difference.y, 0);
@@ -65,10 +73,10 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 		// Reset dragging flag when the mouse button is released
 		if (Input.GetMouseButtonUp(0))
 		{
-			isDragging = false;
+			_isDragging = false;
 			Vector3 endTouchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			if (endTouchPos != touchPos)
-				OverShootAnimation(dir);
+				OverShootAnimation(_dir);
 		}
 	}
 
@@ -79,11 +87,12 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 
 	private async void OverShootAnimation(Vector3 direction)
 	{
-		while (_currentSpeed != 0f) // changed to use float instead of <= for more accurate calculation
+		_isOverShooting = true;
+		while (_currentSpeed != 0f)
 		{
 			_currentSpeed -= _decelerateSpeed;
 			if (_currentSpeed < 0) _currentSpeed = 0;
-			float appliedSpeed = Mathf.Clamp(_currentSpeed, 0, 10);
+			float appliedSpeed = Mathf.Clamp(_currentSpeed, 0, _maxSpeed);
 			_speedText.text = appliedSpeed.ToString("0.00");
 
 			Vector3 overShoot = direction * appliedSpeed * Time.deltaTime;
@@ -105,6 +114,4 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		return transform;
 	}
-
-
 }
