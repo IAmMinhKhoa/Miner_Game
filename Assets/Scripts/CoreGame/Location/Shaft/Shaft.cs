@@ -57,7 +57,26 @@ public class Shaft : MonoBehaviour
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;
     public Deposit CurrentDeposit { get; set; }
-    
+    [Header("Skin")]
+    private ShaftSkin _shaftSkin;
+
+    public ShaftSkin shaftSkin
+    {
+        get => _shaftSkin;
+        set
+        {
+            Debug.Log($"Set data to shaft {shaftIndex}");
+            _shaftSkin = value;
+            ShaftUI shaftUI;
+            TryGetComponent<ShaftUI>(out shaftUI);
+			if (shaftUI!=null){
+                //  shaftUI.OnChangeSkin?.Invoke(value);
+                shaftUI.ChangeSkin(value);
+            }
+        }
+    }
+
+
     public void CreateBrewer()
     {
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
@@ -124,5 +143,20 @@ public class Shaft : MonoBehaviour
             }
         }
         return false;
+    }
+}
+public class ShaftSkin
+{
+    public int index;
+	public string idBackGround;
+    public string idWaitTable;
+    public string idMilkCup;
+
+    public ShaftSkin(int index, string idBackGround="1",string idWaitTable="1",string idMilkCup="1")
+    {
+        this.index = index;
+        this.idBackGround = idBackGround;
+        this.idWaitTable = idWaitTable;
+        this.idMilkCup = idMilkCup;
     }
 }

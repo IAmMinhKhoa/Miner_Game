@@ -107,8 +107,9 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void RefreshUI()
     {
-        var currentManager = canvasGroup.GetComponent<ManagerElementUI>().Data;
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentManager.Location.Manager.BoostType,true);
+      //  var currentManager = canvasGroup.GetComponent<ManagerElementUI>().Data;
+	//	Debug.Log("khoa:"+currentManager)
+        ManagerChooseUI.OnRefreshManagerTab?.Invoke(currentCard.Data.BoostType,false);
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 
@@ -123,14 +124,23 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (ManagersController.Instance.MergeManager(firstManager, secondManager.Data)) //if can merge
         {
-			secondManager.RunFxMergeSuccess();
-			ManagerChooseUI.MergeSuccess?.Invoke(true);
+		//	secondManager.RunFxMergeSuccess();
+			ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.Success);
 			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType,false);
             ManagerSelectionShaft.OnReloadManager?.Invoke();
         }
         else //can not merge
         {
-            ManagerChooseUI.MergeSuccess?.Invoke(false);
+
+			if (firstManager.Level == secondManager.Data.Level && firstManager.Level == ManagerLevel.Executive)
+			{
+				ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.FailLevelMax);
+			}
+
+			else
+			{
+				ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.FailNotSameLevel);
+			}
         }
     }
 

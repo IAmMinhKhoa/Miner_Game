@@ -24,6 +24,8 @@ public class DataLoadManager : BaseGameManager
         LoadingPawData,
         LoadOfflineData,
         LoadingOfflineData,
+        LoadSkinData,
+        LoadingSkinData,
         Done
     }
     #endregion
@@ -112,9 +114,20 @@ public class DataLoadManager : BaseGameManager
             case GameState.LoadingOfflineData:
                 if (CheckOfflineData())
                 {
+                    SetState(GameState.LoadSkinData);
+                }
+                break;
+            case GameState.LoadSkinData:
+                LoadSkinData();
+                SetState(GameState.LoadingSkinData);
+                break;
+            case GameState.LoadingSkinData:
+                if (CheckSkinData())
+                {
                     SetState(GameState.Done);
                 }
                 break;
+
             case GameState.Done:
                 break;
         }
@@ -173,6 +186,10 @@ public class DataLoadManager : BaseGameManager
     {
         return ShaftManager.Instance.IsDone;
     }
+    private bool CheckSkinData()
+    {
+        return SkinManager.Instance.isDone;
+    }
 
     private async UniTaskVoid LoadElevatorData()
     {
@@ -219,6 +236,12 @@ public class DataLoadManager : BaseGameManager
         var offlineManager = OfflineManager.Instance;
         offlineManager.LoadOfflineData();
     }
+    private void LoadSkinData()
+	{
+        var skinManager = SkinManager.Instance;
+        skinManager.FindSkinDataSO();
+        skinManager.Load();
+	}
 
     private bool CheckOfflineData()
     {

@@ -80,8 +80,33 @@ public static class MainGameData
         "UI/Icon-CanUpgrade/IconUpgrade-2",
         "UI/Icon-CanUpgrade/IconUpgrade-3",
     };
+	public readonly static List<string> BannerLevels = new List<string>
+	{
+		"UI/Frame Information Manager/L-1",
+		"UI/Frame Information Manager/L-2",
+		"UI/Frame Information Manager/L-3",
+		"UI/Frame Information Manager/L-4",
+		"UI/Frame Information Manager/L-5",
 
-    public readonly static Dictionary<ManagerLocation, List<string>> UpgradeDetailInfo = new Dictionary<ManagerLocation, List<string>>
+
+	};
+	public readonly static List<string> PanelFrontCardManager= new List<string>
+	{
+		"UI/Frame Information Manager/PI-1",
+		"UI/Frame Information Manager/PI-2",
+		"UI/Frame Information Manager/PI-3",
+		"UI/Frame Information Manager/PI-4",
+		"UI/Frame Information Manager/PI-5",
+	};
+	public readonly static List<string> PanelBehindCardManager = new List<string>
+	{
+		"UI/Frame Information Manager/BH-1",
+		"UI/Frame Information Manager/BH-2",
+		"UI/Frame Information Manager/BH-3"
+
+	};
+
+	public readonly static Dictionary<ManagerLocation, List<string>> UpgradeDetailInfo = new Dictionary<ManagerLocation, List<string>>
     {
         {ManagerLocation.Shaft, new List<string>
         {

@@ -34,7 +34,8 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
         _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
         _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);
         _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
-    }
+		IsSelected = managerData.IsAssigned;
+	}
 
     public void OnPointerClick(PointerEventData eventData)
     {

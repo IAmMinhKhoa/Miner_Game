@@ -34,6 +34,7 @@ public class ManagerTabUI : MonoBehaviour
     private void ChangeTab(BoostType boostType,bool forceAnimation=true)
     {
         onManagerTabChanged?.Invoke(boostType, forceAnimation);
+		Debug.Log("tab change:"+boostType);
     }
 
     private void ChangeTabUI(BoostType boostType,bool forceAnimation)

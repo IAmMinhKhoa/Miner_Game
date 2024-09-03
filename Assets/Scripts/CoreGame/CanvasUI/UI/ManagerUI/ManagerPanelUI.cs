@@ -11,27 +11,11 @@ public class ManagerPanelUI : MonoBehaviour
     [SerializeField] private Button _hireOrFiredButton;
     [SerializeField] private Button _sellButton;
 
-    [Header("UI Text")]
-    [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _textTimeSkill;
-    [SerializeField] private TextMeshProUGUI _textTimeCD;
-    [SerializeField] private TextMeshProUGUI _textValueBuff;
-    [SerializeField] private TextMeshProUGUI _textQuoest;
+	[Header("UI Anothers")]
+	[SerializeField] List<Sprite> _imgBtnHireFire = new List<Sprite>();
+	[SerializeField] CardInformation _cardInfor;
 
-
-    [Header("UI Image")]
-    [SerializeField] Image _backGroundPanel;
-    [SerializeField] Image _bannerName  ;
-
-
-    [SerializeField] private SkeletonGraphic _spineManager;
-    [SerializeField] List<Sprite> _imgStrokeLevels=new List<Sprite>();
-    [SerializeField] List<Sprite> _imgBannerNameLevels = new List<Sprite>();
-    [SerializeField] List<Sprite> _imgBtnHireFire = new List<Sprite>();
-    [SerializeField] List<Image> _starts =new List<Image>();
-    [SerializeField] List<Sprite> _stateStart = new List<Sprite>(); //0 active, 1 unActive
-
-    [SerializeField] private Manager _manager;
+	[SerializeField] private Manager _manager;
 	[SerializeField] ContentFitterRefresh refeshInforSize;
 
 
@@ -66,7 +50,8 @@ public class ManagerPanelUI : MonoBehaviour
         {
             managersController.AssignManager(_manager, managersController.CurrentManagerLocation);
         }
-        ManagerSelectionShaft.OnReloadManager?.Invoke();
+	
+		ManagerSelectionShaft.OnReloadManager?.Invoke();
         ClosePanel();
     }
 
@@ -80,13 +65,14 @@ public class ManagerPanelUI : MonoBehaviour
     public void SetManager(Manager manager)
     {
         _manager = manager;
-        _nameText.text = _manager.Specie.ToString();
 
 
-        ValidateData(manager);
+
+		//ValidateData(manager);
+		_cardInfor.SetData(manager);
 
 
-        if (ManagersController.Instance.CurrentManagerLocation.LocationType == ManagerLocation.Shaft)
+		if (ManagersController.Instance.CurrentManagerLocation.LocationType == ManagerLocation.Shaft)
         {
             _hireOrFiredButton.gameObject.SetActive(false);
         }
@@ -106,38 +92,5 @@ public class ManagerPanelUI : MonoBehaviour
 
 		refeshInforSize.RefreshContentFitters();
 	}
-    private void ValidateData(Manager _data)
-    {
-        /* _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
-         _imgFrame.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelAvatar[(int)_data.Level]);*/
-        // _icon.sprite = (int)_data.Level == 4 ? _data.IconSpecial : _data.Icon;
-        //  _imgStroke.sprite = _imgStrokeLevels[(int)_data.Level];
-
-        RenderStart((int)_data.Level);
-        _backGroundPanel.sprite = _imgStrokeLevels[(int)_data.Level];
-        _bannerName.sprite = _imgBannerNameLevels[(int)_data.Level];
-        _spineManager.skeletonDataAsset = _data.SkeletonAsset;
-        _spineManager.Initialize(true);
-
-        //set data description
-        _textTimeSkill.text = _data.BoostTime.ToString() +" phút";
-        _textTimeCD.text = _data.CooldownTime.ToString() + " phút";
-        _textValueBuff.text = _data.BoostValue.ToString()+" %";
-
-        _textQuoest.text = _data.Quoest;
-
-
-	}
-
-    private void RenderStart(int Currentlevel)
-    {
-        foreach (var item in _starts)
-        {
-            item.sprite = _stateStart[1];
-        }
-        for (int i = 0; i <= Currentlevel; i++)
-        {
-            _starts[i].sprite = _stateStart[0];
-        }
-    }
+ 
 }

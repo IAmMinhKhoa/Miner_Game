@@ -34,10 +34,12 @@ public class ManagerSectionList : MonoBehaviour
 
     public async void ShowManagers(List<Manager> managerDatas, bool forceAnimation=true)
     {
-        if (this.managerDatas != null && IsEqual(managerDatas, this.managerDatas)) return;
+		Debug.Log("showmanager:"+managerDatas.Count);
+    //    if (this.managerDatas != null && IsEqual(managerDatas, this.managerDatas)) return;
         List<ManagerSpecie> managerSpecie = managerDatas.Select(x => x.Specie).Distinct().OrderBy(specie => specie).ToList();
         this.managerDatas = managerDatas;
         this.managerSpecies = managerSpecie;
+
         if(_isPlayingAnimation == false)
         {
             await SwitchAnimation(forceAnimation);
@@ -93,8 +95,9 @@ public class ManagerSectionList : MonoBehaviour
     {
         for(int i = 0; i < managerSpecie.Count; i++)
         {
-            await _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i] && !x.IsAssigned).ToList());
-        }
+			// await _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i] && !x.IsAssigned).ToList());
+			await _managerSectionUIList[i].SetData(managerSpecie[i].ToString(), managerDatas.Where(x => x.Specie == managerSpecie[i] ).ToList());
+		}
     }
 
     private void AddOrRemoveManagerSectionUIs(List<ManagerSpecie> managerSpecie)

@@ -91,12 +91,6 @@ public class SoundSetting : MonoBehaviour
             else
             {
                 var trackEntry = spineLoop.AnimationState.SetAnimation(0, "Loop - Active2", false);
-               /* trackEntry.TrackTime = trackEntry.AnimationEnd;
-                trackEntry.TimeScale = -1f;
-                StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
-                {
-                    spineLoop.AnimationState.SetAnimation(0, "Loop - Idle", false);
-                }));*/
             }
         }
     }
@@ -119,13 +113,7 @@ public class SoundSetting : MonoBehaviour
             else
             {
                 var trackEntry = spineRandom.AnimationState.SetAnimation(0, "Random - Active2", false);
-               /* trackEntry.TrackTime = trackEntry.AnimationEnd;
-                trackEntry.TimeScale = -1f;
-
-                StartCoroutine(Common.IeDoSomeThing(0.3f, () =>
-                {
-                    spineRandom.AnimationState.SetAnimation(0, "Randoom - Idle", false);
-                }));*/
+   
             }
 
 
@@ -134,7 +122,7 @@ public class SoundSetting : MonoBehaviour
 
     private MusicEnum currentMusic => SoundManager.GetCurrentMusic();
 
-    private Coroutine _coroutineCurrentMusic;
+   // private Coroutine _coroutineCurrentMusic;
     private void Awake()
     {
         SoundManager.InitSoundManager();
@@ -207,14 +195,14 @@ public class SoundSetting : MonoBehaviour
         textNameMusic.text = GetDataMusic(musicEnum).name;
 
         SoundManager.StopAllMusic();
-        SoundManager.PlayMusic(musicEnum);
-
+       SoundManager.PlayMusic(musicEnum);
+/*
         if (_coroutineCurrentMusic != null)
         {
             StopCoroutine(_coroutineCurrentMusic);
         }
 
-        _coroutineCurrentMusic = StartCoroutine(TimmingNextMusic());
+        _coroutineCurrentMusic = StartCoroutine(TimmingNextMusic());*/
 
     }
 
@@ -278,9 +266,9 @@ public class SoundSetting : MonoBehaviour
     {
         if (!TogglePauseMusic)
         {
-            StopCoroutine(_coroutineCurrentMusic);
-            _coroutineCurrentMusic = null;
-            SoundManager.StopAllMusic();
+         /*   StopCoroutine(_coroutineCurrentMusic);
+            _coroutineCurrentMusic = null;*/
+            SoundManager.PauseMusic(currentMusic);
 
             spinePause.AnimationState.SetAnimation(0, "PlayStop - Active2", false);
             StartCoroutine(Common.IeDoSomeThing(0.25f, () =>
@@ -291,8 +279,8 @@ public class SoundSetting : MonoBehaviour
 
         else
         {
-            PlayMusic(BahaviorMS.Current);
-            spinePause.AnimationState.SetAnimation(0, "PlayStop - Active", false);
+			SoundManager.ContinueMusic(currentMusic);
+			spinePause.AnimationState.SetAnimation(0, "PlayStop - Active", false);
             StartCoroutine(Common.IeDoSomeThing(0.25f, () =>
             {
                 spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);

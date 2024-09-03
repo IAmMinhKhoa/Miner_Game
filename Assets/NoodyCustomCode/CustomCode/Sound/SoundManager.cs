@@ -226,6 +226,7 @@ namespace NOOD.Sound
    
             if (soundData == null)
             {
+				Debug.Log("Sound Data null");
                 FindSoundData();
             }
 
@@ -413,17 +414,56 @@ namespace NOOD.Sound
                 disableMusicPlayers.Remove(musicPlayer);
             }
         }
-        #endregion
-#endregion
 
-#region Support functions
-        /// <summary>
-        /// Fade in or out base on target volume
-        /// </summary>
-        /// <param name="audioSource"></param>
-        /// <param name="duration"></param>
-        /// <param name="targetVolume"></param>
-        public static void Fade(AudioSource audioSource, float duration, float targetVolume, Action onComplete = null)
+		/// <summary>
+		/// Pause all MusicPlayer with the same musicEnum
+		/// </summary>
+		/// <param name="musicEnum"></param>
+		public static void PauseMusic(MusicEnum musicEnum)
+		{
+			InitIfNeed();
+
+			if (enableMusicPlayers.Any(x => x.musicType == musicEnum))
+			{
+				MusicPlayer musicPlayer = enableMusicPlayers.First(x => x.musicType == musicEnum);
+				AudioSource musicAudioSource = musicPlayer.GetComponent<AudioSource>();
+
+				if (musicAudioSource.isPlaying)
+				{
+					musicAudioSource.Pause();
+				}
+			}
+		}
+		/// <summary>
+		/// Continue playing the music that was paused for a specific musicEnum.
+		/// </summary>
+		/// <param name="musicEnum"></param>
+		public static void ContinueMusic(MusicEnum musicEnum)
+		{
+			InitIfNeed();
+
+			if (enableMusicPlayers.Any(x => x.musicType == musicEnum))
+			{
+				MusicPlayer musicPlayer = enableMusicPlayers.First(x => x.musicType == musicEnum);
+				AudioSource musicAudioSource = musicPlayer.GetComponent<AudioSource>();
+
+				if (musicAudioSource != null && musicAudioSource.isPlaying == false)
+				{
+					musicAudioSource.UnPause();
+				}
+			}
+		}
+		#endregion
+		#endregion
+
+		#region Support functions
+		/// <summary>
+		/// Fade in or out base on target volume
+		/// </summary>
+		/// <param name="audioSource"></param>
+		/// <param name="duration"></param>
+		/// <param name="targetVolume"></param>
+		public static void Fade(AudioSource audioSource, float duration, float targetVolume, Action onComplete = null)
         {
             float currentTime = 0;
             float start = audioSource.volume;

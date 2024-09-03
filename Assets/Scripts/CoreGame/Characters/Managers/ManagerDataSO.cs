@@ -9,7 +9,7 @@ public class ManagerDataSO : ScriptableObject
     public string managerName;
     public float boostValue = 1;
     public ManagerLevel managerLevel;
-    public BoostType boostType;
+  
     public ManagerLocation managerLocation;
 }
 

@@ -9,10 +9,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public enum TypeMerge
+{
+	Success,
+	FailLevelMax,
+	FailNotSameLevel
+}
 public class ManagerChooseUI : MonoBehaviour    
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
-    public static Action<bool> MergeSuccess;
+    public static Action<TypeMerge> MergeSuccess;
     
 
     [SerializeField] private ManagerTabUI _managerTabUI;
@@ -28,12 +35,10 @@ public class ManagerChooseUI : MonoBehaviour
 
     [Header("UI Another")]
     [SerializeField] private CanvasGroup _canvasGrList;
-    [SerializeField] private GameObject _ContainerWarning;
-    [SerializeField] private RectTransform _imgContent;
-
     [SerializeField] private List<Manager> _manager;
-
-    void OnEnable()
+	[SerializeField] DetailNotification NotiWarning;
+	[SerializeField] GachaController FxGacha;
+	void OnEnable()
     {
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
@@ -62,11 +67,14 @@ public class ManagerChooseUI : MonoBehaviour
     
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
-        if (_manager == null)
+		Debug.Log("khoa:" + _manager.Count);
+		if (_manager == null)
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type && !x.IsAssigned),forceAnimation);
+        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type
+		&&((x.LocationType== ManagerLocation.Shaft&& !x.IsAssigned)
+		||(x.LocationType!=ManagerLocation.Shaft))),forceAnimation);
     }
 	
     private void OnLocationTabChanged(ManagerLocation location)
@@ -98,9 +106,10 @@ public class ManagerChooseUI : MonoBehaviour
 
     public void RefreshData(BoostType type, bool foceAnimation = true)
     {
+		Debug.Log("refesh :" + type);
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
        
-        _managerTabUI.onManagerTabChanged.Invoke(type, foceAnimation);
+        _managerTabUI.onManagerTabChanged?.Invoke(type, foceAnimation);
 		UpdateUI(); //update current paw -> disable button gacha 
 	}
 	void UpdateUI(double value=0)
@@ -127,32 +136,35 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
-        //OnRefreshManagerTab?.Invoke(manager.BoostType);
-        _hireButton.interactable = true;
+		FxGacha.OpenFxGacha(manager);
+
+		_hireButton.interactable = true;
     }   
-    void AfterMegerManager(bool success)
+    void AfterMegerManager(TypeMerge typeMerge)
     {
-        if (success)
-        {
-			SoundManager.PlaySound(SoundEnum.mergeSuccess);
-        }
-        else
-        {
-			SoundManager.PlaySound(SoundEnum.mergeFail);
-			_ContainerWarning.SetActive(true);
-            _imgContent.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+		switch (typeMerge)
+		{
+			case TypeMerge.Success:
+				SoundManager.PlaySound(SoundEnum.mergeSuccess);
+				break;
 
-        }
-    }
-    public void CloseoWarning()
-    {
-        _imgContent.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack).OnComplete(() =>
-        {
-            _ContainerWarning.SetActive(false);
-        });
+			case TypeMerge.FailLevelMax:
+				SoundManager.PlaySound(SoundEnum.mergeFail);
+				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật đã đạt cấp độ cao nhất");
+				break;
 
-    }
-    private void Boost()
+			case TypeMerge.FailNotSameLevel:
+				SoundManager.PlaySound(SoundEnum.mergeFail);
+				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật có cấp độ khác nhau");
+				break;
+
+			default:
+				// Handle any other cases if needed
+				break;
+		}
+
+	}
+	private void Boost()
     {
         ManagersController.Instance.BoostAllManager();
     }
