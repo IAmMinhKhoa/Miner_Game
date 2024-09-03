@@ -20,7 +20,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	}
 
 
-	
+
 	public void Save()
 	{
 		//create JSON to save data
@@ -57,7 +57,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			DataSkin saveData = JsonConvert.DeserializeObject<DataSkin>(json);
 
 			int shaftsCount = saveData.shaftSkins.Count;
-			
+
 			for (int i = 0; i < saveData.shaftSkins.Count; i++)
 			{
 				ShaftManager.Instance.Shafts[i].shaftSkin = saveData.shaftSkins[i];
@@ -67,26 +67,42 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		}
 		return false;
 	}
-
-	#region Entity Skin Game
-	public class DataSkin
-	{
-		public List<ShaftSkin> shaftSkins { get; set; }
-	
-	}
-
-	
-	public class ElevatorSkin
-	{
-
-	}
-	public class CounterSkin
-	{
-
-	}
-	public class OutSideSkin
-	{
-
-	}
-	#endregion
 }
+#region Entity Skin Game
+public class DataSkin
+{
+	public List<ShaftSkin> shaftSkins { get; set; }
+
+}
+public class ShaftSkin
+{
+	public int index;
+	public string idBackGround;
+	public string idWaitTable;
+	public string idMilkCup;
+
+	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1")
+	{
+		this.index = index;
+		this.idBackGround = idBackGround;
+		this.idWaitTable = idWaitTable;
+		this.idMilkCup = idMilkCup;
+	}
+}
+
+public class ElevatorSkin
+{
+	public string idBackGround;
+	public string idMilkCup;
+
+}
+public class CounterSkin
+{
+
+}
+public class OutSideSkin
+{
+
+}
+#endregion
+

@@ -242,7 +242,7 @@ public class ShaftUI : MonoBehaviour
         m_shaftUpgrade.Upgrade(valueAdd);
     }
     [Button]
-    private void TestChangeSkinShaft(SkinShaftBg value1, SkinShaftWaitTable value2, SkinShaftMilkCup value3)
+    private void TestChangeSkinShaft(SkinShaftBg value1=SkinShaftBg.BR1, SkinShaftWaitTable value2=SkinShaftWaitTable.WT1, SkinShaftMilkCup value3=SkinShaftMilkCup.MC1)
     {
         m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
         m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();

@@ -67,11 +67,10 @@ public class Shaft : MonoBehaviour
         {
             Debug.Log($"Set data to shaft {shaftIndex}");
             _shaftSkin = value;
-            ShaftUI shaftUI;
-            TryGetComponent<ShaftUI>(out shaftUI);
-			if (shaftUI!=null){
-                //  shaftUI.OnChangeSkin?.Invoke(value);
-                shaftUI.ChangeSkin(value);
+
+            if (TryGetComponent(out ShaftUI shaftUI))
+            {
+                shaftUI.ChangeSkin(_shaftSkin);
             }
         }
     }
@@ -130,7 +129,7 @@ public class Shaft : MonoBehaviour
 
     public void UpgradeTable()
     {
-        
+
     }
 
     private bool IsTableUsing()
@@ -145,18 +144,4 @@ public class Shaft : MonoBehaviour
         return false;
     }
 }
-public class ShaftSkin
-{
-    public int index;
-	public string idBackGround;
-    public string idWaitTable;
-    public string idMilkCup;
 
-    public ShaftSkin(int index, string idBackGround="1",string idWaitTable="1",string idMilkCup="1")
-    {
-        this.index = index;
-        this.idBackGround = idBackGround;
-        this.idWaitTable = idWaitTable;
-        this.idMilkCup = idMilkCup;
-    }
-}
