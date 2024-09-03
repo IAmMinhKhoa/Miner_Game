@@ -114,21 +114,21 @@ public class DataLoadManager : BaseGameManager
             case GameState.LoadingOfflineData:
                 if (CheckOfflineData())
                 {
-                    SetState(GameState.LoadSkinData);
-                }
-                break;
-            case GameState.LoadSkinData:
-                LoadSkinData();
-                SetState(GameState.LoadingSkinData);
-                break;
-            case GameState.LoadingSkinData:
-                if (CheckSkinData())
-                {
                     SetState(GameState.Done);
                 }
                 break;
+			//case GameState.LoadSkinData:
+			//	LoadSkinData();
+			//	SetState(GameState.LoadingSkinData);
+			//	break;
+			//case GameState.LoadingSkinData:
+			//	if (CheckSkinData())
+			//	{
+			//		SetState(GameState.Done);
+			//	}
+			//	break;
 
-            case GameState.Done:
+			case GameState.Done:
                 break;
         }
     }

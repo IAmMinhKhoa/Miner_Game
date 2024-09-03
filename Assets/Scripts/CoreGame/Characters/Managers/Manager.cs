@@ -180,7 +180,7 @@ public class Manager
         _isBoosting = true;        
         while (currentBoostTime > 0)
         {
-            Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);
+         //   Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);
             currentBoostTime -= Time.deltaTime;
             await UniTask.Yield(cancellationToken.Token);
         }
@@ -191,7 +191,7 @@ public class Manager
     {
         while (currentCooldownTime > 0)
         {
-            Debug.Log("Not boosting:" + LocationType + "/" + currentCooldownTime);
+         //   Debug.Log("Not boosting:" + LocationType + "/" + currentCooldownTime);
             currentCooldownTime -= Time.deltaTime;
             await UniTask.Yield();
         }
