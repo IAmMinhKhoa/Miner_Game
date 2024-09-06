@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //Google Modile Ad Service
-public class AdsManager : MonoBehaviour
+public class AdsManager : Patterns.Singleton<AdsManager>
 {
 	//Now available for android
 	[SerializeField]
@@ -17,16 +17,12 @@ public class AdsManager : MonoBehaviour
 		{
 
 		});
-		LoadRewardAd();
+		LoadRewardedAd();
 		RegisterRewardedAdEventHandler(RewardedAd);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-	private void LoadRewardAd()
+	#region RewardedAd
+	private void LoadRewardedAd()
 	{
 		if (RewardedAdUnitId == string.Empty)
 		{
@@ -52,7 +48,7 @@ public class AdsManager : MonoBehaviour
 		{
 			RewardedAd.Show((Reward reward) =>
 			{
-				Debug.Log($"Rewarded ad rewarded the user. Type: {reward.Type}, amount: {reward.Amount}");
+				//Debug.Log($"Rewarded ad rewarded the user. Type: {reward.Type}, amount: {reward.Amount}");
 			});
 		}
 	}
@@ -64,11 +60,11 @@ public class AdsManager : MonoBehaviour
 		};
 		rewardedAd.OnAdImpressionRecorded += () =>
 		{
-			Debug.Log($"Rewarded ad recorded an impression");
+			//Debug.Log($"Rewarded ad recorded an impression");
 		};
 		rewardedAd.OnAdClicked += () =>
 		{
-			Debug.Log($"Rewarded ad was clicked");
+			//Debug.Log($"Rewarded ad was clicked");
 		};
 		rewardedAd.OnAdFullScreenContentFailed += (AdError adError) =>
 		{
@@ -76,14 +72,16 @@ public class AdsManager : MonoBehaviour
 		};
 		rewardedAd.OnAdFullScreenContentOpened += () =>
 		{
-			Debug.Log("Reward ad opened");
+			//Debug.Log("Reward ad opened");
 		};
 		rewardedAd.OnAdFullScreenContentClosed += () =>
 		{
 			Debug.Log("Reward ad closed");
 			RewardedAd.Destroy();
-			LoadRewardAd();
+			LoadRewardedAd();
 			RegisterRewardedAdEventHandler(RewardedAd);
+			PawManager.Instance.AddPaw(1000000000);
 		};
 	}
+	#endregion 
 }
