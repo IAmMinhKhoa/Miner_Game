@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ToggleBehaviour : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class ToggleBehaviour : MonoBehaviour
 	private Vector3 _defaultPos;
 	public float bounceScale = 1.2f;
 	public float bounceDuration = 0.2f;
+	public bool hasManager;
 
 	[Header("Audio")]
 	public SoundEnum clickSoundFx = SoundEnum.click;
@@ -23,6 +25,14 @@ public class ToggleBehaviour : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
 		_defaultScale = _rectTransform.localScale;
+
+		if (!hasManager)
+		{
+			Toggle tg = GetComponent<Toggle>();
+			tg.onValueChanged.AddListener(delegate {
+				DoAnimate();
+			});
+		}
 	}
 
 	public void DoAnimate()
