@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class SettingUI : MonoBehaviour
         _canvasGroup = this.GetComponent<CanvasGroup>();
         _closeButton.onClick.AddListener(Hide);
         _disableToken = new CancellationTokenSource();
+        Hide();
     }
     void OnDisable()
     {
@@ -28,27 +30,15 @@ public class SettingUI : MonoBehaviour
         _closeButton.onClick.RemoveListener(Hide);
     }
 
-    public async void Show()
+    public void Show()
     {
         this.gameObject.SetActive(true);
         _canvasGroup.interactable = true;
-        while (_canvasGroup.alpha < 1)
-        {
-            Debug.Log("Increase");
-            _canvasGroup.alpha += Time.deltaTime * _fadeSpeed;
-            await UniTask.Yield();
-        }
+        _canvasGroup.DOFade(1, _fadeSpeed).SetEase(Ease.Flash);
     }
-    public async void Hide()
+    public void Hide()
     {
         _canvasGroup.interactable = false;
-        while (_canvasGroup.alpha > 0)
-        {
-            Debug.Log("Decrease");
-            _canvasGroup.alpha -= Time.deltaTime * _fadeSpeed;
-            await UniTask.Yield();
-        }
-        _canvasGroup.alpha = 0;
-        this.gameObject.SetActive(false);
+        _canvasGroup.DOFade(0, _fadeSpeed).SetEase(Ease.Flash).OnComplete(() => this.gameObject.SetActive(false));
     }
 }
