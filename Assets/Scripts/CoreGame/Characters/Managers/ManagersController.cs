@@ -306,23 +306,22 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         ManagerSelectionShaft.OnReloadManager?.Invoke();//reload scroll selected manager
 
     }
-    public bool MergeManager(Manager firstManager, Manager secondManager)
-    {
-        bool CanMerge = CanMergeManagers(firstManager, secondManager);
-        if (!CanMerge)
-        {
-            return false;
-        }
-        
+	public bool MergeManager(Manager firstManager, Manager secondManager)
+	{
+		bool CanMerge = CanMergeManagers(firstManager, secondManager);
+		if (!CanMerge)
+		{
+			return false;
+		}
+		//MergeManagerTimes(firstManager, secondManager);
+		//UpgradeManager(firstManager);
+		//RemoveManager(secondManager);
+		return true;
+	}
+	
 
-        MergeManagerTimes(firstManager, secondManager);
-        RemoveManager(secondManager);
-        UpgradeManager(firstManager);
 
-        return true;
-    }
-
-    private void MergeManagerTimes(Manager firstManager, Manager secondManager)
+	public void MergeManagerTimes(Manager firstManager, Manager secondManager)
     {
         firstManager.SetCurrentTime(
             Mathf.Max(firstManager.CurrentBoostTime, secondManager.CurrentBoostTime),
@@ -344,9 +343,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         manager.SetManagerData(upgradeData);
         manager.SetTimeData(timeData);
         manager.SetSpecieData(specieData);
-    }
+		
+	}
+	
 
-    public bool CanMergeManagers(Manager firstManager, Manager secondManager)
+	public bool CanMergeManagers(Manager firstManager, Manager secondManager)
     {
         Debug.Log($"First index: {firstManager.Index} Second index: {secondManager.Index}");
     
