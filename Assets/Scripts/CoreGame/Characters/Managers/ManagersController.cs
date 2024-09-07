@@ -420,7 +420,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public void Load()
     {
-        if (PlayerPrefs.HasKey("ManagersController"))
+		if (PlayerPrefs.HasKey("ManagersController"))
         {
             string json = PlayerPrefs.GetString("ManagersController");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
