@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-
+using PlayFabManager.Data;
 public class DataLoadManager : BaseGameManager
 {
     #region ----Enums----
@@ -28,9 +28,11 @@ public class DataLoadManager : BaseGameManager
         LoadingSkinData,
         Done
     }
-    #endregion
+	#endregion
 
-    #region ----Variables----
+	#region ----Variables----
+	[SerializeField]
+	private PlayFabDataManager playFabDataManager;
     private GameState dataGameState;
     #endregion
 
@@ -38,8 +40,8 @@ public class DataLoadManager : BaseGameManager
     {
         base.Update();
         UpdateGameStates();
-        //  Debug.Log("DataLoadManager Update:" + dataGameState);
-    }
+		//Debug.Log("DataLoadManager Update:" + dataGameState);
+	}
 
     void UpdateGameStates()
     {
@@ -156,8 +158,9 @@ public class DataLoadManager : BaseGameManager
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
         MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
         MainGameData.managerTimeDataSOList = Resources.LoadAll<ManagerTimeDataSO>("ScriptableObjects/ManagerTimeData").ToList();
-
-        MainGameData.isDone = true;
+		await playFabDataManager.LoadData();
+		
+		MainGameData.isDone = true;
     }
 
     private bool CheckTemplateData()
