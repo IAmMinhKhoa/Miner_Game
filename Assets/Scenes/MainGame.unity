@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -171,7 +171,6 @@ MonoBehaviour:
   minY: 0.1
   maxY: 13.3
   _decelerateSpeed: 1
-  _speedText: {fileID: 0}
   _maxSpeed: 10
   _duration: 0.2
   _magnitude: 0.1
@@ -759,17 +758,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84850932782e1f642b14e56bc7cb569a, type: 3}
---- !u!114 &915723248 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2785929501895611988, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
-  m_PrefabInstance: {fileID: 3981675004688389320}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1032843898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1010,7 @@ GameObject:
   - component: {fileID: 1395491203}
   - component: {fileID: 1395491205}
   - component: {fileID: 1395491206}
+  - component: {fileID: 1395491207}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1073,7 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366bed5c7d5dd5b4f8ad98d035dd720e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startingPaw: 99999999999999999999999999999999
+  m_startingPaw: 0
 --- !u!114 &1395491206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1086,6 +1075,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6841c730637094c8f95c1216baa8f692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1395491207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395491202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa4b153568948e45aee2cbd22d67a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RewardedAdUnitId: ca-app-pub-8451186740078644/2526170228
 --- !u!1 &1574140670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,10 +1401,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
-    - target: {fileID: 6140639324789304520, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
-      propertyPath: _closeButton
-      value: 
-      objectReference: {fileID: 915723248}
     - target: {fileID: 6692399593380874758, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Camera
       value: 
