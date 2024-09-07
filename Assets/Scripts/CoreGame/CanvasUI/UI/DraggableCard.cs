@@ -12,6 +12,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Camera mainCamera;
     private bool isDragging = false;
     [SerializeField] ManagerElementUI currentCard;
+	private bool isAction=false;
     private void Update()
     {
     }
@@ -114,22 +115,20 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
 
-    private void HandleManagerMerge( GameObject pointerEnterSecond) //event run when drop card
+    private void HandleManagerMerge(GameObject pointerEnterSecond) //event run when drop card
     {
         Debug.Log("Handle-Merge:" + pointerEnterSecond.GetComponent<DraggableCard>());
         if (pointerEnterSecond.GetComponent<DraggableCard>() == null) return;
 
         var firstManager = currentCard.Data;
         var secondManager = pointerEnterSecond.GetComponent<ManagerElementUI>();
-
-        if (ManagersController.Instance.MergeManager(firstManager, secondManager.Data)) //if can merge
+		if (ManagersController.Instance.MergeManager(firstManager, secondManager.Data)) //if can merge
         {
-		//	secondManager.RunFxMergeSuccess();
-			ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.Success);
-			ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType,false);
-            ManagerSelectionShaft.OnReloadManager?.Invoke();
-        }
-        else //can not merge
+			//Play Fx
+			secondManager.RunFxMergeSuccess();
+			StartCoroutine(DelayedManagerRemoval(firstManager, secondManager.Data));
+		}
+		else //can not merge
         {
 
 			if (firstManager.Level == secondManager.Data.Level && firstManager.Level == ManagerLevel.Executive)
@@ -144,7 +143,19 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+	private IEnumerator DelayedManagerRemoval(Manager firstManager, Manager secondManager)
+	{
+		Debug.LogError("RunFxMergeSuccess called");
+		yield return new WaitForSeconds(0.35f);
+		ManagersController.Instance.MergeManagerTimes(firstManager, secondManager);
+		ManagersController.Instance.UpgradeManager(firstManager);
+		ManagersController.Instance.RemoveManager(secondManager);
+		ManagerChooseUI.MergeSuccess?.Invoke(TypeMerge.Success);
+		ManagerChooseUI.OnRefreshManagerTab?.Invoke(firstManager.BoostType, false);
+		ManagerSelectionShaft.OnReloadManager?.Invoke();
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<DraggableCard>() != null)
         {

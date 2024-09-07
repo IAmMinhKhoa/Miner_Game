@@ -13,7 +13,7 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject _maskSelect;
     [SerializeField] GameObject _maskRejectMerge;
     [SerializeField] GameObject _maskCanMerge;
-	[SerializeField] ParticleSystem fxSuccess;
+	[SerializeField] public ParticleSystem fxSuccess;
     private Manager _data;
     public Manager Data => _data;
     public bool IsSelected { set {
@@ -27,8 +27,7 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
             else _maskRejectMerge.SetActive(true);
         }
     }
-
-    public void SetData(Manager managerData)
+	public void SetData(Manager managerData)
     {
         _data = managerData;
         _imgNumberIcon.sprite = Resources.Load<Sprite>(MainGameData.IconLevelNumber[(int)_data.Level]);
@@ -48,6 +47,10 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
     }
 	public void RunFxMergeSuccess()
 	{
-		if(fxSuccess!=null) fxSuccess.Play();
+		if (fxSuccess != null)
+		{
+				fxSuccess.Play();
+		}
 	}
+
 }
