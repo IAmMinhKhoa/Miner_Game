@@ -63,12 +63,12 @@ public class ManagerLocationUI : MonoBehaviour
             if (btn.Value == locationType)
             {
                 HighlightStateButton(btn.Key, true);  // Highlight and change the state of the selected button
-                ScaleButton(btn.Key, true);           // Scale up the selected button
+              //  ScaleButton(btn.Key, true);           // Scale up the selected button
             }
             else
             {
                 HighlightStateButton(btn.Key, false); // Reset the state of unselected buttons
-                ScaleButton(btn.Key, false);          // Scale down the unselected buttons
+                //ScaleButton(btn.Key, false);          // Scale down the unselected buttons
             }
         }
     }
