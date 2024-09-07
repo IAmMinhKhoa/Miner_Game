@@ -28,11 +28,11 @@ public class DataLoadManager : BaseGameManager
         LoadingSkinData,
         Done
     }
-	#endregion
+    #endregion
 
-	#region ----Variables----
-	[SerializeField]
-	private PlayFabDataManager playFabDataManager;
+    #region ----Variables----
+    [SerializeField]
+    private PlayFabDataManager playFabDataManager;
     private GameState dataGameState;
     #endregion
 
@@ -40,8 +40,8 @@ public class DataLoadManager : BaseGameManager
     {
         base.Update();
         UpdateGameStates();
-		//Debug.Log("DataLoadManager Update:" + dataGameState);
-	}
+        //Debug.Log("DataLoadManager Update:" + dataGameState);
+    }
 
     void UpdateGameStates()
     {
@@ -119,18 +119,18 @@ public class DataLoadManager : BaseGameManager
                     SetState(GameState.Done);
                 }
                 break;
-			//case GameState.LoadSkinData:
-			//	LoadSkinData();
-			//	SetState(GameState.LoadingSkinData);
-			//	break;
-			//case GameState.LoadingSkinData:
-			//	if (CheckSkinData())
-			//	{
-			//		SetState(GameState.Done);
-			//	}
-			//	break;
+            //case GameState.LoadSkinData:
+            //	LoadSkinData();
+            //	SetState(GameState.LoadingSkinData);
+            //	break;
+            //case GameState.LoadingSkinData:
+            //	if (CheckSkinData())
+            //	{
+            //		SetState(GameState.Done);
+            //	}
+            //	break;
 
-			case GameState.Done:
+            case GameState.Done:
                 break;
         }
     }
@@ -158,9 +158,9 @@ public class DataLoadManager : BaseGameManager
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
         MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
         MainGameData.managerTimeDataSOList = Resources.LoadAll<ManagerTimeDataSO>("ScriptableObjects/ManagerTimeData").ToList();
-		await playFabDataManager.LoadData();
-		
-		MainGameData.isDone = true;
+        await playFabDataManager.LoadData();
+
+        MainGameData.isDone = true;
     }
 
     private bool CheckTemplateData()
@@ -225,7 +225,7 @@ public class DataLoadManager : BaseGameManager
 
     private void MoneyPawData()
     {
-        var moneyManager = MoneyManager.Instance;
+        var moneyManager = SuperMoneyManager.Instance;
         moneyManager.LoadMoney();
     }
 
@@ -240,11 +240,11 @@ public class DataLoadManager : BaseGameManager
         offlineManager.LoadOfflineData();
     }
     private void LoadSkinData()
-	{
+    {
         var skinManager = SkinManager.Instance;
         skinManager.FindSkinDataSO();
         skinManager.Load();
-	}
+    }
 
     private bool CheckOfflineData()
     {

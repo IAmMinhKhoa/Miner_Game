@@ -4,26 +4,26 @@ using NOOD;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class MoneyManager : MonoBehaviorInstance<MoneyManager>
+public class SuperMoneyManager : MonoBehaviorInstance<SuperMoneyManager>
 {
     private const string MONEY_KEY = "Money";
     private const string DEFAULT_MONEY = "1000";
 
     public Action OnMoneyChanged;
-    public float Money { get; private set; }
+    public float SuperMoney { get; private set; }
     private bool _isDone;
     public bool IsDone => _isDone;
 
     [Button]
     public void AddMoney(float amount)
     {
-        Money += amount;
+        SuperMoney += amount;
         OnMoneyChanged?.Invoke();
         Save();
     }
     public void RemoveMoney(float amount)
     {
-        Money -= amount;
+        SuperMoney -= amount;
         OnMoneyChanged?.Invoke();
         Save();
     }
@@ -37,7 +37,7 @@ public class MoneyManager : MonoBehaviorInstance<MoneyManager>
         if (float.TryParse(paw.ToString(), out float result))
         {
             Debug.Log("Current paw:" + result);
-            Money = result;
+            SuperMoney = result;
             OnMoneyChanged?.Invoke();
             _isDone = true;
         }
@@ -49,7 +49,7 @@ public class MoneyManager : MonoBehaviorInstance<MoneyManager>
 
     private void Save()
     {
-        PlayerPrefs.SetString(MONEY_KEY, Money.ToString());
+        PlayerPrefs.SetString(MONEY_KEY, SuperMoney.ToString());
         PlayerPrefs.Save();
     }
 }

@@ -47,13 +47,13 @@ public class BankUI : MonoBehaviour
     // !Only call this function if transaction success
     public void BuyMoney(float amount)
     {
-        MoneyManager.Instance.AddMoney(amount);
+        SuperMoneyManager.Instance.AddMoney(amount);
     }
     public void BuyPaw(float amount, float price)
     {
-        if (MoneyManager.Instance.Money >= price)
+        if (SuperMoneyManager.Instance.SuperMoney >= price)
         {
-            MoneyManager.Instance.RemoveMoney(price);
+            SuperMoneyManager.Instance.RemoveMoney(price);
             PawManager.Instance.AddPaw(amount);
         }
         else
