@@ -6,17 +6,13 @@ using static ShaftManager;
 
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
-	public static SkinDataSO SkinDataSO = null;
+	public static SkinResource skinResource = new();
+	public string jsonFilePath = "Assets/Resources/Json/SkinResources.json";
 	public bool isDone = false;
-	public void FindSkinDataSO()//INIT find data SO
+	public void InitData()//INIT find data SO
 	{
-		SkinDataSO[] soundDataSOs = Resources.LoadAll<SkinDataSO>("");
-		if (soundDataSOs.Length > 0)
-			SkinDataSO = Resources.FindObjectsOfTypeAll<SkinDataSO>()[0];
-		if (SkinDataSO == null)
-			Debug.LogError("Can't find SkinDataSO, please create one in Resources folder using Create -> SkinDataSO");
-		else
-			Debug.Log("Load SkinDataSO success");
+		LoadSkinData(); //fectch data from json
+		LoadAssets(); //get resource by path to list
 	}
 
 
@@ -67,6 +63,39 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		}
 		return false;
 	}
+
+
+
+	#region Get resource by path
+	private void LoadSkinData()
+	{
+		if (System.IO.File.Exists(jsonFilePath))
+		{
+			string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+			skinResource = JsonUtility.FromJson<SkinResource>(jsonContent);
+			Debug.Log("Data loaded successfully!");
+		}
+		else
+		{
+			Debug.LogError("JSON file not found at: " + jsonFilePath);
+		}
+	}
+
+	private void LoadAssets()
+	{
+		// Load Sprites
+		foreach (var imageData in skinResource.skinBgShaft)
+		{
+			imageData.sprite = Common.LoadSprite(imageData.path);
+		}
+
+		// Load Spine data
+		/*foreach (var spineData in skinResource.skinCharacterHead)
+		{
+			spineData.skeletonData = Common.LoadSpine(spineData.path);
+		}*/
+	}
+	#endregion
 }
 #region Entity Skin Game
 public class DataSkin
@@ -74,35 +103,71 @@ public class DataSkin
 	public List<ShaftSkin> shaftSkins { get; set; }
 
 }
-public class ShaftSkin
+public class SkinBase
 {
-	public int index;
-	public string idBackGround;
-	public string idWaitTable;
-	public string idMilkCup;
+	public string idBackGround { get; set; }
+	public string idMilkCup { get; set; }
 
-	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1")
+	public SkinBase(string idBackGround = "1", string idMilkCup = "1")
 	{
-		this.index = index;
 		this.idBackGround = idBackGround;
-		this.idWaitTable = idWaitTable;
 		this.idMilkCup = idMilkCup;
 	}
 }
 
-public class ElevatorSkin
+public class ShaftSkin : SkinBase
 {
-	public string idBackGround;
-	public string idMilkCup;
+	public int index { get; set; }
+	public string idWaitTable { get; set; }
+	public string idCart { get; set; }
+	public CharacterSkin character { get; set; }
 
+	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1", string idCart = "1", CharacterSkin characterSkin = null)
+		: base(idBackGround, idMilkCup)
+	{
+		this.index = index;
+		this.idWaitTable = idWaitTable;
+		this.idCart = idCart;
+		this.character = characterSkin ?? new CharacterSkin();
+	}
 }
-public class CounterSkin
-{
 
+public class ElevatorSkin : SkinBase
+{
+	public string idFrontElevator { get; set; }
+	public string idBackElevator { get; set; }
+
+	public ElevatorSkin(string idBackGround = "1", string idMilkCup = "1", string idFrontElevator = "1", string idBackElevator = "1")
+		: base(idBackGround, idMilkCup)
+	{
+		this.idFrontElevator = idFrontElevator;
+		this.idBackElevator = idBackElevator;
+	}
 }
-public class OutSideSkin
-{
 
+public class CounterSkin : SkinBase
+{
+	public string idCart { get; set; }
+	public CharacterSkin character { get; set; }
+
+	public CounterSkin(string idBackGround = "1", string idMilkCup = "1", string idCart = "1", CharacterSkin characterSkin = null)
+		: base(idBackGround, idMilkCup)
+	{
+		this.idCart = idCart;
+		this.character = characterSkin ?? new CharacterSkin();
+	}
+}
+
+public class CharacterSkin
+{
+	public string idHead { get; set; }
+	public string idBody { get; set; }
+
+	public CharacterSkin(string idHead = "1", string idBody = "1")
+	{
+		this.idHead = idHead;
+		this.idBody = idBody;
+	}
 }
 #endregion
 

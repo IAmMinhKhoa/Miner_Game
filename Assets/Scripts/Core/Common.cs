@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using UnityEngine;
 
 #region Shaft Enum Skin
@@ -93,4 +94,24 @@ public class Common
 
         canvasGroup.alpha = 1;
     }
+
+	public static Sprite LoadSprite(string path)
+	{
+		Sprite sprite = Resources.Load<Sprite>(path);
+		if (sprite == null)
+		{
+			Debug.LogError("Sprite not found at path: " + path);
+		}
+		return sprite;
+	}
+
+	public static SkeletonDataAsset LoadSpine(string path)
+	{
+		SkeletonDataAsset spineAsset = Resources.Load<SkeletonDataAsset>(path);
+		if (spineAsset == null)
+		{
+			Debug.LogError("Spine asset not found at path: " + path);
+		}
+		return spineAsset;
+	}
 }

@@ -217,17 +217,16 @@ public class ShaftUI : MonoBehaviour
         public void ChangeSkin(ShaftSkin data)
 	    {
             //set init Data Skin shaft
-            SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
-            SkinShaftWaitTable waitTableEnum = (SkinShaftWaitTable)int.Parse(data.idWaitTable);
-            SkinShaftMilkCup milkCupEnum = (SkinShaftMilkCup)int.Parse(data.idMilkCup);
+          
 
 
-            m_br.sprite = SkinManager.SkinDataSO.GetBrShaft(backgroundEnum);
-            m_waitTable.sprite = SkinManager.SkinDataSO.GetWaitTableShaft(waitTableEnum);
+            m_br.sprite = SkinManager.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
+          /*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
             foreach (Transform child in m_lyNuocHolder.transform)
             {
-              child.GetComponent<SpriteRenderer>().sprite = SkinManager.SkinDataSO.GetMilkCupShaft(milkCupEnum);
-            }
+			/*child.GetComponent<SpriteRenderer>().sprite = SkinManager.skinResource.skinMilkCup[int.Parse(data.idBackGround)].sprite;*/
+
+			}
         }
 
     void OnDestroy()
