@@ -106,21 +106,41 @@ public class ManagerSelectionShaft : MonoBehaviour
 
     public void ScrollUp()
     {
-        // Move the scroll position up
-        scrollRect.verticalNormalizedPosition += scrollSpeed;
+		RectTransform contentRect = _parentContent.GetComponent<RectTransform>();
 
-        // Clamp the position to 1 (max scroll up)
-        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0, 1);
-    }
+		// Calculate the amount to scroll up (height of 5 prefabs)
+		float prefabHeight = _prefabShaft.GetComponent<RectTransform>().rect.height;
+		float scrollDistance = (prefabHeight + 4f) * 6;
+		Debug.Log(prefabHeight * _shafts.Count);
+		if (prefabHeight * _shafts.Count - contentRect.anchoredPosition.y <= scrollDistance) return;
+		// Ensure that the content does not scroll beyond the upper limit
+		if (contentRect.anchoredPosition.y  >= prefabHeight * _shafts.Count)
+		{
+			contentRect.anchoredPosition = new Vector2(0, prefabHeight * _shafts.Count );
+			return;
+		}
 
-    public void ScrollDown()
+		// Move the content up
+		contentRect.anchoredPosition += new Vector2(0, scrollDistance);
+
+	}
+
+	public void ScrollDown()
     {
-        // Move the scroll position down
-        scrollRect.verticalNormalizedPosition -= scrollSpeed;
-
-        // Clamp the position to 0 (max scroll down)
-        scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollRect.verticalNormalizedPosition, 0,1);
-    }
+		RectTransform contentRect = _parentContent.GetComponent<RectTransform>();
+		
+		// Calculate the amount to scroll down (height of 5 prefabs)
+		float prefabHeight = _prefabShaft.GetComponent<RectTransform>().rect.height;
+		float scrollDistance = (prefabHeight+4f) * 6;
+		if (contentRect.anchoredPosition.y- scrollDistance <= 0)
+		{
+			contentRect.anchoredPosition = new Vector2(0, 0);
+			return;
+		}
+		// Move the content down
+		contentRect.anchoredPosition -= new Vector2(0, scrollDistance);
+		
+	}
 	[Button]
 	public void testAnimateSlide()
 	{

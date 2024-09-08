@@ -1,24 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PlayFabManager.Data;
+using Cysharp.Threading.Tasks;
 public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     private bool isDone = false;
+	[SerializeField]
+	private PlayFabDataManager playFabDataManager;
     public bool IsDone => isDone;
-    // private void OnApplicationPause(bool pause)
-    // {
-    //     if (pause)
-    //     {
-    //         Save();
-    //     }
-    // }
+	// private void OnApplicationPause(bool pause)
+	// {
+	//     if (pause)
+	//     {
+	//         Save();
+	//     }
+	// }
 
-     void OnApplicationQuit()
+	void OnApplicationQuit()
      {
          Debug.Log("Application ending after " + Time.time + " seconds");
          Save();
-     }
+		 playFabDataManager.SendDataBeforeExit().Forget();
+		
+	}
 
     void OnApplicationFocus(bool focus)
     {
@@ -37,7 +42,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         else
         {
             Save();
-        }
+		}
     }
 
     private void Save()
@@ -49,10 +54,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         ManagersController.Instance.Save();
         PawManager.Instance.Save();
 
-        SkinManager.Instance.Save();
-
+        //SkinManager.Instance.Save();
         PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
-    }
+		
+	}
 
     public void LoadOfflineData()
     {

@@ -11,9 +11,8 @@ public class Manager
     [SerializeField] private ManagerDataSO _data;
     [SerializeField] private ManagerSpecieDataSO _specieData;
     [SerializeField] private ManagerTimeDataSO _timeData;
-
-    //private string viewPath = "Prefabs/Character/ManagerView";
-    private ManagerView _view;
+	//private string viewPath = "Prefabs/Character/ManagerView";
+	private ManagerView _view;
 
     public Sprite Icon => _specieData.icon;
     public Sprite IconSpecial => _specieData.icon_Special;
