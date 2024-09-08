@@ -144,6 +144,7 @@ public class UpgradeUI : MonoBehaviour
 				continue;
 			}
 			button.image.sprite = btnNormalSprite;
+			if (button.interactable == false) continue;
 			button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#B9987B");
 		}
 		upgradeSlider.value = btnValue;
@@ -295,7 +296,7 @@ public class UpgradeUI : MonoBehaviour
 		button.interactable = false;
 		Color disabledColor = NoodyCustomCode.HexToColor("#C8C8C8");
 		button.image.color = disabledColor;
-		button.GetComponentInChildren<TextMeshProUGUI>().color = disabledColor;
+		button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#735E4C");
 	}
 
 	private void ActivateButton(Button button)
@@ -304,6 +305,7 @@ public class UpgradeUI : MonoBehaviour
 		ColorBlock colors = button.colors;
 		colors.normalColor = Color.white;
 		button.colors = colors;
+		button.image.color = Color.white;
 		button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#873C10");
 	}
 }

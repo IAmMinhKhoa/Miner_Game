@@ -551,8 +551,8 @@ namespace NOOD.Sound
                 if(disableMusicPlayers.Count>0) return disableMusicPlayers[disableMusicPlayers.Count - 1].musicType;
                 return GetRandomMusic();
             }
-            Debug.LogError("enableMusicPlayers COUNT COUNT = 0");
-            return 0;
+            //Debug.LogError("enableMusicPlayers COUNT COUNT = 0");
+            //return 0;
             
         }
        public static MusicEnum GetRandomMusic()
@@ -569,7 +569,7 @@ namespace NOOD.Sound
             int index = Array.IndexOf(values, current);
             // Get the next index, wrapping around if necessary
             int nextIndex = index + 1;
-            nextIndex= nextIndex>=values.Count()? 0 : nextIndex;
+            nextIndex = nextIndex >= values.Count()? 0 : nextIndex;
             return values[nextIndex];
         }
         public static MusicEnum GetPreviousMusicEnum(MusicEnum current)
@@ -579,7 +579,7 @@ namespace NOOD.Sound
             // Find the index of the current value
             int index = Array.IndexOf(values, current)+1;
             int nextIndex = index - 1;
-            nextIndex= nextIndex<=0? values.Count() : nextIndex;
+            nextIndex= nextIndex <=0 ? values.Count() : nextIndex;
             return values[nextIndex-1];
         }
 
