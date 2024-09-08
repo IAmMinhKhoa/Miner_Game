@@ -293,7 +293,7 @@ public class UpgradeUI : MonoBehaviour
 	private void DeactivateButton(Button button)
 	{
 		button.interactable = false;
-		Color disabledColor = NoodyCustomCode.HexToColor("#C8C8C8");
+		Color disabledColor = NoodyCustomCode.HexToColor("#666666");
 		button.image.color = disabledColor;
 		button.GetComponentInChildren<TextMeshProUGUI>().color = disabledColor;
 	}
