@@ -247,17 +247,24 @@ public class SoundSetting : MonoBehaviour
         }
 		return musicEnum;
     }
+	private Coroutine pauseCoroutine;
     private IEnumerator TimmingNextMusic()
     {
         MusicEnum _currentMusic = currentMusic;
         float timeMusic = SoundManager.GetMusicLength(_currentMusic);
-        yield return StartCoroutine(PauseWhileWaiting(timeMusic + 2f));
-        PlayMusic(); // Play next music
+		if (pauseCoroutine != null)
+		{
+			StopCoroutine(pauseCoroutine);
+			pauseCoroutine = null;
+		}
+		pauseCoroutine = StartCoroutine(PauseWhileWaiting(timeMusic + 2f));
+		yield return pauseCoroutine;
+		PlayMusic(); // Play next music
     }
 	IEnumerator PauseWhileWaiting(float seconds)
 	{
 		float timePassed = 0f;
-
+		
 		while (timePassed < seconds)
 		{
 			if (!TogglePauseMusic)
@@ -266,6 +273,7 @@ public class SoundSetting : MonoBehaviour
 			}
 			yield return null;  
 		}
+		pauseCoroutine = null;
 	}
 
 	#endregion
