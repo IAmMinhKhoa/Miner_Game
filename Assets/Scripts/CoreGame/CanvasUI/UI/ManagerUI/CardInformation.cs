@@ -12,6 +12,7 @@ public class CardInformation : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _textTimeSkill;
 	[SerializeField] private TextMeshProUGUI _textTimeCD;
 	[SerializeField] private TextMeshProUGUI _textValueBuff;
+	[SerializeField] private TextMeshProUGUI _textValueBuffInfo;
 	[SerializeField] private TextMeshProUGUI _textQuoest;
 
 
@@ -40,7 +41,23 @@ public class CardInformation : MonoBehaviour
 		//set data description
 		_textTimeSkill.text = _data.BoostTime.ToString() + " phút";
 		_textTimeCD.text = _data.CooldownTime.ToString() + " phút";
-		_textValueBuff.text = _data.BoostValue.ToString() + " %";
+		//_textValueBuff.text = _data.BoostValue.ToString() + " %";
+
+		switch (_data.BoostType)
+		{
+			case BoostType.Costs:
+				_textValueBuffInfo.text = "chi phí: ";
+				_textValueBuff.text = $"-{_data.BoostValue} %";
+				break;
+			case BoostType.Speed:
+				_textValueBuffInfo.text = "tốc độ di chuyển: ";
+				_textValueBuff.text = $"+{_data.BoostValue} %";
+				break;
+			case BoostType.Efficiency:
+				_textValueBuffInfo.text = "tốc độ dỡ hàng: ";
+				_textValueBuff.text = $"+{_data.BoostValue} %";
+				break;
+		}
 
 		_textQuoest.text = _data.Quoest;
 
