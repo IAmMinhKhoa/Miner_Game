@@ -220,13 +220,13 @@ public class DataLoadManager : BaseGameManager
         pawManager.LoadPaw();
     }
 
-    private void MoneyPawData()
-    {
-        var moneyManager = MoneyManager.Instance;
-        moneyManager.LoadMoney();
-    }
+	private void MoneyPawData()
+	{
+		var moneyManager = SuperMoneyManager.Instance;
+		moneyManager.LoadMoney();
+	}
 
-    private bool CheckPawData()
+	private bool CheckPawData()
     {
         return PawManager.Instance.IsDone;
     }
@@ -239,7 +239,7 @@ public class DataLoadManager : BaseGameManager
     private void LoadSkinData()
 	{
         var skinManager = SkinManager.Instance;
-        skinManager.FindSkinDataSO();
+        skinManager.InitData();
         skinManager.Load();
 	}
 
