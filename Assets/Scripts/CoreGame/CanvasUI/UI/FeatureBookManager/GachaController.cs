@@ -30,6 +30,7 @@ public class GachaController : MonoBehaviour
 		this.closeButton.onClick.AddListener(() =>
 		{
 			gameObject.SetActive(false);
+			container.localRotation = Quaternion.identity;
 		});
 	}
 	private void OnDisable()
