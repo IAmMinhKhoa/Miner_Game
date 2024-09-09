@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -33,7 +34,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         isDragging = true;
         CreateDragObject();
         PrepareForDrag();
-       
+		ScaleUp();
     }
 
     private void PrepareForDrag()
@@ -168,9 +169,8 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 bool CanMeger= ManagersController.Instance.CanMergeManagers(dragManagerUI.Data, enterManagerUI.Data);
                 enterManagerUI.CanMerge = CanMeger;
             }
-           
-
             ScaleUp();
+			PushCardToTopPlace();
         }
     }
 
@@ -181,7 +181,8 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ScaleDown();
+		ScaleDown();
+		ResetCardToDefaultPlace();
         currentCard.ClearStateCard();
     }
 
@@ -222,4 +223,12 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
     }
+	private void PushCardToTopPlace()
+	{
+		
+	}
+	private void ResetCardToDefaultPlace()
+	{
+		
+	}
 }
