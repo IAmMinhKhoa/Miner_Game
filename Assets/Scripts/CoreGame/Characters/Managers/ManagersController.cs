@@ -313,9 +313,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 		{
 			return false;
 		}
-		//MergeManagerTimes(firstManager, secondManager);
-		//UpgradeManager(firstManager);
-		//RemoveManager(secondManager);
 		return true;
 	}
 	
