@@ -6,24 +6,37 @@ using Cysharp.Threading.Tasks;
 public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     private bool isDone = false;
-	[SerializeField]
-	private PlayFabDataManager playFabDataManager;
-    public bool IsDone => isDone;
-	// private void OnApplicationPause(bool pause)
-	// {
-	//     if (pause)
-	//     {
-	//         Save();
-	//     }
-	// }
+    [SerializeField]
+    private PlayFabDataManager playFabDataManager;
 
-	void OnApplicationQuit()
-     {
-         Debug.Log("Application ending after " + Time.time + " seconds");
-         Save();
-		 playFabDataManager.SendDataBeforeExit().Forget();
-		
-	}
+    private List<double> pawsInTable = new List<double>();
+    private List<double> efficiencyEachTable = new List<double>();
+    private double pawInElevator = 0;
+    private double efficiencyOfElevator = 0;
+    private double efficiencyOfCouter = 0;
+    private struct BoostData
+    {
+        public int index;
+        public float time;
+    }
+    private List<BoostData> boostDatas = new List<BoostData>();
+
+    public bool IsDone => isDone;
+    // private void OnApplicationPause(bool pause)
+    // {
+    //     if (pause)
+    //     {
+    //         Save();
+    //     }
+    // }
+
+    void OnApplicationQuit()
+    {
+        Debug.Log("Application ending after " + Time.time + " seconds");
+        Save();
+        playFabDataManager.SendDataBeforeExit().Forget();
+
+    }
 
     void OnApplicationFocus(bool focus)
     {
@@ -42,13 +55,13 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         else
         {
             Save();
-		}
+        }
     }
 
     private void Save()
     {
-		ShaftManager.Instance.Save();
-	
+        ShaftManager.Instance.Save();
+
         ElevatorSystem.Instance.Save();
         Counter.Instance.Save();
         ManagersController.Instance.Save();
@@ -56,8 +69,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         //SkinManager.Instance.Save();
         PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
-		
-	}
+
+    }
 
     public void LoadOfflineData()
     {
@@ -67,7 +80,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             isDone = true;
             return;
         }
-        
+
         System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
         System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
         double seconds = timeSpan.TotalSeconds;
@@ -167,5 +180,27 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     {
         double pawBonus = 0;
         return pawBonus;
+    }
+
+    private void SaveData()
+    {
+        foreach (var shaft in ShaftManager.Instance.Shafts)
+        {
+            pawsInTable.Add(shaft.CurrentDeposit.CurrentPaw);
+            efficiencyEachTable.Add(shaft.EfficiencyBoost);
+            boostDatas.Add
+            (
+                new BoostData
+                {
+                    index = shaft.ManagerLocation.Manager != null ? shaft.ManagerLocation.Manager.Index : -1,
+                    time = shaft.ManagerLocation.Manager != null ? shaft.ManagerLocation.Manager.CurrentBoostTime : 0
+                }
+            );
+
+        }
+        pawInElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
+        efficiencyOfElevator = ElevatorSystem.Instance.EfficiencyBoost;
+
+        efficiencyOfCouter = Counter.Instance.EfficiencyBoost;
     }
 }
