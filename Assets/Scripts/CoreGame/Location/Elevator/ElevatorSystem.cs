@@ -125,14 +125,14 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             return;
         }
         string json = JsonConvert.SerializeObject(saveData);
-        PlayerPrefs.SetString("Elevator", json);
+        PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Elevator", json);
     }
 
     private bool Load()
     {
-        if (PlayerPrefs.HasKey("Elevator"))
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
-            string json = PlayerPrefs.GetString("Elevator");
+            string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
             moveTimeScale = saveData.moveTimeScale;

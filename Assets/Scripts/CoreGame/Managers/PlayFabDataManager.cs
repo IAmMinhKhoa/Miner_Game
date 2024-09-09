@@ -4,28 +4,32 @@ using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections.Generic;
+using Patterns;
+using Spine;
 
 namespace PlayFabManager.Data
 {
-	public class PlayFabDataManager : MonoBehaviour
+	public class PlayFabDataManager : Singleton<PlayFabDataManager>
 	{
-		private readonly HashSet<string> listData = new()
-				{
-					"ShaftManager",
-					"Elevator",
-					"Counter",
-					"ManagersController",
-					"PawVolume",
-					"SkinManager",
-					"LastTimeQuit"
-				};
+		private Dictionary<string, string> DataDictionary = new()
+			{
+				{ "ShaftManager", "" }, 
+				{ "Elevator", "" },
+				{ "Counter", "" },
+				{ "ManagersController", "" },
+				{ "PawVolume", "" },
+				{ "SkinManager", "" },
+				{ "LastTimeQuit", "" }
+			};
+
+		public static event Action LoadingIsDone;
 		public async UniTask LoadData()
 		{
-
 			await Login();
-			await GetData();
+			await GetDataFromPlayFab();
+			LoadingIsDone?.Invoke();
 		}
-		private async UniTask Login()
+		private static async UniTask Login()
 		{
 			var request = new LoginWithCustomIDRequest
 			{
@@ -46,7 +50,6 @@ namespace PlayFabManager.Data
 			try
 			{
 				var result = await taskCompletionSource.Task;
-				//Debug.Log("Login Successful");
 			}
 			catch (Exception ex)
 			{
@@ -54,10 +57,8 @@ namespace PlayFabManager.Data
 			}
 
 		}
-		private async UniTask GetData()
+		private async UniTask GetDataFromPlayFab()
 		{
-			PlayerPrefs.DeleteAll();
-			PlayerPrefs.Save();
 			var request = new GetUserDataRequest();
 			var taskCompletionSource = new UniTaskCompletionSource<GetUserDataResult>();
 			PlayFabClientAPI.GetUserData(request, result =>
@@ -65,18 +66,20 @@ namespace PlayFabManager.Data
 				taskCompletionSource.TrySetResult(result);
 
 			}, error => {
+				taskCompletionSource.TrySetException(new Exception(error.GenerateErrorReport()));
 			});
 			try
 			{
 				var result = await taskCompletionSource.Task;
-				foreach (var item in listData)
+
+				var keys = new List<string>(DataDictionary.Keys);
+
+				foreach (var s in keys)
 				{
-					string s = item.ToString();
 					if (result.Data.ContainsKey(s))
 					{
 						string json = result.Data[s].Value;
-						PlayerPrefs.SetString(s, json);
-						PlayerPrefs.Save();
+						DataDictionary[s] = json;
 					}
 				}
 
@@ -89,19 +92,8 @@ namespace PlayFabManager.Data
 		}
 		public async UniTask SendDataBeforeExit()
 		{
-			// Sending the data to PlayFab
-			Dictionary<string, string> data = new();
-			foreach (var item in listData)
-			{
-				string s = item.ToString();
-				if (PlayerPrefs.HasKey(s))
-				{
-					string json = PlayerPrefs.GetString(s);
-					data[s] = json;
-				}
-			}
-
-			var request = new UpdateUserDataRequest { Data = data };
+			
+			var request = new UpdateUserDataRequest { Data = DataDictionary };
 			var taskCompletionSource = new UniTaskCompletionSource<bool>();
 
 			PlayFabClientAPI.UpdateUserData(request, result =>
@@ -115,8 +107,12 @@ namespace PlayFabManager.Data
 				taskCompletionSource.TrySetResult(false);
 			});
 			await taskCompletionSource.Task;
-
 		}
-
+		public void SaveData(string key, string value)
+		{
+			DataDictionary[key] = value;
+		}
+		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";
+		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : null;
 	}
 }

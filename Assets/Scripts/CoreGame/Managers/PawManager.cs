@@ -33,14 +33,15 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     public void Save()
     {
-        PlayerPrefs.SetString(m_pawKey, CurrentPaw.ToString());
-        PlayerPrefs.Save();
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData(m_pawKey, CurrentPaw.ToString());
     }
 
     public void LoadPaw()
     {
-        var paw = PlayerPrefs.GetString(m_pawKey, m_startingPaw);
-        Debug.Log("Paw from PlayerPrefs:" + paw);
+        var paw = PlayFabManager.Data.PlayFabDataManager.Instance.GetData(m_pawKey);
+		Debug.Log("Paw from PlayerPrefs:" + paw);
+		paw = paw == "" ? m_startingPaw : paw;
+       
 
         if (Double.TryParse(paw.ToString(), out double result))
         {

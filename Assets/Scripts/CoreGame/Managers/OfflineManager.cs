@@ -6,8 +6,6 @@ using Cysharp.Threading.Tasks;
 public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     private bool isDone = false;
-	[SerializeField]
-	private PlayFabDataManager playFabDataManager;
     public bool IsDone => isDone;
 	// private void OnApplicationPause(bool pause)
 	// {
@@ -21,7 +19,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
      {
          Debug.Log("Application ending after " + Time.time + " seconds");
          Save();
-		 playFabDataManager.SendDataBeforeExit().Forget();
+		 PlayFabDataManager.Instance.SendDataBeforeExit().Forget();
 		
 	}
 
@@ -48,20 +46,18 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     private void Save()
     {
 		ShaftManager.Instance.Save();
-	
         ElevatorSystem.Instance.Save();
         Counter.Instance.Save();
         ManagersController.Instance.Save();
         PawManager.Instance.Save();
-
-        //SkinManager.Instance.Save();
-        PlayerPrefs.SetString("LastTimeQuit", System.DateTime.Now.ToString());
+		//SkinManager.Instance.Save();
+		PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
 		
 	}
 
     public void LoadOfflineData()
     {
-        string lastTimeQuit = PlayerPrefs.GetString("LastTimeQuit");
+        string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
         if (string.IsNullOrEmpty(lastTimeQuit))
         {
             isDone = true;
