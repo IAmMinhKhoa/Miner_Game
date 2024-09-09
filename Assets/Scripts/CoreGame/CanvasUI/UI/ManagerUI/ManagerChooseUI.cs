@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using DG.Tweening;
 using NOOD;
 using NOOD.Sound;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +42,7 @@ public class ManagerChooseUI : MonoBehaviour
 	[SerializeField] GachaController FxGacha;
 	void OnEnable()
     {
+		FadeInContainer();
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
@@ -171,6 +174,30 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void ClosePanel()
     {
-        gameObject.SetActive(false);
+		FadeOutContainer();
     }
+
+	#region AnimateUI
+	[Button]
+	public void FadeInContainer()
+	{
+		gameObject.SetActive(true);
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		Debug.Log("khoaa:" + posCam);
+		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+
+
+	}
+	[Button]
+	public void FadeOutContainer()
+	{
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
+		{
+			gameObject.SetActive(false);
+		});
+
+	}
+	#endregion
 }
