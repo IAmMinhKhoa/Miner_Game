@@ -101,7 +101,7 @@ public class UpgradeUI : MonoBehaviour
 
 	public async void OpenPanel()
 	{
-		this.transform.DOMove(showTrans.position, 0.5f).SetEase(Ease.Flash);
+		this.transform.DOMove(showTrans.position, 0.6f).SetEase(Ease.OutQuart);
 		while (canvasGroup.alpha < 1)
 		{
 			await UniTask.Yield();
@@ -113,7 +113,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private async void ClosePanel()
 	{
-		this.transform.DOMove(hideTrans.position, 0.25f).SetEase(Ease.Flash);
+		this.transform.DOMove(hideTrans.position, 0.6f).SetEase(Ease.InQuart);
 		while (canvasGroup.alpha > 0)
 		{
 			await UniTask.Yield();

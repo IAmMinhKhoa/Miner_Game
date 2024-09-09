@@ -438,8 +438,8 @@ public class SoundSetting : MonoBehaviour
         Container.SetActive(true);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Debug.Log("khoaa:" + posCam);
-        Container.transform.localPosition = new Vector2(0, posCam.y-2000); //Under Screen
-        Container.transform.DOLocalMoveY(0, 0.6f).SetEase(Ease.OutQuart);
+        Container.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+        Container.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
         
 
     }
@@ -447,7 +447,7 @@ public class SoundSetting : MonoBehaviour
     public void FadeOutContainer()
     {
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
-        Container.transform.DOLocalMoveY(posCam.y+2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
+        Container.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {
             Container.SetActive(false);
         });
