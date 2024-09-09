@@ -145,7 +145,6 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
 	private IEnumerator DelayedManagerRemoval(Manager firstManager, Manager secondManager)
 	{
-		Debug.LogError("RunFxMergeSuccess called");
 		yield return new WaitForSeconds(0.35f);
 		ManagersController.Instance.MergeManagerTimes(firstManager, secondManager);
 		ManagersController.Instance.UpgradeManager(firstManager);
