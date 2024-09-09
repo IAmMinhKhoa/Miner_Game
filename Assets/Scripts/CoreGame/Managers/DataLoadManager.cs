@@ -32,25 +32,25 @@ public class DataLoadManager : BaseGameManager
 
     #region ----Variables----
     [SerializeField]
-    private PlayFabDataManager playFabDataManager;
     private GameState dataGameState;
+	private bool isDataLoading = false;
     #endregion
 
     protected override void Update()
     {
         base.Update();
         UpdateGameStates();
-        //Debug.Log("DataLoadManager Update:" + dataGameState);
+        Debug.Log("DataLoadManager Update:" + dataGameState);
     }
 
-    void UpdateGameStates()
+    async void UpdateGameStates()
     {
-        if (!base.IsDone()) return;
+        if (!base.IsDone() || isDataLoading == true) return;
 
         switch (dataGameState)
         {
             case GameState.LoadTemplateData:
-                LoadTemplateData();
+                await LoadTemplateData();
                 SetState(GameState.LoadingTemplateData);
                 break;
             case GameState.LoadingTemplateData:
@@ -153,14 +153,15 @@ public class DataLoadManager : BaseGameManager
     }
 
     #region ----Private Methods----
-    private async UniTaskVoid LoadTemplateData()
+    private async UniTask LoadTemplateData()
     {
+		isDataLoading = true;
         MainGameData.managerDataSOList = Resources.LoadAll<ManagerDataSO>("ScriptableObjects/ManagerData").ToList();
         MainGameData.managerSpecieDataSOList = Resources.LoadAll<ManagerSpecieDataSO>("ScriptableObjects/ManagerSpecieData").ToList();
         MainGameData.managerTimeDataSOList = Resources.LoadAll<ManagerTimeDataSO>("ScriptableObjects/ManagerTimeData").ToList();
-        await playFabDataManager.LoadData();
-
+        await PlayFabDataManager.Instance.LoadData();
         MainGameData.isDone = true;
+		isDataLoading = false;
     }
 
     private bool CheckTemplateData()

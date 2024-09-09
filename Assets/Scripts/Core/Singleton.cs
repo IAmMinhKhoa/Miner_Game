@@ -38,5 +38,9 @@ namespace Patterns
         Destroy(gameObject);
       }
     }
-  }
+		private void OnDestroy()
+		{
+			Destroy(gameObject);
+		}
+	}
 }
