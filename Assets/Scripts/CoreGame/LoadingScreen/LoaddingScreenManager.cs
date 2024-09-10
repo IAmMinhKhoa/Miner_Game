@@ -1,48 +1,41 @@
-using PlayFabManager.Data;
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LoaddingScreenManager : MonoBehaviour
 {
-
-	private bool isSceneLoaded = false;
-    void Start()
-    {
-		PlayFabManager.Data.PlayFabDataManager.LoadingIsDone += OnHandleLoadingData;
-		StartCoroutine(LoadSceneAsync("MainGame"));
-	}
-	private void OnDisable()
+	[SerializeField]
+	private SpriteRenderer notFullLoadingBar;
+	[SerializeField]
+	private SpriteRenderer fullLoadingBar;
+	[SerializeField]
+	TextMeshPro currentLoading;
+	
+	private float currentLoad = 0f;
+	private float totalLoad = 0f;
+	private bool isLoading = false;
+	private void Start()
 	{
-		PlayFabDataManager.LoadingIsDone -= OnHandleLoadingData;
+		totalLoad = notFullLoadingBar.size.x;
 	}
-
-
-	private IEnumerator LoadSceneAsync(string  sceneName)
+	private void Update()
 	{
-		
-		AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		while (!loadOperation.isDone)
+		if(isLoading == false)
+			currentLoad += totalLoad * 0.0005f;
+		fullLoadingBar.size  = new Vector2(currentLoad, fullLoadingBar.size.y);
+		currentLoading.text = Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
+	}
+	public async UniTask FullLoadingBar()
+	{
+		isLoading = true;
+		while(currentLoad < totalLoad )
 		{
-			Debug.Log(Mathf.Clamp01(loadOperation.progress / 0.9f));
-			yield return null;
+			currentLoad += totalLoad * 0.001f;
+			await UniTask.Yield();
 		}
-		
-
+		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
+		await UniTask.Delay(500);
+		Destroy(gameObject);
 	}
-	private void OnHandleLoadingData()
-	{
-		StartCoroutine(UnloadCurrentSceneCoroutine());
-	}
-	private IEnumerator UnloadCurrentSceneCoroutine()
-	{
-		string currentSceneName = SceneManager.GetActiveScene().name;
-		AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(currentSceneName);
-		while (!unloadOperation.isDone)
-		{
-			yield return null;
-		}
-	}
-
 }

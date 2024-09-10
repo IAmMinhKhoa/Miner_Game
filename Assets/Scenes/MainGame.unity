@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4762f24860a931948ac035e35a65cf7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playFabDataManager: {fileID: 1180444420}
+  dataGameState: 0
 --- !u!4 &386667342
 Transform:
   m_ObjectHideFlags: 0
@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f5ba66dcdc7114ba37bbdcfe9512d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playFabDataManager: {fileID: 1180444420}
 --- !u!1 &628707517
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,6 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54e3abdc3ddeb946906bc4e7b65f386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: -3751638447538563814, guid: 598829407ff25ef4e895bd04435e3f83, type: 3}
 --- !u!4 &1180444421
 Transform:
   m_ObjectHideFlags: 0
@@ -1366,6 +1366,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1174195255}
+    - target: {fileID: 7053631613270700877, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -598.7317
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1382,6 +1386,10 @@ PrefabInstance:
     - target: {fileID: 1086645607544845034, guid: d189de483177f08429c42f96d4171cfd, type: 3}
       propertyPath: m_Name
       value: GameWorldUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086645607544845034, guid: d189de483177f08429c42f96d4171cfd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2931875559450293178, guid: d189de483177f08429c42f96d4171cfd, type: 3}
       propertyPath: m_BlockingMask.m_Bits
@@ -1485,13 +1493,13 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1032843899}
+  - {fileID: 1180444421}
   - {fileID: 167468181}
   - {fileID: 628707520}
   - {fileID: 449297000}
   - {fileID: 2146290285}
   - {fileID: 386667342}
   - {fileID: 1395491204}
-  - {fileID: 1180444421}
   - {fileID: 1830659637}
   - {fileID: 1367742869}
   - {fileID: 847704946}

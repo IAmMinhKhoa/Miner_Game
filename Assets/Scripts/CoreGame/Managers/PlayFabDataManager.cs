@@ -11,9 +11,22 @@ namespace PlayFabManager.Data
 {
 	public class PlayFabDataManager : Singleton<PlayFabDataManager>
 	{
-		private Dictionary<string, string> DataDictionary = new()
+		[SerializeField]
+		private LoaddingScreenManager prefab;
+		private LoaddingScreenManager loadingScene;
+		private bool isDataLoaded = false;
+		private void OnEnable()
+		{
+			loadingScene = Instantiate(prefab, new Vector3(0, -2f, 0), Quaternion.identity);
+			Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
+		}
+		private Dictionary<string, string> DataDictionary;
+		public async UniTask LoadData()
+		{
+
+			DataDictionary = new()
 			{
-				{ "ShaftManager", "" }, 
+				{ "ShaftManager", "" },
 				{ "Elevator", "" },
 				{ "Counter", "" },
 				{ "ManagersController", "" },
@@ -21,15 +34,15 @@ namespace PlayFabManager.Data
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" }
 			};
-
-		public static event Action LoadingIsDone;
-		public async UniTask LoadData()
-		{
+			FectchData();
 			await Login();
 			await GetDataFromPlayFab();
-			LoadingIsDone?.Invoke();
+			await loadingScene.FullLoadingBar();
+			isDataLoaded = true;
+			Camera.main.cullingMask = -1;
+
 		}
-		private static async UniTask Login()
+		private async UniTask Login()
 		{
 			var request = new LoginWithCustomIDRequest
 			{
@@ -74,12 +87,15 @@ namespace PlayFabManager.Data
 
 				var keys = new List<string>(DataDictionary.Keys);
 
-				foreach (var s in keys)
+				if (result.Data.Count > 0)
 				{
-					if (result.Data.ContainsKey(s))
+					foreach (var s in keys)
 					{
-						string json = result.Data[s].Value;
-						DataDictionary[s] = json;
+						if (result.Data.ContainsKey(s))
+						{
+							string json = result.Data[s].Value;
+							DataDictionary[s] = json;
+						}
 					}
 				}
 
@@ -96,17 +112,20 @@ namespace PlayFabManager.Data
 			var request = new UpdateUserDataRequest { Data = DataDictionary };
 			var taskCompletionSource = new UniTaskCompletionSource<bool>();
 
-			PlayFabClientAPI.UpdateUserData(request, result =>
+			if(isDataLoaded == true)
 			{
-				Debug.Log("Data successfully sent before exit!");
-				taskCompletionSource.TrySetResult(true);
-			},
+				PlayFabClientAPI.UpdateUserData(request, result =>
+				{
+					Debug.Log("Data successfully sent before exit!");
+					taskCompletionSource.TrySetResult(true);
+				},
 			error =>
 			{
 				Debug.LogError("Error sending data: " + error.GenerateErrorReport());
 				taskCompletionSource.TrySetResult(false);
 			});
-			await taskCompletionSource.Task;
+				await taskCompletionSource.Task;
+			}
 		}
 		public void SaveData(string key, string value)
 		{
@@ -114,5 +133,13 @@ namespace PlayFabManager.Data
 		}
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";
 		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : null;
+		public void FectchData()
+		{
+			Debug.Log("Fectch data called -------------------------------------");
+			foreach (var key in DataDictionary.Keys)
+			{
+				Debug.Log(key + "-------------------------------------" + DataDictionary[key]);
+			}
+		}
 	}
 }
