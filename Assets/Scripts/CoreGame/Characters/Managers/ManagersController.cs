@@ -313,9 +313,6 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 		{
 			return false;
 		}
-		//MergeManagerTimes(firstManager, secondManager);
-		//UpgradeManager(firstManager);
-		//RemoveManager(secondManager);
 		return true;
 	}
 	
@@ -415,17 +412,17 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         saveData.Add("CounterHireCost", _CounterHireCost);
         string json = JsonConvert.SerializeObject(saveData);
         Debug.Log("save: " + json);
-        PlayerPrefs.SetString("ManagersController", json);
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("ManagersController", json);
     }
 
     public void Load()
     {
-		if (PlayerPrefs.HasKey("ManagersController"))
+		if(PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ManagersController"))
         {
-            string json = PlayerPrefs.GetString("ManagersController");
+			
+			string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("ManagersController");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
-
-            _ShaftHireCost = saveData.ShaftHireCost;
+			_ShaftHireCost = saveData.ShaftHireCost;
             _ElevatorHireCost = saveData.ElevatorHireCost;
             _CounterHireCost = saveData.CounterHireCost;
 

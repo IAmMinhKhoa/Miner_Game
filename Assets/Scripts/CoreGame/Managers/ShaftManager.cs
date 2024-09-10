@@ -137,15 +137,15 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		saveData.Add("ShaftsData", shafts);
 		Debug.Log("save data: " + saveData.ToString());
 		string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-		PlayerPrefs.SetString("ShaftManager", json);
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("ShaftManager", json);
 	}
 
 	private bool Load()
 	{
-		if (PlayerPrefs.HasKey("ShaftManager"))
+		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
 		{
-			string json = PlayerPrefs.GetString("ShaftManager");
-			Debug.Log(json);
+			string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("ShaftManager");
+			
 			Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
 			int shaftsCount = saveData.Shafts;
@@ -187,6 +187,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			}
 			Shafts.Last().gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(true);
 			Shafts.Last().gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
+			Debug.Log(json);
 			return true;
 		}
 		return false;

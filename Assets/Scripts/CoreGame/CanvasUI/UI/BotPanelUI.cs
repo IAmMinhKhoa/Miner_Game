@@ -20,14 +20,14 @@ public class BotPanelUI : MonoBehaviour
     private void Awake()
     {
         _btnSound.onClickEvent.AddListener(_soundSetting.FadeInContainer);
-        _btnSetting.onClickEvent.AddListener(_settingUI.Show);
+        _btnSetting.onClickEvent.AddListener(_settingUI.FadeInContainer);
         _btnStore.onClickEvent.AddListener(_bankUI.Show);
     }
 
     void OnDestroy()
     {
         _btnSound.onClickEvent.RemoveListener(_soundSetting.FadeInContainer);
-        _btnSetting.onClickEvent.RemoveListener(_settingUI.Show);
+        _btnSetting.onClickEvent.RemoveListener(_settingUI.FadeInContainer);
         _btnStore.onClickEvent.RemoveListener(_bankUI.Show);
     }
 }

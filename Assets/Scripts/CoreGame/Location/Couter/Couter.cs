@@ -105,7 +105,6 @@ public class Counter : Patterns.Singleton<Counter>
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {
             { "boostScale", m_boostScale },
-            {"transporter", _transporters.Count},
             {"level", gameObject.GetComponent<CounterUpgrade>().CurrentLevel},
             {"managerIndex", m_managerLocation.Manager != null ? m_managerLocation.Manager.Index : -1}
         };
@@ -114,21 +113,23 @@ public class Counter : Patterns.Singleton<Counter>
             return;
         }
         string json = JsonConvert.SerializeObject(saveData);
-        PlayerPrefs.SetString("Counter", json);
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Counter", json);
     }
 
     private bool Load()
     {
-        if (PlayerPrefs.HasKey("Counter"))
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
         {
-            string json = PlayerPrefs.GetString("Counter");
+            string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Counter");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
             m_boostScale = saveData.boostScale;
-            gameObject.GetComponent<CounterUpgrade>().InitValue(saveData.level);
+            CounterUpgrade upgrader = gameObject.GetComponent<CounterUpgrade>();
+            upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
-            for (int i = 0; i < saveData.transporter; i++)
+            int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
+            for (int i = 0; i < numberWorker; i++)
             {
                 CreateTransporter();
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -33,7 +34,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         isDragging = true;
         CreateDragObject();
         PrepareForDrag();
-       
+		ScaleUp();
     }
 
     private void PrepareForDrag()
@@ -145,7 +146,6 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
 	private IEnumerator DelayedManagerRemoval(Manager firstManager, Manager secondManager)
 	{
-		Debug.LogError("RunFxMergeSuccess called");
 		yield return new WaitForSeconds(0.35f);
 		ManagersController.Instance.MergeManagerTimes(firstManager, secondManager);
 		ManagersController.Instance.UpgradeManager(firstManager);
@@ -168,20 +168,20 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 bool CanMeger= ManagersController.Instance.CanMergeManagers(dragManagerUI.Data, enterManagerUI.Data);
                 enterManagerUI.CanMerge = CanMeger;
             }
-           
-
             ScaleUp();
+			PushCardToTopPlace();
         }
     }
 
     private void ScaleUp()
     {
-        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+        transform.DOScale(new Vector2(1.1f, 1.1f), 0.2f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ScaleDown();
+		ScaleDown();
+		ResetCardToDefaultPlace();
         currentCard.ClearStateCard();
     }
 
@@ -222,4 +222,12 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
     }
+	private void PushCardToTopPlace()
+	{
+		
+	}
+	private void ResetCardToDefaultPlace()
+	{
+		
+	}
 }
