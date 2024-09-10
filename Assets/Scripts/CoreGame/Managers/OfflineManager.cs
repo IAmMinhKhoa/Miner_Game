@@ -57,7 +57,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     public void LoadOfflineData()
     {
-        string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+		PlayFabDataManager.Instance.GoToMainGame();
+		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
         if (string.IsNullOrEmpty(lastTimeQuit))
         {
             isDone = true;
@@ -67,11 +68,11 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
         System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
         double seconds = timeSpan.TotalSeconds;
-
         CalculateManagerCooldown(seconds);
         double offlinePaw = PawBonus(seconds);
         // update ADS double up or something here
         PawManager.Instance.AddPaw(offlinePaw);
+		
         isDone = true;
     }
 

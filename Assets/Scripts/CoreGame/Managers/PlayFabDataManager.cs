@@ -34,13 +34,9 @@ namespace PlayFabManager.Data
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" }
 			};
-			FectchData();
 			await Login();
 			await GetDataFromPlayFab();
 			await loadingScene.FullLoadingBar();
-			isDataLoaded = true;
-			Camera.main.cullingMask = -1;
-
 		}
 		private async UniTask Login()
 		{
@@ -133,13 +129,20 @@ namespace PlayFabManager.Data
 		}
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";
 		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : null;
-		public void FectchData()
+		//Su dung de but data lay ve tu playfab
+		/*public void FectchData()
 		{
 			Debug.Log("Fectch data called -------------------------------------");
 			foreach (var key in DataDictionary.Keys)
 			{
 				Debug.Log(key + "-------------------------------------" + DataDictionary[key]);
 			}
+		}*/
+		public void GoToMainGame()
+		{
+			isDataLoaded = true;
+			Camera.main.cullingMask = -1;
+			loadingScene.gameObject.SetActive(false);
 		}
 	}
 }
