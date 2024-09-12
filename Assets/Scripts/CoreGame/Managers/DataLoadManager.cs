@@ -243,7 +243,7 @@ public class DataLoadManager : BaseGameManager
     private void LoadSkinData()
     {
         var skinManager = SkinManager.Instance;
-        skinManager.FindSkinDataSO();
+        skinManager.InitData();
         skinManager.Load();
     }
 
