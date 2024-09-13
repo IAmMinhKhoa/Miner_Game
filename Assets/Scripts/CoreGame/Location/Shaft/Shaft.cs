@@ -24,6 +24,7 @@ public class Shaft : MonoBehaviour
     [SerializeField] private double m_levelBoost = 1f;
     [SerializeField] private double m_indexBoost = 1f;
     [SerializeField] private double managerBoost = 1f;
+    [SerializeField] private BaseConfig m_config;
 
     public int numberBrewer = 1;
 
@@ -42,6 +43,12 @@ public class Shaft : MonoBehaviour
     public double EfficiencyBoost
     {
         get { return IndexBoost * LevelBoost * GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public double GetPureEfficiencyPerSecond()
+    {
+        return IndexBoost * LevelBoost * m_config.ProductPerSecond * m_config.WorkingTime
+        / (2d * (m_config.WorkingTime + m_config.MoveTime));
     }
 
     public float SpeedBoost
@@ -69,7 +76,8 @@ public class Shaft : MonoBehaviour
             _shaftSkin = value;
             ShaftUI shaftUI;
             TryGetComponent<ShaftUI>(out shaftUI);
-			if (shaftUI!=null){
+            if (shaftUI != null)
+            {
                 //  shaftUI.OnChangeSkin?.Invoke(value);
                 shaftUI.ChangeSkin(value);
             }
@@ -100,7 +108,7 @@ public class Shaft : MonoBehaviour
         CurrentDeposit = deposit;
     }
 
-    private float GetManagerBoost(BoostType currentBoostAction)
+    public float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
@@ -130,7 +138,7 @@ public class Shaft : MonoBehaviour
 
     public void UpgradeTable()
     {
-        
+
     }
 
     private bool IsTableUsing()
@@ -148,11 +156,11 @@ public class Shaft : MonoBehaviour
 public class ShaftSkin
 {
     public int index;
-	public string idBackGround;
+    public string idBackGround;
     public string idWaitTable;
     public string idMilkCup;
 
-    public ShaftSkin(int index, string idBackGround="1",string idWaitTable="1",string idMilkCup="1")
+    public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1")
     {
         this.index = index;
         this.idBackGround = idBackGround;
