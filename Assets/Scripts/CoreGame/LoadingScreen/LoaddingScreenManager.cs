@@ -1,48 +1,49 @@
-using PlayFabManager.Data;
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LoaddingScreenManager : MonoBehaviour
 {
-
-	private bool isSceneLoaded = false;
-    void Start()
-    {
-		PlayFabManager.Data.PlayFabDataManager.LoadingIsDone += OnHandleLoadingData;
-		StartCoroutine(LoadSceneAsync("MainGame"));
-	}
-	private void OnDisable()
+	[SerializeField]
+	private SpriteRenderer notFullLoadingBar;
+	[SerializeField]
+	private SpriteRenderer fullLoadingBar;
+	[SerializeField]
+	TextMeshPro currentLoading;
+	[SerializeField]
+	private int frameRequireToLoad;
+	
+	private float currentLoad = 0f;
+	private float totalLoad = 0f;
+	private int framePassed = 0;
+	private bool isLoading = false;
+	private void Start()
 	{
-		PlayFabDataManager.LoadingIsDone -= OnHandleLoadingData;
+		totalLoad = notFullLoadingBar.size.x;
 	}
-
-
-	private IEnumerator LoadSceneAsync(string  sceneName)
+	private void Update()
 	{
-		
-		AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		while (!loadOperation.isDone)
+		if(isLoading == false)
 		{
-			Debug.Log(Mathf.Clamp01(loadOperation.progress / 0.9f));
-			yield return null;
+			framePassed++;
+			currentLoad += totalLoad * 0.0005f;
 		}
-		
-
+	
+		fullLoadingBar.size  = new Vector2(currentLoad, fullLoadingBar.size.y);
+		currentLoading.text = "Loading " + Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
 	}
-	private void OnHandleLoadingData()
+	public async UniTask FullLoadingBar()
 	{
-		StartCoroutine(UnloadCurrentSceneCoroutine());
-	}
-	private IEnumerator UnloadCurrentSceneCoroutine()
-	{
-		string currentSceneName = SceneManager.GetActiveScene().name;
-		AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(currentSceneName);
-		while (!unloadOperation.isDone)
+		isLoading = true;
+		float valuePerfamre =(float)((totalLoad - currentLoad) / (frameRequireToLoad - framePassed));
+		while (framePassed <= frameRequireToLoad)
 		{
-			yield return null;
+			framePassed++;
+			currentLoad += valuePerfamre;
+			await UniTask.Yield();
 		}
+		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
+		await UniTask.Delay(500);
 	}
-
 }

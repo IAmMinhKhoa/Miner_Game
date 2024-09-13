@@ -175,7 +175,7 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void ScaleUp()
     {
-        transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
+        transform.DOScale(new Vector2(1.1f, 1.1f), 0.2f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
