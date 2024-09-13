@@ -1,3 +1,4 @@
+using PlayFabManager.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,22 +6,28 @@ using UnityEngine;
 public class FxClickManager : MonoBehaviour
 {
 	public Transform fxClickPrefab;  
-	private Camera mainCamera;
+	[SerializeField]private Camera mainCamera;
 	public string name_fxClick_pool;
 
 	void Start()
 	{
-		mainCamera = Camera.main;
+		PlayFabDataManager.LoadingIsDone += LoadingIsDone;
+	}
+
+	private void LoadingIsDone()
+	{
 		BYPool pool = new BYPool(5, name_fxClick_pool, fxClickPrefab);
 		PoolManager.Instance.AddNewPool(pool);
-
 	}
 	IEnumerator OnEndLife(Transform fxTransform)
 	{
 		yield return new WaitForSeconds(0.5f);
 		PoolManager.Instance.dic_pool[name_fxClick_pool].DesSpawned(fxTransform);
 	}
-
+	private void OnDisable()
+	{
+		PlayFabDataManager.LoadingIsDone -= LoadingIsDone;
+	}
 	void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
