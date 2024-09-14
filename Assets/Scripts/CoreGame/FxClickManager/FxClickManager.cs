@@ -11,7 +11,8 @@ public class FxClickManager : MonoBehaviour
 
 	void Start()
 	{
-		PlayFabDataManager.LoadingIsDone += LoadingIsDone;
+		//PlayFabDataManager.LoadingIsDone += LoadingIsDone;
+		LoadingIsDone();
 	}
 
 	private void LoadingIsDone()
@@ -26,7 +27,7 @@ public class FxClickManager : MonoBehaviour
 	}
 	private void OnDisable()
 	{
-		PlayFabDataManager.LoadingIsDone -= LoadingIsDone;
+	//	PlayFabDataManager.LoadingIsDone -= LoadingIsDone;
 	}
 	void Update()
 	{
