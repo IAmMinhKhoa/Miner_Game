@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6494655252899219140}
-  - {fileID: 5634902955026887150}
+  - {fileID: 6084708435744378254}
+  - {fileID: 1597900670792916979}
   m_Father: {fileID: 1846860108048632461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3952446573370366655
@@ -136,9 +136,9 @@ MonoBehaviour:
   currentProduct: 0
   isWorking: 0
   transporterView: {fileID: 2258137804160591822}
-  transporterSkeletonAnimation: {fileID: 6350970773697767899}
-  cartSkeletonAnimation: {fileID: 4818751913256150720}
---- !u!1 &5643239586747470753
+  transporterSkeletonAnimation: {fileID: 8863071094220728649}
+  cartSkeletonAnimation: {fileID: 2053520280887666944}
+--- !u!1 &5763543245990474238
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,47 +146,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6494655252899219140}
-  - component: {fileID: 1120354660040923629}
-  - component: {fileID: 6470887197239743426}
-  - component: {fileID: 6350970773697767899}
+  - component: {fileID: 6084708435744378254}
+  - component: {fileID: 2652480192467179272}
+  - component: {fileID: 2357681923455562515}
+  - component: {fileID: 2053520280887666944}
   m_Layer: 0
-  m_Name: Spine GameObject (Meo)
+  m_Name: Spine GameObject (xe day)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6494655252899219140
+--- !u!4 &6084708435744378254
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643239586747470753}
+  m_GameObject: {fileID: 5763543245990474238}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.31319997, z: 0.58}
-  m_LocalScale: {x: 0.08119999, y: 0.08119999, z: 0.08119999}
+  m_LocalPosition: {x: -0.426, y: -0.287, z: 0}
+  m_LocalScale: {x: 0.081199996, y: 0.081199996, z: 0.081199996}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4769115709495918215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1120354660040923629
+--- !u!33 &2652480192467179272
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643239586747470753}
+  m_GameObject: {fileID: 5763543245990474238}
   m_Mesh: {fileID: 0}
---- !u!23 &6470887197239743426
+--- !u!23 &2357681923455562515
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643239586747470753}
+  m_GameObject: {fileID: 5763543245990474238}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -200,7 +200,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: db22cebbebf6e5f418761bb1596e095f, type: 2}
+  - {fileID: 2100000, guid: 9b62d1d4f923d584b877781860d52d83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,23 +218,23 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 659687291
-  m_SortingLayer: 6
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6350970773697767899
+--- !u!114 &2053520280887666944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5643239586747470753}
+  m_GameObject: {fileID: 5763543245990474238}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: e032cb6d4c3ecd34c8629223ef3e0bc4, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: c4ae8436905a35846b235dd930e61f5d, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
---- !u!1 &8547919781516433220
+--- !u!1 &7277889777633457707
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,47 +273,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5634902955026887150}
-  - component: {fileID: 434524951787905495}
-  - component: {fileID: 7073814879459787469}
-  - component: {fileID: 4818751913256150720}
+  - component: {fileID: 1597900670792916979}
+  - component: {fileID: 5408420281769774707}
+  - component: {fileID: 3110740997852776229}
+  - component: {fileID: 8863071094220728649}
   m_Layer: 0
-  m_Name: Spine GameObject (xe day_01)
+  m_Name: Spine GameObject (Nhan Vien)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5634902955026887150
+--- !u!4 &1597900670792916979
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547919781516433220}
+  m_GameObject: {fileID: 7277889777633457707}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.43360794, y: -0.289, z: 0.58}
-  m_LocalScale: {x: 0.08119998, y: 0.08119998, z: 0.08119998}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.012, y: -0.278, z: 0}
+  m_LocalScale: {x: 0.1711275, y: 0.1711275, z: 0.1711275}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4769115709495918215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &434524951787905495
+--- !u!33 &5408420281769774707
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547919781516433220}
+  m_GameObject: {fileID: 7277889777633457707}
   m_Mesh: {fileID: 0}
---- !u!23 &7073814879459787469
+--- !u!23 &3110740997852776229
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547919781516433220}
+  m_GameObject: {fileID: 7277889777633457707}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -327,7 +327,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f241d5502c351204d86901919366621b, type: 2}
+  - {fileID: 2100000, guid: b005847abc9290549baa4d95a047a37b, type: 2}
+  - {fileID: 2100000, guid: 57bbc048f3847fc49865a9e55baff54a, type: 2}
+  - {fileID: 2100000, guid: b005847abc9290549baa4d95a047a37b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -345,24 +347,24 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 659687291
-  m_SortingLayer: 6
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4818751913256150720
+--- !u!114 &8863071094220728649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547919781516433220}
+  m_GameObject: {fileID: 7277889777633457707}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: cf0ac886802724f44920c22c09ffd9df, type: 2}
-  initialSkinName: 
+  skeletonDataAsset: {fileID: 11400000, guid: 86dcfe111795bc44b8623705327c989e, type: 2}
+  initialSkinName: Cappybarra
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -389,6 +391,6 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 1
   unscaledTime: 0
-  _animationName: 
+  _animationName: Active
   loop: 1
   timeScale: 1

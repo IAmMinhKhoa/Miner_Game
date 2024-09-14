@@ -180,7 +180,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     private void CreateDragObject()
     {
         dragObject = Instantiate(objDrag, transform);
-        dragObject.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+        dragObject.transform.localScale = new Vector3(1.6f, 1.6f, 1.6f);
         AddDragCanvas(dragObject);
     }
 

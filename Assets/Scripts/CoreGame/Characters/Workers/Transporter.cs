@@ -116,7 +116,7 @@ public class Transporter : BaseWorker
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
                 }
                 cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
-                transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
+                transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 break;
         }
     }

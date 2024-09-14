@@ -120,7 +120,7 @@ public class Brewer : BaseWorker
                     brewerView.transform.localScale = new Vector3(-1, 1, 1);
                     cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
-                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Walk", true);
+                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true); 
                 break;
         }
     }
