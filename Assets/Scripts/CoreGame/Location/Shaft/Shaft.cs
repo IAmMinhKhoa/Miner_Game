@@ -70,7 +70,7 @@ public class Shaft : MonoBehaviour
 
             if (TryGetComponent(out ShaftUI shaftUI))
             {
-                shaftUI.ChangeSkin(_shaftSkin);
+                //shaftUI.ChangeSkin(_shaftSkin);
             }
         }
     }

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NOOD.SerializableDictionary;
 using UnityEngine;
 using static ShaftManager;
+using PlayFabManager.Data;
 
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
@@ -13,6 +14,12 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	{
 		LoadSkinData(); //fectch data from json
 		LoadAssets(); //get resource by path to list
+		if(!Load())
+		{
+			ShaftManager.Instance.Shafts[0].shaftSkin =  new ShaftSkin(0);
+			Debug.Log(JsonConvert.SerializeObject(ShaftManager.Instance.Shafts[0].shaftSkin));
+		}
+		isDone = true;
 	}
 
 
@@ -42,13 +49,14 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		saveData.Add("shaftSkins", shafts);
 		Debug.Log("save data: " + saveData.ToString());
 		string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+		Debug.Log(json);
 		PlayerPrefs.SetString("SkinManager", json);
 	}
 	public bool Load()
 	{
-		if (PlayerPrefs.HasKey("SkinManager"))
+		if (PlayFabDataManager.Instance.ContainsKey("SkinManager"))
 		{
-			string json = PlayerPrefs.GetString("SkinManager");
+			string json = PlayFabDataManager.Instance.GetData("SkinManager");
 			Debug.Log(json);
 			DataSkin saveData = JsonConvert.DeserializeObject<DataSkin>(json);
 
@@ -129,6 +137,21 @@ public class ShaftSkin : SkinBase
 		this.idWaitTable = idWaitTable;
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
+	}
+
+	public Dictionary<string, DataSkinImage> GetDataSkin()
+	{
+		int idBg = int.Parse(idBackGround);
+		//int idWt = int.Parse(idWaitTable);
+		//int idMc = int.Parse(idMilkCup);
+		//int idC = int.Parse(idCart);
+		return new Dictionary<string, DataSkinImage>()
+		{
+			{"skinBgShaft", SkinManager.skinResource.skinBgShaft[idBg]},
+			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
+			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
+			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
+		};
 	}
 }
 

@@ -40,7 +40,7 @@ public class DataLoadManager : BaseGameManager
     {
         base.Update();
         UpdateGameStates();
-        Debug.Log("DataLoadManager Update:" + dataGameState);
+        //Debug.Log("DataLoadManager Update:" + dataGameState);
     }
 
     async void UpdateGameStates()
@@ -106,10 +106,20 @@ public class DataLoadManager : BaseGameManager
             case GameState.LoadingPawData:
                 if (CheckPawData())
                 {
-                    SetState(GameState.LoadOfflineData);
+                    SetState(GameState.LoadSkinData);
                 }
                 break;
-            case GameState.LoadOfflineData:
+			case GameState.LoadSkinData:
+				LoadSkinData();
+				SetState(GameState.LoadingSkinData);
+				break;
+			case GameState.LoadingSkinData:
+				if (CheckSkinData())
+				{
+					SetState(GameState.LoadOfflineData);
+				}
+				break;
+			case GameState.LoadOfflineData:
                 LoadOfflineData();
                 SetState(GameState.LoadingOfflineData);
                 break;
@@ -119,16 +129,6 @@ public class DataLoadManager : BaseGameManager
                     SetState(GameState.Done);
                 }
                 break;
-            //case GameState.LoadSkinData:
-            //	LoadSkinData();
-            //	SetState(GameState.LoadingSkinData);
-            //	break;
-            //case GameState.LoadingSkinData:
-            //	if (CheckSkinData())
-            //	{
-            //		SetState(GameState.Done);
-            //	}
-            //	break;
 
             case GameState.Done:
                 break;
@@ -243,8 +243,7 @@ public class DataLoadManager : BaseGameManager
     private void LoadSkinData()
     {
         var skinManager = SkinManager.Instance;
-        skinManager.FindSkinDataSO();
-        skinManager.Load();
+        skinManager.InitData();
     }
 
     private bool CheckOfflineData()

@@ -46,7 +46,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
 
 		Shafts.Add(newShaft);
-		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
+		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);	
 		
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
