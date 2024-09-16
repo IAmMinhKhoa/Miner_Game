@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,22 +6,32 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemInventoryUI : MonoBehaviour, IPointerClickHandler
+namespace UI.Inventory
 {
-	[SerializeField]
-	private Image image;
-	[SerializeField]
-	private TextMeshProUGUI nameItem;
-	public void ChangeItem(Sprite sprite, string  name)
-	{
-		this.image.sprite = sprite;
-		this.nameItem.text = name;
-	}
+    public abstract class ItemInventoryUI : MonoBehaviour, IPointerClickHandler
+    {
+        [SerializeField]
+        protected Image image;
+		public InventoryItemType type;
 
-	public void OnPointerClick(PointerEventData eventData)
-	{
-		var dic = ShaftManager.Instance.Shafts[0].shaftSkin.GetDataSkin();
-		Debug.Log(dic["skinBgShaft"].path);
-		image.sprite = Resources.Load<Sprite>(dic["skinBgShaft"].path);
-	}
+		public enum InventoryItemType
+		{
+			ShaftBg,
+			CounterBg,
+			Elevatorbg,
+			CounterCart,
+			Elevator,
+			SecondBg,
+			ShaftCart,
+			WaitTable
+		}
+
+		public Action<InventoryItemType, int> OnItemClick;
+        public virtual void ChangeItem(Sprite sprite)
+        {
+            image.sprite = sprite;
+        }
+
+        public abstract void OnPointerClick(PointerEventData eventData);
+    }
 }

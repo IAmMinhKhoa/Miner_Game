@@ -220,7 +220,7 @@ public class ShaftUI : MonoBehaviour
           
 
 
-            m_br.sprite = SkinManager.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
+            m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
           /*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
             foreach (Transform child in m_lyNuocHolder.transform)
             {

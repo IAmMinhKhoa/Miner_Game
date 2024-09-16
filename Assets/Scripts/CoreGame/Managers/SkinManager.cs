@@ -7,7 +7,7 @@ using PlayFabManager.Data;
 
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
-	public static SkinResource skinResource = new();
+	public SkinResource skinResource = new();
 	public string jsonFilePath = "Assets/Resources/Json/SkinResources.json";
 	public bool isDone = false;
 	public void InitData()//INIT find data SO
@@ -17,7 +17,11 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		if(!Load())
 		{
 			ShaftManager.Instance.Shafts[0].shaftSkin =  new ShaftSkin(0);
-			Debug.Log(JsonConvert.SerializeObject(ShaftManager.Instance.Shafts[0].shaftSkin));
+			//Debug.Log(JsonConvert.SerializeObject(ShaftManager.Instance.Shafts[0].shaftSkin));
+		}
+		for (int i = 0; i < ShaftManager.Instance.Shafts.Count; i++)
+		{
+			ShaftManager.Instance.OnUpdateShaftUI(i);
 		}
 		isDone = true;
 	}
@@ -34,7 +38,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			Dictionary<string, object> shaftData = new Dictionary<string, object>
 			{
-				{ "index", shaft.shaftIndex },
+				{ "index", shaft.shaftIndex},
 				{ "idBackGround", shaft.shaftSkin.idBackGround },
 				{ "idWaitTable", shaft.shaftSkin.idWaitTable },
 				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
@@ -47,10 +51,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			return;
 		}
 		saveData.Add("shaftSkins", shafts);
-		Debug.Log("save data: " + saveData.ToString());
 		string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-		Debug.Log(json);
-		PlayerPrefs.SetString("SkinManager", json);
+		PlayFabDataManager.Instance.SaveData("SkinManager", json);
 	}
 	public bool Load()
 	{
@@ -147,7 +149,7 @@ public class ShaftSkin : SkinBase
 		//int idC = int.Parse(idCart);
 		return new Dictionary<string, DataSkinImage>()
 		{
-			{"skinBgShaft", SkinManager.skinResource.skinBgShaft[idBg]},
+			{"skinBgShaft", SkinManager.Instance.skinResource.skinBgShaft[idBg]},
 			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
 			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
 			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
