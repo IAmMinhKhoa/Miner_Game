@@ -33,15 +33,15 @@ public class PawManager : Patterns.Singleton<PawManager>
 
     public void Save()
     {
-		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData(m_pawKey, CurrentPaw.ToString());
+        PlayFabManager.Data.PlayFabDataManager.Instance.SaveData(m_pawKey, CurrentPaw.ToString());
     }
 
     public void LoadPaw()
     {
         var paw = PlayFabManager.Data.PlayFabDataManager.Instance.GetData(m_pawKey);
-		Debug.Log("Paw from PlayerPrefs:" + paw);
-		paw = paw == "" ? m_startingPaw : paw;
-       
+        Debug.Log("Paw from PlayerPrefs:" + paw);
+        paw = paw == "" ? m_startingPaw : paw;
+
 
         if (Double.TryParse(paw.ToString(), out double result))
         {
@@ -54,6 +54,12 @@ public class PawManager : Patterns.Singleton<PawManager>
         {
             Debug.LogError("Could not parse paw value from PlayerPrefs");
         }
+    }
+
+    [Button]
+    public void CalculateBonus(float offlineTime)
+    {
+        OfflineManager.Instance.TestPawBonus(offlineTime);
     }
 
 

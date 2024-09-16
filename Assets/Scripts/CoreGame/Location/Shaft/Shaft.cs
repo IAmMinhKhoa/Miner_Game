@@ -48,7 +48,7 @@ public class Shaft : MonoBehaviour
     public double GetPureEfficiencyPerSecond()
     {
         return IndexBoost * LevelBoost * m_config.ProductPerSecond * m_config.WorkingTime
-        / (2d * (m_config.WorkingTime + m_config.MoveTime));
+        / (m_config.WorkingTime + 2d * m_config.MoveTime);
     }
 
     public float SpeedBoost

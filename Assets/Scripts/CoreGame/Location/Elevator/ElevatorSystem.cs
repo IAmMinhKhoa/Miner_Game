@@ -12,6 +12,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
     [SerializeField] private GameObject lyNuocs;
+    [SerializeField] private BaseConfig elevatorCtrlConfig;
 
     public BaseManagerLocation ManagerLocation => managerLocation;
     public Deposit ElevatorDeposit => elevatorDeposit;
@@ -52,6 +53,21 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public float CostsBoost
     {
         get { return GetManagerBoost(BoostType.Costs); }
+    }
+
+    public double GetPureProductionInCycle()
+    {
+        return elevatorCtrlConfig.ProductPerSecond * elevatorCtrlConfig.WorkingTime;
+    }
+
+    public double GetPureMoveTime()
+    {
+        return elevatorCtrlConfig.MoveTime * MoveTimeScale;
+    }
+
+    public double GetPureLoadTime()
+    {
+        return elevatorCtrlConfig.WorkingTime;
     }
 
     private bool isDone = false;
