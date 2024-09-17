@@ -9,7 +9,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
 	public Action OnNewShaftCreated;
 	public event Action OnShaftUpdated;
-	public Action<int> OnUpdateShaftUI;
+	public Action<int> OnUpdateShaftInventoryUI;
 	[Header("Prefab")]
 	[SerializeField] private Shaft shaftPrefab;
 	[SerializeField] private float shaftYOffset = 1.716f;

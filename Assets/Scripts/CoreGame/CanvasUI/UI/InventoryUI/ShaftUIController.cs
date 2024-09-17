@@ -18,10 +18,14 @@ namespace UI.Inventory
 		public void UpdateShaftUI()
 		{
 			var bgInfor = ShaftManager.Instance.Shafts[index].shaftSkin.GetDataSkin();
-			Sprite bgImage = Resources.Load<Sprite>(bgInfor["skinBgShaft"].path);
+			
 			foreach (DecoratorItem item in items)
 			{
-				if(item.type == InventoryItemType.ShaftBg) item.ChangeItem(bgImage);
+				if (bgInfor.ContainsKey(item.type))
+				{
+					Sprite bgImage =  Resources.Load<Sprite>(bgInfor[item.type].path);
+					item.ChangeItem(bgImage);
+				}
 			}
 		}
 
@@ -32,7 +36,6 @@ namespace UI.Inventory
 			foreach (DecoratorItem item in items)
 			{
 				item.Index = i;
-				
 			}
         }
     }

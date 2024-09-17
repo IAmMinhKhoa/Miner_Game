@@ -4,7 +4,8 @@ using NOOD.SerializableDictionary;
 using UnityEngine;
 using static ShaftManager;
 using PlayFabManager.Data;
-
+using PlayFab.EconomyModels;
+using UI.Inventory;
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
 	public SkinResource skinResource = new();
@@ -17,12 +18,16 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		if(!Load())
 		{
 			ShaftManager.Instance.Shafts[0].shaftSkin =  new ShaftSkin(0);
-			//Debug.Log(JsonConvert.SerializeObject(ShaftManager.Instance.Shafts[0].shaftSkin));
+			ElevatorSystem.Instance.elevatorSkin = new();
+			Counter.Instance.counterSkin = new();
+
 		}
 		for (int i = 0; i < ShaftManager.Instance.Shafts.Count; i++)
 		{
-			ShaftManager.Instance.OnUpdateShaftUI(i);
+			ShaftManager.Instance.Shafts[i].UpdateUI();
 		}
+		ElevatorSystem.Instance.UpdateUI();
+		Counter.Instance.UpdateUI();
 		isDone = true;
 	}
 
@@ -46,11 +51,16 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			};
 			shafts.Add(shaftData);
 		}
-		if (shafts.Count == 0)
+		var elvator = ElevatorSystem.Instance.elevatorSkin;
+		var counter = Counter.Instance.counterSkin;
+		if (shafts.Count == 0 || elvator == null || counter == null)
 		{
 			return;
 		}
+
 		saveData.Add("shaftSkins", shafts);
+		saveData.Add("elevatorSkin", elvator);
+		saveData.Add("counterSkin", counter);
 		string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
 		PlayFabDataManager.Instance.SaveData("SkinManager", json);
 	}
@@ -62,12 +72,15 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			Debug.Log(json);
 			DataSkin saveData = JsonConvert.DeserializeObject<DataSkin>(json);
 
-			int shaftsCount = saveData.shaftSkins.Count;
+			//int shaftsCount = saveData.shaftSkins.Count;
 
 			for (int i = 0; i < saveData.shaftSkins.Count; i++)
 			{
 				ShaftManager.Instance.Shafts[i].shaftSkin = saveData.shaftSkins[i];
 			}
+
+			ElevatorSystem.Instance.elevatorSkin = saveData.elevatorSkin;
+			Counter.Instance.counterSkin = saveData.counterSkin;
 			isDone = true;
 			return true;
 		}
@@ -98,7 +111,14 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			imageData.sprite = Common.LoadSprite(imageData.path);
 		}
-
+		foreach (var imageData in skinResource.skinBgElevator)
+		{
+			imageData.sprite = Common.LoadSprite(imageData.path);
+		}
+		foreach (var imageData in skinResource.skinBgCounter)
+		{
+			imageData.sprite = Common.LoadSprite(imageData.path);
+		}
 		// Load Spine data
 		/*foreach (var spineData in skinResource.skinCharacterHead)
 		{
@@ -111,6 +131,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 public class DataSkin
 {
 	public List<ShaftSkin> shaftSkins { get; set; }
+	public ElevatorSkin elevatorSkin { get; set; }
+	public CounterSkin counterSkin { get; set; }
 
 }
 public class SkinBase
@@ -141,15 +163,15 @@ public class ShaftSkin : SkinBase
 		this.character = characterSkin ?? new CharacterSkin();
 	}
 
-	public Dictionary<string, DataSkinImage> GetDataSkin()
+	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
 		//int idWt = int.Parse(idWaitTable);
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
-		return new Dictionary<string, DataSkinImage>()
+		return new Dictionary<InventoryItemType, DataSkinImage>()
 		{
-			{"skinBgShaft", SkinManager.Instance.skinResource.skinBgShaft[idBg]},
+			{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft[idBg]},
 			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
 			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
 			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
@@ -168,6 +190,20 @@ public class ElevatorSkin : SkinBase
 		this.idFrontElevator = idFrontElevator;
 		this.idBackElevator = idBackElevator;
 	}
+	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
+	{
+		int idBg = int.Parse(idBackGround);
+		//int idWt = int.Parse(idWaitTable);
+		//int idMc = int.Parse(idMilkCup);
+		//int idC = int.Parse(idCart);
+		return new Dictionary<InventoryItemType, DataSkinImage>()
+		{
+			{InventoryItemType.ElevatorBg, SkinManager.Instance.skinResource.skinBgElevator[idBg]},
+			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
+			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
+			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
+		};
+	}
 }
 
 public class CounterSkin : SkinBase
@@ -181,6 +217,21 @@ public class CounterSkin : SkinBase
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
 	}
+	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
+	{
+		int idBg = int.Parse(idBackGround);
+		//int idWt = int.Parse(idWaitTable);
+		//int idMc = int.Parse(idMilkCup);
+		//int idC = int.Parse(idCart);
+		return new Dictionary<InventoryItemType, DataSkinImage>()
+		{
+			{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter[idBg]},
+			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
+			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
+			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
+		};
+	}
+
 }
 
 public class CharacterSkin
@@ -193,6 +244,17 @@ public class CharacterSkin
 		this.idHead = idHead;
 		this.idBody = idBody;
 	}
+}
+public enum InventoryItemType
+{
+	ShaftBg,
+	CounterBg,
+	ElevatorBg,
+	CounterCart,
+	Elevator,
+	SecondBg,
+	ShaftCart,
+	WaitTable
 }
 #endregion
 

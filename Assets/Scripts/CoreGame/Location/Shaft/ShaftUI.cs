@@ -216,13 +216,15 @@ public class ShaftUI : MonoBehaviour
     }
         public void ChangeSkin(ShaftSkin data)
 	    {
-            //set init Data Skin shaft
-          
+		//set init Data Skin shaft
+		if (SkinManager.Instance.skinResource.skinBgShaft == null) return;
+		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
 
+		
 
-            m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
-          /*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
-            foreach (Transform child in m_lyNuocHolder.transform)
+		m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
+		/*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
+		foreach (Transform child in m_lyNuocHolder.transform)
             {
 			/*child.GetComponent<SpriteRenderer>().sprite = SkinManager.skinResource.skinMilkCup[int.Parse(data.idBackGround)].sprite;*/
 

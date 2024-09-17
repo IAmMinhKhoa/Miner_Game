@@ -65,16 +65,20 @@ public class Shaft : MonoBehaviour
         get => _shaftSkin;
         set
         {
-            Debug.Log($"Set data to shaft {shaftIndex}");
             _shaftSkin = value;
-
-            if (TryGetComponent(out ShaftUI shaftUI))
-            {
-                //shaftUI.ChangeSkin(_shaftSkin);
-            }
-        }
+			if (TryGetComponent(out ShaftUI shaftUI))
+			{
+				shaftUI.ChangeSkin(_shaftSkin);
+			}
+		}
     }
-
+	public void UpdateUI()
+	{
+		if (TryGetComponent(out ShaftUI shaftUI))
+		{
+			shaftUI.ChangeSkin(_shaftSkin);
+		}
+	}
 
     public void CreateBrewer()
     {

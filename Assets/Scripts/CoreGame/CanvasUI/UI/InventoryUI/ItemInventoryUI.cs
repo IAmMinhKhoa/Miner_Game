@@ -14,18 +14,6 @@ namespace UI.Inventory
         protected Image image;
 		public InventoryItemType type;
 
-		public enum InventoryItemType
-		{
-			ShaftBg,
-			CounterBg,
-			Elevatorbg,
-			CounterCart,
-			Elevator,
-			SecondBg,
-			ShaftCart,
-			WaitTable
-		}
-
 		public Action<InventoryItemType, int> OnItemClick;
         public virtual void ChangeItem(Sprite sprite)
         {

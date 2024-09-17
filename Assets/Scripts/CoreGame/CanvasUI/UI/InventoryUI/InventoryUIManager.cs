@@ -20,23 +20,54 @@ namespace UI.Inventory
         [SerializeField] GameObject inventoryPanel;
 		[SerializeField] BackGroundItemController bgList;
 
-		[Header("Item Handle")]
+		[Header("Shaft Item Handle")]
 		[SerializeField]
 		GameObject shaftContent;
 		[SerializeField]
 		ShaftUIController shaftUIController;
-		List<ShaftUIController> listShaftUI;
+		List<ShaftUIController> listShaftUI = new();
 
 
-		[Header("BackGroundItem")]
-		[SerializeField] DecoratorItem counterSkin;
-		[SerializeField] DecoratorItem elevatorSkin;
+		[Header("Counter")]
+		[SerializeField] DecoratorItem[] counterItem;
+		
+
+		[Header("Elevator")]
+		[SerializeField] DecoratorItem[] elevatorItem;
+	
 
 		int shaftCount = 0;
 		bool isBackgroundItemOpening;
-        void Start()
+		private void OnEnable()
+		{
+			
+			ShaftManager.Instance.OnUpdateShaftInventoryUI += HanleUpdateShaftIUI;
+			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI += HandleElevatorIUI;
+			Counter.Instance.OnUpdateCounterInventoryUI += HandleCounterIUI;
+			int totalShaft = ShaftManager.Instance.Shafts.Count;
+			if (shaftCount < totalShaft)
+			{
+				for (int i = shaftCount; i < totalShaft; i++)
+					HandleShaftUI();
+			}
+
+			for (int i = 0; i < ShaftManager.Instance.Shafts.Count; i++)
+			{
+				ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(i);
+			}
+			HandleElevatorIUI();
+			HandleCounterIUI();
+		}
+		private void OnDisable()
+		{
+			ShaftManager.Instance.OnUpdateShaftInventoryUI -= HanleUpdateShaftIUI;
+			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI -= HandleElevatorIUI;
+			Counter.Instance.OnUpdateCounterInventoryUI -= HandleCounterIUI;
+		}
+
+		void Start()
         {
-			listShaftUI = new();
+			
 			isBackgroundItemOpening = false;
             tgNhanVien.onValueChanged.AddListener(delegate
             {
@@ -46,17 +77,54 @@ namespace UI.Inventory
             {
                 SlideInContainer(pnNoiThat, tgNoiThat);
             });
-			ShaftManager.Instance.OnShaftUpdated += HandleShaftUI;
-			counterSkin.OnItemClick += OpenListBg;
-			elevatorSkin.OnItemClick += OpenListBg;
-			ShaftManager.Instance.OnUpdateShaftUI += HanleUpdateShaftUI;
+
+			foreach (var item in counterItem)
+			{
+				if (item.type == InventoryItemType.CounterBg)
+				{
+					
+					item.OnItemClick += OpenListBg;
+				}
+			}
+			foreach (var item in elevatorItem)
+			{
+				if (item.type == InventoryItemType.ElevatorBg)
+				{
+					item.OnItemClick += OpenListBg;
+				}
+			}
+			
+			
 		}
 
-		private void HanleUpdateShaftUI(int index)
+		private void HanleUpdateShaftIUI(int index)
 		{
 			listShaftUI[index].UpdateShaftUI();
 		}
-
+		private void HandleElevatorIUI()
+		{
+			var elevatorSkinData = ElevatorSystem.Instance.elevatorSkin.GetDataSkin();
+			foreach (var item in elevatorItem)
+			{
+				if(elevatorSkinData.ContainsKey(item.type))
+				{
+					Sprite bgImage = Resources.Load<Sprite>(elevatorSkinData[item.type].path);
+					item.ChangeItem(bgImage);
+				} 
+			}
+		}
+		private void HandleCounterIUI()
+		{
+			var elevatorSkinData = Counter.Instance.counterSkin.GetDataSkin();
+			foreach (var item in counterItem)
+			{
+				if (elevatorSkinData.ContainsKey(item.type))
+				{
+					Sprite bgImage = Resources.Load<Sprite>(elevatorSkinData[item.type].path);
+					item.ChangeItem(bgImage);
+				}
+			}
+		}
 		public void SlideInContainer(GameObject panel, Toggle tg)
         {
             if (tg.isOn) tg.gameObject.GetComponent<ToggleBehaviour>().DoAnimate();

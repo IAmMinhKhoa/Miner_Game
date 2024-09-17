@@ -22,7 +22,7 @@ public class ElevatorUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private SkeletonAnimation m_refrigeratorAnimation;
-
+	[SerializeField] private SpriteRenderer m_bgElevator;
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 
@@ -139,12 +139,21 @@ public class ElevatorUI : MonoBehaviour
     {
         OnUpgradeRequest?.Invoke();
     }
-    
-    #region DEBUG
-    // [Button]
-    // private void AddLevel(int valueAdd)
-    // {
-    //     m_elevatorUpgrade.Upgrade(valueAdd);
-    // }
-    #endregion
+
+	public void ChangeSkin(ElevatorSkin data)
+	{
+		//set init Data Skin shaft
+		//Debug.Log(ElevatorSystem.Instance.elevatorSkin);
+		m_bgElevator.sprite = SkinManager.Instance.skinResource.skinBgElevator[int.Parse(data.idBackGround)].sprite; ; 
+		/*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
+		
+	}
+
+	#region DEBUG
+	// [Button]
+	// private void AddLevel(int valueAdd)
+	// {
+	//     m_elevatorUpgrade.Upgrade(valueAdd);
+	// }
+	#endregion
 }

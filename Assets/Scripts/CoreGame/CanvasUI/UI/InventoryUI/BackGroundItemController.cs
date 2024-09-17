@@ -5,8 +5,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
-using static UI.Inventory.ItemInventoryUI;
+using UnityEngine.UI;
 
 namespace UI.Inventory
 {
@@ -18,11 +19,19 @@ namespace UI.Inventory
 		BackGroundItem item;
 		[SerializeField]
 		int amountItem;
+		[SerializeField]
+		UnityEngine.UI.Image imgSelectedBg;
+		[SerializeField]
+		TextMeshProUGUI tileSelectedBg;
+		[SerializeField]
+		TextMeshProUGUI descSelectedBg;
+		
 
 		List<BackGroundItem> items;
 		
 		InventoryItemType currentItemHandle;
 		int index;
+		int currentIndexImage;
 		private void Awake()
 		{
 			items = new();
@@ -41,15 +50,33 @@ namespace UI.Inventory
 		
 		}
 
-		private void HandleBgItemClick(int index)
+		private void HandleBgItemClick(int indexImg)
 		{
+			currentIndexImage = indexImg;
+			imgSelectedBg.sprite = items[indexImg].img;
+			tileSelectedBg.text = items[indexImg].iName;
+			descSelectedBg.text= items[indexImg].desc;
+
+		}
+		public void ChangeBgItem()
+		{
+			if (currentIndexImage == -1) return;
 			switch (currentItemHandle)
 			{
 				case InventoryItemType.ShaftBg:
-					ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround = index.ToString();
-					ShaftManager.Instance.OnUpdateShaftUI?.Invoke(this.index);
-					string json = JsonConvert.SerializeObject(ShaftManager.Instance.Shafts[this.index].shaftSkin);
-					Debug.Log(json);
+					ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround = currentIndexImage.ToString();
+					ShaftManager.Instance.Shafts[this.index].UpdateUI();
+					ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(this.index);
+					break;
+				case InventoryItemType.ElevatorBg:
+					ElevatorSystem.Instance.elevatorSkin.idBackGround = currentIndexImage.ToString();
+					ElevatorSystem.Instance.UpdateUI();
+					ElevatorSystem.Instance.OnUpdateElevatorInventoryUI?.Invoke();
+					break;
+				case InventoryItemType.CounterBg:
+					Counter.Instance.counterSkin.idBackGround = currentIndexImage.ToString();
+					Counter.Instance.UpdateUI();
+					Counter.Instance.OnUpdateCounterInventoryUI?.Invoke();
 					break;
 			}
 		}
@@ -62,29 +89,53 @@ namespace UI.Inventory
 					items[i].gameObject.SetActive(false);
 			}
 		}
-		private void LoadShaftBg()
+		private void LoadBg(InventoryItemType itemType)
 		{
 			UnactiveAllItems();
-			var shaftBg = SkinManager.Instance.skinResource.skinBgShaft;
-			for(int i = 0; i < shaftBg.Count; i++)
+			Dictionary<InventoryItemType, List<DataSkinImage>> data = new()
+			{
+				{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft },
+				{InventoryItemType.ElevatorBg, SkinManager.Instance.skinResource.skinBgElevator },
+				{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter}
+
+			};
+			Dictionary<InventoryItemType, int> curentBg = new()
+			{
+				{InventoryItemType.ElevatorBg, int.Parse(ElevatorSystem.Instance.elevatorSkin.idBackGround)},
+				{InventoryItemType.CounterBg, int.Parse(Counter.Instance.counterSkin.idBackGround)}
+
+			};
+			if(this.index != -1)
+			{
+				curentBg = new()
+				{
+					{InventoryItemType.ShaftBg, int.Parse(ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround)}
+				};
+			}
+			var listBg = data[itemType];
+			string json = JsonConvert.SerializeObject(data);
+			for(int i = 0; i < listBg.Count; i++)
 			{
 				items[i].gameObject.SetActive(true);
-				Sprite sprite = Resources.Load<Sprite>(shaftBg[i].path);
-				string name = shaftBg[i].name;
-				items[i].ChangItemInfo(sprite, name, i);
+				Sprite sprite = Resources.Load<Sprite>(listBg[i].path);
+				string name = listBg[i].name;
+				items[i].ChangItemInfo(sprite, name, i, listBg[i].desc);
+				if(i == curentBg[itemType])
+				{
+					imgSelectedBg.sprite = items[i].img;
+					tileSelectedBg.text = items[i].iName;
+					descSelectedBg.text = items[i].desc;
+				}
 			}
 		}
+
 
 		public void SetItemHandle(InventoryItemType itemHandle, int index)
 		{
 			currentItemHandle = itemHandle;
 			this.index = index;
-			switch (itemHandle)
-			{
-				case InventoryItemType.ShaftBg:
-					LoadShaftBg();
-					break;
-			}	
+			currentIndexImage = -1;
+			LoadBg(itemHandle);
 		}
 	}
 }

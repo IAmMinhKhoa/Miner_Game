@@ -13,6 +13,7 @@ using UnityEngine;
 		public string id;
 		public string name;
 		public string path; // Dùng chung cho cả Image và Spine
+		public string desc;
 	}
 
 	[System.Serializable]
@@ -31,17 +32,17 @@ using UnityEngine;
 	public class SkinResource
 	{
 		public List<DataSkinImage> skinBgShaft;
-		/*	public List<DataSkinImage> skinBgCouter;
-			public List<DataSkinImage> skinBgElevator;
+		public List<DataSkinImage> skinBgCounter;
+		public List<DataSkinImage> skinBgElevator;
 
-			public List<DataSkinImage> skinWaitTable;
-			public List<DataSkinImage> skinMilkCup;
+	/*	public List<DataSkinImage> skinWaitTable;
+	public List<DataSkinImage> skinMilkCup;
 
-			public List<DataSkinSpine> skinCharacterHead;
-			public List<DataSkinSpine> skinCharacterBody;
-			public List<DataSkinSpine> skinCharacterCart;*/
+	public List<DataSkinSpine> skinCharacterHead;
+	public List<DataSkinSpine> skinCharacterBody;
+	public List<DataSkinSpine> skinCharacterCart;*/
 	}
-	#endregion
+#endregion
 
 
 

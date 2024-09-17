@@ -19,10 +19,12 @@ public class CounterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    // [Header("Visual object")]
-    // [SerializeField] private GameObject m_quayGiaoNuocHolder;
+	[SerializeField]
+	SpriteRenderer m_bgCounter;
+	// [Header("Visual object")]
+	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
 
-    private Counter m_counter;
+	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
     void Awake()
@@ -113,4 +115,9 @@ public class CounterUI : MonoBehaviour
     {
         OnUpgradeRequest?.Invoke();
     }
+
+	public void ChangeSkin(CounterSkin data)
+	{
+		m_bgCounter.sprite = SkinManager.Instance.skinResource.skinBgCounter[int.Parse(data.idBackGround)].sprite; ;
+	}
 }
