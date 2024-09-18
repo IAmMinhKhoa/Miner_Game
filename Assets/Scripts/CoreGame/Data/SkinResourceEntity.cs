@@ -34,6 +34,8 @@ using UnityEngine;
 		public List<DataSkinImage> skinBgShaft;
 		public List<DataSkinImage> skinBgCounter;
 		public List<DataSkinImage> skinBgElevator;
+		public List<DataSkinImage> skinSecondBgShaft;
+
 
 	/*	public List<DataSkinImage> skinWaitTable;
 	public List<DataSkinImage> skinMilkCup;
@@ -41,7 +43,7 @@ using UnityEngine;
 	public List<DataSkinSpine> skinCharacterHead;
 	public List<DataSkinSpine> skinCharacterBody;
 	public List<DataSkinSpine> skinCharacterCart;*/
-	}
+}
 #endregion
 
 

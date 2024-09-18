@@ -26,7 +26,7 @@ public class ScrollRect_fix : ScrollRect
 
         if (this.verticalScrollbar)
         {
-
+			this.verticalScrollbar.value = 1;
             this.verticalScrollbar.size = 0.05f;
         }
 		if (this.horizontalScrollbar)

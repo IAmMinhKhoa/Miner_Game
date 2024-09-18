@@ -47,6 +47,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				{ "idBackGround", shaft.shaftSkin.idBackGround },
 				{ "idWaitTable", shaft.shaftSkin.idWaitTable },
 				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
+				{ "idSecondBg", shaft.shaftSkin.idSecondBg }
 
 			};
 			shafts.Add(shaftData);
@@ -95,6 +96,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		if (System.IO.File.Exists(jsonFilePath))
 		{
 			string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+			Debug.Log(jsonContent);
 			skinResource = JsonUtility.FromJson<SkinResource>(jsonContent);
 			Debug.Log("Data loaded successfully!");
 		}
@@ -108,6 +110,10 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	{
 		// Load Sprites
 		foreach (var imageData in skinResource.skinBgShaft)
+		{
+			imageData.sprite = Common.LoadSprite(imageData.path);
+		}
+		foreach (var imageData in skinResource.skinSecondBgShaft)
 		{
 			imageData.sprite = Common.LoadSprite(imageData.path);
 		}
@@ -152,26 +158,30 @@ public class ShaftSkin : SkinBase
 	public int index { get; set; }
 	public string idWaitTable { get; set; }
 	public string idCart { get; set; }
+	public string idSecondBg { get; set; }
 	public CharacterSkin character { get; set; }
 
-	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1", string idCart = "1", CharacterSkin characterSkin = null)
+	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1", string idCart = "1", string idSecondBg = "1", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.index = index;
 		this.idWaitTable = idWaitTable;
 		this.idCart = idCart;
+		this.idSecondBg = idSecondBg;
 		this.character = characterSkin ?? new CharacterSkin();
 	}
 
 	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
+		int idSBg = int.Parse(idSecondBg);
 		//int idWt = int.Parse(idWaitTable);
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
 		return new Dictionary<InventoryItemType, DataSkinImage>()
 		{
 			{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft[idBg]},
+			{InventoryItemType.ShaftSecondBg, SkinManager.Instance.skinResource.skinBgShaft[idSBg]},
 			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
 			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
 			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
@@ -252,9 +262,9 @@ public enum InventoryItemType
 	ElevatorBg,
 	CounterCart,
 	Elevator,
-	SecondBg,
+	ShaftSecondBg,
 	ShaftCart,
-	WaitTable
+	ShaftWaitTable
 }
 #endregion
 

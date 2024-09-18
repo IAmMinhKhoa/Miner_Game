@@ -61,23 +61,35 @@ namespace UI.Inventory
 		public void ChangeBgItem()
 		{
 			if (currentIndexImage == -1) return;
+			var shaftManager = ShaftManager.Instance;
+			
+
 			switch (currentItemHandle)
 			{
 				case InventoryItemType.ShaftBg:
-					ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround = currentIndexImage.ToString();
-					ShaftManager.Instance.Shafts[this.index].UpdateUI();
-					ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(this.index);
+					
+					shaftManager.Shafts[this.index].shaftSkin.idBackGround = currentIndexImage.ToString();
+					shaftManager.Shafts[this.index].UpdateUI();
+					shaftManager.OnUpdateShaftInventoryUI?.Invoke(this.index);
+					break;
+				case InventoryItemType.ShaftSecondBg:
+					shaftManager.Shafts[this.index].shaftSkin.idSecondBg = currentIndexImage.ToString();
+					shaftManager.Shafts[this.index].UpdateUI();
+					shaftManager.OnUpdateShaftInventoryUI?.Invoke(this.index);
 					break;
 				case InventoryItemType.ElevatorBg:
-					ElevatorSystem.Instance.elevatorSkin.idBackGround = currentIndexImage.ToString();
-					ElevatorSystem.Instance.UpdateUI();
-					ElevatorSystem.Instance.OnUpdateElevatorInventoryUI?.Invoke();
+					var elevatorSystem = ElevatorSystem.Instance;
+					elevatorSystem.elevatorSkin.idBackGround = currentIndexImage.ToString();
+					elevatorSystem.UpdateUI();
+					elevatorSystem.OnUpdateElevatorInventoryUI?.Invoke();
 					break;
 				case InventoryItemType.CounterBg:
-					Counter.Instance.counterSkin.idBackGround = currentIndexImage.ToString();
-					Counter.Instance.UpdateUI();
-					Counter.Instance.OnUpdateCounterInventoryUI?.Invoke();
+					var counter = Counter.Instance;
+					counter.counterSkin.idBackGround = currentIndexImage.ToString();
+					counter.UpdateUI();
+					counter.OnUpdateCounterInventoryUI?.Invoke();
 					break;
+				
 			}
 		}
 
@@ -96,7 +108,8 @@ namespace UI.Inventory
 			{
 				{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft },
 				{InventoryItemType.ElevatorBg, SkinManager.Instance.skinResource.skinBgElevator },
-				{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter}
+				{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter},
+				{InventoryItemType.ShaftSecondBg, SkinManager.Instance.skinResource.skinSecondBgShaft}
 
 			};
 			Dictionary<InventoryItemType, int> curentBg = new()
@@ -109,7 +122,8 @@ namespace UI.Inventory
 			{
 				curentBg = new()
 				{
-					{InventoryItemType.ShaftBg, int.Parse(ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround)}
+					{InventoryItemType.ShaftBg, int.Parse(ShaftManager.Instance.Shafts[this.index].shaftSkin.idBackGround)},
+					{InventoryItemType.ShaftSecondBg,  int.Parse(ShaftManager.Instance.Shafts[this.index].shaftSkin.idSecondBg)}
 				};
 			}
 			var listBg = data[itemType];

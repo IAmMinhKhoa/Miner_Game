@@ -90,12 +90,20 @@ namespace UI.Inventory
 					
 					item.OnItemClick += OpenListBg;
 				}
+				else
+				{
+					item.OnItemClick += PopupOrtherItemController;
+				}
 			}
 			foreach (var item in elevatorItem)
 			{
 				if (item.type == InventoryItemType.ElevatorBg)
 				{
 					item.OnItemClick += OpenListBg;
+				}
+				else
+				{
+					item.OnItemClick += PopupOrtherItemController;
 				}
 			}
 			
@@ -157,12 +165,26 @@ namespace UI.Inventory
 			inventoryPanel.SetActive(false);
 
 		}
+		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
+		{
+			pOIController.gameObject.SetActive(true);
+		}
 		private void HandleShaftUI()
 		{
 			var shaft = Instantiate(shaftUIController, Vector3.zero, Quaternion.identity);
 			shaft.transform.SetParent(shaftContent.transform, false);
 			shaft.SetShaftIndex(shaftCount);
-			shaft.items[0].OnItemClick += OpenListBg;
+			foreach(var item in shaft.items)
+			{
+				if(item.type == InventoryItemType.ShaftBg || item.type == InventoryItemType.ShaftSecondBg)
+				{
+					item.OnItemClick += OpenListBg;
+				}
+				else
+				{
+					item.OnItemClick += PopupOrtherItemController;
+				}
+			}
 			shaftCount++;
 			listShaftUI.Add(shaft);
 		}
