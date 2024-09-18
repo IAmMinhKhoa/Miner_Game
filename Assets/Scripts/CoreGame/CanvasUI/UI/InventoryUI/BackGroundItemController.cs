@@ -113,7 +113,6 @@ namespace UI.Inventory
 				};
 			}
 			var listBg = data[itemType];
-			string json = JsonConvert.SerializeObject(data);
 			for(int i = 0; i < listBg.Count; i++)
 			{
 				items[i].gameObject.SetActive(true);

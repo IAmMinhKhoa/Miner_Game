@@ -19,6 +19,7 @@ namespace UI.Inventory
         [SerializeField] private GameObject pnNhanVien;
         [SerializeField] GameObject inventoryPanel;
 		[SerializeField] BackGroundItemController bgList;
+		[SerializeField] PopupOtherItemController pOIController;
 
 		[Header("Shaft Item Handle")]
 		[SerializeField]
@@ -63,6 +64,10 @@ namespace UI.Inventory
 			ShaftManager.Instance.OnUpdateShaftInventoryUI -= HanleUpdateShaftIUI;
 			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI -= HandleElevatorIUI;
 			Counter.Instance.OnUpdateCounterInventoryUI -= HandleCounterIUI;
+		}
+		private void OnApplicationQuit()
+		{
+			gameObject.SetActive(false);
 		}
 
 		void Start()
