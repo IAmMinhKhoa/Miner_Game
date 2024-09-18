@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class PlayAdButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	void Start()
+	{
 		this.GetComponent<Button>().onClick.AddListener(ShowAd);
-    }
+	}
 	private void ShowAd()
 	{
-		AdsManager.Instance.ShowRewardedAd();
+		//AdsManager.Instance.ShowRewardedAd();
 	}
 }
