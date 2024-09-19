@@ -8,7 +8,8 @@ using UnityEngine;
 public class ElevatorControllerView : MonoBehaviour
 {
 	[SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff, _refrigerator, _refrigeratorDoor;
-
+	public SkeletonAnimation FontElevator => _frontElevator;
+	public SkeletonAnimation BackElevator => _backElevator;
 	[SerializeField] private GameObject[] _lyNuocs;
 	private ElevatorController _elevatorController;
 

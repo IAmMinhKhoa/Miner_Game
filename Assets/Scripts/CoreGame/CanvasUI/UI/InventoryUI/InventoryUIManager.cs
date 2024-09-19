@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
-using static UI.Inventory.ItemInventoryUI;
+
 
 namespace UI.Inventory
 {
@@ -19,7 +19,7 @@ namespace UI.Inventory
         [SerializeField] private GameObject pnNhanVien;
         [SerializeField] GameObject inventoryPanel;
 		[SerializeField] BackGroundItemController bgList;
-		[SerializeField] PopupOtherItemController pOIController;
+		public PopupOtherItemController pOIController;
 
 		[Header("Shaft Item Handle")]
 		[SerializeField]
@@ -30,11 +30,11 @@ namespace UI.Inventory
 
 
 		[Header("Counter")]
-		[SerializeField] DecoratorItem[] counterItem;
+		[SerializeField]  DecoratorItem[] counterItem;
 		
 
 		[Header("Elevator")]
-		[SerializeField] DecoratorItem[] elevatorItem;
+		[SerializeField]  DecoratorItem[] elevatorItem;
 	
 
 		int shaftCount = 0;
@@ -165,10 +165,7 @@ namespace UI.Inventory
 			inventoryPanel.SetActive(false);
 
 		}
-		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
-		{
-			pOIController.gameObject.SetActive(true);
-		}
+
 		private void HandleShaftUI()
 		{
 			var shaft = Instantiate(shaftUIController, Vector3.zero, Quaternion.identity);
@@ -187,6 +184,17 @@ namespace UI.Inventory
 			}
 			shaftCount++;
 			listShaftUI.Add(shaft);
+		}
+
+		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
+		{
+			if(TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
+			{
+				stateMachine.TransitonToState(type);
+				stateMachine.DoState();
+				pOIController.gameObject.SetActive(true);
+				pOIController.FloorIndex = index;
+			}
 		}
 	}
 }

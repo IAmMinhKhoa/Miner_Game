@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
+using Spine;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -143,10 +144,21 @@ public class ElevatorUI : MonoBehaviour
 	public void ChangeSkin(ElevatorSkin data)
 	{
 		//set init Data Skin shaft
-		//Debug.Log(ElevatorSystem.Instance.elevatorSkin);
 		m_bgElevator.sprite = SkinManager.Instance.skinResource.skinBgElevator[int.Parse(data.idBackGround)].sprite; ; 
-		/*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
 		
+		int elevatorIndex = int.Parse(data.idFrontElevator);
+	
+		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+		{
+			var skelton = elevatorControllerView.FontElevator.skeleton;
+			var skin = skelton.Data.Skins.Items[elevatorIndex];
+			if(skin != null)
+			{
+				skelton.SetSkin(skin);
+				skelton.SetSlotsToSetupPose();
+			}
+		}
+
 	}
 
 	#region DEBUG

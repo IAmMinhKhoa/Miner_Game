@@ -36,6 +36,7 @@ public class ShaftUI : MonoBehaviour
 	[Header("Skin Object")]
 	[SerializeField] private SpriteRenderer m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
+	[SerializeField] SpriteRenderer m_secondbg;
 
 
     private SkeletonAnimation tableAnimation;
@@ -214,22 +215,16 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
-        public void ChangeSkin(ShaftSkin data)
-	    {
+	public void ChangeSkin(ShaftSkin data)
+	{
 		//set init Data Skin shaft
 		if (SkinManager.Instance.skinResource.skinBgShaft == null) return;
 		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
-
-		
-
 		m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
-		/*  m_waitTable.sprite = SkinManager.skinResource.skinWaitTable[int.Parse(data.idBackGround)].sprite;*/
-		foreach (Transform child in m_lyNuocHolder.transform)
-            {
-			/*child.GetComponent<SpriteRenderer>().sprite = SkinManager.skinResource.skinMilkCup[int.Parse(data.idBackGround)].sprite;*/
+		m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
+		m_secondbg.sprite = SkinManager.Instance.skinResource.skinSecondBgShaft[int.Parse(data.idSecondBg)].sprite;
 
-			}
-        }
+	}
 
     void OnDestroy()
     {

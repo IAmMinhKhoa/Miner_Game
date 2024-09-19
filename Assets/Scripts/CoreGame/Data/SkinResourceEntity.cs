@@ -35,10 +35,8 @@ using UnityEngine;
 		public List<DataSkinImage> skinBgCounter;
 		public List<DataSkinImage> skinBgElevator;
 		public List<DataSkinImage> skinSecondBgShaft;
-
-
-	/*	public List<DataSkinImage> skinWaitTable;
-	public List<DataSkinImage> skinMilkCup;
+		public List<DataSkinImage> skinWaitTable;
+	/*public List<DataSkinImage> skinMilkCup;
 
 	public List<DataSkinSpine> skinCharacterHead;
 	public List<DataSkinSpine> skinCharacterBody;

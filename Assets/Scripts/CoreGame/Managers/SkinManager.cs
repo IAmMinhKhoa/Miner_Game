@@ -70,7 +70,6 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		if (PlayFabDataManager.Instance.ContainsKey("SkinManager"))
 		{
 			string json = PlayFabDataManager.Instance.GetData("SkinManager");
-			Debug.Log(json);
 			DataSkin saveData = JsonConvert.DeserializeObject<DataSkin>(json);
 
 			//int shaftsCount = saveData.shaftSkins.Count;
@@ -125,6 +124,10 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			imageData.sprite = Common.LoadSprite(imageData.path);
 		}
+		foreach (var imageData in skinResource.skinWaitTable)
+		{
+			imageData.sprite = Common.LoadSprite(imageData.path);
+		}
 		// Load Spine data
 		/*foreach (var spineData in skinResource.skinCharacterHead)
 		{
@@ -175,14 +178,14 @@ public class ShaftSkin : SkinBase
 	{
 		int idBg = int.Parse(idBackGround);
 		int idSBg = int.Parse(idSecondBg);
-		//int idWt = int.Parse(idWaitTable);
+		int idWt = int.Parse(idWaitTable);
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
 		return new Dictionary<InventoryItemType, DataSkinImage>()
 		{
 			{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft[idBg]},
-			{InventoryItemType.ShaftSecondBg, SkinManager.Instance.skinResource.skinBgShaft[idSBg]},
-			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
+			{InventoryItemType.ShaftSecondBg, SkinManager.Instance.skinResource.skinSecondBgShaft[idSBg]},
+			{InventoryItemType.ShaftWaitTable, SkinManager.Instance.skinResource.skinWaitTable[idWt]},
 			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
 			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
 		};
