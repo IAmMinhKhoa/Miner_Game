@@ -13,7 +13,8 @@ public class Brewer : BaseWorker
     private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation;
 
     public Shaft CurrentShaft { get; set; }
-    private TextMeshPro numberText;
+	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+	private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
     public bool isBrewing = false;

@@ -223,7 +223,20 @@ public class ShaftUI : MonoBehaviour
 		m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
 		m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
 		m_secondbg.sprite = SkinManager.Instance.skinResource.skinSecondBgShaft[int.Parse(data.idSecondBg)].sprite;
-
+		if(TryGetComponent<Shaft>(out var shaft))
+		{
+			int cartIndex = int.Parse(data.idCart);
+			foreach (var item in shaft.Brewers)
+			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+			}
+		}
 	}
 
     void OnDestroy()

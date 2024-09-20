@@ -15,6 +15,7 @@ namespace StateMachine
 			CurrentState.Exit();
 			CurrentState = States[stateKey];
 			CurrentState.Enter();
+			Debug.Log(CurrentState.ToString());
 		}
 	}
 }

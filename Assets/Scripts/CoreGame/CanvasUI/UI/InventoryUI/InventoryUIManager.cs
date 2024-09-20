@@ -191,7 +191,6 @@ namespace UI.Inventory
 			if(TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
 			{
 				stateMachine.TransitonToState(type);
-				stateMachine.DoState();
 				pOIController.gameObject.SetActive(true);
 				pOIController.FloorIndex = index;
 			}

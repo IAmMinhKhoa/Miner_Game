@@ -27,6 +27,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 	public double CurrentCost => currentCost;
 
+	public Shaft Shaft => shaftPrefab;
 	private bool isDone = false;
 	public bool IsDone => isDone;
 	private void Start()

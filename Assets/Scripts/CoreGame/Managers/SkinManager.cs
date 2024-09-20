@@ -47,7 +47,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				{ "idBackGround", shaft.shaftSkin.idBackGround },
 				{ "idWaitTable", shaft.shaftSkin.idWaitTable },
 				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
-				{ "idSecondBg", shaft.shaftSkin.idSecondBg }
+				{ "idSecondBg", shaft.shaftSkin.idSecondBg },
+				{"idCart", shaft.shaftSkin.idCart }
 
 			};
 			shafts.Add(shaftData);

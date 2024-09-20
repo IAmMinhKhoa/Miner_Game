@@ -150,12 +150,16 @@ public class ElevatorUI : MonoBehaviour
 	
 		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 		{
-			var skelton = elevatorControllerView.FontElevator.skeleton;
-			var skin = skelton.Data.Skins.Items[elevatorIndex];
-			if(skin != null)
+			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
+			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
+			var fontSkin = fontSkeleton.Data.Skins.Items[elevatorIndex];
+			var backSkin = backSkeleton.Data.Skins.Items[elevatorIndex-1];
+			if (fontSkin != null && backSkin != null)
 			{
-				skelton.SetSkin(skin);
-				skelton.SetSlotsToSetupPose();
+				fontSkeleton.SetSkin(fontSkin);
+				backSkeleton.SetSkin(backSkin);
+				fontSkeleton.SetSlotsToSetupPose();
+				backSkeleton.SetSlotsToSetupPose();
 			}
 		}
 

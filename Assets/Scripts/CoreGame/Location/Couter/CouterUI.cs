@@ -118,6 +118,21 @@ public class CounterUI : MonoBehaviour
 
 	public void ChangeSkin(CounterSkin data)
 	{
-		m_bgCounter.sprite = SkinManager.Instance.skinResource.skinBgCounter[int.Parse(data.idBackGround)].sprite; ;
+		m_bgCounter.sprite = SkinManager.Instance.skinResource.skinBgCounter[int.Parse(data.idBackGround)].sprite;
+		if (TryGetComponent<Counter>(out var counter))
+		{
+			
+			int cartIndex = int.Parse(data.idCart);
+			var skeleton = counter.Transporters[^1].CartSkeletonAnimation.skeleton;
+			var skin = skeleton.Data.Skins.Items[cartIndex];
+			foreach (var item in counter.Transporters)
+			{
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+			}
+		}
 	}
 }

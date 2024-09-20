@@ -47,7 +47,14 @@ namespace UI.Inventory
 		}
 		public override void Exit()
 		{
-
+			if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+			{
+				var skins = elevatorControllerView.FontElevator.skeleton.Data.Skins;
+				for (int i = 0; i < skins.Count; i++)
+				{
+					itemController.itemsHandle[i].ItemClicked -= ChangeSkin;
+				}
+			}
 		}
 	}
 }

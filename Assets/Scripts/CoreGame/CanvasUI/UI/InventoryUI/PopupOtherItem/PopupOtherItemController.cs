@@ -23,10 +23,9 @@ namespace UI.Inventory
 		{
 			foreach (Item item in itemsHandle)
 			{
-				if (item.gameObject.activeInHierarchy)
-				{
+				
 					item.gameObject.SetActive(false);
-				}
+				
 			}
 		}
 		public void CloseUI()

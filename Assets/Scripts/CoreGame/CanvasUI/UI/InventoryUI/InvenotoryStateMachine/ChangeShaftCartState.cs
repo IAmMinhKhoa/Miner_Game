@@ -4,6 +4,8 @@ using UnityEngine;
 using StateMachine;
 using UI.Inventory;
 using Spine;
+using UI.Inventory.PopupOtherItem;
+using Spine.Unity;
 public class ChangeShaftCartState : BaseState<InventoryItemType>
 {
 	readonly PopupOtherItemController itemController;
@@ -20,12 +22,35 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 	{
 		itemController.UnselectAllItem();
 		itemController.UnactiveAll();
+		var shaft = ShaftManager.Instance.Shafts[0];
+		var brewer = shaft.Brewers[0];
+		var skinAmount = brewer.CartSkeletonAnimation.skeleton.Data.Skins;
+		for (int i = 0; i < skinAmount.Count; i++)
+		{
+			itemController.itemsHandle[i].gameObject.SetActive(true);
+			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
+		}
 		
+
 	}
 
+	private void ChangeSkin(Item item)
+	{
+		int index = itemController.itemsHandle.IndexOf(item);
+		itemController.UnselectAllItem();
+		itemController.itemsHandle[index].Selected();
+		ShaftManager.Instance.Shafts[itemController.FloorIndex].shaftSkin.idCart = index.ToString();
+		ShaftManager.Instance.Shafts[itemController.FloorIndex].UpdateUI();
+	}
 	public override void Exit()
 	{
-		
+		var shaft = ShaftManager.Instance.Shafts[0];
+		var brewer = shaft.Brewers[0];
+		var skinAmount = brewer.CartSkeletonAnimation.skeleton.Data.Skins;
+		for (int i = 0; i < skinAmount.Count; i++)
+		{
+			itemController.itemsHandle[i].ItemClicked -= ChangeSkin;
+		}
 	}
 
 }

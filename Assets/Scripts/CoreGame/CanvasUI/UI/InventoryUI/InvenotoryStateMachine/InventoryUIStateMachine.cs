@@ -14,14 +14,10 @@ namespace UI.Inventory
 			{
 				States.Add(InventoryItemType.ShaftWaitTable, new ChangWaitalbeState(inventoryUI.pOIController));
 				States.Add(InventoryItemType.Elevator, new ChangeElevatorState(inventoryUI.pOIController));
+				States.Add(InventoryItemType.ShaftCart, new ChangeShaftCartState(inventoryUI.pOIController));
+				States.Add(InventoryItemType.CounterCart, new ChangeCounterCartState(inventoryUI.pOIController));
 				CurrentState = States[InventoryItemType.ShaftWaitTable];
 			}
-
-			
-		}
-		public void DoState()
-		{
-			CurrentState.Do();
 		}
 	}
 }
