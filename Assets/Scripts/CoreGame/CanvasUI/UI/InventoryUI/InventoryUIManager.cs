@@ -20,6 +20,8 @@ namespace UI.Inventory
         [SerializeField] GameObject inventoryPanel;
 		[SerializeField] BackGroundItemController bgList;
 		public PopupOtherItemController pOIController;
+		[SerializeField] StaffSkinUI staffSkinUI;
+		public StaffSkinUI StaffSkin => staffSkinUI;
 
 		[Header("Shaft Item Handle")]
 		[SerializeField]
@@ -27,18 +29,21 @@ namespace UI.Inventory
 		[SerializeField]
 		ShaftUIController shaftUIController;
 		List<ShaftUIController> listShaftUI = new();
+		[SerializeField] List<StaffSkinItem> listShaftStaffSkin;
 
 
 		[Header("Counter")]
-		[SerializeField]  DecoratorItem[] counterItem;
-		
+		[SerializeField] DecoratorItem[] counterItem;
+		[SerializeField] StaffSkinItem counterStaffSkin;
 
 		[Header("Elevator")]
-		[SerializeField]  DecoratorItem[] elevatorItem;
+		[SerializeField] DecoratorItem[] elevatorItem;
+		[SerializeField] StaffSkinItem elevatorStaffSkin;
 	
 
 		int shaftCount = 0;
 		bool isBackgroundItemOpening;
+		
 		private void OnEnable()
 		{
 			
@@ -106,7 +111,14 @@ namespace UI.Inventory
 					item.OnItemClick += PopupOrtherItemController;
 				}
 			}
-			
+
+			for (int i = 0; i < listShaftStaffSkin.Count; i++)
+			{
+				if (listShaftStaffSkin[i].isActiveAndEnabled)
+				{
+					listShaftStaffSkin[i].gameObject.SetActive(false);
+				}
+			}
 			
 		}
 
@@ -140,13 +152,46 @@ namespace UI.Inventory
 		}
 		public void SlideInContainer(GameObject panel, Toggle tg)
         {
-            if (tg.isOn) tg.gameObject.GetComponent<ToggleBehaviour>().DoAnimate();
+			if (tg.isOn) tg.gameObject.GetComponent<ToggleBehaviour>().DoAnimate();
             panel.SetActive(tg.isOn);
             Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
             panel.transform.localPosition = new Vector2(posCam.x - 2000, panel.transform.localPosition.y);
             panel.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutElastic, 1, 1f);
-        }
-        public void CloseInvetoryUI()
+			counterStaffSkin.OnItemClick += OpenStaffSkin;
+			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
+
+		}
+		//public void LoadListShaft()
+		//{
+		//	Debug.Log("-9-9-9999123123-----");
+		//	tgNoiThat.interactable = true;
+		//	tgNhanVien.interactable = false;
+		//	counterStaffSkin.OnItemClick += OpenStaffSkin;
+		//	elevatorStaffSkin.OnItemClick += OpenStaffSkin;
+			
+		//	for (int i = 0; i < shaftCount; i++)
+		//	{
+				
+		//	}
+		//}
+		//public void UnLoadListShaft()
+		//{
+		//	tgNoiThat.interactable = false;
+		//	tgNhanVien.interactable = true;
+		//	counterStaffSkin.OnItemClick -= OpenStaffSkin;
+		//	elevatorStaffSkin.OnItemClick -= OpenStaffSkin;
+		//	for (int i = 0; i < shaftCount; i++)
+		//	{
+		//		listShaftStaffSkin[i].OnItemClick -= OpenStaffSkin;
+		//	}
+		//}
+		private void OpenStaffSkin(InventoryItemType type, int index)
+		{
+			Debug.Log("-9-9-9999123123-----");
+			staffSkinUI.gameObject.SetActive(true);
+		}
+
+		public void CloseInvetoryUI()
         {
             if (isBackgroundItemOpening == false)
                 gameObject.SetActive(false);
@@ -182,8 +227,12 @@ namespace UI.Inventory
 					item.OnItemClick += PopupOrtherItemController;
 				}
 			}
+			listShaftStaffSkin[shaftCount].gameObject.SetActive(true);
+			listShaftStaffSkin[shaftCount].Index = shaftCount;
+			listShaftStaffSkin[shaftCount].OnItemClick += OpenStaffSkin;
 			shaftCount++;
 			listShaftUI.Add(shaft);
+			
 		}
 
 		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
