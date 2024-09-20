@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using UnityEngine;
 
 namespace UI.Inventory
@@ -43,7 +44,7 @@ namespace UI.Inventory
 			
 		}
 
-		
+		private int MaxHeadSkinAmount;
 
 		private int _rightHeadIndex;
 		public int RightHeadIndex
@@ -51,16 +52,17 @@ namespace UI.Inventory
 			get => _rightHeadIndex;
 			private set
 			{
-				int headSkinAmount = ShaftManager.Instance.Shafts[0].Brewers[0].HeadSkeletonAnimation.skeleton.Data.Skins.Count;
+				
 				_rightHeadIndex = value;
-				if(value == headSkinAmount - 1)
+				if(_rightHeadIndex == MaxHeadSkinAmount)
 				{
-					nextBody.SetActive(false);
+					nextHead.SetActive(false);
 				}
 				else
 				{
-					nextBody.SetActive(true);
+					nextHead.SetActive(true);
 				}
+				UpdateListHeadCharacter();
 			}
 		}
 		private int leftBodyIndex;
@@ -68,23 +70,31 @@ namespace UI.Inventory
 
 		private int currentHeadIndex;
 		private int currentBodyIndex;
-		private void OnEnable()
+		
+		public void SetLeftRightIndex(int left = 0, int right = 4)
 		{
-			
-			LeftHeadIndex = 0;
-			leftBodyIndex = 0;
-			//int headSkinAmount = ShaftManager.Instance.Shafts[0].Brewers[0].HeadSkeletonAnimation.skeleton.Data.Skins.Count;
-			//RightHeadIndex = Math.Min(4, headSkinAmount);
-			//rightBodyIndex = Math.Min(4, bodySkinAmount);
-			
-
-
+			LeftHeadIndex = left;
+			MaxHeadSkinAmount = right;
+			RightHeadIndex = Math.Min(4, right);
 		}
 		private void UpdateListHeadCharacter()
 		{
 			for (int i = LeftHeadIndex; i < RightHeadIndex; i++)
 			{
 				headCharacter[i].SetItemInfo(null, i.ToString());
+				headCharacter[i].OnItemClicked += SetCurHeadIndex;
+			}
+		}
+		private void SetCurHeadIndex(int index)
+		{
+			currentHeadIndex = index;
+			Debug.Log(index);
+		}
+		public void ClearEvent()
+		{
+			for (int i = LeftHeadIndex; i < RightHeadIndex; i++)
+			{
+				headCharacter[i].OnItemClicked -= SetCurHeadIndex;
 			}
 		}
 		public void CloseUI()

@@ -77,7 +77,6 @@ namespace UI.Inventory
 
 		void Start()
         {
-			
 			isBackgroundItemOpening = false;
             tgNhanVien.onValueChanged.AddListener(delegate
             {
@@ -112,7 +111,6 @@ namespace UI.Inventory
 				}
 			}
 
-		
 			
 		}
 
@@ -151,37 +149,50 @@ namespace UI.Inventory
             Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
             panel.transform.localPosition = new Vector2(posCam.x - 2000, panel.transform.localPosition.y);
             panel.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutElastic, 1, 1f);
-			
+			if(pnNhanVien.activeInHierarchy)
+			{
+				LoadListShaft();
+			}
+			else
+			{
+				UnLoadListShaft();
+			}
 
 		}
-		//public void LoadListShaft()
-		//{
-		//	Debug.Log("-9-9-9999123123-----");
-		//	tgNoiThat.interactable = true;
-		//	tgNhanVien.interactable = false;
-		//	counterStaffSkin.OnItemClick += OpenStaffSkin;
-		//	elevatorStaffSkin.OnItemClick += OpenStaffSkin;
-			
-		//	for (int i = 0; i < shaftCount; i++)
-		//	{
-				
-		//	}
-		//}
-		//public void UnLoadListShaft()
-		//{
-		//	tgNoiThat.interactable = false;
-		//	tgNhanVien.interactable = true;
-		//	counterStaffSkin.OnItemClick -= OpenStaffSkin;
-		//	elevatorStaffSkin.OnItemClick -= OpenStaffSkin;
-		//	for (int i = 0; i < shaftCount; i++)
-		//	{
-		//		listShaftStaffSkin[i].OnItemClick -= OpenStaffSkin;
-		//	}
-		//}
+		public void LoadListShaft()
+		{
+			tgNhanVien.interactable = false;
+			tgNoiThat.interactable = true;
+			foreach (var item in listShaftStaffSkin)
+			{
+				item.gameObject.SetActive(false);
+			}
+
+			counterStaffSkin.OnItemClick += OpenStaffSkin;
+			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
+
+			for (int i = 0; i < shaftCount; i++)
+			{
+				listShaftStaffSkin[i].gameObject.SetActive(true);
+				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
+				listShaftStaffSkin[i].Index = i;
+			}
+		}
+		public void UnLoadListShaft()
+		{
+			tgNhanVien.interactable = true;
+			tgNoiThat.interactable = false;
+			counterStaffSkin.OnItemClick -= OpenStaffSkin;
+			elevatorStaffSkin.OnItemClick -= OpenStaffSkin;
+			for (int i = 0; i < shaftCount; i++)
+			{
+				listShaftStaffSkin[i].OnItemClick -= OpenStaffSkin;
+			}
+		}
 		private void OpenStaffSkin(InventoryItemType type, int index)
 		{
-			Debug.Log("-9-9-9999123123-----");
 			staffSkinUI.gameObject.SetActive(true);
+			staffSkinUI.SetLeftRightIndex(0, 4);
 		}
 
 		public void CloseInvetoryUI()
