@@ -112,13 +112,7 @@ namespace UI.Inventory
 				}
 			}
 
-			for (int i = 0; i < listShaftStaffSkin.Count; i++)
-			{
-				if (listShaftStaffSkin[i].isActiveAndEnabled)
-				{
-					listShaftStaffSkin[i].gameObject.SetActive(false);
-				}
-			}
+		
 			
 		}
 
@@ -157,8 +151,7 @@ namespace UI.Inventory
             Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
             panel.transform.localPosition = new Vector2(posCam.x - 2000, panel.transform.localPosition.y);
             panel.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutElastic, 1, 1f);
-			counterStaffSkin.OnItemClick += OpenStaffSkin;
-			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
+			
 
 		}
 		//public void LoadListShaft()
@@ -227,9 +220,6 @@ namespace UI.Inventory
 					item.OnItemClick += PopupOrtherItemController;
 				}
 			}
-			listShaftStaffSkin[shaftCount].gameObject.SetActive(true);
-			listShaftStaffSkin[shaftCount].Index = shaftCount;
-			listShaftStaffSkin[shaftCount].OnItemClick += OpenStaffSkin;
 			shaftCount++;
 			listShaftUI.Add(shaft);
 			

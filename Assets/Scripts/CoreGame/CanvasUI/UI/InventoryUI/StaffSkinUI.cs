@@ -55,11 +55,11 @@ namespace UI.Inventory
 				_rightHeadIndex = value;
 				if(value == headSkinAmount - 1)
 				{
-					nextBody.SetActive(true);
+					nextBody.SetActive(false);
 				}
 				else
 				{
-					nextBody.SetActive(false);
+					nextBody.SetActive(true);
 				}
 			}
 		}
@@ -73,8 +73,8 @@ namespace UI.Inventory
 			
 			LeftHeadIndex = 0;
 			leftBodyIndex = 0;
-			int headSkinAmount = ShaftManager.Instance.Shafts[0].Brewers[0].HeadSkeletonAnimation.skeleton.Data.Skins.Count;
-			RightHeadIndex = Math.Min(4, headSkinAmount);
+			//int headSkinAmount = ShaftManager.Instance.Shafts[0].Brewers[0].HeadSkeletonAnimation.skeleton.Data.Skins.Count;
+			//RightHeadIndex = Math.Min(4, headSkinAmount);
 			//rightBodyIndex = Math.Min(4, bodySkinAmount);
 			
 

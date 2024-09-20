@@ -9,11 +9,13 @@ using Spine.Unity;
 public class Brewer : BaseWorker
 {
     [SerializeField] private GameObject brewerView;
-    [SerializeField] private GameObject brewerSpineData, cartSpineData;
-    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation;
+    [SerializeField] private GameObject brewerSpineData, cartSpineData, headSpineData;
+    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
 
     public Shaft CurrentShaft { get; set; }
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+	public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
 	private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
@@ -37,6 +39,7 @@ public class Brewer : BaseWorker
     {
         brewerSkeletonAnimation = brewerSpineData.GetComponent<SkeletonAnimation>();
         cartSkeletonAnimation = cartSpineData.GetComponent<SkeletonAnimation>();
+		headSkeletonAnimation = headSpineData.GetComponent<SkeletonAnimation>();
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 1.2f, 0);

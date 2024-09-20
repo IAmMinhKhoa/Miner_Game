@@ -268,7 +268,10 @@ public enum InventoryItemType
 	Elevator,
 	ShaftSecondBg,
 	ShaftCart,
-	ShaftWaitTable
+	ShaftWaitTable,
+	ShaftCharacter,
+	ElevatorCharacter,
+	CounterCharacter
 }
 #endregion
 
