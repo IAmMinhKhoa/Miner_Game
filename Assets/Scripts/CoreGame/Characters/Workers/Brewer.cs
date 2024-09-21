@@ -41,8 +41,8 @@ public class Brewer : BaseWorker
         cartSkeletonAnimation = cartSpineData.GetComponent<SkeletonAnimation>();
 		headSkeletonAnimation = headSpineData.GetComponent<SkeletonAnimation>();
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform);
-        numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
+        numberText.transform.SetParent(brewerView.transform);
+        numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
         collectTransform = CurrentShaft.BrewLocation;
         depositTransform = CurrentShaft.BrewerLocation;
     }
@@ -124,8 +124,9 @@ public class Brewer : BaseWorker
                     brewerView.transform.localScale = new Vector3(-1, 1, 1);
                     cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
-                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true); 
-                break;
+				numberText.transform.localScale = new Vector3(brewerView.transform.localScale.x, 1f, 1f);
+				brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				break;
         }
     }
 }

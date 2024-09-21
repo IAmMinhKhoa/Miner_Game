@@ -49,11 +49,11 @@ public static class MainGameData
         }},
         {ManagerLocation.Elevator, new List<string>
         {
-           "UI/Frame lvl big/LV 1-600",
-            "UI/Frame lvl big/LV 601-1200",
-            "UI/Frame lvl big/LV 1201-1800",
-            "UI/Frame lvl big/LV 1801-2400",
-        }}
+		   "UI/Frame lvl small/LV 1-200",
+			"UI/Frame lvl small/LV 201-400",
+			"UI/Frame lvl small/LV 401-600",
+			"UI/Frame lvl small/LV 601-800"
+		}}
     };
 
     public readonly static List<string> IconLevelNumber = new List<string>

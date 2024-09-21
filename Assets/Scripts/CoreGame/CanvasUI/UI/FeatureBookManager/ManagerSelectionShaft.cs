@@ -21,7 +21,6 @@ public class ManagerSelectionShaft : MonoBehaviour
 	[SerializeField] CanvasGroup canvasGroupContent;
 	public float value1 = -250f;
 	public float value2 = 0f;
-
 	private List<Shaft> _shaftManagers
     {
         get
@@ -110,8 +109,8 @@ public class ManagerSelectionShaft : MonoBehaviour
 
 		// Calculate the amount to scroll up (height of 5 prefabs)
 		float prefabHeight = _prefabShaft.GetComponent<RectTransform>().rect.height;
-		float scrollDistance = (prefabHeight + 4f) * 6;
-		Debug.Log(prefabHeight * _shafts.Count);
+		float scrollDistance = (prefabHeight + 4f) * 7;
+		Debug.LogError(scrollDistance);
 		if (prefabHeight * _shafts.Count - contentRect.anchoredPosition.y <= scrollDistance) return;
 		// Ensure that the content does not scroll beyond the upper limit
 		if (contentRect.anchoredPosition.y  >= prefabHeight * _shafts.Count)
@@ -131,7 +130,7 @@ public class ManagerSelectionShaft : MonoBehaviour
 		
 		// Calculate the amount to scroll down (height of 5 prefabs)
 		float prefabHeight = _prefabShaft.GetComponent<RectTransform>().rect.height;
-		float scrollDistance = (prefabHeight+4f) * 6;
+		float scrollDistance = (prefabHeight+4f) * 7;
 		if (contentRect.anchoredPosition.y- scrollDistance <= 0)
 		{
 			contentRect.anchoredPosition = new Vector2(0, 0);

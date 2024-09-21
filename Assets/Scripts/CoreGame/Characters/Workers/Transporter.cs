@@ -32,8 +32,8 @@ public class Transporter : BaseWorker
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform);
-        numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
+        numberText.transform.SetParent(transporterView.transform);
+        numberText.transform.localPosition = new Vector3(-0.5f, 0.22f, 0);
         collectTransform = Counter.TransporterLocation;
         depositTransform = Counter.CounterLocation;
     }
@@ -116,7 +116,8 @@ public class Transporter : BaseWorker
                 {
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
                 }
-                cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
+				numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
+				cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 break;
         }
