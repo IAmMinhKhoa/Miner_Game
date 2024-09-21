@@ -49,7 +49,7 @@ public class CounterUpgrade : BaseUpgrade
     {
         return level switch
         {
-            < 2400 => 0.2f,
+            <= 2400 => 0.2f,
             _ => 0f
         };
     }

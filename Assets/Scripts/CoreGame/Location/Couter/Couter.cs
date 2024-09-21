@@ -14,7 +14,6 @@ public class Counter : Patterns.Singleton<Counter>
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
     [SerializeField] private BaseManagerLocation m_managerLocation;
-    [SerializeField] private BaseConfig couterConfig;
     public BaseManagerLocation ManagerLocation => m_managerLocation;
 
     public Transform CounterLocation => m_counterLocation;
@@ -104,17 +103,6 @@ public class Counter : Patterns.Singleton<Counter>
     {
         m_managerLocation.RunBoost();
     }
-
-    public double GetPureEfficiencyPerSecond()
-    {
-        return couterConfig.ProductPerSecond * couterConfig.WorkingTime
-        / 2f * (couterConfig.WorkingTime * couterConfig.MoveTime);
-    }
-
-    public double GetTotalNS()
-    {
-        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
-    }
     void Start()
     {
     }
@@ -144,7 +132,7 @@ public class Counter : Patterns.Singleton<Counter>
             return;
         }
         string json = JsonConvert.SerializeObject(saveData);
-        PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Counter", json);
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Counter", json);
     }
 
     private bool Load()

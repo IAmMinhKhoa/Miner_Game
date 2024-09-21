@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/ManagerData")]
+[CreateAssetMenu (menuName = "ScriptableObjects/ManagerData")]
 public class ManagerDataSO : ScriptableObject
 {
     public string managerName;
     public float boostValue = 1;
     public ManagerLevel managerLevel;
+  
     public ManagerLocation managerLocation;
-    public BoostType boostType;
 }
 
 public enum ManagerLevel

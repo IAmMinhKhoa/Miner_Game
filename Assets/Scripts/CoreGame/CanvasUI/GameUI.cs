@@ -30,7 +30,5 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	{
 		pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
 		superMoneyText.text = Currency.DisplayCurrency(SuperMoneyManager.Instance.SuperMoney);
-
-		pawPerSecondText.text = "+" + Currency.DisplayCurrency(OfflineManager.Instance.GetNSPaw()) + "/s";
 	}
 }
