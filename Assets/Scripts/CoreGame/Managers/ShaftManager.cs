@@ -106,6 +106,16 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		return scale;
 	}
 
+	public double GetTotalNS()
+	{
+		double totalNS = 0;
+		foreach (Shaft shaft in Shafts)
+		{
+			totalNS += shaft.GetShaftNS();
+		}
+		return totalNS;
+	}
+
 	public void Save()
 	{
 		//create JSON to save data

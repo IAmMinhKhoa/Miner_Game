@@ -51,6 +51,11 @@ public class Shaft : MonoBehaviour
         / (m_config.WorkingTime + 2d * m_config.MoveTime);
     }
 
+    public double GetShaftNS()
+    {
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
+    }
+
     public float SpeedBoost
     {
         get { return GetManagerBoost(BoostType.Speed); }

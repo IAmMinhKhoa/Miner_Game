@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Newtonsoft.Json;
+using System;
 public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     #region ----Caculate attribute----
@@ -281,6 +282,30 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         GetOfflineData();
         double pawBonus = CaculateOfflinePaw(offlineTime);
         Debug.Log("Paw bonus: " + pawBonus);
+    }
+
+    public double GetNSPaw()
+    {
+        double result = 0d;
+        double shaftPaw = ShaftManager.Instance.GetTotalNS();
+        double elevatorPaw = ElevatorSystem.Instance.GetTotalNS();
+        double couterPaw = Counter.Instance.GetTotalNS();
+
+        if (shaftPaw > elevatorPaw)
+        {
+            result = elevatorPaw;
+        }
+        else
+        {
+            result = shaftPaw;
+        }
+
+        if (result > couterPaw)
+        {
+            result = couterPaw;
+        }
+
+        return result;
     }
 }
 

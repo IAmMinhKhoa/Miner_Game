@@ -70,6 +70,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return elevatorCtrlConfig.WorkingTime;
     }
 
+    public double GetMoveTimeInCycle()
+    {
+        return GetPureMoveTime() * (ShaftManager.Instance.Shafts.Count - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
+    }
+
     private bool isDone = false;
     public bool IsDone => isDone;
     private float GetManagerBoost(BoostType currentBoostAction)
@@ -124,6 +129,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             // Arrive and start deposit paw
             OnElevatorControllerArrive?.Invoke();
         }
+    }
+
+    public double GetTotalNS()
+    {
+        return GetPureProductionInCycle() / GetMoveTimeInCycle() * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
 
     public void Save()
