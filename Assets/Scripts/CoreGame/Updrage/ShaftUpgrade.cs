@@ -61,13 +61,13 @@ public class ShaftUpgrade : BaseUpgrade
 		{
 			0 => level switch
 			{
-				<= 10 => 0.3f,
-				<= 800 => 0.15f,
+				< 10 => 0.3f,
+				< 800 => 0.15f,
 				_ => 0f
 			},
 			_ => level switch
 			{
-				<= 800 => 0.15f,
+				< 800 => 0.15f,
 				_ => 0f
 			}
 		};
