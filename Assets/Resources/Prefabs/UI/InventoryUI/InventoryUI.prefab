@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 736574209833771976}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 3678870131178215521}
 --- !u!1 &29407226374637508
 GameObject:
@@ -1066,10 +1067,10 @@ RectTransform:
   - {fileID: 945418478425906118}
   m_Father: {fileID: 8793910155691241011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -80}
-  m_SizeDelta: {x: 160, y: 160}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6850598176910849875
 CanvasRenderer:
@@ -1283,6 +1284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8811939219665017653}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 3267814286695780198}
 --- !u!1 &488919802824210084
 GameObject:
@@ -1782,6 +1784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1184601565507677132}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 3697610665640815981}
 --- !u!1 &565422714403979085
 GameObject:
@@ -1862,6 +1865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6699419813863559199}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 5877849045047636827}
 --- !u!1 &613952810730763027
 GameObject:
@@ -1942,6 +1946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7550298648289744682}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 4232474152952214537}
 --- !u!1 &614049266146156993
 GameObject:
@@ -1961,7 +1966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2486862931823294676
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3240,6 +3245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 4371958060250153168}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6667264569549559524}
 --- !u!1 &1080380354286148666
 GameObject:
@@ -3454,6 +3460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6925004068029989599}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 1071602379957027133}
 --- !u!1 &1111096176662256044
 GameObject:
@@ -3534,6 +3541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 3506269267418429358}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 4655117485742069687}
 --- !u!1 &1165626665702017082
 GameObject:
@@ -5107,6 +5115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2239883717652215274}
   type: 2
+  cartSkeleton: {fileID: 0}
 --- !u!1 &1565420217458257098
 GameObject:
   m_ObjectHideFlags: 0
@@ -5691,6 +5700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6510700251012172207}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 7745280602410729807}
 --- !u!1 &1771811337981417504
 GameObject:
@@ -6126,6 +6136,146 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!1 &1907472478392287656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 189178212179836062}
+  - component: {fileID: 4017050137363701711}
+  - component: {fileID: 3973555362735815738}
+  - component: {fileID: 3018174423566912963}
+  - component: {fileID: 4230169405602092068}
+  m_Layer: 5
+  m_Name: cart spine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &189178212179836062
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907472478392287656}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 40, y: 40, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3064187626815133198}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 6, y: -35}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4017050137363701711
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907472478392287656}
+  m_CullTransparentMesh: 1
+--- !u!23 &3973555362735815738
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907472478392287656}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ebd565c21a1e6e1439e20c4b04f43049, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 136936093
+  m_SortingLayer: 9
+  m_SortingOrder: 4
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3018174423566912963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907472478392287656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonDataAsset: {fileID: 11400000, guid: ae0122620edf51c44a2274cdb7850c8d, type: 2}
+  initialSkinName: Xe day 1
+  fixPrefabOverrideViaMeshFilter: 2
+  initialFlipX: 0
+  initialFlipY: 0
+  updateWhenInvisible: 3
+  separatorSlotNames: []
+  zSpacing: 0
+  useClipping: 1
+  immutableTriangles: 0
+  pmaVertexColors: 1
+  clearStateOnDisable: 0
+  tintBlack: 0
+  singleSubmesh: 0
+  fixDrawOrder: 0
+  addNormals: 0
+  calculateTangents: 0
+  maskInteraction: 0
+  maskMaterials:
+    materialsMaskDisabled: []
+    materialsInsideMask: []
+    materialsOutsideMask: []
+  disableRenderingOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  updateTiming: 1
+  unscaledTime: 0
+  _animationName: 
+  loop: 0
+  timeScale: 1
+--- !u!33 &4230169405602092068
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907472478392287656}
+  m_Mesh: {fileID: 0}
 --- !u!1 &1920804906557606546
 GameObject:
   m_ObjectHideFlags: 0
@@ -8204,7 +8354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4905802503542369358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8706,6 +8856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 4934990018939818437}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 2471772128219440173}
 --- !u!1 &2372848588130685495
 GameObject:
@@ -10772,6 +10923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5889784302592711681}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 7702097481205367553}
 --- !u!1 &2749657324610209181
 GameObject:
@@ -11819,6 +11971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 949587878363026238}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 9157280693815394031}
 --- !u!1 &3000127899199832108
 GameObject:
@@ -11910,6 +12063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8310147555881662388}
   type: 9
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 3623143693587477211}
 --- !u!1 &3014798848476421436
 GameObject:
@@ -13981,6 +14135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2706672578277277013}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 1421133639259756313}
 --- !u!1 &3522121057010119577
 GameObject:
@@ -14191,6 +14346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5646450080974221601}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 7227070531381455221}
 --- !u!1 &3633254243527197575
 GameObject:
@@ -15191,6 +15347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7648376603233522162}
   type: 10
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6153564512247067818}
 --- !u!1 &4002838865542535454
 GameObject:
@@ -15271,6 +15428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8168708073314922412}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 2866821257088548851}
 --- !u!1 &4030537277793885577
 GameObject:
@@ -15832,6 +15990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7159243991678335343}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6546431476717514266}
 --- !u!1 &4094487699662693446
 GameObject:
@@ -16915,10 +17074,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8793910155691241011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -195}
-  m_SizeDelta: {x: 160, y: 10.000002}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2459365445208909083
 CanvasRenderer:
@@ -17431,6 +17590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5313602115991131640}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6827673216780705117}
 --- !u!1 &4439614712236747077
 GameObject:
@@ -18578,7 +18738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8793910155691241011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18595,10 +18755,10 @@ RectTransform:
   - {fileID: 5609199168969053365}
   m_Father: {fileID: 4284319573076116094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90, y: -120}
-  m_SizeDelta: {x: 160, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3880279675063370069
 CanvasRenderer:
@@ -19618,6 +19778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 586647601018635561}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6996623711267825487}
 --- !u!1 &4903330076734439216
 GameObject:
@@ -20055,6 +20216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8545887907779639037}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 5870831464834685775}
 --- !u!1 &4973207240905413839
 GameObject:
@@ -20963,6 +21125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5075342737195496332}
   type: 4
+  cartSkeleton: {fileID: 0}
 --- !u!1 &5256255421937245067
 GameObject:
   m_ObjectHideFlags: 0
@@ -21365,10 +21528,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4467445253159737029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 475, y: -26.967499}
-  m_SizeDelta: {x: 870, y: 53.935005}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2293227924437993243
 CanvasRenderer:
@@ -21500,7 +21663,7 @@ RectTransform:
   m_Father: {fileID: 7204295688701063460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.05, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -21692,7 +21855,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 189178212179836062}
   m_Father: {fileID: 3429133931526723796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -21752,6 +21916,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5316774921200190286}
   type: 3
+  cartSkeleton: {fileID: 3018174423566912963}
 --- !u!1 &5367603333827594625
 GameObject:
   m_ObjectHideFlags: 0
@@ -22750,6 +22915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 4358495942540437195}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 8860338418045953010}
 --- !u!1 &5609478002955689334
 GameObject:
@@ -23499,6 +23665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 909378948571016017}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 8805922932182506417}
 --- !u!1 &5906562557764702817
 GameObject:
@@ -24822,10 +24989,10 @@ RectTransform:
   - {fileID: 8450157823409972833}
   m_Father: {fileID: 4467445253159737029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 475, y: -194.4675}
-  m_SizeDelta: {x: 870, y: 281.065}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6141100490881406141
 CanvasRenderer:
@@ -25091,6 +25258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 9053025694656775125}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 324042134808919008}
 --- !u!1 &6152346968883441869
 GameObject:
@@ -25444,6 +25612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2777927313853470140}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 1359965502376206212}
 --- !u!1 &6209529398665936922
 GameObject:
@@ -26204,6 +26373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 3882268923283508188}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6759431457335088391}
 --- !u!1 &6418973395246689401
 GameObject:
@@ -27195,6 +27365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 4364900853505618213}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6101672129808351219}
 --- !u!1 &6845627980536407312
 GameObject:
@@ -28568,6 +28739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7169603318855360198}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 4636313866551161573}
 --- !u!1 &7343995077937812151
 GameObject:
@@ -29024,9 +29196,9 @@ RectTransform:
   m_Father: {fileID: 6765235018748970124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -17}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4418574782427204080
 CanvasRenderer:
@@ -29485,6 +29657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 3338218366872318892}
   type: 1
+  cartSkeleton: {fileID: 0}
 --- !u!114 &147755299628739700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30263,6 +30436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2986705871229293107}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 4673113237705582709}
 --- !u!1 &7883414756414875026
 GameObject:
@@ -31183,6 +31357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5969024136745743863}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 8847000525228040502}
 --- !u!1 &8076995590584651796
 GameObject:
@@ -32130,6 +32305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5185452167786488439}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 7963432058830042513}
 --- !u!1 &8389708753677514117
 GameObject:
@@ -32869,6 +33045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 5939694538774014308}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 2430202703489958595}
 --- !u!1 &8559276037466100976
 GameObject:
@@ -33181,6 +33358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 3895797217942250865}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 3912914971407828989}
 --- !u!1 &8596995956251708876
 GameObject:
@@ -33923,6 +34101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 4494425260338661957}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 8852986659449126379}
 --- !u!1 &8810545186212257353
 GameObject:
@@ -34107,6 +34286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 7110138816312556163}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 5419160114239370919}
 --- !u!1 &8897452212176409167
 GameObject:
@@ -34358,6 +34538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 783150996996801624}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 2692883650971341370}
 --- !u!1 &8924001888890903908
 GameObject:
@@ -34438,6 +34619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 6708577607754521575}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 6064290814425764015}
 --- !u!1 &8995559148247396058
 GameObject:
@@ -34593,6 +34775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 434518425665908533}
   type: 8
+  cartSkeleton: {fileID: 0}
   characterName: {fileID: 2907416081522061563}
 --- !u!1 &9009883126361676962
 GameObject:

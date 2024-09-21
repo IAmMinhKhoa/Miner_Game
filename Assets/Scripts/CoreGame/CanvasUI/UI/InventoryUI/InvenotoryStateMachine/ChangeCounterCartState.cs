@@ -42,6 +42,7 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 		itemController.itemsHandle[index].Selected();
 		Counter.Instance.counterSkin.idCart = index.ToString();
 		Counter.Instance.UpdateUI();
+		Counter.Instance.OnUpdateCounterInventoryUI?.Invoke();
 	}
 	
 }

@@ -43,7 +43,7 @@ namespace UI.Inventory
 
 		int shaftCount = 0;
 		bool isBackgroundItemOpening;
-		
+		bool isFirstTimeOpen = true;
 		private void OnEnable()
 		{
 			
@@ -61,8 +61,11 @@ namespace UI.Inventory
 			{
 				ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(i);
 			}
-			HandleElevatorIUI();
-			HandleCounterIUI();
+			if(isFirstTimeOpen == false)
+			{
+				HandleElevatorIUI();
+				HandleCounterIUI();
+			}
 		}
 		private void OnDisable()
 		{
@@ -110,8 +113,9 @@ namespace UI.Inventory
 					item.OnItemClick += PopupOrtherItemController;
 				}
 			}
-
-			
+			HandleElevatorIUI();
+			HandleCounterIUI();
+			isFirstTimeOpen = false;
 		}
 
 		private void HanleUpdateShaftIUI(int index)
@@ -132,14 +136,21 @@ namespace UI.Inventory
 		}
 		private void HandleCounterIUI()
 		{
-			var elevatorSkinData = Counter.Instance.counterSkin.GetDataSkin();
+			var counter = Counter.Instance.counterSkin.GetDataSkin();
 			foreach (var item in counterItem)
 			{
-				if (elevatorSkinData.ContainsKey(item.type))
+				if (counter.ContainsKey(item.type))
 				{
-					Sprite bgImage = Resources.Load<Sprite>(elevatorSkinData[item.type].path);
+					Sprite bgImage = Resources.Load<Sprite>(counter[item.type].path);
 					item.ChangeItem(bgImage);
+					continue;
 				}
+				if(item.SkinList != null)
+				{
+					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
+				}
+				
 			}
 		}
 		public void SlideInContainer(GameObject panel, Toggle tg)
