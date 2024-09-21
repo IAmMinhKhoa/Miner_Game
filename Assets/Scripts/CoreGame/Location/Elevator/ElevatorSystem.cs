@@ -7,12 +7,12 @@ using UnityEngine;
 public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
     public Action OnElevatorControllerArrive;
-	public Action OnUpdateElevatorInventoryUI;
 
-	[SerializeField] private Deposit elevatorDeposit;
+    [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
     [SerializeField] private GameObject lyNuocs;
+    [SerializeField] private BaseConfig elevatorCtrlConfig;
 
     public BaseManagerLocation ManagerLocation => managerLocation;
     public Deposit ElevatorDeposit => elevatorDeposit;
@@ -54,17 +54,28 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         get { return GetManagerBoost(BoostType.Costs); }
     }
-	private ElevatorSkin _elevatorSkin;
 
-	public ElevatorSkin elevatorSkin
-	{
-		get => _elevatorSkin;
-		set
-		{
-			_elevatorSkin = value;
-		}
-	}
-	private bool isDone = false;
+    public double GetPureProductionInCycle()
+    {
+        return elevatorCtrlConfig.ProductPerSecond * elevatorCtrlConfig.WorkingTime;
+    }
+
+    public double GetPureMoveTime()
+    {
+        return elevatorCtrlConfig.MoveTime * MoveTimeScale;
+    }
+
+    public double GetPureLoadTime()
+    {
+        return elevatorCtrlConfig.WorkingTime;
+    }
+
+    public double GetMoveTimeInCycle()
+    {
+        return GetPureMoveTime() * (ShaftManager.Instance.Shafts.Count - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
+    }
+
+    private bool isDone = false;
     public bool IsDone => isDone;
     private float GetManagerBoost(BoostType currentBoostAction)
     {
@@ -75,18 +86,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         managerLocation.RunBoost();
     }
-	public void UpdateUI()
-	{
-		if (TryGetComponent(out ElevatorUI elevatorUI))
-		{
-			elevatorUI.ChangeSkin(_elevatorSkin);
-		}
-		else
-		{
-			Debug.Log("Faild to update background sprite");
-		}
-	}
-	void Start()
+
+    void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
@@ -128,6 +129,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             // Arrive and start deposit paw
             OnElevatorControllerArrive?.Invoke();
         }
+    }
+
+    public double GetTotalNS()
+    {
+        return GetPureProductionInCycle() / GetMoveTimeInCycle() * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
 
     public void Save()
