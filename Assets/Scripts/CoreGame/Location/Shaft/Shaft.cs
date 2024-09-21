@@ -24,6 +24,7 @@ public class Shaft : MonoBehaviour
     [SerializeField] private double m_levelBoost = 1f;
     [SerializeField] private double m_indexBoost = 1f;
     [SerializeField] private double managerBoost = 1f;
+    [SerializeField] private BaseConfig m_config;
 
     public int numberBrewer = 1;
 
@@ -42,6 +43,17 @@ public class Shaft : MonoBehaviour
     public double EfficiencyBoost
     {
         get { return IndexBoost * LevelBoost * GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public double GetPureEfficiencyPerSecond()
+    {
+        return IndexBoost * LevelBoost * m_config.ProductPerSecond * m_config.WorkingTime
+        / (m_config.WorkingTime + 2d * m_config.MoveTime);
+    }
+
+    public double GetShaftNS()
+    {
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
     }
 
     public float SpeedBoost
@@ -71,6 +83,7 @@ public class Shaft : MonoBehaviour
 				shaftUI.ChangeSkin(_shaftSkin);
 			}
 		}
+
     }
 	public void UpdateUI()
 	{
@@ -103,7 +116,7 @@ public class Shaft : MonoBehaviour
         CurrentDeposit = deposit;
     }
 
-    private float GetManagerBoost(BoostType currentBoostAction)
+    public float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
@@ -148,4 +161,5 @@ public class Shaft : MonoBehaviour
         return false;
     }
 }
+
 
