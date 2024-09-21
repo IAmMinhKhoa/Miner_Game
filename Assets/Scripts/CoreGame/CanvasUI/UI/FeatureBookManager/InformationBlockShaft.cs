@@ -32,9 +32,11 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     private void Start()
     {
         mainCamera = Camera.main;
-    }
 
-    public void SetDataInit(Shaft shaft)
+	}
+	
+
+	public void SetDataInit(Shaft shaft)
     {
         this.shaft = shaft;
         UpdateUI();
