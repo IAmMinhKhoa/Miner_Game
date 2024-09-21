@@ -19,6 +19,7 @@ public class LoaddingScreenManager : MonoBehaviour
 	private float totalLoad = 0f;
 	private int framePassed = 0;
 	private bool isLoading = false;
+	private bool allowToLoad;
 	private void Start()
 	{
 		totalLoad = notFullLoadingBar.size.x;
@@ -26,7 +27,7 @@ public class LoaddingScreenManager : MonoBehaviour
 	}
 	private void Update()
 	{
-		bool allowToLoad = Common.CheckInternetConnection();
+		allowToLoad = Common.CheckInternetConnection();
 		if (allowToLoad)
 		{
 			if (isLoading == false)
@@ -46,7 +47,6 @@ public class LoaddingScreenManager : MonoBehaviour
 	}
 	public async UniTask FullLoadingBar()
 	{
-		bool allowToLoad = Common.CheckInternetConnection();
 		if(!allowToLoad) return;
 		isLoading = true;
 		float valuePerfamre = (float)((totalLoad - currentLoad) / (frameRequireToLoad - framePassed));
