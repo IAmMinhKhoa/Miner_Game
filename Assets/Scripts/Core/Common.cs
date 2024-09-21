@@ -1,8 +1,10 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Spine.Unity;
 using UnityEngine;
+using UnityEngine.Networking;
 
 #region Shaft Enum Skin
 public enum SkinShaftBg
@@ -94,7 +96,6 @@ public class Common
 
         canvasGroup.alpha = 1;
     }
-
 	public static Sprite LoadSprite(string path)
 	{
 		Sprite sprite = Resources.Load<Sprite>(path);
@@ -113,5 +114,17 @@ public class Common
 			Debug.LogError("Spine asset not found at path: " + path);
 		}
 		return spineAsset;
+
+	public static bool CheckInternetConnection()
+	{
+		if (Application.internetReachability == NetworkReachability.NotReachable)
+		{
+			Debug.LogWarning("No internet connection detected.");
+			return false;
+		}
+
+		Debug.Log("Internet connection is available.");
+		return true;
+
 	}
 }
