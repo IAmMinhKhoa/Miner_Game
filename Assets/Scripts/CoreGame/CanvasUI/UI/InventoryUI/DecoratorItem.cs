@@ -9,14 +9,13 @@ namespace UI.Inventory
 	public class DecoratorItem : ItemInventoryUI
 	{
 		[SerializeField]
-		private SkeletonAnimation cartSkeleton = null;
+		private SkeletonGraphic cartSkeleton = null;
 		public ExposedList<Skin> SkinList
 		{
 			get
 			{
-				Debug.Log(cartSkeleton);
 				if (cartSkeleton != null)
-					return cartSkeleton.skeleton.Data.Skins;
+					return cartSkeleton.Skeleton.Data.Skins;
 				else
 					return null;
 			}
@@ -41,9 +40,8 @@ namespace UI.Inventory
 				Debug.Log(this.name + " Skin not fond");
 				return;
 			}
-			
-			cartSkeleton.skeleton.SetSkin(skin);
-			cartSkeleton.skeleton.SetSlotsToSetupPose();
+			cartSkeleton.Skeleton.SetSkin(skin);
+			cartSkeleton.Skeleton.SetSlotsToSetupPose();
 		}
 	}
 }

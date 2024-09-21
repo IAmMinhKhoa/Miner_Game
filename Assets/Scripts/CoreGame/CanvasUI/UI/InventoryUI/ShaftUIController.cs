@@ -25,6 +25,12 @@ namespace UI.Inventory
 				{
 					Sprite bgImage =  Resources.Load<Sprite>(bgInfor[item.type].path);
 					item.ChangeItem(bgImage);
+
+				}
+				if (item.SkinList != null)
+				{
+					int indexCart = int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idCart);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
 				}
 			}
 		}

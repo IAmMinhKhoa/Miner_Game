@@ -26,6 +26,7 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 		{
 			var item = itemController.itemsHandle[i];
 			item.gameObject.SetActive(true);
+			item.ShowNothing();
 			item.ChangItemInfo(skins[i].sprite, skins[i].name);
 			item.ItemClicked += ChangeSkin;
 		}

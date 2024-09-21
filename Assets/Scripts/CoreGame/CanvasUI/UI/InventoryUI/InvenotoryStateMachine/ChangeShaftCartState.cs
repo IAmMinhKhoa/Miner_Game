@@ -28,6 +28,7 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 		for (int i = 0; i < skinAmount.Count; i++)
 		{
 			itemController.itemsHandle[i].gameObject.SetActive(true);
+			itemController.itemsHandle[i].ShowCart(i);
 			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 		}
 		

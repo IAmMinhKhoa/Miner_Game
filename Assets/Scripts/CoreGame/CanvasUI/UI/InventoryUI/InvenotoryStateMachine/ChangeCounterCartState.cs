@@ -4,6 +4,7 @@ using UnityEngine;
 using StateMachine;
 using UI.Inventory;
 using UI.Inventory.PopupOtherItem;
+using Spine.Unity;
 public class ChangeCounterCartState : BaseState<InventoryItemType> 
 {
 	readonly PopupOtherItemController itemController;
@@ -18,12 +19,15 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
+		
 		itemController.UnselectAllItem();
 		itemController.UnactiveAll();
 		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
+		
 		for (int i = 0; i < skinAmount.Count; i++)
 		{
 			itemController.itemsHandle[i].gameObject.SetActive(true);
+			itemController.itemsHandle[i].ShowCart(i); 
 			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 		}
 	}

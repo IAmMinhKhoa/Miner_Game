@@ -32,6 +32,7 @@ namespace UI.Inventory
 				for (int i = 0;i < skins.Count; i++ ) 
 				{
 					itemController.itemsHandle[i].gameObject.SetActive(true);
+					itemController.itemsHandle[i].ShowElevator(i);
 					itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 				}
 			}
@@ -44,6 +45,7 @@ namespace UI.Inventory
 			itemController.itemsHandle[index].Selected();
 			ElevatorSystem.Instance.elevatorSkin.idFrontElevator = index.ToString();
 			ElevatorSystem.Instance.UpdateUI();
+			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI?.Invoke();
 		}
 		public override void Exit()
 		{

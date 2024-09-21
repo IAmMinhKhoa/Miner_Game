@@ -131,7 +131,12 @@ namespace UI.Inventory
 				{
 					Sprite bgImage = Resources.Load<Sprite>(elevatorSkinData[item.type].path);
 					item.ChangeItem(bgImage);
-				} 
+				}
+				if (item.SkinList != null)
+				{
+					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
+				}
 			}
 		}
 		private void HandleCounterIUI()

@@ -114,16 +114,17 @@ public class Common
 			Debug.LogError("Spine asset not found at path: " + path);
 		}
 		return spineAsset;
+	}
 
 	public static bool CheckInternetConnection()
 	{
 		if (Application.internetReachability == NetworkReachability.NotReachable)
 		{
-			Debug.LogWarning("No internet connection detected.");
+			//Debug.LogWarning("No internet connection detected.");
 			return false;
 		}
 
-		Debug.Log("Internet connection is available.");
+		//Debug.Log("Internet connection is available.");
 		return true;
 
 	}
