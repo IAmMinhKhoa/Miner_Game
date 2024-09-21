@@ -134,7 +134,7 @@ namespace UI.Inventory
 				}
 				if (item.SkinList != null)
 				{
-					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
+					int indexCart = int.Parse(ElevatorSystem.Instance.elevatorSkin.idFrontElevator);
 					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
 				}
 			}

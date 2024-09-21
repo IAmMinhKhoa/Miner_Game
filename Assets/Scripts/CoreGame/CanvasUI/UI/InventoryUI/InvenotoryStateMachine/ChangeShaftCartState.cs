@@ -42,6 +42,7 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 		itemController.itemsHandle[index].Selected();
 		ShaftManager.Instance.Shafts[itemController.FloorIndex].shaftSkin.idCart = index.ToString();
 		ShaftManager.Instance.Shafts[itemController.FloorIndex].UpdateUI();
+		ShaftManager.Instance.OnUpdateShaftInventoryUI(itemController.FloorIndex);
 	}
 	public override void Exit()
 	{

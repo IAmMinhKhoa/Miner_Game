@@ -123,10 +123,10 @@ public class CounterUI : MonoBehaviour
 		{
 			
 			int cartIndex = int.Parse(data.idCart);
-			var skeleton = counter.Transporters[^1].CartSkeletonAnimation.skeleton;
-			var skin = skeleton.Data.Skins.Items[cartIndex];
 			foreach (var item in counter.Transporters)
 			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
 				if (skin != null)
 				{
 					skeleton.SetSkin(skin);

@@ -40,6 +40,7 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(true);
 			cart.gameObject.SetActive(false);
+			itemImg.gameObject.SetActive(false);
 			var skin = elevator.Skeleton.Data.Skins.Items[index];
 			elevator.Skeleton.SetSkin(skin);
 			elevator.Skeleton.SetSlotsToSetupPose();
@@ -48,6 +49,7 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(false);
 			cart.gameObject.SetActive(true);
+			itemImg.gameObject.SetActive(false);
 			var skin = cart.Skeleton.Data.Skins.Items[index];
 			cart.Skeleton.SetSkin(skin);
 			cart.Skeleton.SetSlotsToSetupPose();
@@ -56,6 +58,7 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(false);
 			cart.gameObject.SetActive(false);
+			itemImg.gameObject.SetActive(true);
 
 		}
 	}
