@@ -18,7 +18,8 @@ public class SelecFloorItem : MonoBehaviour
 		var headSkin = head.Skeleton.Data.Skins.Items[headIndex];
 		var bodySkin = body.Skeleton.Data.Skins.Items[bodyIndex];
 
-		floorText.text = "Tầng " + floor;
+		if(floor != -1)
+			floorText.text = "Tầng " + floor;
 
 		head.Skeleton.SetSkin(headSkin);
 		body.Skeleton.SetSkin(bodySkin);

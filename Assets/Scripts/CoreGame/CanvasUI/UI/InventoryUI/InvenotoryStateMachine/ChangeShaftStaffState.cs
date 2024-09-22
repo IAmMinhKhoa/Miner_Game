@@ -43,8 +43,8 @@ namespace UI.Inventory
 			foreach (int i in list)
 			{
 				var shaft = ShaftManager.Instance.Shafts[i];
-				shaft.shaftSkin.characterSkin.idHead = staffSkinUI.CurrentBodyIndex.ToString();
-				shaft.shaftSkin.characterSkin.idBody = staffSkinUI.CurrentHeadIndex.ToString();
+				shaft.shaftSkin.characterSkin.idBody = staffSkinUI.CurrentBodyIndex.ToString();
+				shaft.shaftSkin.characterSkin.idHead = staffSkinUI.CurrentHeadIndex.ToString();
 				shaft.UpdateUI();
 			}
 		}
@@ -60,6 +60,7 @@ namespace UI.Inventory
 		public override void Exit()
 		{
 			staffSkinUI.OnConfirmButtonClick -= ChangeSkin;
+			staffSkinUI.SelectFloorHandle.OnChangeFloorSeleted -= HandleChangListSkin;
 		}
 	}
 }

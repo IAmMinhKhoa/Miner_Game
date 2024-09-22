@@ -28,8 +28,11 @@ namespace UI.Inventory
 		GameObject shaftContent;
 		[SerializeField]
 		ShaftUIController shaftUIController;
+		[SerializeField] HandleShaftStaffItem shaftStaffSkinItem;
+		[SerializeField] GameObject content;
 		List<ShaftUIController> listShaftUI = new();
-		[SerializeField] List<StaffSkinItem> listShaftStaffSkin;
+		List<StaffSkinItem> listShaftStaffSkin;
+		
 
 
 		[Header("Counter")]
@@ -80,6 +83,11 @@ namespace UI.Inventory
 
 		void Start()
         {
+			if(pnNhanVien.TryGetComponent<TabStaff>(out var tabStaff))
+			{
+				tabStaff.OnTabStaffEnable += UpdateStabStaffUI;
+				tabStaff.OnTabStaffDisable += TabStaff_OnTabStaffDisable;
+			}
 			isBackgroundItemOpening = false;
             tgNhanVien.onValueChanged.AddListener(delegate
             {
@@ -116,6 +124,51 @@ namespace UI.Inventory
 			HandleElevatorIUI();
 			HandleCounterIUI();
 			isFirstTimeOpen = false;
+		}
+
+		private void TabStaff_OnTabStaffDisable()
+		{
+			counterStaffSkin.OnItemClick -= OpenStaffSkin;
+			elevatorStaffSkin.OnItemClick -= OpenStaffSkin;
+			for (int i = 0; i < shaftCount; i++)
+			{
+				listShaftStaffSkin[i].OnItemClick -= OpenStaffSkin;
+			}
+		}
+
+		private void UpdateStabStaffUI()
+		{
+
+			counterStaffSkin.OnItemClick += OpenStaffSkin;
+			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
+			listShaftStaffSkin ??= new();
+			while(listShaftStaffSkin.Count < shaftCount)
+			{
+				var newShaftStaffSkin = Instantiate(shaftStaffSkinItem, content.transform);
+				listShaftStaffSkin.Add(newShaftStaffSkin.item);
+			}
+			var counterStaff = Counter.Instance.counterSkin.character;
+			if(counterStaffSkin.TryGetComponent<TabStaffItem>(out var counterItem))
+			{
+				counterItem.SetInfoItem(int.Parse(counterStaff.idHead), int.Parse(counterStaff.idBody), -1);
+			}
+			var elevatorStaff = ElevatorSystem.Instance.elevatorSkin.characterSkin;
+			if (elevatorStaffSkin.TryGetComponent<TabStaffItem>(out var elevatorItem))
+			{
+				elevatorItem.SetInfoItem(int.Parse(elevatorStaff.idHead), int.Parse(elevatorStaff.idBody), -1);
+			}
+		
+			for (int i = 0; i < shaftCount; i++)
+			{
+				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
+				listShaftStaffSkin[i].Index = i;
+				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
+				Debug.Log(shaftStaff.idHead + "----------------------------" + shaftStaff.idBody);
+				if (listShaftStaffSkin[i].TryGetComponent<TabStaffItem>(out var shaftItem))
+				{
+					shaftItem.SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
+				}
+			}
 		}
 
 		private void HanleUpdateShaftIUI(int index)
@@ -179,31 +232,13 @@ namespace UI.Inventory
 		{
 			tgNhanVien.interactable = false;
 			tgNoiThat.interactable = true;
-			foreach (var item in listShaftStaffSkin)
-			{
-				item.gameObject.SetActive(false);
-			}
-
-			counterStaffSkin.OnItemClick += OpenStaffSkin;
-			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
-
-			for (int i = 0; i < shaftCount; i++)
-			{
-				listShaftStaffSkin[i].gameObject.SetActive(true);
-				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
-				listShaftStaffSkin[i].Index = i;
-			}
+			
 		}
 		public void UnLoadListShaft()
 		{
 			tgNhanVien.interactable = true;
 			tgNoiThat.interactable = false;
-			counterStaffSkin.OnItemClick -= OpenStaffSkin;
-			elevatorStaffSkin.OnItemClick -= OpenStaffSkin;
-			for (int i = 0; i < shaftCount; i++)
-			{
-				listShaftStaffSkin[i].OnItemClick -= OpenStaffSkin;
-			}
+			
 		}
 		private void OpenStaffSkin(InventoryItemType type, int index)
 		{

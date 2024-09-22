@@ -62,6 +62,7 @@ namespace UI.Inventory
 				{
 					toggle.SetIsOnWithoutNotify(false);
 				}
+				CheckSelectAll();
 			}
 		}
 		public void SelectAllOnClick(bool isOn)
@@ -87,6 +88,7 @@ namespace UI.Inventory
 				}
 			}
 			OnChangeFloorSeleted?.Invoke(itemsSelected);
+			UpdateUI();
 		}
 
 		public void CloseUI()
