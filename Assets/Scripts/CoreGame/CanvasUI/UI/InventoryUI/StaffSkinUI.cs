@@ -265,6 +265,7 @@ namespace UI.Inventory
 		}
 		public void ConfirmButtonCLick()
 		{
+			CloseUI();
 			OnConfirmButtonClick?.Invoke(currentHeadIndex, currentBodyIndex);
 		}
 		public void ClearEvent()

@@ -165,7 +165,6 @@ namespace UI.Inventory
 				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
 				listShaftStaffSkin[i].Index = i;
 				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
-				Debug.Log(shaftStaff.idHead + "----------------------------" + shaftStaff.idBody);
 				if (listShaftStaffSkin[i].TryGetComponent<TabStaffItem>(out var shaftItem))
 				{
 					shaftItem.SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);

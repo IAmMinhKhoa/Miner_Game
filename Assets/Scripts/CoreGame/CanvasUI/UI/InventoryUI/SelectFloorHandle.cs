@@ -89,6 +89,7 @@ namespace UI.Inventory
 			}
 			OnChangeFloorSeleted?.Invoke(itemsSelected);
 			UpdateUI();
+			CloseUI();
 		}
 
 		public void CloseUI()
