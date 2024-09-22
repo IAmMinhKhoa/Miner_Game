@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace UI.Inventory
 	public class CharacterSkinUI : MonoBehaviour, IPointerClickHandler
 	{
 		public event Action<int> OnItemClicked;
+		public List<TypeSpine> listSpine;
 		private int _index;
 		public int Index
 		{
@@ -23,20 +25,37 @@ namespace UI.Inventory
 		[SerializeField] Image BG;
 		[SerializeField] Image border;
 		[SerializeField] TextMeshProUGUI itemName;
-		public void SetItemInfo(Sprite bg, string name)
+		public void SetItemInfo(int indexSkin, InventoryItemType type)
 		{
-			//BG.sprite = bg;
-			itemName.text = name;
+			Index = indexSkin;
+			foreach (var spine in listSpine)
+			{
+				if(spine.Type == type)
+				{
+					spine.gameObject.SetActive(true);
+					if (spine.TryGetComponent<SkeletonGraphic>(out SkeletonGraphic skeletonGraphic))
+					{
+						var skin = skeletonGraphic.Skeleton.Data.Skins.Items[indexSkin];
+						skeletonGraphic.Skeleton.SetSkin(skin);
+						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+					}
+				}
+				else
+				{
+					spine.gameObject.SetActive(false);
+				}
+			}
+			itemName.text = indexSkin.ToString();
 		}
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			OnItemClicked?.Invoke(_index);
 		}
-		public void Active()
+		public void Select()
 		{
 			border.gameObject.SetActive(true);
 		}
-		public void Unactive()
+		public void Unselect()
 		{
 			border.gameObject.SetActive(false);
 		}

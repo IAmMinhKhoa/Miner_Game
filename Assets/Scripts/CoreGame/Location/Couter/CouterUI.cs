@@ -123,6 +123,8 @@ public class CounterUI : MonoBehaviour
 		{
 			
 			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.character.idHead);
+			int bodyIndex = int.Parse(data.character.idBody);
 			foreach (var item in counter.Transporters)
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
@@ -131,6 +133,21 @@ public class CounterUI : MonoBehaviour
 				{
 					skeleton.SetSkin(skin);
 					skeleton.SetSlotsToSetupPose();
+				}
+
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
+
+				var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+				var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
+
+				if(headSkin != null && bodySkin != null)
+				{
+					headSkeleton.SetSkin(headSkin);
+					bodySkeleton.SetSkin(bodySkin);
+
+					headSkeleton.SetSlotsToSetupPose();
+					bodySkeleton.SetSlotsToSetupPose();
 				}
 			}
 		}

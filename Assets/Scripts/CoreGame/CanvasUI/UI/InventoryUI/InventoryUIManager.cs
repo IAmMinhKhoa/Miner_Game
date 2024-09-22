@@ -207,8 +207,14 @@ namespace UI.Inventory
 		}
 		private void OpenStaffSkin(InventoryItemType type, int index)
 		{
-			staffSkinUI.gameObject.SetActive(true);
-			staffSkinUI.SetLeftRightIndex(0, 4);
+			if (TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
+			{
+				staffSkinUI.CurrentFloor = index;
+				staffSkinUI.gameObject.SetActive(true);
+				inventoryPanel.SetActive(false);
+				stateMachine.TransitonToState(type);
+
+			}
 		}
 
 		public void CloseInvetoryUI()

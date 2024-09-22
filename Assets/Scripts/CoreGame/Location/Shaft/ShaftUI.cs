@@ -226,6 +226,8 @@ public class ShaftUI : MonoBehaviour
 		if(TryGetComponent<Shaft>(out var shaft))
 		{
 			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
 			foreach (var item in shaft.Brewers)
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
@@ -234,6 +236,20 @@ public class ShaftUI : MonoBehaviour
 				{
 					skeleton.SetSkin(skin);
 					skeleton.SetSlotsToSetupPose();
+				}
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
+
+				var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+				var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
+
+				if (headSkin != null && bodySkin != null)
+				{
+					headSkeleton.SetSkin(headSkin);
+					bodySkeleton.SetSkin(bodySkin);
+
+					headSkeleton.SetSlotsToSetupPose();
+					bodySkeleton.SetSlotsToSetupPose();
 				}
 			}
 		}

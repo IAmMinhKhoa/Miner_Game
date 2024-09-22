@@ -12,8 +12,10 @@ public class Transporter : BaseWorker
     private TextMeshPro numberText;
     [SerializeField] private bool isWorking = false;
     [SerializeField] private GameObject transporterView;
-    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation;
+    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+	public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
     public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;

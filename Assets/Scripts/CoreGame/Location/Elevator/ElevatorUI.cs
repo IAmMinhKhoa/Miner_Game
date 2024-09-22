@@ -147,9 +147,10 @@ public class ElevatorUI : MonoBehaviour
 		m_bgElevator.sprite = SkinManager.Instance.skinResource.skinBgElevator[int.Parse(data.idBackGround)].sprite; ; 
 		
 		int elevatorIndex = int.Parse(data.idFrontElevator);
-	
+		
 		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 		{
+			//cap nhat skin thang may
 			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
 			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
 			var fontSkin = fontSkeleton.Data.Skins.Items[elevatorIndex];
@@ -160,6 +161,20 @@ public class ElevatorUI : MonoBehaviour
 				backSkeleton.SetSkin(backSkin);
 				fontSkeleton.SetSlotsToSetupPose();
 				backSkeleton.SetSlotsToSetupPose();
+			}
+			//cap nhat nhan vat thang may
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
+			var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
+			var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
+			var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+			var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
+			if (headSkin != null && bodySkin != null)
+			{
+				headSkeleton.SetSkin(headSkin);
+				bodySkeleton.SetSkin(bodySkin);
+				headSkeleton.SetSlotsToSetupPose();
+				bodySkeleton.SetSlotsToSetupPose();
 			}
 		}
 

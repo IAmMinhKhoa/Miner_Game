@@ -48,7 +48,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				{ "idWaitTable", shaft.shaftSkin.idWaitTable },
 				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
 				{ "idSecondBg", shaft.shaftSkin.idSecondBg },
-				{"idCart", shaft.shaftSkin.idCart }
+				{"idCart", shaft.shaftSkin.idCart },
+				{"characterSkin", shaft.shaftSkin.characterSkin}
 
 			};
 			shafts.Add(shaftData);
@@ -163,7 +164,7 @@ public class ShaftSkin : SkinBase
 	public string idWaitTable { get; set; }
 	public string idCart { get; set; }
 	public string idSecondBg { get; set; }
-	public CharacterSkin character { get; set; }
+	public CharacterSkin characterSkin { get; set; }
 
 	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1", string idCart = "1", string idSecondBg = "1", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
@@ -172,7 +173,7 @@ public class ShaftSkin : SkinBase
 		this.idWaitTable = idWaitTable;
 		this.idCart = idCart;
 		this.idSecondBg = idSecondBg;
-		this.character = characterSkin ?? new CharacterSkin();
+		this.characterSkin = characterSkin ?? new CharacterSkin();
 	}
 
 	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
@@ -197,12 +198,14 @@ public class ElevatorSkin : SkinBase
 {
 	public string idFrontElevator { get; set; }
 	public string idBackElevator { get; set; }
+	public CharacterSkin characterSkin { get; set; }
 
-	public ElevatorSkin(string idBackGround = "1", string idMilkCup = "1", string idFrontElevator = "1", string idBackElevator = "1")
+	public ElevatorSkin(string idBackGround = "1", string idMilkCup = "1", string idFrontElevator = "1", string idBackElevator = "1", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idFrontElevator = idFrontElevator;
 		this.idBackElevator = idBackElevator;
+		this.characterSkin = characterSkin ?? new();
 	}
 	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
 	{
