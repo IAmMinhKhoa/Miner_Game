@@ -21,6 +21,7 @@ namespace UI.Inventory
 		[SerializeField] BackGroundItemController bgList;
 		public PopupOtherItemController pOIController;
 		[SerializeField] StaffSkinUI staffSkinUI;
+		[SerializeField] private ContentFitterRefresh contentFitterRefresh;
 		public StaffSkinUI StaffSkin => staffSkinUI;
 
 		[Header("Shaft Item Handle")]
@@ -124,6 +125,7 @@ namespace UI.Inventory
 			HandleElevatorIUI();
 			HandleCounterIUI();
 			isFirstTimeOpen = false;
+			contentFitterRefresh.RefreshContentFitters();
 		}
 
 		private void TabStaff_OnTabStaffDisable()
