@@ -45,7 +45,7 @@ public class DataLoadManager : BaseGameManager
 
     async void UpdateGameStates()
     {
-        if (!base.IsDone() || isDataLoading == true) return;
+        if (!base.IsDone() || isDataLoading == true || !Common.CheckInternetConnection()) return;
 
         switch (dataGameState)
         {
