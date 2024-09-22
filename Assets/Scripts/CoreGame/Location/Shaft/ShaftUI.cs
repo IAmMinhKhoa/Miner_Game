@@ -31,7 +31,8 @@ public class ShaftUI : MonoBehaviour
     [Header("Visual object")]
     [SerializeField] private GameObject m_table;
     [SerializeField] private GameObject m_lyNuocHolder;
-    [SerializeField] private GameObject mainPanel;
+	[SerializeField] private Animator m_animatorTable;
+	[SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
 	[SerializeField] private SpriteRenderer m_br;
@@ -116,7 +117,9 @@ public class ShaftUI : MonoBehaviour
     private void ChangePawHandler(double value)
     {
         Debug.Log("Change Paw: " + value);
-        if (value > 0)
+		m_animatorTable.SetTrigger("Shake");
+
+		if (value > 0)
         {
             m_lyNuocHolder.gameObject.SetActive(true);
         }
