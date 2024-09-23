@@ -15,9 +15,9 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	{
 		LoadSkinData(); //fectch data from json
 		LoadAssets(); //get resource by path to list
-		if(!Load())
+		if (!Load())
 		{
-			ShaftManager.Instance.Shafts[0].shaftSkin =  new ShaftSkin(0);
+			ShaftManager.Instance.Shafts[0].shaftSkin = new ShaftSkin(0);
 			ElevatorSystem.Instance.elevatorSkin = new();
 			Counter.Instance.counterSkin = new();
 
@@ -94,18 +94,22 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	#region Get resource by path
 	private void LoadSkinData()
 	{
-		if (System.IO.File.Exists(jsonFilePath))
+		// Load the JSON file from Resources
+		TextAsset jsonFile = Resources.Load<TextAsset>("Json/SkinResources"); // Bỏ phần mở rộng ".json"
+
+		if (jsonFile != null)
 		{
-			string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+			string jsonContent = jsonFile.text;
 			Debug.Log(jsonContent);
 			skinResource = JsonUtility.FromJson<SkinResource>(jsonContent);
 			Debug.Log("Data loaded successfully!");
 		}
 		else
 		{
-			Debug.LogError("JSON file not found at: " + jsonFilePath);
+			Debug.LogError("JSON file not found in Resources folder!");
 		}
 	}
+
 
 	private void LoadAssets()
 	{
