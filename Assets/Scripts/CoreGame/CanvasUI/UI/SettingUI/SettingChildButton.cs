@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SettingChildButton : MonoBehaviour
@@ -9,10 +10,15 @@ public class SettingChildButton : MonoBehaviour
 	[SerializeField] private ButtonBehavior _btnPhanHoi;
 	[SerializeField] private ButtonBehavior _btnTerm;
 	[SerializeField] private ButtonBehavior _btnPrivacy;
+	[Header("Text")]
+	[SerializeField] private TextMeshProUGUI _txtDeviceId;
+	[SerializeField] private TextMeshProUGUI _txtVersion;
 
 	private void Awake()
 	{
 		_btnMXH.onClickEvent.AddListener(OnClickButtonMXH);
+		_txtDeviceId.text = $"ID: {SystemInfo.deviceUniqueIdentifier}";
+		_txtVersion.text = $"Version: {Application.version}";
 	}
 
 	void OnDestroy()
