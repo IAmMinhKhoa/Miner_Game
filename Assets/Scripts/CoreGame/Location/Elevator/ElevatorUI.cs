@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
+using Spine;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class ElevatorUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private SkeletonAnimation m_refrigeratorAnimation;
-
+	[SerializeField] private SpriteRenderer m_bgElevator;
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 
@@ -139,12 +140,51 @@ public class ElevatorUI : MonoBehaviour
     {
         OnUpgradeRequest?.Invoke();
     }
-    
-    #region DEBUG
-    // [Button]
-    // private void AddLevel(int valueAdd)
-    // {
-    //     m_elevatorUpgrade.Upgrade(valueAdd);
-    // }
-    #endregion
+
+	public void ChangeSkin(ElevatorSkin data)
+	{
+		//set init Data Skin shaft
+		m_bgElevator.sprite = SkinManager.Instance.skinResource.skinBgElevator[int.Parse(data.idBackGround)].sprite; ; 
+		
+		int elevatorIndex = int.Parse(data.idFrontElevator);
+		
+		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+		{
+			//cap nhat skin thang may
+			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
+			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
+			var fontSkin = fontSkeleton.Data.Skins.Items[elevatorIndex];
+			var backSkin = backSkeleton.Data.Skins.Items[elevatorIndex-1];
+			if (fontSkin != null && backSkin != null)
+			{
+				fontSkeleton.SetSkin(fontSkin);
+				backSkeleton.SetSkin(backSkin);
+				fontSkeleton.SetSlotsToSetupPose();
+				backSkeleton.SetSlotsToSetupPose();
+			}
+			//cap nhat nhan vat thang may
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
+			var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
+			var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
+			var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+			var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
+			if (headSkin != null && bodySkin != null)
+			{
+				headSkeleton.SetSkin(headSkin);
+				bodySkeleton.SetSkin(bodySkin);
+				headSkeleton.SetSlotsToSetupPose();
+				bodySkeleton.SetSlotsToSetupPose();
+			}
+		}
+
+	}
+
+	#region DEBUG
+	// [Button]
+	// private void AddLevel(int valueAdd)
+	// {
+	//     m_elevatorUpgrade.Upgrade(valueAdd);
+	// }
+	#endregion
 }

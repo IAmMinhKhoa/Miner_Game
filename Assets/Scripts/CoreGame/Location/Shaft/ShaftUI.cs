@@ -31,11 +31,13 @@ public class ShaftUI : MonoBehaviour
     [Header("Visual object")]
     [SerializeField] private GameObject m_table;
     [SerializeField] private GameObject m_lyNuocHolder;
-    [SerializeField] private GameObject mainPanel;
+	[SerializeField] private Animator m_animatorTable;
+	[SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
 	[SerializeField] private SpriteRenderer m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
+	[SerializeField] SpriteRenderer m_secondbg;
 
 
     private SkeletonAnimation tableAnimation;
@@ -116,7 +118,9 @@ public class ShaftUI : MonoBehaviour
     private void ChangePawHandler(double value)
     {
         Debug.Log("Change Paw: " + value);
-        if (value > 0)
+		m_animatorTable.SetTrigger("Shake");
+
+		if (value > 0)
         {
             m_lyNuocHolder.gameObject.SetActive(true);
         }
@@ -214,21 +218,45 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
-        public void ChangeSkin(ShaftSkin data)
-	    {
-            //set init Data Skin shaft
-            SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
-            SkinShaftWaitTable waitTableEnum = (SkinShaftWaitTable)int.Parse(data.idWaitTable);
-            SkinShaftMilkCup milkCupEnum = (SkinShaftMilkCup)int.Parse(data.idMilkCup);
+	public void ChangeSkin(ShaftSkin data)
+	{
+		//set init Data Skin shaft
+		if (SkinManager.Instance.skinResource.skinBgShaft == null) return;
+		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
+		m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
+		m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
+		m_secondbg.sprite = SkinManager.Instance.skinResource.skinSecondBgShaft[int.Parse(data.idSecondBg)].sprite;
+		if(TryGetComponent<Shaft>(out var shaft))
+		{
+			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
+			foreach (var item in shaft.Brewers)
+			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 
+				var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+				var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
 
-            m_br.sprite = SkinManager.SkinDataSO.GetBrShaft(backgroundEnum);
-            m_waitTable.sprite = SkinManager.SkinDataSO.GetWaitTableShaft(waitTableEnum);
-            foreach (Transform child in m_lyNuocHolder.transform)
-            {
-              child.GetComponent<SpriteRenderer>().sprite = SkinManager.SkinDataSO.GetMilkCupShaft(milkCupEnum);
-            }
-        }
+				if (headSkin != null && bodySkin != null)
+				{
+					headSkeleton.SetSkin(headSkin);
+					bodySkeleton.SetSkin(bodySkin);
+
+					headSkeleton.SetSlotsToSetupPose();
+					bodySkeleton.SetSlotsToSetupPose();
+				}
+			}
+		}
+	}
 
     void OnDestroy()
     {
@@ -242,7 +270,7 @@ public class ShaftUI : MonoBehaviour
         m_shaftUpgrade.Upgrade(valueAdd);
     }
     [Button]
-    private void TestChangeSkinShaft(SkinShaftBg value1, SkinShaftWaitTable value2, SkinShaftMilkCup value3)
+    private void TestChangeSkinShaft(SkinShaftBg value1=SkinShaftBg.BR1, SkinShaftWaitTable value2=SkinShaftWaitTable.WT1, SkinShaftMilkCup value3=SkinShaftMilkCup.MC1)
     {
         m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
         m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();

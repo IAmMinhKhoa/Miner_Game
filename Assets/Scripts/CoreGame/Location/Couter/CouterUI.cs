@@ -19,10 +19,12 @@ public class CounterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    // [Header("Visual object")]
-    // [SerializeField] private GameObject m_quayGiaoNuocHolder;
+	[SerializeField]
+	SpriteRenderer m_bgCounter;
+	// [Header("Visual object")]
+	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
 
-    private Counter m_counter;
+	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
     void Awake()
@@ -113,4 +115,41 @@ public class CounterUI : MonoBehaviour
     {
         OnUpgradeRequest?.Invoke();
     }
+
+	public void ChangeSkin(CounterSkin data)
+	{
+		m_bgCounter.sprite = SkinManager.Instance.skinResource.skinBgCounter[int.Parse(data.idBackGround)].sprite;
+		if (TryGetComponent<Counter>(out var counter))
+		{
+			
+			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.character.idHead);
+			int bodyIndex = int.Parse(data.character.idBody);
+			foreach (var item in counter.Transporters)
+			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
+
+				var headSkin = headSkeleton.Data.Skins.Items[headIndex];
+				var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
+
+				if(headSkin != null && bodySkin != null)
+				{
+					headSkeleton.SetSkin(headSkin);
+					bodySkeleton.SetSkin(bodySkin);
+
+					headSkeleton.SetSlotsToSetupPose();
+					bodySkeleton.SetSlotsToSetupPose();
+				}
+			}
+		}
+	}
 }

@@ -9,11 +9,14 @@ using Spine.Unity;
 public class Brewer : BaseWorker
 {
     [SerializeField] private GameObject brewerView;
-    [SerializeField] private GameObject brewerSpineData, cartSpineData;
-    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation;
+    [SerializeField] private GameObject brewerSpineData, cartSpineData, headSpineData;
+    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
 
     public Shaft CurrentShaft { get; set; }
-    private TextMeshPro numberText;
+	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+	public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
+	private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
     public bool isBrewing = false;
@@ -36,9 +39,10 @@ public class Brewer : BaseWorker
     {
         brewerSkeletonAnimation = brewerSpineData.GetComponent<SkeletonAnimation>();
         cartSkeletonAnimation = cartSpineData.GetComponent<SkeletonAnimation>();
+		headSkeletonAnimation = headSpineData.GetComponent<SkeletonAnimation>();
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform);
-        numberText.transform.localPosition = new Vector3(0, 1.2f, 0);
+        numberText.transform.SetParent(brewerView.transform);
+        numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
         collectTransform = CurrentShaft.BrewLocation;
         depositTransform = CurrentShaft.BrewerLocation;
     }
@@ -120,8 +124,9 @@ public class Brewer : BaseWorker
                     brewerView.transform.localScale = new Vector3(-1, 1, 1);
                     cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
-                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true); 
-                break;
+				numberText.transform.localScale = new Vector3(brewerView.transform.localScale.x, 1f, 1f);
+				brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				break;
         }
     }
 }

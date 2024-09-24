@@ -411,6 +411,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         saveData.Add("ElevatorHireCost", _ElevatorHireCost);
         saveData.Add("CounterHireCost", _CounterHireCost);
         string json = JsonConvert.SerializeObject(saveData);
+
         Debug.Log("save: " + json);
         PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("ManagersController", json);
     }

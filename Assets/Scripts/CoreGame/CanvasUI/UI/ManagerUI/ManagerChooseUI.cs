@@ -183,7 +183,6 @@ public class ManagerChooseUI : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
-		Debug.Log("khoaa:" + posCam);
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
 		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
 

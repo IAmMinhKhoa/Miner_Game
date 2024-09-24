@@ -34,7 +34,8 @@ public class ElevatorController : BaseWorker
         get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
     }
 
-    private void Start()
+
+	private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
 

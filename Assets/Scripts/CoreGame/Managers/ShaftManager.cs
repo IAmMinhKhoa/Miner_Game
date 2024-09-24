@@ -8,7 +8,8 @@ using System;
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
 	public Action OnNewShaftCreated;
-
+	public event Action OnShaftUpdated;
+	public Action<int> OnUpdateShaftInventoryUI;
 	[Header("Prefab")]
 	[SerializeField] private Shaft shaftPrefab;
 	[SerializeField] private float shaftYOffset = 1.716f;
@@ -26,6 +27,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 	public double CurrentCost => currentCost;
 
+	public Shaft Shaft => shaftPrefab;
 	private bool isDone = false;
 	public bool IsDone => isDone;
 	private void Start()
@@ -46,14 +48,15 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
 
 		Shafts.Add(newShaft);
-		//newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
-
+		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);	
+		
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
 		newY += roofOffset;
 		_roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
 
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
+		OnShaftUpdated?.Invoke();
 	}
 
 	public void InitializeShafts()
@@ -65,14 +68,16 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 			ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
 			shaftUpgrade.SetInitialValue(0, initCost, 1);
-			//	firstShaft.shaftSkin = new ShaftSkin(Shafts.Count);
+			Debug.Log("khoa:" + Shafts.Count+firstShaft);
+			firstShaft.shaftSkin = new ShaftSkin(Shafts.Count);
 
 			firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 			float newY = firstShaft.transform.position.y;
 			newY += roofOffset;
 			_roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
+			OnShaftUpdated?.Invoke();
 		}
-
+		
 		isDone = true;
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
 	}
@@ -193,10 +198,11 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				{
 					ManagersController.Instance.ShaftManagers[index].SetupLocation(shaft.ManagerLocation);
 				}
+				OnShaftUpdated?.Invoke();
 			}
 			Shafts.Last().gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(true);
 			Shafts.Last().gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
-			Debug.Log(json);
+			//Debug.Log(json);
 			return true;
 		}
 		return false;

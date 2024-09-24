@@ -62,10 +62,11 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         Counter.Instance.Save();
         ManagersController.Instance.Save();
         PawManager.Instance.Save();
-        //SkinManager.Instance.Save();
-        PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
+		SkinManager.Instance.Save();
+		PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
+		
+	}
 
-    }
 
     public void LoadOfflineData()
     {

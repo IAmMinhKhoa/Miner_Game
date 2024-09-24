@@ -77,18 +77,21 @@ public class Shaft : MonoBehaviour
         get => _shaftSkin;
         set
         {
-            Debug.Log($"Set data to shaft {shaftIndex}");
             _shaftSkin = value;
-            ShaftUI shaftUI;
-            TryGetComponent<ShaftUI>(out shaftUI);
-            if (shaftUI != null)
-            {
-                //  shaftUI.OnChangeSkin?.Invoke(value);
-                shaftUI.ChangeSkin(value);
-            }
-        }
-    }
+			if (TryGetComponent(out ShaftUI shaftUI))
+			{
+				shaftUI.ChangeSkin(_shaftSkin);
+			}
+		}
 
+    }
+	public void UpdateUI()
+	{
+		if (TryGetComponent(out ShaftUI shaftUI))
+		{
+			shaftUI.ChangeSkin(_shaftSkin);
+		}
+	}
 
     public void CreateBrewer()
     {
@@ -109,7 +112,7 @@ public class Shaft : MonoBehaviour
         depositGO.transform.position = m_depositLocation.position;
         Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
-        Debug.Log("create:" + depositGO);
+        //Debug.Log("create:" + depositGO);
         CurrentDeposit = deposit;
     }
 
@@ -158,18 +161,5 @@ public class Shaft : MonoBehaviour
         return false;
     }
 }
-public class ShaftSkin
-{
-    public int index;
-    public string idBackGround;
-    public string idWaitTable;
-    public string idMilkCup;
 
-    public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1")
-    {
-        this.index = index;
-        this.idBackGround = idBackGround;
-        this.idWaitTable = idWaitTable;
-        this.idMilkCup = idMilkCup;
-    }
-}
+

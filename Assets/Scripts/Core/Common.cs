@@ -1,24 +1,26 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using UnityEngine;
+using UnityEngine.Networking;
 
 #region Shaft Enum Skin
 public enum SkinShaftBg
 {
-    None = 0,
+
     BR1 = 1,
     BR2 = 2
 }
 public enum SkinShaftWaitTable
 {
-    None = 0,
+
     WT1 = 1,
     WT2 = 2
 }
 public enum SkinShaftMilkCup
 {
-    None = 0,
     MC1 = 1,
     MC2 = 2
 }
@@ -94,4 +96,36 @@ public class Common
 
         canvasGroup.alpha = 1;
     }
+	public static Sprite LoadSprite(string path)
+	{
+		Sprite sprite = Resources.Load<Sprite>(path);
+		if (sprite == null)
+		{
+			Debug.LogError("Sprite not found at path: " + path);
+		}
+		return sprite;
+	}
+
+	public static SkeletonDataAsset LoadSpine(string path)
+	{
+		SkeletonDataAsset spineAsset = Resources.Load<SkeletonDataAsset>(path);
+		if (spineAsset == null)
+		{
+			Debug.LogError("Spine asset not found at path: " + path);
+		}
+		return spineAsset;
+	}
+
+	public static bool CheckInternetConnection()
+	{
+		if (Application.internetReachability == NetworkReachability.NotReachable)
+		{
+			//Debug.LogWarning("No internet connection detected.");
+			return false;
+		}
+
+		//Debug.Log("Internet connection is available.");
+		return true;
+
+	}
 }

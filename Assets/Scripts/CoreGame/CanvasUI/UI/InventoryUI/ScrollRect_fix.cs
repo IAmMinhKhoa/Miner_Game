@@ -13,6 +13,10 @@ public class ScrollRect_fix : ScrollRect
 
             this.verticalScrollbar.size = 0.05f;
         }
+		if (this.horizontalScrollbar)
+		{
+			this.horizontalScrollbar.size = 0.05f;
+		}
     }
 
     override public void Rebuild(CanvasUpdate executing)
@@ -22,8 +26,12 @@ public class ScrollRect_fix : ScrollRect
 
         if (this.verticalScrollbar)
         {
-
+			this.verticalScrollbar.value = 1;
             this.verticalScrollbar.size = 0.05f;
         }
-    }
+		if (this.horizontalScrollbar)
+		{
+			this.horizontalScrollbar.size = 0.05f;
+		}
+	}
 }

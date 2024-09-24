@@ -4,10 +4,12 @@ using NOOD;
 using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class Counter : Patterns.Singleton<Counter>
 {
-    [Header("Location")]
+	public Action OnUpdateCounterInventoryUI;
+	[Header("Location")]
     [SerializeField] private Transform m_counterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
@@ -53,7 +55,24 @@ public class Counter : Patterns.Singleton<Counter>
     private bool isDone = false;
     public bool IsDone => isDone;
 
-    public void CreateTransporter()
+	private CounterSkin _counterSkin;
+
+	public CounterSkin counterSkin
+	{
+		get => _counterSkin;
+		set
+		{
+			_counterSkin = value;
+		}
+	}
+	public void UpdateUI()
+	{
+		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+		{
+			counterUI.ChangeSkin(counterSkin);
+		}
+	}
+	public void CreateTransporter()
     {
         Debug.Log("Create Transporter");
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);

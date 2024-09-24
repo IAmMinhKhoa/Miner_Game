@@ -7,8 +7,9 @@ using UnityEngine;
 public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
     public Action OnElevatorControllerArrive;
+	public Action OnUpdateElevatorInventoryUI;
 
-    [SerializeField] private Deposit elevatorDeposit;
+	[SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
     [SerializeField] private GameObject lyNuocs;
@@ -54,6 +55,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         get { return GetManagerBoost(BoostType.Costs); }
     }
+	private ElevatorSkin _elevatorSkin;
+	public ElevatorSkin elevatorSkin
+	{
+		get => _elevatorSkin;
+		set
+		{
+			_elevatorSkin = value;
+		}
+	}
 
     public double GetPureProductionInCycle()
     {
@@ -76,6 +86,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     }
 
     private bool isDone = false;
+
     public bool IsDone => isDone;
     private float GetManagerBoost(BoostType currentBoostAction)
     {
@@ -86,8 +97,18 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         managerLocation.RunBoost();
     }
-
-    void Start()
+	public void UpdateUI()
+	{
+		if (TryGetComponent(out ElevatorUI elevatorUI))
+		{
+			elevatorUI.ChangeSkin(_elevatorSkin);
+		}
+		else
+		{
+			Debug.Log("Faild to update background sprite");
+		}
+	}
+	void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
