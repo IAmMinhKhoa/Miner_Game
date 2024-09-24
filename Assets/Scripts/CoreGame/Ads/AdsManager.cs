@@ -17,6 +17,9 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		{
 
 		});
+		RequestConfiguration request = new RequestConfiguration();
+		request.TestDeviceIds.Add("4E03DC2B53D57237BC3ACF0AEFB9BB32");
+		MobileAds.SetRequestConfiguration(request);
 		LoadRewardedAd();
 		RegisterRewardedAdEventHandler(RewardedAd);
 	}
@@ -29,6 +32,13 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			Debug.Log("Ad unit id is empty");
 			return;
 		}
+#if UNITY_ANDROID
+		RewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+#elif UNITY_IPHONE
+		RewardedAdUnitId = "ca-app-pub-3940256099942544/1712485313";
+#else
+
+#endif
 		AdRequest adRequest = new AdRequest();
 		RewardedAd.Load(RewardedAdUnitId, adRequest,
 			(RewardedAd ad, LoadAdError error) =>
@@ -83,5 +93,5 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			PawManager.Instance.AddPaw(1000000000);
 		};
 	}
-	#endregion
+#endregion
 }
