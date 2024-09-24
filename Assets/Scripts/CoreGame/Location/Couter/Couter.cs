@@ -88,8 +88,8 @@ public class Counter : Patterns.Singleton<Counter>
 
     public double GetPureEfficiencyPerSecond()
     {
-        return couterConfig.ProductPerSecond * couterConfig.WorkingTime
-        / 2f * (couterConfig.WorkingTime * couterConfig.MoveTime);
+        return m_boostScale * couterConfig.ProductPerSecond * couterConfig.WorkingTime
+        / (2f * (couterConfig.WorkingTime + couterConfig.MoveTime));
     }
 
     public double GetTotalNS()

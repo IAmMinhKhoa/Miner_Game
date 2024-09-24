@@ -57,7 +57,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     public double GetPureProductionInCycle()
     {
-        return elevatorCtrlConfig.ProductPerSecond * elevatorCtrlConfig.WorkingTime;
+        return elevatorCtrlConfig.ProductPerSecond * elevatorCtrlConfig.WorkingTime * loadSpeedScale;
     }
 
     public double GetPureMoveTime()
