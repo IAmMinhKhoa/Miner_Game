@@ -1,20 +1,12 @@
 {
-"skeleton": {
-	"hash": "Pm6InlEHWms",
-	"spine": "4.2.36",
-	"x": -251,
-	"y": 0.24,
-	"width": 502,
-	"height": 220,
-	"images": "",
-	"audio": "./audio"
-},
+"skeleton": { "hash": "vUb5AxcBbG4", "spine": "4.2.36", "images": "", "audio": "./audio" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Ban", "parent": "root" },
 	{ "name": "ly nuoc 3", "parent": "root", "x": -137.88, "y": 220.85 },
 	{ "name": "ly nuoc 5", "parent": "root", "x": 4.45, "y": 221.59 },
-	{ "name": "ly nuoc 4", "parent": "root", "x": 148.98, "y": 220.85 }
+	{ "name": "ly nuoc 4", "parent": "root", "x": 148.98, "y": 220.85 },
+	{ "name": "Ban de ly tra sua 1", "parent": "root", "y": 110.24 }
 ],
 "slots": [
 	{ "name": "Ban de ly tra sua", "bone": "Ban", "attachment": "Ban de ly tra sua" },
@@ -23,7 +15,8 @@
 	{ "name": "ly nuoc 5", "bone": "ly nuoc 5" },
 	{ "name": "light ly nuoc", "bone": "ly nuoc 4" },
 	{ "name": "light ly nuoc2", "bone": "ly nuoc 5" },
-	{ "name": "light ly nuoc3", "bone": "ly nuoc 3" }
+	{ "name": "light ly nuoc3", "bone": "ly nuoc 3" },
+	{ "name": "Ban de ly tra sua 1", "bone": "Ban de ly tra sua 1" }
 ],
 "skins": [
 	{
@@ -86,6 +79,46 @@
 		"attachments": {
 			"Ban de ly tra sua": {
 				"Ban de ly tra sua": { "name": "image/Ban de ly tra sua 5", "y": 110.24, "width": 502, "height": 220 }
+			}
+		}
+	},
+	{
+		"name": "icon_1",
+		"attachments": {
+			"Ban de ly tra sua 1": {
+				"Ban de ly tra sua 1": { "name": "image/Ban de ly tra sua 1", "width": 502, "height": 220 }
+			}
+		}
+	},
+	{
+		"name": "icon_2",
+		"attachments": {
+			"Ban de ly tra sua 1": {
+				"Ban de ly tra sua 1": { "name": "image/Ban de ly tra sua 2", "width": 502, "height": 220 }
+			}
+		}
+	},
+	{
+		"name": "icon_3",
+		"attachments": {
+			"Ban de ly tra sua 1": {
+				"Ban de ly tra sua 1": { "name": "image/Ban de ly tra sua 3", "width": 502, "height": 220 }
+			}
+		}
+	},
+	{
+		"name": "icon_4",
+		"attachments": {
+			"Ban de ly tra sua 1": {
+				"Ban de ly tra sua 1": { "name": "image/Ban de ly tra sua 4", "width": 502, "height": 220 }
+			}
+		}
+	},
+	{
+		"name": "icon_5",
+		"attachments": {
+			"Ban de ly tra sua 1": {
+				"Ban de ly tra sua 1": { "name": "image/Ban de ly tra sua 5", "width": 502, "height": 220 }
 			}
 		}
 	}
@@ -311,6 +344,20 @@
 				"attachment": [
 					{ "name": "image/ly nuoc" },
 					{ "time": 0.3 }
+				]
+			}
+		}
+	},
+	"icon": {
+		"slots": {
+			"Ban de ly tra sua": {
+				"attachment": [
+					{}
+				]
+			},
+			"Ban de ly tra sua 1": {
+				"attachment": [
+					{ "name": "Ban de ly tra sua 1" }
 				]
 			}
 		}
