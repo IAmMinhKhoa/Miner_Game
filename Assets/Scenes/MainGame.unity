@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 167468180}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: -10}
+  m_LocalPosition: {x: 0, y: 0.07, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce263a85daf5c451d9c2a29baf85b061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: 0.1
-  maxY: 13.3
+  minY: 0.07
+  maxY: 0.07
   _decelerateSpeed: 1
   _maxSpeed: 10
   _duration: 0.2
@@ -1762,6 +1762,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -140.59357
       objectReference: {fileID: 0}
+    - target: {fileID: 1382409913929323245, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1429938316811570543, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2287,7 +2291,8 @@ PrefabInstance:
       value: -69.65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1382409913929323245, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
@@ -2307,6 +2312,10 @@ PrefabInstance:
       propertyPath: m_BlockingMask.m_Bits
       value: 119
       objectReference: {fileID: 0}
+    - target: {fileID: 6089442169905601741, guid: d189de483177f08429c42f96d4171cfd, type: 3}
+      propertyPath: CamHolder
+      value: 
+      objectReference: {fileID: 167468180}
     - target: {fileID: 7298106390140831060, guid: d189de483177f08429c42f96d4171cfd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
