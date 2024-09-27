@@ -22,6 +22,7 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 		
 		itemController.UnselectAllItem();
 		itemController.UnactiveAll();
+		itemController.title.text = "CHỌN XE ĐẨY Ở QUẦY";
 		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
 		
 		for (int i = 0; i < skinAmount.Count; i++)

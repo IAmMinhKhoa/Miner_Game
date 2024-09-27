@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Spine.Unity;
 
 public class CounterUI : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class CounterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-	[SerializeField]
-	SpriteRenderer m_bgCounter;
+	public SkeletonAnimation m_bgCounter;
+	public SkeletonAnimation m_secondBG;
 	// [Header("Visual object")]
 	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
 
@@ -118,7 +119,14 @@ public class CounterUI : MonoBehaviour
 
 	public void ChangeSkin(CounterSkin data)
 	{
-		m_bgCounter.sprite = SkinManager.Instance.skinResource.skinBgCounter[int.Parse(data.idBackGround)].sprite;
+		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
+		m_bgCounter.Skeleton.SetSkin(skinBGName);
+		m_bgCounter.Skeleton.SetSlotsToSetupPose();
+
+		string skinSecondBGName = "Skin_"+(int.Parse(data.idSecondBg) + 1);
+		m_secondBG.Skeleton.SetSkin(skinSecondBGName);
+		m_secondBG.Skeleton.SetSlotsToSetupPose();
+
 		if (TryGetComponent<Counter>(out var counter))
 		{
 			

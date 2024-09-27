@@ -21,17 +21,30 @@ namespace UI.Inventory
 			
 			foreach (DecoratorItem item in items)
 			{
-				if (bgInfor.ContainsKey(item.type))
+				string id = "";
+				switch (item.type)
 				{
-					Sprite bgImage =  Resources.Load<Sprite>(bgInfor[item.type].path);
-					item.ChangeItem(bgImage);
-
+					case InventoryItemType.ShaftBg:
+						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idBackGround) + 1) + "";
+						item.ChangeSpineSkin("Icon_" + id);
+						break;
+					case InventoryItemType.ShaftSecondBg:
+						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idSecondBg) + 1) + "";
+						item.ChangeSpineSkin("Icon_" + id);
+						break;
+					case InventoryItemType.ShaftWaitTable:
+						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idWaitTable) + 1) + "";
+						item.ChangeSpineSkin("Icon_" + id);
+						break;
 				}
-				if (item.SkinList != null)
+				
+				if (item.type == InventoryItemType.ShaftCart)
 				{
 					int indexCart = int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idCart);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart].Name);
+					continue;
 				}
+				
 			}
 		}
 
@@ -39,6 +52,7 @@ namespace UI.Inventory
         {
             index = i;
             title.text = "Tầng " + (i + 1).ToString();
+			if (items == null) return;
 			foreach (DecoratorItem item in items)
 			{
 				item.Index = i;

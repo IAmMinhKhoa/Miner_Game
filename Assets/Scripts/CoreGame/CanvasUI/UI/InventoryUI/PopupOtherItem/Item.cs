@@ -16,8 +16,8 @@ namespace UI.Inventory.PopupOtherItem
 		[SerializeField] Image itemImg;
 		[SerializeField] Image boder;
 		[SerializeField] TextMeshProUGUI itemName;
-		[SerializeField] SkeletonGraphic elevator;
-		[SerializeField] SkeletonGraphic cart;
+		public SkeletonGraphic elevator;
+		public SkeletonGraphic cart;
 		public event Action<Item> ItemClicked;
 		public void Selected()
 		{

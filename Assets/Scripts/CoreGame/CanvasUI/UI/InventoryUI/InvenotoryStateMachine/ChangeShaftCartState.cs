@@ -22,6 +22,7 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 	{
 		itemController.UnselectAllItem();
 		itemController.UnactiveAll();
+		itemController.title.text = "CHỌN XE ĐẨY Ở MỖI TẦNG";
 		var shaft = ShaftManager.Instance.Shafts[0];
 		var brewer = shaft.Brewers[0];
 		var skinAmount = brewer.CartSkeletonAnimation.skeleton.Data.Skins;

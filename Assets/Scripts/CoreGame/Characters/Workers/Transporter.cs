@@ -16,6 +16,7 @@ public class Transporter : BaseWorker
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
 	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
 	public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
+	private bool isShowTextNumber = true;
     public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
@@ -48,8 +49,19 @@ public class Transporter : BaseWorker
             Move(Counter.TransporterLocation.position);
         }
     }
-
-    protected override async void Collect()
+	private void LateUpdate()
+	{
+		if(isShowTextNumber == false)
+		{
+			numberText.text = "";
+		}
+			
+	}
+	public void HideNumberText()
+	{
+		isShowTextNumber = false;
+	}
+	protected override async void Collect()
     {
         ChangeGoal();
         double maxCapacity = ProductPerSecond * WorkingTime;

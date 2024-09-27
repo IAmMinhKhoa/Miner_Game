@@ -25,7 +25,7 @@ namespace UI.Inventory
 		{
 			itemController.UnselectAllItem();
 			itemController.UnactiveAll();
-
+			itemController.title.text = "Chọn Skin Thang Máy";
 			if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 			{
 				var skins = elevatorControllerView.FontElevator.skeleton.Data.Skins;

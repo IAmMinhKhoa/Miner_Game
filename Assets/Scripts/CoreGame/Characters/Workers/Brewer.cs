@@ -9,8 +9,8 @@ using Spine.Unity;
 public class Brewer : BaseWorker
 {
     [SerializeField] private GameObject brewerView;
-    [SerializeField] private GameObject brewerSpineData, cartSpineData, headSpineData;
-    private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
+    [SerializeField] private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
+    
 
     public Shaft CurrentShaft { get; set; }
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
@@ -37,15 +37,13 @@ public class Brewer : BaseWorker
 
     void Start()
     {
-        brewerSkeletonAnimation = brewerSpineData.GetComponent<SkeletonAnimation>();
-        cartSkeletonAnimation = cartSpineData.GetComponent<SkeletonAnimation>();
-		headSkeletonAnimation = headSpineData.GetComponent<SkeletonAnimation>();
-        numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
+		numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(brewerView.transform);
-        numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
+		numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
         collectTransform = CurrentShaft.BrewLocation;
         depositTransform = CurrentShaft.BrewerLocation;
     }
+	
 
     private void Update()
     {
@@ -56,8 +54,12 @@ public class Brewer : BaseWorker
             Move(CurrentShaft.BrewLocation.position);
         }
     }
+	private void LateUpdate()
+	{
+		numberText.text = "";
+	}
 
-    protected override async void Collect()
+	protected override async void Collect()
     {
         base.Collect();
         await IECollect();

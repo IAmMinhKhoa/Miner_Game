@@ -230,24 +230,26 @@ public class ElevatorSkin : SkinBase
 public class CounterSkin : SkinBase
 {
 	public string idCart { get; set; }
+	public string idSecondBg { get; set; }
 	public CharacterSkin character { get; set; }
 
-	public CounterSkin(string idBackGround = "1", string idMilkCup = "1", string idCart = "1", CharacterSkin characterSkin = null)
+	public CounterSkin(string idBackGround = "1", string idMilkCup = "1", string idCart = "1", string idSecondBg = "1", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
+		this.idSecondBg = idSecondBg;
 	}
 	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
-		//int idWt = int.Parse(idWaitTable);
+		
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
 		return new Dictionary<InventoryItemType, DataSkinImage>()
 		{
 			{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter[idBg]},
-			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
+			{InventoryItemType.CounterSecondBg, SkinManager.Instance.skinResource.skinWaitTable[int.Parse(idSecondBg)]},
 			//{"skinMcShaft", SkinManager.skinResource.skinMilkCup[idMc]},
 			//{"skinCShaft", SkinManager.skinResource.skinCharacterCart[idC]},
 		};
@@ -278,7 +280,8 @@ public enum InventoryItemType
 	ShaftWaitTable,
 	ShaftCharacter,
 	ElevatorCharacter,
-	CounterCharacter
+	CounterCharacter,
+	CounterSecondBg
 }
 #endregion
 

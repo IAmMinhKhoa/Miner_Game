@@ -23,10 +23,11 @@ public class ElevatorUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private SkeletonAnimation m_refrigeratorAnimation;
-	[SerializeField] private SpriteRenderer m_bgElevator;
+	[SerializeField] private SkeletonAnimation m_bgElevator;
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 
+	public SkeletonAnimation BgElevator => m_bgElevator;
     void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
@@ -144,7 +145,7 @@ public class ElevatorUI : MonoBehaviour
 	public void ChangeSkin(ElevatorSkin data)
 	{
 		//set init Data Skin shaft
-		m_bgElevator.sprite = SkinManager.Instance.skinResource.skinBgElevator[int.Parse(data.idBackGround)].sprite; ; 
+		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		
 		int elevatorIndex = int.Parse(data.idFrontElevator);
 		

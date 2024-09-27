@@ -35,12 +35,16 @@ public class ShaftUI : MonoBehaviour
 	[SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
-	[SerializeField] private SpriteRenderer m_br;
+	[SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
-	[SerializeField] SpriteRenderer m_secondbg;
+	[SerializeField] SkeletonAnimation m_secondbg;
 
+	public SkeletonAnimation BG => m_br;
+	public SkeletonAnimation SecondBG => m_secondbg;
 
-    [SerializeField] private SkeletonAnimation tableAnimation;
+    private SkeletonAnimation tableAnimation;
+	[SerializeField] SkeletonAnimation waitTable;
+	public SkeletonAnimation WaitTable => waitTable;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
@@ -256,11 +260,15 @@ public class ShaftUI : MonoBehaviour
 	public void ChangeSkin(ShaftSkin data)
 	{
 		//set init Data Skin shaft
-		if (SkinManager.Instance.skinResource.skinBgShaft == null) return;
+		if (SkinManager.Instance.skinResource.skinBgShaft == null || m_br.Skeleton == null) return;
 		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
-		m_br.sprite = SkinManager.Instance.skinResource.skinBgShaft[int.Parse(data.idBackGround)].sprite;
-		m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
-		m_secondbg.sprite = SkinManager.Instance.skinResource.skinSecondBgShaft[int.Parse(data.idSecondBg)].sprite;
+		
+		m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
+		m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
+		//Debug.Log(milkTeaTable.Skeleton.Data.Skins.Count);
+		waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
+		//m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
+		
 		if(TryGetComponent<Shaft>(out var shaft))
 		{
 			int cartIndex = int.Parse(data.idCart);

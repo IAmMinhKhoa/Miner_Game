@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 267938543298225247}
   type: 0
-  cartSkeleton: {fileID: 0}
+  spine: {fileID: 2900338810752061385}
 --- !u!1 &1787004865936114589
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,8 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6588037104991663169}
   - component: {fileID: 8004179019015135420}
-  - component: {fileID: 6562807724815064325}
-  - component: {fileID: 8495516755572158650}
+  - component: {fileID: 6206757515431053819}
   m_Layer: 5
   m_Name: bg item_1
   m_TagString: Untagged
@@ -254,14 +253,14 @@ RectTransform:
   m_GameObject: {fileID: 1787004865936114589}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.23, y: 0.23, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6002916028409162316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 63.7, y: -63}
+  m_AnchoredPosition: {x: 63.7, y: -90.1}
   m_SizeDelta: {x: 119.7256, y: 115.3416}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8004179019015135420
@@ -272,7 +271,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787004865936114589}
   m_CullTransparentMesh: 1
---- !u!114 &6562807724815064325
+--- !u!114 &6206757515431053819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -281,10 +280,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1787004865936114589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -292,31 +291,49 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 929c4476ec41b44f18cdeef27eab7338, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &8495516755572158650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787004865936114589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fc7dde6b47c564f9ae30b3586f5201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 6562807724815064325}
-  type: 7
-  cartSkeleton: {fileID: 0}
+  skeletonDataAsset: {fileID: 11400000, guid: def50251d34aaff47a2184dce2001505, type: 2}
+  additiveMaterial: {fileID: 0}
+  multiplyMaterial: {fileID: 0}
+  screenMaterial: {fileID: 0}
+  m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  initialSkinName: Icon_1
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: icon
+  startingLoop: 0
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 0
+  referenceSize: {x: 119.7256, y: 115.3416}
+  pivotOffset: {x: 0, y: 0}
+  referenceScale: 1
+  layoutScale: 1
+  rectTransformSize: {x: 119.7256, y: 115.3416}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  updateSeparatorPartScale: 0
+  disableMeshAssignmentOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      tintBlack: 0
+      canvasGroupCompatible: 0
+      pmaVertexColors: 1
+      addNormals: 0
+      calculateTangents: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
 --- !u!1 &2096837241649213722
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,10 +413,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 9142465992331799175}
   items:
-  - {fileID: 3298686575273549729}
+  - {fileID: 7195278901509472692}
   - {fileID: 9148987702743651401}
-  - {fileID: 5180887976508657598}
-  - {fileID: 8495516755572158650}
+  - {fileID: 2072170995449066312}
+  - {fileID: 5266117117785860533}
 --- !u!1 &2899512048752780256
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,8 +561,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1899429734881140163}
   - component: {fileID: 9115205779749069000}
-  - component: {fileID: 5164142259794390197}
-  - component: {fileID: 5180887976508657598}
+  - component: {fileID: 935849909500025865}
   m_Layer: 5
   m_Name: bg item_1
   m_TagString: Untagged
@@ -562,7 +578,7 @@ RectTransform:
   m_GameObject: {fileID: 3115748323494701625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.13, y: 0.13, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488969848802219819}
@@ -580,7 +596,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3115748323494701625}
   m_CullTransparentMesh: 1
---- !u!114 &5164142259794390197
+--- !u!114 &935849909500025865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -589,10 +605,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3115748323494701625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -600,31 +616,49 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 929c4476ec41b44f18cdeef27eab7338, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &5180887976508657598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3115748323494701625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fc7dde6b47c564f9ae30b3586f5201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 5164142259794390197}
-  type: 5
-  cartSkeleton: {fileID: 0}
+  skeletonDataAsset: {fileID: 11400000, guid: 1d0fb8dc41c22ca40a84f810582eef75, type: 2}
+  additiveMaterial: {fileID: 0}
+  multiplyMaterial: {fileID: 0}
+  screenMaterial: {fileID: 0}
+  m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  initialSkinName: Icon_2
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: 
+  startingLoop: 0
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 0
+  referenceSize: {x: 119.7256, y: 115.3416}
+  pivotOffset: {x: 0, y: 0}
+  referenceScale: 1
+  layoutScale: 1
+  rectTransformSize: {x: 119.7256, y: 115.3416}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  updateSeparatorPartScale: 0
+  disableMeshAssignmentOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      tintBlack: 0
+      canvasGroupCompatible: 0
+      pmaVertexColors: 1
+      addNormals: 0
+      calculateTangents: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
 --- !u!1 &3878203267832501779
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,7 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8227304238151813289}
   type: 7
-  cartSkeleton: {fileID: 0}
+  spine: {fileID: 6206757515431053819}
 --- !u!1 &4805036153766779446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8320782289440010109}
   type: 6
-  cartSkeleton: {fileID: 3054164479048133830}
+  spine: {fileID: 3054164479048133830}
 --- !u!1 &5242544345222478620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,8 +1185,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7256385459714978656}
   - component: {fileID: 7858526192634687049}
-  - component: {fileID: 6971427082138190202}
-  - component: {fileID: 3298686575273549729}
+  - component: {fileID: 6474227226597075001}
+  - component: {fileID: 2900338810752061385}
   m_Layer: 5
   m_Name: bg item_1
   m_TagString: Untagged
@@ -1169,7 +1203,7 @@ RectTransform:
   m_GameObject: {fileID: 5242544345222478620}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.13, y: 0.13, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3415954347702570460}
@@ -1187,7 +1221,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5242544345222478620}
   m_CullTransparentMesh: 1
---- !u!114 &6971427082138190202
+--- !u!23 &6474227226597075001
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5242544345222478620}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2900338810752061385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1196,10 +1272,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5242544345222478620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1207,31 +1283,49 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 929c4476ec41b44f18cdeef27eab7338, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &3298686575273549729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5242544345222478620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fc7dde6b47c564f9ae30b3586f5201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 6971427082138190202}
-  type: 0
-  cartSkeleton: {fileID: 0}
+  skeletonDataAsset: {fileID: 11400000, guid: 6be03d8238937824b92f3c4a3fee6297, type: 2}
+  additiveMaterial: {fileID: 0}
+  multiplyMaterial: {fileID: 0}
+  screenMaterial: {fileID: 0}
+  m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  initialSkinName: Icon_1
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: 
+  startingLoop: 0
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 0
+  referenceSize: {x: 119.7256, y: 115.3416}
+  pivotOffset: {x: 0, y: 0}
+  referenceScale: 1
+  layoutScale: 1
+  rectTransformSize: {x: 119.7256, y: 115.3416}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  updateSeparatorPartScale: 0
+  disableMeshAssignmentOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      tintBlack: 0
+      canvasGroupCompatible: 0
+      pmaVertexColors: 1
+      addNormals: 0
+      calculateTangents: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
 --- !u!1 &5252259338664529297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,6 +1471,7 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
+  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -1494,7 +1589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 9024577511398745050}
   type: 5
-  cartSkeleton: {fileID: 0}
+  spine: {fileID: 935849909500025865}
 --- !u!1 &6662892354632609313
 GameObject:
   m_ObjectHideFlags: 0

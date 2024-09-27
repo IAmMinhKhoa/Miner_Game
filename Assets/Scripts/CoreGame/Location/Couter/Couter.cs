@@ -80,8 +80,11 @@ public class Counter : Patterns.Singleton<Counter>
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
-
         _transporters.Add(transporter);
+		if(_transporters.Count > 1)
+		{
+			transporter.HideNumberText();
+		}
     }
 
     private void CreateDeposit()

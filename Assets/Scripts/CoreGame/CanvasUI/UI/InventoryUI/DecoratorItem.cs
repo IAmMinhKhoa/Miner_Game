@@ -9,22 +9,22 @@ namespace UI.Inventory
 	public class DecoratorItem : ItemInventoryUI
 	{
 		[SerializeField]
-		private SkeletonGraphic cartSkeleton = null;
+		private SkeletonGraphic spine;
 		public ExposedList<Skin> SkinList
 		{
 			get
 			{
-				if (cartSkeleton != null)
-					return cartSkeleton.Skeleton.Data.Skins;
+				if (spine != null)
+					return spine.Skeleton.Data.Skins;
 				else
 					return null;
 			}
 		}
 		private void Awake()
 		{
-			if (cartSkeleton != null)
+			if (spine != null)
 			{
-				cartSkeleton.Initialize(false);
+				spine.Initialize(false);
 			}
 			
 		}
@@ -33,15 +33,16 @@ namespace UI.Inventory
 		{
 			OnItemClick?.Invoke(type, Index);
 		}
-		public void ChangeSpineSkin(Skin skin)
+		public void ChangeSpineSkin(string skinName)
 		{
-			if (skin == null)
+			if (skinName == null)
 			{
 				Debug.Log(this.name + " Skin not fond");
 				return;
 			}
-			cartSkeleton.Skeleton.SetSkin(skin);
-			cartSkeleton.Skeleton.SetSlotsToSetupPose();
+		
+			spine.Skeleton.SetSkin(skinName);
+			spine.Skeleton.SetSlotsToSetupPose();
 		}
 	}
 }

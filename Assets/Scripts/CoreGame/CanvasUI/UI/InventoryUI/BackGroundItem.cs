@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,34 +9,28 @@ using UnityEngine.UI;
 
 namespace UI.Inventory
 {
-    public class BackGroundItem : ItemInventoryUI
+    public class BackGroundItem : MonoBehaviour
     {
         [SerializeField]
         TextMeshProUGUI nameBgItem;
+		public SkeletonGraphic bg;
+		public SkeletonGraphic secondBg;
 		public int index { private set; get;}
 		public string desc { private set; get; }
 
 		public string iName { private set; get; }
 		public Sprite img { private set; get; }
 		public event Action<int> OnBackGroundItemClick;
-		public void ChangItemInfo(Sprite sprite, string itemName, int index, string desc)
-        {
-            nameBgItem.text = itemName;
-			iName = itemName;
-			image.sprite = sprite;
-			img = sprite;
+
+		public void OnPointerClick()
+		{
+			OnBackGroundItemClick?.Invoke(index);
+		}
+		public void SetItemInfor(int index, string itemName, string desc)
+		{
 			this.index = index;
 			this.desc = desc;
-        }
-
-
-        public override void OnPointerClick(PointerEventData eventData)
-        {
-			OnBackGroundItemClick?.Invoke(index);
-        }
-		public void SetItemType(InventoryItemType type)
-		{
-			this.type = type;
+			iName = itemName;
 		}
-    }
+	}
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UI.Inventory.PopupOtherItem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,9 @@ namespace UI.Inventory
         [SerializeField] private GameObject pnNoiThat;
         [SerializeField] private GameObject pnNhanVien;
         [SerializeField] GameObject inventoryPanel;
+		public GameObject InventoryPanel => inventoryPanel;
 		[SerializeField] BackGroundItemController bgList;
+		public BackGroundItemController BGList => bgList;
 		public PopupOtherItemController pOIController;
 		[SerializeField] StaffSkinUI staffSkinUI;
 		[SerializeField] private ContentFitterRefresh contentFitterRefresh;
@@ -43,7 +46,10 @@ namespace UI.Inventory
 		[Header("Elevator")]
 		[SerializeField] DecoratorItem[] elevatorItem;
 		[SerializeField] StaffSkinItem elevatorStaffSkin;
-	
+
+		[Header("Prefab")]
+		public BackGroundItem bgCounterPrefab;
+		public Item popupOtherItemPrefab;
 
 		int shaftCount = 0;
 		bool isBackgroundItemOpening;
@@ -101,7 +107,7 @@ namespace UI.Inventory
 
 			foreach (var item in counterItem)
 			{
-				if (item.type == InventoryItemType.CounterBg)
+				if (item.type == InventoryItemType.CounterBg || item.type == InventoryItemType.CounterSecondBg)
 				{
 					
 					item.OnItemClick += OpenListBg;
@@ -113,14 +119,7 @@ namespace UI.Inventory
 			}
 			foreach (var item in elevatorItem)
 			{
-				if (item.type == InventoryItemType.ElevatorBg)
-				{
-					item.OnItemClick += OpenListBg;
-				}
-				else
-				{
-					item.OnItemClick += PopupOrtherItemController;
-				}
+				item.OnItemClick += PopupOrtherItemController;
 			}
 			HandleElevatorIUI();
 			HandleCounterIUI();
@@ -183,31 +182,38 @@ namespace UI.Inventory
 			{
 				if(elevatorSkinData.ContainsKey(item.type))
 				{
-					Sprite bgImage = Resources.Load<Sprite>(elevatorSkinData[item.type].path);
-					item.ChangeItem(bgImage);
+					string skinName = "Icon_" + (int.Parse(ElevatorSystem.Instance.elevatorSkin.idBackGround) + 1);
+					item.ChangeSpineSkin(skinName);
+					continue;
 				}
 				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(ElevatorSystem.Instance.elevatorSkin.idFrontElevator);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart].Name);
 				}
 			}
 		}
 		private void HandleCounterIUI()
 		{
-			var counter = Counter.Instance.counterSkin.GetDataSkin();
+			
 			foreach (var item in counterItem)
 			{
-				if (counter.ContainsKey(item.type))
+				if (item.type == InventoryItemType.CounterBg)
 				{
-					Sprite bgImage = Resources.Load<Sprite>(counter[item.type].path);
-					item.ChangeItem(bgImage);
+					string skinName = "Icon_" + (int.Parse(Counter.Instance.counterSkin.idBackGround) + 1);
+					item.ChangeSpineSkin(skinName);
 					continue;
 				}
-				if(item.SkinList != null)
+				if (item.type == InventoryItemType.CounterSecondBg)
+				{
+					string skinName = "Icon_" + (int.Parse(Counter.Instance.counterSkin.idSecondBg) + 1);
+					item.ChangeSpineSkin(skinName);
+					continue;
+				}
+				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart]);
+					item.ChangeSpineSkin(item.SkinList.Items[indexCart].Name);
 				}
 				
 			}
@@ -266,10 +272,16 @@ namespace UI.Inventory
         }
 		private void OpenListBg(InventoryItemType type, int index = -1)
 		{
-			isBackgroundItemOpening = true;
-			bgList.gameObject.SetActive(true);
-			bgList.SetItemHandle(type, index);
-			inventoryPanel.SetActive(false);
+			bgList.SetIndex(index);
+			if (TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
+			{
+				isBackgroundItemOpening = true;
+				stateMachine.TransitonToState(type);
+				bgList.gameObject.SetActive(true);
+				pOIController.FloorIndex = index;
+				inventoryPanel.SetActive(false);
+			}
+			
 
 		}
 

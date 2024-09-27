@@ -17,7 +17,8 @@ namespace UI.Inventory
 		public Action<InventoryItemType, int> OnItemClick;
         public virtual void ChangeItem(Sprite sprite)
         {
-            image.sprite = sprite;
+			if(image != null) 
+				image.sprite = sprite;
         }
 
         public abstract void OnPointerClick(PointerEventData eventData);
