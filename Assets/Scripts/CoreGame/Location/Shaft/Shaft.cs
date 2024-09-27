@@ -51,6 +51,11 @@ public class Shaft : MonoBehaviour
         / (m_config.WorkingTime + 2d * m_config.MoveTime);
     }
 
+    public double GetCycleTime()
+    {
+        return m_config.WorkingTime + 2d * m_config.MoveTime;
+    }
+
     public double GetShaftNS()
     {
         return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
@@ -78,20 +83,20 @@ public class Shaft : MonoBehaviour
         set
         {
             _shaftSkin = value;
-			if (TryGetComponent(out ShaftUI shaftUI))
-			{
-				shaftUI.ChangeSkin(_shaftSkin);
-			}
-		}
+            if (TryGetComponent(out ShaftUI shaftUI))
+            {
+                shaftUI.ChangeSkin(_shaftSkin);
+            }
+        }
 
     }
-	public void UpdateUI()
-	{
-		if (TryGetComponent(out ShaftUI shaftUI))
-		{
-			shaftUI.ChangeSkin(_shaftSkin);
-		}
-	}
+    public void UpdateUI()
+    {
+        if (TryGetComponent(out ShaftUI shaftUI))
+        {
+            shaftUI.ChangeSkin(_shaftSkin);
+        }
+    }
 
     public void CreateBrewer()
     {
