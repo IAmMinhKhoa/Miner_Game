@@ -14,7 +14,6 @@ public class CounterUI : MonoBehaviour
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
     [SerializeField] private Button m_boostButton;
-	[SerializeField] private Button m_boostButtonCounter;
 
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI m_pawText;
@@ -56,7 +55,6 @@ public class CounterUI : MonoBehaviour
         m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
 		m_boostButton.onClick.AddListener(ActiveBoost);
-		m_boostButtonCounter.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
@@ -65,7 +63,6 @@ public class CounterUI : MonoBehaviour
         m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
 		m_boostButton.onClick.RemoveListener(ActiveBoost);
-		m_boostButtonCounter.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
     }
 
