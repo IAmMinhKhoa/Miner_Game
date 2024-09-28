@@ -9,6 +9,7 @@ using Spine.Unity;
 public class Brewer : BaseWorker
 {
     [SerializeField] private GameObject brewerView;
+
     [SerializeField] private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
     
 
@@ -16,7 +17,7 @@ public class Brewer : BaseWorker
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
 	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
 	public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
-	private TextMeshPro numberText;
+	[SerializeField]private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
     public bool isBrewing = false;
@@ -54,10 +55,10 @@ public class Brewer : BaseWorker
             Move(CurrentShaft.BrewLocation.position);
         }
     }
-	private void LateUpdate()
-	{
-		numberText.text = "";
-	}
+	//private void LateUpdate()
+	//{
+	//	numberText.text = "";
+	//}
 
 	protected override async void Collect()
     {
