@@ -22,8 +22,6 @@ public class CounterUI : MonoBehaviour
 
 	public SkeletonAnimation m_bgCounter;
 	public SkeletonAnimation m_secondBG;
-	public SkeletonAnimation m_cashierCounter;
-	public SkeletonAnimation m_managerCounter;
 	// [Header("Visual object")]
 	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
 
