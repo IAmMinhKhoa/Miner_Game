@@ -8,6 +8,7 @@ using System;
 
 public class Counter : Patterns.Singleton<Counter>
 {
+	public Action<int> OnUpgrade;
 	public Action OnUpdateCounterInventoryUI;
 	[Header("Location")]
     [SerializeField] private Transform m_counterLocation;
