@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Spine.Unity;
+using NOOD.SerializableDictionary;
 
 public class CounterUI : MonoBehaviour
 {
@@ -24,7 +25,8 @@ public class CounterUI : MonoBehaviour
 	public SkeletonAnimation m_secondBG;
 	// [Header("Visual object")]
 	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
-
+	[SerializeField] private SkeletonAnimation m_cashierCounter;
+	[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
@@ -54,7 +56,8 @@ public class CounterUI : MonoBehaviour
         m_managerButton.onClick.AddListener(OpenManagerPanel);
 		m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
-    }
+		m_counter.OnUpgrade += Counter_OnUpgradeHandler;
+	}
 
     void OnDisable()
     {
@@ -62,9 +65,27 @@ public class CounterUI : MonoBehaviour
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
 		m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
-    }
+		m_counter.OnUpgrade -= Counter_OnUpgradeHandler;
+	}
+	private void Counter_OnUpgradeHandler(int currentLevel)
+	{
+		foreach (var item in skeletonDataAssetDic.Dictionary)
+		{
+			if (currentLevel >= item.Key)
+			{
+				UpgradeCounter(item.Value);
+			}
+		}
+	}
+	private void UpgradeCounter(SkeletonDataAsset tableDataAsset)
+	{
+		m_cashierCounter.skeletonDataAsset = tableDataAsset;
+		m_cashierCounter.Initialize(true,true);
+		//tableAnimation.skeletonDataAsset = tableDataAsset;
+		//tableAnimation.Initialize(true, true);
+	}
 
-    void CallUpgrade()
+	void CallUpgrade()
     {
         if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)
         {
