@@ -57,6 +57,6 @@ public class LoaddingScreenManager : MonoBehaviour
 			await UniTask.Yield();
 		}
 		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
-		await UniTask.Delay(500);
+		await UniTask.Delay(100);
 	}
 }

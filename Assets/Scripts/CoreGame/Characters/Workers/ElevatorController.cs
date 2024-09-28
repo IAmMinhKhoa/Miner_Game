@@ -16,7 +16,6 @@ public class ElevatorController : BaseWorker
     [SerializeField] private float firstShaftMoveTimeScale = 0.724f;
     [SerializeField] private bool isWorking = false;
     private double checkWorkingTime = 0;
-
     public bool IsWorking => isWorking;
     public double MaxCapacity{ get; private set; }
     public override double ProductPerSecond
@@ -38,12 +37,11 @@ public class ElevatorController : BaseWorker
 	private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
-
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
         collectTransform = this.transform;
-    }
+	}
     private void Update()
     {
         if (!isWorking)
@@ -160,7 +158,7 @@ public class ElevatorController : BaseWorker
         await UniTask.Delay((int)(collectTime * 1000));
         checkWorkingTime += collectTime;
         CurrentProduct += amount;
-        _currentDeposit.RemovePaw(amount);
+        _currentDeposit.RemovePawEle(amount);
         MoveToNextShaft();
         OnChangePawDone?.Invoke(CurrentProduct);
     }

@@ -30,8 +30,8 @@ public class ShaftUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private GameObject m_table;
-    [SerializeField] private GameObject m_lyNuocHolder;
-	[SerializeField] private Animator m_animatorTable;
+    //[SerializeField] private GameObject m_lyNuocHolder;
+	[SerializeField] private SkeletonAnimation m_animatorTable;
 	[SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
@@ -40,7 +40,7 @@ public class ShaftUI : MonoBehaviour
 	[SerializeField] SpriteRenderer m_secondbg;
 
 
-    private SkeletonAnimation tableAnimation;
+    [SerializeField] private SkeletonAnimation tableAnimation;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
@@ -51,20 +51,20 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
-        m_lyNuocHolder.gameObject.SetActive(false);
+        //m_lyNuocHolder.gameObject.SetActive(false);
         tableAnimation = m_table.GetComponent<SkeletonAnimation>();
     }
 
     void Start()
     {
         m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
-
+		m_shaft.CurrentDeposit.OnChangePawEle += ChangePawEleHandler;
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
         m_indexText.text = (m_shaft.shaftIndex + 1).ToString();
+		ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
 
-
-        //First init Data frame by current lvl of shaft
-        UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
+		//First init Data frame by current lvl of shaft
+		UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
       
 
@@ -114,23 +114,55 @@ public class ShaftUI : MonoBehaviour
         tableAnimation.skeletonDataAsset = tableDataAsset;
         tableAnimation.Initialize(true, true);
     }
+	private void ChangePawStart(double value)
+	{
+		if(value >0)
+		{
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+		}
+		else
+		{
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle", true);
+		}	
+	}	
 
-    private void ChangePawHandler(double value)
+
+	private void ChangePawHandler(double value)
     {
         Debug.Log("Change Paw: " + value);
-		m_animatorTable.SetTrigger("Shake");
+		//m_animatorTable.SetTrigger("Shake");
 
 		if (value > 0)
         {
-            m_lyNuocHolder.gameObject.SetActive(true);
-        }
+			//m_lyNuocHolder.gameObject.SetActive(true);
+			m_animatorTable.AnimationState.SetAnimation(0,"Active",false);
+
+		}
         else
         {
-            m_lyNuocHolder.gameObject.SetActive(false);
-        }
+			//m_lyNuocHolder.gameObject.SetActive(false);
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+		}
     }
+	private void ChangePawEleHandler(double value)
+	{
+		Debug.Log("Change Paw: " + value);
+		//m_animatorTable.SetTrigger("Shake");
 
-    void OpenManagerPanel()
+		if (value > 0)
+		{
+			//m_lyNuocHolder.gameObject.SetActive(true);
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+
+		}
+		else
+		{
+			//m_lyNuocHolder.gameObject.SetActive(false);
+			m_animatorTable.AnimationState.SetAnimation(0, "Active 2", false);
+		}
+	}
+
+	void OpenManagerPanel()
     {
         Debug.Log("Open Manager Panel");
         ManagersController.Instance.OpenManagerPanel(m_shaft.ManagerLocation);
@@ -191,8 +223,12 @@ public class ShaftUI : MonoBehaviour
 
     public async void PlayCollectAnimation(bool isBrewing)
     {
-        if (isBrewing == false) return;
-        if (_isBrewing == true)
+        if (isBrewing == false)
+		{
+			tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			return;
+		}
+		if (_isBrewing == true)
         {
             return;
         }
@@ -202,7 +238,6 @@ public class ShaftUI : MonoBehaviour
         tableAnimation.AnimationState.SetAnimation(0, "Active", false);
         await UniTask.Delay((int)tableAnimation.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Active").Duration * 1000);
         //Debug.Log("Play Idle");
-        tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
         _isBrewing = false;
     }
 

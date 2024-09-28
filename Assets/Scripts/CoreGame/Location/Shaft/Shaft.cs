@@ -133,7 +133,7 @@ public class Shaft : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < numberBrewer; i++)
+		for (int i = 0; i < numberBrewer; i++)
         {
             CreateBrewer();
         }
