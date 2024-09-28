@@ -30,10 +30,33 @@ namespace UI.Inventory
 		[Header("Inventory Panel")]
 		[SerializeField] GameObject inventoryPanel;
 		[SerializeField] SelectFloorHandle selectFloorHandle;
-
+		[Header("Inventory Panel")]
+		[SerializeField] GameObject listObjTypeAnimal;
+		[SerializeField] GameObject listObjSkin;
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
+		private InventoryItemType _currentItemTypeHandle;
 
-		public InventoryItemType CurrentItemTypeHandle { set; get; }
+		public InventoryItemType CurrentItemTypeHandle {
+			set
+			{
+				_currentItemTypeHandle = value;
+				//check if current skin is elevator -> only can change typeAnimal
+				if (value == InventoryItemType.ElevatorCharacter)
+				{
+					listObjSkin.SetActive(false);
+				}
+				else
+				{
+					listObjSkin.SetActive(true);
+				}
+
+			}
+			get
+			{
+				return _currentItemTypeHandle;
+			}
+
+		}
 
 		private int _currentFloor;
 		public int CurrentFloor
@@ -186,6 +209,11 @@ namespace UI.Inventory
 				headCharacter[i].Unselect();
 				headCharacter[i].SetItemInfo(LeftHeadIndex + i, type);
 				headCharacter[i].OnItemClicked += SetCurHeadIndex;
+				//thay đổi cả body-head khi click vào skin head
+				if (type == InventoryItemType.ElevatorCharacter)
+				{
+					headCharacter[i].OnItemClicked += SetCurBodyIndex;
+				}
 			}
 		}
 		private void UpdateListBodyCharacter(InventoryItemType type)

@@ -36,7 +36,9 @@ public class ToggleBehaviour : MonoBehaviour
 	}
 
 	public void DoAnimate()
-	{
+	{	
+		Toggle tg = GetComponent<Toggle>();
+		if (!tg.isOn) return;
 		SoundManager.PlaySound(SoundEnum.click);
 		_rectTransform.DOScale(bounceScale, bounceDuration / 2)
 			.SetEase(Ease.OutQuad)
