@@ -14,6 +14,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     List<double> _pawFloors = new();
     double _efficiencyElevator = 0;
     double _pawElevator = 0;
+    int floorIndex = -1;
+    double _totalPawTaken = 0;
     double _efficiencyCounter = 0;
     List<OfflineBoost> _offlineBoosts = new();
     #endregion
@@ -62,10 +64,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         Counter.Instance.Save();
         ManagersController.Instance.Save();
         PawManager.Instance.Save();
-		SkinManager.Instance.Save();
-		PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
-		
-	}
+        SkinManager.Instance.Save();
+        PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
+
+    }
 
 
     public void LoadOfflineData()
@@ -187,7 +189,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
-            _efficiencyFloors.Add(shaft.GetPureEfficiencyPerSecond());
+            _efficiencyFloors.Add(1f);
             _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
 
             var manager = shaft.ManagerLocation.Manager;
@@ -202,26 +204,20 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             }
         }
 
-        // _efficiencyElevator = ElevatorSystem.Instance.EfficiencyBoost;
-        // _pawElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
-        // if (ElevatorSystem.Instance.ManagerLocation.Manager != null)
-        // {
-        //     OfflineBoost offlineBoost = new OfflineBoost();
-        //     offlineBoost.time = ElevatorSystem.Instance.ManagerLocation.Manager.CurrentBoostTime;
-        //     offlineBoost.location = ManagerLocation.Elevator;
-        //     offlineBoost.index = 0;
-        //     _offlineBoosts.Add(offlineBoost);
-        // }
+        _efficiencyElevator = 1f;
+        _pawElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
+        var ElevatorManager = ElevatorSystem.Instance.ManagerLocation.Manager;
+        if (ElevatorManager != null && ElevatorManager.CurrentBoostTime > 0 && ElevatorManager.BoostType != BoostType.Costs)
+        {
+            OfflineBoost offlineBoost = new OfflineBoost();
+            offlineBoost.time = ElevatorManager.CurrentBoostTime;
+            offlineBoost.location = ManagerLocation.Elevator;
+            offlineBoost.index = 0;
+            offlineBoost.bonus = ElevatorSystem.Instance.GetManagerBoost(ElevatorManager.BoostType);
+            _offlineBoosts.Add(offlineBoost);
+        }
 
-        // _efficiencyCounter = Counter.Instance.EfficiencyBoost;
-        // if (Counter.Instance.ManagerLocation.Manager != null)
-        // {
-        //     OfflineBoost offlineBoost = new OfflineBoost();
-        //     offlineBoost.time = Counter.Instance.ManagerLocation.Manager.CurrentBoostTime;
-        //     offlineBoost.location = ManagerLocation.Counter;
-        //     offlineBoost.index = 0;
-        //     _offlineBoosts.Add(offlineBoost);
-        // }
+        _efficiencyCounter = 1f;
 
         _offlineBoosts.Sort((x, y) => x.time.CompareTo(y.time));
         Debug.Log("Paw bonus: " + JsonConvert.SerializeObject(_offlineBoosts));
@@ -230,6 +226,20 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     private double CaculateOfflinePaw(float offlineTime)
     {
         double pawBonus = 0;
+        var freeTime = offlineTime;
+
+        foreach (var offlineBoost in _offlineBoosts)
+        {
+            freeTime -= offlineBoost.time;
+            if (freeTime <= 0)
+            {
+                break;
+            }
+        }
+        if (freeTime > 0)
+        {
+            _offlineBoosts.Add(new OfflineBoost() { time = freeTime, location = ManagerLocation.Counter, index = -1, bonus = 1 });
+        }
 
         foreach (var offlineBoost in _offlineBoosts)
         {
@@ -240,40 +250,118 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
             float time = offlineBoost.time;
             float excuteTime = (offlineTime - time) > 0 ? time : offlineTime;
+            offlineTime -= time;
 
             if (time <= 0)
             {
                 continue;
             }
 
-            if (offlineBoost.location == ManagerLocation.Shaft)
+            for (int i = 0; i < _efficiencyFloors.Count; i++)
             {
-                for (int i = 0; i < _efficiencyFloors.Count; i++)
+                var managerBoost = _offlineBoosts.Find(x => x.location == ManagerLocation.Shaft && x.index == i);
+                if (managerBoost == null)
                 {
-                    if (i == offlineBoost.index)
+                    _efficiencyFloors[i] = 1f;
+                }
+                else
+                {
+                    _efficiencyFloors[i] = managerBoost.bonus;
+                }
+
+                _pawFloors[i] += ShaftManager.Instance.Shafts[i].GetPureEfficiencyPerSecond() * excuteTime * _efficiencyFloors[i];
+            }
+
+            //Elevator collection simulation
+            var elevatorBoost = _offlineBoosts.Find(x => x.location == ManagerLocation.Elevator);
+            if (elevatorBoost == null)
+            {
+                _efficiencyElevator = 1f;
+            }
+            else
+            {
+                _efficiencyElevator = elevatorBoost.bonus;
+            }
+
+            double q = 0d;
+            for (int i = 0; i < _pawFloors.Count; i++)
+            {
+                //find i
+                double n = excuteTime / ElevatorSystem.Instance.GetTempMoveTimeInCycle(i);
+                q = 0d;
+                for (int j = 0; j <= i; j++)
+                {
+                    var shaft = ShaftManager.Instance.Shafts[j];
+                    q += shaft.GetPureEfficiencyPerSecond() * ElevatorSystem.Instance.GetTempMoveTimeInCycle(j) / shaft.GetCycleTime() * _efficiencyFloors[j] + _pawFloors[j];
+                }
+
+                _totalPawTaken = ElevatorSystem.Instance.GetPureProductionInCycle() * n * _efficiencyElevator;
+                if (_totalPawTaken >= q)
+                {
+                    floorIndex = i;
+                    _totalPawTaken = q;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (floorIndex == -1)
+            {
+                floorIndex = _pawFloors.Count - 1;
+                //totalPawTaken is max now
+            }
+
+            //Case
+            if (floorIndex == _pawFloors.Count - 1)
+            {
+                pawBonus += _totalPawTaken;
+            }
+            else
+            {
+                for (int i = 0; i <= floorIndex; i++)
+                {
+                    if (i == floorIndex)
                     {
-                        _pawFloors[i] += _efficiencyFloors[i] * offlineBoost.bonus * excuteTime;
+                        _pawFloors[i] -= _totalPawTaken;
+                        _pawElevator += _totalPawTaken;
                     }
                     else
                     {
-                        var managerBoost = _offlineBoosts.Find(x => x.location == ManagerLocation.Shaft && x.index == i);
-                        if (managerBoost == null)
-                        {
-                            _pawFloors[i] += _efficiencyFloors[i] * excuteTime;
-                        }
-                        else
-                        {
-                            _pawFloors[i] += _efficiencyFloors[i] * managerBoost.bonus * excuteTime;
-                        }
+                        _totalPawTaken -= _pawFloors[i];
+                        _pawElevator += _pawFloors[i];
+                        _pawFloors[i] = 0;
                     }
                 }
-
-                _offlineBoosts.Remove(offlineBoost);
             }
+            //done here
+            var counterBoost = _offlineBoosts.Find(x => x.location == ManagerLocation.Counter);
+            if (counterBoost == null)
+            {
+                _efficiencyCounter = 1f;
+            }
+            else
+            {
+                _efficiencyCounter = counterBoost.bonus;
+            }
+            var couterPaw = Counter.Instance.GetPureEfficiencyPerSecond() * excuteTime * _efficiencyCounter;
+            if (_pawElevator >= couterPaw)
+            {
+                pawBonus += couterPaw;
+                _pawElevator -= couterPaw;
+            }
+            else
+            {
+                pawBonus += _pawElevator;
+                _pawElevator = 0;
+            }
+
+            //temp turn off boost
+            offlineBoost.bonus = 1;
         }
 
-        pawBonus += _pawFloors.Sum();
-
+        //Elevator collection simulation
         return pawBonus;
     }
 

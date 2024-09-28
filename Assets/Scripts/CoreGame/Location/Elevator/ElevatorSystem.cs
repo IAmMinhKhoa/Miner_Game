@@ -7,9 +7,9 @@ using UnityEngine;
 public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 {
     public Action OnElevatorControllerArrive;
-	public Action OnUpdateElevatorInventoryUI;
+    public Action OnUpdateElevatorInventoryUI;
 
-	[SerializeField] private Deposit elevatorDeposit;
+    [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
     [SerializeField] private GameObject lyNuocs;
@@ -55,15 +55,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         get { return GetManagerBoost(BoostType.Costs); }
     }
-	private ElevatorSkin _elevatorSkin;
-	public ElevatorSkin elevatorSkin
-	{
-		get => _elevatorSkin;
-		set
-		{
-			_elevatorSkin = value;
-		}
-	}
+    private ElevatorSkin _elevatorSkin;
+    public ElevatorSkin elevatorSkin
+    {
+        get => _elevatorSkin;
+        set
+        {
+            _elevatorSkin = value;
+        }
+    }
 
     public double GetPureProductionInCycle()
     {
@@ -85,10 +85,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return GetPureMoveTime() * (ShaftManager.Instance.Shafts.Count - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
     }
 
+    public double GetTempMoveTimeInCycle(int shaftCount)
+    {
+        return GetPureMoveTime() * (shaftCount - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
+    }
+
     private bool isDone = false;
 
     public bool IsDone => isDone;
-    private float GetManagerBoost(BoostType currentBoostAction)
+    public float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
@@ -97,18 +102,18 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         managerLocation.RunBoost();
     }
-	public void UpdateUI()
-	{
-		if (TryGetComponent(out ElevatorUI elevatorUI))
-		{
-			elevatorUI.ChangeSkin(_elevatorSkin);
-		}
-		else
-		{
-			Debug.Log("Faild to update background sprite");
-		}
-	}
-	void Start()
+    public void UpdateUI()
+    {
+        if (TryGetComponent(out ElevatorUI elevatorUI))
+        {
+            elevatorUI.ChangeSkin(_elevatorSkin);
+        }
+        else
+        {
+            Debug.Log("Faild to update background sprite");
+        }
+    }
+    void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
