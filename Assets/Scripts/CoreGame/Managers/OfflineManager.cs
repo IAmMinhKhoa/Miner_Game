@@ -189,7 +189,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
-            _efficiencyFloors.Add(shaft.GetPureEfficiencyPerSecond());
+            _efficiencyFloors.Add(1f);
             _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
 
             var manager = shaft.ManagerLocation.Manager;
@@ -204,26 +204,20 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             }
         }
 
-        // _efficiencyElevator = ElevatorSystem.Instance.EfficiencyBoost;
-        // _pawElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
-        // if (ElevatorSystem.Instance.ManagerLocation.Manager != null)
-        // {
-        //     OfflineBoost offlineBoost = new OfflineBoost();
-        //     offlineBoost.time = ElevatorSystem.Instance.ManagerLocation.Manager.CurrentBoostTime;
-        //     offlineBoost.location = ManagerLocation.Elevator;
-        //     offlineBoost.index = 0;
-        //     _offlineBoosts.Add(offlineBoost);
-        // }
+        _efficiencyElevator = 1f;
+        _pawElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
+        var ElevatorManager = ElevatorSystem.Instance.ManagerLocation.Manager;
+        if (ElevatorManager != null && ElevatorManager.CurrentBoostTime > 0 && ElevatorManager.BoostType != BoostType.Costs)
+        {
+            OfflineBoost offlineBoost = new OfflineBoost();
+            offlineBoost.time = ElevatorManager.CurrentBoostTime;
+            offlineBoost.location = ManagerLocation.Elevator;
+            offlineBoost.index = 0;
+            offlineBoost.bonus = ElevatorSystem.Instance.GetManagerBoost(ElevatorManager.BoostType);
+            _offlineBoosts.Add(offlineBoost);
+        }
 
-        // _efficiencyCounter = Counter.Instance.EfficiencyBoost;
-        // if (Counter.Instance.ManagerLocation.Manager != null)
-        // {
-        //     OfflineBoost offlineBoost = new OfflineBoost();
-        //     offlineBoost.time = Counter.Instance.ManagerLocation.Manager.CurrentBoostTime;
-        //     offlineBoost.location = ManagerLocation.Counter;
-        //     offlineBoost.index = 0;
-        //     _offlineBoosts.Add(offlineBoost);
-        // }
+        _efficiencyCounter = 1f;
 
         _offlineBoosts.Sort((x, y) => x.time.CompareTo(y.time));
         Debug.Log("Paw bonus: " + JsonConvert.SerializeObject(_offlineBoosts));
@@ -233,14 +227,6 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     {
         double pawBonus = 0;
         var freeTime = offlineTime;
-
-        //reset boost
-
-        for (int i = 0; i < _pawFloors.Count; i++)
-        {
-            _pawFloors[i] = ShaftManager.Instance.Shafts[i].CurrentDeposit.CurrentPaw;
-        }
-        _pawElevator = ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw;
 
         foreach (var offlineBoost in _offlineBoosts)
         {

@@ -93,7 +93,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     private bool isDone = false;
 
     public bool IsDone => isDone;
-    private float GetManagerBoost(BoostType currentBoostAction)
+    public float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
