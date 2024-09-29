@@ -55,10 +55,10 @@ public class Brewer : BaseWorker
             Move(CurrentShaft.BrewLocation.position);
         }
     }
-	//private void LateUpdate()
-	//{
-	//	numberText.text = "";
-	//}
+	private void LateUpdate()
+	{
+		numberText.text = "";
+	}
 
 	protected override async void Collect()
     {
