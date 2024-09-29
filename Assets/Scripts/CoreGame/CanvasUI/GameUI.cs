@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UI.Inventory;
 
 public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 
@@ -29,7 +30,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenInventory()
 	{
-		modal_Inventory.SetActive(true);
+		modal_Inventory.GetComponent<InventoryUIManager>().FadeInContainer();
 	}
 	#endregion
 

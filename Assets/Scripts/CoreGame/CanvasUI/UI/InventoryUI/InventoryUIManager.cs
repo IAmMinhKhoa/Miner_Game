@@ -1,5 +1,6 @@
 using DG.Tweening;
 using PlayFab.EconomyModels;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -259,17 +260,7 @@ namespace UI.Inventory
 			}
 		}
 
-		public void CloseInvetoryUI()
-        {
-            if (isBackgroundItemOpening == false)
-                gameObject.SetActive(false);
-			if(isBackgroundItemOpening)
-			{
-				isBackgroundItemOpening = false;
-				bgList.gameObject.SetActive(false);
-				inventoryPanel.SetActive(true);
-			}
-        }
+	
 		private void OpenListBg(InventoryItemType type, int index = -1)
 		{
 			bgList.SetIndex(index);
@@ -315,5 +306,39 @@ namespace UI.Inventory
 				pOIController.FloorIndex = index;
 			}
 		}
+		private void CloseInvetoryUI()
+		{
+			if (isBackgroundItemOpening == false)
+				gameObject.SetActive(false);
+			if (isBackgroundItemOpening)
+			{
+				isBackgroundItemOpening = false;
+				bgList.gameObject.SetActive(false);
+				inventoryPanel.SetActive(true);
+			}
+		}
+		#region AnimateUI
+		[Button]
+		public void FadeInContainer()
+		{
+			gameObject.SetActive(true);
+			Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+			gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+			gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+
+
+		}
+		[Button]
+		public void FadeOutContainer()
+		{
+			Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+			gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
+			{
+				CloseInvetoryUI();
+			});
+
+		}
+		#endregion
+
 	}
 }
