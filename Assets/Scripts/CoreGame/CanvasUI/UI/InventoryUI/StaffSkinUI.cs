@@ -16,6 +16,7 @@ namespace UI.Inventory
 		public List<CharacterSkinUI> bodyCharacter;
 
 		[Header("Skin review")]
+		[SerializeField] GameObject cartModel;
 		[SerializeField] List<TypeSpine> headModel;
 		[SerializeField] List<TypeSpine> bodyModel;
 
@@ -176,6 +177,14 @@ namespace UI.Inventory
 		{
 			currentBodyIndex = bodyIndex;
 			currentHeadIndex = headIndex;
+			if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
+			{
+				cartModel.SetActive(false);
+			}
+			else
+			{
+				cartModel.SetActive(true);
+			}
 			UpdateBodyModel();
 			UpdateHeadModel();
 		}
