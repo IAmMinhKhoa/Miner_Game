@@ -19,6 +19,7 @@ namespace UI.Inventory
 		[SerializeField] GameObject cartModel;
 		[SerializeField] List<TypeSpine> headModel;
 		[SerializeField] List<TypeSpine> bodyModel;
+		[SerializeField] List<TypeSpine> tailModel;
 
 		public event Action<int, int> OnConfirmButtonClick;
 		[Header("Next Preivous button")]
@@ -34,6 +35,9 @@ namespace UI.Inventory
 		[Header("Inventory Panel")]
 		[SerializeField] GameObject listObjTypeAnimal;
 		[SerializeField] GameObject listObjSkin;
+
+
+		public event Action OnUpdateInventoryUI;
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
 		private InventoryItemType _currentItemTypeHandle;
 
@@ -86,7 +90,7 @@ namespace UI.Inventory
 			private set
 			{
 				_leftHeadIndex = value;
-				if (value > 1)
+				if (value >= 1)
 				{
 					priviousHead.SetActive(true);
 				}
@@ -132,7 +136,7 @@ namespace UI.Inventory
 			private set
 			{
 				_leftBodyIndex = value;
-				if (value > 1)
+				if (value >= 1)
 				{
 					priviousBody.SetActive(true);
 				}
@@ -216,7 +220,7 @@ namespace UI.Inventory
 			{
 				headCharacter[i].gameObject.SetActive(true);
 				headCharacter[i].Unselect();
-				headCharacter[i].SetItemInfo(LeftHeadIndex + i, type);
+				headCharacter[i].SetItemInfo(LeftHeadIndex + i, type, true);
 				headCharacter[i].OnItemClicked += SetCurHeadIndex;
 				//thay đổi cả body-head khi click vào skin head
 				if (type == InventoryItemType.ElevatorCharacter)
@@ -231,7 +235,7 @@ namespace UI.Inventory
 			{
 				bodyCharacter[i].gameObject.SetActive(true);
 				bodyCharacter[i].Unselect();
-				bodyCharacter[i].SetItemInfo(LeftBodyIndex + i, type);
+				bodyCharacter[i].SetItemInfo(LeftBodyIndex + i, type, false);
 				bodyCharacter[i].OnItemClicked += SetCurBodyIndex;
 			}
 		}
@@ -241,10 +245,10 @@ namespace UI.Inventory
 			currentBodyIndex = index;
 			for (int i = 0; i < bodyCharacter.Count; i++)
 			{
-				if(i != index) bodyCharacter[i].Unselect();
+				
+				if(currentBodyIndex != bodyCharacter[i].Index) bodyCharacter[i].Unselect();
 				else bodyCharacter[i].Select();	
 			}
-			
 			UpdateBodyModel();
 		}
 
@@ -253,7 +257,7 @@ namespace UI.Inventory
 			currentHeadIndex = index;
 			for (int i = 0; i < headCharacter.Count; i++)
 			{
-				if (i != index) headCharacter[i].Unselect();
+				if (currentHeadIndex != headCharacter[i].Index) headCharacter[i].Unselect();
 				else headCharacter[i].Select();
 			}
 			UpdateHeadModel();
@@ -268,9 +272,45 @@ namespace UI.Inventory
 					item.gameObject.SetActive(true);
 					if(item.TryGetComponent<SkeletonGraphic>(out var skeletonGraphic))
 					{
-						var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentHeadIndex];
-						skeletonGraphic.Skeleton.SetSkin(skin);
-						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						
+						if(CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
+						{
+							foreach (var tailItem in tailModel)
+							{
+								tailItem.gameObject.SetActive(false);
+							}
+							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentHeadIndex];
+							skeletonGraphic.Skeleton.SetSkin(skin);
+							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						}
+						else
+						{
+							skeletonGraphic.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
+							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+							foreach (var tailItem in tailModel)
+							{
+								tailItem.gameObject.SetActive(true);
+								if(tailItem.Type == CurrentItemTypeHandle)
+								{
+									var skin = tailItem.GetComponent<SkeletonGraphic>().Skeleton.Data.FindSkin("Tail/Skin_" + (currentHeadIndex + 1));
+									if (skin != null)
+									{
+										tailItem.GetComponent<SkeletonGraphic>().Skeleton.SetSkin(skin);
+										tailItem.GetComponent<SkeletonGraphic>().Skeleton.SetSlotsToSetupPose();
+									}
+									else
+									{
+										tailItem.gameObject.SetActive(false);
+									}
+								}
+								else
+								{
+									tailItem.gameObject.SetActive(false);
+								}
+							}
+							
+						}
+						
 					}
 
 				}
@@ -289,9 +329,19 @@ namespace UI.Inventory
 					item.gameObject.SetActive(true);
 					if (item.TryGetComponent<SkeletonGraphic>(out var skeletonGraphic))
 					{
-						var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentBodyIndex];
-						skeletonGraphic.Skeleton.SetSkin(skin);
-						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+
+						if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
+						{
+							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentBodyIndex];
+							skeletonGraphic.Skeleton.SetSkin(skin);
+							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						}
+						else
+						{
+							skeletonGraphic.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
+							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						}
+
 					}
 				}
 				else
@@ -302,15 +352,38 @@ namespace UI.Inventory
 		}
 		public void ConfirmButtonCLick()
 		{
-			CloseUI();
+			OnUpdateInventoryUI?.Invoke();
 			OnConfirmButtonClick?.Invoke(currentHeadIndex, currentBodyIndex);
+			CloseUI();
+			
 		}
 		public void ClearEvent()
 		{
-			for (int i = LeftHeadIndex; i < RightHeadIndex; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				headCharacter[i].OnItemClicked -= SetCurHeadIndex;
+				bodyCharacter[i].OnItemClicked -= SetCurBodyIndex;
 			}
+		}
+		public void HeadSkinNextClick()
+		{
+			LeftHeadIndex++;
+			RightHeadIndex++;
+		}
+		public void HeadSkinPreviousClick()
+		{
+			LeftHeadIndex--;
+			RightHeadIndex--;
+		}
+		public void BodySkinNextClick()
+		{
+			LeftBodyIndex++;
+			RightBodyIndex++;
+		}
+		public void BodySkinPreviousClick()
+		{
+			LeftBodyIndex--;
+			LeftBodyIndex--;
 		}
 		public void CloseUI()
 		{

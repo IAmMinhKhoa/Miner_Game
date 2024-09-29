@@ -35,7 +35,10 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 		for (int i = 0; i < skinAmount; i++)
 		{
 			var _item = items[i].cart;
-			
+
+			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
+			items[i].ChangItemInfo(skinName);
+
 			_item.Skeleton.SetSkin("Icon_" + (i + 1));
 			_item.AnimationState.SetAnimation(0, "icon", false);
 			_item.transform.localScale = new Vector3(0.26f, 0.26f, 0.26f);

@@ -31,6 +31,7 @@ namespace UI.Inventory
 			this.index = index;
 			this.desc = desc;
 			iName = itemName;
+			nameBgItem.text = itemName;
 		}
 	}
 }

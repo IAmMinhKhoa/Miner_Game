@@ -33,6 +33,8 @@ namespace UI.Inventory
 				{
 					itemController.itemsHandle[i].gameObject.SetActive(true);
 					itemController.itemsHandle[i].ShowElevator(i);
+					var skinName = SkinManager.Instance.skinResource.skinElevator[i].name;
+					itemController.itemsHandle[i].ChangItemInfo(skinName);
 					itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 				}
 			}

@@ -143,6 +143,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5475639863897098017}
+  - {fileID: 9176734133711808092}
   - {fileID: 4674055330511433187}
   - {fileID: 6205382313561133645}
   m_Father: {fileID: 276870433017762490}
@@ -324,6 +325,114 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2887419754715320433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9176734133711808092}
+  - component: {fileID: 5139971652627340159}
+  - component: {fileID: 1432674094959304601}
+  m_Layer: 5
+  m_Name: TailSpine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9176734133711808092
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887419754715320433}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2379574, y: 0.2379574, z: 1.189787}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6667540396082164322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -50.700134}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5139971652627340159
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887419754715320433}
+  m_CullTransparentMesh: 1
+--- !u!114 &1432674094959304601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887419754715320433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  skeletonDataAsset: {fileID: 11400000, guid: 4c2a7ae8ca46c9945970274c3b432271, type: 2}
+  additiveMaterial: {fileID: 0}
+  multiplyMaterial: {fileID: 0}
+  screenMaterial: {fileID: 0}
+  m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  initialSkinName: Tail/Skin_1
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: 
+  startingLoop: 0
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 0
+  referenceSize: {x: 110.55, y: 110.09}
+  pivotOffset: {x: 0, y: 0}
+  referenceScale: 1
+  layoutScale: 1
+  rectTransformSize: {x: 100, y: 100}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  updateSeparatorPartScale: 0
+  disableMeshAssignmentOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      tintBlack: 0
+      canvasGroupCompatible: 0
+      pmaVertexColors: 1
+      addNormals: 0
+      calculateTangents: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
 --- !u!1 &3334812126200572564
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,12 +498,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  skeletonDataAsset: {fileID: 11400000, guid: e48308d73a55ee54caf6e0cfb901ff38, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 4c2a7ae8ca46c9945970274c3b432271, type: 2}
   additiveMaterial: {fileID: 0}
   multiplyMaterial: {fileID: 0}
   screenMaterial: {fileID: 0}
   m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
-  initialSkinName: Skin 1
+  initialSkinName: Body/Skin_1
   initialFlipX: 0
   initialFlipY: 0
   startingAnimation: 
@@ -405,6 +514,7 @@ MonoBehaviour:
   referenceSize: {x: 110.55, y: 110.09}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
+  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -518,7 +628,7 @@ GameObject:
   - component: {fileID: 2619274368468001768}
   - component: {fileID: 130447519808641970}
   - component: {fileID: 5378151452321711928}
-  - component: {fileID: 8539403546589237116}
+  - component: {fileID: 2189794782590520128}
   m_Layer: 5
   m_Name: SelectFloorItem
   m_TagString: Untagged
@@ -602,7 +712,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8539403546589237116}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SelecFloorItem, Game
         m_MethodName: ItemIsSelected
         m_Mode: 1
@@ -641,7 +751,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8539403546589237116
+--- !u!114 &2189794782590520128
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -650,12 +760,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7145148791318166992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a63657a49d5d65e4db33baa6281c2e1f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a2c8ed0330a314e8ef6b14f4673f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 2700141531359875096}
   body: {fileID: 5758915900702609199}
   floorText: {fileID: 8817076857467378478}
+  tail: {fileID: 1432674094959304601}
+  type: 0
 --- !u!1 &8027522576702092510
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,12 +833,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  skeletonDataAsset: {fileID: 11400000, guid: 2706503b587506a43a41069070df42ca, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 4c2a7ae8ca46c9945970274c3b432271, type: 2}
   additiveMaterial: {fileID: 0}
   multiplyMaterial: {fileID: 0}
   screenMaterial: {fileID: 0}
   m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
-  initialSkinName: Bunny
+  initialSkinName: Head/Skin_1
   initialFlipX: 0
   initialFlipY: 0
   startingAnimation: 
@@ -737,6 +849,7 @@ MonoBehaviour:
   referenceSize: {x: 110.55, y: 110.09}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
+  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3

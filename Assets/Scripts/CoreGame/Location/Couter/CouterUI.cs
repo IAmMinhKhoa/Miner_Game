@@ -162,21 +162,30 @@ public class CounterUI : MonoBehaviour
 					skeleton.SetSkin(skin);
 					skeleton.SetSlotsToSetupPose();
 				}
-
 				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
 				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 
-				var headSkin = headSkeleton.Data.Skins.Items[headIndex];
-				var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
-
-				if(headSkin != null && bodySkin != null)
+				headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+				headSkeleton.SetSlotsToSetupPose();
+				bodySkeleton.SetSlotsToSetupPose();
+				if (item.TailSkeletonAnimation.Skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
 				{
-					headSkeleton.SetSkin(headSkin);
-					bodySkeleton.SetSkin(bodySkin);
-
-					headSkeleton.SetSlotsToSetupPose();
-					bodySkeleton.SetSlotsToSetupPose();
+					if (!item.TailSkeletonAnimation.gameObject.activeInHierarchy)
+					{
+						item.TailSkeletonAnimation.gameObject.SetActive(true);
+					}
+					item.TailSkeletonAnimation.Skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
+					item.TailSkeletonAnimation.Skeleton.SetSlotsToSetupPose();
+					return;
 				}
+
+				if (item.TailSkeletonAnimation.gameObject.activeInHierarchy)
+				{
+					item.TailSkeletonAnimation.gameObject.SetActive(false);
+				}
+
+
 			}
 		}
 	}

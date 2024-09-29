@@ -109,6 +109,10 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
+		if(_brewers.Count > 1)
+		{
+			UpdateUI();
+		}
     }
 
     private void CreateDeposit()

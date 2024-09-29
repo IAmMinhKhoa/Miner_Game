@@ -10,13 +10,14 @@ public class Brewer : BaseWorker
 {
     [SerializeField] private GameObject brewerView;
 
-    [SerializeField] private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
+    [SerializeField] private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation, tailSketonAnimation;
     
 
     public Shaft CurrentShaft { get; set; }
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
 	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
 	public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
+	public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
 	[SerializeField]private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
@@ -108,10 +109,14 @@ public class Brewer : BaseWorker
         {
             case WorkerState.Idle:
                 brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Working:
                 brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 isBrewing = true;
                 break;
@@ -129,6 +134,8 @@ public class Brewer : BaseWorker
                 }
 				numberText.transform.localScale = new Vector3(brewerView.transform.localScale.x, 1f, 1f);
 				brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
 				break;
         }
     }

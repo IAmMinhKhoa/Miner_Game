@@ -7,13 +7,13 @@ using UnityEngine;
 
 public class SelecFloorItem : MonoBehaviour
 {
-	[SerializeField] SkeletonGraphic head;
-	[SerializeField] SkeletonGraphic body;
-	[SerializeField] TextMeshProUGUI floorText;
+	[SerializeField] protected SkeletonGraphic head;
+	[SerializeField] protected SkeletonGraphic body;
+	[SerializeField] protected TextMeshProUGUI floorText;
 
 	public event Action OnItemSlect;
 
-	public void SetInfoItem(int headIndex, int bodyIndex, int floor)
+	public virtual void SetInfoItem(int headIndex, int bodyIndex, int floor)
 	{
 		var headSkin = head.Skeleton.Data.Skins.Items[headIndex];
 		var bodySkin = body.Skeleton.Data.Skins.Items[bodyIndex];

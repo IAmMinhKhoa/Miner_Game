@@ -13,7 +13,6 @@ namespace UI.Inventory.PopupOtherItem
 {
     public class Item : MonoBehaviour, IPointerClickHandler
     {
-		[SerializeField] Image itemImg;
 		[SerializeField] Image boder;
 		[SerializeField] TextMeshProUGUI itemName;
 		public SkeletonGraphic elevator;
@@ -23,9 +22,8 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			boder.gameObject.SetActive(true);
 		}
-		public void ChangItemInfo(Sprite sprite, string iName)
+		public void ChangItemInfo(string iName)
 		{
-			itemImg.sprite = sprite;
 			itemName.text = iName;
 		}
 		public void Unselected()
@@ -40,7 +38,6 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(true);
 			cart.gameObject.SetActive(false);
-			itemImg.gameObject.SetActive(false);
 			var skin = elevator.Skeleton.Data.Skins.Items[index];
 			elevator.Skeleton.SetSkin(skin);
 			elevator.Skeleton.SetSlotsToSetupPose();
@@ -49,7 +46,7 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(false);
 			cart.gameObject.SetActive(true);
-			itemImg.gameObject.SetActive(false);
+			
 			var skin = cart.Skeleton.Data.Skins.Items[index];
 			cart.Skeleton.SetSkin(skin);
 			cart.Skeleton.SetSlotsToSetupPose();
@@ -58,7 +55,6 @@ namespace UI.Inventory.PopupOtherItem
 		{
 			elevator.gameObject.SetActive(false);
 			cart.gameObject.SetActive(false);
-			itemImg.gameObject.SetActive(true);
 
 		}
 	}

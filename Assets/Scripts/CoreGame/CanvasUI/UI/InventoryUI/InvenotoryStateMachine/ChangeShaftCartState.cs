@@ -30,6 +30,8 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 		{
 			itemController.itemsHandle[i].gameObject.SetActive(true);
 			itemController.itemsHandle[i].ShowCart(i);
+			var skinName = SkinManager.Instance.skinResource.skinCartShaft[i].name;
+			itemController.itemsHandle[i].ChangItemInfo(skinName);
 			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 		}
 		

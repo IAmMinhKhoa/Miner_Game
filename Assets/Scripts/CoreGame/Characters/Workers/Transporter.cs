@@ -12,10 +12,12 @@ public class Transporter : BaseWorker
     private TextMeshPro numberText;
     [SerializeField] private bool isWorking = false;
     [SerializeField] private GameObject transporterView;
-    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation;
+    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation, tailSketonAnimation;
 	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
 	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
 	public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
+	public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
+	
 	private bool isShowTextNumber = true;
     public override double ProductPerSecond
     {

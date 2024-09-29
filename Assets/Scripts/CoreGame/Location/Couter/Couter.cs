@@ -84,6 +84,7 @@ public class Counter : Patterns.Singleton<Counter>
         _transporters.Add(transporter);
 		if(_transporters.Count > 1)
 		{
+			UpdateUI();
 			transporter.HideNumberText();
 		}
     }

@@ -6,6 +6,6 @@ namespace UI.Inventory
 {
     public class HandleShaftStaffItem : MonoBehaviour
     {
-		public StaffSkinItem item;
+		public TabStaffItem item;
     }
 }

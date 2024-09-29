@@ -32,9 +32,12 @@ namespace UI.Inventory
 			itemPrefab.cart.Initialize(true);
 			int skinAmount = itemPrefab.cart.Skeleton.Data.Skins.Count / 2;
 			items = itemController.Init(itemPrefab, skinAmount);
+
 			for (int i = 0; i < skinAmount; i++)
 			{
 				var _item = items[i].cart;
+				var skinName = SkinManager.Instance.skinResource.skinBgElevator[i].name;
+				items[i].ChangItemInfo(skinName);
 				_item.Skeleton.SetSkin("Icon_" +(i+1));
 				items[i].ItemClicked += ChangeSkin;
 				_item.Skeleton.SetSlotsToSetupPose();

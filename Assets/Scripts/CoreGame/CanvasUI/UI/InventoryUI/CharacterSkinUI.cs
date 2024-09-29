@@ -1,3 +1,4 @@
+using Spine;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -14,20 +15,14 @@ namespace UI.Inventory
 		public event Action<int> OnItemClicked;
 		public List<TypeSpine> listSpine;
 		private int _index;
-		public int Index
-		{
-			get => _index;
-			set
-			{
-				_index = value;
-			}
-		}
+		public int Index => _index;
+		
 		[SerializeField] Image BG;
 		[SerializeField] Image border;
 		[SerializeField] TextMeshProUGUI itemName;
-		public void SetItemInfo(int indexSkin, InventoryItemType type)
+		public void SetItemInfo(int indexSkin, InventoryItemType type, bool isHeadSkin)
 		{
-			Index = indexSkin;
+			_index = indexSkin;
 			foreach (var spine in listSpine)
 			{
 				if(spine.Type == type)
@@ -35,9 +30,27 @@ namespace UI.Inventory
 					spine.gameObject.SetActive(true);
 					if (spine.TryGetComponent<SkeletonGraphic>(out SkeletonGraphic skeletonGraphic))
 					{
-						var skin = skeletonGraphic.Skeleton.Data.Skins.Items[indexSkin];
-						skeletonGraphic.Skeleton.SetSkin(skin);
-						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						if(type == InventoryItemType.ElevatorCharacter)
+						{
+							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[indexSkin];
+							skeletonGraphic.Skeleton.SetSkin(skin);
+							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+						}
+						else 
+						{
+							if(isHeadSkin)
+							{
+								skeletonGraphic.Skeleton.SetSkin("Head/Skin_" + (indexSkin + 1));
+								skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+							}
+							else
+							{
+								skeletonGraphic.Skeleton.SetSkin("Body/Skin_" + (indexSkin + 1));
+								skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+							}
+						}
+	
+						
 					}
 				}
 				else

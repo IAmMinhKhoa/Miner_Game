@@ -28,7 +28,9 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 		for (int i = 0; i < skinAmount.Count; i++)
 		{
 			itemController.itemsHandle[i].gameObject.SetActive(true);
-			itemController.itemsHandle[i].ShowCart(i); 
+			itemController.itemsHandle[i].ShowCart(i);
+			var skinName = SkinManager.Instance.skinResource.skinCartCounter[i].name;
+			itemController.itemsHandle[i].ChangItemInfo(skinName); 
 			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
 		}
 	}

@@ -36,17 +36,17 @@ namespace UI.Inventory
 		[SerializeField] HandleShaftStaffItem shaftStaffSkinItem;
 		[SerializeField] GameObject content;
 		List<ShaftUIController> listShaftUI = new();
-		List<StaffSkinItem> listShaftStaffSkin;
+		List<TabStaffItem> listShaftStaffSkin;
 		
 
 
 		[Header("Counter")]
 		[SerializeField] DecoratorItem[] counterItem;
-		[SerializeField] StaffSkinItem counterStaffSkin;
+		[SerializeField] TabStaffItem counterStaffSkin;
 
 		[Header("Elevator")]
 		[SerializeField] DecoratorItem[] elevatorItem;
-		[SerializeField] StaffSkinItem elevatorStaffSkin;
+		[SerializeField] TabStaffItem elevatorStaffSkin;
 
 		[Header("Prefab")]
 		public BackGroundItem bgCounterPrefab;
@@ -91,7 +91,8 @@ namespace UI.Inventory
 
 		void Start()
         {
-			if(pnNhanVien.TryGetComponent<TabStaff>(out var tabStaff))
+			staffSkinUI.OnUpdateInventoryUI += UpdateStabStaffUI;
+			if (pnNhanVien.TryGetComponent<TabStaff>(out var tabStaff))
 			{
 				tabStaff.OnTabStaffEnable += UpdateStabStaffUI;
 				tabStaff.OnTabStaffDisable += TabStaff_OnTabStaffDisable;
@@ -140,7 +141,7 @@ namespace UI.Inventory
 
 		private void UpdateStabStaffUI()
 		{
-
+		
 			counterStaffSkin.OnItemClick += OpenStaffSkin;
 			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
 			listShaftStaffSkin ??= new();
@@ -165,10 +166,7 @@ namespace UI.Inventory
 				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
 				listShaftStaffSkin[i].Index = i;
 				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
-				if (listShaftStaffSkin[i].TryGetComponent<TabStaffItem>(out var shaftItem))
-				{
-					shaftItem.SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
-				}
+				listShaftStaffSkin[i].SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
 			}
 		}
 
