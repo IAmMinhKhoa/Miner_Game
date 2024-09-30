@@ -981,7 +981,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -1578,7 +1577,6 @@ MonoBehaviour:
   referenceSize: {x: 308, y: 386}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 308, y: 386}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -1955,7 +1953,6 @@ MonoBehaviour:
   referenceSize: {x: 308, y: 386}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 308, y: 386}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2123,7 +2120,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2745,7 +2741,6 @@ MonoBehaviour:
   referenceSize: {x: 127.63, y: 123.74}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 127.63, y: 123.74}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2854,7 +2849,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3284,7 +3278,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3555,7 +3548,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3663,7 +3655,6 @@ MonoBehaviour:
   referenceSize: {x: 520, y: 402.45}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 520, y: 402.45}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3824,6 +3815,94 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &763568662142148073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6762248412700213067}
+  - component: {fileID: 3912221076858893922}
+  - component: {fileID: 8005022864911252716}
+  - component: {fileID: 5189268203574200647}
+  m_Layer: 5
+  m_Name: imgActive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6762248412700213067
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763568662142148073}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0010147, y: 1.0010147, z: 1.0010147}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 516621058806161504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 214.5, y: -69.649994}
+  m_SizeDelta: {x: 418.5, y: 125.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3912221076858893922
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763568662142148073}
+  m_CullTransparentMesh: 1
+--- !u!114 &8005022864911252716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763568662142148073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5fbc736a0e95644c7b160df0a9fd59a0, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5189268203574200647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763568662142148073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d07e0d10135f86f48a40e49d441e24c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &792810395578762636
 GameObject:
   m_ObjectHideFlags: 0
@@ -4167,7 +4246,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -4275,7 +4353,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -4383,7 +4460,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -4884,7 +4960,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -5128,7 +5203,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -6033,7 +6107,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -6291,7 +6364,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -6564,7 +6636,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -6748,7 +6819,6 @@ MonoBehaviour:
   referenceSize: {x: 824, y: 304}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 824, y: 304}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -7150,7 +7220,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -7394,7 +7463,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -7590,7 +7658,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -8517,7 +8584,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -8922,7 +8988,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -9308,7 +9373,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -10348,7 +10412,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -10781,7 +10844,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -11244,7 +11306,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -11945,7 +12006,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -12560,6 +12620,43 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2502496118909444965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 558538136069364434}
+  m_Layer: 5
+  m_Name: buttonHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &558538136069364434
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502496118909444965}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3305433288919184857}
+  - {fileID: 516621058806161504}
+  m_Father: {fileID: 7990588490724350989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 415.24573, y: -57.25}
+  m_SizeDelta: {x: 810.4, y: 132.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2531975238665010161
 GameObject:
   m_ObjectHideFlags: 0
@@ -13042,7 +13139,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -13495,8 +13591,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2327645243247479241}
   - {fileID: 4147527929219949362}
+  - {fileID: 2327645243247479241}
   m_Father: {fileID: 2164168272106821148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -13774,7 +13870,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -13933,7 +14028,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -14042,7 +14136,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -14283,7 +14376,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -14664,7 +14756,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -14772,7 +14863,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -15976,7 +16066,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -17373,7 +17462,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -17857,6 +17945,57 @@ MonoBehaviour:
   itemName: {fileID: 2756714521929952017}
   elevator: {fileID: 4051274459031570232}
   cart: {fileID: 6665443999672439291}
+--- !u!1 &3358944890817256133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516621058806161504}
+  - component: {fileID: 7274423345610817059}
+  m_Layer: 5
+  m_Name: ButtonZone_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &516621058806161504
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3358944890817256133}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6762248412700213067}
+  - {fileID: 5767401512123978892}
+  m_Father: {fileID: 558538136069364434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -3.9, y: 0}
+  m_SizeDelta: {x: 818.2, y: 132.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7274423345610817059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3358944890817256133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &3404656389316385915
 GameObject:
   m_ObjectHideFlags: 0
@@ -18195,7 +18334,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -18415,7 +18553,6 @@ MonoBehaviour:
   referenceSize: {x: 246, y: 246}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 246, y: 246}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -18612,7 +18749,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -18746,7 +18882,7 @@ RectTransform:
   m_LocalScale: {x: 1.0008448, y: 1.0008448, z: 1.0008448}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3305433288919184857}
+  - {fileID: 558538136069364434}
   - {fileID: 8199647462775275319}
   - {fileID: 8435046659426795040}
   m_Father: {fileID: 4905802503542369358}
@@ -18863,7 +18999,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -19046,7 +19181,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -19772,7 +19906,6 @@ MonoBehaviour:
   referenceSize: {x: 824, y: 304}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 824, y: 304}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -20875,7 +21008,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -21411,7 +21543,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -21636,81 +21767,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 3.5
---- !u!1 &4238491334466931608
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4091057603362708935}
-  - component: {fileID: 3443786143431205610}
-  - component: {fileID: 7725030201994009806}
-  m_Layer: 5
-  m_Name: imgActive
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4091057603362708935
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4238491334466931608}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4899904947418754251}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3443786143431205610
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4238491334466931608}
-  m_CullTransparentMesh: 1
---- !u!114 &7725030201994009806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4238491334466931608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a6c25401953554c96a9565263b22558b, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4243828609959711093
 GameObject:
   m_ObjectHideFlags: 0
@@ -21965,7 +22021,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -22149,7 +22204,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -22803,7 +22857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000038146973}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 551.48004}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7666265742469347440
@@ -22903,12 +22957,12 @@ RectTransform:
   m_Children:
   - {fileID: 5935483375770970262}
   - {fileID: 4899904947418754251}
-  m_Father: {fileID: 7990588490724350989}
+  m_Father: {fileID: 558538136069364434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 415.24573, y: -57.25}
-  m_SizeDelta: {x: 810.4, y: 132.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 810.4001, y: 132.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6696606364861620684
 MonoBehaviour:
@@ -23434,7 +23488,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -23542,7 +23595,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -23569,6 +23621,94 @@ MonoBehaviour:
       immutableTriangles: 0
   updateTiming: 1
   unscaledTime: 0
+--- !u!1 &4611485761270764744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5767401512123978892}
+  - component: {fileID: 200212367882595858}
+  - component: {fileID: 7257090620504466006}
+  - component: {fileID: 1683701875577191602}
+  m_Layer: 5
+  m_Name: imgActive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5767401512123978892
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611485761270764744}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0010147, y: 1.0010147, z: 1.0010147}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 516621058806161504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 633, y: -69.649994}
+  m_SizeDelta: {x: 418.5, y: 125.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &200212367882595858
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611485761270764744}
+  m_CullTransparentMesh: 1
+--- !u!114 &7257090620504466006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611485761270764744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a6c25401953554c96a9565263b22558b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1683701875577191602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611485761270764744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d07e0d10135f86f48a40e49d441e24c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4628064596290155829
 GameObject:
   m_ObjectHideFlags: 0
@@ -23697,7 +23837,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -24462,7 +24601,6 @@ MonoBehaviour:
   referenceSize: {x: 127.63, y: 123.74}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 127.63, y: 123.74}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -24631,7 +24769,6 @@ MonoBehaviour:
   referenceSize: {x: 246, y: 246}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 246, y: 246}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -24752,7 +24889,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -24973,7 +25109,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -25154,7 +25289,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -25212,8 +25346,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2112744617810354244}
+  m_Children: []
   m_Father: {fileID: 3305433288919184857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -25301,7 +25434,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 7912392723638265461}
   toggleTransition: 1
-  graphic: {fileID: 1871372048338552781}
+  graphic: {fileID: 8005022864911252716}
   m_Group: {fileID: 7902246523500409481}
   onValueChanged:
     m_PersistentCalls:
@@ -25466,7 +25599,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -26749,8 +26881,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4091057603362708935}
+  m_Children: []
   m_Father: {fileID: 3305433288919184857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -26838,7 +26969,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 8130436367604171433}
   toggleTransition: 1
-  graphic: {fileID: 7725030201994009806}
+  graphic: {fileID: 7257090620504466006}
   m_Group: {fileID: 7902246523500409481}
   onValueChanged:
     m_PersistentCalls:
@@ -27064,7 +27195,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -27456,7 +27586,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -28051,7 +28180,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -28967,7 +29095,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -29135,7 +29262,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -29480,7 +29606,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -29860,7 +29985,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -31224,7 +31348,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -31574,7 +31697,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -32039,7 +32161,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -32235,7 +32356,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -32702,7 +32822,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -32870,7 +32989,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -33026,7 +33144,6 @@ MonoBehaviour:
   referenceSize: {x: 308, y: 386}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 308, y: 386}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -33367,81 +33484,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &6982361238492721000
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2112744617810354244}
-  - component: {fileID: 8044582612291506224}
-  - component: {fileID: 1871372048338552781}
-  m_Layer: 5
-  m_Name: imgActive
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2112744617810354244
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6982361238492721000}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5935483375770970262}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8044582612291506224
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6982361238492721000}
-  m_CullTransparentMesh: 1
---- !u!114 &1871372048338552781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6982361238492721000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5fbc736a0e95644c7b160df0a9fd59a0, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7021091070945984111
 GameObject:
   m_ObjectHideFlags: 0
@@ -33523,7 +33565,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -33948,7 +33989,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -34056,7 +34096,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -34461,7 +34500,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -34569,7 +34607,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -34677,7 +34714,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -35356,7 +35392,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -35735,7 +35770,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -36188,7 +36222,6 @@ MonoBehaviour:
   referenceSize: {x: 118.81, y: 115.32001}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 118.81, y: 115.32}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -36583,7 +36616,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -36779,7 +36811,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -36887,7 +36918,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37145,7 +37175,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37511,7 +37540,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37632,7 +37660,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37740,7 +37767,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37849,7 +37875,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -37971,7 +37996,6 @@ MonoBehaviour:
   referenceSize: {x: 246, y: 246}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 246, y: 246}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -38519,7 +38543,6 @@ MonoBehaviour:
   referenceSize: {x: 246, y: 246}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 246, y: 246}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -38781,7 +38804,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -39113,7 +39135,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -39639,7 +39660,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -39760,7 +39780,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -40112,7 +40131,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -40312,7 +40330,6 @@ MonoBehaviour:
   referenceSize: {x: 116.6, y: 107.7}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 116.6, y: 107.7}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -40554,7 +40571,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -40846,7 +40862,6 @@ MonoBehaviour:
   referenceSize: {x: 246, y: 246}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 246, y: 246}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -41490,7 +41505,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -41748,7 +41762,6 @@ MonoBehaviour:
   referenceSize: {x: 130, y: 130}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 130, y: 130}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -42051,7 +42064,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -42159,7 +42171,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -42642,7 +42653,6 @@ MonoBehaviour:
   referenceSize: {x: 100, y: 100}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 100, y: 100}
   editReferenceRect: 0
   updateWhenInvisible: 3
