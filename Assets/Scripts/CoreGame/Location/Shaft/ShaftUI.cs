@@ -290,11 +290,9 @@ public class ShaftUI : MonoBehaviour
 				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
 				headSkeleton.SetSlotsToSetupPose();
 				bodySkeleton.SetSlotsToSetupPose();
-
+				item.TailSkeletonAnimation.gameObject.SetActive(true);
 				if (item.TailSkeletonAnimation.skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
 				{
-					if(item.TailSkeletonAnimation.gameObject.activeInHierarchy == false)
-						item.TailSkeletonAnimation.gameObject.SetActive(true);
 					item.TailSkeletonAnimation.skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
 					item.TailSkeletonAnimation.skeleton.SetSlotsToSetupPose();
 				}

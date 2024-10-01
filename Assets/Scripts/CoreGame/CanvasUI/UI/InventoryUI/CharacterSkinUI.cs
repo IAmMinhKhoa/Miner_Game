@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,9 +33,41 @@ namespace UI.Inventory
 					{
 						if(type == InventoryItemType.ElevatorCharacter)
 						{
-							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[indexSkin];
-							skeletonGraphic.Skeleton.SetSkin(skin);
-							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+							
+							if (skeletonGraphic.SkeletonDataAsset == null)
+							{
+								if(isHeadSkin)
+								{
+									SkeletonDataAsset dataAsset = ElevatorSystem
+									.Instance
+									.ElevatorController
+									.GetComponent<ElevatorControllerView>()
+									.ElevatorHeadStaff
+									.SkeletonDataAsset;
+									var skeleton = skeletonGraphic.GetComponent<SkeletonGraphic>();
+									skeleton.initialSkinName = "Head/Skin_" + (indexSkin + 1);
+									skeleton.startingAnimation = "";
+									skeleton.Initialize(true);
+									skeleton.skeletonDataAsset = dataAsset;
+									skeleton.Initialize(true);
+								}
+								else
+								{
+									SkeletonDataAsset dataAsset = ElevatorSystem
+										.Instance
+										.ElevatorController
+										.GetComponent<ElevatorControllerView>()
+										.ElevatorBodyStaff
+										.SkeletonDataAsset;
+									var skeleton = skeletonGraphic.GetComponent<SkeletonGraphic>();
+									skeleton.initialSkinName = "Body/Skin_" + (indexSkin + 1);
+									skeleton.startingAnimation = "Idle_Corgi";
+									skeleton.Initialize(true);
+									skeleton.skeletonDataAsset = dataAsset;
+									skeleton.Initialize(true);
+								}
+								
+							}
 						}
 						else 
 						{

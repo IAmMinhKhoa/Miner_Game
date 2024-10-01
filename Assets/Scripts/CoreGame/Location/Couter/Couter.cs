@@ -82,7 +82,7 @@ public class Counter : Patterns.Singleton<Counter>
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
         _transporters.Add(transporter);
-		if(_transporters.Count > 1)
+		if(_transporters.Count >= 1)
 		{
 			UpdateUI();
 			transporter.HideNumberText();

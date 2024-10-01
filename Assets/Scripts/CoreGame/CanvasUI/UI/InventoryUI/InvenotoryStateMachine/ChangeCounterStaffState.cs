@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
+using System.Linq;
 
 namespace UI.Inventory
 {
@@ -23,8 +24,8 @@ namespace UI.Inventory
 			staffSkinUI.selectFloor.SetActive(false);
 			var counter = Counter.Instance;
 			
-			int headSkinAmount = counter.Transporters[0].HeadSkeletonAnimation.Skeleton.Data.Skins.Count;
-			int bodySkinAmount = counter.Transporters[0].BodySkeletonAnimation.Skeleton.Data.Skins.Count;
+			int headSkinAmount = counter.Transporters[0].HeadSkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
+			int bodySkinAmount = counter.Transporters[0].BodySkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
 			staffSkinUI.CurrentItemTypeHandle = InventoryItemType.CounterCharacter;
 			staffSkinUI.SetHeadIndex(headSkinAmount);
 			staffSkinUI.SetBodyIndex(bodySkinAmount);

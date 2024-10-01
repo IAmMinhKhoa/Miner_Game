@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
 using System;
+using System.Linq;
 namespace UI.Inventory
 {
 	public class ChangeElevatorStaffState : BaseState<InventoryItemType>
@@ -24,8 +25,8 @@ namespace UI.Inventory
 			var elevator = ElevatorSystem.Instance;
 			if (elevator.ElevatorController.TryGetComponent<ElevatorControllerView>(out var controller))
 			{
-				int headSkinAmount = controller.ElevatorHeadStaff.Skeleton.Data.Skins.Count;
-				int bodySkinAmount = controller.ElevatorBodyStaff.Skeleton.Data.Skins.Count;
+				int headSkinAmount = controller.ElevatorHeadStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
+				int bodySkinAmount = controller.ElevatorBodyStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
 				staffSkinUI.CurrentItemTypeHandle = InventoryItemType.ElevatorCharacter;
 				staffSkinUI.SetHeadIndex(headSkinAmount);
 				staffSkinUI.SetBodyIndex(bodySkinAmount);
