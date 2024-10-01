@@ -139,54 +139,54 @@ public class CounterUI : MonoBehaviour
 
 	public void ChangeSkin(CounterSkin data)
 	{
-		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
-		m_bgCounter.Skeleton.SetSkin(skinBGName);
-		m_bgCounter.Skeleton.SetSlotsToSetupPose();
+		//string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
+		//m_bgCounter.Skeleton.SetSkin(skinBGName);
+		//m_bgCounter.Skeleton.SetSlotsToSetupPose();
 
-		string skinSecondBGName = "Skin_"+(int.Parse(data.idSecondBg) + 1);
-		m_secondBG.Skeleton.SetSkin(skinSecondBGName);
-		m_secondBG.Skeleton.SetSlotsToSetupPose();
+		//string skinSecondBGName = "Skin_"+(int.Parse(data.idSecondBg) + 1);
+		//m_secondBG.Skeleton.SetSkin(skinSecondBGName);
+		//m_secondBG.Skeleton.SetSlotsToSetupPose();
 
-		if (TryGetComponent<Counter>(out var counter))
-		{
+		//if (TryGetComponent<Counter>(out var counter))
+		//{
 			
-			int cartIndex = int.Parse(data.idCart);
-			int headIndex = int.Parse(data.character.idHead);
-			int bodyIndex = int.Parse(data.character.idBody);
-			foreach (var item in counter.Transporters)
-			{
-				var skeleton = item.CartSkeletonAnimation.skeleton;
-				var skin = skeleton.Data.Skins.Items[cartIndex];
-				if (skin != null)
-				{
-					skeleton.SetSkin(skin);
-					skeleton.SetSlotsToSetupPose();
-				}
-				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
-				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
+		//	int cartIndex = int.Parse(data.idCart);
+		//	int headIndex = int.Parse(data.character.idHead);
+		//	int bodyIndex = int.Parse(data.character.idBody);
+		//	foreach (var item in counter.Transporters)
+		//	{
+		//		var skeleton = item.CartSkeletonAnimation.skeleton;
+		//		var skin = skeleton.Data.Skins.Items[cartIndex];
+		//		if (skin != null)
+		//		{
+		//			skeleton.SetSkin(skin);
+		//			skeleton.SetSlotsToSetupPose();
+		//		}
+		//		var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+		//		var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 
-				headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
-				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
-				headSkeleton.SetSlotsToSetupPose();
-				bodySkeleton.SetSlotsToSetupPose();
-				if (item.TailSkeletonAnimation.Skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
-				{
-					if (!item.TailSkeletonAnimation.gameObject.activeInHierarchy)
-					{
-						item.TailSkeletonAnimation.gameObject.SetActive(true);
-					}
-					item.TailSkeletonAnimation.Skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
-					item.TailSkeletonAnimation.Skeleton.SetSlotsToSetupPose();
-					return;
-				}
+		//		headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+		//		bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+		//		headSkeleton.SetSlotsToSetupPose();
+		//		bodySkeleton.SetSlotsToSetupPose();
+		//		if (item.TailSkeletonAnimation.Skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
+		//		{
+		//			if (!item.TailSkeletonAnimation.gameObject.activeInHierarchy)
+		//			{
+		//				item.TailSkeletonAnimation.gameObject.SetActive(true);
+		//			}
+		//			item.TailSkeletonAnimation.Skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
+		//			item.TailSkeletonAnimation.Skeleton.SetSlotsToSetupPose();
+		//			return;
+		//		}
 
-				if (item.TailSkeletonAnimation.gameObject.activeInHierarchy)
-				{
-					item.TailSkeletonAnimation.gameObject.SetActive(false);
-				}
+		//		if (item.TailSkeletonAnimation.gameObject.activeInHierarchy)
+		//		{
+		//			item.TailSkeletonAnimation.gameObject.SetActive(false);
+		//		}
 
 
-			}
-		}
+		//	}
+		//}
 	}
 }
