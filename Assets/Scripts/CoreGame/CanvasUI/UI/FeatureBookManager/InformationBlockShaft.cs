@@ -18,6 +18,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     [SerializeField] GameObject objDrag;
     [SerializeField] Sprite iconDefault;
     [SerializeField] GameObject loadingSwap;
+	[SerializeField] GameObject _maskSelect;
 
     private Shaft shaft;
     private GameObject dragObject;
@@ -32,9 +33,11 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     private void Start()
     {
         mainCamera = Camera.main;
-    }
 
-    public void SetDataInit(Shaft shaft)
+	}
+	
+
+	public void SetDataInit(Shaft shaft)
     {
         this.shaft = shaft;
         UpdateUI();
@@ -52,6 +55,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
             RenderSkillManager();
             nextTickTime = Time.time + tickRate;
         }
+		_maskSelect.SetActive(isDragging);
     }
 
     private void RenderSkillManager()

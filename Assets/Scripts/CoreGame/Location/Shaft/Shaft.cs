@@ -24,6 +24,7 @@ public class Shaft : MonoBehaviour
     [SerializeField] private double m_levelBoost = 1f;
     [SerializeField] private double m_indexBoost = 1f;
     [SerializeField] private double managerBoost = 1f;
+    [SerializeField] private BaseConfig m_config;
 
     public int numberBrewer = 1;
 
@@ -42,6 +43,22 @@ public class Shaft : MonoBehaviour
     public double EfficiencyBoost
     {
         get { return IndexBoost * LevelBoost * GetManagerBoost(BoostType.Efficiency); }
+    }
+
+    public double GetPureEfficiencyPerSecond()
+    {
+        return IndexBoost * LevelBoost * m_config.ProductPerSecond * m_config.WorkingTime
+        / (m_config.WorkingTime + 2d * m_config.MoveTime);
+    }
+
+    public double GetCycleTime()
+    {
+        return m_config.WorkingTime + 2d * m_config.MoveTime;
+    }
+
+    public double GetShaftNS()
+    {
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
     }
 
     public float SpeedBoost
@@ -65,17 +82,21 @@ public class Shaft : MonoBehaviour
         get => _shaftSkin;
         set
         {
-            Debug.Log($"Set data to shaft {shaftIndex}");
             _shaftSkin = value;
-            ShaftUI shaftUI;
-            TryGetComponent<ShaftUI>(out shaftUI);
-			if (shaftUI!=null){
-                //  shaftUI.OnChangeSkin?.Invoke(value);
-                shaftUI.ChangeSkin(value);
+            if (TryGetComponent(out ShaftUI shaftUI))
+            {
+                shaftUI.ChangeSkin(_shaftSkin);
             }
         }
-    }
 
+    }
+    public void UpdateUI()
+    {
+        if (TryGetComponent(out ShaftUI shaftUI))
+        {
+            shaftUI.ChangeSkin(_shaftSkin);
+        }
+    }
 
     public void CreateBrewer()
     {
@@ -88,6 +109,10 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
+		if(_brewers.Count > 1)
+		{
+			UpdateUI();
+		}
     }
 
     private void CreateDeposit()
@@ -96,11 +121,11 @@ public class Shaft : MonoBehaviour
         depositGO.transform.position = m_depositLocation.position;
         Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
-        Debug.Log("create:" + depositGO);
+        //Debug.Log("create:" + depositGO);
         CurrentDeposit = deposit;
     }
 
-    private float GetManagerBoost(BoostType currentBoostAction)
+    public float GetManagerBoost(BoostType currentBoostAction)
     {
         return managerLocation.GetManagerBoost(currentBoostAction);
     }
@@ -112,7 +137,7 @@ public class Shaft : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < numberBrewer; i++)
+		for (int i = 0; i < numberBrewer; i++)
         {
             CreateBrewer();
         }
@@ -130,7 +155,7 @@ public class Shaft : MonoBehaviour
 
     public void UpgradeTable()
     {
-        
+
     }
 
     private bool IsTableUsing()
@@ -145,18 +170,5 @@ public class Shaft : MonoBehaviour
         return false;
     }
 }
-public class ShaftSkin
-{
-    public int index;
-	public string idBackGround;
-    public string idWaitTable;
-    public string idMilkCup;
 
-    public ShaftSkin(int index, string idBackGround="1",string idWaitTable="1",string idMilkCup="1")
-    {
-        this.index = index;
-        this.idBackGround = idBackGround;
-        this.idWaitTable = idWaitTable;
-        this.idMilkCup = idMilkCup;
-    }
-}
+

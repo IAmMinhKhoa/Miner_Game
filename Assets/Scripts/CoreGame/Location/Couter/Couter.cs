@@ -4,14 +4,18 @@ using NOOD;
 using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class Counter : Patterns.Singleton<Counter>
 {
-    [Header("Location")]
+	public Action<int> OnUpgrade;
+	public Action OnUpdateCounterInventoryUI;
+	[Header("Location")]
     [SerializeField] private Transform m_counterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
     [SerializeField] private BaseManagerLocation m_managerLocation;
+    [SerializeField] private BaseConfig couterConfig;
     public BaseManagerLocation ManagerLocation => m_managerLocation;
 
     public Transform CounterLocation => m_counterLocation;
@@ -52,7 +56,24 @@ public class Counter : Patterns.Singleton<Counter>
     private bool isDone = false;
     public bool IsDone => isDone;
 
-    public void CreateTransporter()
+	private CounterSkin _counterSkin;
+
+	public CounterSkin counterSkin
+	{
+		get => _counterSkin;
+		set
+		{
+			_counterSkin = value;
+		}
+	}
+	public void UpdateUI()
+	{
+		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+		{
+			counterUI.ChangeSkin(counterSkin);
+		}
+	}
+	public void CreateTransporter()
     {
         Debug.Log("Create Transporter");
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
@@ -60,8 +81,12 @@ public class Counter : Patterns.Singleton<Counter>
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
-
         _transporters.Add(transporter);
+		if(_transporters.Count >= 1)
+		{
+			UpdateUI();
+			transporter.HideNumberText();
+		}
     }
 
     private void CreateDeposit()
@@ -83,6 +108,17 @@ public class Counter : Patterns.Singleton<Counter>
     public void RunBoost()
     {
         m_managerLocation.RunBoost();
+    }
+
+    public double GetPureEfficiencyPerSecond()
+    {
+        return m_boostScale * couterConfig.ProductPerSecond * couterConfig.WorkingTime
+        / (2f * (couterConfig.WorkingTime + couterConfig.MoveTime));
+    }
+
+    public double GetTotalNS()
+    {
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
     }
     void Start()
     {
@@ -113,7 +149,7 @@ public class Counter : Patterns.Singleton<Counter>
             return;
         }
         string json = JsonConvert.SerializeObject(saveData);
-		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Counter", json);
+        PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("Counter", json);
     }
 
     private bool Load()

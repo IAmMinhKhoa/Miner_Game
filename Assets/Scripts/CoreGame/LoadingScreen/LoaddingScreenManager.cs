@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class LoaddingScreenManager : MonoBehaviour
 {
@@ -13,30 +14,42 @@ public class LoaddingScreenManager : MonoBehaviour
 	TextMeshPro currentLoading;
 	[SerializeField]
 	private int frameRequireToLoad;
-	
+
 	private float currentLoad = 0f;
 	private float totalLoad = 0f;
 	private int framePassed = 0;
 	private bool isLoading = false;
+	private bool allowToLoad;
 	private void Start()
 	{
 		totalLoad = notFullLoadingBar.size.x;
+
 	}
 	private void Update()
 	{
-		if(isLoading == false)
+		allowToLoad = Common.CheckInternetConnection();
+		if (allowToLoad)
 		{
-			framePassed++;
-			currentLoad += totalLoad * 0.0005f;
+			if (isLoading == false)
+			{
+				framePassed++;
+				currentLoad += totalLoad * 0.0005f;
+			}
+
+			fullLoadingBar.size = new Vector2(currentLoad, fullLoadingBar.size.y);
+			currentLoading.text = "Loading " + Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
 		}
-	
-		fullLoadingBar.size  = new Vector2(currentLoad, fullLoadingBar.size.y);
-		currentLoading.text = "Loading " + Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
+		else
+		{
+			fullLoadingBar.size = new Vector2(0, fullLoadingBar.size.y);
+			currentLoading.text = "No Internet Connection";
+		}
 	}
 	public async UniTask FullLoadingBar()
 	{
+		if(!allowToLoad) return;
 		isLoading = true;
-		float valuePerfamre =(float)((totalLoad - currentLoad) / (frameRequireToLoad - framePassed));
+		float valuePerfamre = (float)((totalLoad - currentLoad) / (frameRequireToLoad - framePassed));
 		while (framePassed <= frameRequireToLoad)
 		{
 			framePassed++;
@@ -44,6 +57,6 @@ public class LoaddingScreenManager : MonoBehaviour
 			await UniTask.Yield();
 		}
 		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
-		await UniTask.Delay(500);
+		await UniTask.Delay(100);
 	}
 }

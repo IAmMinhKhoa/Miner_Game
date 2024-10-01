@@ -30,15 +30,21 @@ public class ShaftUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private GameObject m_table;
-    [SerializeField] private GameObject m_lyNuocHolder;
-    [SerializeField] private GameObject mainPanel;
+    //[SerializeField] private GameObject m_lyNuocHolder;
+	[SerializeField] private SkeletonAnimation m_animatorTable;
+	[SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[Header("Skin Object")]
-	[SerializeField] private SpriteRenderer m_br;
+	[SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
+	[SerializeField] SkeletonAnimation m_secondbg;
 
+	public SkeletonAnimation BG => m_br;
+	public SkeletonAnimation SecondBG => m_secondbg;
 
     private SkeletonAnimation tableAnimation;
+	[SerializeField] SkeletonAnimation waitTable;
+	public SkeletonAnimation WaitTable => waitTable;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
@@ -49,20 +55,20 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
-        m_lyNuocHolder.gameObject.SetActive(false);
+        //m_lyNuocHolder.gameObject.SetActive(false);
         tableAnimation = m_table.GetComponent<SkeletonAnimation>();
     }
 
     void Start()
     {
         m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
-
+		m_shaft.CurrentDeposit.OnChangePawEle += ChangePawEleHandler;
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
         m_indexText.text = (m_shaft.shaftIndex + 1).ToString();
+		ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
 
-
-        //First init Data frame by current lvl of shaft
-        UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
+		//First init Data frame by current lvl of shaft
+		UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
       
 
@@ -112,21 +118,55 @@ public class ShaftUI : MonoBehaviour
         tableAnimation.skeletonDataAsset = tableDataAsset;
         tableAnimation.Initialize(true, true);
     }
+	private void ChangePawStart(double value)
+	{
+		if(value >0)
+		{
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+		}
+		else
+		{
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle", true);
+		}	
+	}	
 
-    private void ChangePawHandler(double value)
+
+	private void ChangePawHandler(double value)
     {
         Debug.Log("Change Paw: " + value);
-        if (value > 0)
+		//m_animatorTable.SetTrigger("Shake");
+
+		if (value > 0)
         {
-            m_lyNuocHolder.gameObject.SetActive(true);
-        }
+			//m_lyNuocHolder.gameObject.SetActive(true);
+			m_animatorTable.AnimationState.SetAnimation(0,"Active",false);
+
+		}
         else
         {
-            m_lyNuocHolder.gameObject.SetActive(false);
-        }
+			//m_lyNuocHolder.gameObject.SetActive(false);
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+		}
     }
+	private void ChangePawEleHandler(double value)
+	{
+		Debug.Log("Change Paw: " + value);
+		//m_animatorTable.SetTrigger("Shake");
 
-    void OpenManagerPanel()
+		if (value > 0)
+		{
+			//m_lyNuocHolder.gameObject.SetActive(true);
+			m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+
+		}
+		else
+		{
+			//m_lyNuocHolder.gameObject.SetActive(false);
+			m_animatorTable.AnimationState.SetAnimation(0, "Active 2", false);
+		}
+	}
+
+	void OpenManagerPanel()
     {
         Debug.Log("Open Manager Panel");
         ManagersController.Instance.OpenManagerPanel(m_shaft.ManagerLocation);
@@ -187,8 +227,12 @@ public class ShaftUI : MonoBehaviour
 
     public async void PlayCollectAnimation(bool isBrewing)
     {
-        if (isBrewing == false) return;
-        if (_isBrewing == true)
+        if (isBrewing == false)
+		{
+			tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			return;
+		}
+		if (_isBrewing == true)
         {
             return;
         }
@@ -198,7 +242,6 @@ public class ShaftUI : MonoBehaviour
         tableAnimation.AnimationState.SetAnimation(0, "Active", false);
         await UniTask.Delay((int)tableAnimation.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Active").Duration * 1000);
         //Debug.Log("Play Idle");
-        tableAnimation.AnimationState.SetAnimation(0, "Idle", true);
         _isBrewing = false;
     }
 
@@ -214,21 +257,52 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
-        public void ChangeSkin(ShaftSkin data)
-	    {
-            //set init Data Skin shaft
-            SkinShaftBg backgroundEnum = (SkinShaftBg)int.Parse(data.idBackGround);
-            SkinShaftWaitTable waitTableEnum = (SkinShaftWaitTable)int.Parse(data.idWaitTable);
-            SkinShaftMilkCup milkCupEnum = (SkinShaftMilkCup)int.Parse(data.idMilkCup);
+	public void ChangeSkin(ShaftSkin data)
+	{
+		//set init Data Skin shaft
+		if (SkinManager.Instance.skinResource.skinBgShaft == null || m_br.Skeleton == null) return;
+		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
+		
+		m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
+		m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
+		//Debug.Log(milkTeaTable.Skeleton.Data.Skins.Count);
+		waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
+		//m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
+		
+		if(TryGetComponent<Shaft>(out var shaft))
+		{
+			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
+			foreach (var item in shaft.Brewers)
+			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 
-
-            m_br.sprite = SkinManager.SkinDataSO.GetBrShaft(backgroundEnum);
-            m_waitTable.sprite = SkinManager.SkinDataSO.GetWaitTableShaft(waitTableEnum);
-            foreach (Transform child in m_lyNuocHolder.transform)
-            {
-              child.GetComponent<SpriteRenderer>().sprite = SkinManager.SkinDataSO.GetMilkCupShaft(milkCupEnum);
-            }
-        }
+				headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+				headSkeleton.SetSlotsToSetupPose();
+				bodySkeleton.SetSlotsToSetupPose();
+				item.TailSkeletonAnimation.gameObject.SetActive(true);
+				if (item.TailSkeletonAnimation.skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
+				{
+					item.TailSkeletonAnimation.skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
+					item.TailSkeletonAnimation.skeleton.SetSlotsToSetupPose();
+				}
+				else
+				{
+					item.TailSkeletonAnimation.gameObject.SetActive(false);
+				}
+			}
+		}
+	}
 
     void OnDestroy()
     {
@@ -242,7 +316,7 @@ public class ShaftUI : MonoBehaviour
         m_shaftUpgrade.Upgrade(valueAdd);
     }
     [Button]
-    private void TestChangeSkinShaft(SkinShaftBg value1, SkinShaftWaitTable value2, SkinShaftMilkCup value3)
+    private void TestChangeSkinShaft(SkinShaftBg value1=SkinShaftBg.BR1, SkinShaftWaitTable value2=SkinShaftWaitTable.WT1, SkinShaftMilkCup value3=SkinShaftMilkCup.MC1)
     {
         m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
         m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();

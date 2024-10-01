@@ -7,8 +7,11 @@ using UnityEngine;
 
 public class ElevatorControllerView : MonoBehaviour
 {
-	[SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff, _refrigerator, _refrigeratorDoor;
-
+	[SerializeField] private SkeletonAnimation _frontElevator, _backElevator, _elevatorStaff, _refrigerator, _refrigeratorDoor, _elevatorBodyStaff;
+	public SkeletonAnimation FontElevator => _frontElevator;
+	public SkeletonAnimation BackElevator => _backElevator;
+	public SkeletonAnimation ElevatorHeadStaff => _elevatorStaff;
+	public SkeletonAnimation ElevatorBodyStaff => _elevatorBodyStaff;
 	[SerializeField] private GameObject[] _lyNuocs;
 	private ElevatorController _elevatorController;
 
@@ -73,7 +76,7 @@ public class ElevatorControllerView : MonoBehaviour
 			_frontElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 			_backElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 		}
-		_elevatorStaff.AnimationState.SetAnimation(0, "Idle", true);
+		_elevatorStaff.AnimationState.SetAnimation(0, "Idle_Corgi", true);
 	}
 
 	private async void OpenRefrigerator(bool isOpen)

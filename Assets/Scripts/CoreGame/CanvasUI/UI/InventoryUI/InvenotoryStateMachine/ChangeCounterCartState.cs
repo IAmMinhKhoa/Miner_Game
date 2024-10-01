@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using StateMachine;
+using UI.Inventory;
+using UI.Inventory.PopupOtherItem;
+using Spine.Unity;
+public class ChangeCounterCartState : BaseState<InventoryItemType> 
+{
+	readonly PopupOtherItemController itemController;
+	public ChangeCounterCartState(PopupOtherItemController itemController)
+	{
+		this.itemController = itemController;
+	}
+	public override void Do()
+	{
+		
+	}
+
+	public override void Enter()
+	{
+		
+		itemController.UnselectAllItem();
+		itemController.UnactiveAll();
+		itemController.title.text = "CHỌN XE ĐẨY Ở QUẦY";
+		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
+		
+		for (int i = 0; i < skinAmount.Count; i++)
+		{
+			itemController.itemsHandle[i].gameObject.SetActive(true);
+			itemController.itemsHandle[i].ShowCart(i);
+			var skinName = SkinManager.Instance.skinResource.skinCartCounter[i].name;
+			itemController.itemsHandle[i].ChangItemInfo(skinName); 
+			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
+		}
+	}
+	public override void Exit()
+	{
+		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
+		for (int i = 0; i < skinAmount.Count; i++)
+		{
+			itemController.itemsHandle[i].ItemClicked -= ChangeSkin;
+		}
+	}
+	private void ChangeSkin(Item item)
+	{
+		int index = itemController.itemsHandle.IndexOf(item);
+		itemController.UnselectAllItem();
+		itemController.itemsHandle[index].Selected();
+		Counter.Instance.counterSkin.idCart = index.ToString();
+		Counter.Instance.UpdateUI();
+		Counter.Instance.OnUpdateCounterInventoryUI?.Invoke();
+	}
+	
+}

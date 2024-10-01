@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class CounterUpgrade : BaseUpgrade
@@ -16,14 +18,15 @@ public class CounterUpgrade : BaseUpgrade
     }
     protected override void RunUpgrade()
     {
-        float nextScale = GetNextExtractionSpeedScale(CurrentLevel);
-        counter.BoostScale *= 1 + nextScale;
+		float nextScale = GetNextExtractionSpeedScale(CurrentLevel);
+		counter.BoostScale *= 1 + nextScale;
 
-        if (IsNeedCreateTransporter(CurrentLevel))
-        {
-            counter.CreateTransporter();
-        }
-    }
+		if (IsNeedCreateTransporter(CurrentLevel))
+		{
+			counter.CreateTransporter();
+		}
+		counter.OnUpgrade?.Invoke(CurrentLevel);
+	}
 
     private float GetNextExtractionSpeedScale(int level)
     {
@@ -49,15 +52,17 @@ public class CounterUpgrade : BaseUpgrade
     {
         return level switch
         {
-            <= 2400 => 0.2f,
+            < 2400 => 0.2f,
             _ => 0f
         };
     }
 
     public void InitValue(int level)
-    {
-        Init(1041.67f, level);
-    }
+	{
+		//Init(1041.67f, level);
+		Init(1041.67f, level);
+		counter.OnUpgrade?.Invoke(level);
+	}
 
     public override int GetNumberWorkerAtLevel(int level)
     {

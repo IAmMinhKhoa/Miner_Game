@@ -26,6 +26,7 @@ namespace Patterns
       }
     }
 
+
     protected virtual void Awake()
     {
       if(s_instance == null)
@@ -38,9 +39,12 @@ namespace Patterns
         Destroy(gameObject);
       }
     }
-		private void OnDestroy()
+		protected virtual void OnDestroy()
 		{
-			Destroy(gameObject);
+			if (s_instance == this)
+			{
+				s_instance = null; 
+			}
 		}
 	}
 }

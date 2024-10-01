@@ -12,7 +12,13 @@ public class Transporter : BaseWorker
     private TextMeshPro numberText;
     [SerializeField] private bool isWorking = false;
     [SerializeField] private GameObject transporterView;
-    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation;
+    [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation, tailSketonAnimation;
+	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+	public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
+	public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
+	
+	private bool isShowTextNumber = true;
     public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
@@ -31,8 +37,8 @@ public class Transporter : BaseWorker
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
-        numberText.transform.SetParent(this.transform);
-        numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
+        numberText.transform.SetParent(transporterView.transform);
+        numberText.transform.localPosition = new Vector3(-0.5f, 0.22f, 0);
         collectTransform = Counter.TransporterLocation;
         depositTransform = Counter.CounterLocation;
     }
@@ -45,8 +51,19 @@ public class Transporter : BaseWorker
             Move(Counter.TransporterLocation.position);
         }
     }
-
-    protected override async void Collect()
+	private void LateUpdate()
+	{
+		if(isShowTextNumber == false)
+		{
+			numberText.text = "";
+		}
+			
+	}
+	public void HideNumberText()
+	{
+		isShowTextNumber = false;
+	}
+	protected override async void Collect()
     {
         ChangeGoal();
         double maxCapacity = ProductPerSecond * WorkingTime;
@@ -115,7 +132,8 @@ public class Transporter : BaseWorker
                 {
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
                 }
-                cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
+				numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
+				cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 break;
         }

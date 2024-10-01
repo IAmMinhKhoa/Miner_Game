@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Spine.Unity;
+using NOOD.SerializableDictionary;
+using Newtonsoft.Json;
 
 public class CounterUI : MonoBehaviour
 {
@@ -19,10 +22,13 @@ public class CounterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_levelText;
     [SerializeField] private TextMeshProUGUI m_costText;
 
-    // [Header("Visual object")]
-    // [SerializeField] private GameObject m_quayGiaoNuocHolder;
-
-    private Counter m_counter;
+	public SkeletonAnimation m_bgCounter;
+	public SkeletonAnimation m_secondBG;
+	// [Header("Visual object")]
+	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
+	[SerializeField] private SkeletonAnimation m_cashierCounter;
+	[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
+	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
     void Awake()
@@ -49,19 +55,38 @@ public class CounterUI : MonoBehaviour
     {
         m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
-        m_boostButton.onClick.AddListener(ActiveBoost);
+		m_boostButton.onClick.AddListener(ActiveBoost);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
-    }
+		m_counter.OnUpgrade += Counter_OnUpgradeHandler;
+	}
 
     void OnDisable()
     {
         m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
-        m_boostButton.onClick.RemoveListener(ActiveBoost);
+		m_boostButton.onClick.RemoveListener(ActiveBoost);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
-    }
+		m_counter.OnUpgrade -= Counter_OnUpgradeHandler;
+	}
+	private void Counter_OnUpgradeHandler(int currentLevel)
+	{
+		foreach (var item in skeletonDataAssetDic.Dictionary)
+		{
+			if (currentLevel >= item.Key)
+			{
+				UpgradeCounter(item.Value);
+			}
+		}
+	}
+	private void UpgradeCounter(SkeletonDataAsset tableDataAsset)
+	{
+		m_cashierCounter.skeletonDataAsset = tableDataAsset;
+		m_cashierCounter.Initialize(true,true);
+		//tableAnimation.skeletonDataAsset = tableDataAsset;
+		//tableAnimation.Initialize(true, true);
+	}
 
-    void CallUpgrade()
+	void CallUpgrade()
     {
         if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)
         {
@@ -103,7 +128,6 @@ public class CounterUI : MonoBehaviour
     {
         m_counter.RunBoost();
     }
-
     void OpenManagerPanel()
     {
         ManagersController.Instance.OpenManagerPanel(m_counter.ManagerLocation);
@@ -113,4 +137,52 @@ public class CounterUI : MonoBehaviour
     {
         OnUpgradeRequest?.Invoke();
     }
+
+	public void ChangeSkin(CounterSkin data)
+	{
+		if (data == null) return;
+		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
+		m_bgCounter.Skeleton.SetSkin(skinBGName);
+		m_bgCounter.Skeleton.SetSlotsToSetupPose();
+
+		string skinSecondBGName = "Skin_"+(int.Parse(data.idSecondBg) + 1);
+		m_secondBG.Skeleton.SetSkin(skinSecondBGName);
+		m_secondBG.Skeleton.SetSlotsToSetupPose();
+
+		if (TryGetComponent<Counter>(out var counter))
+		{
+			
+			int cartIndex = int.Parse(data.idCart);
+			int headIndex = int.Parse(data.character.idHead);
+			int bodyIndex = int.Parse(data.character.idBody);
+			foreach (var item in counter.Transporters)
+			{
+				var skeleton = item.CartSkeletonAnimation.skeleton;
+				var skin = skeleton.Data.Skins.Items[cartIndex];
+				if (skin != null)
+				{
+					skeleton.SetSkin(skin);
+					skeleton.SetSlotsToSetupPose();
+				}
+				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
+				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
+
+				headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+				headSkeleton.SetSlotsToSetupPose();
+				bodySkeleton.SetSlotsToSetupPose();
+				item.TailSkeletonAnimation.gameObject.SetActive(true);
+				if (item.TailSkeletonAnimation.skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
+				{
+					item.TailSkeletonAnimation.skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
+					item.TailSkeletonAnimation.skeleton.SetSlotsToSetupPose();
+				}
+				else
+				{
+					item.TailSkeletonAnimation.gameObject.SetActive(false);
+				}
+
+			}
+		}
+	}
 }

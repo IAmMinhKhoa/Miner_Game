@@ -36,14 +36,11 @@ public class ToggleBehaviour : MonoBehaviour
 	}
 
 	public void DoAnimate()
-	{
-		SoundManager.PlaySound(SoundEnum.click);
-		_rectTransform.DOScale(bounceScale, bounceDuration / 2)
-			.SetEase(Ease.OutQuad)
-			.OnComplete(() =>
-			{
-				_rectTransform.DOScale(_defaultScale, bounceDuration / 2).SetEase(Ease.InQuad);
-			});
+	{	
+		Toggle tg = GetComponent<Toggle>();
+		if (tg.isOn) SoundManager.PlaySound(SoundEnum.click);
+		tg.graphic.GetComponent<PopupToggle>().OnChoosing(tg.isOn);
+
 	}
 
 	public void DoAnimateToggle(bool isActive)
