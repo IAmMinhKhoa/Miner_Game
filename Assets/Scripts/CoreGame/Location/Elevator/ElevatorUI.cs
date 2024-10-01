@@ -168,15 +168,11 @@ public class ElevatorUI : MonoBehaviour
 			int bodyIndex = int.Parse(data.characterSkin.idBody);
 			var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
 			var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
-			var headSkin = headSkeleton.Data.Skins.Items[headIndex];
-			var bodySkin = bodySkeleton.Data.Skins.Items[bodyIndex];
-			if (headSkin != null && bodySkin != null)
-			{
-				headSkeleton.SetSkin(headSkin);
-				bodySkeleton.SetSkin(bodySkin);
-				headSkeleton.SetSlotsToSetupPose();
-				bodySkeleton.SetSlotsToSetupPose();
-			}
+			headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+			bodySkeleton.SetSkin("Body/Skin_"  + (bodyIndex + 1));
+			headSkeleton.SetSlotsToSetupPose();
+			bodySkeleton.SetSlotsToSetupPose();
+
 		}
 
 	}

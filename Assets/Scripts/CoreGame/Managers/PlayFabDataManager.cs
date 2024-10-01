@@ -125,6 +125,10 @@ namespace PlayFabManager.Data
 		}
 		public void SaveData(string key, string value)
 		{
+			if(!DataDictionary.ContainsKey(key))
+			{
+				Debug.Log(key + " Not found");
+			}
 			DataDictionary[key] = value;
 		}
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";

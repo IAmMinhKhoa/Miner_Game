@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using Spine.Unity;
 using NOOD.SerializableDictionary;
+using Newtonsoft.Json;
 
 public class CounterUI : MonoBehaviour
 {
@@ -139,6 +140,7 @@ public class CounterUI : MonoBehaviour
 
 	public void ChangeSkin(CounterSkin data)
 	{
+		if (data == null) return;
 		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
 		m_bgCounter.Skeleton.SetSkin(skinBGName);
 		m_bgCounter.Skeleton.SetSlotsToSetupPose();
@@ -169,22 +171,16 @@ public class CounterUI : MonoBehaviour
 				bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
 				headSkeleton.SetSlotsToSetupPose();
 				bodySkeleton.SetSlotsToSetupPose();
-				if (item.TailSkeletonAnimation.Skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
+				item.TailSkeletonAnimation.gameObject.SetActive(true);
+				if (item.TailSkeletonAnimation.skeleton.Data.FindSkin("Tail/Skin_" + (headIndex + 1)) != null)
 				{
-					if (!item.TailSkeletonAnimation.gameObject.activeInHierarchy)
-					{
-						item.TailSkeletonAnimation.gameObject.SetActive(true);
-					}
-					item.TailSkeletonAnimation.Skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
-					item.TailSkeletonAnimation.Skeleton.SetSlotsToSetupPose();
-					return;
+					item.TailSkeletonAnimation.skeleton.SetSkin("Tail/Skin_" + (headIndex + 1));
+					item.TailSkeletonAnimation.skeleton.SetSlotsToSetupPose();
 				}
-
-				if (item.TailSkeletonAnimation.gameObject.activeInHierarchy)
+				else
 				{
 					item.TailSkeletonAnimation.gameObject.SetActive(false);
 				}
-
 
 			}
 		}

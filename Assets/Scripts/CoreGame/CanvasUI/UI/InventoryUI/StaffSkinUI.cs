@@ -46,14 +46,13 @@ namespace UI.Inventory
 			{
 				_currentItemTypeHandle = value;
 				//check if current skin is elevator -> only can change typeAnimal
-				if (value == InventoryItemType.ElevatorCharacter)
-				{
-					listObjSkin.SetActive(false);
-				}
-				else
-				{
-					listObjSkin.SetActive(true);
-				}
+				//if (value == InventoryItemType.ElevatorCharacter)
+				//	for (int i = 0; i < bodyModel.Count; i++)
+				//	{
+				//		var item = bodyModel[i];
+
+				//	}
+				//}
 
 			}
 			get
@@ -222,11 +221,7 @@ namespace UI.Inventory
 				headCharacter[i].Unselect();
 				headCharacter[i].SetItemInfo(LeftHeadIndex + i, type, true);
 				headCharacter[i].OnItemClicked += SetCurHeadIndex;
-				//thay đổi cả body-head khi click vào skin head
-				if (type == InventoryItemType.ElevatorCharacter)
-				{
-					headCharacter[i].OnItemClicked += SetCurBodyIndex;
-				}
+				
 			}
 		}
 		private void UpdateListBodyCharacter(InventoryItemType type)
@@ -279,8 +274,7 @@ namespace UI.Inventory
 							{
 								tailItem.gameObject.SetActive(false);
 							}
-							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentHeadIndex];
-							skeletonGraphic.Skeleton.SetSkin(skin);
+							skeletonGraphic.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
 							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
 						}
 						else
@@ -329,19 +323,8 @@ namespace UI.Inventory
 					item.gameObject.SetActive(true);
 					if (item.TryGetComponent<SkeletonGraphic>(out var skeletonGraphic))
 					{
-
-						if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
-						{
-							var skin = skeletonGraphic.Skeleton.Data.Skins.Items[currentBodyIndex];
-							skeletonGraphic.Skeleton.SetSkin(skin);
-							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
-						}
-						else
-						{
-							skeletonGraphic.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
-							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
-						}
-
+						skeletonGraphic.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
+						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
 					}
 				}
 				else

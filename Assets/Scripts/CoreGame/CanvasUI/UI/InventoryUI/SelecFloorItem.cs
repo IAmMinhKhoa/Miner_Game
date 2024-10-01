@@ -15,14 +15,13 @@ public class SelecFloorItem : MonoBehaviour
 
 	public virtual void SetInfoItem(int headIndex, int bodyIndex, int floor)
 	{
-		var headSkin = head.Skeleton.Data.Skins.Items[headIndex];
-		var bodySkin = body.Skeleton.Data.Skins.Items[bodyIndex];
+		
 
 		if(floor != -1)
 			floorText.text = "Tầng " + floor;
 
-		head.Skeleton.SetSkin(headSkin);
-		body.Skeleton.SetSkin(bodySkin);
+		head.Skeleton.SetSkin("Head/Skin_"+(headIndex + 1));
+		body.Skeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
 
 		head.Skeleton.SetSlotsToSetupPose();
 		body.Skeleton.SetSlotsToSetupPose();

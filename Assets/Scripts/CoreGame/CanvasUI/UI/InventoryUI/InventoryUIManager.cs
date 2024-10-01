@@ -306,14 +306,7 @@ namespace UI.Inventory
 		}
 		private void CloseInvetoryUI()
 		{
-			if (isBackgroundItemOpening == false)
-				gameObject.SetActive(false);
-			if (isBackgroundItemOpening)
-			{
-				isBackgroundItemOpening = false;
-				bgList.gameObject.SetActive(false);
-				inventoryPanel.SetActive(true);
-			}
+			gameObject.SetActive(false);
 		}
 		#region AnimateUI
 		[Button]
