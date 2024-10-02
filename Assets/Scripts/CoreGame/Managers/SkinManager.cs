@@ -15,6 +15,8 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	{
 		LoadSkinData(); //fectch data from json
 		LoadAssets(); //get resource by path to list
+
+		
 		if (!Load())
 		{
 			ShaftManager.Instance.Shafts[0].shaftSkin = new ShaftSkin(0);

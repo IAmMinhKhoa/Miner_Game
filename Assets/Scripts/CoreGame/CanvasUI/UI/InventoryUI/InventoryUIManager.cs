@@ -212,7 +212,7 @@ namespace UI.Inventory
 				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart].Name);
+					item.ChangeSpineSkin("Xe day " + (indexCart + 1));
 				}
 				
 			}
@@ -297,11 +297,13 @@ namespace UI.Inventory
 
 		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
 		{
-			if(TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
+			
+			if (TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
 			{
-				stateMachine.TransitonToState(type);
 				pOIController.gameObject.SetActive(true);
 				pOIController.FloorIndex = index;
+				stateMachine.TransitonToState(type);
+				
 			}
 		}
 		private void CloseInvetoryUI()

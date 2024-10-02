@@ -8,13 +8,13 @@ namespace UI.Inventory
 {
     public class PopupOtherItemController : MonoBehaviour
     {
-		public List<Item> itemsHandle;
+	
 		public int FloorIndex { set; get;}
 		public GameObject content;
 		public TextMeshProUGUI title;
-		public void UnselectAllItem()
+		public void UnselectAllItem(List<Item> items)
 		{
-			foreach (Item item in itemsHandle)
+			foreach (Item item in items)
 			{
 				if(item.gameObject.activeInHierarchy)
 				{
@@ -33,15 +33,7 @@ namespace UI.Inventory
 			}
 			return items;
 		}
- 		public void UnactiveAll()
-		{
-			foreach (Item item in itemsHandle)
-			{
-	
-					item.gameObject.SetActive(false);
 
-			}
-		}
 		public void DestroyItem(GameObject obj)
 		{
 			Destroy(obj);
