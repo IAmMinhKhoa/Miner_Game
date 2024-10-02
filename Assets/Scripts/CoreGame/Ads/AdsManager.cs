@@ -1,14 +1,25 @@
 using GoogleMobileAds.Api;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 //Google Modile Ad Service
 public class AdsManager : Patterns.Singleton<AdsManager>
 {
-	//Now available for android
+	[Header("Rewarded Ad")]
 	[SerializeField]
-	private string RewardedAdUnitId = string.Empty;
-	private RewardedAd RewardedAd { get; set; }
+	private string RewardedAdUnitIdAndroid = string.Empty;
+	[SerializeField]
+	private string RewardedAdUnitIdIos = string.Empty;
+	[Header("Banner Ad")]
+	[SerializeField]
+	private string BannerAdUnitIdAndroid = string.Empty;
+	[SerializeField]
+	private string BannerAdUnitIdIos = string.Empty;
+
+	private RewardedAd _RewardedAd { get; set; }
+
+	private BannerView _BannerView { get; set; }
 
 	// Start is called before the first frame update
 	void Start()
@@ -21,26 +32,27 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		request.TestDeviceIds.Add("4E03DC2B53D57237BC3ACF0AEFB9BB32");
 		MobileAds.SetRequestConfiguration(request);
 		LoadRewardedAd();
-		RegisterRewardedAdEventHandler(RewardedAd);
+		RegisterRewardedAdEventHandler(_RewardedAd);
+		LoadBannerAd();
+		RegisterBannerAdEventHandler(_BannerView);
 	}
 
 	#region RewardedAd
 	private void LoadRewardedAd()
 	{
-		if (RewardedAdUnitId == string.Empty)
+		string adUnitId = string.Empty;
+#if UNITY_ANDROID
+		adUnitId = RewardedAdUnitIdAndroid;
+#elif UNITY_IPHONE
+		adUnitId = RewardedAdUnitIdIos;
+#endif
+		if (adUnitId == string.Empty)
 		{
-			Debug.Log("Ad unit id is empty");
+			//Debug.Log("Rewarded Ad: Empty Ad Unit Id");
 			return;
 		}
-#if UNITY_ANDROID
-		RewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
-#elif UNITY_IPHONE
-		RewardedAdUnitId = "ca-app-pub-3940256099942544/1712485313";
-#else
-
-#endif
 		AdRequest adRequest = new AdRequest();
-		RewardedAd.Load(RewardedAdUnitId, adRequest,
+		RewardedAd.Load(adUnitId, adRequest,
 			(RewardedAd ad, LoadAdError error) =>
 			{
 				if (error is not null || ad is null)
@@ -48,15 +60,15 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 					Debug.Log($"Rewarded ad failed to load an ad: {ad} with error: {error}");
 					return;
 				}
-				RewardedAd = ad;
+				_RewardedAd = ad;
 			}
 		);
 	}
 	public void ShowRewardedAd()
 	{
-		if (RewardedAd is not null && RewardedAd.CanShowAd())
+		if (_RewardedAd is not null && _RewardedAd.CanShowAd())
 		{
-			RewardedAd.Show((Reward reward) =>
+			_RewardedAd.Show((Reward reward) =>
 			{
 				//Debug.Log($"Rewarded ad rewarded the user. Type: {reward.Type}, amount: {reward.Amount}");
 			});
@@ -66,7 +78,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 	{
 		rewardedAd.OnAdPaid += (AdValue adValue) =>
 		{
-			Debug.Log($"Rewarded ad has just earned: {adValue.Value} {adValue.CurrencyCode}");
+			//Debug.Log($"Rewarded ad has just earned: {adValue.Value} {adValue.CurrencyCode}");
 		};
 		rewardedAd.OnAdImpressionRecorded += () =>
 		{
@@ -86,12 +98,76 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		};
 		rewardedAd.OnAdFullScreenContentClosed += () =>
 		{
-			Debug.Log("Reward ad closed");
-			RewardedAd.Destroy();
+			//Debug.Log("Reward ad closed");
+			_RewardedAd.Destroy();
 			LoadRewardedAd();
-			RegisterRewardedAdEventHandler(RewardedAd);
+			RegisterRewardedAdEventHandler(_RewardedAd);
 			PawManager.Instance.AddPaw(1000000000);
 		};
 	}
+	#endregion
+	#region BannerAd
+	private void CreateBannerView()
+	{
+		string adUnitId = string.Empty;
+#if UNITY_ANDROID
+		adUnitId = BannerAdUnitIdAndroid;
+#elif UNITY_IPHONE
+		adUnitId = BannerAdUnitIdIos;
+#endif
+		if (adUnitId == string.Empty)
+		{
+			//Debug.Log("Banner Ad: Empty Ad Unit Id");
+			return;
+		}
+		if (_BannerView is not null)
+		{
+			_BannerView.Destroy();
+			_BannerView = null;
+		}
+		_BannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+	}
+	public void LoadBannerAd()
+	{
+		if (_BannerView is null)
+		{
+			CreateBannerView();
+		}
+		AdRequest adRequest = new AdRequest();
+		_BannerView.LoadAd(adRequest);
+	}
+	private void RegisterBannerAdEventHandler(BannerView bannerView)
+	{
+		bannerView.OnBannerAdLoaded += () =>
+		{
+			
+		};
+		bannerView.OnBannerAdLoadFailed += (LoadAdError error) =>
+		{
+			Debug.LogError($"Banner view failed to load an ad with error : {error}");
+		};
+		bannerView.OnAdPaid += (AdValue adValue) =>
+		{
+
+		};
+		bannerView.OnAdImpressionRecorded += () =>
+		{
+
+		};
+		bannerView.OnAdClicked += () =>
+		{
+
+		};
+		bannerView.OnAdFullScreenContentOpened += () =>
+		{
+
+		};
+		bannerView.OnAdFullScreenContentClosed += () =>
+		{
+			LoadBannerAd();
+			RegisterBannerAdEventHandler(_BannerView);
+		};
+	}
+	
 #endregion
 }
