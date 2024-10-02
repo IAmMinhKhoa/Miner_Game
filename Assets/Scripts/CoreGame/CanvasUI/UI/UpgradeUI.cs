@@ -24,6 +24,7 @@ public class UpgradeUI : MonoBehaviour
 	[Header("Upgrade Icons")]
 	[SerializeField] private Image iconImage;
 	[SerializeField] private SerializableDictionary<float, Sprite> upgradeIconDic = new SerializableDictionary<float, Sprite>();
+	[SerializeField] private SerializableDictionary<float, Sprite> upgradeIconDic_Counter = new SerializableDictionary<float, Sprite>();
 
 	[Header("Fast upgrade UI")]
 	[SerializeField] private Slider upgradeSlider;
@@ -55,7 +56,7 @@ public class UpgradeUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI s_numberOrSpeed;
 	[SerializeField] private TextMeshProUGUI s_totalProduction;
 
-	private float currentLevel;
+	[SerializeField]private float currentLevel;
 	private ManagerLocation managerLocation;
 
 	void Start()
@@ -205,6 +206,19 @@ public class UpgradeUI : MonoBehaviour
 			case ManagerLocation.Elevator:
 				break;
 			case ManagerLocation.Counter:
+				for (int i = 0; i < upgradeIconDic_Counter.Dictionary.Count; i++)
+				{
+					if (value >= upgradeIconDic_Counter.Dictionary.ElementAt(i).Key)
+					{
+						Sprite newIcon = upgradeIconDic_Counter.Dictionary.ElementAt(i).Value;
+						iconImage.sprite = newIcon;
+						if (i + 1 < upgradeIconDic_Counter.Dictionary.Count)
+						{
+							UpdateEvolutionSlider(currentLevel, value, upgradeIconDic_Counter.Dictionary.ElementAt(i + 1).Key);
+							UpdateEvolutionText(upgradeIconDic_Counter.Dictionary.ElementAt(i + 1).Key);
+						}
+					}
+				}
 				break;
 		}
 	}
@@ -274,6 +288,7 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + " s";
 				break;
 			case ManagerLocation.Counter:
+				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + level.ToString();
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
@@ -289,6 +304,7 @@ public class UpgradeUI : MonoBehaviour
 		totalProduction.text = Currency.DisplayCurrency(total);
 
 		DisplayNextUpgrade(1);
+		UpdateEvolutions(currentLevel);
 	}
 
 	private void DeactivateButton(Button button)
