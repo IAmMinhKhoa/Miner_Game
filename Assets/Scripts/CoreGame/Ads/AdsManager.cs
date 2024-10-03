@@ -1,7 +1,7 @@
 using GoogleMobileAds.Api;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
+
 using UnityEngine;
 //Google Modile Ad Service
 public class AdsManager : Patterns.Singleton<AdsManager>
@@ -28,13 +28,13 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		{
 
 		});
-		RequestConfiguration request = new RequestConfiguration();
-		request.TestDeviceIds.Add("4E03DC2B53D57237BC3ACF0AEFB9BB32");
-		MobileAds.SetRequestConfiguration(request);
-		LoadRewardedAd();
-		RegisterRewardedAdEventHandler(_RewardedAd);
+		//RequestConfiguration request = new RequestConfiguration();
+		//request.TestDeviceIds.Add("4E03DC2B53D57237BC3ACF0AEFB9BB32");
+		//MobileAds.SetRequestConfiguration(request);
 		LoadBannerAd();
 		RegisterBannerAdEventHandler(_BannerView);
+		LoadRewardedAd();
+		RegisterRewardedAdEventHandler(_RewardedAd);
 	}
 
 	#region RewardedAd
@@ -64,16 +64,6 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			}
 		);
 	}
-	public void ShowRewardedAd()
-	{
-		if (_RewardedAd is not null && _RewardedAd.CanShowAd())
-		{
-			_RewardedAd.Show((Reward reward) =>
-			{
-				//Debug.Log($"Rewarded ad rewarded the user. Type: {reward.Type}, amount: {reward.Amount}");
-			});
-		}
-	}
 	private void RegisterRewardedAdEventHandler(RewardedAd rewardedAd)
 	{
 		rewardedAd.OnAdPaid += (AdValue adValue) =>
@@ -90,7 +80,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		};
 		rewardedAd.OnAdFullScreenContentFailed += (AdError adError) =>
 		{
-			Debug.Log($"Rewared ad failed to open with error: {adError}");
+			//Debug.Log($"Rewared ad failed to open with error: {adError}");
 		};
 		rewardedAd.OnAdFullScreenContentOpened += () =>
 		{
@@ -104,6 +94,16 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			RegisterRewardedAdEventHandler(_RewardedAd);
 			PawManager.Instance.AddPaw(1000000000);
 		};
+	}
+	public void ShowRewardedAd()
+	{
+		if (_RewardedAd is not null && _RewardedAd.CanShowAd())
+		{
+			_RewardedAd.Show((Reward reward) =>
+			{
+				//Debug.Log($"Rewarded ad rewarded the user. Type: {reward.Type}, amount: {reward.Amount}");
+			});
+		}
 	}
 	#endregion
 	#region BannerAd
@@ -144,7 +144,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		};
 		bannerView.OnBannerAdLoadFailed += (LoadAdError error) =>
 		{
-			Debug.LogError($"Banner view failed to load an ad with error : {error}");
+			//Debug.LogError($"Banner view failed to load an ad with error : {error}");
 		};
 		bannerView.OnAdPaid += (AdValue adValue) =>
 		{

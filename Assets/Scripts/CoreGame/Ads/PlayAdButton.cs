@@ -12,7 +12,7 @@ public class PlayAdButton : MonoBehaviour
 	}
 	private void ShowAd()
 	{
-		//AdsManager.Instance.ShowRewardedAd();
-		AdsManager.Instance.LoadBannerAd();
+		AdsManager.Instance.ShowRewardedAd();
+		//AdsManager.Instance.LoadBannerAd();
 	}
 }
