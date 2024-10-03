@@ -43,8 +43,8 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
 			items[i].ChangItemInfo(skinName);
 			_item.Skeleton.SetSkin("Xe day " + (i + 1));
-			_item.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
-			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -35f);
+			_item.transform.localScale = new Vector3(0.54f, 0.54f, 0.54f);
+			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
 			items[i].ItemClicked += ChangeSkin;
 			_item.Skeleton.SetSlotsToSetupPose();
 		}

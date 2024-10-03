@@ -40,6 +40,7 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 
 			var itemInfo = SkinManager.Instance.skinResource.skinBgCounter[i];
 			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			_item.bg.gameObject.SetActive(true);
 			ChangeSkin(_item.bg, "Click_" + (i + 1));
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
 		}
@@ -49,6 +50,11 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 		SkeletonDataAsset skSecondBGData = Ui.m_secondBG.skeletonDataAsset;
 
 		var imgSelectedBg = bgList.imgSelectedBg;
+		if (!imgSelectedBg.gameObject.activeInHierarchy)
+		{
+			imgSelectedBg.gameObject.SetActive(true);
+		}
+
 		imgSelectedBg.skeletonDataAsset = skBgData;
 		imgSelectedBg.Initialize(true);
 		ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(counterSkin.idBackGround) + 1));

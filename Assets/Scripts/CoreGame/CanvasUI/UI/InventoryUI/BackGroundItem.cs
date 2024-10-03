@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -25,6 +26,18 @@ namespace UI.Inventory
 		public void OnPointerClick()
 		{
 			OnBackGroundItemClick?.Invoke(index);
+		}
+		public void Selected()
+		{
+			RectTransform _rectTransform = GetComponent<RectTransform>();
+			_rectTransform.DOScale(1f, 0.2f)
+				.SetEase(Ease.OutQuad);
+		}
+		public void UnSelected()
+		{
+			RectTransform _rectTransform = GetComponent<RectTransform>();
+			_rectTransform.DOScale(0.9f, 0f)
+				.SetEase(Ease.OutQuad);
 		}
 		public void SetItemInfor(int index, string itemName, string desc)
 		{
