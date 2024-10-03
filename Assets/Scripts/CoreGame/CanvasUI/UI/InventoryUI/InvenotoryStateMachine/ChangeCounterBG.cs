@@ -26,7 +26,7 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 
 		//bgItem.bg.skeletonDataAsset = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.skeletonDataAsset;
 		int skinAmount = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.Skeleton.Data.Skins.Count;
-		bgItem.bg.Initialize(true);
+		//bgItem.bg.Initialize(true);
 		bgList.ClearListItem();
 		bgList.Init(bgItem, skinAmount/3);
 		currentSkinSelect = int.Parse(Counter.Instance.counterSkin.idBackGround);
