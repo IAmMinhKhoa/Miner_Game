@@ -17,7 +17,6 @@ namespace UI.Inventory
 
 		public void UpdateShaftUI()
 		{
-			var bgInfor = ShaftManager.Instance.Shafts[index].shaftSkin.GetDataSkin();
 			
 			foreach (DecoratorItem item in items)
 			{
@@ -41,7 +40,7 @@ namespace UI.Inventory
 				if (item.type == InventoryItemType.ShaftCart)
 				{
 					int indexCart = int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idCart);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart].Name);
+					item.ChangeSpineSkin("Xe day " + (indexCart + 1));
 					continue;
 				}
 				
@@ -55,7 +54,7 @@ namespace UI.Inventory
 			if (items == null) return;
 			foreach (DecoratorItem item in items)
 			{
-				item.Index = i;
+				item.SetIndex(i);
 			}
         }
     }

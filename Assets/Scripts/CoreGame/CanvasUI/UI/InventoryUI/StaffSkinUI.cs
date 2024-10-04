@@ -6,20 +6,30 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
+using UnityEngine.UIElements;
 
 namespace UI.Inventory
 {
     public class StaffSkinUI : MonoBehaviour
     {
-		[Header("List skin")]
-		public List<CharacterSkinUI> headCharacter;
-		public List<CharacterSkinUI> bodyCharacter;
+		
+		List<CharacterSkinUI> headCharacter;
+		List<CharacterSkinUI> bodyCharacter;
 
 		[Header("Skin review")]
 		[SerializeField] GameObject cartModel;
-		[SerializeField] List<TypeSpine> headModel;
-		[SerializeField] List<TypeSpine> bodyModel;
-		[SerializeField] List<TypeSpine> tailModel;
+		[SerializeField] TypeSpine elevatorHeadModel;
+		[SerializeField] TypeSpine elevatorBodyModel;
+		[SerializeField] TypeSpine shaftHeadModel;
+		[SerializeField] TypeSpine shaftBodyModel;
+		[SerializeField] TypeSpine shaftTailModel;
+	
+		public TypeSpine ElevatorHeadModel => elevatorHeadModel;
+		public TypeSpine ElevatorHeadModelBodyModel => elevatorBodyModel;
+		public TypeSpine ShaftHeadModel => shaftHeadModel;
+		public TypeSpine ShaftBodyModel => shaftBodyModel;
+		public TypeSpine ShaftTailModel => shaftTailModel;
 
 		public event Action<int, int> OnConfirmButtonClick;
 		[Header("Next Preivous button")]
@@ -28,39 +38,21 @@ namespace UI.Inventory
 		[SerializeField] GameObject priviousBody;
 		[SerializeField] GameObject nextBody;
 		public GameObject selectFloor;
+		[Header("Content")]
+		[SerializeField] GameObject headContent;
+		[SerializeField] GameObject bodyContent; 
 
 		[Header("Inventory Panel")]
 		[SerializeField] GameObject inventoryPanel;
 		[SerializeField] SelectFloorHandle selectFloorHandle;
-		[Header("Inventory Panel")]
-		[SerializeField] GameObject listObjTypeAnimal;
-		[SerializeField] GameObject listObjSkin;
+
+		[Header("Prefab")]
+		[SerializeField] CharacterSkinUI characterSkinUI;
 
 
 		public event Action OnUpdateInventoryUI;
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
 		private InventoryItemType _currentItemTypeHandle;
-
-		public InventoryItemType CurrentItemTypeHandle {
-			set
-			{
-				_currentItemTypeHandle = value;
-				//check if current skin is elevator -> only can change typeAnimal
-				//if (value == InventoryItemType.ElevatorCharacter)
-				//	for (int i = 0; i < bodyModel.Count; i++)
-				//	{
-				//		var item = bodyModel[i];
-
-				//	}
-				//}
-
-			}
-			get
-			{
-				return _currentItemTypeHandle;
-			}
-
-		}
 
 		private int _currentFloor;
 		public int CurrentFloor
@@ -71,169 +63,120 @@ namespace UI.Inventory
 			}
 			get => _currentFloor;
 		}
+		public InventoryItemType CurrentItemTypeHandle {
+			set
+			{
+				_currentItemTypeHandle = value;
+				//check if current skin is elevator -> only can change typeAnimal
+				if (value == InventoryItemType.ElevatorCharacter)
+				{
+					shaftBodyModel.gameObject.SetActive(false);
+					shaftHeadModel.gameObject.SetActive(false);
+					shaftTailModel.gameObject.SetActive(false);
+					cartModel.SetActive(false);
+
+					elevatorHeadModel.gameObject.SetActive(true);
+					elevatorBodyModel.gameObject.SetActive(true);
+				}
+				else
+				{
+					shaftBodyModel.gameObject.SetActive(true);
+					shaftHeadModel.gameObject.SetActive(true);
+					shaftTailModel.gameObject.SetActive(true);
+					cartModel.SetActive(true);
+
+					if(value == InventoryItemType.CounterCharacter)
+					{
+						var spine = cartModel.GetComponent<SkeletonGraphic>();
+						string skinName = "Xe day " + (int.Parse(Counter.Instance.counterSkin.idCart) + 1);
+						spine.Skeleton.SetSkin(skinName);
+						spine.Skeleton.SetSlotsToSetupPose();
+					}
+					else
+					{
+						var spine = cartModel.GetComponent<SkeletonGraphic>();
+						string skinName = "Xe day " + (int.Parse(ShaftManager.Instance.Shafts[CurrentFloor].shaftSkin.idCart) + 1);
+						spine.Skeleton.SetSkin(skinName);
+						spine.Skeleton.SetSlotsToSetupPose();
+					}
+
+					elevatorHeadModel.gameObject.SetActive(false);
+					elevatorBodyModel.gameObject.SetActive(false);
+				}
+			}
+			get
+			{
+				return _currentItemTypeHandle;
+			}
+		}
+
 		//so luong skin
 
 		private int MaxHeadSkinAmount;
 		private int MaxBodySkinAmount;
-		//int bodySkinAmount = ShaftManager.Instance.Shafts[0].Brewers[0].BodySkeletonAnimation.skeleton.Data.Skins.Count;
-
-		//hien thi cac skin o vi tri tu left den right
-		private int _leftHeadIndex;
-
-		public int LeftHeadIndex
-		{
-			get
-			{
-				return _leftHeadIndex;
-			}
-			private set
-			{
-				_leftHeadIndex = value;
-				if (value >= 1)
-				{
-					priviousHead.SetActive(true);
-				}
-				else
-				{
-					priviousHead.SetActive(false);
-				}
-				if(isSetHeadIndex == false)
-					UpdateListHeadCharacter(CurrentItemTypeHandle);
-				else isSetHeadIndex = false;
-			}
-			
-		}
-
 		
-
-		private int _rightHeadIndex;
-		public int RightHeadIndex
-		{
-			get => _rightHeadIndex;
-			private set
-			{
-				
-				_rightHeadIndex = value;
-				if(_rightHeadIndex >= MaxHeadSkinAmount)
-				{
-					nextHead.SetActive(false);
-				}
-				else
-				{
-					nextHead.SetActive(true);
-				}
-				UpdateListHeadCharacter(CurrentItemTypeHandle);
-			}
-		}
-		private int _leftBodyIndex;
-		public int LeftBodyIndex
-		{
-			get
-			{
-				return _leftBodyIndex;
-			}
-			private set
-			{
-				_leftBodyIndex = value;
-				if (value >= 1)
-				{
-					priviousBody.SetActive(true);
-				}
-				else
-				{
-					priviousBody.SetActive(false);
-				}
-				if (isSetBodyIndex == false)
-					UpdateListBodyCharacter(CurrentItemTypeHandle);
-				else isSetBodyIndex = false;
-			}
-
-		}
-		private int _rightBodyIndex;
-		public int RightBodyIndex
-		{
-			get => _rightBodyIndex;
-			private set
-			{
-
-				_rightBodyIndex = value;
-				if (_rightBodyIndex >= MaxBodySkinAmount)
-				{
-					nextBody.SetActive(false);
-				}
-				else
-				{
-					nextBody.SetActive(true);
-				}
-				UpdateListBodyCharacter(CurrentItemTypeHandle);
-			}
-		}
-
 		private int currentHeadIndex;
 		private int currentBodyIndex;
 
 		public int CurrentHeadIndex => currentHeadIndex;
 		public int CurrentBodyIndex => currentBodyIndex;
-		private bool isSetHeadIndex = true;
-		private bool isSetBodyIndex = true;
+	
 		public void SetCurentHeadBodyIndex(int headIndex, int bodyIndex)
 		{
 			currentBodyIndex = bodyIndex;
 			currentHeadIndex = headIndex;
-			if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
-			{
-				cartModel.SetActive(false);
-			}
-			else
-			{
-				cartModel.SetActive(true);
-			}
 			UpdateBodyModel();
 			UpdateHeadModel();
 		}
-		public void SetHeadIndex( int skinAmount)
+		public void SetHeadIndex(int skinAmount, SkeletonDataAsset skeletonData, string initialSkinName, Vector3 scale, Vector2 pos)
 		{
-			foreach (var item in headCharacter)
+			if (headCharacter == null) headCharacter = new();
+			else headCharacter.Clear();
+
+			var skeletonSkin = characterSkinUI.Spine.GetComponent<SkeletonGraphic>();
+			skeletonSkin.skeletonDataAsset = skeletonData;
+			skeletonSkin.initialSkinName = initialSkinName + 1;
+			skeletonSkin.Initialize(true);
+
+			for (int i = 0; i < skinAmount; i++)
 			{
-				item.gameObject.SetActive(false);
+				
+				var item = Instantiate(characterSkinUI, headContent.transform);
+				headCharacter.Add(item);
+				item.SetItemInfo(i);
+				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
+				item.Spine.Skeleton.SetSlotsToSetupPose();
+				item.Spine.transform.localScale = scale;
+				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
+				item.OnItemClicked += SetCurHeadIndex;
+
 			}
-			LeftHeadIndex = 0;
-			MaxHeadSkinAmount = skinAmount;
-			RightHeadIndex = Math.Min(4, skinAmount);
-		}
-		public void SetBodyIndex(int skinAmount)
-		{
-			foreach (var item in bodyCharacter)
-			{
-				item.gameObject.SetActive(false);
-			}
-			LeftBodyIndex = 0;
-			MaxBodySkinAmount = skinAmount;
-			RightBodyIndex = Math.Min(4, skinAmount);
-			
 
 		}
-		private void UpdateListHeadCharacter(InventoryItemType type)
+		public void SetBodyIndex(int skinAmount, SkeletonDataAsset skeletonData, string initialSkinName, Vector3 scale, Vector2 pos)
 		{
-			for (int i = 0; i < Math.Min(RightHeadIndex, 4); i++)
+			if (bodyCharacter == null) bodyCharacter = new();
+			else bodyCharacter.Clear();
+
+			var skeletonSkin = characterSkinUI.Spine.GetComponent<SkeletonGraphic>();
+			skeletonSkin.skeletonDataAsset = skeletonData;
+			skeletonSkin.initialSkinName = initialSkinName + 1;
+			skeletonSkin.Initialize(true);
+
+			for (int i = 0; i < skinAmount; i++)
 			{
-				headCharacter[i].gameObject.SetActive(true);
-				headCharacter[i].Unselect();
-				headCharacter[i].SetItemInfo(LeftHeadIndex + i, type, true);
-				headCharacter[i].OnItemClicked += SetCurHeadIndex;
-				
+				var item = Instantiate(characterSkinUI, bodyContent.transform);
+				bodyCharacter.Add(item);
+				item.SetItemInfo(i);
+				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
+				item.Spine.Skeleton.SetSlotsToSetupPose();
+				item.Spine.transform.localScale = scale;
+				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
+				item.OnItemClicked += SetCurBodyIndex;
 			}
+
 		}
-		private void UpdateListBodyCharacter(InventoryItemType type)
-		{
-			for (int i = 0; i < Math.Min(RightBodyIndex, 4); i++)
-			{
-				bodyCharacter[i].gameObject.SetActive(true);
-				bodyCharacter[i].Unselect();
-				bodyCharacter[i].SetItemInfo(LeftBodyIndex + i, type, false);
-				bodyCharacter[i].OnItemClicked += SetCurBodyIndex;
-			}
-		}
+	
 
 		private void SetCurBodyIndex(int index)
 		{
@@ -260,77 +203,43 @@ namespace UI.Inventory
 
 		private void UpdateHeadModel()
 		{
-			foreach (var item in headModel)
+			if(CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
-				if(item.Type == CurrentItemTypeHandle)
-				{
-					item.gameObject.SetActive(true);
-					if(item.TryGetComponent<SkeletonGraphic>(out var skeletonGraphic))
-					{
-						
-						if(CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
-						{
-							foreach (var tailItem in tailModel)
-							{
-								tailItem.gameObject.SetActive(false);
-							}
-							skeletonGraphic.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
-							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
-						}
-						else
-						{
-							skeletonGraphic.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
-							skeletonGraphic.Skeleton.SetSlotsToSetupPose();
-							foreach (var tailItem in tailModel)
-							{
-								tailItem.gameObject.SetActive(true);
-								if(tailItem.Type == CurrentItemTypeHandle)
-								{
-									var skin = tailItem.GetComponent<SkeletonGraphic>().Skeleton.Data.FindSkin("Tail/Skin_" + (currentHeadIndex + 1));
-									if (skin != null)
-									{
-										tailItem.GetComponent<SkeletonGraphic>().Skeleton.SetSkin(skin);
-										tailItem.GetComponent<SkeletonGraphic>().Skeleton.SetSlotsToSetupPose();
-									}
-									else
-									{
-										tailItem.gameObject.SetActive(false);
-									}
-								}
-								else
-								{
-									tailItem.gameObject.SetActive(false);
-								}
-							}
-							
-						}
-						
-					}
+				var spine =	elevatorHeadModel.GetComponent<SkeletonGraphic>();
+				spine.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
+				spine.Skeleton.SetSlotsToSetupPose();
+			}
+			else
+			{
+				var headSpine = shaftHeadModel.GetComponent<SkeletonGraphic>();
+				var tailSpine = shaftTailModel.GetComponent<SkeletonGraphic>();
 
-				}
-				else
+				headSpine.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
+				headSpine.Skeleton.SetSlotsToSetupPose();
+
+				tailSpine.gameObject.SetActive(true);
+				if(tailSpine.Skeleton.Data.FindSkin("Tail/Skin_"+(currentHeadIndex + 1)) != null)
 				{
-					item.gameObject.SetActive(false);
+					tailSpine.Skeleton.SetSkin("Tail/Skin_" + (currentHeadIndex + 1));
+					tailSpine.Skeleton.SetSlotsToSetupPose();
+					return;
 				}
+				tailSpine.gameObject.SetActive(false);
 			}
 		}
 		private void UpdateBodyModel()
 		{
-			foreach (var item in bodyModel)
+			if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
-				if (item.Type == CurrentItemTypeHandle)
-				{
-					item.gameObject.SetActive(true);
-					if (item.TryGetComponent<SkeletonGraphic>(out var skeletonGraphic))
-					{
-						skeletonGraphic.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
-						skeletonGraphic.Skeleton.SetSlotsToSetupPose();
-					}
-				}
-				else
-				{
-					item.gameObject.SetActive(false);
-				}
+				var spine = elevatorBodyModel.GetComponent<SkeletonGraphic>();
+				spine.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
+				spine.Skeleton.SetSlotsToSetupPose();
+			}
+			else
+			{
+				var headSpine = shaftBodyModel.GetComponent<SkeletonGraphic>();
+				headSpine.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
+				headSpine.Skeleton.SetSlotsToSetupPose();
 			}
 		}
 		public void ConfirmButtonCLick()
@@ -348,30 +257,27 @@ namespace UI.Inventory
 				bodyCharacter[i].OnItemClicked -= SetCurBodyIndex;
 			}
 		}
-		public void HeadSkinNextClick()
+		public void DestroyObject()
 		{
-			LeftHeadIndex++;
-			RightHeadIndex++;
-		}
-		public void HeadSkinPreviousClick()
-		{
-			LeftHeadIndex--;
-			RightHeadIndex--;
-		}
-		public void BodySkinNextClick()
-		{
-			LeftBodyIndex++;
-			RightBodyIndex++;
-		}
-		public void BodySkinPreviousClick()
-		{
-			LeftBodyIndex--;
-			LeftBodyIndex--;
+			if(headCharacter != null)
+			{
+				foreach (var item in headCharacter)
+				{
+					Destroy(item.gameObject);
+				}
+			}
+			
+			if(bodyCharacter != null)
+			{
+				foreach (var item in bodyCharacter)
+				{
+					Destroy(item.gameObject);
+				}
+			}
 		}
 		public void CloseUI()
 		{
-			isSetHeadIndex = true;
-			isSetBodyIndex = true;
+		
 			inventoryPanel.SetActive(true);	
 			gameObject.SetActive(false);
 		}

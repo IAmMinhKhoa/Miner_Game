@@ -15,8 +15,7 @@ namespace UI.Inventory.PopupOtherItem
     {
 		[SerializeField] Image boder;
 		[SerializeField] TextMeshProUGUI itemName;
-		public SkeletonGraphic elevator;
-		public SkeletonGraphic cart;
+		public SkeletonGraphic spine;
 		public event Action<Item> ItemClicked;
 		public void Selected()
 		{
@@ -33,29 +32,6 @@ namespace UI.Inventory.PopupOtherItem
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			ItemClicked?.Invoke(this);
-		}
-		public void ShowElevator(int index)
-		{
-			elevator.gameObject.SetActive(true);
-			cart.gameObject.SetActive(false);
-			var skin = elevator.Skeleton.Data.Skins.Items[index];
-			elevator.Skeleton.SetSkin(skin);
-			elevator.Skeleton.SetSlotsToSetupPose();
-		}
-		public void ShowCart(int index)
-		{
-			elevator.gameObject.SetActive(false);
-			cart.gameObject.SetActive(true);
-			
-			var skin = cart.Skeleton.Data.Skins.Items[index];
-			cart.Skeleton.SetSkin(skin);
-			cart.Skeleton.SetSlotsToSetupPose();
-		}
-		public void ShowNothing()
-		{
-			elevator.gameObject.SetActive(false);
-			cart.gameObject.SetActive(false);
-
 		}
 	}
 }

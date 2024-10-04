@@ -9,6 +9,7 @@ using System;
 using Sirenix.OdinInspector;
 using NOOD.SerializableDictionary;
 using System.Linq;
+using Spine;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -277,12 +278,10 @@ public class ShaftUI : MonoBehaviour
 			foreach (var item in shaft.Brewers)
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
-				var skin = skeleton.Data.Skins.Items[cartIndex];
-				if (skin != null)
-				{
-					skeleton.SetSkin(skin);
-					skeleton.SetSlotsToSetupPose();
-				}
+
+				skeleton.SetSkin("Xe day " + (cartIndex + 1));
+				skeleton.SetSlotsToSetupPose();
+
 				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
 				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 

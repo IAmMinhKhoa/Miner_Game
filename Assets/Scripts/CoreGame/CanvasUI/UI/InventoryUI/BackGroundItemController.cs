@@ -48,6 +48,22 @@ namespace UI.Inventory
 				var _item = Instantiate(item, Vector3.zero, Quaternion.identity);
 				_item.transform.SetParent(content.transform, false);
 				items.Add(_item);
+				_item.OnBackGroundItemClick += ItemSelected;
+			}
+			ItemSelected(-1);
+		}
+		private void ItemSelected(int index)
+		{
+			for (int i = 0; i < items.Count; i++)
+			{
+				if(i == index)
+				{
+					items[i].Selected();
+				}
+				else
+				{
+					items[i].UnSelected();
+				}
 			}
 		}
 		public void ConfirmButtonClick()

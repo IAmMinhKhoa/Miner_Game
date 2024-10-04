@@ -100,6 +100,7 @@ public class Shaft : MonoBehaviour
 
     public void CreateBrewer()
     {
+		
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
         float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);
         Vector3 spawnPosition = m_brewerLocation.position;
@@ -109,7 +110,7 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
-		if(_brewers.Count > 1)
+		if (_brewers.Count > 1)
 		{
 			UpdateUI();
 		}

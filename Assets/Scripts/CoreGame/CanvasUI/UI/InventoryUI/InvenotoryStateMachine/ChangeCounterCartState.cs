@@ -5,51 +5,71 @@ using StateMachine;
 using UI.Inventory;
 using UI.Inventory.PopupOtherItem;
 using Spine.Unity;
+using System.Linq;
 public class ChangeCounterCartState : BaseState<InventoryItemType> 
 {
 	readonly PopupOtherItemController itemController;
-	public ChangeCounterCartState(PopupOtherItemController itemController)
+	readonly List<DataSkinImage> skins = SkinManager.Instance.skinResource.skinWaitTable;
+	Item itemPrefab;
+
+	List<Item> items;
+	public ChangeCounterCartState(PopupOtherItemController itemController, Item itemPrefab)
 	{
 		this.itemController = itemController;
+		this.itemPrefab = itemPrefab;
 	}
 	public override void Do()
 	{
-		
+
 	}
 
 	public override void Enter()
 	{
-		
-		itemController.UnselectAllItem();
-		itemController.UnactiveAll();
-		itemController.title.text = "CHỌN XE ĐẨY Ở QUẦY";
-		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
-		
-		for (int i = 0; i < skinAmount.Count; i++)
+		itemController.title.text = "Đổi Xe Đẩy Ở Quầy";
+		int currentFloor = itemController.FloorIndex;
+		var cartSkeleton = Counter.Instance.Transporters[^1].CartSkeletonAnimation;
+		itemPrefab.spine.initialSkinName = cartSkeleton.Skeleton.Data.Skins.Items[1].Name;
+		itemPrefab.spine.skeletonDataAsset = cartSkeleton.SkeletonDataAsset;
+		itemPrefab.spine.Initialize(true);
+
+		int skinAmount = cartSkeleton.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Xe day ")).Count();
+
+		items = itemController.Init(itemPrefab, skinAmount);
+
+		for (int i = 0; i < skinAmount; i++)
 		{
-			itemController.itemsHandle[i].gameObject.SetActive(true);
-			itemController.itemsHandle[i].ShowCart(i);
-			var skinName = SkinManager.Instance.skinResource.skinCartCounter[i].name;
-			itemController.itemsHandle[i].ChangItemInfo(skinName); 
-			itemController.itemsHandle[i].ItemClicked += ChangeSkin;
+			var _item = items[i].spine;
+			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
+			items[i].ChangItemInfo(skinName);
+			_item.Skeleton.SetSkin("Xe day " + (i + 1));
+			_item.transform.localScale = new Vector3(0.54f, 0.54f, 0.54f);
+			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
+			items[i].ItemClicked += ChangeSkin;
+			_item.Skeleton.SetSlotsToSetupPose();
 		}
+
+
 	}
-	public override void Exit()
-	{
-		var skinAmount = Counter.Instance.Transporters[^1].CartSkeletonAnimation.skeleton.Data.Skins;
-		for (int i = 0; i < skinAmount.Count; i++)
-		{
-			itemController.itemsHandle[i].ItemClicked -= ChangeSkin;
-		}
-	}
+
 	private void ChangeSkin(Item item)
 	{
-		int index = itemController.itemsHandle.IndexOf(item);
-		itemController.UnselectAllItem();
-		itemController.itemsHandle[index].Selected();
+		int index = items.IndexOf(item);
+		foreach (var _item in items)
+		{
+			_item.Unselected();
+		}
+		items[index].Selected();
 		Counter.Instance.counterSkin.idCart = index.ToString();
 		Counter.Instance.UpdateUI();
 		Counter.Instance.OnUpdateCounterInventoryUI?.Invoke();
 	}
-	
+	public override void Exit()
+	{
+		if (items == null) return;
+		foreach (var item in items)
+		{
+			if (item != null)
+				itemController.DestroyItem(item.gameObject);
+		}
+	}
 }

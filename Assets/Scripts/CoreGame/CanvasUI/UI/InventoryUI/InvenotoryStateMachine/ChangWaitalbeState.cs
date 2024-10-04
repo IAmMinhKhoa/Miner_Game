@@ -24,17 +24,20 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
-		itemController.UnactiveAll();
 		itemController.title.text = "Đổi Bàn Để Ly Trà Sữa";
 		int currentFloor = itemController.FloorIndex;
-		itemPrefab.cart.skeletonDataAsset = ShaftManager.Instance.Shaft.GetComponent<ShaftUI>().WaitTable.SkeletonDataAsset;
-		itemPrefab.cart.Initialize(true);
-		
-		int skinAmount = itemPrefab.cart.Skeleton.Data.Skins.Count / 2;
+		var cartSkeleton = ShaftManager.Instance.Shaft.GetComponent<ShaftUI>().WaitTable;
+		//set data
+		itemPrefab.spine.initialSkinName = "Icon_1";
+		itemPrefab.spine.skeletonDataAsset = cartSkeleton.SkeletonDataAsset;
+		itemPrefab.spine.Initialize(true);
+
+		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Count / 2;
 		items = itemController.Init(itemPrefab, skinAmount);
 		for (int i = 0; i < skinAmount; i++)
 		{
-			var _item = items[i].cart;
+			var _item = items[i].spine;
+		
 
 			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
 			items[i].ChangItemInfo(skinName);
@@ -61,12 +64,7 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 	}
 
 	public override void Exit()
-	{
-		for (int i = 0; i < skins.Count; i++)
-		{
-			var item = itemController.itemsHandle[i];
-			item.ItemClicked -= ChangeSkin;
-		}
+	{ 
 		if (items == null) return;
 		foreach (var item in items)
 		{

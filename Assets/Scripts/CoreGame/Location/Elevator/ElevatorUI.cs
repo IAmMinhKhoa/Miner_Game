@@ -154,15 +154,12 @@ public class ElevatorUI : MonoBehaviour
 			//cap nhat skin thang may
 			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
 			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
-			var fontSkin = fontSkeleton.Data.Skins.Items[elevatorIndex];
-			var backSkin = backSkeleton.Data.Skins.Items[elevatorIndex-1];
-			if (fontSkin != null && backSkin != null)
-			{
-				fontSkeleton.SetSkin(fontSkin);
-				backSkeleton.SetSkin(backSkin);
-				fontSkeleton.SetSlotsToSetupPose();
-				backSkeleton.SetSlotsToSetupPose();
-			}
+
+			fontSkeleton.SetSkin("Skin_"+(elevatorIndex+1));
+			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+			fontSkeleton.SetSlotsToSetupPose();
+			backSkeleton.SetSlotsToSetupPose();
+
 			//cap nhat nhan vat thang may
 			int headIndex = int.Parse(data.characterSkin.idHead);
 			int bodyIndex = int.Parse(data.characterSkin.idBody);

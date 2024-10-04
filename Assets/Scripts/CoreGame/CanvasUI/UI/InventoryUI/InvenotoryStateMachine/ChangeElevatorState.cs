@@ -4,18 +4,23 @@ using UnityEngine;
 using StateMachine;
 using Spine.Unity;
 using UI.Inventory.PopupOtherItem;
+using System.Linq;
+using TMPro;
 
 namespace UI.Inventory
 {
 	public class ChangeElevatorState : BaseState<InventoryItemType>
 	{
 		readonly PopupOtherItemController itemController;
-		public ChangeElevatorState(PopupOtherItemController itemController)
+		readonly List<DataSkinImage> skins = SkinManager.Instance.skinResource.skinWaitTable;
+		Item itemPrefab;
+
+		List<Item> items;
+		public ChangeElevatorState(PopupOtherItemController itemController, Item itemPrefab)
 		{
 			this.itemController = itemController;
+			this.itemPrefab = itemPrefab;
 		}
-		
-
 		public override void Do()
 		{
 
@@ -23,41 +28,50 @@ namespace UI.Inventory
 
 		public override void Enter()
 		{
-			itemController.UnselectAllItem();
-			itemController.UnactiveAll();
+		
 			itemController.title.text = "Chọn Skin Thang Máy";
-			if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+
+			itemPrefab.spine.initialSkinName = "Skin_1";
+			//set data
+			itemPrefab.spine.skeletonDataAsset = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>().FontElevator.SkeletonDataAsset;
+			itemPrefab.spine.Initialize(true);
+		
+			int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+			items = itemController.Init(itemPrefab, skinAmount);
+			for (int i = 0; i < skinAmount; i++)
 			{
-				var skins = elevatorControllerView.FontElevator.skeleton.Data.Skins;
-				for (int i = 0;i < skins.Count; i++ ) 
-				{
-					itemController.itemsHandle[i].gameObject.SetActive(true);
-					itemController.itemsHandle[i].ShowElevator(i);
-					var skinName = SkinManager.Instance.skinResource.skinElevator[i].name;
-					itemController.itemsHandle[i].ChangItemInfo(skinName);
-					itemController.itemsHandle[i].ItemClicked += ChangeSkin;
-				}
+				var _item = items[i].spine;
+				_item.allowMultipleCanvasRenderers = true;
+				_item.transform.localScale = new Vector3(0.09f, 0.09f, 0.09f);
+				_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
+				var skinName = SkinManager.Instance.skinResource.skinBgElevator[i].name;
+				items[i].ChangItemInfo(skinName);
+				_item.Skeleton.SetSkin("Skin_" + (i + 1));
+				items[i].ItemClicked += ChangeSkin;
+				_item.Skeleton.SetSlotsToSetupPose();
+				_item.UpdateMesh();
 			}
 
 		}
 		private void ChangeSkin(Item item)
 		{
-			int index = itemController.itemsHandle.IndexOf(item);
-			itemController.UnselectAllItem();
-			itemController.itemsHandle[index].Selected();
+			int index = items.IndexOf(item);
+			foreach (var _item in items)
+			{
+				_item.Unselected();
+			}
+			items[index].Selected();
 			ElevatorSystem.Instance.elevatorSkin.idFrontElevator = index.ToString();
 			ElevatorSystem.Instance.UpdateUI();
 			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI?.Invoke();
 		}
 		public override void Exit()
 		{
-			if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+			if (items == null) return;
+			foreach (var item in items)
 			{
-				var skins = elevatorControllerView.FontElevator.skeleton.Data.Skins;
-				for (int i = 0; i < skins.Count; i++)
-				{
-					itemController.itemsHandle[i].ItemClicked -= ChangeSkin;
-				}
+				if (item != null)
+					itemController.DestroyItem(item.gameObject);
 			}
 		}
 	}
