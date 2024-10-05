@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
+
 using UnityEngine.UIElements;
 
 namespace UI.Inventory
