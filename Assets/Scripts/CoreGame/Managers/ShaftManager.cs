@@ -48,8 +48,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
 
 		Shafts.Add(newShaft);
-		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);	
-		
+		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
+
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
 		newY += roofOffset;
@@ -68,7 +68,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 			ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
 			shaftUpgrade.SetInitialValue(0, initCost, 1);
-			Debug.Log("khoa:" + Shafts.Count+firstShaft);
+			Debug.Log("khoa:" + Shafts.Count + firstShaft);
 			firstShaft.shaftSkin = new ShaftSkin(Shafts.Count);
 
 			firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
@@ -77,7 +77,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			_roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
 			OnShaftUpdated?.Invoke();
 		}
-		
+
 		isDone = true;
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
 	}
@@ -106,7 +106,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		{
 			0 => 1,
 			1 => 50,
-			_ => Mathf.Pow(10, shaftCount - 1) * 50,
+			_ => Mathf.Pow(17, shaftCount - 1) * 50,
 		};
 		return scale;
 	}
