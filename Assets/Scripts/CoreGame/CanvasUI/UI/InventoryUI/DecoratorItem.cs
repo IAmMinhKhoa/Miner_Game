@@ -28,7 +28,7 @@ namespace UI.Inventory
 			}
 			
 		}
-		public int Index { set; get;} = -1;
+		public int Index { private set; get;} = -1;
 		public override void OnPointerClick(PointerEventData eventData)
 		{
 			OnItemClick?.Invoke(type, Index);
@@ -43,6 +43,10 @@ namespace UI.Inventory
 		
 			spine.Skeleton.SetSkin(skinName);
 			spine.Skeleton.SetSlotsToSetupPose();
+		}
+		public void SetIndex(int index)
+		{
+			Index = index;
 		}
 	}
 }

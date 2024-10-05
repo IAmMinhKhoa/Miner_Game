@@ -9,6 +9,7 @@ using System;
 using Sirenix.OdinInspector;
 using NOOD.SerializableDictionary;
 using System.Linq;
+using Spine;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -219,13 +220,13 @@ public class ShaftUI : MonoBehaviour
         if (PawManager.Instance.CurrentPaw >= ShaftManager.Instance.CurrentCost)
         {
             PawManager.Instance.RemovePaw(ShaftManager.Instance.CurrentCost);
-            ShaftManager.Instance.AddShaft();
-            m_buyNewShaftButton.gameObject.SetActive(false);
+			StartCoroutine(ShaftManager.Instance.AddShaftAfterCooldown());  // Start cooldown coroutine
+			m_buyNewShaftButton.gameObject.SetActive(false);
             PawManager.Instance.OnPawChanged?.Invoke(PawManager.Instance.CurrentPaw);
         }
     }
 
-    public async void PlayCollectAnimation(bool isBrewing)
+	public async void PlayCollectAnimation(bool isBrewing)
     {
         if (isBrewing == false)
 		{
@@ -277,12 +278,10 @@ public class ShaftUI : MonoBehaviour
 			foreach (var item in shaft.Brewers)
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
-				var skin = skeleton.Data.Skins.Items[cartIndex];
-				if (skin != null)
-				{
-					skeleton.SetSkin(skin);
-					skeleton.SetSlotsToSetupPose();
-				}
+
+				skeleton.SetSkin("Skin_" + (cartIndex + 1));
+				skeleton.SetSlotsToSetupPose();
+
 				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
 				var bodySkeleton = item.BodySkeletonAnimation.skeleton;
 

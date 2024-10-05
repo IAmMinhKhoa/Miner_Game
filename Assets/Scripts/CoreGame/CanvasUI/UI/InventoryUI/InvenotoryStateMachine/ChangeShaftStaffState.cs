@@ -4,6 +4,7 @@ using UnityEngine;
 using StateMachine;
 using System;
 using System.Linq;
+using Spine.Unity;
 
 namespace UI.Inventory
 {
@@ -28,9 +29,12 @@ namespace UI.Inventory
 			int curFloor = staffSkinUI.CurrentFloor;
 			int headSkinAmount = shaft.Shafts[curFloor].Brewers[0].HeadSkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
 			int bodySkinAmount = shaft.Shafts[curFloor].Brewers[0].BodySkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
+			SkeletonDataAsset headDataAsset = shaft.Shafts[curFloor].Brewers[0].HeadSkeletonAnimation.skeletonDataAsset;
+			SkeletonDataAsset bodyDataAsset = shaft.Shafts[curFloor].Brewers[0].BodySkeletonAnimation.skeletonDataAsset;
 			staffSkinUI.CurrentItemTypeHandle = InventoryItemType.ShaftCharacter;
-			staffSkinUI.SetHeadIndex(headSkinAmount);
-			staffSkinUI.SetBodyIndex(bodySkinAmount);
+			staffSkinUI.SetHeadIndex(headSkinAmount, headDataAsset, "Head/Skin_", new(0.4f, 0.4f, 0.4f), new(0, -113));
+			staffSkinUI.SetBodyIndex(headSkinAmount, bodyDataAsset, "Body/Skin_", new(0.4f, 0.4f, 0.4f), new(3, -45));
+
 
 			int curHeadIndex = int.Parse(shaft.Shafts[curFloor].shaftSkin.characterSkin.idHead);
 			int curbodyIndex = int.Parse(shaft.Shafts[curFloor].shaftSkin.characterSkin.idBody);
@@ -62,6 +66,7 @@ namespace UI.Inventory
 
 		public override void Exit()
 		{
+			staffSkinUI.DestroyObject();
 			staffSkinUI.OnConfirmButtonClick -= ChangeSkin;
 			staffSkinUI.SelectFloorHandle.OnChangeFloorSeleted -= HandleChangListSkin;
 		}

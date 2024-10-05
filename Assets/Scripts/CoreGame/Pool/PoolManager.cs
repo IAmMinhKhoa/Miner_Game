@@ -25,9 +25,10 @@ public class PoolManager : Patterns.Singleton<PoolManager>
     }
     public  void Create(BYPool pool)
     {
-        for(int i=0; i<pool.total;i++)
+		GameObject parentObject = new GameObject(pool.preFab.name + "_Parent");
+		for (int i=0; i<pool.total;i++)
         {
-            Transform trans = Instantiate(pool.preFab);
+            Transform trans = Instantiate(pool.preFab, parentObject.transform);
             pool.elements.Add(trans);
             trans.gameObject.SetActive(false);
         }

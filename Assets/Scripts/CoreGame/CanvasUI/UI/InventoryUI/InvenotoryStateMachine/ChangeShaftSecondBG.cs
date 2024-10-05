@@ -43,7 +43,8 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 			_item.OnBackGroundItemClick += HandleItemClick;
 			var itemInfo = SkinManager.Instance.skinResource.skinBgShaft[i];
 			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
-			ChangeSkin(_item.bg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
+			_item.bg.gameObject.SetActive(false);
+			//ChangeSkin(_item.bg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
 			ChangeSkin(_item.secondBg, "Click_" + (i + 1));
 		}
 		//Cap nhat top skinList
@@ -52,9 +53,13 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 		SkeletonDataAsset skSecondBGData = Ui.SecondBG.skeletonDataAsset;
 
 		var imgSelectedBg = bgList.imgSelectedBg;
-		imgSelectedBg.skeletonDataAsset = skBgData;
-		imgSelectedBg.Initialize(true);
-		ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
+	
+		imgSelectedBg.gameObject.SetActive(false);
+		
+
+		//imgSelectedBg.skeletonDataAsset = skBgData;
+		//imgSelectedBg.Initialize(true);
+		//ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
 
 		var secondBg = bgList.imgSelectedSecondBg;
 		secondBg.skeletonDataAsset = skSecondBGData;

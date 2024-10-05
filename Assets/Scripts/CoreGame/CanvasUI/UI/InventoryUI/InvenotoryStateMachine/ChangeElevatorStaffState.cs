@@ -4,6 +4,8 @@ using UnityEngine;
 using StateMachine;
 using System;
 using System.Linq;
+using Spine.Unity;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 namespace UI.Inventory
 {
 	public class ChangeElevatorStaffState : BaseState<InventoryItemType>
@@ -27,11 +29,16 @@ namespace UI.Inventory
 			{
 				int headSkinAmount = controller.ElevatorHeadStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
 				int bodySkinAmount = controller.ElevatorBodyStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
+
+				SkeletonDataAsset headDataAsset = controller.ElevatorHeadStaff.skeletonDataAsset;
+				SkeletonDataAsset bodyDataAsset = controller.ElevatorBodyStaff.skeletonDataAsset;
+
 				staffSkinUI.CurrentItemTypeHandle = InventoryItemType.ElevatorCharacter;
-				staffSkinUI.SetHeadIndex(headSkinAmount);
-				staffSkinUI.SetBodyIndex(bodySkinAmount);
+				staffSkinUI.SetHeadIndex(headSkinAmount, headDataAsset, "Head/Skin_", new(0.2f, 0.2f, 0.2f), new(0, -84));
+				staffSkinUI.SetBodyIndex(headSkinAmount, bodyDataAsset, "Body/Skin_", new(0.2f, 0.2f, 0.2f), new(0, -42));
 				int curHeadIndex = int.Parse(elevator.elevatorSkin.characterSkin.idHead);
 				int curbodyIndex = int.Parse(elevator.elevatorSkin.characterSkin.idBody);
+				
 				staffSkinUI.SetCurentHeadBodyIndex(curHeadIndex, curbodyIndex);
 				staffSkinUI.OnConfirmButtonClick += ChangeSkin;
 			}
@@ -46,6 +53,7 @@ namespace UI.Inventory
 
 		public override void Exit()
 		{
+			staffSkinUI.DestroyObject();
 			staffSkinUI.OnConfirmButtonClick -= ChangeSkin;
 		}
 	}

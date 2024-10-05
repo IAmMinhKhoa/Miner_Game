@@ -43,6 +43,7 @@ public class ChangeShaftBG : BaseState<InventoryItemType>
 			_item.OnBackGroundItemClick += HandleItemClick;
 			var itemInfo = SkinManager.Instance.skinResource.skinBgShaft[i];
 			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			_item.bg.gameObject.SetActive(true);
 			ChangeSkin(_item.bg, "Click_" + (i + 1));
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(skinData.idSecondBg) + 1));
 		}
@@ -52,6 +53,10 @@ public class ChangeShaftBG : BaseState<InventoryItemType>
 		SkeletonDataAsset skSecondBGData = Ui.SecondBG.skeletonDataAsset;
 
 		var imgSelectedBg = bgList.imgSelectedBg;
+		if (!imgSelectedBg.gameObject.activeInHierarchy)
+		{
+			imgSelectedBg.gameObject.SetActive(true);
+		}
 		imgSelectedBg.skeletonDataAsset = skBgData;
 		imgSelectedBg.Initialize(true);
 		ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
