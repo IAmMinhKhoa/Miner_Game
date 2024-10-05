@@ -7,8 +7,10 @@ namespace Patterns
   public abstract class Singleton<T> : MonoBehaviour where T : Component
   {
     private static T s_instance;
+	// Flag to control whether to persist across scenes or not
+	protected bool isPersistent = true;
 
-    public static T Instance
+	public static T Instance
     {
       get
       {
@@ -32,8 +34,11 @@ namespace Patterns
       if(s_instance == null)
       {
         s_instance = this as T;
-        DontDestroyOnLoad(gameObject);
-      }
+		if (isPersistent)
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+	}
       else
       {
         Destroy(gameObject);

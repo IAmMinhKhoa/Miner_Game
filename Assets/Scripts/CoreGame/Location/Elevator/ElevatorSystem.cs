@@ -113,7 +113,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             Debug.Log("Faild to update background sprite");
         }
     }
-    void Start()
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+	}
+	void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }

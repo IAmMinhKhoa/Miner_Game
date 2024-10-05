@@ -21,6 +21,11 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 	private List<Transporter> _transporters;
 
 	#region ----Unity Methods----
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+	}
 	private void Start()
 	{
 		m_upgradePanelTrans = Instantiate(_upgradePanelPref, GameUI.Instance.transform);
