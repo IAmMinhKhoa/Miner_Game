@@ -76,7 +76,7 @@ public class ElevatorControllerView : MonoBehaviour
 			_frontElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 			_backElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 		}
-		_elevatorStaff.AnimationState.SetAnimation(0, "Idle_Corgi", true);
+		_elevatorStaff.AnimationState.SetAnimation(0, "Animation_1", true);
 	}
 
 	private async void OpenRefrigerator(bool isOpen)
