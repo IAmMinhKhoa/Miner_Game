@@ -279,7 +279,7 @@ public class ShaftUI : MonoBehaviour
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
 
-				skeleton.SetSkin("Xe day " + (cartIndex + 1));
+				skeleton.SetSkin("Skin_" + (cartIndex + 1));
 				skeleton.SetSlotsToSetupPose();
 
 				var headSkeleton = item.HeadSkeletonAnimation.skeleton;

@@ -160,7 +160,7 @@ public class CounterUI : MonoBehaviour
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
 
-				skeleton.SetSkin("Xe day " + (cartIndex + 1));
+				skeleton.SetSkin("Skin_" + (cartIndex + 1));
 				skeleton.SetSlotsToSetupPose();
 
 
