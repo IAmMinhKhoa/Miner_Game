@@ -21,10 +21,11 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			LoadRewardedAd();
 		});
 	}
+	//change key ios angrybird
 #if UNITY_ANDROID
 	private string _adBannerUnitId = "ca-app-pub-3940256099942544/6300978111";
 #elif UNITY_IPHONE
-      private string _adBannerUnitId = "ca-app-pub-3940256099942544/2934735716";
+      private string _adBannerUnitId = "ca-app-pub-9956601153789908/2460136321";
 #else
         private string _adBannerUnitId = "unused";
 #endif
@@ -36,7 +37,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #if UNITY_ANDROID
 	private string _adInterstitialUnitId = "ca-app-pub-3940256099942544/1033173712";
 #elif UNITY_IPHONE
-          private string _adInterstitialUnitId = "ca-app-pub-3940256099942544/4411468910";
+          private string _adInterstitialUnitId = "ca-app-pub-9956601153789908/4059600945";
 #else
           private string _adInterstitialUnitId = "unused";
 #endif
@@ -46,7 +47,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #if UNITY_ANDROID
 	private string _adRewardedUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IPHONE
-      private string _adRewardedUnitId = "ca-app-pub-3940256099942544/1712485313";
+      private string _adRewardedUnitId = "ca-app-pub-9956601153789908/2126776015";
 #else
       private string _adRewardedUnitId = "unused";
 #endif
