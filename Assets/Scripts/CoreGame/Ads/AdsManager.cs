@@ -32,9 +32,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		//request.TestDeviceIds.Add("4E03DC2B53D57237BC3ACF0AEFB9BB32");
 		//MobileAds.SetRequestConfiguration(request);
 		LoadBannerAd();
-		RegisterBannerAdEventHandler(_BannerView);
 		LoadRewardedAd();
-		RegisterRewardedAdEventHandler(_RewardedAd);
 	}
 
 	#region RewardedAd
@@ -51,6 +49,11 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			//Debug.Log("Rewarded Ad: Empty Ad Unit Id");
 			return;
 		}
+		if (_RewardedAd is not null)
+		{
+			_RewardedAd.Destroy();
+			_RewardedAd = null;
+		}
 		AdRequest adRequest = new AdRequest();
 		RewardedAd.Load(adUnitId, adRequest,
 			(RewardedAd ad, LoadAdError error) =>
@@ -61,6 +64,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 					return;
 				}
 				_RewardedAd = ad;
+				RegisterRewardedAdEventHandler(_RewardedAd);
 			}
 		);
 	}
@@ -80,7 +84,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		};
 		rewardedAd.OnAdFullScreenContentFailed += (AdError adError) =>
 		{
-			//Debug.Log($"Rewared ad failed to open with error: {adError}");
+			Debug.LogWarning($"Rewared ad failed to open with error: {adError}");
 		};
 		rewardedAd.OnAdFullScreenContentOpened += () =>
 		{
@@ -88,11 +92,9 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		};
 		rewardedAd.OnAdFullScreenContentClosed += () =>
 		{
-			//Debug.Log("Reward ad closed");
-			_RewardedAd.Destroy();
-			LoadRewardedAd();
-			RegisterRewardedAdEventHandler(_RewardedAd);
+			Debug.LogWarning("Rewarded ad closed");
 			PawManager.Instance.AddPaw(1000000000);
+			LoadRewardedAd();
 		};
 	}
 	public void ShowRewardedAd()
@@ -107,7 +109,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 	}
 	#endregion
 	#region BannerAd
-	private void CreateBannerView()
+	public void LoadBannerAd()
 	{
 		string adUnitId = string.Empty;
 #if UNITY_ANDROID
@@ -117,7 +119,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #endif
 		if (adUnitId == string.Empty)
 		{
-			//Debug.Log("Banner Ad: Empty Ad Unit Id");
+			//Debug.LogWarning("Banner Ad: Empty Ad Unit Id");
 			return;
 		}
 		if (_BannerView is not null)
@@ -126,26 +128,12 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			_BannerView = null;
 		}
 		_BannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
-	}
-	public void LoadBannerAd()
-	{
-		if (_BannerView is null)
-		{
-			CreateBannerView();
-		}
+		RegisterBannerAdEventHandler(_BannerView);
 		AdRequest adRequest = new AdRequest();
 		_BannerView.LoadAd(adRequest);
 	}
 	private void RegisterBannerAdEventHandler(BannerView bannerView)
 	{
-		bannerView.OnBannerAdLoaded += () =>
-		{
-			
-		};
-		bannerView.OnBannerAdLoadFailed += (LoadAdError error) =>
-		{
-			//Debug.LogError($"Banner view failed to load an ad with error : {error}");
-		};
 		bannerView.OnAdPaid += (AdValue adValue) =>
 		{
 
@@ -158,6 +146,14 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		{
 
 		};
+		bannerView.OnBannerAdLoaded += () =>
+		{
+			
+		};
+		bannerView.OnBannerAdLoadFailed += (LoadAdError error) =>
+		{
+			Debug.LogWarning($"Banner view failed to load an ad with error : {error}");
+		};
 		bannerView.OnAdFullScreenContentOpened += () =>
 		{
 
@@ -165,7 +161,6 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		bannerView.OnAdFullScreenContentClosed += () =>
 		{
 			LoadBannerAd();
-			RegisterBannerAdEventHandler(_BannerView);
 		};
 	}
 	
