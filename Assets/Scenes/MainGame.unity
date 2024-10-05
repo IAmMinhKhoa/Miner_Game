@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -387,7 +387,6 @@ GameObject:
   m_Component:
   - component: {fileID: 449297000}
   - component: {fileID: 449296999}
-  - component: {fileID: 449297001}
   m_Layer: 0
   m_Name: ShaftManager
   m_TagString: Untagged
@@ -436,18 +435,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &449297001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449296998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42f5ba66dcdc7114ba37bbdcfe9512d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &492813639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,6 +1612,7 @@ GameObject:
   - component: {fileID: 1395491205}
   - component: {fileID: 1395491206}
   - component: {fileID: 1395491207}
+  - component: {fileID: 1395491208}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1701,7 +1689,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa4b153568948e45aee2cbd22d67a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RewardedAdUnitId: ca-app-pub-9956601153789908/2460136321
+--- !u!114 &1395491208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395491202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f5ba66dcdc7114ba37bbdcfe9512d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1401276422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3182781576674397319, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}

@@ -66,6 +66,12 @@ public class Counter : Patterns.Singleton<Counter>
 			_counterSkin = value;
 		}
 	}
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+		
+	}
 	public void UpdateUI()
 	{
 		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
