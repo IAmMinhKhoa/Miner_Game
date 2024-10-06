@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using PlayFabManager.Data;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -51,7 +52,7 @@ public class FruitGameManager : MonoBehaviour
                 isHolding = true;
                 GameObject newFruit = Instantiate(orderList[0].pref, new Vector3(-2, 572364, 04291531), Quaternion.identity, fruitsParent);
                 newFruit.tag = "holdingfruit";
-				userinp.limit = CalcClawLimit(newFruit);
+				Debug.Log(newFruit.ToString());
                 orderList.RemoveAt(0);
             }
         }
@@ -136,17 +137,13 @@ public class FruitGameManager : MonoBehaviour
 	public float CalcClawLimit(GameObject fruit)
 	{
 		Renderer rd = fruit.GetComponent<Renderer>();
-		if (rd != null)
-		{
-			float width = rd.bounds.size.x;
-			return width / 2;
-		}
-
-		return 0;
+		if (rd == null) return 0;
+		float width = (rd.bounds.size.x)/2;
+		return width;
 	}
 
 	public void OnClickBack()
 	{
-		SceneManager.LoadSceneAsync("MainGame");
+		SceneManager.UnloadScene("DemoMinigame");
 	}
 }

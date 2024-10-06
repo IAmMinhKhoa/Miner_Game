@@ -71,7 +71,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenMinigame()
 	{
-		SceneManager.LoadSceneAsync("DemoMinigame");
+		SceneManager.LoadScene("DemoMinigame", LoadSceneMode.Additive);
 	}
 	#endregion
 
