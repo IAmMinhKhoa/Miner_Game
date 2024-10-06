@@ -55,7 +55,6 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenStore()
 	{
-		
 	}
 	public void OpenSound()
 	{
@@ -67,6 +66,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenBank()
 	{
+		modal_bankUI.SetActive(true);
 		modal_bankUI.GetComponent<BankUI>().FadeInContainer();
 	}
 	public void OpenMinigame()
