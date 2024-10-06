@@ -78,7 +78,10 @@ namespace UI.Inventory
 				HandleElevatorIUI();
 				HandleCounterIUI();
 			}
+	
+			
 		}
+
 		private void OnDisable()
 		{
 			ShaftManager.Instance.OnUpdateShaftInventoryUI -= HanleUpdateShaftIUI;
@@ -169,7 +172,7 @@ namespace UI.Inventory
 				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
 				listShaftStaffSkin[i].SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
 			}
-			contentRefreshTabNV.RefreshContentFitters();
+	
 		}
 
 		private void HanleUpdateShaftIUI(int index)
@@ -233,7 +236,9 @@ namespace UI.Inventory
 			else
 			{
 				UnLoadListShaft();
+				
 			}
+			contentRefreshTabNV.RefreshContentFitters();
 
 		}
 		public void LoadListShaft()
