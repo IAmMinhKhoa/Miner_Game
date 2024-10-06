@@ -11,21 +11,12 @@ public class UserInput : MonoBehaviour
     public float limit;
 	private Vector2 touchStartPos;
 
-	private void Start()
-    {
-        
-    }
+
 
     private void Update()
     {
         if (manager.isHolding)
         {
-            Renderer rd = GameObject.FindWithTag("holdingfruit").GetComponent<Renderer>();
-            if (rd != null)
-            {
-                float width = rd.bounds.size.x;
-                limit = width / 2;
-            }
 			if (claw.transform.position.x <= (lpoint.transform.position.x + limit))
 			{
 				claw.transform.position = new Vector3(lpoint.transform.position.x + limit, claw.transform.position.y, claw.transform.position.z);
