@@ -26,6 +26,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 
 	protected override void Awake()
 	{
+		isPersistent = false;
 		base.Awake();
 		_camera = this.GetComponentInChildren<Camera>();
 	}

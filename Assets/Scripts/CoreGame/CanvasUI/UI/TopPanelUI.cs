@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TopPanelUI : MonoBehaviour
@@ -13,13 +11,13 @@ public class TopPanelUI : MonoBehaviour
 
 	private void Awake()
 	{
-		_btnAddCoin.onClickEvent.AddListener(_bankUI.Show);
-		_btnAddHeart.onClickEvent.AddListener(_bankUI.Show);
+		_btnAddCoin.onClickEvent.AddListener(_bankUI.FadeInContainer);
+		_btnAddHeart.onClickEvent.AddListener(_bankUI.FadeInContainer);
 	}
 
 	void OnDestroy()
 	{
-		_btnAddCoin.onClickEvent.RemoveListener(_bankUI.Show);
-		_btnAddHeart.onClickEvent.RemoveListener(_bankUI.Show);
+		_btnAddCoin.onClickEvent.RemoveListener(_bankUI.FadeInContainer);
+		_btnAddHeart.onClickEvent.RemoveListener(_bankUI.FadeInContainer);
 	}
 }

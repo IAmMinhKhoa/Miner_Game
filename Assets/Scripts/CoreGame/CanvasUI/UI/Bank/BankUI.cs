@@ -1,10 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using DG.Tweening;
 using NOOD.SerializableDictionary;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+[Serializable]
+public class PawnItem
+{
+    public float Amount;
+    public float ScaleFactor;
+}
+
+[Serializable]
+public class MoneyItem
+{
+    public float Amount;
+    public float UsdPrice;
+    public float VndPrice;
+}
 
 public class BankUI : MonoBehaviour
 {
@@ -13,12 +30,20 @@ public class BankUI : MonoBehaviour
     [SerializeField] private List<Button> _closeButtons;
     [SerializeField] private float _fadeSpeed = 0.3f;
     private bool _isShowRequest;
+    [SerializeField] private SerializableDictionary<MoneyButton, MoneyItem> _moneyStoreButton = new SerializableDictionary<MoneyButton, MoneyItem>();
+    [SerializeField] private SerializableDictionary<PawButton, PawnItem> _pawStoreButton = new SerializableDictionary<PawButton, PawnItem>();
+
 
     void Start()
     {
-        _closeButtons.ForEach(x => x.onClick.AddListener(Hide));
+        _closeButtons.ForEach(x => x.onClick.AddListener(FadeOutContainer));
         if (_isShowRequest == false) // Prevent Hide when press shop button
-            Hide();
+            FadeOutContainer();
+    }
+
+    void OnEnable()
+    {
+        UpdateUI();
     }
 
     // !Only call this function if transaction success
@@ -26,7 +51,7 @@ public class BankUI : MonoBehaviour
     {
         SuperMoneyManager.Instance.AddMoney(amount);
     }
-    public void BuyPaw(float amount, float price)
+    public void BuyPaw(double amount, float price)
     {
         if (SuperMoneyManager.Instance.SuperMoney >= price)
         {
@@ -36,44 +61,54 @@ public class BankUI : MonoBehaviour
         else
         {
             // Announce player don't have enough money
+            Debug.Log("Don't have enough money");
         }
     }
 
-    public void Show()
+    private void UpdateUI()
     {
-        _isShowRequest = true;
-        this.gameObject.SetActive(true);
-        FadeInContainer();
-        _canvasGroup.interactable = true;
+        foreach (var pair in _pawStoreButton.Dictionary)
+        {
+            // Update paw button
+            pair.Key.SetData((int)pair.Value.Amount, (int)pair.Value.ScaleFactor, this);
+        }
+        CultureInfo userRegion = CultureInfo.CurrentCulture;
+        foreach (var pair in _moneyStoreButton.Dictionary)
+        {
+            // Update super money button
+            if (userRegion.Name == "vi-VN")
+            {
+                pair.Key.SetData(pair.Value.Amount, pair.Value.VndPrice, userRegion, this);
+            }
+            else
+            {
+                pair.Key.SetData(pair.Value.Amount, pair.Value.UsdPrice, userRegion, this);
+            }
+        }
     }
-    public void Hide()
+
+    #region AnimateUI
+    [Button]
+    public void FadeInContainer()
+    {
+        gameObject.SetActive(true);
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+        gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+        gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        _isShowRequest = true;
+        _canvasGroup.interactable = true;
+
+    }
+    [Button]
+    public void FadeOutContainer()
     {
         _canvasGroup.interactable = false;
-		FadeOutContainer();
+        Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+        gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
+        {
+            gameObject.SetActive(false);
+        });
+
     }
-
-
-	#region AnimateUI
-	[Button]
-	public void FadeInContainer()
-	{
-		gameObject.SetActive(true);
-		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
-		Debug.Log("khoaa:" + posCam);
-		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
-
-
-	}
-	[Button]
-	public void FadeOutContainer()
-	{
-		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
-		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
-		{
-			gameObject.SetActive(false);
-		});
-
-	}
-	#endregion
+    #endregion
 }
