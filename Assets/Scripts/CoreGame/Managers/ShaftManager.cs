@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections;
+using PlayFabManager.Data;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -14,8 +16,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private Shaft shaftPrefab;
 	[SerializeField] private float shaftYOffset = 1.716f;
 	[SerializeField] private float roofOffset = 2f;
+	[SerializeField] private float roofOffsetBuilding = 2f;
 	[SerializeField] private double currentCost = 0;
 	[SerializeField] private GameObject _roof;
+	[SerializeField] private GameObject _roof_Building;
 
 	[Header("Basement")]
 	[SerializeField] public List<Shaft> Shafts = new();
@@ -30,6 +34,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public Shaft Shaft => shaftPrefab;
 	private bool isDone = false;
 	public bool IsDone => isDone;
+	[Header("Building Shaft")]
+	public bool isBuilding=false;
+	public double TimeBuild = 5f;
+	public double TimeCurrentBuild;
 	private void Start()
 	{
 		//InitializeShafts();
@@ -48,8 +56,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
 
 		Shafts.Add(newShaft);
-		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);	
-		
+		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
+
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
 		newY += roofOffset;
@@ -68,7 +76,6 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 			ShaftUpgrade shaftUpgrade = firstShaft.GetComponent<ShaftUpgrade>();
 			shaftUpgrade.SetInitialValue(0, initCost, 1);
-			Debug.Log("khoa:" + Shafts.Count+firstShaft);
 			firstShaft.shaftSkin = new ShaftSkin(Shafts.Count);
 
 			firstShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
@@ -77,8 +84,12 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			_roof.transform.position = new Vector3(_roof.transform.position.x, newY, 0);
 			OnShaftUpdated?.Invoke();
 		}
-		
+
 		isDone = true;
+
+		ValidateTimeOffline();
+		
+
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
 	}
 
@@ -106,7 +117,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		{
 			0 => 1,
 			1 => 50,
-			_ => Mathf.Pow(10, shaftCount - 1) * 50,
+			_ => Mathf.Pow(17, shaftCount - 1) * 50,
 		};
 		return scale;
 	}
@@ -127,6 +138,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		Dictionary<string, object> saveData = new Dictionary<string, object>();
 		saveData.Add("Shafts", Shafts.Count);
 		saveData.Add("CurrentCost", currentCost);
+		saveData.Add("isBuilding", isBuilding);
+		saveData.Add("TimeCurrentBuild", TimeCurrentBuild);
 
 		List<object> shafts = new List<object>();
 		foreach (Shaft shaft in Shafts)
@@ -164,7 +177,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 			int shaftsCount = saveData.Shafts;
 			currentCost = saveData.CurrentCost;
-
+			isBuilding = saveData.IsBuilding;
+			TimeCurrentBuild = saveData.TimeCurrentBuild;
 			foreach (ShaftData shaftData in saveData.ShaftsData)
 			{
 				int index = shaftData.Index;
@@ -207,12 +221,51 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		}
 		return false;
 	}
+	public IEnumerator AddShaftAfterCooldown()
+	{
+		isBuilding = true;
+		TimeCurrentBuild =TimeBuild;
+		_roof_Building.SetActive(true);
+		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y+ roofOffsetBuilding,0);
+		while (TimeCurrentBuild > 0)
+		{
+			TimeCurrentBuild -= Time.deltaTime;
+			yield return null;  // Wait for the next frame
+		}
 
-
+		_roof_Building.SetActive(false);
+		isBuilding = false;
+		AddShaft();  // Call AddShaft after cooldown
+	}
+	private void ValidateTimeOffline()
+	{
+		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+		System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
+		System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
+		double seconds = timeSpan.TotalSeconds;
+		if (isBuilding)
+		{
+			TimeCurrentBuild -= seconds;
+			if (TimeCurrentBuild <= 0)
+			{
+				isBuilding = false;
+				TimeCurrentBuild = 0;
+				AddShaft();
+			}
+			else
+			{
+				StartCoroutine(AddShaftAfterCooldown());
+			}
+		}
+		
+		
+	}
 	public class Data
 	{
 		public int Shafts { get; set; }
 		public double CurrentCost { get; set; }
+		public bool IsBuilding { get; set; }
+		public double TimeCurrentBuild { get; set; }
 		public List<ShaftData> ShaftsData { get; set; }
 	}
 

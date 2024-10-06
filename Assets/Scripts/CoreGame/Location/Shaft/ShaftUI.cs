@@ -220,13 +220,13 @@ public class ShaftUI : MonoBehaviour
         if (PawManager.Instance.CurrentPaw >= ShaftManager.Instance.CurrentCost)
         {
             PawManager.Instance.RemovePaw(ShaftManager.Instance.CurrentCost);
-            ShaftManager.Instance.AddShaft();
-            m_buyNewShaftButton.gameObject.SetActive(false);
+			StartCoroutine(ShaftManager.Instance.AddShaftAfterCooldown());  // Start cooldown coroutine
+			m_buyNewShaftButton.gameObject.SetActive(false);
             PawManager.Instance.OnPawChanged?.Invoke(PawManager.Instance.CurrentPaw);
         }
     }
 
-    public async void PlayCollectAnimation(bool isBrewing)
+	public async void PlayCollectAnimation(bool isBrewing)
     {
         if (isBrewing == false)
 		{
@@ -279,7 +279,7 @@ public class ShaftUI : MonoBehaviour
 			{
 				var skeleton = item.CartSkeletonAnimation.skeleton;
 
-				skeleton.SetSkin("Xe day " + (cartIndex + 1));
+				skeleton.SetSkin("Skin_" + (cartIndex + 1));
 				skeleton.SetSlotsToSetupPose();
 
 				var headSkeleton = item.HeadSkeletonAnimation.skeleton;
