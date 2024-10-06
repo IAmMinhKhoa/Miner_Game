@@ -42,7 +42,11 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	{
 		//InitializeShafts();
 	}
-
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+	}
 	public void AddShaft()
 	{
 		OnNewShaftCreated?.Invoke();
