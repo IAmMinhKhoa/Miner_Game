@@ -35,6 +35,7 @@ namespace UI.Inventory
 		ShaftUIController shaftUIController;
 		[SerializeField] HandleShaftStaffItem shaftStaffSkinItem;
 		[SerializeField] GameObject content;
+		[SerializeField] private ContentFitterRefresh contentRefreshTabNV;
 		List<ShaftUIController> listShaftUI = new();
 		List<TabStaffItem> listShaftStaffSkin;
 		
@@ -168,6 +169,7 @@ namespace UI.Inventory
 				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
 				listShaftStaffSkin[i].SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
 			}
+			contentRefreshTabNV.RefreshContentFitters();
 		}
 
 		private void HanleUpdateShaftIUI(int index)
