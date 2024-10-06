@@ -32,7 +32,7 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 		itemPrefab.spine.skeletonDataAsset = cartSkeleton.SkeletonDataAsset;
 		itemPrefab.spine.Initialize(true);
 
-		int skinAmount = cartSkeleton.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Xe day ")).Count();
+		int skinAmount = cartSkeleton.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 
 		items = itemController.Init(itemPrefab, skinAmount);
 
@@ -41,7 +41,7 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 			var _item = items[i].spine;
 			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
 			items[i].ChangItemInfo(skinName);
-			_item.Skeleton.SetSkin("Xe day " + (i + 1));
+			_item.Skeleton.SetSkin("Skin_" + (i + 1));
 			_item.transform.localScale = new Vector3(0.54f, 0.54f, 0.54f);
 			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
 			items[i].ItemClicked += ChangeSkin;

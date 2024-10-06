@@ -115,32 +115,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 
 	private void LoadAssets()
 	{
-		// Load Sprites
-		foreach (var imageData in skinResource.skinBgShaft)
-		{
-			imageData.sprite = Common.LoadSprite(imageData.path);
-		}
-		foreach (var imageData in skinResource.skinSecondBgShaft)
-		{
-			imageData.sprite = Common.LoadSprite(imageData.path);
-		}
-		foreach (var imageData in skinResource.skinBgElevator)
-		{
-			imageData.sprite = Common.LoadSprite(imageData.path);
-		}
-		foreach (var imageData in skinResource.skinBgCounter)
-		{
-			imageData.sprite = Common.LoadSprite(imageData.path);
-		}
-		foreach (var imageData in skinResource.skinWaitTable)
-		{
-			imageData.sprite = Common.LoadSprite(imageData.path);
-		}
-		// Load Spine data
-		/*foreach (var spineData in skinResource.skinCharacterHead)
-		{
-			spineData.skeletonData = Common.LoadSpine(spineData.path);
-		}*/
+		
 	}
 	#endregion
 }

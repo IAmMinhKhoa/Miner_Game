@@ -88,14 +88,14 @@ namespace UI.Inventory
 					if(value == InventoryItemType.CounterCharacter)
 					{
 						var spine = cartModel.GetComponent<SkeletonGraphic>();
-						string skinName = "Xe day " + (int.Parse(Counter.Instance.counterSkin.idCart) + 1);
+						string skinName = "Skin_" + (int.Parse(Counter.Instance.counterSkin.idCart) + 1);
 						spine.Skeleton.SetSkin(skinName);
 						spine.Skeleton.SetSlotsToSetupPose();
 					}
 					else
 					{
 						var spine = cartModel.GetComponent<SkeletonGraphic>();
-						string skinName = "Xe day " + (int.Parse(ShaftManager.Instance.Shafts[CurrentFloor].shaftSkin.idCart) + 1);
+						string skinName = "Skin_" + (int.Parse(ShaftManager.Instance.Shafts[CurrentFloor].shaftSkin.idCart) + 1);
 						spine.Skeleton.SetSkin(skinName);
 						spine.Skeleton.SetSlotsToSetupPose();
 					}
