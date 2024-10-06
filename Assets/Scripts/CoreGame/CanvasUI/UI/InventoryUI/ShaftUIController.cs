@@ -40,7 +40,7 @@ namespace UI.Inventory
 				if (item.type == InventoryItemType.ShaftCart)
 				{
 					int indexCart = int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idCart);
-					item.ChangeSpineSkin("Xe day " + (indexCart + 1));
+					item.ChangeSpineSkin("Skin_" + (indexCart + 1));
 					continue;
 				}
 				

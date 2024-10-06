@@ -26,7 +26,6 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 	{
 		//Cap nhat bottom Skin list
 		currenFloor = bgList.Index;
-		Debug.Log(currenFloor);
 		bgItem.bg.skeletonDataAsset = ShaftManager.Instance.Shafts[currenFloor].GetComponent<ShaftUI>().BG.skeletonDataAsset;
 		int skinAmount = ShaftManager.Instance.Shafts[currenFloor].GetComponent<ShaftUI>().SecondBG.Skeleton.Data.Skins.Count;
 		bgItem.bg.Initialize(true);

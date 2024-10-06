@@ -5,6 +5,7 @@ using StateMachine;
 using UI.Inventory;
 using Spine.Unity;
 using System;
+using System.Linq;
 public class ChangeCounterBG : BaseState<InventoryItemType>
 {
 	BackGroundItemController bgList;
@@ -25,10 +26,10 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 	{
 
 		bgItem.bg.skeletonDataAsset = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.skeletonDataAsset;
-		int skinAmount = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.Skeleton.Data.Skins.Count;
+		int skinAmount = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 		bgItem.bg.Initialize(true);
 		bgList.ClearListItem();
-		bgList.Init(bgItem, skinAmount/3);
+		bgList.Init(bgItem, skinAmount);
 		currentSkinSelect = int.Parse(Counter.Instance.counterSkin.idBackGround);
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
