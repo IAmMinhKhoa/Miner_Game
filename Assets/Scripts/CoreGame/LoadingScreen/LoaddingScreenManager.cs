@@ -56,7 +56,14 @@ public class LoaddingScreenManager : MonoBehaviour
 			currentLoad += valuePerfamre;
 			await UniTask.Yield();
 		}
-		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
+		if (fullLoadingBar != null)
+		{
+			fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
+		}
+		else
+		{
+			Debug.LogWarning("fullLoadingBar had been destroy.");
+		}
 		await UniTask.Delay(100);
 	}
 }

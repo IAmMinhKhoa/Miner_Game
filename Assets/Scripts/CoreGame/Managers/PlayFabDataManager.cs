@@ -18,6 +18,7 @@ namespace PlayFabManager.Data
 		private void OnEnable()
 		{
 			loadingScene = Instantiate(prefab, new Vector3(0, -2f, 0), Quaternion.identity);
+			Debug.Log(loadingScene);
 			Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
@@ -146,7 +147,8 @@ namespace PlayFabManager.Data
 		{
 			isDataLoaded = true;
 			Camera.main.cullingMask = -1;
-			loadingScene.gameObject.SetActive(false);
+
+			Destroy(loadingScene.gameObject);
 		}
 	}
 }

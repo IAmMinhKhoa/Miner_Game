@@ -50,9 +50,13 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     #region TOOL DEBUG
     [Range(0, 10)]
     [SerializeField] private float _debugSpeedGame = 1;
-    #endregion
-
-    private void OnEnable()
+	#endregion
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+	}
+	private void OnEnable()
     {
         ManagerLocationUI.OnTabChanged += SetUpCurrentManagerLocation;
     }

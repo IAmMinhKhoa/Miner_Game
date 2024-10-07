@@ -144,6 +144,7 @@ public class FruitGameManager : MonoBehaviour
 
 	public void OnClickBack()
 	{
-		SceneManager.UnloadScene("DemoMinigame");
+	//	SceneManager.UnloadScene("DemoMinigame");
+		SceneManager.LoadScene("MainGame");
 	}
 }
