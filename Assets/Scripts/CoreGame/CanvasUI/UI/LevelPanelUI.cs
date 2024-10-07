@@ -14,15 +14,11 @@ public class LevelPanelUI : MonoBehaviour
 	{
 		PawManager.Instance.OnPawChanged += OnPawChanged;
 	}
-	private void OnDestroy()
-	{
-		PawManager.Instance.OnPawChanged -= OnPawChanged;
-	}
+
 	private void OnPawChanged(double paw)
 	{
 		bool isActive = paw >= baseUpgrade.CurrentCost;
 		//Debug.Log("Current paw:" + paw + " Current cost:" + baseUpgrade.CurrentCost);
-		Debug.Log(imageUpgrade);
 		imageUpgrade.gameObject.SetActive(isActive);
 
 		if (isActive)
