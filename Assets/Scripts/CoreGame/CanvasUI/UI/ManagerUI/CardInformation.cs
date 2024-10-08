@@ -27,25 +27,10 @@ public class CardInformation : MonoBehaviour
 	
 	[SerializeField] List<Image> _starts = new List<Image>();
 	[SerializeField] List<Sprite> _stateStart = new List<Sprite>(); //0 active, 1 unActive
-	[SerializeField] private RectTransform avatar;
-	private Manager _data;
-	private Vector2 origin_avatar;
-	private void Start()
-	{
-		origin_avatar = avatar.anchoredPosition;
-	}
-
 
 	public void SetData(Manager _data)
 	{
-		this._data = _data;
-		Invoke(nameof(Delay), 1f);
-
-	}
-	private void Delay()
-	{
 		RenderStart((int)_data.Level);
-		avatar.anchoredPosition = origin_avatar;
 		_nameText.text = _data.Specie.ToString();
 		_backGroundPanel.sprite = Resources.Load<Sprite>(MainGameData.PanelFrontCardManager[(int)_data.Level]);
 		_bannerName.sprite = Resources.Load<Sprite>(MainGameData.BannerLevels[(int)_data.Level]);
@@ -88,6 +73,7 @@ public class CardInformation : MonoBehaviour
 			_spineBoost.AnimationState.SetAnimation(0, "Toc do di chuyen", loop: true);
 		}
 	}
+	
 	private void RenderStart(int Currentlevel)
 	{
 		foreach (var item in _starts)
@@ -98,9 +84,5 @@ public class CardInformation : MonoBehaviour
 		{
 			_starts[i].sprite = _stateStart[0];
 		}
-	}
-	private void OnDisable()
-	{
-		avatar.DOAnchorPosY(-180f, 0);
 	}
 }

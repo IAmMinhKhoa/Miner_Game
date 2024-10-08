@@ -12,29 +12,12 @@ public class UserInput : MonoBehaviour
 	private Vector2 touchStartPos;
 
 	private void Start()
-    {
-        
-    }
+	{
+		limit = 0;
+	}
 
-    private void Update()
+	private void Update()
     {
-        if (manager.isHolding)
-        {
-            Renderer rd = GameObject.FindWithTag("holdingfruit").GetComponent<Renderer>();
-            if (rd != null)
-            {
-                float width = rd.bounds.size.x;
-                limit = width / 2;
-            }
-			if (claw.transform.position.x <= (lpoint.transform.position.x + limit))
-			{
-				claw.transform.position = new Vector3(lpoint.transform.position.x + limit, claw.transform.position.y, claw.transform.position.z);
-			}
-			else if (claw.transform.position.x >= (rpoint.transform.position.x - limit))
-			{
-				claw.transform.position = new Vector3(rpoint.transform.position.x - limit, claw.transform.position.y, claw.transform.position.z);
-			}
-		}
 		if (Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -50,7 +33,6 @@ public class UserInput : MonoBehaviour
 					float minX = lpoint.transform.position.x + limit;
 					float maxX = rpoint.transform.position.x - limit;
 					claw.transform.position = new Vector3(Mathf.Clamp(touchedPos.x, minX, maxX), claw.transform.position.y, claw.transform.position.z);
-
 					
 
 					break;

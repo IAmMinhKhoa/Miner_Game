@@ -1,9 +1,13 @@
 using JetBrains.Annotations;
+using PlayFabManager.Data;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class FruitGameManager : MonoBehaviour
 {
@@ -11,7 +15,7 @@ public class FruitGameManager : MonoBehaviour
     public GameObject playUI, buttonUI, endGameUI;
     public Transform fruitsParent;
 
-
+	[SerializeField] private UserInput userinp;
 	[SerializeField] private ListFruit fruitList;
 	[SerializeField] private ListImageFruit imgList;
 	private List<orderObject> orderList;
@@ -48,6 +52,7 @@ public class FruitGameManager : MonoBehaviour
                 isHolding = true;
                 GameObject newFruit = Instantiate(orderList[0].pref, new Vector3(-2, 572364, 04291531), Quaternion.identity, fruitsParent);
                 newFruit.tag = "holdingfruit";
+				Debug.Log(newFruit.ToString());
                 orderList.RemoveAt(0);
             }
         }
@@ -128,4 +133,17 @@ public class FruitGameManager : MonoBehaviour
         currentScore += score;
         currentScoreText.text = currentScore+"";
     }
+
+	public float CalcClawLimit(GameObject fruit)
+	{
+		Renderer rd = fruit.GetComponent<Renderer>();
+		if (rd == null) return 0;
+		float width = (rd.bounds.size.x)/2;
+		return width;
+	}
+
+	public void OnClickBack()
+	{
+		SceneManager.UnloadScene("DemoMinigame");
+	}
 }
