@@ -10,6 +10,7 @@ namespace UI.Inventory
 	{
 		[SerializeField]
 		private SkeletonGraphic spine;
+		public SkeletonGraphic Spine => spine;
 		public ExposedList<Skin> SkinList
 		{
 			get

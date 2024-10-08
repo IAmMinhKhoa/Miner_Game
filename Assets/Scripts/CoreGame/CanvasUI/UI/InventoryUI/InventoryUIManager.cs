@@ -55,6 +55,8 @@ namespace UI.Inventory
 		int shaftCount = 0;
 		bool isBackgroundItemOpening;
 		bool isFirstTimeOpen = true;
+		bool isUpdateCounterSkeletonData = false;
+		bool isUpdateElevatorSkeletonData = false;
 		private void OnEnable()
 		{
 			
@@ -179,6 +181,12 @@ namespace UI.Inventory
 			var elevatorSkinData = ElevatorSystem.Instance.elevatorSkin.GetDataSkin();
 			foreach (var item in elevatorItem)
 			{
+				if(isUpdateElevatorSkeletonData == false)
+				{
+					var data = SkinManager.Instance.SkinGameDataAsset.SkinGameData[item.type];
+					item.Spine.skeletonDataAsset = data;
+					item.Spine.Initialize(true);
+				}
 				if(elevatorSkinData.ContainsKey(item.type))
 				{
 					string skinName = "Icon_" + (int.Parse(ElevatorSystem.Instance.elevatorSkin.idBackGround) + 1);
@@ -191,12 +199,19 @@ namespace UI.Inventory
 					item.ChangeSpineSkin(item.SkinList.Items[indexCart + 1].Name);
 				}
 			}
+			isUpdateElevatorSkeletonData = true;
 		}
 		private void HandleCounterIUI()
 		{
 			
 			foreach (var item in counterItem)
 			{
+				if (isUpdateCounterSkeletonData == false)
+				{
+					var data = SkinManager.Instance.SkinGameDataAsset.SkinGameData[item.type];
+					item.Spine.skeletonDataAsset = data;
+					item.Spine.Initialize(true);
+				}
 				if (item.type == InventoryItemType.CounterBg)
 				{
 					string skinName = "Icon_" + (int.Parse(Counter.Instance.counterSkin.idBackGround) + 1);
@@ -214,8 +229,8 @@ namespace UI.Inventory
 					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);
 					item.ChangeSpineSkin("Skin_" + (indexCart + 1));
 				}
-				
 			}
+			isUpdateCounterSkeletonData = true;
 		}
 		public void SlideInContainer(GameObject panel, Toggle tg)
         {
