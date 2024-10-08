@@ -14,13 +14,19 @@ namespace UI.Inventory
         TextMeshProUGUI title;
         int index;
 		public List<DecoratorItem> items;
-
+		bool isUpdataDataAsset = false;
 		public void UpdateShaftUI()
 		{
 			
 			foreach (DecoratorItem item in items)
 			{
-				string id = "";
+				if(isUpdataDataAsset == false)
+				{
+					item.Spine.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[item.type];
+					item.Spine.Initialize(true);
+				}
+
+				string id;
 				switch (item.type)
 				{
 					case InventoryItemType.ShaftBg:
@@ -45,6 +51,7 @@ namespace UI.Inventory
 				}
 				
 			}
+			isUpdataDataAsset = true;
 		}
 
 		public void SetShaftIndex(int i)

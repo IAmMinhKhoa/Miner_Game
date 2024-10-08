@@ -28,10 +28,13 @@ public class ElevatorUI : MonoBehaviour
     private ElevatorUpgrade m_elevatorUpgrade;
 
 	public SkeletonAnimation BgElevator => m_bgElevator;
+
+	bool isUpdateSkeletonData = false;
     void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
         m_elevatorUpgrade = GetComponent<ElevatorUpgrade>();
+		
     }
 
     void Start()
@@ -142,9 +145,40 @@ public class ElevatorUI : MonoBehaviour
         OnUpgradeRequest?.Invoke();
     }
 
+	private void UpdateSkeletonData()
+	{
+		
+		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+		m_bgElevator.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorBg];
+		m_bgElevator.Initialize(true);
+		
+		var controllerView = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>();
+		var fontSkeleton = controllerView.FontElevator;
+		var backSkeleton = controllerView.BackElevator;
+		fontSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.Elevator];
+		backSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.BackElevator];
+
+		fontSkeleton.Initialize(true);
+		backSkeleton.Initialize(true);
+		var headSkeleton = controllerView.ElevatorHeadStaff;
+		var bodySkeleton = controllerView.ElevatorBodyStaff;
+		
+		headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
+		bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
+		
+		headSkeleton.Initialize(true);
+		bodySkeleton.Initialize(true);
+
+		isUpdateSkeletonData = true;
+
+	}
 	public void ChangeSkin(ElevatorSkin data)
 	{
-		//set init Data Skin shaft
+		if (isUpdateSkeletonData == false)
+		{
+			UpdateSkeletonData();
+		}
+		if (data == null) return;
 		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		
 		int elevatorIndex = int.Parse(data.idFrontElevator);
@@ -169,7 +203,6 @@ public class ElevatorUI : MonoBehaviour
 			bodySkeleton.SetSkin("Body/Skin_"  + (bodyIndex + 1));
 			headSkeleton.SetSlotsToSetupPose();
 			bodySkeleton.SetSlotsToSetupPose();
-
 		}
 
 	}

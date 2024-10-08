@@ -32,6 +32,8 @@ public class CounterUI : MonoBehaviour
 	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
+	bool isUpdateSkeletonData = false;
+
     void Awake()
     {
         m_counter = GetComponent<Counter>();
@@ -139,9 +141,45 @@ public class CounterUI : MonoBehaviour
         OnUpgradeRequest?.Invoke();
     }
 
+	private void UpdateSkeletonData()
+	{
+		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+		m_bgCounter.skeletonDataAsset = skinGameData[InventoryItemType.CounterBg];
+		m_secondBG.skeletonDataAsset = skinGameData[InventoryItemType.CounterSecondBg];
+
+		m_bgCounter.Initialize(true);
+		m_secondBG.Initialize(true);
+
+		var counter = GetComponent<Counter>();
+
+		foreach (var item in counter.Transporters)
+		{
+			var cartSkeleton = item.CartSkeletonAnimation;
+
+			cartSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.CounterCart];
+			cartSkeleton.Initialize(true);
+			
+			var headSkeleton = item.HeadSkeletonAnimation;
+			var bodySkeleton = item.BodySkeletonAnimation;
+			headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.CounterCharacter];
+			bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.CounterCharacter];
+
+			headSkeleton.Initialize(true);
+			bodySkeleton.Initialize(true);
+
+
+		}
+
+		isUpdateSkeletonData = true;
+	}
 	public void ChangeSkin(CounterSkin data)
 	{
 		if (data == null) return;
+		if(isUpdateSkeletonData == false) 
+		{
+			UpdateSkeletonData();
+		}
+
 		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
 		m_bgCounter.Skeleton.SetSkin(skinBGName);
 		m_bgCounter.Skeleton.SetSlotsToSetupPose();
