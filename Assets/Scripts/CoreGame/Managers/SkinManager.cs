@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NOOD.SerializableDictionary;
 using UnityEngine;
-using static ShaftManager;
 using PlayFabManager.Data;
 using PlayFab.EconomyModels;
 using UI.Inventory;
@@ -11,6 +10,9 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	public SkinResource skinResource = new();
 	public string jsonFilePath = "Assets/Resources/Json/SkinResources.json";
 	public bool isDone = false;
+	[SerializeField]
+	SkinDataSO skinGameDataAsset;
+	public SkinDataSO SkinGameDataAsset => skinGameDataAsset;
 	public void InitData()//INIT find data SO
 	{
 		LoadSkinData(); //fectch data from json
@@ -258,7 +260,8 @@ public enum InventoryItemType
 	ShaftCharacter,
 	ElevatorCharacter,
 	CounterCharacter,
-	CounterSecondBg
+	CounterSecondBg,
+	BackElevator,
 }
 #endregion
 

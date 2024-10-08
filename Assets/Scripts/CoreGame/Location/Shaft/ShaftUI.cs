@@ -51,8 +51,10 @@ public class ShaftUI : MonoBehaviour
 
     private bool _isBrewing = false;
 
+	bool isUpdateSkeletonData = false;
 
-    void Awake()
+
+	void Awake()
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
@@ -258,17 +260,51 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
+	private void UpdateSkeletonData()
+	{
+		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+		m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
+		m_secondbg.skeletonDataAsset = skinGameData[InventoryItemType.ShaftSecondBg];
+
+		m_br.Initialize(true);
+		m_secondbg.Initialize(true);
+
+		var counter = GetComponent<Shaft>();
+
+		foreach (var item in counter.Brewers)
+		{
+			var cartSkeleton = item.CartSkeletonAnimation;
+
+			cartSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCart];
+			cartSkeleton.Initialize(true);
+
+			var headSkeleton = item.HeadSkeletonAnimation;
+			var bodySkeleton = item.BodySkeletonAnimation;
+			headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
+			bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
+
+			headSkeleton.Initialize(true);
+			bodySkeleton.Initialize(true);
+
+
+		}
+
+		isUpdateSkeletonData = true;
+	}
 	public void ChangeSkin(ShaftSkin data)
 	{
-		//set init Data Skin shaft
-		if (SkinManager.Instance.skinResource.skinBgShaft == null || m_br.Skeleton == null) return;
-		//m_br.sprite = Resources.Load<Sprite>(ShaftManager.Instance.Shafts[data.index].shaftSkin.GetDataSkin()[InventoryItemType.ShaftBg].path);
+
 		
+		if (data == null) return;
+
+		if(isUpdateSkeletonData == false)
+		{
+			UpdateSkeletonData();
+		}
+
 		m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
-		//Debug.Log(milkTeaTable.Skeleton.Data.Skins.Count);
 		waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
-		//m_waitTable.sprite = SkinManager.Instance.skinResource.skinWaitTable[int.Parse(data.idWaitTable)].sprite;
 		
 		if(TryGetComponent<Shaft>(out var shaft))
 		{
