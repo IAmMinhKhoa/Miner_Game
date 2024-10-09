@@ -25,12 +25,12 @@ namespace UI.Inventory
 		{
 			staffSkinUI.selectFloor.SetActive(false);
 			var counter = Counter.Instance;
-			
-			int headSkinAmount = counter.Transporters[0].HeadSkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
-			int bodySkinAmount = counter.Transporters[0].BodySkeletonAnimation.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
+			var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+			SkeletonDataAsset headDataAsset = sourceSkins[InventoryItemType.CounterCharacter];
+			SkeletonDataAsset bodyDataAsset = sourceSkins[InventoryItemType.CounterCharacter];
 
-			SkeletonDataAsset headDataAsset = counter.Transporters[0].HeadSkeletonAnimation.skeletonDataAsset;
-			SkeletonDataAsset bodyDataAsset = counter.Transporters[0].BodySkeletonAnimation.skeletonDataAsset;
+			int headSkinAmount = headDataAsset.GetSkeletonData(true).Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
+			int bodySkinAmount = bodyDataAsset.GetSkeletonData(true).Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
 
 			staffSkinUI.CurrentItemTypeHandle = InventoryItemType.CounterCharacter;
 			staffSkinUI.SetHeadIndex(headSkinAmount, headDataAsset, "Head/Skin_", new(0.4f, 0.4f, 0.4f), new(0, -113));

@@ -12,7 +12,15 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	public bool isDone = false;
 	[SerializeField]
 	SkinDataSO skinGameDataAsset;
+
+
 	public SkinDataSO SkinGameDataAsset => skinGameDataAsset;
+
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+	}
 	public void InitData()//INIT find data SO
 	{
 		LoadSkinData(); //fectch data from json

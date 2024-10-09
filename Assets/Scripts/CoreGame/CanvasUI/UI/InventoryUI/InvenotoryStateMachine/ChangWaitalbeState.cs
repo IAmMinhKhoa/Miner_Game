@@ -8,7 +8,6 @@ using Spine.Unity;
 public class ChangWaitalbeState : BaseState<InventoryItemType>
 {
 	readonly PopupOtherItemController itemController;
-	readonly List<DataSkinImage> skins = SkinManager.Instance.skinResource.skinWaitTable;
 	Item itemPrefab;
 
 	List<Item> items;
@@ -26,10 +25,10 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 	{
 		itemController.title.text = "Đổi Bàn Để Ly Trà Sữa";
 		int currentFloor = itemController.FloorIndex;
-		var cartSkeleton = ShaftManager.Instance.Shaft.GetComponent<ShaftUI>().WaitTable;
+		var cartSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftWaitTable];
 		//set data
 		itemPrefab.spine.initialSkinName = "Icon_1";
-		itemPrefab.spine.skeletonDataAsset = cartSkeleton.SkeletonDataAsset;
+		itemPrefab.spine.skeletonDataAsset = cartSkeleton;
 		itemPrefab.spine.Initialize(true);
 
 		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Count / 2;

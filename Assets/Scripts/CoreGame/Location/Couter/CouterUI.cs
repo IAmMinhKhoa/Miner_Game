@@ -32,7 +32,6 @@ public class CounterUI : MonoBehaviour
 	private Counter m_counter;
     private CounterUpgrade m_counterUpgrade;
 
-	bool isUpdateSkeletonData = false;
 
     void Awake()
     {
@@ -141,7 +140,7 @@ public class CounterUI : MonoBehaviour
         OnUpgradeRequest?.Invoke();
     }
 
-	private void UpdateSkeletonData()
+	public void UpdateSkeletonData()
 	{
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		m_bgCounter.skeletonDataAsset = skinGameData[InventoryItemType.CounterBg];
@@ -170,15 +169,11 @@ public class CounterUI : MonoBehaviour
 
 		}
 
-		isUpdateSkeletonData = true;
 	}
 	public void ChangeSkin(CounterSkin data)
 	{
 		if (data == null) return;
-		if(isUpdateSkeletonData == false) 
-		{
-			UpdateSkeletonData();
-		}
+		
 
 		string skinBGName = "Skin_"+(int.Parse(data.idBackGround) + 1);
 		m_bgCounter.Skeleton.SetSkin(skinBGName);

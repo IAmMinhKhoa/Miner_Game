@@ -20,7 +20,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public Transform ElevatorLocation => elevatorLocation;
 
     private ElevatorController elevatorController;
-    public ElevatorController ElevatorController => elevatorController;
+    public ElevatorController ElevatorController => elevatorPrefab;
 
     [SerializeField] private double moveTimeScale = 1;
     [SerializeField] private double loadSpeedScale = 1;
@@ -201,7 +201,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-
+			GetComponent<ElevatorUI>().UpdateSkeletonData();
             CreateElevator();
             return true;
         }

@@ -10,7 +10,6 @@ using System.Linq;
 public class ChangeShaftCartState : BaseState<InventoryItemType>
 {
 	readonly PopupOtherItemController itemController;
-	readonly List<DataSkinImage> skins = SkinManager.Instance.skinResource.skinWaitTable;
 	Item itemPrefab;
 
 	List<Item> items;
@@ -28,12 +27,12 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 	{
 		itemController.title.text = "Đổi Xe Đẩy Nhân Viên";
 		int currentFloor = itemController.FloorIndex;
-		var cartSkeleton = ShaftManager.Instance.Shafts[currentFloor].Brewers[0].CartSkeletonAnimation;
-		itemPrefab.spine.initialSkinName = cartSkeleton.Skeleton.Data.Skins.Items[1].Name;
-		itemPrefab.spine.skeletonDataAsset = cartSkeleton.SkeletonDataAsset;
+		var cartSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftCart];
+		itemPrefab.spine.initialSkinName = cartSkeleton.GetSkeletonData(true).Skins.Items[0].Name;
+		itemPrefab.spine.skeletonDataAsset = cartSkeleton;
 		itemPrefab.spine.Initialize(true);
 
-		int skinAmount = cartSkeleton.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 		
 		items = itemController.Init(itemPrefab, skinAmount);
 		

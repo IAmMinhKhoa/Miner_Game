@@ -4,6 +4,7 @@ using UnityEngine;
 using StateMachine;
 using UI.Inventory;
 using Spine.Unity;
+using System.Linq;
 public class ChangeShaftSecondBG : BaseState<InventoryItemType> 
 {
 	BackGroundItemController bgList;
@@ -25,13 +26,18 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 	public override void Enter()
 	{
 		//Cap nhat bottom Skin list
-		currenFloor = bgList.Index;
-		bgItem.bg.skeletonDataAsset = ShaftManager.Instance.Shafts[currenFloor].GetComponent<ShaftUI>().BG.skeletonDataAsset;
-		int skinAmount = ShaftManager.Instance.Shafts[currenFloor].GetComponent<ShaftUI>().SecondBG.Skeleton.Data.Skins.Count;
-		bgItem.bg.Initialize(true);
-		bgList.ClearListItem();
 
-		bgList.Init(bgItem, skinAmount / 3);
+		var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+		bgItem.bg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftBg];
+		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftSecondBg];
+		bgItem.bg.Initialize(true);
+		bgItem.secondBg.Initialize(true);
+		
+		int skinAmount = bgItem.secondBg.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+
+		currenFloor = bgList.Index;
+		bgList.ClearListItem();
+		bgList.Init(bgItem, skinAmount);
 		currentSkinSelect = int.Parse(ShaftManager.Instance.Shafts[currenFloor].shaftSkin.idSecondBg);
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
