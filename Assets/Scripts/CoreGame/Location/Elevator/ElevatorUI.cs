@@ -29,7 +29,6 @@ public class ElevatorUI : MonoBehaviour
 
 	public SkeletonAnimation BgElevator => m_bgElevator;
 
-	bool isUpdateSkeletonData = false;
     void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
@@ -145,7 +144,7 @@ public class ElevatorUI : MonoBehaviour
         OnUpgradeRequest?.Invoke();
     }
 
-	private void UpdateSkeletonData()
+	public void UpdateSkeletonData()
 	{
 		
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
@@ -169,15 +168,10 @@ public class ElevatorUI : MonoBehaviour
 		headSkeleton.Initialize(true);
 		bodySkeleton.Initialize(true);
 
-		isUpdateSkeletonData = true;
-
 	}
 	public void ChangeSkin(ElevatorSkin data)
 	{
-		if (isUpdateSkeletonData == false)
-		{
-			UpdateSkeletonData();
-		}
+	
 		if (data == null) return;
 		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		

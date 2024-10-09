@@ -54,7 +54,7 @@ namespace UI.Inventory
 		public Item popupOtherItemPrefab;
 
 		int shaftCount = 0;
-		bool isBackgroundItemOpening;
+
 		bool isFirstTimeOpen = true;
 		bool isUpdateCounterSkeletonData = false;
 		bool isUpdateElevatorSkeletonData = false;
@@ -103,7 +103,7 @@ namespace UI.Inventory
 				tabStaff.OnTabStaffEnable += UpdateStabStaffUI;
 				tabStaff.OnTabStaffDisable += TabStaff_OnTabStaffDisable;
 			}
-			isBackgroundItemOpening = false;
+		
             tgNhanVien.onValueChanged.AddListener(delegate
             {
                 SlideInContainer(pnNhanVien, tgNhanVien);
@@ -286,7 +286,6 @@ namespace UI.Inventory
 			bgList.SetIndex(index);
 			if (TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
 			{
-				isBackgroundItemOpening = true;
 				stateMachine.TransitonToState(type);
 				bgList.gameObject.SetActive(true);
 				pOIController.FloorIndex = index;

@@ -28,12 +28,12 @@ namespace UI.Inventory
 		public override void Enter()
 		{
 			itemController.title.text = "Đổi BackGround Phòng Chờ Trà Sữa";
-			var bgElevatorSkeleton = ElevatorSystem.Instance.GetComponent<ElevatorUI>().BgElevator;
+			var bgElevatorSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ElevatorBg];
 			//set data
 			itemPrefab.spine.initialSkinName = "Icon_1";
-			itemPrefab.spine.skeletonDataAsset = bgElevatorSkeleton.skeletonDataAsset;
+			itemPrefab.spine.skeletonDataAsset = bgElevatorSkeleton;
 			itemPrefab.spine.Initialize(true);
-			int skinAmount = bgElevatorSkeleton.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+			int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 			items = itemController.Init(itemPrefab, skinAmount);
 
 			for (int i = 0; i < skinAmount; i++)

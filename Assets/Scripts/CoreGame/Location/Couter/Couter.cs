@@ -170,6 +170,8 @@ public class Counter : Patterns.Singleton<Counter>
             upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
+			GetComponent<CounterUI>().UpdateSkeletonData();
+
             int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
             for (int i = 0; i < numberWorker; i++)
             {

@@ -6,7 +6,13 @@ public class PoolManager : Patterns.Singleton<PoolManager>
 {
     public List<BYPool> pool_defaults;
     public Dictionary<string, BYPool> dic_pool = new Dictionary<string, BYPool>();
-    private void Start()
+	protected override void Awake()
+	{
+		isPersistent = false;
+		base.Awake();
+
+	}
+	private void Start()
     {
         foreach(BYPool pool in pool_defaults)
         {

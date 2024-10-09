@@ -24,10 +24,12 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
-
-		bgItem.bg.skeletonDataAsset = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.skeletonDataAsset;
-		int skinAmount = Counter.Instance.GetComponent<CounterUI>().m_bgCounter.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+		var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+		bgItem.bg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterBg];
+		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterSecondBg];
+		int skinAmount = bgItem.bg.skeletonDataAsset.GetSkeletonData(true).Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 		bgItem.bg.Initialize(true);
+		bgItem.secondBg.Initialize(true);
 		bgList.ClearListItem();
 		bgList.Init(bgItem, skinAmount);
 		currentSkinSelect = int.Parse(Counter.Instance.counterSkin.idBackGround);
@@ -46,9 +48,8 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
 		}
 
-		CounterUI Ui = Counter.Instance.GetComponent<CounterUI>();
-		SkeletonDataAsset skBgData = Ui.m_bgCounter.skeletonDataAsset;
-		SkeletonDataAsset skSecondBGData = Ui.m_secondBG.skeletonDataAsset;
+		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.CounterBg];
+		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.CounterSecondBg];
 
 		var imgSelectedBg = bgList.imgSelectedBg;
 		if (!imgSelectedBg.gameObject.activeInHierarchy)

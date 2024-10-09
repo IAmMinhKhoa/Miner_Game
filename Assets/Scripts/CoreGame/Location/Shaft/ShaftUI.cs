@@ -51,7 +51,6 @@ public class ShaftUI : MonoBehaviour
 
     private bool _isBrewing = false;
 
-	bool isUpdateSkeletonData = false;
 
 
 	void Awake()
@@ -96,14 +95,15 @@ public class ShaftUI : MonoBehaviour
 
     void OnDisable()
     {
+		
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_buyNewShaftButton.onClick.RemoveListener(BuyNewShaft);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
         m_shaft.OnUpgrade -= Shaft_OnUpgradeHandler;
-        // m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
-    }
+        m_shaft.CurrentDeposit.OnChangePaw -= ChangePawHandler;
+	}
 
     private void Shaft_OnUpgradeHandler(int currentLevel)
     {
@@ -260,7 +260,7 @@ public class ShaftUI : MonoBehaviour
             m_shaft.ManagerLocation.RunBoost();
         }
     }
-	private void UpdateSkeletonData()
+	public void UpdateSkeletonData()
 	{
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
@@ -288,19 +288,10 @@ public class ShaftUI : MonoBehaviour
 
 
 		}
-
-		isUpdateSkeletonData = true;
 	}
 	public void ChangeSkin(ShaftSkin data)
 	{
-
-		
 		if (data == null) return;
-
-		if(isUpdateSkeletonData == false)
-		{
-			UpdateSkeletonData();
-		}
 
 		m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
