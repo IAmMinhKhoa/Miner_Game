@@ -117,11 +117,15 @@ public class Transporter : BaseWorker
         {
             case WorkerState.Idle:
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-                cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Working:
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-                cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+				cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Moving:
                 if (direction)
@@ -135,7 +139,9 @@ public class Transporter : BaseWorker
 				numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
 				cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
-                break;
+				tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+				break;
         }
     }
 
