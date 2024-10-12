@@ -113,12 +113,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             Debug.Log("Faild to update background sprite");
         }
     }
-	protected override void Awake()
-	{
-		isPersistent = false;
-		base.Awake();
-	}
-	void Start()
+    protected override void Awake()
+    {
+        isPersistent = false;
+        base.Awake();
+    }
+    void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
@@ -201,13 +201,21 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-			GetComponent<ElevatorUI>().UpdateSkeletonData();
+            GetComponent<ElevatorUI>().UpdateSkeletonData();
             CreateElevator();
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    public void AwakeWorker()
+    {
+        if (!elevatorController.IsWorking)
+        {
+            elevatorController.forceWorking = true;
         }
     }
 

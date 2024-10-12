@@ -20,6 +20,7 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] public Button m_buyNewShaftButton;
     [SerializeField] private Button m_managerButton;
     [SerializeField] private Button m_boostButton;
+    [SerializeField] private Button m_workerButton;
 
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI m_pawText;

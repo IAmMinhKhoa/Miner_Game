@@ -100,7 +100,7 @@ public class Shaft : MonoBehaviour
 
     public void CreateBrewer()
     {
-		
+
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
         float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);
         Vector3 spawnPosition = m_brewerLocation.position;
@@ -110,10 +110,10 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
-		if (_brewers.Count > 1)
-		{
-			UpdateUI();
-		}
+        if (_brewers.Count > 1)
+        {
+            UpdateUI();
+        }
     }
 
     private void CreateDeposit()
@@ -138,7 +138,7 @@ public class Shaft : MonoBehaviour
 
     void Start()
     {
-		for (int i = 0; i < numberBrewer; i++)
+        for (int i = 0; i < numberBrewer; i++)
         {
             CreateBrewer();
         }
@@ -169,6 +169,17 @@ public class Shaft : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void AwakeWorker()
+    {
+        foreach (var brewer in _brewers)
+        {
+            if (!brewer.IsWorking)
+            {
+                brewer.forceWorking = true;
+            }
+        }
     }
 }
 
