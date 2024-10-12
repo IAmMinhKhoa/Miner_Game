@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 public class Currency
@@ -69,6 +70,55 @@ public class Currency
 
         return currency;
     }
+	public static double ConvertCurrencyToDouble(string currency)
+	{
+		int index = 0;
+		while (index < currency.Length && (char.IsDigit(currency[index]) || currency[index] == '.'))
+		{
+			index++;
+		}
+
+		// Extract the number and unit parts
+		string numberPart = currency.Substring(0, index);
+		string unitPart = currency.Substring(index);
+
+		// Parse the number part to a double
+		if (!double.TryParse(numberPart, out double number))
+		{
+			throw new ArgumentException("Invalid currency format");
+		}
+
+	
+		int unitPower = GetUnitPower(unitPart);
+
+		double result = number * Math.Pow(1000, unitPower);
+
+		return result;
+	}
+	private static int GetUnitPower(string unit)
+	{
+		// Define the unit mapping from the CurrencyUnit enum
+		Dictionary<string, int> unitMap = new Dictionary<string, int>()
+	{
+		{"K", 1}, {"M", 2}, {"B", 3}, {"T", 4}, {"aa", 5}, {"ab", 6}, {"ac", 7}, {"ad", 8},
+		{"ae", 9}, {"af", 10}, {"ag", 11}, {"ah", 12}, {"ai", 13}, {"aj", 14}, {"ak", 15},
+		{"al", 16}, {"am", 17}, {"an", 18}, {"ao", 19}, {"ap", 20}, {"aq", 21}, {"ar", 22},
+		{"as", 23}, {"at", 24}, {"au", 25}, {"av", 26}, {"aw", 27}, {"ax", 28}, {"ay", 29},
+		{"az", 30}, {"ba", 31}, {"bb", 32}, {"bc", 33}, {"bd", 34}, {"be", 35}, {"bf", 36},
+		{"bg", 37}, {"bh", 38}, {"bi", 39}, {"bj", 40}, {"bk", 41}, {"bl", 42}, {"bm", 43},
+		{"bn", 44}, {"bo", 45}, {"bp", 46}, {"bq", 47}, {"br", 48}, {"bs", 49}, {"bt", 50},
+		{"bu", 51}, {"bv", 52}, {"bw", 53}, {"bx", 54}, {"by", 55}, {"bz", 56}, {"ca", 57},
+		{"cb", 58}, {"cc", 59}, {"cd", 60}, {"ce", 61}, {"cf", 62}, {"cg", 63}, {"ch", 64}
+    };
+		if (unitMap.ContainsKey(unit))
+		{
+			return unitMap[unit];
+		}
+		else
+		{
+			throw new ArgumentException("Invalid unit in currency string");
+		}
+	}
 }
 
 enum CurrencyUnit
