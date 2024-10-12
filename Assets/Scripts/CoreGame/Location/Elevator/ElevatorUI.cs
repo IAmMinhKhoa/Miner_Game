@@ -176,14 +176,18 @@ public class ElevatorUI : MonoBehaviour
 		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 		
 		int elevatorIndex = int.Parse(data.idFrontElevator);
+
 		
+
 		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 		{
 			//cap nhat skin thang may
 			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
 			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
 
-			fontSkeleton.SetSkin("Skin_"+(elevatorIndex+1));
+		
+
+			fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
 			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
 			fontSkeleton.SetSlotsToSetupPose();
 			backSkeleton.SetSlotsToSetupPose();

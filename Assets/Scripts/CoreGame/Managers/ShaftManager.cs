@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using PlayFabManager.Data;
+using System.Security.Cryptography;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -173,6 +174,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 	private bool Load()
 	{
+		shaftPrefab.gameObject.GetComponent<ShaftUI>().UpdateSkeletonData();
 		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
 		{
 			string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("ShaftManager");
@@ -205,7 +207,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
 				shaft.SetDepositValue(currentDeposit);
-				shaft.gameObject.GetComponent<ShaftUI>().UpdateSkeletonData();
+				
 				shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
 				Shafts.Add(shaft);
 				float newY = shaft.transform.position.y;
