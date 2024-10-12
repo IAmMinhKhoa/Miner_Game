@@ -58,19 +58,19 @@ public static class MainGameData
 
     public readonly static List<string> IconLevelNumber = new List<string>
     {
-        "UI/Icon level/Level-1",
-        "UI/Icon level/Level-2",
-        "UI/Icon level/Level-3",
-        "UI/Icon level/Level-4",
-        "UI/Icon level/Level-5"
+		"UI/Icon level/Level-1 1",
+        "UI/Icon level/Level-2 1",
+        "UI/Icon level/Level-3 1",
+        "UI/Icon level/Level-4 1",
+        "UI/Icon level/Level-5 1"
     };
     public readonly static List<string> FrameLevelAvatar = new List<string>
     {
-        "UI/Frame Avatar/Frame-lvl-1",
-        "UI/Frame Avatar/Frame-lvl-2",
-        "UI/Frame Avatar/Frame-lvl-3",
-        "UI/Frame Avatar/Frame-lvl-4",
-        "UI/Frame Avatar/Frame-lvl-5"
+        "UI/Frame Avatar/Frame-lvl-1 1",
+        "UI/Frame Avatar/Frame-lvl-2 1",
+        "UI/Frame Avatar/Frame-lvl-3 1",
+        "UI/Frame Avatar/Frame-lvl-4 1",
+        "UI/Frame Avatar/Frame-lvl-5 1"
 
 
     };
@@ -82,27 +82,27 @@ public static class MainGameData
     };
 	public readonly static List<string> BannerLevels = new List<string>
 	{
-		"UI/Frame Information Manager/L-1",
-		"UI/Frame Information Manager/L-2",
-		"UI/Frame Information Manager/L-3",
-		"UI/Frame Information Manager/L-4",
-		"UI/Frame Information Manager/L-5",
+		"UI/Frame Information Manager/L-1 1",
+		"UI/Frame Information Manager/L-2 1",
+		"UI/Frame Information Manager/L-3 1",
+		"UI/Frame Information Manager/L-4 1",
+		"UI/Frame Information Manager/L-5 1",
 
 
 	};
 	public readonly static List<string> PanelFrontCardManager= new List<string>
 	{
-		"UI/Frame Information Manager/PI-1",
-		"UI/Frame Information Manager/PI-2",
-		"UI/Frame Information Manager/PI-3",
-		"UI/Frame Information Manager/PI-4",
-		"UI/Frame Information Manager/PI-5",
+		"UI/Frame Information Manager/PI-1 1",
+		"UI/Frame Information Manager/PI-2 1",
+		"UI/Frame Information Manager/PI-3 1",
+		"UI/Frame Information Manager/PI-4 1",
+		"UI/Frame Information Manager/PI-5 1",
 	};
 	public readonly static List<string> PanelBehindCardManager = new List<string>
 	{
-		"UI/Frame Information Manager/BH-1",
-		"UI/Frame Information Manager/BH-2",
-		"UI/Frame Information Manager/BH-3"
+		"UI/Frame Information Manager/BH-1 1",
+		"UI/Frame Information Manager/BH-2 1",
+		"UI/Frame Information Manager/BH-3 1"
 
 	};
 
