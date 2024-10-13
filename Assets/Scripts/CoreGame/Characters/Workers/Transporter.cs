@@ -11,14 +11,15 @@ public class Transporter : BaseWorker
     public Counter Counter { get; set; }
     private TextMeshPro numberText;
     [SerializeField] private bool isWorking = false;
+    public bool IsWorking => isWorking;
     [SerializeField] private GameObject transporterView;
     [SerializeField] private SkeletonAnimation transporterSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation, tailSketonAnimation;
-	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
-	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
-	public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
-	public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
-	
-	private bool isShowTextNumber = true;
+    public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+    public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+    public SkeletonAnimation BodySkeletonAnimation => transporterSkeletonAnimation;
+    public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
+
+    private bool isShowTextNumber = true;
     public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
@@ -41,29 +42,40 @@ public class Transporter : BaseWorker
         numberText.transform.localPosition = new Vector3(-0.5f, 0.22f, 0);
         collectTransform = Counter.TransporterLocation;
         depositTransform = Counter.CounterLocation;
+
+        PlayAnimation(WorkerState.Idle, true);
     }
 
     private void Update()
     {
         if (!isWorking)
         {
-            isWorking = true;
-            Move(Counter.TransporterLocation.position);
+            if (Counter.ManagerLocation.Manager != null)
+            {
+                forceWorking = true;
+            }
+
+            if (forceWorking)
+            {
+                isWorking = true;
+                forceWorking = false;
+                Move(Counter.TransporterLocation.position);
+            }
         }
     }
-	private void LateUpdate()
-	{
-		if(isShowTextNumber == false)
-		{
-			numberText.text = "";
-		}
-			
-	}
-	public void HideNumberText()
-	{
-		isShowTextNumber = false;
-	}
-	protected override async void Collect()
+    private void LateUpdate()
+    {
+        if (isShowTextNumber == false)
+        {
+            numberText.text = "";
+        }
+
+    }
+    public void HideNumberText()
+    {
+        isShowTextNumber = false;
+    }
+    protected override async void Collect()
     {
         ChangeGoal();
         double maxCapacity = ProductPerSecond * WorkingTime;
@@ -71,11 +83,11 @@ public class Transporter : BaseWorker
 
         if (amount == 0)
         {
-            await IECollect(amount , 0);
+            await IECollect(amount, 0);
         }
         else
         {
-            await IECollect(amount ,WorkingTime);
+            await IECollect(amount, WorkingTime);
         }
     }
     protected override async UniTask IECollect(double amount, float time)
@@ -103,7 +115,7 @@ public class Transporter : BaseWorker
     protected override async UniTask IEDeposit(double amount = 0, float time = 0)
     {
         PlayTextAnimation(amount, true);
-        PlayAnimation(WorkerState.Idle, false);
+        PlayAnimation(WorkerState.Idle, true);
         await UniTask.Delay((int)time * 1000);
         PawManager.Instance.AddPaw(amount);
         CurrentProduct = 0;
@@ -116,11 +128,24 @@ public class Transporter : BaseWorker
         switch (state)
         {
             case WorkerState.Idle:
+                if (direction)
+                {
+                    transporterView.transform.localScale = new Vector3(1, 1, 1);
+                }
+                else
+                {
+                    transporterView.transform.localScale = new Vector3(-1, 1, 1);
+                }
+
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Working:
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 break;
             case WorkerState.Moving:
@@ -132,9 +157,11 @@ public class Transporter : BaseWorker
                 {
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
                 }
-				numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
-				cartSkeletonAnimation.AnimationState.SetAnimation(0,(CurrentProduct == 0)? "Active" : "Active2", true);
+                numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
+                cartSkeletonAnimation.AnimationState.SetAnimation(0, (CurrentProduct == 0) ? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 break;
         }
     }

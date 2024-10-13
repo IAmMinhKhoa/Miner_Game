@@ -27,13 +27,15 @@ namespace UI.Inventory
 			var elevator = ElevatorSystem.Instance;
 			if (elevator.ElevatorController.TryGetComponent<ElevatorControllerView>(out var controller))
 			{
-				int headSkinAmount = controller.ElevatorHeadStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
-				int bodySkinAmount = controller.ElevatorBodyStaff.Skeleton.Data.Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
-
-				SkeletonDataAsset headDataAsset = controller.ElevatorHeadStaff.skeletonDataAsset;
-				SkeletonDataAsset bodyDataAsset = controller.ElevatorBodyStaff.skeletonDataAsset;
+				var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ElevatorCharacter];
+				SkeletonDataAsset headDataAsset = skeletonData;
+				SkeletonDataAsset bodyDataAsset = skeletonData;
 
 				staffSkinUI.CurrentItemTypeHandle = InventoryItemType.ElevatorCharacter;
+				
+				int headSkinAmount = headDataAsset.GetSkeletonData(true).Skins.Where(x => x.Name.StartsWith("Head/Skin_")).Count();
+				int bodySkinAmount = bodyDataAsset.GetSkeletonData(true).Skins.Where(x => x.Name.StartsWith("Body/Skin_")).Count();
+
 				staffSkinUI.SetHeadIndex(headSkinAmount, headDataAsset, "Head/Skin_", new(0.2f, 0.2f, 0.2f), new(0, -84));
 				staffSkinUI.SetBodyIndex(headSkinAmount, bodyDataAsset, "Body/Skin_", new(0.2f, 0.2f, 0.2f), new(0, -42));
 				int curHeadIndex = int.Parse(elevator.elevatorSkin.characterSkin.idHead);

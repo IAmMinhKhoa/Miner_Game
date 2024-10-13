@@ -1,0 +1,84 @@
+{
+"skeleton": {
+	"hash": "p1SdsYPfJwU",
+	"spine": "4.2.36",
+	"x": -810,
+	"y": -689,
+	"width": 1620,
+	"height": 1378,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Layer 1", "parent": "root" },
+	{ "name": "Layer 4 copy", "parent": "Layer 1", "x": 305.5, "y": 331.02 },
+	{ "name": "Layer 4", "parent": "Layer 1", "x": -305.5, "y": 331.02 }
+],
+"slots": [
+	{ "name": "Layer 3", "bone": "Layer 1", "attachment": "Layer 3" },
+	{ "name": "Layer 2", "bone": "Layer 1", "attachment": "Layer 2" },
+	{ "name": "Layer 4", "bone": "Layer 4", "attachment": "Layer 4" },
+	{ "name": "Layer 4 copy", "bone": "Layer 4 copy", "attachment": "Layer 4 copy" },
+	{ "name": "Layer 1", "bone": "Layer 1", "attachment": "Layer 1" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Layer 1": {
+				"Layer 1": { "width": 1620, "height": 1378 }
+			},
+			"Layer 2": {
+				"Layer 2": { "x": -302.5, "y": 146.5, "width": 131, "height": 169 }
+			},
+			"Layer 3": {
+				"Layer 3": { "x": 300.5, "y": 145.5, "width": 139, "height": 169 }
+			},
+			"Layer 4": {
+				"Layer 4": { "width": 205, "height": 203 }
+			},
+			"Layer 4 copy": {
+				"Layer 4 copy": { "width": 205, "height": 203 }
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"bones": {
+			"Layer 4": {
+				"translate": [
+					{ "time": 0.6667 },
+					{ "time": 0.7667, "y": -197.73, "curve": "stepped" },
+					{ "time": 0.8667, "y": -197.73 },
+					{ "time": 0.9667 }
+				]
+			},
+			"Layer 4 copy": {
+				"translate": [
+					{ "time": 0.6667 },
+					{ "time": 0.7667, "y": -197.73, "curve": "stepped" },
+					{ "time": 0.8667, "y": -197.73 },
+					{ "time": 0.9667, "curve": "stepped" },
+					{ "time": 2.1667 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"Layer 4": {
+				"attachment": [
+					{}
+				]
+			},
+			"Layer 4 copy": {
+				"attachment": [
+					{}
+				]
+			}
+		}
+	}
+}
+}

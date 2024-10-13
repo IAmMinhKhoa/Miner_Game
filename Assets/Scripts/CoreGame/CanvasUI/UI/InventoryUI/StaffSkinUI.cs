@@ -54,6 +54,7 @@ namespace UI.Inventory
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
 		private InventoryItemType _currentItemTypeHandle;
 
+
 		private int _currentFloor;
 		public int CurrentFloor
 		{
@@ -112,15 +113,14 @@ namespace UI.Inventory
 
 		//so luong skin
 
-		private int MaxHeadSkinAmount;
-		private int MaxBodySkinAmount;
-		
 		private int currentHeadIndex;
 		private int currentBodyIndex;
 
 		public int CurrentHeadIndex => currentHeadIndex;
 		public int CurrentBodyIndex => currentBodyIndex;
-	
+
+		bool isUpdateElevatorModel = false;
+		bool isUpdateShaftModel = false;
 		public void SetCurentHeadBodyIndex(int headIndex, int bodyIndex)
 		{
 			currentBodyIndex = bodyIndex;
@@ -128,11 +128,38 @@ namespace UI.Inventory
 			UpdateBodyModel();
 			UpdateHeadModel();
 		}
+		private void UpdateElevatorModel()
+		{
+			elevatorHeadModel.GetComponent<SkeletonGraphic>().skeletonDataAsset =
+				SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ElevatorCharacter];
+			elevatorBodyModel.GetComponent<SkeletonGraphic>().skeletonDataAsset =
+				SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ElevatorCharacter];
+			elevatorHeadModel.GetComponent<SkeletonGraphic>().Initialize(true);
+			elevatorBodyModel.GetComponent<SkeletonGraphic>().Initialize(true);
+		}
+		private void UpdateShaftModel()
+		{
+			shaftHeadModel.GetComponent<SkeletonGraphic>().skeletonDataAsset =
+				SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftCharacter];
+			shaftBodyModel.GetComponent<SkeletonGraphic>().skeletonDataAsset =
+				SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftCharacter];
+			shaftHeadModel.GetComponent<SkeletonGraphic>().Initialize(true);
+			shaftBodyModel.GetComponent<SkeletonGraphic>().Initialize(true);
+		}
 		public void SetHeadIndex(int skinAmount, SkeletonDataAsset skeletonData, string initialSkinName, Vector3 scale, Vector2 pos)
 		{
 			if (headCharacter == null) headCharacter = new();
 			else headCharacter.Clear();
-
+			if(isUpdateElevatorModel == false)
+			{
+				UpdateElevatorModel();
+				isUpdateElevatorModel = true;
+			}
+			if(isUpdateShaftModel == false)
+			{
+				UpdateShaftModel();
+				isUpdateShaftModel = true;
+			}
 			var skeletonSkin = characterSkinUI.Spine.GetComponent<SkeletonGraphic>();
 			skeletonSkin.skeletonDataAsset = skeletonData;
 			skeletonSkin.initialSkinName = initialSkinName + 1;

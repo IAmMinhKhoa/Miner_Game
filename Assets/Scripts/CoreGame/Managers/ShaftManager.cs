@@ -205,7 +205,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
 				shaft.SetDepositValue(currentDeposit);
-
+				shaft.gameObject.GetComponent<ShaftUI>().UpdateSkeletonData();
 				shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
 				Shafts.Add(shaft);
 				float newY = shaft.transform.position.y;

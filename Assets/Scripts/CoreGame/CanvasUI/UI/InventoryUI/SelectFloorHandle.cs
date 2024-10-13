@@ -15,8 +15,6 @@ namespace UI.Inventory
 		List<SelecFloorItem> listItem;
 		[SerializeField] Toggle selectAll;
 		public List<SelecFloorItem> ListItem => listItem;
-		bool isSelectAll = false;
-		bool isCheckSingleItem = false;
 
 		public event Action<List<int>> OnChangeFloorSeleted;
 		private void OnEnable()

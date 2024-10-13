@@ -12,7 +12,6 @@ namespace UI.Inventory
 	public class ChangeElevatorState : BaseState<InventoryItemType>
 	{
 		readonly PopupOtherItemController itemController;
-		readonly List<DataSkinImage> skins = SkinManager.Instance.skinResource.skinWaitTable;
 		Item itemPrefab;
 
 		List<Item> items;
@@ -33,7 +32,7 @@ namespace UI.Inventory
 
 			itemPrefab.spine.initialSkinName = "Skin_1";
 			//set data
-			itemPrefab.spine.skeletonDataAsset = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>().FontElevator.SkeletonDataAsset;
+			itemPrefab.spine.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.Elevator];
 			itemPrefab.spine.Initialize(true);
 		
 			int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
