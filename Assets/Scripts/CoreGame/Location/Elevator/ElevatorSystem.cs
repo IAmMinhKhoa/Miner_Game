@@ -85,9 +85,9 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return GetPureMoveTime() * (ShaftManager.Instance.Shafts.Count - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
     }
 
-    public double GetTempMoveTimeInCycle(int shaftCount)
+    public double GetTempMoveTimeInCycle(int index)
     {
-        return GetPureMoveTime() * (shaftCount - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
+        return GetPureMoveTime() * index * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
     }
 
     private bool isDone = false;
@@ -165,6 +165,33 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public double GetTotalNS()
     {
         return GetPureProductionInCycle() / GetMoveTimeInCycle() * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
+    }
+
+    public double GetTotalNSVersion2()
+    {
+        int index = 0;
+        int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
+        double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
+
+        for (int i = 0; i <= maxIndex; i++)
+        {
+            double moveTime = GetTempMoveTimeInCycle(i) / GetManagerBoost(BoostType.Speed);
+
+            double q = 0d;
+            for (int j = 0; j <= i; j++)
+            {
+                var shaft = ShaftManager.Instance.Shafts[j];
+                q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+            }
+
+            if (q >= loadCapacity)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
 
     public void Save()
