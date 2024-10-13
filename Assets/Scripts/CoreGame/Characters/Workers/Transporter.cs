@@ -42,6 +42,8 @@ public class Transporter : BaseWorker
         numberText.transform.localPosition = new Vector3(-0.5f, 0.22f, 0);
         collectTransform = Counter.TransporterLocation;
         depositTransform = Counter.CounterLocation;
+
+        PlayAnimation(WorkerState.Idle, true);
     }
 
     private void Update()
@@ -113,7 +115,7 @@ public class Transporter : BaseWorker
     protected override async UniTask IEDeposit(double amount = 0, float time = 0)
     {
         PlayTextAnimation(amount, true);
-        PlayAnimation(WorkerState.Idle, false);
+        PlayAnimation(WorkerState.Idle, true);
         await UniTask.Delay((int)time * 1000);
         PawManager.Instance.AddPaw(amount);
         CurrentProduct = 0;
@@ -126,6 +128,15 @@ public class Transporter : BaseWorker
         switch (state)
         {
             case WorkerState.Idle:
+                if (direction)
+                {
+                    transporterView.transform.localScale = new Vector3(1, 1, 1);
+                }
+                else
+                {
+                    transporterView.transform.localScale = new Vector3(-1, 1, 1);
+                }
+
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);

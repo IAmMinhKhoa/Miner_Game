@@ -59,6 +59,7 @@ public class ElevatorUI : MonoBehaviour
         m_upgradeButton.onClick.AddListener(UpgradeRequest);
         m_managerButton.onClick.AddListener(OpenManagerPanel);
         m_boostButton.onClick.AddListener(ActiveBoost);
+        m_workerButton.onClick.AddListener(AwakeWorker);
         BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
     }
 
@@ -67,6 +68,7 @@ public class ElevatorUI : MonoBehaviour
         m_upgradeButton.onClick.RemoveListener(UpgradeRequest);
         m_managerButton.onClick.RemoveListener(OpenManagerPanel);
         m_boostButton.onClick.RemoveListener(ActiveBoost);
+        m_workerButton.onClick.RemoveListener(AwakeWorker);
         BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
         //m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
     }
@@ -200,6 +202,11 @@ public class ElevatorUI : MonoBehaviour
             bodySkeleton.SetSlotsToSetupPose();
         }
 
+    }
+
+    private void AwakeWorker()
+    {
+        m_elevator.AwakeWorker();
     }
 
     #region DEBUG

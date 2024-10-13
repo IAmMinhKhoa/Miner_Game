@@ -41,6 +41,8 @@ public class ElevatorController : BaseWorker
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
         collectTransform = this.transform;
+
+        PlayAnimation(WorkerState.Idle, true);
     }
     private void Update()
     {
@@ -193,6 +195,7 @@ public class ElevatorController : BaseWorker
         _currentShaftIndex = -1;
         ChangeGoal();
         isWorking = false;
+        PlayAnimation(WorkerState.Idle, false);
     }
 
     private async void PlayTextAnimation(double amount, bool reverse = false)
