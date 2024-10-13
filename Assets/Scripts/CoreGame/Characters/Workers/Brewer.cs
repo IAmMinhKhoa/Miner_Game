@@ -46,6 +46,8 @@ public class Brewer : BaseWorker
         numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
         collectTransform = CurrentShaft.BrewLocation;
         depositTransform = CurrentShaft.BrewerLocation;
+
+        PlayAnimation(WorkerState.Idle, false);
     }
 
 
@@ -85,6 +87,7 @@ public class Brewer : BaseWorker
         numberText.text = "0";
 
         isWorking = false;
+        PlayAnimation(WorkerState.Idle, false);
     }
 
     protected override async UniTask IECollect()
@@ -118,6 +121,15 @@ public class Brewer : BaseWorker
         switch (state)
         {
             case WorkerState.Idle:
+                if (direction)
+                {
+                    brewerView.transform.localScale = new Vector3(1, 1, 1);
+                }
+                else
+                {
+                    brewerView.transform.localScale = new Vector3(-1, 1, 1);
+                }
+
                 brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);

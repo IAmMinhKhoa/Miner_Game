@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using NOOD;
 using UnityEngine;
 
@@ -176,7 +177,7 @@ public class Shaft : MonoBehaviour
         return false;
     }
 
-    public void AwakeWorker()
+    public async UniTask AwakeWorker()
     {
         foreach (var brewer in _brewers)
         {
@@ -184,6 +185,7 @@ public class Shaft : MonoBehaviour
             {
                 brewer.forceWorking = true;
             }
+            await UniTask.Delay(100);
         }
     }
 }

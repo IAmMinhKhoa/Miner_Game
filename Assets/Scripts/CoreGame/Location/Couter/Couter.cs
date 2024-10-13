@@ -188,7 +188,7 @@ public class Counter : Patterns.Singleton<Counter>
         return false;
     }
 
-    public void AwakeWorker()
+    public async UniTask AwakeWorker()
     {
         foreach (var transporter in _transporters)
         {
@@ -196,6 +196,7 @@ public class Counter : Patterns.Singleton<Counter>
             {
                 transporter.forceWorking = true;
             }
+            await UniTask.Delay(100);
         }
     }
 
