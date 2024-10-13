@@ -32,6 +32,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_settingUI;
 	[SerializeField] private GameObject modal_bankUI;
 	[SerializeField] private GameObject modal_storeUI;
+	[SerializeField] private GameObject modal_minigameUI;
 	private void Start()
 	{
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
@@ -73,7 +74,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenMinigame()
 	{
-		SceneManager.LoadScene("DemoMinigame", LoadSceneMode.Additive);
+		modal_minigameUI.GetComponent<MiniGameUI>().FadeInContainer();
 	}
 	#endregion
 

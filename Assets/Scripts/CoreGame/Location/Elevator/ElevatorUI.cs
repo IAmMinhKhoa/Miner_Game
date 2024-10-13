@@ -175,34 +175,34 @@ public class ElevatorUI : MonoBehaviour
     public void ChangeSkin(ElevatorSkin data)
     {
 
-        if (data == null) return;
-        m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
+		if (data == null) return;
+		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
 
-        int elevatorIndex = int.Parse(data.idFrontElevator);
+		int elevatorIndex = int.Parse(data.idFrontElevator);
 
-        if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
-        {
-            //cap nhat skin thang may
-            var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
-            var backSkeleton = elevatorControllerView.BackElevator.skeleton;
+		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+		{
+			//cap nhat skin thang may
+			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
+			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
 
-            fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
-            backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
-            fontSkeleton.SetSlotsToSetupPose();
-            backSkeleton.SetSlotsToSetupPose();
+			fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+			fontSkeleton.SetSlotsToSetupPose();
+			backSkeleton.SetSlotsToSetupPose();
 
-            //cap nhat nhan vat thang may
-            int headIndex = int.Parse(data.characterSkin.idHead);
-            int bodyIndex = int.Parse(data.characterSkin.idBody);
-            var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
-            var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
-            headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
-            bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
-            headSkeleton.SetSlotsToSetupPose();
-            bodySkeleton.SetSlotsToSetupPose();
-        }
+			//cap nhat nhan vat thang may
+			int headIndex = int.Parse(data.characterSkin.idHead);
+			int bodyIndex = int.Parse(data.characterSkin.idBody);
+			var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
+			var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
+			headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+			bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+			headSkeleton.SetSlotsToSetupPose();
+			bodySkeleton.SetSlotsToSetupPose();
+		}
 
-    }
+	}
 
     private void AwakeWorker()
     {
