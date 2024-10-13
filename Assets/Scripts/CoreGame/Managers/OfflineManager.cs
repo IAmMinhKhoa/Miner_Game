@@ -377,7 +377,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     {
         double result = 0d;
         double shaftPaw = ShaftManager.Instance.GetTotalNS();
-        double elevatorPaw = ElevatorSystem.Instance.GetTotalNS();
+        //double elevatorPaw = ElevatorSystem.Instance.GetTotalNS();
+        double elevatorPaw = ElevatorSystem.Instance.GetTotalNSVersion2();
         double couterPaw = Counter.Instance.GetTotalNS();
 
         if (shaftPaw > elevatorPaw)

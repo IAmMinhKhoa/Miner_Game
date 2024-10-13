@@ -15,6 +15,7 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private Button m_upgradeButton;
     [SerializeField] private Button m_managerButton;
     [SerializeField] private Button m_boostButton;
+    [SerializeField] private Button m_workerButton;
 
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI m_pawText;
@@ -23,24 +24,24 @@ public class ElevatorUI : MonoBehaviour
 
     [Header("Visual object")]
     [SerializeField] private SkeletonAnimation m_refrigeratorAnimation;
-	[SerializeField] private SkeletonAnimation m_bgElevator;
+    [SerializeField] private SkeletonAnimation m_bgElevator;
     private ElevatorSystem m_elevator;
     private ElevatorUpgrade m_elevatorUpgrade;
 
-	public SkeletonAnimation BgElevator => m_bgElevator;
+    public SkeletonAnimation BgElevator => m_bgElevator;
 
     void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
         m_elevatorUpgrade = GetComponent<ElevatorUpgrade>();
-		
+
     }
 
     void Start()
     {
         m_elevator.OnElevatorControllerArrive += ElevatorSystem_OnElevatorControllerArriveHandler;
 
-        m_levelText.text =  m_elevatorUpgrade.CurrentLevel.ToString();
+        m_levelText.text = m_elevatorUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         UpdateFrameButtonUpgrade(m_elevatorUpgrade.CurrentLevel);
@@ -80,7 +81,7 @@ public class ElevatorUI : MonoBehaviour
     public void ShowManagerButton(bool isShow)
     {
         m_managerButton.transform.GetChild(0).gameObject.SetActive(isShow);
-        if(isShow)
+        if (isShow)
         {
             m_managerButton.image.color = new Color(1, 1, 1, 1);
         }
@@ -144,68 +145,68 @@ public class ElevatorUI : MonoBehaviour
         OnUpgradeRequest?.Invoke();
     }
 
-	public void UpdateSkeletonData()
-	{
-		
-		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
-		m_bgElevator.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorBg];
-		m_bgElevator.Initialize(true);
-		
-		var controllerView = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>();
-		var fontSkeleton = controllerView.FontElevator;
-		var backSkeleton = controllerView.BackElevator;
-		fontSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.Elevator];
-		backSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.BackElevator];
+    public void UpdateSkeletonData()
+    {
 
-		fontSkeleton.Initialize(true);
-		backSkeleton.Initialize(true);
-		var headSkeleton = controllerView.ElevatorHeadStaff;
-		var bodySkeleton = controllerView.ElevatorBodyStaff;
-		
-		headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
-		bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
-		
-		headSkeleton.Initialize(true);
-		bodySkeleton.Initialize(true);
+        var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
+        m_bgElevator.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorBg];
+        m_bgElevator.Initialize(true);
 
-	}
-	public void ChangeSkin(ElevatorSkin data)
-	{
-	
-		if (data == null) return;
-		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
-		
-		int elevatorIndex = int.Parse(data.idFrontElevator);
-		
-		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
-		{
-			//cap nhat skin thang may
-			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
-			var backSkeleton = elevatorControllerView.BackElevator.skeleton;
+        var controllerView = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>();
+        var fontSkeleton = controllerView.FontElevator;
+        var backSkeleton = controllerView.BackElevator;
+        fontSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.Elevator];
+        backSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.BackElevator];
 
-			fontSkeleton.SetSkin("Skin_"+(elevatorIndex+1));
-			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
-			fontSkeleton.SetSlotsToSetupPose();
-			backSkeleton.SetSlotsToSetupPose();
+        fontSkeleton.Initialize(true);
+        backSkeleton.Initialize(true);
+        var headSkeleton = controllerView.ElevatorHeadStaff;
+        var bodySkeleton = controllerView.ElevatorBodyStaff;
 
-			//cap nhat nhan vat thang may
-			int headIndex = int.Parse(data.characterSkin.idHead);
-			int bodyIndex = int.Parse(data.characterSkin.idBody);
-			var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
-			var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
-			headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
-			bodySkeleton.SetSkin("Body/Skin_"  + (bodyIndex + 1));
-			headSkeleton.SetSlotsToSetupPose();
-			bodySkeleton.SetSlotsToSetupPose();
-		}
+        headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
+        bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorCharacter];
 
-	}
+        headSkeleton.Initialize(true);
+        bodySkeleton.Initialize(true);
 
-	#region DEBUG
-	// [Button]
-	// private void AddLevel(int valueAdd)
-	// {
-	//     m_elevatorUpgrade.Upgrade(valueAdd);
-	// }
-	#endregion
+    }
+    public void ChangeSkin(ElevatorSkin data)
+    {
+
+        if (data == null) return;
+        m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
+
+        int elevatorIndex = int.Parse(data.idFrontElevator);
+
+        if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+        {
+            //cap nhat skin thang may
+            var fontSkeleton = elevatorControllerView.FontElevator.skeleton;
+            var backSkeleton = elevatorControllerView.BackElevator.skeleton;
+
+            fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+            backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+            fontSkeleton.SetSlotsToSetupPose();
+            backSkeleton.SetSlotsToSetupPose();
+
+            //cap nhat nhan vat thang may
+            int headIndex = int.Parse(data.characterSkin.idHead);
+            int bodyIndex = int.Parse(data.characterSkin.idBody);
+            var headSkeleton = elevatorControllerView.ElevatorHeadStaff.skeleton;
+            var bodySkeleton = elevatorControllerView.ElevatorBodyStaff.skeleton;
+            headSkeleton.SetSkin("Head/Skin_" + (headIndex + 1));
+            bodySkeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));
+            headSkeleton.SetSlotsToSetupPose();
+            bodySkeleton.SetSlotsToSetupPose();
+        }
+
+    }
+
+    #region DEBUG
+    // [Button]
+    // private void AddLevel(int valueAdd)
+    // {
+    //     m_elevatorUpgrade.Upgrade(valueAdd);
+    // }
+    #endregion
 }

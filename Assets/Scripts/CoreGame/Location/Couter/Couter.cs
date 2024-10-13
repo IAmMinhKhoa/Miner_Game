@@ -8,9 +8,9 @@ using System;
 
 public class Counter : Patterns.Singleton<Counter>
 {
-	public Action<int> OnUpgrade;
-	public Action OnUpdateCounterInventoryUI;
-	[Header("Location")]
+    public Action<int> OnUpgrade;
+    public Action OnUpdateCounterInventoryUI;
+    [Header("Location")]
     [SerializeField] private Transform m_counterLocation;
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
@@ -56,30 +56,30 @@ public class Counter : Patterns.Singleton<Counter>
     private bool isDone = false;
     public bool IsDone => isDone;
 
-	private CounterSkin _counterSkin;
+    private CounterSkin _counterSkin;
 
-	public CounterSkin counterSkin
-	{
-		get => _counterSkin;
-		set
-		{
-			_counterSkin = value;
-		}
-	}
-	protected override void Awake()
-	{
-		isPersistent = false;
-		base.Awake();
-		
-	}
-	public void UpdateUI()
-	{
-		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
-		{
-			counterUI.ChangeSkin(counterSkin);
-		}
-	}
-	public void CreateTransporter()
+    public CounterSkin counterSkin
+    {
+        get => _counterSkin;
+        set
+        {
+            _counterSkin = value;
+        }
+    }
+    protected override void Awake()
+    {
+        isPersistent = false;
+        base.Awake();
+
+    }
+    public void UpdateUI()
+    {
+        if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+        {
+            counterUI.ChangeSkin(counterSkin);
+        }
+    }
+    public void CreateTransporter()
     {
         Debug.Log("Create Transporter");
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
@@ -88,11 +88,11 @@ public class Counter : Patterns.Singleton<Counter>
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
         _transporters.Add(transporter);
-		if(_transporters.Count >= 1)
-		{
-			UpdateUI();
-			transporter.HideNumberText();
-		}
+        if (_transporters.Count >= 1)
+        {
+            UpdateUI();
+            transporter.HideNumberText();
+        }
     }
 
     private void CreateDeposit()
@@ -170,7 +170,7 @@ public class Counter : Patterns.Singleton<Counter>
             upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
 
-			GetComponent<CounterUI>().UpdateSkeletonData();
+            GetComponent<CounterUI>().UpdateSkeletonData();
 
             int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
             for (int i = 0; i < numberWorker; i++)
@@ -186,6 +186,17 @@ public class Counter : Patterns.Singleton<Counter>
             return true;
         }
         return false;
+    }
+
+    public void AwakeWorker()
+    {
+        foreach (var transporter in _transporters)
+        {
+            if (!transporter.IsWorking)
+            {
+                transporter.forceWorking = true;
+            }
+        }
     }
 
     class Data
