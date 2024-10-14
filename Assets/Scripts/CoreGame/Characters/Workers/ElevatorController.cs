@@ -17,7 +17,7 @@ public class ElevatorController : BaseWorker
     [SerializeField] private bool isWorking = false;
     private double checkWorkingTime = 0;
     public bool IsWorking => isWorking;
-    public double MaxCapacity{ get; private set; }
+    public double MaxCapacity { get; private set; }
     public override double ProductPerSecond
     {
         get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
@@ -34,20 +34,31 @@ public class ElevatorController : BaseWorker
     }
 
 
-	private void Start()
+    private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(this.transform);
         numberText.transform.localPosition = new Vector3(0, 0.4f, 0);
         collectTransform = this.transform;
-	}
+
+        PlayAnimation(WorkerState.Idle, true);
+    }
     private void Update()
     {
         if (!isWorking)
         {
-            isWorking = true;
-            MoveToNextShaft();
+            if (elevator.ManagerLocation.Manager != null)
+            {
+                forceWorking = true;
+            }
+
+            if (forceWorking)
+            {
+                isWorking = true;
+                forceWorking = false;
+                MoveToNextShaft();
+            }
         }
     }
 
@@ -184,6 +195,7 @@ public class ElevatorController : BaseWorker
         _currentShaftIndex = -1;
         ChangeGoal();
         isWorking = false;
+        PlayAnimation(WorkerState.Idle, false);
     }
 
     private async void PlayTextAnimation(double amount, bool reverse = false)

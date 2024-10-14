@@ -85,9 +85,9 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return GetPureMoveTime() * (ShaftManager.Instance.Shafts.Count - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
     }
 
-    public double GetTempMoveTimeInCycle(int shaftCount)
+    public double GetTempMoveTimeInCycle(int index)
     {
-        return GetPureMoveTime() * (shaftCount - 1) * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
+        return GetPureMoveTime() * index * 2 + GetPureMoveTime() * 0.724f * 2f + GetPureLoadTime() * 2;
     }
 
     private bool isDone = false;
@@ -113,12 +113,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             Debug.Log("Faild to update background sprite");
         }
     }
-	protected override void Awake()
-	{
-		isPersistent = false;
-		base.Awake();
-	}
-	void Start()
+    protected override void Awake()
+    {
+        isPersistent = false;
+        base.Awake();
+    }
+    void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
@@ -167,6 +167,33 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         return GetPureProductionInCycle() / GetMoveTimeInCycle() * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
 
+    public double GetTotalNSVersion2()
+    {
+        int index = 0;
+        int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
+        double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
+
+        for (int i = 0; i <= maxIndex; i++)
+        {
+            double moveTime = GetTempMoveTimeInCycle(i) / GetManagerBoost(BoostType.Speed);
+
+            double q = 0d;
+            for (int j = 0; j <= i; j++)
+            {
+                var shaft = ShaftManager.Instance.Shafts[j];
+                q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+            }
+
+            if (q >= loadCapacity)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
+    }
+
     public void Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
@@ -187,8 +214,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
-		GetComponent<ElevatorUI>().UpdateSkeletonData();
-		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -202,13 +228,21 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-			
+            GetComponent<ElevatorUI>().UpdateSkeletonData();
             CreateElevator();
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    public void AwakeWorker()
+    {
+        if (!elevatorController.IsWorking)
+        {
+            elevatorController.forceWorking = true;
         }
     }
 

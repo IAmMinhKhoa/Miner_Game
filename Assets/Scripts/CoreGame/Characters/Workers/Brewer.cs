@@ -11,20 +11,22 @@ public class Brewer : BaseWorker
     [SerializeField] private GameObject brewerView;
 
     [SerializeField] private SkeletonAnimation brewerSkeletonAnimation, cartSkeletonAnimation, headSkeletonAnimation, tailSketonAnimation;
-    
+
 
     public Shaft CurrentShaft { get; set; }
-	public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
-	public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
-	public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
-	public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
-	[SerializeField]private TextMeshPro numberText;
+    public SkeletonAnimation CartSkeletonAnimation => cartSkeletonAnimation;
+    public SkeletonAnimation HeadSkeletonAnimation => headSkeletonAnimation;
+    public SkeletonAnimation BodySkeletonAnimation => brewerSkeletonAnimation;
+    public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
+    [SerializeField] private TextMeshPro numberText;
 
     [SerializeField] private bool isWorking = false;
+    public bool IsWorking => isWorking;
+
     public bool isBrewing = false;
     public override double ProductPerSecond
     {
-        get => config.ProductPerSecond  * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost;
+        get => config.ProductPerSecond * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost;
     }
 
     public override float WorkingTime
@@ -39,29 +41,39 @@ public class Brewer : BaseWorker
 
     void Start()
     {
-		numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
+        numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(brewerView.transform);
-		numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
+        numberText.transform.localPosition = new Vector3(-0.75f, 0.3f, 0);
         collectTransform = CurrentShaft.BrewLocation;
         depositTransform = CurrentShaft.BrewerLocation;
+
+        PlayAnimation(WorkerState.Idle, false);
     }
-	
+
 
     private void Update()
     {
         if (!isWorking)
         {
-            isWorking = true;
-            //PlayAnimation();
-            Move(CurrentShaft.BrewLocation.position);
+            if (CurrentShaft.ManagerLocation.Manager != null)
+            {
+                forceWorking = true;
+            }
+
+            if (forceWorking)
+            {
+                isWorking = true;
+                forceWorking = false;
+                Move(CurrentShaft.BrewLocation.position);
+            }
         }
     }
-	private void LateUpdate()
-	{
-		numberText.text = "";
-	}
+    private void LateUpdate()
+    {
+        numberText.text = "";
+    }
 
-	protected override async void Collect()
+    protected override async void Collect()
     {
         base.Collect();
         await IECollect();
@@ -75,6 +87,7 @@ public class Brewer : BaseWorker
         numberText.text = "0";
 
         isWorking = false;
+        PlayAnimation(WorkerState.Idle, false);
     }
 
     protected override async UniTask IECollect()
@@ -108,6 +121,15 @@ public class Brewer : BaseWorker
         switch (state)
         {
             case WorkerState.Idle:
+                if (direction)
+                {
+                    brewerView.transform.localScale = new Vector3(1, 1, 1);
+                }
+                else
+                {
+                    brewerView.transform.localScale = new Vector3(-1, 1, 1);
+                }
+
                 brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
@@ -132,11 +154,11 @@ public class Brewer : BaseWorker
                     brewerView.transform.localScale = new Vector3(-1, 1, 1);
                     cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
-				numberText.transform.localScale = new Vector3(brewerView.transform.localScale.x, 1f, 1f);
-				brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
-				tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
-				headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
-				break;
+                numberText.transform.localScale = new Vector3(brewerView.transform.localScale.x, 1f, 1f);
+                brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+                tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
+                headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+                break;
         }
     }
 }
