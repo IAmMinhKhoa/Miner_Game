@@ -1,31 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public interface IBasePlace
 {
-    public Transform WorkerLocation {get;}
-    public Transform DepositLocation {get;}
-    public Transform PickupLocation {get;}
-    public BaseManagerLocation ManagerLocation {get;}
+    public Action OnChangeAttribute { get; set; }
+    public Transform WorkerLocation { get; }
+    public Transform DepositLocation { get; }
+    public Transform PickupLocation { get; }
+    public BaseManagerLocation ManagerLocation { get; }
 
-    public virtual double EfficiencyBoost
+    public double EfficiencyBoost
     {
-        get { return GetManagerBoost(BoostType.Efficiency); }
+        get;
     }
 
-    public virtual float SpeedBoost
+    public float SpeedBoost
     {
-        get { return GetManagerBoost(BoostType.Speed); }
+        get;
     }
 
-    public virtual float CostsBoost
+    public float CostsBoost
     {
-        get { return GetManagerBoost(BoostType.Costs); }
-    }
-
-    private float GetManagerBoost(BoostType currentBoostAction)
-    {
-        return ManagerLocation.GetManagerBoost(currentBoostAction);
+        get;
     }
 }

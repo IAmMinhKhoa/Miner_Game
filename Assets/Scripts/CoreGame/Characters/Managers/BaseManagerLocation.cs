@@ -9,10 +9,21 @@ public class BaseManagerLocation : MonoBehaviour
     private Manager _manager;
     public Manager Manager => _manager;
     [SerializeField] private int locationType;
+    [SerializeField] private IBasePlace _basePlace;
+    public IBasePlace BasePlace => _basePlace;
+
     public ManagerLocation LocationType => (ManagerLocation)locationType;
     private bool isBoosting;
 
-    
+    void Start()
+    {
+        GameObject parent = transform.parent.gameObject;
+
+        if (locationType == 0)
+        {
+            _basePlace = parent.GetComponent<Shaft>();
+        }
+    }
 
     public virtual void RunBoost()
     {

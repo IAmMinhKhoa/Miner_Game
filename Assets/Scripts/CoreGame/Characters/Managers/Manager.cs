@@ -11,15 +11,15 @@ public class Manager
     [SerializeField] private ManagerDataSO _data;
     [SerializeField] private ManagerSpecieDataSO _specieData;
     [SerializeField] private ManagerTimeDataSO _timeData;
-	//private string viewPath = "Prefabs/Character/ManagerView";
-	private ManagerView _view;
+    //private string viewPath = "Prefabs/Character/ManagerView";
+    private ManagerView _view;
 
     public Sprite Icon => _specieData.icon;
     public Sprite IconSpecial => _specieData.icon_Special;
     public ManagerSpecie Specie => _specieData.managerSpecie;
     public string Quoest => _specieData.contentQuoest;
     public string Name => _data.managerName;
-    public SkeletonDataAsset SkeletonAsset=> _specieData.spineManager;
+    public SkeletonDataAsset SkeletonAsset => _specieData.spineManager;
     public ManagerLocation LocationType => _data.managerLocation;
     public ManagerLevel Level => _data.managerLevel;
     public BoostType BoostType => _specieData.BoostType;
@@ -129,6 +129,8 @@ public class Manager
     public void UnassignManager()
     {
         Location.SetManager(null);
+        Location.BasePlace.OnChangeAttribute.Invoke();
+
         Location = null;
         StopBoost();
         GameObject.Destroy(_view.gameObject);
@@ -136,21 +138,21 @@ public class Manager
 
     public void SwapManager()
     {
-        
+
     }
 
     public void RunBoost()
     {
         if (_isBoosting)
         {
-           return;
+            return;
         }
         Debug.Log("Run Boost");
         currentBoostTime = BoostTime * 60;
         currentCooldownTime = CooldownTime * 60;
         ActiveBoost();
     }
-    
+
     public void SetData(ManagerDataSO data)
     {
         _data = data;
@@ -176,10 +178,11 @@ public class Manager
     #region ---- Private Method ----
     private async UniTaskVoid ActiveBoost()
     {
-        _isBoosting = true;        
+        Location.BasePlace.OnChangeAttribute.Invoke();
+        _isBoosting = true;
         while (currentBoostTime > 0)
         {
-         //   Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);
+            //   Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);
             currentBoostTime -= Time.deltaTime;
             await UniTask.Yield(cancellationToken.Token);
         }
@@ -188,9 +191,10 @@ public class Manager
     }
     private async UniTaskVoid Cooldown()
     {
+        Location.BasePlace.OnChangeAttribute.Invoke();
         while (currentCooldownTime > 0)
         {
-         //   Debug.Log("Not boosting:" + LocationType + "/" + currentCooldownTime);
+            //   Debug.Log("Not boosting:" + LocationType + "/" + currentCooldownTime);
             currentCooldownTime -= Time.deltaTime;
             await UniTask.Yield();
         }
@@ -201,7 +205,7 @@ public class Manager
     {
         if (!_isBoosting)
         {
-           return;
+            return;
         }
         cancellationToken.Cancel();
         _isBoosting = false;

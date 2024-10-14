@@ -5,9 +5,10 @@ using Cysharp.Threading.Tasks;
 using NOOD;
 using UnityEngine;
 
-public class Shaft : MonoBehaviour
+public class Shaft : MonoBehaviour, IBasePlace
 {
     public Action<int> OnUpgrade;
+    public Action OnChangeAttribute { get; set; }
 
     [Header("Location")]
     [SerializeField] private Transform m_brewLocation;
@@ -20,6 +21,8 @@ public class Shaft : MonoBehaviour
     public Transform BrewLocation => m_brewLocation;
     public Transform DepositLocation => m_depositLocation;
     public Transform BrewerLocation => m_brewerLocation;
+    public Transform WorkerLocation => m_brewerLocation;
+    public Transform PickupLocation => m_brewLocation;
 
     [Header("Boost")]
     [SerializeField] private double m_levelBoost = 1f;
@@ -27,7 +30,32 @@ public class Shaft : MonoBehaviour
     [SerializeField] private double managerBoost = 1f;
     [SerializeField] private BaseConfig m_config;
 
+    [SerializeField] private double productPerSecond;
+    [SerializeField] private float workingTime;
+    [SerializeField] private float moveTime;
+
+    public double ProductPerSecond => productPerSecond;
+    public float WorkingTime => workingTime;
+    public float MoveTime => moveTime;
+
     public int numberBrewer = 1;
+
+    void OnEnable()
+    {
+        OnChangeAttribute += UpdateAttribute;
+    }
+
+    void OnDisable()
+    {
+        OnChangeAttribute -= UpdateAttribute;
+    }
+
+    private void UpdateAttribute()
+    {
+        productPerSecond = m_config.ProductPerSecond * EfficiencyBoost * SpeedBoost;
+        workingTime = m_config.WorkingTime / SpeedBoost;
+        moveTime = m_config.MoveTime / SpeedBoost;
+    }
 
     public double LevelBoost
     {
@@ -144,6 +172,8 @@ public class Shaft : MonoBehaviour
 
     void Start()
     {
+        UpdateAttribute();
+
         for (int i = 0; i < numberBrewer; i++)
         {
             CreateBrewer();
