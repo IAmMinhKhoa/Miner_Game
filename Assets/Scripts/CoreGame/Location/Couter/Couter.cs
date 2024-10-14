@@ -160,7 +160,8 @@ public class Counter : Patterns.Singleton<Counter>
 
     private bool Load()
     {
-        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
+		GetComponent<CounterUI>().UpdateSkeletonData();
+		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Counter");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -169,9 +170,6 @@ public class Counter : Patterns.Singleton<Counter>
             CounterUpgrade upgrader = gameObject.GetComponent<CounterUpgrade>();
             upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
-
-            GetComponent<CounterUI>().UpdateSkeletonData();
-
             int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
             for (int i = 0; i < numberWorker; i++)
             {

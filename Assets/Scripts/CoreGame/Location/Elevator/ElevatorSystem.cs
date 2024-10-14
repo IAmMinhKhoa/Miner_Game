@@ -214,7 +214,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
-        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
+		GetComponent<ElevatorUI>().UpdateSkeletonData();
+		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -228,7 +229,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-            GetComponent<ElevatorUI>().UpdateSkeletonData();
+           
             CreateElevator();
             return true;
         }
