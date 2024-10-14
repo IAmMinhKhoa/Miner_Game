@@ -17,15 +17,15 @@ public class FruitCombiner : MonoBehaviour
                 {
                     Destroy(gameObject);
                     Destroy(collision.gameObject);
-                    if (otherIndex != 11)
+                    if (otherIndex != 10)
                     {
                         Vector3 hitpoint = (transform.position + collision.gameObject.transform.position)/2;
                         Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
                         Instantiate(combineFX, hitpoint, Quaternion.identity);
-                        GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex*2);
                     }
                 }
-            }
+				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
+			}
         }
     }
 

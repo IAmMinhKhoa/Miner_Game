@@ -11,10 +11,16 @@ using UnityEngine.UI;
 
 public class FruitGameManager : MonoBehaviour
 {
-    public float currentScore;
-    public GameObject playUI, buttonUI, endGameUI;
+    
+    public GameObject buttonUI, endGameUI;
     public Transform fruitsParent;
+	[SerializeField] private Slider sliderScore;
+	[SerializeField] private TextMeshProUGUI currentScoreText, highScoreText, endGameText;
+	[SerializeField] private Toggle tg1, tg2, tg3, tg4;
+	public Image img1;
+	
 
+	public float currentScore;
 	[SerializeField] private UserInput userinp;
 	[SerializeField] private ListFruit fruitList;
 	[SerializeField] private ListImageFruit imgList;
@@ -23,9 +29,7 @@ public class FruitGameManager : MonoBehaviour
     
     public bool isHolding = false;
 
-
-    [SerializeField] private TextMeshProUGUI currentScoreText, highScoreText, endGameText;
-    public Image img1, img2, img3;
+	
 
 
     private void Start()
@@ -52,7 +56,6 @@ public class FruitGameManager : MonoBehaviour
                 isHolding = true;
                 GameObject newFruit = Instantiate(orderList[0].pref, new Vector3(-2, 572364, 04291531), Quaternion.identity, fruitsParent);
                 newFruit.tag = "holdingfruit";
-				Debug.Log(newFruit.ToString());
                 orderList.RemoveAt(0);
             }
         }
@@ -61,8 +64,8 @@ public class FruitGameManager : MonoBehaviour
     public void OnClickPlay()
     {
         currentScore = 0;
+		UpdateScore(0);
         buttonUI.SetActive(false);
-        playUI.SetActive(true);
         isPlaying = true;
         isHolding = false;
     }
@@ -73,7 +76,7 @@ public class FruitGameManager : MonoBehaviour
         {
             GameObject currentFruit = GameObject.FindWithTag("holdingfruit");
             currentFruit.tag = "fruit";
-            Invoke("SetIsHoldingFalse", 1);
+			Invoke("SetIsHoldingFalse", 1);
         }
     }
 
@@ -96,7 +99,7 @@ public class FruitGameManager : MonoBehaviour
 
     public void EndingGame()
     {
-        isPlaying = false;
+		isPlaying = false;
         float highScore = PlayerScore.highScore;
         if (currentScore > highScore)
         {
@@ -108,7 +111,6 @@ public class FruitGameManager : MonoBehaviour
         {
             endGameText.text = "Your score:\n" + currentScore;
         }
-        playUI.SetActive(false);
         buttonUI.SetActive(true);
         endGameUI.SetActive(true);
         if (fruitsParent.childCount > 0)
@@ -118,20 +120,30 @@ public class FruitGameManager : MonoBehaviour
                 Destroy(fruitsParent.GetChild(i).gameObject);
             }
         }
+		currentScore = 0;
+		UpdateScore(0);
+		
 
-    }
+	}
 
     public void UpdateLineUI()
     {
         img1.sprite = orderList[0].img;
-        img2.sprite = orderList[1].img;
-        img3.sprite = orderList[2].img;
     }
 
     public void UpdateScore(float score)
     {
         currentScore += score;
         currentScoreText.text = currentScore+"";
+		sliderScore.value = currentScore;
+
+		switch (currentScore)
+		{
+			case float n when (n >= 450): tg4.isOn = true; break;
+			case float n when (n >= 300): tg3.isOn = true; break;
+			case float n when (n >= 150): tg2.isOn = true; break;
+			case float n when (n >= 0): tg1.isOn = true; break;
+		}
     }
 
 	public float CalcClawLimit(GameObject fruit)

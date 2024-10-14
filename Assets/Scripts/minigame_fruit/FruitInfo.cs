@@ -22,12 +22,14 @@ public class FruitInfo : MonoBehaviour
     {
         if (tag == "holdingfruit")
         {
-            rb.isKinematic = true;
+            //rb.isKinematic = true;
+			rb.simulated = false;
             transform.position = claw.transform.position;
         }
         else
         {
-            rb.isKinematic = false;
+            //rb.isKinematic = false;
+			rb.simulated = true;
             GetComponent<FruitCombiner>().enabled = true;
         }
     }
