@@ -17,7 +17,7 @@ public class MarketToggleHandle : MonoBehaviour
 	{
 		if (isOn)
 		{
-			Debug.Log(itemType);
+			
 		}
 	}
 }
