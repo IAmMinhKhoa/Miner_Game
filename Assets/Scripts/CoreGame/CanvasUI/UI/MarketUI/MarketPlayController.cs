@@ -5,28 +5,104 @@ using StateMachine;
 using Spine.Unity;
 using System.Linq;
 using UnityEditor;
+using System;
 
 public class MarketPlayController : MonoBehaviour 
 {
 	
-	GameObject lowContent;
-	GameObject normalContent;
-	GameObject superContent;
+	
 	[SerializeField]
 	MarketPlayItem item;
 	[SerializeField]
 	MarketContentBox pnNoiThat;
 	[SerializeField]
 	MarketContentBox pnNhanVien;
+	[SerializeField]
+	MarketToggleHandle[] listToggle;
+	[SerializeField]
+	MarketToggleHandle[] listHeadCharToggle;
+	[SerializeField]
+	MarketToggleHandle[] listBodyCharToggle;
+	GameObject lowContent;
+	GameObject normalContent;
+	GameObject superContent;
 
+	InventoryItemType currentItemShowing;
+
+	List<MarketPlayItem> listItem;
 
 	private void Start()
 	{
 		pnNoiThat.BoxIsEnable += SetContent;
 		pnNhanVien.BoxIsEnable += SetContent;
+		foreach (var item in listToggle)
+		{
+			item.OnTabulationClick += HandleTabItemClick;
+		}
+		foreach (var item in listHeadCharToggle)
+		{
+			item.OnTabulationClick += HandleListHead;
+		}
+		foreach (var item in listBodyCharToggle)
+		{
+			item.OnTabulationClick += HanldeListBody ;
+		}
 
 	}
-	List<MarketPlayItem> listItem;
+
+	private void HanldeListBody(InventoryItemType type)
+	{
+		currentItemShowing = type;
+		ClearItem();
+		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
+		var skinData = SkinManager.Instance.InfoSkinGame[type];
+		Initial(skeletonData, skinData, "Body/Skin_");
+		if (type == InventoryItemType.ElevatorCharacterBody)
+		{
+			ResizeListItem(new Vector3(0.3f, 0.3f, 1f), new Vector2(0f, -46f));
+		}
+		else
+		{
+			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(10f, -51f));
+		}
+	}
+
+	private void HandleListHead(InventoryItemType type)
+	{
+		currentItemShowing = type;
+		ClearItem();
+		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
+		var skinData = SkinManager.Instance.InfoSkinGame[type];
+		Initial(skeletonData, skinData, "Head/Skin_");
+		if(type == InventoryItemType.ElevatorCharacter)
+		{
+			ResizeListItem(new Vector3(0.3f, 0.3f, 1f), new Vector2(0f, -127f));
+		}
+		else
+		{
+			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(0f, -130f));
+		}
+	}
+	void ResizeListItem(Vector3 scale, Vector2 pos)
+	{
+		foreach(var item in listItem)
+		{
+			var transform = item.SpineHandling.GetComponent<RectTransform>();
+			transform.localScale = scale;
+			transform.anchoredPosition = pos;
+		}
+	}
+	private void HandleTabItemClick(InventoryItemType type)
+	{
+		currentItemShowing = type;
+		ClearItem();
+		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
+		var skinData = SkinManager.Instance.InfoSkinGame[type];
+
+		item.SpineHandling.startingAnimation = type == InventoryItemType.ShaftWaitTable ? "icon" : "";
+		Initial(skeletonData, skinData, "Icon_");
+	}
+
 
 	public void SetContent(MarketContentBox box)
 	{
@@ -42,7 +118,8 @@ public class MarketPlayController : MonoBehaviour
 		item.SpineHandling.initialSkinName = data.GetSkeletonData(true).Skins.Items[0].Name;
 		item.SpineHandling.Initialize(true);
 	}
-	public void Initial(SkeletonDataAsset data, List<DataSkinBase> skinData)
+
+	public void Initial(SkeletonDataAsset data, List<DataSkinBase> skinData, string startStringSkinName)
 	{
 		SetDataItem(data);
 		listItem ??= new();
@@ -53,61 +130,100 @@ public class MarketPlayController : MonoBehaviour
 
 		for (int i = 0; i < lowSkinList.Count(); i++)
 		{
-			var instanceItem = Instantiate(item, lowContent.transform);
-			instanceItem.ItemQuality =  MarketPlayItemQuality.Low;
-
-			string skinName = "Icon_" + lowSkinList[i].id;
-			var skin = instanceItem.SpineHandling.Skeleton.Data.FindSkin(skinName);
-			if(skin != null)
+			string skinName = startStringSkinName + lowSkinList[i].id;
+			var skin = data.GetSkeletonData(true).FindSkin(skinName);
+			if (skin != null)
 			{
-				instanceItem.SpineHandling.Skeleton.SetSkin(skin);
+				var instanceItem = Instantiate(item, lowContent.transform);
+				instanceItem.ItemQuality = MarketPlayItemQuality.low;
+				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+				instanceItem.ID = lowSkinList[i].id;
+				listItem.Add(instanceItem);
 			}
-
-			listItem.Add(instanceItem);
 		}
 
 		for (int i = 0;i < normalSkinList.Count(); i++)
 		{
-			var instanceItem = Instantiate(item, normalContent.transform);
-			instanceItem.ItemQuality = MarketPlayItemQuality.Normal;
+			string skinName = startStringSkinName + normalSkinList[i].id;
+			var skin = data.GetSkeletonData(true).FindSkin(skinName);
 
-			string skinName = "Icon_" + lowSkinList[i].id;
-			var skin = instanceItem.SpineHandling.Skeleton.Data.FindSkin(skinName);
 			if (skin != null)
 			{
-				instanceItem.SpineHandling.Skeleton.SetSkin(skin);
+				var instanceItem = Instantiate(item, normalContent.transform);
+				instanceItem.ItemQuality = MarketPlayItemQuality.normal;
+				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+				instanceItem.ID = normalSkinList[i].id;
+				listItem.Add(instanceItem);
 			}
-
-			listItem.Add(instanceItem);
 		}
 
 		for (int i = 0;i < superSkinList.Count(); i++)
 		{
-			var instanceItem = Instantiate(item, superContent.transform);
-			instanceItem.ItemQuality = MarketPlayItemQuality.Super;
+			
+			string skinName = startStringSkinName + superSkinList[i].id;
+			var skin = data.GetSkeletonData(true).FindSkin(skinName);
 
-			string skinName = "Icon_" + lowSkinList[i].id;
-			var skin = instanceItem.SpineHandling.Skeleton.Data.FindSkin(skinName);
 			if (skin != null)
 			{
-				instanceItem.SpineHandling.Skeleton.SetSkin(skin);
+				var instanceItem = Instantiate(item, superContent.transform);
+				instanceItem.ItemQuality = MarketPlayItemQuality.super;
+				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+				instanceItem.ID = superSkinList[i].id;
+				listItem.Add(instanceItem);
 			}
-
-			listItem.Add(instanceItem);
 		}
 		UpdateCost();
+		foreach(var it in listItem)
+		{
+			it.OnItemIsBought += BuyItem;
+		}
 	}
 
 	public void UpdateCost()
 	{
+		var skinManager = SkinManager.Instance;
 
+		HashSet<string> skingBought = new(skinManager.ItemBought[currentItemShowing]);
+		
+		Debug.Log(Currency.ConvertCurrencyToDouble("2,50k"));
+		Debug.Log("9999999999999999999999");
+		foreach (var it in listItem)
+		{
+			string cost = skinManager.InfoSkinGame[currentItemShowing].Where(item => item.quality == it.ItemQuality.ToString()).First().cost;
+			it.Cost = cost;
+		}
+
+		foreach (var it in listItem)
+		{
+			string cost = skinManager.InfoSkinGame[currentItemShowing].Where(item => item.quality == it.ItemQuality.ToString()).First().cost;
+
+			if (skingBought.Contains(it.ID))
+			{
+				listItem.Where(item => item.ItemQuality == it.ItemQuality)
+					.ToList()
+					.ForEach(skin =>
+					{
+						skin.Cost = Currency.DisplayCurrency(Currency.ConvertCurrencyToDouble(skin.Cost) + Currency.ConvertCurrencyToDouble(cost));
+					});
+				it.ItemIsBought();
+			}
+		}
+		
+	}
+	private void BuyItem(MarketPlayItem it)
+	{
+		Debug.Log(it.ItemQuality.ToString());
+		SkinManager.Instance.BuyNewSkin(currentItemShowing ,it.ID);
+		PawManager.Instance.RemovePaw(Currency.ConvertCurrencyToDouble(it.Cost)); 
+		UpdateCost();
 	}
 
 	protected void ClearItem()
 	{
+		if (listItem == null) return;
 		foreach(var item in listItem)
 		{
 			GameObject.Destroy(item.gameObject);

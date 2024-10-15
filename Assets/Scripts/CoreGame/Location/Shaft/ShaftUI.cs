@@ -276,11 +276,6 @@ public class ShaftUI : MonoBehaviour
         m_secondbg.Initialize(true);
 		waitTable.Initialize(true);
 
-		foreach (var item in m_br.skeleton.Data.Skins)
-		{
-			Debug.Log(item.Name);
-		}
-
 		var counter = GetComponent<Shaft>();
 
         foreach (var item in counter.Brewers)

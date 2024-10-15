@@ -13,22 +13,26 @@ using UnityEngine;
 		public string id;
 		public string name;
 		public string desc;
-		public string quality;
 		public string cost;
+		public string quality;
 	}
 
 
 	[System.Serializable]
 	public class SkinResource
 	{
+		public List<DataSkinBase> skinElevator;
 		public List<DataSkinBase> skinBgShaft;
 		public List<DataSkinBase> skinBgCounter;
 		public List<DataSkinBase> skinBgElevator;
 		public List<DataSkinBase> skinSecondBgShaft;
 		public List<DataSkinBase> skinWaitTable;
-		public List<DataSkinBase> skinElevator;
-		public List<DataSkinBase> skinCartCounter;
 		public List<DataSkinBase> skinCartShaft;
+		public List<DataSkinBase> skinCartCounter;
+		public List<DataSkinBase> skinShaftCharacterHead;
+		public List<DataSkinBase> skinShaftCharacterBody;
+		public List<DataSkinBase> skinElevatorCharacterHead;
+		public List<DataSkinBase> skinElevatorCharacterBody;
 
 	/*public List<DataSkinImage> skinMilkCup;
 

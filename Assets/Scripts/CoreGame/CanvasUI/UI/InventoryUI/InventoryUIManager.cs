@@ -183,7 +183,7 @@ namespace UI.Inventory
 		}
 		private void HandleElevatorIUI()
 		{
-			var elevatorSkinData = ElevatorSystem.Instance.elevatorSkin.GetDataSkin();
+			
 			foreach (var item in elevatorItem)
 			{
 				if(isUpdateElevatorSkeletonData == false)
@@ -192,7 +192,7 @@ namespace UI.Inventory
 					item.Spine.skeletonDataAsset = data;
 					item.Spine.Initialize(true);
 				}
-				if(elevatorSkinData.ContainsKey(item.type))
+				if(item.type == InventoryItemType.ElevatorBg)
 				{
 					string skinName = "Icon_" + (int.Parse(ElevatorSystem.Instance.elevatorSkin.idBackGround) + 1);
 					item.ChangeSpineSkin(skinName);

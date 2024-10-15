@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,8 @@ public class MarketToggleHandle : MonoBehaviour
 {
 	Toggle toggleHandling;
 	public InventoryItemType itemType;
-    void Start()
+	public event Action<InventoryItemType> OnTabulationClick;
+	void Start()
     {
         toggleHandling = GetComponent<Toggle>();
 		toggleHandling.onValueChanged.AddListener(isOn => OnToggleValueChanged(isOn, itemType));
@@ -17,7 +19,8 @@ public class MarketToggleHandle : MonoBehaviour
 	{
 		if (isOn)
 		{
-			
+
+			OnTabulationClick?.Invoke(itemType);
 		}
 	}
 }
