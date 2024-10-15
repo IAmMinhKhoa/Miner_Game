@@ -115,12 +115,12 @@ public class Transporter : BaseWorker
     protected override async UniTask IEDeposit(double amount = 0, float time = 0)
     {
         PlayTextAnimation(amount, true);
-        PlayAnimation(WorkerState.Idle, true);
         await UniTask.Delay((int)time * 1000);
         PawManager.Instance.AddPaw(amount);
         CurrentProduct = 0;
         ChangeGoal();
         isWorking = false;
+        PlayAnimation(WorkerState.Idle, true);
     }
 
     protected override void PlayAnimation(WorkerState state, bool direction)

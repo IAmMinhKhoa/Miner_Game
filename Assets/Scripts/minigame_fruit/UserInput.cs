@@ -14,11 +14,12 @@ public class UserInput : MonoBehaviour
 	private void Start()
 	{
 		limit = 0;
+		claw.GetComponent<Renderer>().enabled = false;
 	}
 
 	private void Update()
     {
-		if (Input.touchCount > 0)
+		if (Input.touchCount > 0 && manager.isPlaying)
 		{
 			Touch touch = Input.GetTouch(0);
 
@@ -26,7 +27,8 @@ public class UserInput : MonoBehaviour
 			{
 				case TouchPhase.Began:
 					touchStartPos = touch.position;
-				break;
+					claw.GetComponent<Renderer>().enabled = true;
+					break;
 
 				case TouchPhase.Moved:
 					Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
@@ -39,7 +41,8 @@ public class UserInput : MonoBehaviour
 
 				case TouchPhase.Ended:
 					manager.OnClickDrop();
-				break;
+					claw.GetComponent<Renderer>().enabled = false;
+					break;
 			}
 		}
 	}
