@@ -36,7 +36,7 @@ public class LoopBackGround : MonoBehaviour
 			}
 		}
 
-		Vector3 groundOffset = new Vector3(backgroundWidth - 0.01f, 0, 0);
+		Vector3 groundOffset = new Vector3(backgroundWidth - 0.1f, 0, 0);
 		bg.position = farthestBackground.position + groundOffset;
 	}
 }
