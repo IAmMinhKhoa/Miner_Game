@@ -20,8 +20,8 @@ public class MiniGameUI : MonoBehaviour
 	{
 		_canvasGroup = this.GetComponent<CanvasGroup>();
 		_closeButton.onClick.AddListener(FadeOutContainer);
-		miniGame_FlappyBird.onClick.AddListener(MiniGameFlappyBird);
-		miniGame_Fruit.onClick.AddListener(MiniGameFruit);
+		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(2); }); 
+		miniGame_Fruit.onClick.AddListener(() => { MiniGame(1); });
 		_disableToken = new CancellationTokenSource();
 	}
 	void OnDisable()
@@ -44,16 +44,11 @@ public class MiniGameUI : MonoBehaviour
 		_canvasGroup.interactable = false;
 		_canvasGroup.DOFade(0, _fadeSpeed).SetEase(Ease.Flash).OnComplete(() => this.gameObject.SetActive(false));
 	}
-	public void MiniGameFlappyBird()
+	public void MiniGame(int index)
 	{
 		gameObject.SetActive(false);
-		SceneManager.LoadScene(2, LoadSceneMode.Additive);
-	}
-	public void MiniGameFruit()
-	{
-		gameObject.SetActive(false);
-		SceneManager.LoadScene(1, LoadSceneMode.Additive);
-	}
+		SceneManager.LoadScene(index, LoadSceneMode.Additive);
+	}	
 
 	#region AnimateUI
 	[Button]
