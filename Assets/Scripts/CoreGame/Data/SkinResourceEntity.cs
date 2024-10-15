@@ -12,33 +12,23 @@ using UnityEngine;
 	{
 		public string id;
 		public string name;
-		public string path; // Dùng chung cho cả Image và Spine
 		public string desc;
+		public string quality;
+		public string cost;
 	}
 
-	[System.Serializable]
-	public class DataSkinImage : DataSkinBase
-	{
-		[System.NonSerialized] public Sprite sprite;  // Thuộc tính riêng để chứa Sprite
-	}
-
-	[System.Serializable]
-	public class DataSkinSpine : DataSkinBase
-	{
-		[System.NonSerialized] public SkeletonDataAsset skeletonData;  // Thuộc tính riêng để chứa Spine data
-	}
 
 	[System.Serializable]
 	public class SkinResource
 	{
-		public List<DataSkinImage> skinBgShaft;
-		public List<DataSkinImage> skinBgCounter;
-		public List<DataSkinImage> skinBgElevator;
-		public List<DataSkinImage> skinSecondBgShaft;
-		public List<DataSkinImage> skinWaitTable;
-		public List<DataSkinImage> skinElevator;
-		public List<DataSkinImage> skinCartCounter;
-		public List<DataSkinImage> skinCartShaft;
+		public List<DataSkinBase> skinBgShaft;
+		public List<DataSkinBase> skinBgCounter;
+		public List<DataSkinBase> skinBgElevator;
+		public List<DataSkinBase> skinSecondBgShaft;
+		public List<DataSkinBase> skinWaitTable;
+		public List<DataSkinBase> skinElevator;
+		public List<DataSkinBase> skinCartCounter;
+		public List<DataSkinBase> skinCartShaft;
 
 	/*public List<DataSkinImage> skinMilkCup;
 

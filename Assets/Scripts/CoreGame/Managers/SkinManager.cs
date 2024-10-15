@@ -167,14 +167,14 @@ public class ShaftSkin : SkinBase
 		this.characterSkin = characterSkin ?? new CharacterSkin();
 	}
 
-	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
+	public Dictionary<InventoryItemType, DataSkinBase> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
 		int idSBg = int.Parse(idSecondBg);
 		int idWt = int.Parse(idWaitTable);
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
-		return new Dictionary<InventoryItemType, DataSkinImage>()
+		return new Dictionary<InventoryItemType, DataSkinBase>()
 		{
 			{InventoryItemType.ShaftBg, SkinManager.Instance.skinResource.skinBgShaft[idBg]},
 			{InventoryItemType.ShaftSecondBg, SkinManager.Instance.skinResource.skinSecondBgShaft[idSBg]},
@@ -198,13 +198,13 @@ public class ElevatorSkin : SkinBase
 		this.idBackElevator = idBackElevator;
 		this.characterSkin = characterSkin ?? new();
 	}
-	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
+	public Dictionary<InventoryItemType, DataSkinBase> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
 		//int idWt = int.Parse(idWaitTable);
 		//int idMc = int.Parse(idMilkCup);
-		//int idC = int.Parse(idCart);
-		return new Dictionary<InventoryItemType, DataSkinImage>()
+		//int idC = int.Parse(idCart);	
+		return new Dictionary<InventoryItemType, DataSkinBase>()
 		{
 			{InventoryItemType.ElevatorBg, SkinManager.Instance.skinResource.skinBgElevator[idBg]},
 			//{"skinWtShaft", SkinManager.skinResource.skinWaitTable[idWt]},
@@ -227,13 +227,13 @@ public class CounterSkin : SkinBase
 		this.character = characterSkin ?? new CharacterSkin();
 		this.idSecondBg = idSecondBg;
 	}
-	public Dictionary<InventoryItemType, DataSkinImage> GetDataSkin()
+	public Dictionary<InventoryItemType, DataSkinBase> GetDataSkin()
 	{
 		int idBg = int.Parse(idBackGround);
 		
 		//int idMc = int.Parse(idMilkCup);
 		//int idC = int.Parse(idCart);
-		return new Dictionary<InventoryItemType, DataSkinImage>()
+		return new Dictionary<InventoryItemType, DataSkinBase>()
 		{
 			{InventoryItemType.CounterBg, SkinManager.Instance.skinResource.skinBgCounter[idBg]},
 			{InventoryItemType.CounterSecondBg, SkinManager.Instance.skinResource.skinWaitTable[int.Parse(idSecondBg)]},

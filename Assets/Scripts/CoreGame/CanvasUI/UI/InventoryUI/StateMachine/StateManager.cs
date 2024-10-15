@@ -12,10 +12,12 @@ namespace StateMachine
 
 		public void TransitonToState(EState stateKey)
 		{
-			CurrentState.Exit();
+			if(CurrentState != null)
+			{
+				CurrentState.Exit();
+			}
 			CurrentState = States[stateKey];
 			CurrentState.Enter();
-			Debug.Log(CurrentState.ToString());
 		}
 	}
 }
