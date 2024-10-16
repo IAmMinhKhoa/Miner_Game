@@ -192,7 +192,6 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
                 break;
             }
         }
-        Debug.Log("index: " + index);
 
         return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
