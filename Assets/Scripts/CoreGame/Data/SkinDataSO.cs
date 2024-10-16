@@ -14,18 +14,17 @@ public class SkinDataSO : ScriptableObject
 	Dictionary<InventoryItemType, SkeletonDataAsset> _skinGameData;
 	public Dictionary<InventoryItemType, SkeletonDataAsset> SkinGameData {
 		get {
-			if (_skinGameData == null)
+			
+			_skinGameData ??= new();
+			foreach (var item in skeletonDataAssets)
 			{
-				_skinGameData = new();
-				foreach (var item in skeletonDataAssets)
-				{ 
-					_skinGameData.Add(item.skinType, item.data);
-				}
+				_skinGameData[item.skinType] =  item.data;
 			}
 			return _skinGameData;
 		}
 	}
 }
+
 [Serializable]
 public struct SkinGameSkeletonDataAsset
 {

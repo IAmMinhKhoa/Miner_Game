@@ -268,11 +268,15 @@ public class ShaftUI : MonoBehaviour
         var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
         m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
         m_secondbg.skeletonDataAsset = skinGameData[InventoryItemType.ShaftSecondBg];
+		waitTable.skeletonDataAsset = skinGameData[InventoryItemType.ShaftWaitTable];
 
-        m_br.Initialize(true);
+	
+
+		m_br.Initialize(true);
         m_secondbg.Initialize(true);
+		waitTable.Initialize(true);
 
-        var counter = GetComponent<Shaft>();
+		var counter = GetComponent<Shaft>();
 
         foreach (var item in counter.Brewers)
         {
@@ -285,11 +289,8 @@ public class ShaftUI : MonoBehaviour
             var bodySkeleton = item.BodySkeletonAnimation;
             headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
             bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
-
             headSkeleton.Initialize(true);
             bodySkeleton.Initialize(true);
-
-
         }
     }
     public void ChangeSkin(ShaftSkin data)
@@ -300,7 +301,15 @@ public class ShaftUI : MonoBehaviour
         m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
         waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
 
-        if (TryGetComponent<Shaft>(out var shaft))
+
+		var animationState = waitTable.AnimationState;
+		animationState.SetAnimation(0, "Active", true);
+
+		m_br.skeleton.SetSlotsToSetupPose();
+		m_secondbg.skeleton.SetSlotsToSetupPose();
+		waitTable.skeleton.SetSlotsToSetupPose();
+
+		if (TryGetComponent<Shaft>(out var shaft))
         {
             int cartIndex = int.Parse(data.idCart);
             int headIndex = int.Parse(data.characterSkin.idHead);

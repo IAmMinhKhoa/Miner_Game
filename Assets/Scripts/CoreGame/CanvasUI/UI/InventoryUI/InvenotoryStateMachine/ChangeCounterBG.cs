@@ -36,10 +36,12 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
 		var counterSkin = Counter.Instance.counterSkin;
+
 		for (int i = 0; i < bgList.listItem.Count; i++)
 		{
 			var _item = bgList.listItem[i];
 			_item.OnBackGroundItemClick += HandleItemClick;
+			
 
 			var itemInfo = SkinManager.Instance.skinResource.skinBgCounter[i];
 			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
