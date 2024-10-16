@@ -19,8 +19,8 @@ public class MarketPlayItem : MonoBehaviour
 	public MarketPlayItemQuality ItemQuality { set; get; }
 	public string ID { get; set; }
 
-	string _cost;
-	public string Cost {
+	double _cost;
+	public double Cost {
 		get
 		{
 			return _cost;
@@ -28,7 +28,7 @@ public class MarketPlayItem : MonoBehaviour
 		set
 		{
 			_cost = value;
-			costDisplay.text = _cost;
+			costDisplay.text = Currency.DisplayCurrency(_cost);
 		}
 	}
 	public SkeletonGraphic SpineHandling => spineHandling;

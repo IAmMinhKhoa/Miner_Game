@@ -186,38 +186,51 @@ public class MarketPlayController : MonoBehaviour
 	{
 		var skinManager = SkinManager.Instance;
 
+
+		Dictionary<MarketPlayItemQuality, int> amountSkinBought = new();
 		HashSet<string> skingBought = new(skinManager.ItemBought[currentItemShowing]);
-		
-		Debug.Log(Currency.ConvertCurrencyToDouble("2,50k"));
-		Debug.Log("9999999999999999999999");
+
 		foreach (var it in listItem)
 		{
-			string cost = skinManager.InfoSkinGame[currentItemShowing].Where(item => item.quality == it.ItemQuality.ToString()).First().cost;
-			it.Cost = cost;
+			amountSkinBought[it.ItemQuality] = 0;
 		}
 
+		foreach (var item in listItem.Where(it => skingBought.Contains(it.ID)))
+		{
+			amountSkinBought[item.ItemQuality] += 1;
+			item.ItemIsBought();	
+		}
 		foreach (var it in listItem)
 		{
 			string cost = skinManager.InfoSkinGame[currentItemShowing].Where(item => item.quality == it.ItemQuality.ToString()).First().cost;
+			it.Cost = double.Parse(cost, System.Globalization.CultureInfo.InvariantCulture);
+		}
 
-			if (skingBought.Contains(it.ID))
+		
+
+		foreach(var skinQuantity in amountSkinBought)
+		{
+			string cost = skinManager.InfoSkinGame[currentItemShowing].Where(item => item.quality == skinQuantity.Key.ToString()).First().cost;
+			
+			foreach (var it in listItem)
 			{
-				listItem.Where(item => item.ItemQuality == it.ItemQuality)
-					.ToList()
-					.ForEach(skin =>
-					{
-						skin.Cost = Currency.DisplayCurrency(Currency.ConvertCurrencyToDouble(skin.Cost) + Currency.ConvertCurrencyToDouble(cost));
-					});
-				it.ItemIsBought();
+				if(it.ItemQuality == skinQuantity.Key)
+				{
+					it.Cost = double.Parse(cost, System.Globalization.CultureInfo.InvariantCulture) * Math.Pow(100, skinQuantity.Value);
+				}
 			}
 		}
 		
 	}
 	private void BuyItem(MarketPlayItem it)
 	{
-		Debug.Log(it.ItemQuality.ToString());
+		if (it.Cost > PawManager.Instance.CurrentPaw)
+		{
+			Debug.Log("Khong du tien roi");
+			return;
+		}
 		SkinManager.Instance.BuyNewSkin(currentItemShowing ,it.ID);
-		PawManager.Instance.RemovePaw(Currency.ConvertCurrencyToDouble(it.Cost)); 
+		PawManager.Instance.RemovePaw(it.Cost); 
 		UpdateCost();
 	}
 
@@ -230,5 +243,13 @@ public class MarketPlayController : MonoBehaviour
 		}
 		listItem.Clear();
 	}
-
+	public static decimal DecimalPow(decimal baseValue, int exponent)
+	{
+		decimal result = 1;
+		for (int i = 0; i < exponent; i++)
+		{
+			result *= baseValue;
+		}
+		return result;
+	}
 }
