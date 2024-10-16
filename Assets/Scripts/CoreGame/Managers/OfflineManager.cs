@@ -292,7 +292,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                 for (int j = 0; j <= i; j++)
                 {
                     var shaft = ShaftManager.Instance.Shafts[j];
-                    q += shaft.GetPureEfficiencyPerSecond() * ElevatorSystem.Instance.GetTempMoveTimeInCycle(j) / shaft.GetCycleTime() * _efficiencyFloors[j] + _pawFloors[j];
+                    q += shaft.GetPureEfficiencyPerSecond() * ElevatorSystem.Instance.GetTempMoveTimeInCycle(j) * _efficiencyFloors[j] + _pawFloors[j];
                 }
 
                 _totalPawTaken = ElevatorSystem.Instance.GetPureProductionInCycle() * n * _efficiencyElevator;
@@ -360,6 +360,13 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             //temp turn off boost
             offlineBoost.bonus = 1;
         }
+        foreach (var shaft in ShaftManager.Instance.Shafts)
+        {
+            //change paw here
+            //shaft.CurrentDeposit.CurrentPaw = _pawFloors[shaft.shaftIndex];
+        }
+        //ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw = _pawElevator;
+        //Counter.Instance.CurrentDeposit.CurrentPaw = _pawCounter;
 
         //Elevator collection simulation
         return pawBonus;
