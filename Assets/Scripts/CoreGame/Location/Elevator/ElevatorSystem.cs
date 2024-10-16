@@ -171,8 +171,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         int index = 0;
         int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
-        double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
 
+        double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
         for (int i = 0; i <= maxIndex; i++)
         {
             double moveTime = GetTempMoveTimeInCycle(i) / GetManagerBoost(BoostType.Speed);
@@ -181,15 +181,18 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             for (int j = 0; j <= i; j++)
             {
                 var shaft = ShaftManager.Instance.Shafts[j];
-                q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+                //q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+                q += shaft.GetShaftNS() * moveTime;
             }
 
+            index = i;
+            //Debug.Log("index: " + i + "maxIndex: " + maxIndex + " loadCapacity: " + loadCapacity + " q: " + q);
             if (q >= loadCapacity)
             {
-                index = i;
                 break;
             }
         }
+        Debug.Log("index: " + index);
 
         return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
     }
@@ -214,8 +217,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
-		GetComponent<ElevatorUI>().UpdateSkeletonData();
-		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
+        GetComponent<ElevatorUI>().UpdateSkeletonData();
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -229,7 +232,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-           
+
             CreateElevator();
             return true;
         }
