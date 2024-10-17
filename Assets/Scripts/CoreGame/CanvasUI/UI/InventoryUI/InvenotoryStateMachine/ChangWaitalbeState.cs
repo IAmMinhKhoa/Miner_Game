@@ -42,8 +42,8 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 			items[i].ChangItemInfo(skinName);
 
 			_item.Skeleton.SetSkin("Icon_" + (i + 1));
-			_item.AnimationState.SetAnimation(0, "icon", false);
-			_item.transform.localScale = new Vector3(0.26f, 0.26f, 0.26f);
+			_item.AnimationState.SetAnimation(0, "Icon", false);
+			_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -29f); 
 			items[i].ItemClicked += ChangeSkin;
 			_item.Skeleton.SetSlotsToSetupPose();

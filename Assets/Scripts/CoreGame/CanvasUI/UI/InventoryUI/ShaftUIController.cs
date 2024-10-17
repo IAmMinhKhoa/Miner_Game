@@ -39,6 +39,7 @@ namespace UI.Inventory
 						break;
 					case InventoryItemType.ShaftWaitTable:
 						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idWaitTable) + 1) + "";
+						item.Spine.AnimationState.SetAnimation(0, "Icon", false);
 						item.ChangeSpineSkin("Icon_" + id);
 						break;
 				}
