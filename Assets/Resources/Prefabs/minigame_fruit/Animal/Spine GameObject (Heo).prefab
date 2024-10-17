@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 68.6, y: 59.1, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: cc6a799b62b84df43bfcea630ac3a3a7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,11 +119,9 @@ MonoBehaviour:
   calculateTangents: 0
   maskInteraction: 0
   maskMaterials:
-    materialsMaskDisabled:
-    - {fileID: 2100000, guid: cc6a799b62b84df43bfcea630ac3a3a7, type: 2}
+    materialsMaskDisabled: []
     materialsInsideMask: []
-    materialsOutsideMask:
-    - {fileID: 0}
+    materialsOutsideMask: []
   disableRenderingOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1
@@ -146,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 10
+  mergeColor: '#ffb8e8'
 --- !u!114 &3240598804124027682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c39745215a7c44e9cf34de3386ebe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combineFX: {fileID: 1768976325775488269, guid: 8fcea7fb86a7a564db2511273cdea481, type: 3}
+  combineFX: {fileID: 6796615680555203098, guid: 49152c5f7c083f24dbd05559054c040a, type: 3}
   FruitList: {fileID: 11400000, guid: 4fc6092abd49c47469a74028f1a7be14, type: 2}
 --- !u!60 &6761316310688326978
 PolygonCollider2D:
@@ -204,18 +203,24 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 15.379372, y: 14.80901}
-      - {x: 12.379425, y: 14.817841}
-      - {x: 9.442383, y: 13.327114}
-      - {x: 5.9411316, y: 9.477074}
-      - {x: 5.300476, y: 8.721561}
+    - - {x: 15.761832, y: 11.941145}
+      - {x: 15.258164, y: 13.300448}
+      - {x: 14.918938, y: 14.69387}
+      - {x: 12.494502, y: 14.587624}
+      - {x: 9.499858, y: 12.98182}
+      - {x: 7.1905894, y: 10.480879}
+      - {x: 6.056208, y: 9.189255}
+      - {x: 5.300476, y: 8.548883}
+      - {x: 3.8573067, y: 9.628801}
       - {x: 2.589035, y: 10.4010315}
-      - {x: 0.37430573, y: 11.231293}
-      - {x: -2.034256, y: 11.037579}
-      - {x: -5.1241455, y: 8.987583}
+      - {x: 0.4317805, y: 11.058615}
+      - {x: -2.2069345, y: 10.692286}
+      - {x: -3.901787, y: 9.414099}
+      - {x: -5.1241455, y: 8.296932}
       - {x: -7.403328, y: 10.934834}
-      - {x: -9.962601, y: 13.475712}
-      - {x: -13.152351, y: 14.992527}
+      - {x: -10.250356, y: 13.41811}
+      - {x: -11.760572, y: 14.08634}
+      - {x: -13.497708, y: 14.934989}
       - {x: -15.201019, y: 14.706364}
       - {x: -16.575928, y: 10.000351}
       - {x: -16.954708, y: 4.0610323}
@@ -223,23 +228,25 @@ PolygonCollider2D:
       - {x: -13.765526, y: 0.1252594}
       - {x: -11.058899, y: -0.57232666}
       - {x: -11.795105, y: -1.8173523}
-      - {x: -12.645126, y: -5.2239304}
-      - {x: -12.230202, y: -7.890438}
-      - {x: -11.283047, y: -9.933534}
-      - {x: -8.85817, y: -12.105396}
-      - {x: -5.7614517, y: -13.617924}
-      - {x: -4.275688, y: -13.897457}
-      - {x: -0.9536438, y: -14.982338}
-      - {x: 2.5922852, y: -14.867493}
-      - {x: 4.285927, y: -14.0797}
-      - {x: 8.230437, y: -12.802794}
-      - {x: 10.429138, y: -11.177715}
-      - {x: 12.801643, y: -7.132057}
-      - {x: 12.584068, y: -4.5496025}
+      - {x: -12.443456, y: -4.921361}
+      - {x: -12.078886, y: -7.688704}
+      - {x: -11.081249, y: -9.681382}
+      - {x: -8.454701, y: -12.105396}
+      - {x: -5.912768, y: -13.315291}
+      - {x: -4.275688, y: -13.493989}
+      - {x: -1.0039978, y: -14.780604}
+      - {x: 2.1384633, y: -14.564924}
+      - {x: 4.4877243, y: -13.676232}
+      - {x: 7.927805, y: -12.399326}
+      - {x: 10.2274685, y: -10.774247}
+      - {x: 12.29734, y: -6.980741}
+      - {x: 12.353915, y: -4.6071405}
+      - {x: 11.911277, y: -2.3804367}
       - {x: 11.115341, y: -0.5573807}
       - {x: 14.160469, y: 0.19990921}
-      - {x: 16.728378, y: 2.3316917}
-      - {x: 17.033802, y: 7.7354045}
+      - {x: 16.267944, y: 2.4467685}
+      - {x: 16.932943, y: 4.424856}
+      - {x: 16.861124, y: 7.7354045}
   m_UseDelaunayMesh: 0
 --- !u!50 &8928728505370240064
 Rigidbody2D:
@@ -255,9 +262,9 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_AngularDrag: 0.01
+  m_GravityScale: 0.3
+  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

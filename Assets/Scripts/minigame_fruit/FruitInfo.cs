@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FruitInfo : MonoBehaviour
@@ -7,6 +8,7 @@ public class FruitInfo : MonoBehaviour
 
     
     public int index;
+	public string mergeColor;
 
 
     private GameObject claw;

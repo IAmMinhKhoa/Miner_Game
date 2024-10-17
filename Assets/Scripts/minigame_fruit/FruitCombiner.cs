@@ -20,14 +20,23 @@ public class FruitCombiner : MonoBehaviour
                     if (otherIndex != 10)
                     {
                         Vector3 hitpoint = (transform.position + collision.gameObject.transform.position)/2;
-                        Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
-                        Instantiate(combineFX, hitpoint, Quaternion.identity);
-                    }
+                        GameObject newFruit = Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
+						Color newColor;
+						if (ColorUtility.TryParseHtmlString(GetComponent<FruitInfo>().mergeColor, out newColor))
+						{
+							GameObject FX = Instantiate(combineFX, hitpoint, Quaternion.identity);
+							FX.GetComponent<ParticleSystem>().startColor = newColor;
+							ParticleSystem[] particleSystems = FX.GetComponentsInChildren<ParticleSystem>();
+							foreach (var ps in particleSystems)
+							{
+								var main = ps.main;
+								main.startColor = newColor;
+							}
+						}
+					}
                 }
 				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
 			}
         }
     }
-
-
 }
