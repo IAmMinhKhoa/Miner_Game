@@ -23,6 +23,17 @@ public class MarketPlayController : MonoBehaviour
 	MarketToggleHandle[] listHeadCharToggle;
 	[SerializeField]
 	MarketToggleHandle[] listBodyCharToggle;
+
+	[SerializeField]
+	InfoMarketItemUIHandle nhanVien;
+	[SerializeField]
+	InfoMarketItemUIHandle noiThat;
+
+	[SerializeField]
+	ResizeMarketItem sizeItem;
+
+	InfoMarketItemUIHandle curMarketItemHandle;
+
 	GameObject lowContent;
 	GameObject normalContent;
 	GameObject superContent;
@@ -35,6 +46,8 @@ public class MarketPlayController : MonoBehaviour
 	{
 		pnNoiThat.BoxIsEnable += SetContent;
 		pnNhanVien.BoxIsEnable += SetContent;
+		nhanVien.OnButtonBuyClick += BuyItem;
+		noiThat.OnButtonBuyClick += BuyItem;
 		foreach (var item in listToggle)
 		{
 			item.OnTabulationClick += HandleTabItemClick;
@@ -53,6 +66,7 @@ public class MarketPlayController : MonoBehaviour
 	private void HanldeListBody(InventoryItemType type)
 	{
 		currentItemShowing = type;
+		curMarketItemHandle = nhanVien;
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
@@ -70,6 +84,7 @@ public class MarketPlayController : MonoBehaviour
 	private void HandleListHead(InventoryItemType type)
 	{
 		currentItemShowing = type;
+		curMarketItemHandle = nhanVien;
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
@@ -95,11 +110,12 @@ public class MarketPlayController : MonoBehaviour
 	private void HandleTabItemClick(InventoryItemType type)
 	{
 		currentItemShowing = type;
+		curMarketItemHandle = noiThat;
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
 
-		item.SpineHandling.startingAnimation = type == InventoryItemType.ShaftWaitTable ? "icon" : "";
+		item.SpineHandling.startingAnimation = type == InventoryItemType.ShaftWaitTable ? "Icon" : "";
 		Initial(skeletonData, skinData, "Icon_");
 	}
 
@@ -175,11 +191,11 @@ public class MarketPlayController : MonoBehaviour
 				listItem.Add(instanceItem);
 			}
 		}
-		UpdateCost();
 		foreach(var it in listItem)
 		{
-			it.OnItemIsBought += BuyItem;
+			it.OnItemIsBought += ShowItemInfo;
 		}
+		UpdateCost();
 	}
 
 	public void UpdateCost()
@@ -198,6 +214,7 @@ public class MarketPlayController : MonoBehaviour
 		foreach (var item in listItem.Where(it => skingBought.Contains(it.ID)))
 		{
 			amountSkinBought[item.ItemQuality] += 1;
+			item.OnItemIsBought -= ShowItemInfo;
 			item.ItemIsBought();	
 		}
 		foreach (var it in listItem)
@@ -222,13 +239,13 @@ public class MarketPlayController : MonoBehaviour
 		}
 		
 	}
+	private void ShowItemInfo(MarketPlayItem it)
+	{
+		curMarketItemHandle.Open();
+		curMarketItemHandle.Init(sizeItem.itemSizeDic[currentItemShowing], it);
+	}
 	private void BuyItem(MarketPlayItem it)
 	{
-		if (it.Cost > PawManager.Instance.CurrentPaw)
-		{
-			Debug.Log("Khong du tien roi");
-			return;
-		}
 		SkinManager.Instance.BuyNewSkin(currentItemShowing ,it.ID);
 		PawManager.Instance.RemovePaw(it.Cost); 
 		UpdateCost();
