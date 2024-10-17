@@ -41,7 +41,7 @@ namespace UI.Inventory
 				Debug.Log(this.name + " Skin not fond");
 				return;
 			}
-		
+			
 			spine.Skeleton.SetSkin(skinName);
 			spine.Skeleton.SetSlotsToSetupPose();
 		}
