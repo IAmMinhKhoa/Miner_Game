@@ -42,6 +42,10 @@ public class MarketPlayController : MonoBehaviour
 
 	List<MarketPlayItem> listItem;
 
+	public ContentFitterRefresh contentRefreshMainMenu;
+	public ContentFitterRefresh contentRefreshStore;
+
+
 	private void Start()
 	{
 		pnNoiThat.BoxIsEnable += SetContent;
@@ -51,16 +55,19 @@ public class MarketPlayController : MonoBehaviour
 		foreach (var item in listToggle)
 		{
 			item.OnTabulationClick += HandleTabItemClick;
+			
 		}
 		foreach (var item in listHeadCharToggle)
 		{
 			item.OnTabulationClick += HandleListHead;
+		
 		}
 		foreach (var item in listBodyCharToggle)
 		{
 			item.OnTabulationClick += HanldeListBody ;
+	
 		}
-
+		contentRefreshMainMenu.RefreshContentFitters();
 	}
 
 	private void HanldeListBody(InventoryItemType type)
@@ -79,6 +86,8 @@ public class MarketPlayController : MonoBehaviour
 		{
 			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(10f, -51f));
 		}
+
+
 	}
 
 	private void HandleListHead(InventoryItemType type)
@@ -97,6 +106,8 @@ public class MarketPlayController : MonoBehaviour
 		{
 			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(0f, -130f));
 		}
+
+
 	}
 	void ResizeListItem(Vector3 scale, Vector2 pos)
 	{
@@ -117,6 +128,8 @@ public class MarketPlayController : MonoBehaviour
 
 		item.SpineHandling.startingAnimation = type == InventoryItemType.ShaftWaitTable ? "Icon" : "";
 		Initial(skeletonData, skinData, "Icon_");
+		Debug.Log("Market Item Click:" + type);
+		contentRefreshStore.RefreshContentFitters();
 	}
 
 
@@ -196,6 +209,7 @@ public class MarketPlayController : MonoBehaviour
 			it.OnItemIsBought += ShowItemInfo;
 		}
 		UpdateCost();
+
 	}
 
 	public void UpdateCost()
@@ -259,6 +273,7 @@ public class MarketPlayController : MonoBehaviour
 			GameObject.Destroy(item.gameObject);
 		}
 		listItem.Clear();
+
 	}
 	public static decimal DecimalPow(decimal baseValue, int exponent)
 	{
