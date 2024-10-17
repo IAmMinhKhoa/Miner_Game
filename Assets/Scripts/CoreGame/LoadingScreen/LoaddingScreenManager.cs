@@ -35,7 +35,6 @@ public class LoaddingScreenManager : MonoBehaviour
 				framePassed++;
 				currentLoad += totalLoad * 0.0005f;
 			}
-
 			fullLoadingBar.size = new Vector2(currentLoad, fullLoadingBar.size.y);
 			currentLoading.text = "Loading " + Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
 		}
