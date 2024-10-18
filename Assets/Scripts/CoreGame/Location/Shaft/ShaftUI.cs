@@ -342,7 +342,7 @@ public class ShaftUI : MonoBehaviour
         }
     }
 
-    private void AwakeWorker()
+    public void AwakeWorker()
     {
         m_shaft.AwakeWorker();
     }
