@@ -1,6 +1,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Sirenix.Utilities;
+using Spine;
 using Spine.Unity;
 
 using UnityEngine;
@@ -76,7 +77,9 @@ public class ElevatorControllerView : MonoBehaviour
 			_frontElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 			_backElevator.AnimationState.SetAnimation(0, "Thangmay - Up", true);
 		}
-		_elevatorStaff.AnimationState.SetAnimation(0, "Animation_1", true);
+		SkeletonData skeletonData = _elevatorStaff.Skeleton.Data;
+		string firstAnimationName = skeletonData.Animations.Items[0].Name;
+		_elevatorStaff.AnimationState.SetAnimation(0, firstAnimationName, true);
 	}
 
 	private async void OpenRefrigerator(bool isOpen)
