@@ -20,7 +20,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public Transform ElevatorLocation => elevatorLocation;
 
     private ElevatorController elevatorController;
-    public ElevatorController ElevatorController => elevatorController;
+    public ElevatorController ElevatorController => elevatorPrefab;
 
     [SerializeField] private double moveTimeScale = 1;
     [SerializeField] private double loadSpeedScale = 1;
@@ -139,10 +139,10 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         if (!Load())
         {
-           
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
         }
-        isDone = true;
+		
+		isDone = true;
     }
 
     private void CreateElevator()
@@ -214,7 +214,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
-		
+		GetComponent<ElevatorUI>().UpdateSkeletonData();
 		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
@@ -231,12 +231,13 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             }
            
             CreateElevator();
-			GetComponent<ElevatorUI>().UpdateSkeletonData();
+			
 			return true;
         }
         else
         {
-            return false;
+			
+			return false;
         }
     }
 
