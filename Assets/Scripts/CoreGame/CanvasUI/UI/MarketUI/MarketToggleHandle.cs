@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class MarketToggleHandle : MonoBehaviour
 {
 	Toggle toggleHandling;
 	public InventoryItemType itemType;
+	public SkeletonGraphic spine;
 	public event Action<InventoryItemType> OnTabulationClick;
 	void Start()
     {
@@ -21,6 +23,19 @@ public class MarketToggleHandle : MonoBehaviour
 		{
 
 			OnTabulationClick?.Invoke(itemType);
+			if (spine != null)
+			{
+				spine.AnimationState.SetAnimation(0, "Active", true);  // Thay đổi animation của track 0 sang "active"
+			}
+
+		}
+		else
+		{
+			if (spine != null)
+			{
+				spine.AnimationState.SetAnimation(0, "Idle", true); 
+			}
+
 		}
 	}
 }
