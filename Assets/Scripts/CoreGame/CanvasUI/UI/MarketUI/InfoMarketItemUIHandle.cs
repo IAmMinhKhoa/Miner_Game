@@ -116,12 +116,13 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		superMoneyCost.text = it.SuperCost.ToString();
 		if (it.IsItemBougth)
 		{
-			normalCost.text = "Đã sở hữu";
-			superMoneyCost.text = "Đã sở hữu";
+			normalCost.text = "Đã mua";
+			superMoneyCost.text = "Đã mua";
 			normalBuyButton.interactable = false;
 			superBuyButton.interactable = false;
 			hideNormalBuyIMG.gameObject.SetActive(true);
 			hideSuperBuyIMG.gameObject.SetActive(true);
+			LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
 		}
 		else
 		{
