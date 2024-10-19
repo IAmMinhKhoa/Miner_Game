@@ -8,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Patterns.Singleton<GameManager>
 {
     public InGameUI gameUI;
-    private bool gameover;
-    private void Update()
+	private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -19,7 +18,7 @@ public class GameManager : Patterns.Singleton<GameManager>
     }
     public IEnumerator GameOver()
     {
-        Time.timeScale = 0;
+		Time.timeScale = 0;
         gameUI.canvasGroup.alpha = 0.5f;
         gameUI.gameObject.SetActive(true);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));

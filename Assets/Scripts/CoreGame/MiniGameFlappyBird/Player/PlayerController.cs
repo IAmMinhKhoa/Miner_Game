@@ -43,8 +43,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        StartCoroutine(GameManager.Instance.GameOver());
-    }
+		StartCoroutine(GameManager.Instance.GameOver());
+	}
     public void UpScore(int value)
     {
         score += value;
