@@ -44,7 +44,7 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 			
 
 			var itemInfo = SkinManager.Instance.skinResource.skinBgCounter[i];
-			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name, InventoryItemType.CounterBg);
 			_item.bg.gameObject.SetActive(true);
 			ChangeSkin(_item.bg, "Click_" + (i + 1));
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));

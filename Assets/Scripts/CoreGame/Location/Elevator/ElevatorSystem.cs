@@ -20,14 +20,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public Transform ElevatorLocation => elevatorLocation;
 
     private ElevatorController elevatorController;
-    public ElevatorController ElevatorController => elevatorPrefab;
+    public ElevatorController ElevatorController => elevatorController;
 
     [SerializeField] private double moveTimeScale = 1;
     [SerializeField] private double loadSpeedScale = 1;
 
     [Header("Prefabs")]
     [SerializeField] private ElevatorController elevatorPrefab;
-    private ElevatorUI elevatorUI;
+	public ElevatorController ElevatorPrefabController => elevatorPrefab;
+	
 
     public double MoveTimeScale
     {
@@ -140,6 +141,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         if (!Load())
         {
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
+			CreateElevator();
         }
 		
 		isDone = true;

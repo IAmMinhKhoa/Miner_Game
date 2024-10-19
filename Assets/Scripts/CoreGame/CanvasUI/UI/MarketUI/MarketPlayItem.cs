@@ -19,6 +19,9 @@ public class MarketPlayItem : MonoBehaviour
 	public MarketPlayItemQuality ItemQuality { set; get; }
 	public string ID { get; set; }
 
+	bool isItemBought = false;
+	public bool IsItemBougth => isItemBought;
+	
 	double _cost;
 	public double Cost {
 		get
@@ -28,7 +31,16 @@ public class MarketPlayItem : MonoBehaviour
 		set
 		{
 			_cost = value;
-			costDisplay.text = Currency.DisplayCurrency(_cost);
+			costDisplay.text = isItemBought ? "Đã sở hữu": Currency.DisplayCurrency(_cost);
+		}
+	}
+	private double _superCost = 40.0;
+	public double SuperCost
+	{
+		get => _superCost;
+		set
+		{
+			_superCost = value;
 		}
 	}
 	public SkeletonGraphic SpineHandling => spineHandling;
@@ -39,8 +51,8 @@ public class MarketPlayItem : MonoBehaviour
 	}
 	public void ItemIsBought()
 	{
-		ItemBoughtImage.gameObject.SetActive(true);
-		costDisplay.gameObject.SetActive(false);
+		isItemBought = true;
+		costDisplay.text = "Đã sở hữu";
 	}
 }
 

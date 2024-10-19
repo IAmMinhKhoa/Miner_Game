@@ -44,7 +44,7 @@ public class ChangeCounterSecondBG : BaseState<InventoryItemType>
 			_item.OnBackGroundItemClick += HandleItemClick;
 
 			var itemInfo = SkinManager.Instance.skinResource.skinSecondBgShaft[i];
-			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name, InventoryItemType.ShaftSecondBg);
 			_item.bg.gameObject.SetActive(false);
 			//ChangeSkin(_item.bg, "Click_" + (int.Parse(counterSkin.idBackGround) + 1));
 			ChangeSkin(_item.secondBg, "Click_" + (i + 1));

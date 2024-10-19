@@ -246,7 +246,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	}
 	private void ValidateTimeOffline()
 	{
-		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+		
+		string lastTimeQuit = PlayFabDataManager.Instance.ContainsKey("LastTimeQuit")
+			? PlayFabDataManager.Instance.GetData("LastTimeQuit")
+			: System.DateTime.Now.ToString(); ;
 		System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
 		System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
 		double seconds = timeSpan.TotalSeconds;

@@ -154,7 +154,7 @@ public class ElevatorUI : MonoBehaviour
         m_bgElevator.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorBg];
         m_bgElevator.Initialize(true);
 
-        var controllerView = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>();
+        var controllerView = ElevatorSystem.Instance.ElevatorPrefabController.GetComponent<ElevatorControllerView>();
         var fontSkeleton = controllerView.FontElevator;
         var backSkeleton = controllerView.BackElevator;
         fontSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.Elevator];
@@ -183,7 +183,7 @@ public class ElevatorUI : MonoBehaviour
 		int.TryParse(data.idFrontElevator, out int elevatorIndex);
 
 
-		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
+		if (ElevatorSystem.Instance.ElevatorPrefabController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 		{
 			//cap nhat skin thang may
 			var fontSkeleton = elevatorControllerView.FontElevator.skeleton;

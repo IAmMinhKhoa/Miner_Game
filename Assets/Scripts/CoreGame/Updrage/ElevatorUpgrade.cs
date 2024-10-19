@@ -15,7 +15,7 @@ public class ElevatorUpgrade : BaseUpgrade
     private void Awake()
     {
         elevatorSystem = GetComponent<ElevatorSystem>();
-        //Init(1041.67f, 1);
+       // Init(1041.67f, 1);
     }
 
     protected override void RunUpgrade()
