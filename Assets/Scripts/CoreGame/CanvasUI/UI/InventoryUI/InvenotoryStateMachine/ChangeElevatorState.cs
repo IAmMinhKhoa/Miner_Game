@@ -41,11 +41,10 @@ namespace UI.Inventory
 			{
 				var _item = items[i].spine;
 				_item.allowMultipleCanvasRenderers = true;
-				_item.transform.localScale = new Vector3(0.09f, 0.09f, 0.09f);
-				_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
+				_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 				var skinName = SkinManager.Instance.skinResource.skinBgElevator[i].name;
 				items[i].ChangItemInfo(skinName, i, InventoryItemType.Elevator);
-				_item.Skeleton.SetSkin("Skin_" + (i + 1));
+				_item.Skeleton.SetSkin("Icon_" + (i + 1));
 				items[i].ItemClicked += ChangeSkin;
 				_item.Skeleton.SetSlotsToSetupPose();
 				_item.UpdateMesh();

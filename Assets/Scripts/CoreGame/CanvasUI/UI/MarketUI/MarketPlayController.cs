@@ -129,7 +129,6 @@ public class MarketPlayController : MonoBehaviour
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
 
-		item.SpineHandling.startingAnimation = type == InventoryItemType.ShaftWaitTable ? "Icon" : "";
 		Initial(skeletonData, skinData, "Icon_");
 		//Debug.Log("Market Item Click:" + type);
 		contentRefreshStore.RefreshContentFitters();
@@ -146,6 +145,10 @@ public class MarketPlayController : MonoBehaviour
 
 	void SetDataItem(SkeletonDataAsset data)
 	{
+		item.SpineHandling.startingAnimation =
+			data.GetSkeletonData(true).FindAnimation("Icon") != null
+			? "Icon"
+			: "";
 		item.SpineHandling.skeletonDataAsset = data;
 		item.SpineHandling.initialSkinName = data.GetSkeletonData(true).Skins.Items[0].Name;
 		item.SpineHandling.Initialize(true);
@@ -211,6 +214,10 @@ public class MarketPlayController : MonoBehaviour
 		foreach(var it in listItem)
 		{
 			it.OnItemIsBought += ShowItemInfo;
+			if(currentItemShowing == InventoryItemType.ShaftWaitTable)
+			{
+				it.SpineHandling.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -17);
+			}
 		}
 		UpdateCost();
 
