@@ -36,6 +36,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	[SerializeField]
 	Image hideSuperBuyIMG;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
+	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
 
 	MarketPlayItem curItemHandling;
 	bool CurState
@@ -142,6 +143,18 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 			return;
 		}
 		OnButtonBuyClick?.Invoke(curItemHandling);
+		Close();
+	}
+	public void BuyBySuperMoney()
+	{
+
+		if (curItemHandling == null) return;
+		if (curItemHandling.SuperCost > SuperMoneyManager.Instance.SuperMoney)
+		{
+			notEnoughMoneyNotification.SetActive(true);
+			return;
+		}
+		OnButtonBuyBySuperMoneyClick?.Invoke(curItemHandling);
 		Close();
 	}
 }

@@ -52,6 +52,8 @@ public class MarketPlayController : MonoBehaviour
 		pnNhanVien.BoxIsEnable += SetContent;
 		nhanVien.OnButtonBuyClick += BuyItem;
 		noiThat.OnButtonBuyClick += BuyItem;
+		nhanVien.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
+		noiThat.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		foreach (var item in listToggle)
 		{
 			item.OnTabulationClick += HandleTabItemClick;
@@ -70,6 +72,7 @@ public class MarketPlayController : MonoBehaviour
 		contentRefreshMainMenu.RefreshContentFitters();
 	}
 
+	
 	private void HanldeListBody(InventoryItemType type)
 	{
 		currentItemShowing = type;
@@ -262,6 +265,12 @@ public class MarketPlayController : MonoBehaviour
 	{
 		SkinManager.Instance.BuyNewSkin(currentItemShowing ,it.ID);
 		PawManager.Instance.RemovePaw(it.Cost); 
+		UpdateCost();
+	}
+	private void BuyBySuperMoneyItem(MarketPlayItem item)
+	{
+		SkinManager.Instance.BuyNewSkin(currentItemShowing, item.ID);
+		SuperMoneyManager.Instance.RemoveMoney((float)(item.SuperCost));
 		UpdateCost();
 	}
 
