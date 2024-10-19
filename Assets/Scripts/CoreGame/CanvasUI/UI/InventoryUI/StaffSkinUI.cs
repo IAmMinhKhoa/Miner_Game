@@ -247,6 +247,11 @@ namespace UI.Inventory
 			if(CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
 				var spine =	elevatorHeadModel.GetComponent<SkeletonGraphic>();
+				//set animation cho spine
+				SkeletonData skeletonData = spine.Skeleton.Data;
+				string firstAnimationName = skeletonData.Animations.Items[0].Name;
+				spine.AnimationState.SetAnimation(0, firstAnimationName, true);
+
 				spine.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
 				spine.Skeleton.SetSlotsToSetupPose();
 			}
@@ -273,6 +278,11 @@ namespace UI.Inventory
 			if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
 				var spine = elevatorBodyModel.GetComponent<SkeletonGraphic>();
+
+				SkeletonData skeletonData = spine.Skeleton.Data;
+				string firstAnimationName = skeletonData.Animations.Items[0].Name;
+				spine.AnimationState.SetAnimation(0, firstAnimationName, true);
+
 				spine.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
 				spine.Skeleton.SetSlotsToSetupPose();
 			}

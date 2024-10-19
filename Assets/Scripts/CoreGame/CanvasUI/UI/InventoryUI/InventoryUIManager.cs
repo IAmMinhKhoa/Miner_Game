@@ -201,7 +201,8 @@ namespace UI.Inventory
 				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(ElevatorSystem.Instance.elevatorSkin.idFrontElevator);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart + 1].Name);
+					item.Spine.AnimationState.SetAnimation(0, "Icon", false);
+					item.ChangeSpineSkin("Icon_" +(indexCart + 1));
 				}
 			}
 			isUpdateElevatorSkeletonData = true;

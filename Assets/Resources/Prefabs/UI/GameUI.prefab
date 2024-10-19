@@ -2127,9 +2127,9 @@ RectTransform:
   - {fileID: 4376504764872092541}
   - {fileID: 5920131033912244795}
   - {fileID: 3817676127220730243}
+  - {fileID: 4855318019885804821}
   - {fileID: 6432323498445416753}
   - {fileID: 7659919311677509711}
-  - {fileID: 4855318019885804821}
   - {fileID: 3741499828718996263}
   m_Father: {fileID: 2209080003912633094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2942,6 +2942,7 @@ MonoBehaviour:
   referenceSize: {x: 501.2011, y: 144.9021}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
+  layoutScale: 1
   rectTransformSize: {x: 437.1, y: 163.97}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3914,6 +3915,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4813219271352872612}
     m_Modifications:
+    - target: {fileID: 979982029927437737, guid: a867bf1e88d948642a2272bae5420b38, type: 3}
+      propertyPath: BankUI
+      value: 
+      objectReference: {fileID: 4816411044203151874}
     - target: {fileID: 2293927666334495732, guid: a867bf1e88d948642a2272bae5420b38, type: 3}
       propertyPath: m_Name
       value: marketUI
@@ -4447,6 +4452,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 322451298040066186, guid: f1cd66de989174cc284c93192dfb3b3d, type: 3}
   m_PrefabInstance: {fileID: 1377092252431619620}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4816411044203151874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5893873016384672806, guid: f1cd66de989174cc284c93192dfb3b3d, type: 3}
+  m_PrefabInstance: {fileID: 1377092252431619620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686028121581266606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b898f6ce73e48688b6ac55b8692a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6432323498445416753 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5357135384991874837, guid: f1cd66de989174cc284c93192dfb3b3d, type: 3}
@@ -5235,6 +5251,10 @@ PrefabInstance:
     - target: {fileID: 3572343841110726504, guid: a4f2a46fa5fadc244a76843423b64db8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806873141828185310, guid: a4f2a46fa5fadc244a76843423b64db8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4905802503542369358, guid: a4f2a46fa5fadc244a76843423b64db8, type: 3}
       propertyPath: m_Pivot.x
