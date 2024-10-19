@@ -39,7 +39,7 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 		
 
 			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
-			items[i].ChangItemInfo(skinName);
+			items[i].ChangItemInfo(skinName, i, InventoryItemType.ShaftWaitTable);
 
 			_item.Skeleton.SetSkin("Icon_" + (i + 1));
 			_item.AnimationState.SetAnimation(0, "Icon", false);

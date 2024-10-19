@@ -169,8 +169,15 @@ namespace UI.Inventory
 			{
 				
 				var item = Instantiate(characterSkinUI, headContent.transform);
-				headCharacter.Add(item);
-				item.SetItemInfo(i);
+				headCharacter.Add(item); if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacter);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacter);
+				}
+				
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
@@ -194,7 +201,14 @@ namespace UI.Inventory
 			{
 				var item = Instantiate(characterSkinUI, bodyContent.transform);
 				bodyCharacter.Add(item);
-				item.SetItemInfo(i);
+				if(CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacterBody);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacterBody);
+				}
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;

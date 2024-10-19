@@ -10,23 +10,35 @@ using UnityEngine.UI;
 
 namespace UI.Inventory
 {
-	public class CharacterSkinUI : MonoBehaviour, IPointerClickHandler
+	public class CharacterSkinUI : MonoBehaviour
 	{
 		public event Action<int> OnItemClicked;
 		[SerializeField] SkeletonGraphic spine;
+		[SerializeField]
+		Image hideImg;
+		[SerializeField]
+		Button clickButton;
 		public SkeletonGraphic Spine => spine;
 		private int _index;
 		public int Index => _index;
 
 		[SerializeField] Image border;
 		[SerializeField] TextMeshProUGUI itemName;
-		public void SetItemInfo(int indexSkin)
+		public void SetItemInfo(int indexSkin, InventoryItemType itType)
 		{
 			_index = indexSkin;
 			
-			itemName.text = indexSkin.ToString();
+			itemName.text = SkinManager.Instance.InfoSkinGame[itType][indexSkin].name;
+			int idInInfo = SkinManager.Instance.ItemBought[itType].IndexOf((indexSkin+1).ToString());
+
+			if(idInInfo == -1 && indexSkin != 0)
+			{
+				clickButton.interactable = false;
+				hideImg.gameObject.SetActive(true);
+			}
+
 		}
-		public void OnPointerClick(PointerEventData eventData)
+		public void OnPointerClick()
 		{
 			OnItemClicked?.Invoke(_index);
 		}

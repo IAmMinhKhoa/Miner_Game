@@ -40,7 +40,7 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 		{	
 			var _item = items[i].spine;
 			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
-			items[i].ChangItemInfo(skinName);
+			items[i].ChangItemInfo(skinName, i, InventoryItemType.ShaftCart);
 			_item.Skeleton.SetSkin("Skin_" + (i + 1));
 			_item.transform.localScale = new Vector3(0.54f, 0.54f, 0.54f);
 			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);

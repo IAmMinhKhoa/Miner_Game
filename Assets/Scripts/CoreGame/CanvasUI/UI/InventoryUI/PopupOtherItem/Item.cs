@@ -11,25 +11,35 @@ using Spine;
 
 namespace UI.Inventory.PopupOtherItem
 {
-    public class Item : MonoBehaviour, IPointerClickHandler
+    public class Item : MonoBehaviour
     {
 		[SerializeField] Image boder;
 		[SerializeField] TextMeshProUGUI itemName;
+		[SerializeField]
+		Image hideImg;
+		[SerializeField]
+		Button clickButton;
 		public SkeletonGraphic spine;
 		public event Action<Item> ItemClicked;
 		public void Selected()
 		{
 			boder.gameObject.SetActive(true);
 		}
-		public void ChangItemInfo(string iName)
+		public void ChangItemInfo(string iName, int index, InventoryItemType itType)
 		{
 			itemName.text = iName;
+			int idInInfor = SkinManager.Instance.ItemBought[itType].IndexOf((index + 1).ToString());
+			if(idInInfor == -1 && index != 0)
+			{
+				clickButton.interactable = false;
+				hideImg.gameObject.SetActive(true);
+			}
 		}
 		public void Unselected()
 		{
 			boder.gameObject.SetActive(false);
 		}
-		public void OnPointerClick(PointerEventData eventData)
+		public void OnPointerClick()
 		{
 			ItemClicked?.Invoke(this);
 		}

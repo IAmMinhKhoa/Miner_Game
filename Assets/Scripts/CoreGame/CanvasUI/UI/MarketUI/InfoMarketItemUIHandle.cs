@@ -5,16 +5,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class InfoMarketItemUIHandle : MonoBehaviour
 {
 	[SerializeField]
 	GameObject backDrop;
 	[SerializeField]
+	GameObject notEnoughMoneyNotification;
+	[SerializeField]
 	SkeletonGraphic Spine;
 	[SerializeField]
-	TextMeshProUGUI cost;
+	TextMeshProUGUI normalCost;
+	[SerializeField]
+	TextMeshProUGUI superMoneyCost;
 	[SerializeField]
 	Sprite lowQuality;
 	[SerializeField]
@@ -23,6 +27,14 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	Sprite superQuality;
 	[SerializeField]
 	UnityEngine.UI.Image quality;
+	[SerializeField]
+	Button normalBuyButton;
+	[SerializeField]
+	Button superBuyButton;
+	[SerializeField]
+	Image hideNormalBuyIMG;
+	[SerializeField]
+	Image hideSuperBuyIMG;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
 
 	MarketPlayItem curItemHandling;
@@ -99,16 +111,34 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.Skeleton.SetSkin(itemSize.skinName + it.ID);
 		Spine.Skeleton.SetSlotsToSetupPose();
 
-		cost.text = Currency.DisplayCurrency(it.Cost);
+		normalCost.text =  Currency.DisplayCurrency(it.Cost);
+		superMoneyCost.text = it.SuperCost.ToString();
+		if (it.IsItemBougth)
+		{
+			normalCost.text = "Đã sở hữu";
+			superMoneyCost.text = "Đã sở hữu";
+			normalBuyButton.interactable = false;
+			superBuyButton.interactable = false;
+			hideNormalBuyIMG.gameObject.SetActive(true);
+			hideSuperBuyIMG.gameObject.SetActive(true);
+		}
+		else
+		{
+			normalBuyButton.interactable = true;
+			superBuyButton.interactable = true;
+			hideNormalBuyIMG.gameObject.SetActive(false);
+			hideSuperBuyIMG.gameObject.SetActive(false);
+		}
 	}
 
 	public void Buy()
 	{
-		Debug.Log("9999999999999");
+	
 		if(curItemHandling == null) return;
 		if (curItemHandling.Cost > PawManager.Instance.CurrentPaw)
 		{
-			Debug.Log("Khong du tien roi");
+			notEnoughMoneyNotification.SetActive(true);
+			Debug.Log("------------------");
 			return;
 		}
 		OnButtonBuyClick?.Invoke(curItemHandling);

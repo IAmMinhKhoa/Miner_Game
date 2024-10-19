@@ -41,7 +41,7 @@ namespace UI.Inventory
 				var _item = items[i].spine;
 				
 				var skinName = SkinManager.Instance.skinResource.skinBgElevator[i].name;
-				items[i].ChangItemInfo(skinName);
+				items[i].ChangItemInfo(skinName, i, InventoryItemType.ElevatorBg);
 
 				_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 				//_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -29f);

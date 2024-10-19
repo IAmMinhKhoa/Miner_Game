@@ -197,7 +197,7 @@ public class SkinBase
 	public string idBackGround { get; set; }
 	public string idMilkCup { get; set; }
 
-	public SkinBase(string idBackGround = "1", string idMilkCup = "1")
+	public SkinBase(string idBackGround = "0", string idMilkCup = "0")
 	{
 		this.idBackGround = idBackGround;
 		this.idMilkCup = idMilkCup;
@@ -212,7 +212,7 @@ public class ShaftSkin : SkinBase
 	public string idSecondBg { get; set; }
 	public CharacterSkin characterSkin { get; set; }
 
-	public ShaftSkin(int index, string idBackGround = "1", string idWaitTable = "1", string idMilkCup = "1", string idCart = "1", string idSecondBg = "1", CharacterSkin characterSkin = null)
+	public ShaftSkin(int index, string idBackGround = "0", string idWaitTable = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.index = index;
@@ -231,7 +231,7 @@ public class ElevatorSkin : SkinBase
 	public string idBackElevator { get; set; }
 	public CharacterSkin characterSkin { get; set; }
 
-	public ElevatorSkin(string idBackGround = "1", string idMilkCup = "1", string idFrontElevator = "1", string idBackElevator = "1", CharacterSkin characterSkin = null)
+	public ElevatorSkin(string idBackGround = "0", string idMilkCup = "0", string idFrontElevator = "0", string idBackElevator = "0", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idFrontElevator = idFrontElevator;
@@ -247,7 +247,7 @@ public class CounterSkin : SkinBase
 	public string idSecondBg { get; set; }
 	public CharacterSkin character { get; set; }
 
-	public CounterSkin(string idBackGround = "1", string idMilkCup = "1", string idCart = "1", string idSecondBg = "1", CharacterSkin characterSkin = null)
+	public CounterSkin(string idBackGround = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idCart = idCart;
@@ -262,7 +262,7 @@ public class CharacterSkin
 	public string idHead { get; set; }
 	public string idBody { get; set; }
 
-	public CharacterSkin(string idHead = "1", string idBody = "1")
+	public CharacterSkin(string idHead = "0", string idBody = "0")
 	{
 		this.idHead = idHead;
 		this.idBody = idBody;
