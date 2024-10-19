@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,6 +36,10 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	Image hideNormalBuyIMG;
 	[SerializeField]
 	Image hideSuperBuyIMG;
+	[SerializeField]
+	TextMeshProUGUI title;
+	[SerializeField]
+	TextMeshProUGUI description;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
 	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
 
@@ -52,6 +57,12 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 				FadeOutContainer();
 			}
 		}
+	}
+
+	private void Start()
+	{
+		normalBuyButton.GetComponent<ButtonBehavior>().onClickEvent.AddListener(Buy);
+		superBuyButton.GetComponent<ButtonBehavior>().onClickEvent.AddListener(BuyBySuperMoney);
 	}
 	public void FadeInContainer()
 	{
@@ -112,6 +123,11 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.Skeleton.SetSkin(itemSize.skinName + it.ID);
 		Spine.Skeleton.SetSlotsToSetupPose();
 
+		var skinInfo = SkinManager.Instance.InfoSkinGame[itemSize.type].Where(x => x.id == it.ID).First();
+
+		title.text = skinInfo.name;
+		description.text = skinInfo.desc;
+
 		normalCost.text =  Currency.DisplayCurrency(it.Cost);
 		superMoneyCost.text = it.SuperCost.ToString();
 		if (it.IsItemBougth)
@@ -140,7 +156,6 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		if (curItemHandling.Cost > PawManager.Instance.CurrentPaw)
 		{
 			notEnoughMoneyNotification.SetActive(true);
-			Debug.Log("------------------");
 			return;
 		}
 		OnButtonBuyClick?.Invoke(curItemHandling);
