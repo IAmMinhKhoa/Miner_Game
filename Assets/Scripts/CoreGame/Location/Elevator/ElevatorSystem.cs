@@ -27,8 +27,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     [Header("Prefabs")]
     [SerializeField] private ElevatorController elevatorPrefab;
-	public ElevatorController ElevatorPrefabController => elevatorPrefab;
-	
+    public ElevatorController ElevatorPrefabController => elevatorPrefab;
+
 
     public double MoveTimeScale
     {
@@ -141,10 +141,10 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         if (!Load())
         {
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
-			CreateElevator();
+            CreateElevator();
         }
-		
-		isDone = true;
+
+        isDone = true;
     }
 
     private void CreateElevator()
@@ -183,12 +183,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             for (int j = 0; j <= i; j++)
             {
                 var shaft = ShaftManager.Instance.Shafts[j];
-                q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+                q += shaft.GetShaftNS() * moveTime;
             }
 
+            index = i;
             if (q >= loadCapacity)
             {
-                index = i;
                 break;
             }
         }
@@ -216,8 +216,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
-		GetComponent<ElevatorUI>().UpdateSkeletonData();
-		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
+        GetComponent<ElevatorUI>().UpdateSkeletonData();
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -231,15 +231,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-           
+
             CreateElevator();
-			
-			return true;
+
+            return true;
         }
         else
         {
-			
-			return false;
+
+            return false;
         }
     }
 
