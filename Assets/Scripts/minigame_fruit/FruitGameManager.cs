@@ -29,8 +29,6 @@ public class FruitGameManager : MonoBehaviour
     
     public bool isHolding = false;
 
-	private int[] ListPercent = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3 };
-
 
     private void Start()
     {
@@ -82,8 +80,7 @@ public class FruitGameManager : MonoBehaviour
 
     private orderObject GetRandomFruit()
     {
-        int randomInt = ListPercent[Random.Range(0, ListPercent.Length)];
-        Debug.Log(randomInt);
+		int randomInt = Random.Range(0, 4);
         orderObject thisObject = new orderObject();
         thisObject.pref = fruitList.list[randomInt];
         thisObject.img = imgList.sprites[randomInt];
