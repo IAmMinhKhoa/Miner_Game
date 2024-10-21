@@ -10,16 +10,19 @@ public class PlayerController : MonoBehaviour
     private float velocity = 1.5f;
     private float rotationSpeed = 10f;
     private bool isMouseClick;
-    public int score = 0;
+    public static int score;
     public UnityEvent<int> OnChangeScore;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-    }
+		
+
+	}
     void Start()
     {
-        InputManager.Instance.OnMouseClick.AddListener(OnMouseClick);
+		score = 0;
+		InputManager.Instance.OnMouseClick.AddListener(OnMouseClick);
     }
     private void OnMouseClick(bool isMouseClick)
     {
@@ -43,7 +46,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-		StartCoroutine(GameManager.Instance.GameOver());
+		GameManager.Instance.GameOver();
 	}
     public void UpScore(int value)
     {
