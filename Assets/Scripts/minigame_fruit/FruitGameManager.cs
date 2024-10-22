@@ -109,7 +109,11 @@ public class FruitGameManager : MonoBehaviour
             endGameText.text = "Your score:\n" + currentScore;
         }
         buttonUI.SetActive(true);
-        endGameUI.SetActive(true);
+        endGameUI.SetActive(false);
+		// GameEnd
+		PawManager.Instance.AddPaw(1000000000);
+		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam {score=(int)currentScore,index=1 };
+		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
         if (fruitsParent.childCount > 0)
         {
             for (int i = 0; i <= fruitsParent.childCount; i++)
