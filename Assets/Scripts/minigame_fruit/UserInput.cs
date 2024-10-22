@@ -28,15 +28,17 @@ public class UserInput : MonoBehaviour
 				case TouchPhase.Began:
 					touchStartPos = touch.position;
 					claw.GetComponent<Renderer>().enabled = true;
-					break;
-
-				case TouchPhase.Moved:
 					Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
 					float minX = lpoint.transform.position.x + limit;
 					float maxX = rpoint.transform.position.x - limit;
 					claw.transform.position = new Vector3(Mathf.Clamp(touchedPos.x, minX, maxX), claw.transform.position.y, claw.transform.position.z);
-					
+					break;
 
+				case TouchPhase.Moved:
+					Vector3 touchedPos1 = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
+					float minX1 = lpoint.transform.position.x + limit;
+					float maxX1 = rpoint.transform.position.x - limit;
+					claw.transform.position = new Vector3(Mathf.Clamp(touchedPos1.x, minX1, maxX1), claw.transform.position.y, claw.transform.position.z);
 					break;
 
 				case TouchPhase.Ended:

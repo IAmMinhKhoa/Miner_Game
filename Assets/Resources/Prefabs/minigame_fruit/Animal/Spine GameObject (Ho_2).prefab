@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3373494307785856795
+--- !u!1 &5367129673911448378
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 710646725165023615}
-  - component: {fileID: 5210580191391939854}
-  - component: {fileID: 2981870149902634288}
-  - component: {fileID: 9091492634682136743}
-  m_Layer: 0
+  - component: {fileID: 4062409771045719799}
+  - component: {fileID: 5921967427227262563}
+  - component: {fileID: 8911950195324912840}
+  - component: {fileID: 1925913126433849722}
+  - component: {fileID: 5673153817940176013}
+  - component: {fileID: 3546233402798528240}
+  - component: {fileID: 3384990634104535962}
+  - component: {fileID: 2225101428667590927}
+  m_Layer: 8
   m_Name: Spine GameObject (Ho_2)
-  m_TagString: Untagged
+  m_TagString: fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &710646725165023615
+--- !u!4 &4062409771045719799
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3373494307785856795}
+  m_GameObject: {fileID: 5367129673911448378}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
-  m_ConstrainProportionsScale: 1
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 100.5, y: 55.4, z: 0}
+  m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4062409771045719799}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5210580191391939854
+--- !u!33 &5921967427227262563
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3373494307785856795}
+  m_GameObject: {fileID: 5367129673911448378}
   m_Mesh: {fileID: 0}
---- !u!23 &2981870149902634288
+--- !u!23 &8911950195324912840
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3373494307785856795}
+  m_GameObject: {fileID: 5367129673911448378}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -84,13 +88,13 @@ MeshRenderer:
   m_SortingLayer: 10
   m_SortingOrder: 51
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9091492634682136743
+--- !u!114 &1925913126433849722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3373494307785856795}
+  m_GameObject: {fileID: 5367129673911448378}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
@@ -127,42 +131,6 @@ MonoBehaviour:
   _animationName: Active
   loop: 1
   timeScale: 1
---- !u!1 &5367129673911448378
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4062409771045719799}
-  - component: {fileID: 5673153817940176013}
-  - component: {fileID: 3546233402798528240}
-  - component: {fileID: 3384990634104535962}
-  - component: {fileID: 2225101428667590927}
-  m_Layer: 8
-  m_Name: Spine GameObject (Ho_2)
-  m_TagString: fruit
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4062409771045719799
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5367129673911448378}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100.5, y: 55.4, z: 0}
-  m_LocalScale: {x: 0.084, y: 0.084, z: 0.084}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 710646725165023615}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5673153817940176013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,10 +257,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.1
-  m_GravityScale: 1
+  m_AngularDrag: 0.01
+  m_GravityScale: 0.8
   m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
