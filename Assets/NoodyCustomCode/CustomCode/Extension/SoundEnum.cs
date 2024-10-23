@@ -4,6 +4,7 @@ namespace NOOD.Sound
 	{ 
 		click = 0,
 		mergeSuccess= 1,
-		mergeFail=2
+		mergeFail=2,
+		popMerge=3
 	}
 }
