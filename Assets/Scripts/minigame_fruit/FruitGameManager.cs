@@ -80,11 +80,11 @@ public class FruitGameManager : MonoBehaviour
 
     private orderObject GetRandomFruit()
     {
-		int randomInt = Random.Range(0, 4);
+		int randomInt = Random.Range(0, 6);
         orderObject thisObject = new orderObject();
         thisObject.pref = fruitList.list[randomInt];
         thisObject.img = imgList.sprites[randomInt];
-
+		Debug.Log(randomInt+"");
 
         return thisObject;
     }

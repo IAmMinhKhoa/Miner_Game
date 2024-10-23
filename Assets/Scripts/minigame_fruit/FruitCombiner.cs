@@ -33,6 +33,7 @@ public class FruitCombiner : MonoBehaviour
 							var main = ps.main;
 							main.startColor = newColor;
 						}
+						Destroy(FX, 3f);
 					}
 				}
 				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
