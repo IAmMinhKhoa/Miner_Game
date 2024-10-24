@@ -14,7 +14,7 @@ public class DialogManager : Patterns.Singleton<DialogManager>
         foreach (DialogIndex dl in DialogConfig.dialogIndices)
         {
             string dialog_name = dl.ToString();
-            GameObject dialog_object = Instantiate(Resources.Load("Dialog/" + dialog_name, typeof(GameObject))) as GameObject;
+            GameObject dialog_object = Instantiate(Resources.Load("Prefabs/Dialog/" + dialog_name, typeof(GameObject))) as GameObject;
             dialog_object.transform.SetParent(anchorDialog, false);
             BaseDialog base_dialog = dialog_object.GetComponent<BaseDialog>();
             dic_Dialog.Add(dl, base_dialog);

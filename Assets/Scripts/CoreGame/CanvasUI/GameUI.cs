@@ -74,7 +74,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenMinigame()
 	{
-		modal_minigameUI.GetComponent<MiniGameUI>().FadeInContainer();
+		modal_minigameUI.SetActive(true);
 	}
 	#endregion
 
