@@ -49,6 +49,11 @@ namespace UI.Inventory
 		[Header("Prefab")]
 		[SerializeField] CharacterSkinUI characterSkinUI;
 
+		[Header("Scale SO")]
+		[SerializeField] CharacterScalePosSO shaftHeadSO;
+		[SerializeField] CharacterScalePosSO shaftBodySO;
+		[SerializeField] CharacterScalePosSO elevatorHeadSO;
+		[SerializeField] CharacterScalePosSO elevatorBodySO;
 
 		public event Action OnUpdateInventoryUI;
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
@@ -169,20 +174,23 @@ namespace UI.Inventory
 			{
 				
 				var item = Instantiate(characterSkinUI, headContent.transform);
-				headCharacter.Add(item); if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
-				{
-					item.SetItemInfo(i, InventoryItemType.ShaftCharacter);
-				}
-				else
-				{
-					item.SetItemInfo(i, InventoryItemType.ElevatorCharacter);
-				}
+				headCharacter.Add(item);
 				
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
 				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
 				item.OnItemClicked += SetCurHeadIndex;
+				if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacter, true);
+					item.SetScaleAndPos(shaftHeadSO.ListCharScaleAndPos[i]);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacter, true);
+					item.SetScaleAndPos(elevatorHeadSO.ListCharScaleAndPos[i]);
+				}
 
 			}
 
@@ -201,19 +209,22 @@ namespace UI.Inventory
 			{
 				var item = Instantiate(characterSkinUI, bodyContent.transform);
 				bodyCharacter.Add(item);
-				if(CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
-				{
-					item.SetItemInfo(i, InventoryItemType.ShaftCharacterBody);
-				}
-				else
-				{
-					item.SetItemInfo(i, InventoryItemType.ElevatorCharacterBody);
-				}
+				
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
 				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
 				item.OnItemClicked += SetCurBodyIndex;
+				if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacterBody, false);
+					item.SetScaleAndPos(shaftBodySO.ListCharScaleAndPos[i]);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacterBody, false);
+					item.SetScaleAndPos(elevatorBodySO.ListCharScaleAndPos[i]);
+				}
 			}
 
 		}
@@ -282,7 +293,6 @@ namespace UI.Inventory
 				SkeletonData skeletonData = spine.Skeleton.Data;
 				string firstAnimationName = skeletonData.Animations.Items[0].Name;
 				spine.AnimationState.SetAnimation(0, firstAnimationName, true);
-
 				spine.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
 				spine.Skeleton.SetSlotsToSetupPose();
 			}

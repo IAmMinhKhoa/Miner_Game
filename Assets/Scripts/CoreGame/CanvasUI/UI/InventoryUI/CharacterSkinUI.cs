@@ -13,21 +13,36 @@ namespace UI.Inventory
 	public class CharacterSkinUI : MonoBehaviour
 	{
 		public event Action<int> OnItemClicked;
-		[SerializeField] SkeletonGraphic spine;
+		[SerializeField]
+		SkeletonGraphic spine;
 		[SerializeField]
 		Image hideImg;
 		[SerializeField]
 		Button clickButton;
+		[SerializeField]
+		SkeletonGraphic staticHead;
+		[SerializeField]
+		SkeletonGraphic staticBody;
 		public SkeletonGraphic Spine => spine;
 		private int _index;
 		public int Index => _index;
 
 		[SerializeField] Image border;
 		[SerializeField] TextMeshProUGUI itemName;
-		public void SetItemInfo(int indexSkin, InventoryItemType itType)
+		public void SetItemInfo(int indexSkin, InventoryItemType itType, bool isHeadSkin)
 		{
-			_index = indexSkin;
 			
+			_index = indexSkin;
+
+			
+			staticHead.skeletonDataAsset = spine.skeletonDataAsset;
+			staticHead.initialSkinName = "Head/Skin_" + 1;
+			staticHead.Initialize(true);
+			
+			staticBody.skeletonDataAsset = spine.skeletonDataAsset;
+			staticBody.initialSkinName = "Body/Skin_" + 1;
+			staticBody.Initialize(true);
+
 			itemName.text = SkinManager.Instance.InfoSkinGame[itType][indexSkin].name;
 			int idInInfo = SkinManager.Instance.ItemBought[itType].IndexOf((indexSkin+1).ToString());
 
@@ -36,7 +51,22 @@ namespace UI.Inventory
 				clickButton.interactable = false;
 				hideImg.gameObject.SetActive(true);
 			}
-
+			
+			staticHead.gameObject.SetActive(!isHeadSkin);
+			staticBody.gameObject.SetActive(isHeadSkin);
+			
+		}
+		public void SetScaleAndPos(CharScaleAndPos it)
+		{
+			var transform = spine.GetComponent<RectTransform>();
+			transform.localScale = it.scale;
+			transform.anchoredPosition = it.pos;
+			var transformStaticHeadSpine = staticHead.GetComponent<RectTransform>();
+			transformStaticHeadSpine.localScale = it.scale;
+			transformStaticHeadSpine.anchoredPosition = it.pos;
+			var transformBodySpine = staticBody.GetComponent<RectTransform>();
+			transformBodySpine.localScale = it.scale;
+			transformBodySpine.anchoredPosition = it.pos;
 		}
 		public void OnPointerClick()
 		{
