@@ -11,6 +11,8 @@ public class MarketPlayItem : MonoBehaviour
 	[SerializeField]
 	SkeletonGraphic spineHandling;
 	[SerializeField]
+	SkeletonGraphic seconSpine;
+	[SerializeField]
 	TextMeshProUGUI costDisplay;
 	[SerializeField]
 	Image ItemBoughtImage;
@@ -44,7 +46,7 @@ public class MarketPlayItem : MonoBehaviour
 		}
 	}
 	public SkeletonGraphic SpineHandling => spineHandling;
-
+	public SkeletonGraphic SecondSpine => seconSpine;
 	public void OnItemClick()
 	{
 		OnItemIsBought?.Invoke(this);
@@ -53,6 +55,10 @@ public class MarketPlayItem : MonoBehaviour
 	{
 		isItemBought = true;
 		costDisplay.text = "Đã sở hữu";
+	}
+	public void ActiveSecondSpine()
+	{
+		seconSpine.gameObject.SetActive(true);
 	}
 }
 

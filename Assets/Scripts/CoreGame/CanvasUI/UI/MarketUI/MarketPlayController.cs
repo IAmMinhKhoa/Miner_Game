@@ -9,14 +9,21 @@ using System;
 
 public class MarketPlayController : MonoBehaviour 
 {
-	
-	
+
+	[Header("Panel")]
 	[SerializeField]
 	MarketPlayItem item;
 	[SerializeField]
 	MarketContentBox pnNoiThat;
 	[SerializeField]
 	MarketContentBox pnNhanVien;
+
+	[SerializeField]
+	InfoMarketItemUIHandle nhanVien;
+	[SerializeField]
+	InfoMarketItemUIHandle noiThat;
+
+	[Header("Toggle")]
 	[SerializeField]
 	MarketToggleHandle[] listToggle;
 	[SerializeField]
@@ -24,14 +31,17 @@ public class MarketPlayController : MonoBehaviour
 	[SerializeField]
 	MarketToggleHandle[] listBodyCharToggle;
 
-	[SerializeField]
-	InfoMarketItemUIHandle nhanVien;
-	[SerializeField]
-	InfoMarketItemUIHandle noiThat;
-
+	[Header("Size Item SO")]
 	[SerializeField]
 	ResizeMarketItem sizeItem;
-
+	[SerializeField]
+	CharacterScalePosSO shaftHeadScaleSO;
+	[SerializeField]
+	CharacterScalePosSO shaftBodyScaleSO;
+	[SerializeField]
+	CharacterScalePosSO elevatorHeadScaleSO;
+	[SerializeField]
+	CharacterScalePosSO elevatorBodyScaleSO;
 	InfoMarketItemUIHandle curMarketItemHandle;
 
 	GameObject lowContent;
@@ -80,14 +90,14 @@ public class MarketPlayController : MonoBehaviour
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
-		Initial(skeletonData, skinData, "Body/Skin_");
+		Initial(skeletonData, skinData, "Body/Skin_", "Head/Skin_");
 		if (type == InventoryItemType.ElevatorCharacterBody)
 		{
-			ResizeListItem(new Vector3(0.3f, 0.3f, 1f), new Vector2(0f, -46f));
+			ResizeListItem(elevatorBodyScaleSO);
 		}
 		else
 		{
-			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(10f, -51f));
+			ResizeListItem(shaftBodyScaleSO);
 		}
 
 
@@ -100,25 +110,51 @@ public class MarketPlayController : MonoBehaviour
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
-		Initial(skeletonData, skinData, "Head/Skin_");
+		Initial(skeletonData, skinData, "Head/Skin_", "Body/Skin_");
 		if(type == InventoryItemType.ElevatorCharacter)
 		{
-			ResizeListItem(new Vector3(0.3f, 0.3f, 1f), new Vector2(0f, -127f));
+			ResizeListItem(elevatorHeadScaleSO, true);
 		}
 		else
 		{
-			ResizeListItem(new Vector3(0.45f, 0.45f, 1f), new Vector2(0f, -130f));
+			ResizeListItem(shaftHeadScaleSO, true);
 		}
 
 
 	}
-	void ResizeListItem(Vector3 scale, Vector2 pos)
+	void ResizeListItem(CharacterScalePosSO sO, bool isHead = false)
 	{
 		foreach(var item in listItem)
 		{
-			var transform = item.SpineHandling.GetComponent<RectTransform>();
-			transform.localScale = scale;
-			transform.anchoredPosition = pos;
+		
+
+			int indexA = item.SpineHandling.transform.GetSiblingIndex();
+			int indexB = item.SecondSpine.transform.GetSiblingIndex();
+
+			if (indexA > indexB && !isHead)
+			{
+				item.SpineHandling.transform.SetSiblingIndex(indexB);
+				item.SecondSpine.transform.SetSiblingIndex(indexB + 1);
+			}
+
+			if (indexA < indexB && isHead)
+			{
+				item.SpineHandling.transform.SetSiblingIndex(indexA);
+				item.SecondSpine.transform.SetSiblingIndex(indexA + 1);
+			}
+			item.ActiveSecondSpine();
+			foreach (var it in sO.ListCharScaleAndPos)
+			{
+				if(item.ID == it.ID)
+				{
+					var transform = item.SpineHandling.GetComponent<RectTransform>();
+					transform.localScale = it.scale;
+					transform.anchoredPosition = it.pos;
+					var transformSecondSpine = item.SecondSpine.GetComponent<RectTransform>();
+					transformSecondSpine.localScale = it.scale;
+					transformSecondSpine.anchoredPosition = it.pos;
+				}
+			}
 		}
 	}
 	private void HandleTabItemClick(InventoryItemType type)
@@ -151,10 +187,13 @@ public class MarketPlayController : MonoBehaviour
 			: "";
 		item.SpineHandling.skeletonDataAsset = data;
 		item.SpineHandling.initialSkinName = data.GetSkeletonData(true).Skins.Items[0].Name;
+		item.SecondSpine.skeletonDataAsset = data;
+		item.SecondSpine.initialSkinName = data.GetSkeletonData(true).Skins.Items[0].Name;
 		item.SpineHandling.Initialize(true);
+		item.SecondSpine.Initialize(true);
 	}
 
-	public void Initial(SkeletonDataAsset data, List<DataSkinBase> skinData, string startStringSkinName)
+	public void Initial(SkeletonDataAsset data, List<DataSkinBase> skinData, string startStringSkinName, string startStringSeconSpineSkinName = "")
 	{
 		SetDataItem(data);
 		listItem ??= new();
@@ -174,6 +213,13 @@ public class MarketPlayController : MonoBehaviour
 				instanceItem.ItemQuality = MarketPlayItemQuality.low;
 				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+
+				if(startStringSeconSpineSkinName != "")
+				{
+					instanceItem.SecondSpine.Skeleton.SetSkin(startStringSeconSpineSkinName + 1);
+					instanceItem.SecondSpine.Skeleton.SetSlotsToSetupPose();
+				}
+
 				instanceItem.ID = lowSkinList[i].id;
 				listItem.Add(instanceItem);
 			}
@@ -190,6 +236,15 @@ public class MarketPlayController : MonoBehaviour
 				instanceItem.ItemQuality = MarketPlayItemQuality.normal;
 				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+
+
+				if (startStringSeconSpineSkinName != "")
+				{
+					instanceItem.SecondSpine.Skeleton.SetSkin(startStringSeconSpineSkinName + 1);
+					instanceItem.SecondSpine.Skeleton.SetSlotsToSetupPose();
+				}
+
+
 				instanceItem.ID = normalSkinList[i].id;
 				listItem.Add(instanceItem);
 			}
@@ -207,6 +262,12 @@ public class MarketPlayController : MonoBehaviour
 				instanceItem.ItemQuality = MarketPlayItemQuality.super;
 				instanceItem.SpineHandling.Skeleton.SetSkin(skinName);
 				instanceItem.SpineHandling.Skeleton.SetSlotsToSetupPose();
+
+				if (startStringSeconSpineSkinName != "")
+				{
+					instanceItem.SecondSpine.Skeleton.SetSkin(startStringSeconSpineSkinName + 1);
+					instanceItem.SecondSpine.Skeleton.SetSlotsToSetupPose();
+				}
 				instanceItem.ID = superSkinList[i].id;
 				listItem.Add(instanceItem);
 			}

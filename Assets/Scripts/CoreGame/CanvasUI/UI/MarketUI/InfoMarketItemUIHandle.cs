@@ -40,6 +40,8 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	TextMeshProUGUI title;
 	[SerializeField]
 	TextMeshProUGUI description;
+	[SerializeField]
+	TextMeshProUGUI subNameText;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
 	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
 
@@ -107,7 +109,39 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 				quality.sprite = superQuality;
 				break;
 		}
-
+		/*	ShaftBg,
+		CounterBg,
+		ElevatorBg,
+		CounterCart,
+		Elevator,
+		ShaftSecondBg,
+		ShaftCart,
+		ShaftWaitTable,
+		ShaftCharacter,
+		ElevatorCharacter,
+		CounterCharacter,
+		CounterSecondBg,
+		BackElevator,
+		ShaftCharacterBody,
+		ElevatorCharacterBody*/
+		Dictionary<InventoryItemType, string> keyValuePairs = new()
+		{
+			{ InventoryItemType.ShaftBg, "Back Ground Tầng"},
+			{ InventoryItemType.CounterBg, "Back Ground Quầy"},
+			{ InventoryItemType.ElevatorBg, "Back Ground Phòng Trà Sữa"},
+			{ InventoryItemType.ShaftCart, "Xe Đẩy"},
+			{ InventoryItemType.Elevator, "Thang Máy"},
+			{ InventoryItemType.ShaftSecondBg, "Nền"},
+			{ InventoryItemType.ShaftWaitTable, "Bàn Chờ"},
+			{ InventoryItemType.ShaftCharacter, "Nhân Viên Đẩy Xe"},
+			{ InventoryItemType.ElevatorCharacter, "Nhân Viên Thang Máy"},
+			{ InventoryItemType.ShaftCharacterBody, "Nhân Viên Đẩy Xe"},
+			{ InventoryItemType.ElevatorCharacterBody, "Nhân Viên Thang Máy"},
+		};
+		if (subNameText != null)
+		{
+			subNameText.text = keyValuePairs[itemSize.type];
+		}
 		curItemHandling = it;
 		if(it.SpineHandling.skeletonDataAsset.GetSkeletonData(false).FindAnimation("Icon") != null) {
 			Spine.startingAnimation = "Icon";
