@@ -82,6 +82,7 @@ public class MiniGameUI : MonoBehaviour
 	public void OnRedeempoints()
 	{
 		points_redemption_booth.transform.DOKill();
+		points_redemption_booth.AnimationState.SetAnimation(0,"Click",false);
 		if (points_redemption_booth.transform.localScale.x > maxScaleFactor * originalScaleRedeemPoints.x)
 		{
 			points_redemption_booth.transform.localScale = originalScaleRedeemPoints;
@@ -91,6 +92,7 @@ public class MiniGameUI : MonoBehaviour
 			.OnComplete(() =>
 			{
 				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
+				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", false);
 			});
 	}
 	#region AnimateUI
