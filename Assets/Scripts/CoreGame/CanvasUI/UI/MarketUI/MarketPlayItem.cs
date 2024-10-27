@@ -16,6 +16,8 @@ public class MarketPlayItem : MonoBehaviour
 	TextMeshProUGUI costDisplay;
 	[SerializeField]
 	Image ItemBoughtImage;
+	[SerializeField]
+	Image hideImage;
 
 	public event Action<MarketPlayItem> OnItemIsBought;
 	public MarketPlayItemQuality ItemQuality { set; get; }
@@ -54,6 +56,7 @@ public class MarketPlayItem : MonoBehaviour
 	public void ItemIsBought()
 	{
 		isItemBought = true;
+		hideImage.gameObject.SetActive(true);
 		costDisplay.text = "Đã sở hữu";
 	}
 	public void ActiveSecondSpine()
