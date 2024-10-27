@@ -42,6 +42,19 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	TextMeshProUGUI description;
 	[SerializeField]
 	TextMeshProUGUI subNameText;
+	[SerializeField]
+	SkeletonGraphic subHead;
+	[SerializeField]
+	SkeletonGraphic subBody;
+	[Header("Character Skin SO")]
+	[SerializeField]
+	CharacterScalePosSO headShaftScale;
+	[SerializeField]
+	CharacterScalePosSO bodyShaftScale;
+	[SerializeField]
+	CharacterScalePosSO headElevatorScale;
+	[SerializeField]
+	CharacterScalePosSO bodyElevatorScale;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
 	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
 
@@ -181,6 +194,21 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 			hideNormalBuyIMG.gameObject.SetActive(false);
 			hideSuperBuyIMG.gameObject.SetActive(false);
 		}
+		switch (itemSize.type)
+		{
+			case InventoryItemType.ShaftCharacter:
+				ActiveSubSpine(true, headShaftScale);
+				break;
+			case InventoryItemType.ShaftCharacterBody:
+				ActiveSubSpine(false, bodyShaftScale);
+				break;
+			case InventoryItemType.ElevatorCharacter:
+				ActiveSubSpine(true, headElevatorScale);
+				break;
+			case InventoryItemType.ElevatorCharacterBody:
+				ActiveSubSpine(false, bodyElevatorScale);
+				break;
+		}
 	}
 
 	public void Buy()
@@ -194,6 +222,31 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		}
 		OnButtonBuyClick?.Invoke(curItemHandling);
 		Close();
+	}
+	void ActiveSubSpine( bool isHead, CharacterScalePosSO listData)
+	{
+		CharScaleAndPos it = listData.ListCharScaleAndPos.Where(data => data.ID == curItemHandling.ID).First();
+
+		subHead.skeletonDataAsset = Spine.SkeletonDataAsset;
+		subHead.initialSkinName = "Head/Skin_1";
+		subBody.skeletonDataAsset = Spine.SkeletonDataAsset;
+		subBody.initialSkinName = "Body/Skin_1";
+	
+		subHead.Initialize(true);
+		subBody.Initialize(true);
+
+		subBody.gameObject.SetActive(isHead);
+		subHead.gameObject.SetActive(!isHead);
+
+		var transform = Spine.GetComponent<RectTransform>();
+		transform.localScale = it.scale;
+		transform.anchoredPosition = it.pos;
+		var transformStaticHeadSpine = subHead.GetComponent<RectTransform>();
+		transformStaticHeadSpine.localScale = it.scale;
+		transformStaticHeadSpine.anchoredPosition = it.pos;
+		var transformBodySpine = subBody.GetComponent<RectTransform>();
+		transformBodySpine.localScale = it.scale;
+		transformBodySpine.anchoredPosition = it.pos;
 	}
 	public void BuyBySuperMoney()
 	{

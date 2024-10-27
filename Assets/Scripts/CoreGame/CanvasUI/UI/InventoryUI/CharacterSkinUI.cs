@@ -59,14 +59,14 @@ namespace UI.Inventory
 		public void SetScaleAndPos(CharScaleAndPos it)
 		{
 			var transform = spine.GetComponent<RectTransform>();
-			transform.localScale = it.scale;
-			transform.anchoredPosition = it.pos;
+			transform.localScale = it.scale - new Vector3(0.02f, 0.02f, 0);
+			transform.anchoredPosition = it.pos + new Vector3(0f, 4f, 0);
 			var transformStaticHeadSpine = staticHead.GetComponent<RectTransform>();
-			transformStaticHeadSpine.localScale = it.scale;
-			transformStaticHeadSpine.anchoredPosition = it.pos;
+			transformStaticHeadSpine.localScale = it.scale - new Vector3(0.02f, 0.02f, 0); 
+			transformStaticHeadSpine.anchoredPosition =it.pos + new Vector3(0f, 4f, 0);
 			var transformBodySpine = staticBody.GetComponent<RectTransform>();
-			transformBodySpine.localScale = it.scale;
-			transformBodySpine.anchoredPosition = it.pos;
+			transformBodySpine.localScale = it.scale - new Vector3(0.02f, 0.02f, 0); 
+			transformBodySpine.anchoredPosition = it.pos + new Vector3(0f, 4f, 0);
 		}
 		public void OnPointerClick()
 		{

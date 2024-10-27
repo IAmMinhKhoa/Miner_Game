@@ -301,6 +301,7 @@ public class MarketPlayController : MonoBehaviour
 		{
 			amountSkinBought[item.ItemQuality] += 1;
 			item.ItemIsBought();
+			item.OnItemIsBought -= ShowItemInfo;
 		}
 		foreach (var it in listItem)
 		{
@@ -347,7 +348,7 @@ public class MarketPlayController : MonoBehaviour
 		if (listItem == null) return;
 		foreach(var item in listItem)
 		{
-			GameObject.Destroy(item.gameObject);
+			Destroy(item.gameObject);
 		}
 		listItem.Clear();
 
