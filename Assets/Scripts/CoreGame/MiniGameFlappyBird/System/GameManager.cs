@@ -21,7 +21,7 @@ public class GameManager : Patterns.Singleton<GameManager>
 		PawManager.Instance.AddPaw(1000000000);
 		Time.timeScale = 0;
 		PoolManager.Instance.dic_pool["Pipe"].DesSpawnedAll();
-		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = PlayerController.score,index=2 };
+		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = PlayerController.score,index=1 };
 		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog,gameEndDialogParam);
 	}
 }

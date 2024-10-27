@@ -80,7 +80,7 @@ public class FruitGameManager : MonoBehaviour
 
     private orderObject GetRandomFruit()
     {
-		int randomInt = Random.Range(0, 5);
+		int randomInt = Random.Range(0, 6);
         orderObject thisObject = new orderObject();
         thisObject.pref = fruitList.list[randomInt];
         thisObject.img = imgList.sprites[randomInt];
@@ -112,7 +112,7 @@ public class FruitGameManager : MonoBehaviour
         endGameUI.SetActive(false);
 		// GameEnd
 		PawManager.Instance.AddPaw(1000000000);
-		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam {score=(int)currentScore,index=1 };
+		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam {score=(int)currentScore,index=2 };
 		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
         if (fruitsParent.childCount > 0)
         {

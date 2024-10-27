@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,29 +11,45 @@ using UnityEngine.UI;
 public class MiniGameUI : MonoBehaviour
 {
 	[SerializeField] private float _fadeSpeed = 3f;
-	[SerializeField] private Button _closeButton;
 	[SerializeField] private Button miniGame_FlappyBird;
 	[SerializeField] private Button miniGame_Fruit;
+	[SerializeField] private Button btn_back;
+	[SerializeField] private Button btn_redeempoints;
 	private CanvasGroup _canvasGroup;
 	private CancellationTokenSource _disableToken;
-
+	private Vector3 originalScaleRedeemPoints;
+	private Vector3[] originalScalesGameMachine;
+	private float maxScaleFactor = 1.11f;
+	[Header("Spine")]
+	public SkeletonGraphic points_redemption_booth;
+	public SkeletonGraphic[] game_machine;
+	private void Start()
+	{
+		originalScaleRedeemPoints = points_redemption_booth.transform.localScale;
+		originalScalesGameMachine = new Vector3[game_machine.Length];
+		for (int i = 0; i < game_machine.Length; i++)
+		{
+			originalScalesGameMachine[i] = game_machine[i].transform.localScale;
+		}
+	}
 	void Awake()
 	{
 		_canvasGroup = this.GetComponent<CanvasGroup>();
-		_closeButton.onClick.AddListener(FadeOutContainer);
-		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(2); }); 
-		miniGame_Fruit.onClick.AddListener(() => { MiniGame(1); });
+		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(1); });
+		miniGame_Fruit.onClick.AddListener(() => { MiniGame(2); });
 		_disableToken = new CancellationTokenSource();
+		btn_back.onClick.AddListener(OnBack);
+		btn_redeempoints.onClick.AddListener(OnRedeempoints);
 	}
 	void OnDisable()
 	{
 		_disableToken.Cancel();
 	}
-	void OnDestroy()
-	{
-		_closeButton.onClick.RemoveListener(FadeOutContainer);
-	}
 
+	private void OnDestroy()
+	{
+		btn_back.onClick.RemoveListener(FadeOutContainer);
+	}
 	public void Show()
 	{
 		this.gameObject.SetActive(true);
@@ -44,12 +61,40 @@ public class MiniGameUI : MonoBehaviour
 		_canvasGroup.interactable = false;
 		_canvasGroup.DOFade(0, _fadeSpeed).SetEase(Ease.Flash).OnComplete(() => this.gameObject.SetActive(false));
 	}
-	public void MiniGame(int index)
+	public void OnBack()
 	{
 		gameObject.SetActive(false);
-		SceneManager.LoadScene(index, LoadSceneMode.Additive);
-	}	
-
+	}
+	public void MiniGame(int index)
+	{
+		SkeletonGraphic selectedMachine = game_machine[index - 1];
+		selectedMachine.transform.DOKill();
+		selectedMachine.transform.localScale = originalScalesGameMachine[index - 1];
+		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.2f)
+			.OnComplete(() =>
+			{
+				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.2f).OnComplete(() =>
+				{
+					SceneManager.LoadScene(index, LoadSceneMode.Additive);
+				});
+			});
+	}
+	public void OnRedeempoints()
+	{
+		points_redemption_booth.transform.DOKill();
+		points_redemption_booth.AnimationState.SetAnimation(0,"Click",false);
+		if (points_redemption_booth.transform.localScale.x > maxScaleFactor * originalScaleRedeemPoints.x)
+		{
+			points_redemption_booth.transform.localScale = originalScaleRedeemPoints;
+		}
+		Vector3 punchScale = originalScaleRedeemPoints * 1.05f;
+		points_redemption_booth.transform.DOScale(punchScale, 0.2f)
+			.OnComplete(() =>
+			{
+				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
+				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", false);
+			});
+	}
 	#region AnimateUI
 	[Button]
 	public void FadeInContainer()
