@@ -21,7 +21,9 @@ public class MarketPlayController : MonoBehaviour
 	[SerializeField]
 	InfoMarketItemUIHandle nhanVien;
 	[SerializeField]
-	InfoMarketItemUIHandle noiThat;
+	InfoMarketItemUIHandle noiThatLong;
+	[SerializeField]
+	InfoMarketItemUIHandle noiThatShort;
 
 	[Header("Toggle")]
 	[SerializeField]
@@ -61,9 +63,9 @@ public class MarketPlayController : MonoBehaviour
 		pnNoiThat.BoxIsEnable += SetContent;
 		pnNhanVien.BoxIsEnable += SetContent;
 		nhanVien.OnButtonBuyClick += BuyItem;
-		noiThat.OnButtonBuyClick += BuyItem;
+		noiThatLong.OnButtonBuyClick += BuyItem;
 		nhanVien.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
-		noiThat.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
+		noiThatLong.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		foreach (var item in listToggle)
 		{
 			item.OnTabulationClick += HandleTabItemClick;
@@ -160,7 +162,18 @@ public class MarketPlayController : MonoBehaviour
 	private void HandleTabItemClick(InventoryItemType type)
 	{
 		currentItemShowing = type;
-		curMarketItemHandle = noiThat;
+		switch (type)
+		{
+			case InventoryItemType.CounterBg:
+			case InventoryItemType.ShaftBg:
+			case InventoryItemType.ShaftSecondBg:
+			case InventoryItemType.CounterSecondBg:
+				curMarketItemHandle = noiThatLong;
+				break;
+			default:
+				curMarketItemHandle = noiThatShort;
+				break;
+		}
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];

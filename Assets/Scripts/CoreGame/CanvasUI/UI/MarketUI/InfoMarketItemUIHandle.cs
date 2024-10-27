@@ -122,21 +122,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 				quality.sprite = superQuality;
 				break;
 		}
-		/*	ShaftBg,
-		CounterBg,
-		ElevatorBg,
-		CounterCart,
-		Elevator,
-		ShaftSecondBg,
-		ShaftCart,
-		ShaftWaitTable,
-		ShaftCharacter,
-		ElevatorCharacter,
-		CounterCharacter,
-		CounterSecondBg,
-		BackElevator,
-		ShaftCharacterBody,
-		ElevatorCharacterBody*/
+
 		Dictionary<InventoryItemType, string> keyValuePairs = new()
 		{
 			{ InventoryItemType.ShaftBg, "Back Ground Tầng"},
@@ -177,23 +163,23 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 
 		normalCost.text =  Currency.DisplayCurrency(it.Cost);
 		superMoneyCost.text = it.SuperCost.ToString();
-		if (it.IsItemBougth)
-		{
-			normalCost.text = "Đã mua";
-			superMoneyCost.text = "Đã mua";
-			normalBuyButton.interactable = false;
-			superBuyButton.interactable = false;
-			hideNormalBuyIMG.gameObject.SetActive(true);
-			hideSuperBuyIMG.gameObject.SetActive(true);
-			LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
-		}
-		else
-		{
-			normalBuyButton.interactable = true;
-			superBuyButton.interactable = true;
-			hideNormalBuyIMG.gameObject.SetActive(false);
-			hideSuperBuyIMG.gameObject.SetActive(false);
-		}
+		//if (it.IsItemBougth)
+		//{
+		//	normalCost.text = "Đã mua";
+		//	superMoneyCost.text = "Đã mua";
+		//	normalBuyButton.interactable = false;
+		//	superBuyButton.interactable = false;
+		//	hideNormalBuyIMG.gameObject.SetActive(true);
+		//	hideSuperBuyIMG.gameObject.SetActive(true);
+		//	LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+		//}
+		//else
+		//{
+		//	normalBuyButton.interactable = true;
+		//	superBuyButton.interactable = true;
+		//	hideNormalBuyIMG.gameObject.SetActive(false);
+		//	hideSuperBuyIMG.gameObject.SetActive(false);
+		//}
 		switch (itemSize.type)
 		{
 			case InventoryItemType.ShaftCharacter:
