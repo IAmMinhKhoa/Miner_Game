@@ -92,7 +92,7 @@ public class MiniGameUI : MonoBehaviour
 			.OnComplete(() =>
 			{
 				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
-				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", false);
+				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", true);
 			});
 	}
 	#region AnimateUI
