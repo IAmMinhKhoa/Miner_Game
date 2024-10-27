@@ -22,7 +22,7 @@ public class ManagerChooseUI : MonoBehaviour
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<TypeMerge> MergeSuccess;
-    
+	private ManagerLocation currentLocation;
 
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
@@ -70,19 +70,25 @@ public class ManagerChooseUI : MonoBehaviour
     
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
-		Debug.Log("khoa:" + _manager.Count);
+		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
 		if (_manager == null)
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type
-		&&((x.LocationType== ManagerLocation.Shaft&& !x.IsAssigned)
-		||(x.LocationType!=ManagerLocation.Shaft))),forceAnimation);
-    }
-	
-    private void OnLocationTabChanged(ManagerLocation location)
+		_managerSectionList.ShowManagers(
+	   _manager.FindAll(x => x.BoostType == type
+		   && ((x.LocationType == ManagerLocation.Shaft && !x.IsAssigned)
+		   || x.LocationType != ManagerLocation.Shaft)),
+	   forceAnimation);
+
+	}
+
+	private void OnLocationTabChanged(ManagerLocation location)
     {
-        SetupData(location);
+		Debug.Log("khoa OnLocationTabChanged:" + location);
+		currentLocation = location;
+		UpdateUI(PawManager.Instance.CurrentPaw);
+		SetupData(location);
         _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed, true);
     }
 
