@@ -64,8 +64,10 @@ public class MarketPlayController : MonoBehaviour
 		pnNhanVien.BoxIsEnable += SetContent;
 		nhanVien.OnButtonBuyClick += BuyItem;
 		noiThatLong.OnButtonBuyClick += BuyItem;
+		noiThatShort.OnButtonBuyClick += BuyItem;
 		nhanVien.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		noiThatLong.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
+		noiThatShort.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		foreach (var item in listToggle)
 		{
 			item.OnTabulationClick += HandleTabItemClick;
@@ -83,8 +85,33 @@ public class MarketPlayController : MonoBehaviour
 		}
 		contentRefreshMainMenu.RefreshContentFitters();
 	}
+	private void OnDestroy()
+	{
+		pnNoiThat.BoxIsEnable -= SetContent;
+		pnNhanVien.BoxIsEnable -= SetContent;
+		nhanVien.OnButtonBuyClick -= BuyItem;
+		noiThatLong.OnButtonBuyClick -= BuyItem;
+		noiThatShort.OnButtonBuyClick -= BuyItem;
+		nhanVien.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
+		noiThatLong.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
+		noiThatShort.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
+		foreach (var item in listToggle)
+		{
+			item.OnTabulationClick -= HandleTabItemClick;
 
-	
+		}
+		foreach (var item in listHeadCharToggle)
+		{
+			item.OnTabulationClick -= HandleListHead;
+
+		}
+		foreach (var item in listBodyCharToggle)
+		{
+			item.OnTabulationClick -= HanldeListBody;
+
+		}
+	}
+
 	private void HanldeListBody(InventoryItemType type)
 	{
 		currentItemShowing = type;
@@ -210,9 +237,10 @@ public class MarketPlayController : MonoBehaviour
 	{
 		SetDataItem(data);
 		listItem ??= new();
-		var lowSkinList = skinData.Where(it => it.quality == "low").ToList();
-		var normalSkinList = skinData.Where(it => it.quality == "normal").ToList();
-		var superSkinList = skinData.Where(it => it.quality == "super").ToList();
+		HashSet<string> skingBought = new(SkinManager.Instance.ItemBought[currentItemShowing]);
+		var lowSkinList = skinData.Where(it => it.quality == "low").OrderBy(it => skingBought.Contains(it.id)).ToList();
+		var normalSkinList = skinData.Where(it => it.quality == "normal").OrderBy(it => skingBought.Contains(it.id)).ToList();
+		var superSkinList = skinData.Where(it => it.quality == "super").OrderBy(it => skingBought.Contains(it.id)).ToList();
 		
 
 		for (int i = 0; i < lowSkinList.Count(); i++)
@@ -300,8 +328,6 @@ public class MarketPlayController : MonoBehaviour
 	public void UpdateCost()
 	{
 		var skinManager = SkinManager.Instance;
-
-
 		Dictionary<MarketPlayItemQuality, int> amountSkinBought = new();
 		HashSet<string> skingBought = new(skinManager.ItemBought[currentItemShowing]);
 
@@ -336,6 +362,9 @@ public class MarketPlayController : MonoBehaviour
 				}
 			}
 		}
+		SortItemBought(lowContent);
+		SortItemBought(normalContent);
+		SortItemBought(superContent);
 		
 	}
 	private void ShowItemInfo(MarketPlayItem it)
@@ -356,6 +385,17 @@ public class MarketPlayController : MonoBehaviour
 		UpdateCost();
 	}
 
+	private void SortItemBought(GameObject obj)
+	{
+		HashSet<string> skinBought = new(SkinManager.Instance.ItemBought[currentItemShowing]);
+		var children = obj.transform.Cast<Transform>().ToList();
+
+		children = children.OrderBy(child => skinBought.Contains(child.GetComponent<MarketPlayItem>().ID)).ToList();
+		for (int i = 0; i < children.Count; i++)
+		{
+			children[i].SetSiblingIndex(i);
+		}
+	}
 	protected void ClearItem()
 	{
 		if (listItem == null) return;
@@ -375,4 +415,5 @@ public class MarketPlayController : MonoBehaviour
 		}
 		return result;
 	}
+
 }

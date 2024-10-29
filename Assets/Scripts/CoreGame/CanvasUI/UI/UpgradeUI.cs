@@ -58,7 +58,7 @@ public class UpgradeUI : MonoBehaviour
 
 	[SerializeField]private float currentLevel;
 	private ManagerLocation managerLocation;
-
+	string currentTitleText;
 	void Start()
 	{
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
@@ -154,6 +154,7 @@ public class UpgradeUI : MonoBehaviour
 	private void UpdateUpgradeAmount(float value)
 	{
 		upgradeAmountText.text = "X" + value.ToString();
+		titleText.text = currentTitleText + (value + currentLevel);
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);
 		upgradeCostText.text = Currency.DisplayCurrency(cost);
 		UpdateEvolutions(currentLevel + value);
@@ -269,7 +270,8 @@ public class UpgradeUI : MonoBehaviour
 			case ManagerLocation.Shaft:
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + level.ToString();
+				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + (level + 1).ToString();
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][3];
@@ -279,7 +281,8 @@ public class UpgradeUI : MonoBehaviour
 				break;
 			case ManagerLocation.Elevator:
 				numberOrSpeedPanel.SetActive(false);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + level.ToString();
+				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + (level + 1).ToString();
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][3];
@@ -290,7 +293,8 @@ public class UpgradeUI : MonoBehaviour
 			case ManagerLocation.Counter:
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + level.ToString();
+				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + (level+1).ToString();
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][3];
