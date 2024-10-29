@@ -20,8 +20,9 @@ public class SettingChildButton : MonoBehaviour
 	{
 		_btnMXH.onClickEvent.AddListener(OnClickButtonMXH);
 		_Dropdown.onValueChanged.AddListener(OnLanguageSelected);
-		_txtDeviceId.text = $"ID: {SystemInfo.deviceUniqueIdentifier}";
+		_txtDeviceId.text = $"ID: {PlayFabManager.Data.PlayFabDataManager.Instance.accountID}";
 		_txtVersion.text = $"Version: {Application.version}";
+		
 	}
 
 	void OnDestroy()
