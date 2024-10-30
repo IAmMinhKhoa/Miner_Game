@@ -29,7 +29,7 @@ public class CounterUI : MonoBehaviour
 	public SkeletonAnimation m_secondBG;
 	// [Header("Visual object")]
 	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
-	[SerializeField] private SkeletonAnimation m_cashierCounter, m_managerCounter;
+	[SerializeField] private SkeletonAnimation m_cashierCounter;
 	[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	private Counter m_counter;
 	private CounterUpgrade m_counterUpgrade;
@@ -146,16 +146,21 @@ public class CounterUI : MonoBehaviour
 
 	public void PlayCollectAnimation(bool isBrewing)
 	{
+		Debug.Log("khoa PlayCollectAnimation:"+ isBrewing);
 		if (isBrewing == false && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Idle")
 		{
+			Debug.Log("khoa idel");
+			m_cashierCounter.AnimationState.ClearTrack(0);
 			m_cashierCounter.AnimationState.SetAnimation(0, "Idle", true);
-			m_managerCounter.AnimationState.SetAnimation(0, "Idle", true);
+			//m_managerCounter.AnimationState.SetAnimation(0, "Idle", true);
 			return;
 		}
 		if (isBrewing && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Active")
 		{
+			Debug.Log("khoa acticve");
+			m_cashierCounter.AnimationState.ClearTrack(0);
 			m_cashierCounter.AnimationState.SetAnimation(0, "Active", true);
-			m_managerCounter.AnimationState.SetAnimation(0, "Active", true);
+		//	m_managerCounter.AnimationState.SetAnimation(0, "Active", true);
 			return;
 		}
 	}
