@@ -8,9 +8,14 @@ using System.Linq;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using NOOD;
-
+using UnityEngine.Localization;
+using log4net.Core;
+using UnityEngine.Localization.Components;
 public class UpgradeUI : MonoBehaviour
 {
+	[Header("Localization")]
+	[SerializeField] private LocalizedString titleLocalizedString;
+	[SerializeField] private LocalizedString workerNameLocalizedString;
 	[Header("Show Hide Transform")]
 	[SerializeField] private Transform showTrans;
 	[SerializeField] private Transform hideTrans;
@@ -234,7 +239,15 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateEvolutionText(float levelToEvo)
 	{
-		workerName.text = $"mở khóa quầy hàng ở cấp : {levelToEvo}";
+		workerName.text = "mở khóa quầy hàng ở cấp : " + levelToEvo.ToString();
+		workerNameLocalizedString.Arguments = new object[] { levelToEvo };
+		workerNameLocalizedString.StringChanged -= OnWokerNameStringChange;
+		workerNameLocalizedString.StringChanged += OnWokerNameStringChange;
+	}
+
+	private void OnWokerNameStringChange(string value)
+	{
+		workerName.text = value;
 	}
 
 	public void SetUpPanel(int max)
@@ -303,12 +316,18 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + "NV";
 				break;
 		}
-
+		titleLocalizedString.Arguments = new object[] { level };
+		titleLocalizedString.StringChanged -= OnTitleStringChanged;
+		titleLocalizedString.StringChanged += OnTitleStringChanged;
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
 
 		DisplayNextUpgrade(1);
 		UpdateEvolutions(currentLevel);
+	}
+	private void OnTitleStringChanged(string localizedTitle)
+	{
+		titleText.text = localizedTitle;
 	}
 
 	private void DeactivateButton(Button button)
