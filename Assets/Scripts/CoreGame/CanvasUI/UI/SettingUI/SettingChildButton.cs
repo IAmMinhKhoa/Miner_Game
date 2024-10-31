@@ -46,5 +46,7 @@ public class SettingChildButton : MonoBehaviour
 			: LocalizationSettings.AvailableLocales.GetLocale("en");
 
 		LocalizationSettings.SelectedLocale = selectedLocale;
+		ManagerSectionUI.isEnglish = index != 0;
+		//Debug.LogError(ManagerSectionUI.isEnglish);
 	}
 }
