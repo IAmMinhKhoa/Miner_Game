@@ -6,7 +6,7 @@ using UnityEngine.Localization;
 using UnityEngine.ResourceManagement.AsyncOperations;
 public enum LanguageKeys
 {
-	HomeHatchEggMenu,
+	TitleUpgradeCounter,
 
 }
 
@@ -31,7 +31,7 @@ public static class LocalizationManager
 		var mappings = new Dictionary<LanguageKeys, (string, string)>
 		{
 			//add more key - value
-			{ LanguageKeys.HomeHatchEggMenu, ("home>hatch-egg-menu", "") },
+			{ LanguageKeys.TitleUpgradeCounter, ("home>UpGradeInfo>Title", "") },
 
 		};
 		return mappings;
