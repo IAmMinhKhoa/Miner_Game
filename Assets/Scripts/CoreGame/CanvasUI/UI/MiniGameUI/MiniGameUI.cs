@@ -70,10 +70,10 @@ public class MiniGameUI : MonoBehaviour
 		SkeletonGraphic selectedMachine = game_machine[index - 1];
 		selectedMachine.transform.DOKill();
 		selectedMachine.transform.localScale = originalScalesGameMachine[index - 1];
-		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.2f)
+		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.1f)
 			.OnComplete(() =>
 			{
-				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.2f).OnComplete(() =>
+				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.1f).OnComplete(() =>
 				{
 					SceneManager.LoadScene(index, LoadSceneMode.Additive);
 				});
