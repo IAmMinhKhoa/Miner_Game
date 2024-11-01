@@ -1,39 +1,36 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DragDrop : MonoBehaviour
 {
-	Vector3 offset;
 	Collider2D collider2d;
-	public bool isDragging;
-	public Vector3 tempPos;
-	public bool isCollide;
+	tsInfo tsInfo;
+	public bool isDragging, isDrop;
 
 	void Awake()
 	{
+		isDrop = false;
 		collider2d = GetComponent<Collider2D>();
+		tsInfo = GetComponent<tsInfo>();
 	}
 
 	void OnMouseDown()
 	{
-		offset = transform.position - MouseWorldPosition();
 		isDragging = true;
-		tempPos = transform.position;
+		Debug.Log("a");
 	}
 
 	void OnMouseDrag()
 	{
-		transform.position = MouseWorldPosition() + offset;
+		transform.position = MouseWorldPosition();
 		
 	}
 
 	void OnMouseUp()
 	{
-		isDragging = false;
-		if (!isCollide)
-		{
-			transform.position = tempPos;
-		}
+		isDrop= true;
+		StartCoroutine(waiter());
 	}
 
 	Vector3 MouseWorldPosition()
@@ -43,46 +40,61 @@ public class DragDrop : MonoBehaviour
 		return Camera.main.ScreenToWorldPoint(mouseScreenPos);
 	}
 
+
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		isCollide = true;
-		if (collision.GetComponent<BoxInfo>() != null && !collision.GetComponent<BoxInfo>().isFull)
+		if (collision.GetComponent<BoxInfo>() != null && !collision.GetComponent<BoxInfo>().isFull && isDragging)
 		{
 			GameObject box = collision.gameObject;
-			Debug.Log(box.transform.position.x + "");
 			if (box.GetComponent<BoxInfo>().objectCount == 2)
 			{
 
 			}
 			else
 			{
-				if (!isDragging)
+				if (isDrop)
 				{
 					float direct = transform.position.x - box.transform.position.x;
 
-					if(direct < -0.1f)
+					if (direct < -0.1f && box.GetComponent<BoxInfo>().objects[0] == null)
 					{
-						transform.position = box.GetComponent<BoxInfo>().slots[0].transform.position;
-						tempPos = transform.position;
+						UpdateBoxParent(0, box);
 					}
-					if(direct > 0.1f)
+					else if (direct > 0.1f && box.GetComponent<BoxInfo>().objects[2] == null)
 					{
-						transform.position = box.GetComponent<BoxInfo>().slots[2].transform.position;
-						tempPos = transform.position;
+						UpdateBoxParent(2, box);
 					}
-					if (direct > -0.1f && direct < 0.1f)
+					else if (direct > -0.1f && direct < 0.1f && box.GetComponent<BoxInfo>().objects[1] == null)
 					{
-						transform.position = box.GetComponent<BoxInfo>().slots[1].transform.position;
-						tempPos = transform.position;
+						UpdateBoxParent(1, box);
 					}
-					return;
+					else
+					{
+						transform.position = tsInfo.parentBox.slots[tsInfo.slot].position;
+					}
+					isDrop = false;
 				}
 			}
+
 		}
+		
 	}
 
-	private void OnTriggerExit2D(Collider2D collision)
+	void UpdateBoxParent(int slot, GameObject box)
 	{
-		isCollide = false;
+		if(tsInfo.parentBox != null) tsInfo.parentBox.objects[tsInfo.slot] = null;
+		tsInfo.slot = slot;
+		tsInfo.parentBox = box.GetComponent<BoxInfo>();
+		tsInfo.parentBox.objects[tsInfo.slot] = gameObject;
+		transform.parent = tsInfo.parentBox.transform;
+		transform.position = box.GetComponent<BoxInfo>().slots[slot].transform.position;
+		isDragging = false;
+	}
+
+	IEnumerator waiter()
+	{
+		yield return new WaitForSeconds(0.01f);
+		if (tsInfo.parentBox != null) transform.position = tsInfo.parentBox.GetComponent<BoxInfo>().slots[tsInfo.slot].position;
+		isDragging = false;
 	}
 }
