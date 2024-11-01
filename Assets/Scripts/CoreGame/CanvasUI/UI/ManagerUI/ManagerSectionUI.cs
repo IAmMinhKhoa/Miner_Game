@@ -6,57 +6,38 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
+using log4net.Core;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 public class ManagerSectionUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _sectionText;
     [SerializeField] private ManagerGridUI _managerGridUI;
     private RectTransform _rectTransform;
-	private Dictionary<string, string> englishToVietnamese;
-	private Dictionary<string, string> vietnameseToEnglish;
-	public static bool isEnglish = true;
-	void Awake()
-    {
-		
-		_rectTransform = this.GetComponent<RectTransform>();
-		englishToVietnamese = new Dictionary<string, string>
-		{
-			{ "Hổ", "Tiger" },
-			{ "Gấu", "Bear" },
-			{ "Chó", "Dog" }
-		};
-		vietnameseToEnglish = new Dictionary<string, string>
-		{
-			{ "Tiger", "Hổ" },
-			{ "Bear", "Gấu" },
-			{ "Dog", "Chó" }
-		};
-	}
+	private ManagerSpecie managerSpecieLocation;
 
-    public async UniTask SetData(string sectionName, List<Manager> managerDatas)
+	private void Awake()
+	{
+		_rectTransform = this.GetComponent<RectTransform>();
+	}
+	public async UniTask SetData(ManagerSpecie managerSpecie, List<Manager> managerDatas)
     {
-		//Debug.LogError("SetData:"+isEnglish);
-		if (isEnglish)
+		this.managerSpecieLocation = managerSpecie;
+		string titleKey = string.Empty;
+
+		switch (managerSpecieLocation)
 		{
-			if (englishToVietnamese.ContainsKey(sectionName))
-			{
-				_sectionText.text = englishToVietnamese[sectionName];
-			}
-			else
-			{
-				_sectionText.text = sectionName; 
-			}
+			case ManagerSpecie.Tiger:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionTiger);
+
+				break;
+			case ManagerSpecie.Dog:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionDog);
+				break;
+			case ManagerSpecie.Bear:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionBear);
+				break;
 		}
-		else
-		{
-			if (vietnameseToEnglish.ContainsKey(sectionName))
-			{
-				_sectionText.text = vietnameseToEnglish[sectionName];
-			}
-			else
-			{
-				_sectionText.text = sectionName; 
-			}
-		}
+		_sectionText.text = titleKey;
 		await _managerGridUI.ShowMangers(managerDatas);
         await UniTask.WaitForEndOfFrame(this);
         LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
