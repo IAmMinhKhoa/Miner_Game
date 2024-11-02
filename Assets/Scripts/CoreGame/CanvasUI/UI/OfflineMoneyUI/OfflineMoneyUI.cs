@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Sirenix.OdinInspector;
 
 public class OfflineMoneyUI : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class OfflineMoneyUI : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button doubleUpButton;
     [SerializeField] private TMP_Text m_timeText;
-
-    private double m_offlineMoney;
+	[SerializeField] private CollectorFx collectFX;
+	private double m_offlineMoney;
 
     void OnEnable()
     {
@@ -43,17 +44,27 @@ public class OfflineMoneyUI : MonoBehaviour
 
     void OnConfirmButtonClicked()
     {
-        // Add offline money to player's paw
-        PawManager.Instance.AddPaw(m_offlineMoney);
-        // Close offline money UI
-        gameObject.SetActive(false);
-    }
+		StartCoroutine(confirmClaimPaw(m_offlineMoney, 10));
+	}
 
     void OnDoubleUpButtonClicked()
     {
         m_offlineMoney *= 2;
-        PawManager.Instance.AddPaw(m_offlineMoney);
-        // Close offline money UI
-        gameObject.SetActive(false);
+       
+		StartCoroutine(confirmClaimPaw(m_offlineMoney,15));
     }
+	IEnumerator confirmClaimPaw(double pawOffline, int quantityFx=5)
+	{
+		PawManager.Instance.AddPaw(pawOffline);
+		collectFX.SpawnAndMoveCoin(quantityFx, this.transform);
+		yield return new WaitForSeconds(1.5f);
+		// Close offline money UI
+		gameObject.SetActive(false);
+	}
+
+	[Button]
+	private void testCollector(int quantity=5)
+	{
+		collectFX.SpawnAndMoveCoin(quantity, this.transform);
+	}
 }
