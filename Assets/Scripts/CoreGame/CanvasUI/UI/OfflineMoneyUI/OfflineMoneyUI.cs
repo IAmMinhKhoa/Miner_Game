@@ -44,26 +44,26 @@ public class OfflineMoneyUI : MonoBehaviour
 
     void OnConfirmButtonClicked()
     {
-		StartCoroutine(confirmClaimPaw(m_offlineMoney, 10));
+		StartCoroutine(confirmClaimPaw(m_offlineMoney, 20));
 	}
 
     void OnDoubleUpButtonClicked()
     {
         m_offlineMoney *= 2;
        
-		StartCoroutine(confirmClaimPaw(m_offlineMoney,15));
+		StartCoroutine(confirmClaimPaw(m_offlineMoney,35));
     }
 	IEnumerator confirmClaimPaw(double pawOffline, int quantityFx=5)
 	{
 		PawManager.Instance.AddPaw(pawOffline);
-		collectFX.SpawnAndMoveCoin(quantityFx, this.transform);
+		collectFX.SpawnAndMoveCoin(quantityFx, this.transform,scale:0.7f);
 		yield return new WaitForSeconds(1.5f);
 		// Close offline money UI
 		gameObject.SetActive(false);
 	}
 
 	[Button]
-	private void testCollector(int quantity=5)
+	private void testCollector(int quantity=15)
 	{
 		collectFX.SpawnAndMoveCoin(quantity, this.transform);
 	}
