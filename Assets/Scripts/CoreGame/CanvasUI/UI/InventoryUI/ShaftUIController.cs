@@ -54,7 +54,6 @@ namespace UI.Inventory
 			}
 			isUpdataDataAsset = true;
 		}
-
 		public void SetShaftIndex(int i)
         {
             index = i;
