@@ -4325,6 +4325,7 @@ GameObject:
   - component: {fileID: 1468133790694736579}
   - component: {fileID: 7507328589967071188}
   - component: {fileID: 6049851571822522068}
+  - component: {fileID: 2590019384230556437}
   m_Layer: 5
   m_Name: FloorCount_1
   m_TagString: Untagged
@@ -4448,6 +4449,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2590019384230556437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6798304815381694682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c6be60db2ac3075448d16ea9332b6c54
+    m_TableEntryReference:
+      m_KeyId: 1039386773245952
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6049851571822522068}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7122483906814719300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5466,7 +5507,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 44.4568}
+  m_SizeDelta: {x: 0, y: 82.181}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2069765385139086001
 CanvasRenderer:
@@ -5496,7 +5537,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Voi
+  m_text: "G\u1EA5u"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4a9c62026c49d347a6f1aef4738c410, type: 2}
   m_sharedMaterial: {fileID: -6834413423360317335, guid: a4a9c62026c49d347a6f1aef4738c410, type: 2}

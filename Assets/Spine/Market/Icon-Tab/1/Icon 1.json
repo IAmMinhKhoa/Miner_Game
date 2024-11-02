@@ -1,0 +1,207 @@
+{
+"skeleton": {
+	"hash": "uU5FzgKK44U",
+	"spine": "4.2.36",
+	"x": -52,
+	"y": -52,
+	"width": 104,
+	"height": 104,
+	"images": "./image/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Home_Main", "parent": "root", "color": "ff0000ff", "icon": "arrows" },
+	{ "name": "Home", "parent": "Home_Main", "color": "ff0000ff" },
+	{ "name": "Home_04", "parent": "Home", "x": -26.31, "y": 25.32, "color": "ff0000ff" },
+	{ "name": "Home_03", "parent": "Home", "x": -26.47, "y": -26.65, "color": "ff0000ff" },
+	{ "name": "Home_02", "parent": "Home", "x": 26.6, "y": -26.6, "color": "ff0000ff" },
+	{ "name": "Home_01", "parent": "Home", "x": 25.91, "y": 26.08, "color": "ff0000ff" },
+	{ "name": "bone", "parent": "Home_04", "x": -18.81, "y": 19.98, "color": "ff0000ff" },
+	{ "name": "bone2", "parent": "Home_01", "x": 19.28, "y": 19.51, "color": "ff0000ff" },
+	{ "name": "bone3", "parent": "Home_02", "x": 19.04, "y": -18.81, "color": "ff0000ff" },
+	{ "name": "bone4", "parent": "Home_03", "x": -19.51, "y": -18.81, "color": "ff0000ff" }
+],
+"slots": [
+	{ "name": "Icon Home", "bone": "Home_Main", "color": "b79069ff", "attachment": "Asset 79" },
+	{ "name": "Home", "bone": "Home" },
+	{ "name": "Home_01", "bone": "bone2" },
+	{ "name": "Home_02", "bone": "bone3" },
+	{ "name": "Home_03", "bone": "bone4" },
+	{ "name": "Home_04", "bone": "bone" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Home": {
+				"Home2": { "path": "Home", "width": 104, "height": 104 }
+			},
+			"Home_01": {
+				"Home_02": { "path": "Home_01", "x": -9.92, "y": -10.32, "width": 24, "height": 23 }
+			},
+			"Home_02": {
+				"Home_02": { "path": "Home_01", "x": -9.55, "y": 9.32, "scaleY": -1, "width": 24, "height": 23 }
+			},
+			"Home_03": {
+				"Home_02": {
+					"path": "Home_01",
+					"x": 10.17,
+					"y": 9.36,
+					"scaleX": -1,
+					"scaleY": -1,
+					"width": 24,
+					"height": 23
+				}
+			},
+			"Home_04": {
+				"Home_02": { "path": "Home_01", "x": 9.3, "y": -10.04, "scaleX": -1, "width": 24, "height": 23 }
+			},
+			"Icon Home": {
+				"Asset 79": { "width": 104, "height": 104 }
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"slots": {
+			"Home": {
+				"attachment": [
+					{ "name": "Home2" }
+				]
+			},
+			"Home_01": {
+				"attachment": [
+					{ "name": "Home_02" }
+				]
+			},
+			"Home_02": {
+				"attachment": [
+					{ "name": "Home_02" }
+				]
+			},
+			"Home_03": {
+				"attachment": [
+					{ "name": "Home_02" }
+				]
+			},
+			"Home_04": {
+				"attachment": [
+					{ "name": "Home_02" }
+				]
+			},
+			"Icon Home": {
+				"attachment": [
+					{}
+				]
+			}
+		},
+		"bones": {
+			"Home_04": {
+				"translate": [
+					{
+						"x": 8.18,
+						"y": -5.53,
+						"curve": [ 0.107, 8.18, 0.226, -8.87, 0.107, -5.53, 0.226, 13.14 ]
+					},
+					{ "time": 0.3333, "x": -8.87, "y": 13.14 }
+				],
+				"scale": [
+					{ "x": 0, "y": 0 },
+					{ "time": 0.1 }
+				]
+			},
+			"Home_03": {
+				"translate": [
+					{
+						"x": 6.85,
+						"y": 9.51,
+						"curve": [ 0.107, 6.85, 0.226, -11.81, 0.107, 9.51, 0.226, -7.62 ]
+					},
+					{ "time": 0.3333, "x": -11.81, "y": -7.62 }
+				],
+				"scale": [
+					{ "x": 0, "y": 0 },
+					{ "time": 0.1 }
+				]
+			},
+			"Home_02": {
+				"translate": [
+					{
+						"x": -7.63,
+						"y": 7.45,
+						"curve": [ 0.107, -7.63, 0.226, 15.31, 0.107, 7.45, 0.226, -10.49 ]
+					},
+					{ "time": 0.3333, "x": 15.31, "y": -10.49 }
+				],
+				"scale": [
+					{ "x": 0, "y": 0 },
+					{ "time": 0.1 }
+				]
+			},
+			"Home_01": {
+				"translate": [
+					{
+						"x": -7.07,
+						"y": -8.4,
+						"curve": [ 0.107, -7.07, 0.226, 12.55, 0.107, -8.4, 0.226, 17.12 ]
+					},
+					{ "time": 0.3333, "x": 12.55, "y": 17.12 }
+				],
+				"scale": [
+					{ "x": 0, "y": 0 },
+					{ "time": 0.1 }
+				]
+			},
+			"Home": {
+				"translate": [
+					{
+						"y": -4.53,
+						"curve": [ 0.167, 0, 0.333, 0, 0.167, -4.53, 0.333, 4.21 ]
+					},
+					{
+						"time": 0.5,
+						"y": 4.21,
+						"curve": [ 0.667, 0, 0.833, 0, 0.667, 4.21, 0.833, -4.53 ]
+					},
+					{ "time": 1, "y": -4.53 }
+				]
+			},
+			"bone4": {
+				"scale": [
+					{ "time": 0.3 },
+					{ "time": 0.4, "x": 0, "y": 0 }
+				]
+			},
+			"bone": {
+				"scale": [
+					{ "time": 0.3 },
+					{ "time": 0.4, "x": 0, "y": 0 }
+				]
+			},
+			"bone2": {
+				"scale": [
+					{ "time": 0.3 },
+					{ "time": 0.4, "x": 0, "y": 0 }
+				]
+			},
+			"bone3": {
+				"scale": [
+					{ "time": 0.3 },
+					{ "time": 0.4, "x": 0, "y": 0 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"Icon Home": {
+				"attachment": [
+					{ "name": "Asset 79" }
+				]
+			}
+		}
+	}
+}
+}

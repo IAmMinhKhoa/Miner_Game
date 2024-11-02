@@ -58,7 +58,8 @@ namespace UI.Inventory
 		public void SetShaftIndex(int i)
         {
             index = i;
-            title.text = "Tầng " + (i + 1).ToString();
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaft);
+            title.text = titleKey+" " + (i + 1).ToString();
 			if (items == null) return;
 			foreach (DecoratorItem item in items)
 			{

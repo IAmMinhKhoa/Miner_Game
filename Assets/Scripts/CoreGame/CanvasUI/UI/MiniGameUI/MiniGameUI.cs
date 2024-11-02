@@ -70,10 +70,10 @@ public class MiniGameUI : MonoBehaviour
 		SkeletonGraphic selectedMachine = game_machine[index - 1];
 		selectedMachine.transform.DOKill();
 		selectedMachine.transform.localScale = originalScalesGameMachine[index - 1];
-		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.2f)
+		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.1f)
 			.OnComplete(() =>
 			{
-				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.2f).OnComplete(() =>
+				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.1f).OnComplete(() =>
 				{
 					SceneManager.LoadScene(index, LoadSceneMode.Additive);
 				});
@@ -82,6 +82,7 @@ public class MiniGameUI : MonoBehaviour
 	public void OnRedeempoints()
 	{
 		points_redemption_booth.transform.DOKill();
+		points_redemption_booth.AnimationState.SetAnimation(0,"Click",false);
 		if (points_redemption_booth.transform.localScale.x > maxScaleFactor * originalScaleRedeemPoints.x)
 		{
 			points_redemption_booth.transform.localScale = originalScaleRedeemPoints;
@@ -91,6 +92,7 @@ public class MiniGameUI : MonoBehaviour
 			.OnComplete(() =>
 			{
 				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
+				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", true);
 			});
 	}
 	#region AnimateUI

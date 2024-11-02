@@ -87,6 +87,7 @@ public class Counter : Patterns.Singleton<Counter>
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
+		transporter.OnCashier += CountTransporterInCashier;
         _transporters.Add(transporter);
         if (_transporters.Count > 1)
         {
@@ -198,7 +199,35 @@ public class Counter : Patterns.Singleton<Counter>
         }
     }
 
-    class Data
+	private int _outCashier;
+	private int outCashier
+	{
+		get => _outCashier;
+		set
+		{
+			_outCashier = value;
+			if (_outCashier == _transporters.Count)
+			{
+				GetComponent<CounterUI>().PlayCollectAnimation(false);
+				_outCashier = 0;
+			}
+		}
+	}
+
+	public void CountTransporterInCashier(bool isOnCashier)
+	{
+	
+		if (isOnCashier)
+		{
+			GetComponent<CounterUI>().PlayCollectAnimation(true);
+		}
+		else
+		{
+			outCashier++; 
+		}
+	}
+
+	class Data
     {
         public double boostScale;
         public double elevatorDeposit;
