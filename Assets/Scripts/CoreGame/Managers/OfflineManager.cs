@@ -76,7 +76,9 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     public async void LoadOfflineData()
     {
         PlayFabDataManager.Instance.GoToMainGame();
-        string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+		GetOfflineData();
+
+		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
         if (string.IsNullOrEmpty(lastTimeQuit))
         {
             isDone = true;
@@ -89,8 +91,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         if (seconds >= _minOfflineTime)
         {
+			
             var offlineMoney = await CaculateOfflinePaw((float)seconds);
-            GameUI.Instance.OpenOffline(offlineMoney);
+			Debug.Log("Caculate Offline :" + offlineMoney);
+			GameUI.Instance.OpenOffline(offlineMoney);
         }
 
         CalculateManagerCooldown(seconds);
