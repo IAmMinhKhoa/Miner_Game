@@ -27,8 +27,8 @@ public class FruitCombiner : MonoBehaviour
 					GameObject newFruit = Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
 					newFruit.transform.DOScale(0.001f, 0f);
 					newFruit.transform.DOScale(0.08f, 0.5f);
-					Color newColor;
-					if (ColorUtility.TryParseHtmlString(GetComponent<FruitInfo>().mergeColor, out newColor))
+					Color newColor = GetComponent<FruitInfo>().mergeColor; // Lấy màu từ mergeColor
+					if (newColor != null) // Kiểm tra màu sắc có hợp lệ không
 					{
 						GameObject FX = Instantiate(combineFX, hitpoint, Quaternion.identity);
 						FX.GetComponent<ParticleSystem>().startColor = newColor;
@@ -36,10 +36,11 @@ public class FruitCombiner : MonoBehaviour
 						foreach (var ps in particleSystems)
 						{
 							var main = ps.main;
-							main.startColor = newColor;
+							main.startColor = newColor; // Áp dụng màu cho tất cả các particle system
 						}
-						Destroy(FX, 3f);
+						Destroy(FX, 3f); // Hủy đối tượng FX sau 3 giây
 					}
+
 				}
 				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
 			}
