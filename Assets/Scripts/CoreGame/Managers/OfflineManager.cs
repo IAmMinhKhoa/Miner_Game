@@ -21,6 +21,9 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     #endregion
     private bool isDone = false;
     public bool IsDone => isDone;
+
+    private readonly float _maxOfflineTime = 86400 * 30; // 30 days
+    private readonly float _minOfflineTime = 1; // 1 second -- for testing
     // private void OnApplicationPause(bool pause)
     // {
     //     if (pause)
@@ -70,10 +73,12 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     }
 
 
-    public void LoadOfflineData()
+    public async void LoadOfflineData()
     {
         PlayFabDataManager.Instance.GoToMainGame();
-        string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+		GetOfflineData();
+
+		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
         if (string.IsNullOrEmpty(lastTimeQuit))
         {
             isDone = true;
@@ -83,10 +88,20 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
         System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
         double seconds = timeSpan.TotalSeconds;
+
+        if (seconds >= _minOfflineTime)
+        {
+			
+            var offlineMoney = await CaculateOfflinePaw((float)seconds);
+			Debug.Log("Caculate Offline :" + offlineMoney);
+			GameUI.Instance.OpenOffline(offlineMoney);
+        }
+
         CalculateManagerCooldown(seconds);
         double offlinePaw = PawBonus(seconds);
         // update ADS double up or something here
         PawManager.Instance.AddPaw(offlinePaw);
+
 
         isDone = true;
     }
@@ -183,14 +198,14 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     private void GetOfflineData()
     {
-        _efficiencyFloors.Clear();
-        _pawFloors.Clear();
-        _offlineBoosts.Clear();
+        _efficiencyFloors = new List<double>();
+        _pawFloors = new List<double>();
+        _offlineBoosts = new List<OfflineBoost>();
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
-            _efficiencyFloors.Add(1f);
-            _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
+            // _efficiencyFloors.Add(1f);
+            // _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
 
             var manager = shaft.ManagerLocation.Manager;
             if (manager != null && manager.CurrentBoostTime > 0 && manager.BoostType != BoostType.Costs)
@@ -221,25 +236,45 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         _offlineBoosts.Sort((x, y) => x.time.CompareTo(y.time));
         Debug.Log("Paw bonus: " + JsonConvert.SerializeObject(_offlineBoosts));
+        PlayerPrefs.SetString("OfflineBoosts", JsonConvert.SerializeObject(_offlineBoosts));
+        PlayerPrefs.Save();
     }
 
-    private double CaculateOfflinePaw(float offlineTime)
+    private async UniTask<OfflineMoneyData> CaculateOfflinePaw(float offlineTime)
     {
+        if (offlineTime > _maxOfflineTime)
+        {
+            offlineTime = _maxOfflineTime;
+        }
+        float saveTime = offlineTime;
+
+        foreach (var shaft in ShaftManager.Instance.Shafts)
+        {
+            _efficiencyFloors.Add(1f);
+            _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
+        }
+
         double pawBonus = 0;
         var freeTime = offlineTime;
 
-        foreach (var offlineBoost in _offlineBoosts)
+        _offlineBoosts = JsonConvert.DeserializeObject<List<OfflineBoost>>(PlayerPrefs.GetString("OfflineBoosts"));
+        if (_offlineBoosts != null)
         {
-            freeTime -= offlineBoost.time;
-            if (freeTime <= 0)
+            foreach (var offlineBoost in _offlineBoosts)
             {
-                break;
+                freeTime -= offlineBoost.time;
+                if (freeTime <= 0)
+                {
+                    break;
+                }
             }
         }
+
         if (freeTime > 0)
         {
             _offlineBoosts.Add(new OfflineBoost() { time = freeTime, location = ManagerLocation.Counter, index = -1, bonus = 1 });
         }
+        Debug.Log("Free time: " + freeTime);
 
         foreach (var offlineBoost in _offlineBoosts)
         {
@@ -292,47 +327,30 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                 for (int j = 0; j <= i; j++)
                 {
                     var shaft = ShaftManager.Instance.Shafts[j];
-                    q += shaft.GetPureEfficiencyPerSecond() * ElevatorSystem.Instance.GetTempMoveTimeInCycle(j) * _efficiencyFloors[j] + _pawFloors[j];
+                    q += _pawFloors[j];
                 }
 
                 _totalPawTaken = ElevatorSystem.Instance.GetPureProductionInCycle() * n * _efficiencyElevator;
-                if (_totalPawTaken >= q)
+                floorIndex = i;
+                if (q >= _totalPawTaken)
                 {
-                    floorIndex = i;
-                    _totalPawTaken = q;
                     break;
                 }
-                else
-                {
-                    continue;
-                }
-            }
-            if (floorIndex == -1)
-            {
-                floorIndex = _pawFloors.Count - 1;
-                //totalPawTaken is max now
             }
 
             //Case
-            if (floorIndex == _pawFloors.Count - 1)
+            for (int i = 0; i <= floorIndex; i++)
             {
-                pawBonus += _totalPawTaken;
-            }
-            else
-            {
-                for (int i = 0; i <= floorIndex; i++)
+                if (i == floorIndex)
                 {
-                    if (i == floorIndex)
-                    {
-                        _pawFloors[i] -= _totalPawTaken;
-                        _pawElevator += _totalPawTaken;
-                    }
-                    else
-                    {
-                        _totalPawTaken -= _pawFloors[i];
-                        _pawElevator += _pawFloors[i];
-                        _pawFloors[i] = 0;
-                    }
+                    _pawFloors[i] -= _totalPawTaken;
+                    _pawElevator += _totalPawTaken;
+                }
+                else
+                {
+                    _totalPawTaken -= _pawFloors[i];
+                    _pawElevator += _pawFloors[i];
+                    _pawFloors[i] = 0;
                 }
             }
             //done here
@@ -360,24 +378,25 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             //temp turn off boost
             offlineBoost.bonus = 1;
         }
+
+        Debug.Log("Paw bonus: " + pawBonus + " paw elevator: " + _pawElevator + " paw floors: " + _pawFloors.Sum());
+
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
             //change paw here
-            //shaft.CurrentDeposit.CurrentPaw = _pawFloors[shaft.shaftIndex];
+            shaft.CurrentDeposit.SetPaw(_pawFloors[shaft.shaftIndex]);
         }
-        //ElevatorSystem.Instance.ElevatorDeposit.CurrentPaw = _pawElevator;
-        //Counter.Instance.CurrentDeposit.CurrentPaw = _pawCounter;
+        ElevatorSystem.Instance.ElevatorDeposit.SetPaw(_pawElevator);
 
-        //Elevator collection simulation
-        return pawBonus;
+        return new OfflineMoneyData(saveTime, pawBonus);
     }
 
 
-    public void TestPawBonus(float offlineTime)
+    public async void TestPawBonus(float offlineTime)
     {
         GetOfflineData();
-        double pawBonus = CaculateOfflinePaw(offlineTime);
-        Debug.Log("Paw bonus: " + pawBonus);
+        var offlineData = await CaculateOfflinePaw(offlineTime);
+        GameUI.Instance.OpenOffline(offlineData);
     }
 
     public double GetNSPaw()
@@ -412,4 +431,16 @@ class OfflineBoost
     public ManagerLocation location;
     public int index;
     public float bonus;
+}
+
+public class OfflineMoneyData
+{
+    public float time;
+    public double paw;
+
+    public OfflineMoneyData(float time, double paw)
+    {
+        this.time = time;
+        this.paw = paw;
+    }
 }

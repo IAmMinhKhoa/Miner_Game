@@ -87,6 +87,7 @@ public class UpgradeUI : MonoBehaviour
 		}
 		// Deselect all button
 		OnFastUpgradeButtonPress(-1, -1);
+		
 	}
 
 	private void OnEnable()
@@ -329,6 +330,13 @@ public class UpgradeUI : MonoBehaviour
 
 		DisplayNextUpgrade(1);
 		UpdateEvolutions(currentLevel);
+
+		//not show icon image if upgrade elevator
+		if (managerLocation == ManagerLocation.Elevator) { iconImage.gameObject.SetActive(false); }
+		else
+		{
+			iconImage.gameObject.SetActive(true);
+		}
 	}
 
 	private void DeactivateButton(Button button)

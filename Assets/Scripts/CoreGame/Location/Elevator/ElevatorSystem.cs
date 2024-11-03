@@ -185,6 +185,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
                 var shaft = ShaftManager.Instance.Shafts[j];
                 q += shaft.GetShaftNS() * moveTime;
             }
+            //Debug.Log("q: " + q + "index: " + i + "loadCapacity: " + loadCapacity);
 
             index = i;
             if (q >= loadCapacity)

@@ -14,7 +14,7 @@ public class MarketContentBox : MonoBehaviour
 	GameObject superContent;
 
 	public event Action<MarketContentBox> BoxIsEnable;
-
+	public ContentFitterRefresh refeshUI;
 	public GameObject LowContent => lowContent;
 	public GameObject NormalContent => normalContent;
 	public GameObject SuperContent => superContent;
@@ -22,6 +22,7 @@ public class MarketContentBox : MonoBehaviour
 	private void OnEnable()
 	{
 		BoxIsEnable?.Invoke(this);
+		refeshUI?.RefreshContentFitters();
 	}
 	
 }

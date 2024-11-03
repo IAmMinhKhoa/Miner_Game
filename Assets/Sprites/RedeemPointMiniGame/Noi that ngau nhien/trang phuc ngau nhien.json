@@ -1,0 +1,165 @@
+{
+"skeleton": {
+	"hash": "ffP3W9tDY6c",
+	"spine": "4.2.36",
+	"x": 1049.72,
+	"y": -1603.02,
+	"width": 322,
+	"height": 331,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Layer_1", "parent": "root", "x": 1210.72, "y": -1437.52 },
+	{ "name": "Layer_7", "parent": "Layer_1", "x": 5.43, "y": -13.65 },
+	{ "name": "Layer_6", "parent": "Layer_1", "x": -112.58, "y": -84.52 },
+	{ "name": "Layer_5", "parent": "Layer_1", "x": 100.29, "y": 99.41 },
+	{ "name": "Layer_4", "parent": "Layer_1", "x": -61.71, "y": 122.42 },
+	{ "name": "Layer_3", "parent": "Layer_1", "x": -92.96, "y": 108.73 },
+	{ "name": "Layer_2", "parent": "Layer_1", "x": 97.58, "y": -91.39 }
+],
+"slots": [
+	{ "name": "Layer_1", "bone": "Layer_1", "attachment": "Layer_1" },
+	{ "name": "Layer_7", "bone": "Layer_7", "attachment": "Layer_7" },
+	{ "name": "Layer_2", "bone": "Layer_2", "attachment": "Layer_2", "blend": "screen" },
+	{ "name": "Layer_6", "bone": "Layer_6", "attachment": "Layer_6", "blend": "screen" },
+	{ "name": "Layer_5", "bone": "Layer_5", "attachment": "Layer_5", "blend": "screen" },
+	{ "name": "Layer_4", "bone": "Layer_4", "attachment": "Layer_4", "blend": "screen" },
+	{ "name": "Layer_3", "bone": "Layer_3", "attachment": "Layer_3", "blend": "screen" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Layer_1": {
+				"Layer_1": { "width": 322, "height": 331 }
+			},
+			"Layer_2": {
+				"Layer_2": { "width": 65, "height": 64 }
+			},
+			"Layer_3": {
+				"Layer_3": { "width": 40, "height": 43 }
+			},
+			"Layer_4": {
+				"Layer_4": { "width": 20, "height": 22 }
+			},
+			"Layer_5": {
+				"Layer_5": { "width": 20, "height": 22 }
+			},
+			"Layer_6": {
+				"Layer_6": { "width": 20, "height": 22 }
+			},
+			"Layer_7": {
+				"Layer_7": { "width": 65, "height": 163 }
+			}
+		}
+	}
+],
+"animations": {
+	"Idle": {
+		"bones": {
+			"Layer_7": {
+				"translate": [
+					{
+						"curve": [ 0.167, 0, 0.333, 0, 0.167, 0, 0.333, -12.36 ]
+					},
+					{
+						"time": 0.5,
+						"y": -12.36,
+						"curve": [ 0.667, 0, 0.833, 0, 0.667, -12.36, 0.833, 0 ]
+					},
+					{
+						"time": 1,
+						"curve": [ 1.167, 0, 1.333, 0, 1.167, 0, 1.333, -12.36 ]
+					},
+					{
+						"time": 1.5,
+						"y": -12.36,
+						"curve": [ 1.667, 0, 1.833, 0, 1.667, -12.36, 1.833, 0 ]
+					},
+					{ "time": 2 }
+				]
+			},
+			"Layer_3": {
+				"scale": [
+					{ "x": 0, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.2333,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.289, 0.333, 0.511, 1, 0.289, 0.333, 0.511, 1 ]
+					},
+					{
+						"time": 0.5667,
+						"curve": [ 0.678, 1, 0.789, 0.667, 0.678, 1, 0.789, 0.667 ]
+					},
+					{ "time": 0.9, "x": 0, "y": 0 }
+				]
+			},
+			"Layer_4": {
+				"scale": [
+					{
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.056, 0.333, 0.278, 1, 0.056, 0.333, 0.278, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"curve": [ 0.444, 1, 0.556, 0.667, 0.444, 1, 0.556, 0.667 ]
+					},
+					{ "time": 0.6667, "x": 0, "y": 0 }
+				]
+			},
+			"Layer_5": {
+				"scale": [
+					{ "x": 0, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.5333,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.589, 0.333, 0.811, 1, 0.589, 0.333, 0.811, 1 ]
+					},
+					{
+						"time": 0.8667,
+						"curve": [ 0.978, 1, 1.089, 0.667, 0.978, 1, 1.089, 0.667 ]
+					},
+					{ "time": 1.2, "x": 0, "y": 0 }
+				]
+			},
+			"Layer_6": {
+				"scale": [
+					{ "x": 0, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.7667,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.822, 0.333, 1.044, 1, 0.822, 0.333, 1.044, 1 ]
+					},
+					{
+						"time": 1.1,
+						"curve": [ 1.211, 1, 1.322, 0.667, 1.211, 1, 1.322, 0.667 ]
+					},
+					{ "time": 1.4333, "x": 0, "y": 0 }
+				]
+			},
+			"Layer_2": {
+				"scale": [
+					{ "x": 0, "y": 0, "curve": "stepped" },
+					{
+						"time": 1.1667,
+						"x": 0,
+						"y": 0,
+						"curve": [ 1.222, 0.333, 1.444, 1, 1.222, 0.333, 1.444, 1 ]
+					},
+					{
+						"time": 1.5,
+						"curve": [ 1.611, 1, 1.722, 0.667, 1.611, 1, 1.722, 0.667 ]
+					},
+					{ "time": 1.8333, "x": 0, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}
