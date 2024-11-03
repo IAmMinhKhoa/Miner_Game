@@ -15,6 +15,7 @@ namespace PlayFabManager.Data
 		private LoaddingScreenManager prefab;
 		private LoaddingScreenManager loadingScene;
 		private bool isDataLoaded = false;
+		public string accountID;
 		private void OnEnable()
 		{
 			loadingScene = Instantiate(prefab, new Vector3(0, -2f, 0), Quaternion.identity);
@@ -59,6 +60,7 @@ namespace PlayFabManager.Data
 			try
 			{
 				var result = await taskCompletionSource.Task;
+				accountID=result.PlayFabId;
 			}
 			catch (Exception ex)
 			{
