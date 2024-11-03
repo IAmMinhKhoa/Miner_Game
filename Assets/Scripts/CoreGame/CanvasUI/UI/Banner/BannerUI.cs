@@ -82,9 +82,10 @@ public class BannerUI : MonoBehaviour
 
 		// Create a list of option strings
 		List<string> fontNames = new List<string>();
-		foreach (var font in dataFontText)
+		for (int i = 0; i < dataFontText.Count; i++)
 		{
-			fontNames.Add(font.name); // Add each font name to the list
+			string fontName = "fontcute " + i; // Create a custom font name using the index
+			fontNames.Add(fontName); // Add the custom font name to the list
 		}
 
 		dropDownFont.AddOptions(fontNames);
