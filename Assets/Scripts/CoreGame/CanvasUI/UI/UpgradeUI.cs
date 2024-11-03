@@ -9,7 +9,6 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using NOOD;
 using UnityEngine.Localization;
-using log4net.Core;
 using UnityEngine.Localization.Components;
 public class UpgradeUI : MonoBehaviour
 {

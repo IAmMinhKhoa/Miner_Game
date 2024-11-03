@@ -6,8 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
-using log4net.Core;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+
 public class ManagerSectionUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _sectionText;
