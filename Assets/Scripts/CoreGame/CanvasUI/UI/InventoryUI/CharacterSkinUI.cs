@@ -42,7 +42,7 @@ namespace UI.Inventory
 			staticBody.skeletonDataAsset = spine.skeletonDataAsset;
 			staticBody.initialSkinName = "Body/Skin_" + 1;
 			staticBody.Initialize(true);
-
+			Debug.Log(indexSkin + " -------------------------- " + itType);
 			itemName.text = SkinManager.Instance.InfoSkinGame[itType][indexSkin].name;
 			int idInInfo = SkinManager.Instance.ItemBought[itType].IndexOf((indexSkin+1).ToString());
 
