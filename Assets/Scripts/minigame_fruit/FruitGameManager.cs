@@ -11,14 +11,14 @@ using UnityEngine.UI;
 
 public class FruitGameManager : MonoBehaviour
 {
-    
+
     public GameObject buttonUI, endGameUI;
     public Transform fruitsParent;
 	[SerializeField] private Slider sliderScore;
 	[SerializeField] private TextMeshProUGUI currentScoreText, highScoreText, endGameText;
 	[SerializeField] private Toggle tg1, tg2, tg3, tg4;
 	public Image img1;
-	
+
 
 	public float currentScore;
 	[SerializeField] private UserInput userinp;
@@ -26,16 +26,15 @@ public class FruitGameManager : MonoBehaviour
 	[SerializeField] private ListImageFruit imgList;
 	private List<orderObject> orderList;
     public bool isPlaying;
-    
+
     public bool isHolding = false;
 
 
     private void Start()
     {
        orderList = new List<orderObject>();
-        
-    }
 
+    }
     private void Update()
     {
         highScoreText.text = PlayerScore.GetHighScore()+"";
@@ -123,7 +122,7 @@ public class FruitGameManager : MonoBehaviour
         }
 		currentScore = 0;
 		UpdateScore(0);
-		
+
 
 	}
 

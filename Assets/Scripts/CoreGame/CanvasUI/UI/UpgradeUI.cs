@@ -8,9 +8,12 @@ using System.Linq;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using NOOD;
-
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 public class UpgradeUI : MonoBehaviour
 {
+	[Header("Localization")]
+	[SerializeField] private LocalizedString workerNameLocalizedString;
 	[Header("Show Hide Transform")]
 	[SerializeField] private Transform showTrans;
 	[SerializeField] private Transform hideTrans;
@@ -84,6 +87,7 @@ public class UpgradeUI : MonoBehaviour
 		}
 		// Deselect all button
 		OnFastUpgradeButtonPress(-1, -1);
+		
 	}
 
 	private void OnEnable()
@@ -234,7 +238,15 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateEvolutionText(float levelToEvo)
 	{
-		workerName.text = $"mở khóa quầy hàng ở cấp : {levelToEvo}";
+		workerName.text = "mở khóa quầy hàng ở cấp : " + levelToEvo.ToString();
+		workerNameLocalizedString.Arguments = new object[] { levelToEvo };
+		workerNameLocalizedString.StringChanged -= OnWokerNameStringChange;
+		workerNameLocalizedString.StringChanged += OnWokerNameStringChange;
+	}
+
+	private void OnWokerNameStringChange(string value)
+	{
+		workerName.text = value;
 	}
 
 	public void SetUpPanel(int max)
@@ -265,9 +277,13 @@ public class UpgradeUI : MonoBehaviour
 	public void SetWorkerInfo(ManagerLocation locationType, string name, double production, string number, double total, int level)
 	{
 		managerLocation = locationType;
+		string titleKey = string.Empty;
+		string currentTitlekey = string.Empty;
 		switch (locationType)
 		{
 			case ManagerLocation.Shaft:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft, parameters: new object[] { level + 1 });
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft);
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + (level + 1).ToString();
@@ -280,6 +296,8 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + "NV";
 				break;
 			case ManagerLocation.Elevator:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
 				numberOrSpeedPanel.SetActive(false);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + (level + 1).ToString();
 				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0];
@@ -291,6 +309,8 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + " s";
 				break;
 			case ManagerLocation.Counter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
 				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + (level+1).ToString();
@@ -303,12 +323,20 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + "NV";
 				break;
 		}
-
+		titleText.text = titleKey;
+		currentTitleText = currentTitlekey;
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
 
 		DisplayNextUpgrade(1);
 		UpdateEvolutions(currentLevel);
+
+		//not show icon image if upgrade elevator
+		if (managerLocation == ManagerLocation.Elevator) { iconImage.gameObject.SetActive(false); }
+		else
+		{
+			iconImage.gameObject.SetActive(true);
+		}
 	}
 
 	private void DeactivateButton(Button button)

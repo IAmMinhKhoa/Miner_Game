@@ -33,6 +33,8 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_bankUI;
 	[SerializeField] private GameObject modal_storeUI;
 	[SerializeField] private GameObject modal_minigameUI;
+
+	[SerializeField] private GameObject modal_offlineUI;
 	private void Start()
 	{
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
@@ -75,6 +77,13 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	public void OpenMinigame()
 	{
 		modal_minigameUI.SetActive(true);
+	}
+
+	public async void OpenOffline(OfflineMoneyData money)
+	{
+		UnityEngine.Debug.Log("OpenOffline");
+		modal_offlineUI.GetComponent<OfflineMoneyUI>().SetOfflineMoney(money);
+		modal_offlineUI.SetActive(true);
 	}
 	#endregion
 
