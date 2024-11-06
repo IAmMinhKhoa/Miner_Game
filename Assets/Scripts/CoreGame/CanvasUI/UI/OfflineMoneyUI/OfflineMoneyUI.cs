@@ -57,7 +57,7 @@ public class OfflineMoneyUI : MonoBehaviour
 	{
 		PawManager.Instance.AddPaw(pawOffline);
 		collectFX.SpawnAndMoveCoin(quantityFx, this.transform,scale:0.8f);
-		yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(3f);
 		// Close offline money UI
 		gameObject.SetActive(false);
 	}
