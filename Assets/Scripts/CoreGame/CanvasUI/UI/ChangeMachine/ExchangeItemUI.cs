@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +30,14 @@ public class ExchangeItemUI : MonoBehaviour
 	TextMeshProUGUI amountGachaText;
 	[SerializeField]
 	TextMeshProUGUI cointRemaining;
+	[SerializeField]
+	TextMeshProUGUI itemGacha;
+
+	[Header("Spine")]
+	[SerializeField]
+	SkeletonGraphic interiorSpine;
+	[SerializeField]
+	SkeletonGraphic staffSpine;
 
 	public event Action<int> OnGachaButtonClick;
 	int _amountGacha;
@@ -70,12 +79,16 @@ public class ExchangeItemUI : MonoBehaviour
 		OnGachaButtonClick?.Invoke(_amountGacha);
 		OnCloseButtonClick();
 	}
-	public void SetUpUI(int  coin)
+	public void SetUpUI(int  coin, bool isInterior)
 	{
+		
 		confirmGacha.interactable = checkCoin();
 		avaliableCoin = coin;
 		AmountGacha = 1;
 		cointRemaining.text = (coin >= 300 ? (avaliableCoin - _amountGacha * 300) : coin).ToString();
+		interiorSpine.gameObject.SetActive(isInterior);
+		staffSpine.gameObject.SetActive(!isInterior);
+		itemGacha.text = isInterior ? "Nội thất ngẫu nhiên" : "Trang phục nhân viên ngẫu nhiên";
 
 		bool checkCoin() {
 			hideImage.gameObject.SetActive(coin < 300);

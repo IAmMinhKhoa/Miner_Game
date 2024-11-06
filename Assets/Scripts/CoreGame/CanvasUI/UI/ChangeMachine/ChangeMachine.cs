@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Spine;
 using System;
 using System.Collections;
@@ -20,8 +21,7 @@ public class ChangeMachine : MonoBehaviour
 	Button CloseUIButton;
 	[SerializeField]
 	ItemBoxsGacha itemBoxsGacha;
-	[SerializeField]
-	ShortItemBoxGacha shortItemBoxGacha;
+	
 
 	[Header("Item Gacha")]
 	[SerializeField]
@@ -39,6 +39,15 @@ public class ChangeMachine : MonoBehaviour
 	LongGachaItem longGachaItemPrefab;
 	[SerializeField]
 	ShortGachaItem shortGachaItemPrefab;
+	[SerializeField]
+	StaffGachaItem staffGachaItemPrefab;
+	[SerializeField]
+	ItemBoxGacha longItemBoxGacha;
+	[SerializeField]
+	ItemBoxGacha shortItemBoxGacha;
+	[SerializeField]
+	ItemBoxGacha staffItemBoxGacha;
+
 
 	int coin = 20000;
 	private void Start()
@@ -46,15 +55,24 @@ public class ChangeMachine : MonoBehaviour
 		interiorToggle.onClick.AddListener(OnInteriorButtonClick);
 		staffToggle.onClick.AddListener(OnStaffButtonClick);
 		CloseUIButton.onClick.AddListener(CloseUI);
+		longItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
+		shortItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
+		staffItemBoxGacha.OnSkipButtonClick += OnStaffButtonClick;
 	}
 	private void OnEnable()
 	{
 		currentCoin.text = coin.ToString();	
 	}
+	private void OnDestroy()
+	{
+		longItemBoxGacha.OnSkipButtonClick -= OnInteriorButtonClick;
+		shortItemBoxGacha.OnSkipButtonClick -= OnInteriorButtonClick;
+		staffItemBoxGacha.OnSkipButtonClick -= OnStaffButtonClick;
+	}
 	void OnInteriorButtonClick()
 	{
 		exchangeItemUI.gameObject.SetActive(true);
-		exchangeItemUI.SetUpUI(coin);
+		exchangeItemUI.SetUpUI(coin, true);
 		exchangeItemUI.OnGachaButtonClick += HandleGachaInterior;
 	}
 
@@ -63,6 +81,16 @@ public class ChangeMachine : MonoBehaviour
 		List<GachaItemInfor> listItemAvaliableGacha = GetListGachaItem(interior);
 		List<ShortGachaItem> listShortItem = new();
 		List<LongGachaItem> listLongItem = new();
+	
+		if(listItemAvaliableGacha.Count < amount)
+		{
+			Debug.Log($"Số skin có thể quay tối đa là {listItemAvaliableGacha.Count}");
+			return;
+		}
+
+		coin -= 300 * amount;
+		currentCoin.text = coin.ToString();
+
 		for (int i = 0; i < amount; i++)
 		{
 			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
@@ -73,27 +101,74 @@ public class ChangeMachine : MonoBehaviour
 				case InventoryItemType.ShaftSecondBg:
 					var initedLongItem = Instantiate(longGachaItemPrefab);
 					initedLongItem.InitialData(item, "Click_" + item.skinGachaInfor.ID);
+					initedLongItem.gameObject.SetActive(false);
 					listLongItem.Add(initedLongItem);
 					break;
 				default:
 					var initedShortItem = Instantiate(shortGachaItemPrefab);
 					initedShortItem.InitialData(item, "Icon_" + item.skinGachaInfor.ID);
+					initedShortItem.gameObject.SetActive(false);
 					listShortItem.Add(initedShortItem);
 					break;
 			}
+			//SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
 			listItemAvaliableGacha.Remove(item);
+			if(amount == 1)
+			{
+				if (listLongItem.Count == 1)
+				{
+					longItemBoxGacha.InitialData(item,"Click_" ,false);
+				}
+				if (listShortItem.Count == 1)
+				{
+					shortItemBoxGacha.InitialData(item, "Icon_", true);
+				}
+				return;
+			}
 		}
-		itemBoxsGacha.InitialData(listShortItem, listLongItem);
+		
+		itemBoxsGacha.InitialData(listShortItem, listLongItem, new List<StaffGachaItem>()).Forget();
 	}
 
+	private void HandleGachaStaff(int amount)
+	{
+		List<GachaItemInfor> listItemAvaliableGacha = GetListGachaItem(staff);
+		List<StaffGachaItem> listStaffItem = new();
+		if (listItemAvaliableGacha.Count < amount)
+		{
+			Debug.Log($"Số skin có thể quay tối đa là {listItemAvaliableGacha.Count}");
+			return;
+		}
+		coin -= 300 * amount;
+		currentCoin.text = coin.ToString();
+		for (int i = 0; i < amount; i++)
+		{
+			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
+
+			var initedLongItem = Instantiate(staffGachaItemPrefab);
+			initedLongItem.InitialData(item);
+			initedLongItem.gameObject.SetActive(false);
+			listStaffItem.Add(initedLongItem);
+
+			//SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
+			listItemAvaliableGacha.Remove(item);
+			if (amount == 1)
+			{
+				staffItemBoxGacha.InitialData(item, "Head/Skin_", true);
+				return;
+			}
+		}
+		itemBoxsGacha.InitialData(new List<ShortGachaItem>(), new List<LongGachaItem>(), listStaffItem).Forget();
+
+	}
 	List<GachaItemInfor> GetListGachaItem(List<SkinChangeMachineSO> listSkin)
 	{
-		List<GachaItemInfor> listItemAvaliableGacha = new ();
+		List<GachaItemInfor> listItemAvaliableGacha = new();
 		foreach (var skin in listSkin)
 		{
 			foreach (var item in skin.listSkinGacha)
 			{
-				if(!SkinManager.Instance.ItemBought[skin.type].Contains(item.ID))
+				if (!SkinManager.Instance.ItemBought[skin.type].Contains(item.ID))
 				{
 					listItemAvaliableGacha.Add(new(skin.type, item));
 				}
@@ -104,15 +179,9 @@ public class ChangeMachine : MonoBehaviour
 	void OnStaffButtonClick()
 	{
 		exchangeItemUI.gameObject.SetActive(true);
-		exchangeItemUI.SetUpUI(coin);
+		exchangeItemUI.SetUpUI(coin, false);
 		exchangeItemUI.OnGachaButtonClick += HandleGachaStaff;
 	}
-
-	private void HandleGachaStaff(int amount)
-	{
-		Debug.Log("-999999");
-	}
-	
 	void CloseUI()
 	{
 		gameObject.SetActive(false);
