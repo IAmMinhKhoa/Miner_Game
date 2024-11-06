@@ -157,7 +157,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.Skeleton.SetSlotsToSetupPose();
 
 		var skinInfo = SkinManager.Instance.InfoSkinGame[itemSize.type].Where(x => x.id == it.ID).First();
-
+		Debug.LogError(skinInfo.name);
 		title.text = skinInfo.name;
 		description.text = skinInfo.desc;
 

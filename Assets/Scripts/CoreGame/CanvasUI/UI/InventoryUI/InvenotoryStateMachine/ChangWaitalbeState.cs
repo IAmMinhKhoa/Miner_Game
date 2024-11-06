@@ -23,7 +23,8 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
-		itemController.title.text = "Đổi Bàn Để Ly Trà Sữa";
+		string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryChangeTableMilkTea);
+		itemController.title.text = titleKey;
 		int currentFloor = itemController.FloorIndex;
 		var cartSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftWaitTable];
 		//set data
