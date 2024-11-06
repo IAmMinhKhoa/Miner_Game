@@ -15,6 +15,7 @@ public class MiniGameUI : MonoBehaviour
 	[SerializeField] private Button miniGame_Fruit;
 	[SerializeField] private Button btn_back;
 	[SerializeField] private Button btn_redeempoints;
+	[SerializeField] private ChangeMachine redeemPointUI;
 	private CanvasGroup _canvasGroup;
 	private CancellationTokenSource _disableToken;
 	private Vector3 originalScaleRedeemPoints;
@@ -94,6 +95,7 @@ public class MiniGameUI : MonoBehaviour
 				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
 				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", true);
 			});
+		redeemPointUI.gameObject.SetActive(true);
 	}
 	#region AnimateUI
 	[Button]
