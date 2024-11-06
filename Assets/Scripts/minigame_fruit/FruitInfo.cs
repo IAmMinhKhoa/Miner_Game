@@ -8,10 +8,10 @@ public class FruitInfo : MonoBehaviour
 
     
     public int index;
-	public string mergeColor;
+	public Color mergeColor;
 
 
-    private GameObject claw;
+	private GameObject claw;
     private Rigidbody2D rb;
     void Start()
     {

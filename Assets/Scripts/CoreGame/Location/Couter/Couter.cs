@@ -125,6 +125,10 @@ public class Counter : Patterns.Singleton<Counter>
 
     public double GetTotalNS()
     {
+		if (ManagerLocation.Manager == null)
+		{
+			return 0;
+		}
         return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
     }
     void Start()

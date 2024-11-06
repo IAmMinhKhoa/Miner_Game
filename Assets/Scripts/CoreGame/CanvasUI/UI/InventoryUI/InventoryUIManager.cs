@@ -60,7 +60,6 @@ namespace UI.Inventory
 		bool isUpdateElevatorSkeletonData = false;
 		private void OnEnable()
 		{
-			
 			ShaftManager.Instance.OnUpdateShaftInventoryUI += HanleUpdateShaftIUI;
 			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI += HandleElevatorIUI;
 			Counter.Instance.OnUpdateCounterInventoryUI += HandleCounterIUI;
@@ -80,8 +79,10 @@ namespace UI.Inventory
 				HandleElevatorIUI();
 				HandleCounterIUI();
 			}
-	
-			
+			for (int i = 0; i < listShaftUI.Count; i++)
+			{
+				listShaftUI[i].SetShaftIndex(i);
+			}
 		}
 
 		private void OnDisable()
@@ -316,7 +317,6 @@ namespace UI.Inventory
 			listShaftUI.Add(shaft);
 			
 		}
-
 		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
 		{
 			

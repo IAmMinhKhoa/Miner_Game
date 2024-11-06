@@ -9,18 +9,24 @@ public class Deposit : MonoBehaviour
     public Action<double> OnChangePaw;
     public Action<double> OnChangePawEle;
     public double CurrentPaw { get; private set; }
-    
+
     void Awake()
     {
         CurrentPaw = 0;
     }
-	private void Start()
-	{
+    private void Start()
+    {
 
-	}
-	public bool CanCollectPaw()
+    }
+    public bool CanCollectPaw()
     {
         return CurrentPaw > 0;
+    }
+
+    public void SetPaw(double amount)
+    {
+        CurrentPaw = amount;
+        OnChangePaw?.Invoke(CurrentPaw);
     }
 
     public void AddPaw(double amount)
@@ -28,7 +34,7 @@ public class Deposit : MonoBehaviour
         CurrentPaw += amount;
         OnChangePaw?.Invoke(CurrentPaw);
 
-	}
+    }
 
     public void RemovePaw(double amount)
     {
@@ -42,20 +48,20 @@ public class Deposit : MonoBehaviour
         }
         OnChangePaw?.Invoke(CurrentPaw);
     }
-	public void RemovePawEle(double amount)
-	{
-		if (CurrentPaw <= amount)
-		{
-			CurrentPaw = 0;
-		}
-		else
-		{
-			CurrentPaw -= amount;
-		}
-		OnChangePawEle?.Invoke(CurrentPaw);
-	}
+    public void RemovePawEle(double amount)
+    {
+        if (CurrentPaw <= amount)
+        {
+            CurrentPaw = 0;
+        }
+        else
+        {
+            CurrentPaw -= amount;
+        }
+        OnChangePawEle?.Invoke(CurrentPaw);
+    }
 
-	public double TakePawn(double amount)
+    public double TakePawn(double amount)
     {
         double amountToTake = amount;
         if (CurrentPaw < amount)
@@ -69,7 +75,7 @@ public class Deposit : MonoBehaviour
         }
 
         OnChangePaw?.Invoke(CurrentPaw);
-		return amountToTake;
+        return amountToTake;
     }
 
     public double CalculateAmountPawCanCollect(double capacity)

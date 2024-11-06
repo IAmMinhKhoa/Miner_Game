@@ -21,7 +21,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private double currentCost = 0;
 	[SerializeField] private GameObject _roof;
 	[SerializeField] private GameObject _roof_Building;
-
+	[SerializeField] private GameObject _banner;
 	[Header("Basement")]
 	[SerializeField] public List<Shaft> Shafts = new();
 
@@ -42,12 +42,14 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	private void Start()
 	{
 		//InitializeShafts();
+		_banner.transform.position = new Vector3(firstShaftPosition.x, firstShaftPosition.y - 1.367f, 0);
 	}
 	protected override void Awake()
 	{
 		isPersistent = false;
 		base.Awake();
 	}
+	
 	public void AddShaft()
 	{
 		OnNewShaftCreated?.Invoke();
@@ -132,6 +134,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		double totalNS = 0;
 		foreach (Shaft shaft in Shafts)
 		{
+			if (shaft.ManagerLocation.Manager == null) continue;
 			totalNS += shaft.GetShaftNS();
 		}
 		return totalNS;

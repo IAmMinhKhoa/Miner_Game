@@ -33,6 +33,8 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_bankUI;
 	[SerializeField] private GameObject modal_storeUI;
 	[SerializeField] private GameObject modal_minigameUI;
+
+	[SerializeField] private GameObject modal_offlineUI;
 	private void Start()
 	{
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
@@ -44,6 +46,8 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		bt_Inventory.onClickEvent.AddListener(OpenInventory);
 		bt_Store.onClickEvent.AddListener(OpenStore);
 		bt_Sound.onClickEvent.AddListener(OpenSound);
+
+		StartCoroutine(UpdateUIEverySecond());
 	}
 
 	#region EVENT
@@ -76,13 +80,27 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	{
 		modal_minigameUI.SetActive(true);
 	}
+
+	public async void OpenOffline(OfflineMoneyData money)
+	{
+		UnityEngine.Debug.Log("OpenOffline");
+		if (money.paw <= 0) return;
+		modal_offlineUI.GetComponent<OfflineMoneyUI>().SetOfflineMoney(money);
+		modal_offlineUI.SetActive(true);
+	}
 	#endregion
 
-	private void Update()
+	private IEnumerator UpdateUIEverySecond()
 	{
-		pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
-		superMoneyText.text = Currency.DisplayCurrency(SuperMoneyManager.Instance.SuperMoney);
+		while (true)
+		{
+			// Update the UI elements every second
+			pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
+			superMoneyText.text = Currency.DisplayCurrency(SuperMoneyManager.Instance.SuperMoney);
+			pawPerSecondText.text = "+" + Currency.DisplayCurrency(OfflineManager.Instance.GetNSPaw()) + "/s";
 
-		pawPerSecondText.text = "+" + Currency.DisplayCurrency(OfflineManager.Instance.GetNSPaw()) + "/s";
+			// Wait for 1 second before the next update
+			yield return new WaitForSeconds(0.5f);
+		}
 	}
 }
