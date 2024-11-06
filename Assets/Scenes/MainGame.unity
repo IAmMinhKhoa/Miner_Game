@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1776,6 +1776,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 602452187824877741, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b026be2b315436442a2e3bf1501c610d, type: 2}
     - target: {fileID: 3689301631835646440, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -2165,10 +2169,6 @@ PrefabInstance:
     - target: {fileID: 4344351614460640615, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Name
       value: GameUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5864998257015613676, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 191.93335
       objectReference: {fileID: 0}
     - target: {fileID: 6692399593380874758, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Camera
