@@ -17,6 +17,17 @@ public class BoxInfo : MonoBehaviour
 		{
 			slots.Add(t);
 		}
+		UpdateBoxCount();
+	}
+
+	public void UpdateBoxCount()
+	{
+		int temp = 0;
+		foreach(GameObject t in objects)
+		{
+			if(t != null) temp++;
+		}
+		objectCount = temp;
 	}
 
 }
