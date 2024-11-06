@@ -100,7 +100,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         CalculateManagerCooldown(seconds);
         double offlinePaw = PawBonus(seconds);
         // update ADS double up or something here
-        PawManager.Instance.AddPaw(offlinePaw);
+      //  PawManager.Instance.AddPaw(offlinePaw);
 
 
         isDone = true;
@@ -204,8 +204,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
-            // _efficiencyFloors.Add(1f);
-            // _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
+			// _efficiencyFloors.Add(1f);
+			// _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
 
             var manager = shaft.ManagerLocation.Manager;
             if (manager != null && manager.CurrentBoostTime > 0 && manager.BoostType != BoostType.Costs)
@@ -250,6 +250,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
+			//if (shaft.ManagerLocation.Manager == null) continue;
             _efficiencyFloors.Add(1f);
             _pawFloors.Add(shaft.CurrentDeposit.CurrentPaw);
         }
@@ -364,7 +365,13 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                 _efficiencyCounter = counterBoost.bonus;
             }
             var couterPaw = Counter.Instance.GetPureEfficiencyPerSecond() * excuteTime * _efficiencyCounter;
-            if (_pawElevator >= couterPaw)
+
+			//rule if not have manager -> paw add = 0
+			if (ElevatorSystem.Instance.ManagerLocation.Manager == null) _pawElevator = 0;
+			if (Counter.Instance.ManagerLocation.Manager == null) couterPaw = 0;
+
+
+			if (_pawElevator >= couterPaw)
             {
                 pawBonus += couterPaw;
                 _pawElevator -= couterPaw;
@@ -383,7 +390,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         foreach (var shaft in ShaftManager.Instance.Shafts)
         {
-            //change paw here
+			//change paw here
+			//if (shaft.ManagerLocation.Manager == null) continue;
             shaft.CurrentDeposit.SetPaw(_pawFloors[shaft.shaftIndex]);
         }
         ElevatorSystem.Instance.ElevatorDeposit.SetPaw(_pawElevator);
@@ -406,8 +414,10 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         //double elevatorPaw = ElevatorSystem.Instance.GetTotalNS();
         double elevatorPaw = ElevatorSystem.Instance.GetTotalNSVersion2();
         double couterPaw = Counter.Instance.GetTotalNS();
-
-        if (shaftPaw > elevatorPaw)
+		Debug.Log("NSPaw Shaft Power: " + shaftPaw);
+		Debug.Log("NSPaw Elevator Power: " + elevatorPaw);
+		Debug.Log("NSPaw Counter Power: " + couterPaw);
+		if (shaftPaw > elevatorPaw)
         {
             result = elevatorPaw;
         }

@@ -134,6 +134,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		double totalNS = 0;
 		foreach (Shaft shaft in Shafts)
 		{
+			if (shaft.ManagerLocation.Manager == null) continue;
 			totalNS += shaft.GetShaftNS();
 		}
 		return totalNS;
