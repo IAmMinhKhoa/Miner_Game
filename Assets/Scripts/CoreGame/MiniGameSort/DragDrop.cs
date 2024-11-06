@@ -98,7 +98,11 @@ public class DragDrop : MonoBehaviour
 
 	public void UpdateBoxParent(int slot, GameObject box)
 	{
-		if(tsInfo.parentBox != null) tsInfo.parentBox.objects[tsInfo.slot] = null;
+		if(tsInfo.parentBox != null)
+		{
+			tsInfo.parentBox.objects[tsInfo.slot] = null;
+			tsInfo.parentBox.UpdateBoxCount();
+		}
 		tsInfo.slot = slot;
 		tsInfo.parentBox = box.GetComponent<BoxInfo>();
 		tsInfo.parentBox.objects[tsInfo.slot] = gameObject;

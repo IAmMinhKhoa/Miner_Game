@@ -754,6 +754,7 @@ MonoBehaviour:
   tsPrefabs: []
   allBoxList: []
   allTSList: []
+  emptyTS: {fileID: 5562539953291567069, guid: 8041906b5bc6c924d981944ba2005876, type: 3}
   col1: []
   col2: []
   col3: []
@@ -762,6 +763,7 @@ MonoBehaviour:
   - {fileID: 903950402}
   - {fileID: 1476196863}
   boxParent: {fileID: 10645100}
+  spawnList: []
 --- !u!4 &1469122253
 Transform:
   m_ObjectHideFlags: 0
@@ -1123,6 +1125,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SortGameManager, Game
         m_MethodName: OnStartClick
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11648351}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

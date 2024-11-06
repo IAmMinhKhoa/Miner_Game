@@ -8,17 +8,18 @@ public class SortGameManager : MonoBehaviour
 	public List<tsInfo> tsPrefabs;
 	public List<BoxInfo> allBoxList;
 	public List<tsInfo> allTSList;
+	public tsInfo emptyTS;
 	public List<BoxInfo> col1, col2, col3;
 	public List<Transform> spawnBoxList;
 	public Transform boxParent;
-	List<tsInfo> spawnList;
+	public List<tsInfo> spawnList;
 
 	void Awake()
 	{
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
 		foreach (tsInfo go in tempList)
 		{
-			tsPrefabs.Add(go);
+			if(go.id != -1) tsPrefabs.Add(go);
 		}
 	}
 
@@ -77,52 +78,81 @@ public class SortGameManager : MonoBehaviour
 				spawnList.Add(go);
 			}
 		}
+		spawnList.Add(emptyTS);
+		spawnList.Add(emptyTS);
+		spawnList.Add(emptyTS);
+		spawnList.Add(emptyTS);
 
-		//BringTempToGame(spawnList); xiu nua sua lai
+		BringTempToGame(spawnList);
+		ClearEmptySlot();
+		foreach(BoxInfo box in allBoxList)
+		{
+			box.UpdateBoxCount();
+		}
+	}
+
+	void ClearEmptySlot()
+	{
+		foreach(tsInfo go in allTSList)
+		{
+			if(go.id == -1)
+			{
+				go.ClearThis();
+			}
+		}
 	}
 
 	void BringTempToGame(List<tsInfo> listTemp)
 	{
-		int count = 0;
-		do
+		for (int i = 0; i < 9; i++)
 		{
-			BoxInfo chosenBox = GetRandomBoxInGame();
-			tsInfo current = GetRandomFromTempList();
-			int[] a = new int[3];
-			for (int i = 0; i <= 2; i++)
-			{
-				a[i] = chosenBox.GetComponent<tsInfo>() != null ? chosenBox.objects[i].GetComponent<tsInfo>().id : -1;
-			}
+			tsInfo newTs1, newTs2, newTs3;
+			List<int> randomNumbers = new List<int>();
 
-			bool isOkay = false;
-			int slotToPut = -1;
-			for (int i = 0; i <= 2; i++)
+			do
 			{
-				if (a[i] == -1)
+				while (randomNumbers.Count < 3)
 				{
-					isOkay = true;
-					slotToPut = i;
+					int newNumber = Random.Range(0, listTemp.Count);
+					if (!randomNumbers.Contains(newNumber))
+					{
+						randomNumbers.Add(newNumber);
+					}
 				}
+
+				newTs1 = listTemp[randomNumbers[0]];
+				newTs2 = listTemp[randomNumbers[1]];
+				newTs3 = listTemp[randomNumbers[2]];
+
+			} while (newTs1.id == newTs2.id && newTs2.id == newTs3.id);
+
+			newTs1 = Instantiate(newTs1);
+			newTs2 = Instantiate(newTs2);
+			newTs3 = Instantiate(newTs3);
+
+			allTSList.Add(newTs1);
+			allTSList.Add(newTs2);
+			allTSList.Add(newTs3);
+
+			newTs1.UpdateBoxParent(0, allBoxList[i].gameObject);
+			newTs2.UpdateBoxParent(1, allBoxList[i].gameObject);
+			newTs3.UpdateBoxParent(2, allBoxList[i].gameObject);
+
+			randomNumbers.Sort((a, b) => b.CompareTo(a));
+
+			foreach (int index in randomNumbers)
+			{
+				listTemp.RemoveAt(index);
 			}
 
-			if (a[0] != a[1] && a[1] != a[2] && a[2] != a[0] && isOkay)
-			{
-				current.GetComponent<DragDrop>().UpdateBoxParent(slotToPut, chosenBox.gameObject);
-				allTSList.Add(current);
-				listTemp.Remove(current);
-				count++;
-			}
-		} while (count < 23);
+			Debug.Log(listTemp.Count);
+			allBoxList[i].UpdateBoxCount();
+		}
+
 	}
 
 	BoxInfo GetRandomBoxInGame()
 	{
 		return allBoxList[Random.Range(0, allBoxList.Count)];
 	}
-
-	tsInfo GetRandomFromTempList()
-	{
-		return spawnList[Random.Range(0, allBoxList.Count)];
-	}
-
 }

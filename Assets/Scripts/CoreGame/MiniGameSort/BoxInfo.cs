@@ -28,6 +28,7 @@ public class BoxInfo : MonoBehaviour
 			if(t != null) temp++;
 		}
 		objectCount = temp;
+		isFull = temp == 3;
 	}
 
 }
