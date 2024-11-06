@@ -27,7 +27,8 @@ namespace UI.Inventory
 
 		public override void Enter()
 		{
-			itemController.title.text = "Đổi BackGround Phòng Chờ Trà Sữa";
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryChangeBackGround);
+			itemController.title.text = titleKey;
 			var bgElevatorSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ElevatorBg];
 			//set data
 			itemPrefab.spine.initialSkinName = "Icon_1";

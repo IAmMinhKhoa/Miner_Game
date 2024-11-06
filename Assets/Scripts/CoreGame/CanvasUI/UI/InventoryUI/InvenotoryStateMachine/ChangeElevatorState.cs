@@ -27,8 +27,8 @@ namespace UI.Inventory
 
 		public override void Enter()
 		{
-		
-			itemController.title.text = "Chọn Skin Thang Máy";
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryChooseSkinElevator);
+			itemController.title.text = titleKey;
 
 			itemPrefab.spine.initialSkinName = "Skin_1";
 			//set data
