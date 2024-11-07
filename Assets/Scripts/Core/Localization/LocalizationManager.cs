@@ -35,6 +35,8 @@ public enum LanguageKeys
 	TitleInventoryCart,
 	TitleInventoryHead,
 	TitleInventoryBody,
+	TitleMarketCartStaff,
+	TitleMarketElevatorStaff,
 }
 
 public static class LocalizationManager
@@ -86,6 +88,8 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleInventoryCart, ("home>Inventory>cart", "xe đẩy") },
 			{ LanguageKeys.TitleInventoryHead, ("home>inventory>Head", "đầu") },
 			{ LanguageKeys.TitleInventoryBody, ("home>inventory>Body", "thân hình") },
+			{ LanguageKeys.TitleMarketCartStaff, ("home>market>cartstaff", "nhân viên xe đẩy") },
+			{ LanguageKeys.TitleMarketElevatorStaff, ("home>market>elevatorstaff", "nhân viên thang máy") },
 		};
 		return mappings;
 	}
