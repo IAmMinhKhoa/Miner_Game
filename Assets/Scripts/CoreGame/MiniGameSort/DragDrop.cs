@@ -23,13 +23,19 @@ public class DragDrop : MonoBehaviour
 	void OnMouseDown()
 	{
 		isDragging = true;
-		Debug.Log("a");
+		isDrop = false;
+		if (tsInfo.parentBox != null)
+		{
+			tsInfo.parentBox.objects[tsInfo.slot] = null;
+			tsInfo.parentBox.UpdateBoxCount();
+			tsInfo.gameObject.transform.parent = null;
+		}
+		GetComponent<Renderer>().sortingOrder = 5;
 	}
 
 	void OnMouseDrag()
 	{
 		transform.position = MouseWorldPosition();
-		
 	}
 
 	void OnMouseUp()
@@ -39,6 +45,7 @@ public class DragDrop : MonoBehaviour
 		{
 			StartCoroutine(waiter());
 		}
+		GetComponent<Renderer>().sortingOrder = 3;
 	}
 
 	Vector3 MouseWorldPosition()
@@ -55,45 +62,48 @@ public class DragDrop : MonoBehaviour
 		if (collision.GetComponent<BoxInfo>() != null && !collision.GetComponent<BoxInfo>().isFull && isDragging)
 		{
 			GameObject box = collision.gameObject;
-			if (box.GetComponent<BoxInfo>().objectCount == 2)
+			if (isDrop)
 			{
-				if (isDrop)
+				int choosenSlot = -1;
+				float lastDistance = -1;
+				for (int i = 0; i <= 2; i++)
 				{
-					for(int i = 0;i <= 2; i++)
+					if (box.GetComponent<BoxInfo>().objects[i] == null)
 					{
-						if(box.GetComponent<BoxInfo>().objects[i] == null) UpdateBoxParent(i, box);
-					}
-					isDrop = false;
-				}
-			}
-			else
-			{
-				if (isDrop)
-				{
-					float direct = transform.position.x - box.transform.position.x;
-					if(tsInfo.parentBox != null) tsInfo.parentBox.UpdateBoxCount();
-					if (direct < -0.1f && box.GetComponent<BoxInfo>().objects[0] == null)
-					{
-						UpdateBoxParent(0, box);
-					}
-					else if (direct > 0.1f && box.GetComponent<BoxInfo>().objects[2] == null)
-					{
-						UpdateBoxParent(2, box);
-					}
-					else if (direct > -0.1f && direct < 0.1f && box.GetComponent<BoxInfo>().objects[1] == null)
-					{
-						UpdateBoxParent(1, box);
-					}
-					else
-					{
-						transform.position = new Vector3(tsInfo.parentBox.slots[tsInfo.slot].position.x, tsInfo.parentBox.slots[tsInfo.slot].position.y, -1);
-					}
-					isDrop = false;
-				}
-			}
+						float distance = Vector3.Distance(transform.position, box.transform.GetChild(i).position);
 
+						if (lastDistance == -1 || choosenSlot == -1)
+						{
+							lastDistance = distance;
+							choosenSlot = i;
+						}
+						else if (distance < lastDistance)
+						{
+							lastDistance = distance;
+							choosenSlot = i;
+						}
+					}
+				}
+				if (choosenSlot != -1 && lastDistance != -1)
+				{
+					UpdateBoxParent(choosenSlot, box);
+				}
+			}
+		}else if (collision.GetComponent<BoxInfo>() != null && collision.GetComponent<BoxInfo>().isFull && isDragging)
+		{
+			if (isDrop)
+			{
+				StartCoroutine(waiter());
+			}
 		}
-		
+		else if(collision.GetComponent<BoxInfo>() == null && collision.GetComponent<tsInfo>() != null)
+		{
+			if (isDrop)
+			{
+				StartCoroutine(waiter());
+			}
+		}
+
 	}
 
 	public void UpdateBoxParent(int slot, GameObject box)
@@ -111,12 +121,16 @@ public class DragDrop : MonoBehaviour
 		isDragging = false;
 
 		box.GetComponent<BoxInfo>().UpdateBoxCount();
+		box.GetComponent<BoxInfo>().CheckMatchingBox();
 	}
 
 	IEnumerator waiter()
 	{
-		yield return new WaitForSeconds(0.001f);
+		yield return new WaitForSeconds(0.05f);
 		if (tsInfo.parentBox != null) transform.position = new Vector3(tsInfo.parentBox.GetComponent<BoxInfo>().slots[tsInfo.slot].transform.position.x, tsInfo.parentBox.GetComponent<BoxInfo>().slots[tsInfo.slot].transform.position.y, -1);
+		tsInfo.parentBox.objects[tsInfo.slot] = gameObject;
+		tsInfo.parentBox.UpdateBoxCount();
+		transform.parent = tsInfo.parentBox.transform;
 		isDragging = false;
 	}
 }

@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 
 public class SortGameManager : MonoBehaviour
@@ -9,11 +11,13 @@ public class SortGameManager : MonoBehaviour
 	public List<BoxInfo> allBoxList;
 	public List<tsInfo> allTSList;
 	public tsInfo emptyTS;
-	public List<BoxInfo> col1, col2, col3;
+	public int[] colsCount;
 	public List<Transform> spawnBoxList;
 	public Transform boxParent;
 	public List<tsInfo> spawnList;
-
+	public Transform[] clawPosList;
+	private int clawPos;
+	public GameObject clawObject, StartUI, EndUI;
 	void Awake()
 	{
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
@@ -21,12 +25,65 @@ public class SortGameManager : MonoBehaviour
 		{
 			if(go.id != -1) tsPrefabs.Add(go);
 		}
+		clawPos = 0;
+		colsCount = new int[3];
+	}
+
+	void StartDropper()
+	{
+		InvokeRepeating("DropLoop", 8f, 8f);
+	}
+
+	void DropLoop()
+	{
+		BoxInfo newBox = Instantiate(boxPrefab, clawObject.transform.position, Quaternion.identity, boxParent);
+		newBox.col = clawPos;
+		UpdateColAndCheck(clawPos, 1);
+		tsInfo newTs1, newTs2, newTs3;
+		List<int> randomNumbers = new List<int>();
+
+		while (randomNumbers.Count < 3)
+		{
+			int newNumber = Random.Range(0, tsPrefabs.Count);
+			if (!randomNumbers.Contains(newNumber))
+			{
+				randomNumbers.Add(newNumber);
+			}
+		}
+
+		newTs1 = Instantiate(tsPrefabs[randomNumbers[0]]);
+		newTs2 = Instantiate(tsPrefabs[randomNumbers[1]]);
+		newTs3 = Instantiate(tsPrefabs[randomNumbers[2]]);
+
+		allTSList.Add(newTs1);
+		allTSList.Add(newTs2);
+		allTSList.Add(newTs3);
+
+		newTs1.UpdateBoxParent(0, newBox.gameObject);
+		newTs2.UpdateBoxParent(1, newBox.gameObject);
+		newTs3.UpdateBoxParent(2, newBox.gameObject);
+
+		if (clawPos != 2) clawPos++;
+		else clawPos = 0;
+		clawObject.transform.DOMove(clawPosList[clawPos].position, 2).SetEase(Ease.OutQuart);
 	}
 
 	public void OnStartClick()
 	{
+		ClearAll();
 		FirstSpawnBox();
 		FirstSpawnTS();
+		StartDropper();
+	}
+
+	void ClearAll()
+	{
+		if(allBoxList != null) allBoxList.Clear();
+		if(allTSList != null) allTSList.Clear();
+		foreach(Transform go in boxParent)
+		{
+			Destroy(go.gameObject);
+		}
 	}
 
 	void FirstSpawnBox()
@@ -36,13 +93,9 @@ public class SortGameManager : MonoBehaviour
 			for (int z = 0; z < 3; z++)
 			{
 				BoxInfo newBox = Instantiate(boxPrefab, spawnBoxList[i].position, Quaternion.identity, boxParent);
-				switch (i)
-				{
-					case 0: col1.Add(newBox); break;
-					case 1: col2.Add(newBox); break;
-					case 2: col3.Add(newBox); break;
-				}
+				newBox.col = i;
 				allBoxList.Add(newBox);
+				UpdateColAndCheck(i, 1);
 			}
 		}
 	}
@@ -113,10 +166,20 @@ public class SortGameManager : MonoBehaviour
 			{
 				while (randomNumbers.Count < 3)
 				{
-					int newNumber = Random.Range(0, listTemp.Count);
-					if (!randomNumbers.Contains(newNumber))
+					if(listTemp.Count > 3)
 					{
-						randomNumbers.Add(newNumber);
+						int newNumber = Random.Range(0, listTemp.Count);
+						if (!randomNumbers.Contains(newNumber))
+						{
+							randomNumbers.Add(newNumber);
+						}
+					}
+					else
+					{
+						for(int x =  0; x < listTemp.Count; x++)
+						{
+							randomNumbers.Add(x);
+						}
 					}
 				}
 
@@ -149,6 +212,23 @@ public class SortGameManager : MonoBehaviour
 			allBoxList[i].UpdateBoxCount();
 		}
 
+	}
+
+	public void UpdateColAndCheck(int col, int value)
+	{
+		colsCount[col] += value;
+		if(colsCount[col] > 6)
+		{
+			EndGame();
+		}
+	}
+
+	void EndGame()
+	{
+		FindObjectOfType<SortGameScore>().CheckSetHighScore();
+		EndUI.SetActive(true);
+		CancelInvoke("DropLoop");
+		ClearAll();
 	}
 
 	BoxInfo GetRandomBoxInGame()

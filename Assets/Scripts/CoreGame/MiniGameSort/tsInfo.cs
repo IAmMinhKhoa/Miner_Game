@@ -8,14 +8,14 @@ public class tsInfo : MonoBehaviour
 	public int slot;
 	public BoxInfo parentBox;
 
-	public void UpdateBoxParent(int slot, GameObject box)
+	public void UpdateBoxParent(int slot1, GameObject box)
 	{
 		if (parentBox != null) parentBox.objects[slot] = null;
-		slot = slot;
+		slot = slot1;
 		parentBox = box.GetComponent<BoxInfo>();
-		parentBox.objects[slot] = gameObject;
+		parentBox.objects[slot1] = gameObject;
 		transform.parent = parentBox.transform;
-		transform.position = new Vector3(box.GetComponent<BoxInfo>().slots[slot].transform.position.x, box.GetComponent<BoxInfo>().slots[slot].transform.position.y, -1);
+		transform.position = new Vector3(box.GetComponent<BoxInfo>().slots[slot1].transform.position.x, box.GetComponent<BoxInfo>().slots[slot1].transform.position.y, -1);
 		box.GetComponent<BoxInfo>().UpdateBoxCount();
 	}
 

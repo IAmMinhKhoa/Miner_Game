@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class SortGameScore : MonoBehaviour
+{
+    public TextMeshProUGUI highScoreText, currentScoreText, endScoreText;
+	public float currentScore;
+
+	public void CheckSetHighScore()
+	{
+		float lastHighScore = PlayerPrefs.GetFloat("minigameSortHighScore", 0);
+		if(currentScore > lastHighScore)
+		{
+			endScoreText.text = "New High Score: " + currentScore;
+			PlayerPrefs.SetFloat("minigameSortHighScore", currentScore);
+		}
+		else
+		{
+			endScoreText.text = "Your Score: " + currentScore;
+		}
+		ResetScore();
+	}
+
+	public void UpdateCurrentScore(float add)
+	{
+		currentScore += add;
+		currentScoreText.text = "Current score: \n" + currentScore;
+	}
+
+	public void ResetScore()
+	{
+		currentScore = 0;
+		currentScoreText.text = "Current score: \n" + currentScore;
+	}
+}
