@@ -26,7 +26,7 @@ public class FruitCombiner : MonoBehaviour
 					Vector3 hitpoint = (transform.position + collision.gameObject.transform.position) / 2;
 					GameObject newFruit = Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
 					newFruit.transform.DOScale(0.001f, 0f);
-					newFruit.transform.DOScale(0.048f, 0.5f);
+					newFruit.transform.DOScale(0.0624f, 0.5f);
 					Color newColor = GetComponent<FruitInfo>().mergeColor; // Lấy màu từ mergeColor
 					if (newColor != null) // Kiểm tra màu sắc có hợp lệ không
 					{
