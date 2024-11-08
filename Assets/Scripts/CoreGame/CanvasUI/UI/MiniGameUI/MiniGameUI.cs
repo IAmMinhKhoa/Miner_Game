@@ -13,6 +13,7 @@ public class MiniGameUI : MonoBehaviour
 	[SerializeField] private float _fadeSpeed = 3f;
 	[SerializeField] private Button miniGame_FlappyBird;
 	[SerializeField] private Button miniGame_Fruit;
+	[SerializeField] private Button miniGame_Puzzle;
 	[SerializeField] private Button btn_back;
 	[SerializeField] private Button btn_redeempoints;
 	[SerializeField] private ChangeMachine redeemPointUI;
@@ -38,6 +39,7 @@ public class MiniGameUI : MonoBehaviour
 		_canvasGroup = this.GetComponent<CanvasGroup>();
 		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(1); });
 		miniGame_Fruit.onClick.AddListener(() => { MiniGame(2); });
+		miniGame_Puzzle.onClick.AddListener(() => { MiniGame(3); });
 		_disableToken = new CancellationTokenSource();
 		btn_back.onClick.AddListener(OnBack);
 		btn_redeempoints.onClick.AddListener(OnRedeempoints);
