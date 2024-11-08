@@ -28,46 +28,91 @@ public class CollectorFx : MonoBehaviour
 			parentFx = _parentFx;
 		}
 
+		List<GameObject> _objCoins = new List<GameObject>();
+
+		// Vòng lặp đầu tiên để tạo và scatter các đồng xu
 		for (int i = 0; i < quantity; i++)
 		{
-			// Instantiate each coin at the start position
+			// Instantiate mỗi đồng xu tại vị trí ban đầu
 			GameObject coin = Instantiate(clonePrefab, startPosition.position, Quaternion.identity);
 
-			// Set the parent transform if specified
+			// Set parent transform nếu được chỉ định
 			if (parentFx != null)
 			{
 				coin.transform.SetParent(parentFx);
 			}
 
-			// Set the scale of the coin
+			// Đặt scale của đồng xu
 			coin.transform.localScale = Vector3.one * scale;
 
-			// Calculate the delay for the staggered effect
-			float delay = i * 0.1f;
+			// Thêm đồng xu vào danh sách
+			_objCoins.Add(coin);
 
-			// Set a random scatter position within a circle
-			Vector2 randomPoint = Random.insideUnitCircle * 1;
+			// Tính toán vị trí scatter ngẫu nhiên trong vòng tròn
+			Vector2 randomPoint = Random.insideUnitCircle * 1.3f;
 			Vector3 scatterPosition = new Vector3(
 				startPosition.position.x + randomPoint.x,
 				startPosition.position.y + randomPoint.y,
 				startPosition.position.z
 			);
 
-			// Animate the coin to scatter first
-			coin.transform.DOMove(scatterPosition, 0.5f).SetEase(Ease.OutQuad).OnComplete(() =>
+			// Animate đồng xu scatter ra vị trí ngẫu nhiên
+			coin.transform.DOMove(scatterPosition, 0.5f).SetEase(Ease.OutQuad);
+		}
+
+		// Chia danh sách _objCoins thành hai danh sách con
+		List<GameObject> coinsGroup1 = new List<GameObject>();
+		List<GameObject> coinsGroup2 = new List<GameObject>();
+
+		for (int i = 0; i < _objCoins.Count; i++)
+		{
+			if (i % 2 == 0)
 			{
-				// Then move the coin to the target position
-				coin.transform.DOMove(endPosition.position, duration).SetEase(Ease.InQuad).OnComplete(() =>
+				coinsGroup1.Add(_objCoins[i]);
+			}
+			else
+			{
+				coinsGroup2.Add(_objCoins[i]);
+			}
+		}
+
+		// Làm cho từng đồng xu trong nhóm 1 bay lên
+		for (int i = 0; i < coinsGroup1.Count; i++)
+		{
+			float delay = i * 0.1f; // Độ trễ để từng đồng xu bay lên lần lượt
+			GameObject coin = coinsGroup1[i]; // Tạo một biến coin cục bộ để tránh vấn đề tham chiếu
+
+			coin.transform.DOMove(endPosition.position, duration)
+				.SetEase(Ease.InQuad)
+				.SetDelay(delay)
+				.OnComplete(() =>
 				{
-					// Scale down the coin to 0 before destroying it
 					coin.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
 					{
-						// Destroy the coin after it reaches the target and scales down
 						Destroy(coin);
 					});
 				});
-			});
-
 		}
+
+		// Làm cho từng đồng xu trong nhóm 2 bay lên
+		for (int i = 0; i < coinsGroup2.Count; i++)
+		{
+			float delay = i * 0.1f; // Độ trễ để từng đồng xu bay lên lần lượt
+			GameObject coin = coinsGroup2[i]; // Tạo một biến coin cục bộ để tránh vấn đề tham chiếu
+
+			coin.transform.DOMove(endPosition.position, duration)
+				.SetEase(Ease.InQuad)
+				.SetDelay(delay)
+				.OnComplete(() =>
+				{
+					coin.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+					{
+						Destroy(coin);
+					});
+				});
+		}
+
+
+
 	}
 }

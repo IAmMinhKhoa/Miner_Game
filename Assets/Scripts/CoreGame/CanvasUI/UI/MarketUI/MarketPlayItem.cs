@@ -69,5 +69,6 @@ public enum MarketPlayItemQuality
 {
 	low,
 	normal,
-	super
+	super,
+	ultra
 }

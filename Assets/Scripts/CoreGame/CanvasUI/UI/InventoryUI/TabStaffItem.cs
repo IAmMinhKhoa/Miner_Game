@@ -16,7 +16,7 @@ namespace UI.Inventory
 
 		public override void SetInfoItem(int headIndex, int bodyIndex, int floor)
 		{
-			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaft);
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleShaft);
 			if (type == InventoryItemType.ElevatorCharacter)
 			{
 				base.SetInfoItem(headIndex, bodyIndex, floor);

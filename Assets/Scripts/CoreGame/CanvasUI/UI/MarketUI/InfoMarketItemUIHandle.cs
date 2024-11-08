@@ -137,9 +137,73 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 			{ InventoryItemType.ShaftCharacterBody, "Nhân Viên Đẩy Xe"},
 			{ InventoryItemType.ElevatorCharacterBody, "Nhân Viên Thang Máy"},
 		};
+		Debug.LogError(itemSize.type.ToString());
+		string titleKey = string.Empty;
+		string titleKeyDesc = string.Empty;
+		string titleKeySubName = string.Empty;
+		switch (itemSize.type)
+		{
+			case InventoryItemType.ShaftBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftBg);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftBg);
+				break;
+			case InventoryItemType.CounterBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
+				break;
+			case InventoryItemType.ElevatorBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallElevator);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallElevator);
+				break;
+			case InventoryItemType.CounterCart:
+				break;
+			case InventoryItemType.Elevator:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryElevator);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryElevator);
+				break;
+			case InventoryItemType.ShaftSecondBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftSecondBg);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftSecondBg);
+				break;
+			case InventoryItemType.ShaftCart:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryCart);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryCart);
+				break;
+			case InventoryItemType.ShaftWaitTable:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWaitTable);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWaitTable);
+				break;
+			case InventoryItemType.ShaftCharacter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCartStaff);
+				break;
+			case InventoryItemType.ElevatorCharacter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketElevatorStaff);
+				break;
+			case InventoryItemType.CounterCharacter:
+				break;
+			case InventoryItemType.CounterSecondBg:
+				break;
+			case InventoryItemType.BackElevator:
+				break;
+			case InventoryItemType.ShaftCharacterBody:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCartStaff);
+				break;
+			case InventoryItemType.ElevatorCharacterBody:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketElevatorStaff);
+				break;
+		}
 		if (subNameText != null)
 		{
-			subNameText.text = keyValuePairs[itemSize.type];
+			//subNameText.text = keyValuePairs[itemSize.type];
+			subNameText.text = titleKeySubName;
 		}
 		curItemHandling = it;
 		if(it.SpineHandling.skeletonDataAsset.GetSkeletonData(false).FindAnimation("Icon") != null) {
@@ -148,8 +212,8 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.initialSkinName = itemSize.skinName + it.ID;
 		Spine.skeletonDataAsset = it.SpineHandling.skeletonDataAsset;
 		Spine.Initialize(true);
-
-
+		//
+		
 		var transform = Spine.GetComponent<RectTransform>();
 		transform.localScale = itemSize.scale;
 		transform.anchoredPosition = itemSize.pos;
@@ -157,10 +221,10 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.Skeleton.SetSlotsToSetupPose();
 
 		var skinInfo = SkinManager.Instance.InfoSkinGame[itemSize.type].Where(x => x.id == it.ID).First();
-
-		title.text = skinInfo.name;
-		description.text = skinInfo.desc;
-
+		//title.text = skinInfo.name;
+		//description.text = skinInfo.desc;
+		title.text = titleKey +" " + it.ID.ToString();
+		description.text = titleKeyDesc;
 		normalCost.text =  Currency.DisplayCurrency(it.Cost);
 		superMoneyCost.text = it.SuperCost.ToString();
 		//if (it.IsItemBougth)

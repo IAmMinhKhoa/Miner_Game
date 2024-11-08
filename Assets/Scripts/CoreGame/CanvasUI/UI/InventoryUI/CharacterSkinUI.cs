@@ -31,7 +31,45 @@ namespace UI.Inventory
 		[SerializeField] TextMeshProUGUI itemName;
 		public void SetItemInfo(int indexSkin, InventoryItemType itType, bool isHeadSkin)
 		{
-			
+			Debug.LogError(itType.ToString());
+			string titleKey = string.Empty;
+			switch (itType)
+			{
+				case InventoryItemType.ShaftBg:
+					break;
+				case InventoryItemType.CounterBg:
+					break;
+				case InventoryItemType.ElevatorBg:
+					break;
+				case InventoryItemType.CounterCart:
+					break;
+				case InventoryItemType.Elevator:
+					break;
+				case InventoryItemType.ShaftSecondBg:
+					break;
+				case InventoryItemType.ShaftCart:
+					break;
+				case InventoryItemType.ShaftWaitTable:
+					break;
+				case InventoryItemType.ShaftCharacter:
+					titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+					break;
+				case InventoryItemType.ElevatorCharacter:
+					titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+					break;
+				case InventoryItemType.CounterCharacter:
+					break;
+				case InventoryItemType.CounterSecondBg:
+					break;
+				case InventoryItemType.BackElevator:
+					break;
+				case InventoryItemType.ShaftCharacterBody:
+					titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+					break;
+				case InventoryItemType.ElevatorCharacterBody:
+					titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+					break;
+			}
 			_index = indexSkin;
 
 			
@@ -42,8 +80,9 @@ namespace UI.Inventory
 			staticBody.skeletonDataAsset = spine.skeletonDataAsset;
 			staticBody.initialSkinName = "Body/Skin_" + 1;
 			staticBody.Initialize(true);
-
-			itemName.text = SkinManager.Instance.InfoSkinGame[itType][indexSkin].name;
+			Debug.Log(indexSkin + " -------------------------- " + itType);
+			//itemName.text = SkinManager.Instance.InfoSkinGame[itType][indexSkin].name;
+			itemName.text = titleKey + " " + indexSkin.ToString();
 			int idInInfo = SkinManager.Instance.ItemBought[itType].IndexOf((indexSkin+1).ToString());
 
 			if(idInInfo == -1 && indexSkin != 0)

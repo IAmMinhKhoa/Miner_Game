@@ -67,7 +67,8 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 		secondBg.skeletonDataAsset = skSecondBGData;
 		secondBg.Initialize(true);
 		ChangeSkin(secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
-
+		//
+		string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
 		bgList.descSelectedBg.text = bgList.listItem[int.Parse(counterSkin.idBackGround)].desc;
 		bgList.tileSelectedBg.text = bgList.listItem[int.Parse(counterSkin.idBackGround)].iName;
 
