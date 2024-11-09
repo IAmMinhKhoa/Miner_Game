@@ -20,10 +20,15 @@ public class SortGameManager : MonoBehaviour
 	public GameObject clawObject, StartUI, EndUI;
 	void Awake()
 	{
+		if (CustomCamera.Instance != null)
+		{
+			CustomCamera.Instance.preventByMiniGame = true;
+		}
+
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
 		foreach (tsInfo go in tempList)
 		{
-			if(go.id != -1) tsPrefabs.Add(go);
+			if (go.id != -1) tsPrefabs.Add(go);
 		}
 		clawPos = 0;
 		colsCount = new int[3];
@@ -31,7 +36,7 @@ public class SortGameManager : MonoBehaviour
 
 	void StartDropper()
 	{
-		InvokeRepeating("DropLoop", 8f, 8f);
+		InvokeRepeating("DropLoop", 1f, 1f);
 	}
 
 	void DropLoop()
@@ -78,9 +83,9 @@ public class SortGameManager : MonoBehaviour
 
 	void ClearAll()
 	{
-		if(allBoxList != null) allBoxList.Clear();
-		if(allTSList != null) allTSList.Clear();
-		foreach(Transform go in boxParent)
+		if (allBoxList != null) allBoxList.Clear();
+		if (allTSList != null) allTSList.Clear();
+		foreach (Transform go in boxParent)
 		{
 			Destroy(go.gameObject);
 		}
@@ -88,7 +93,7 @@ public class SortGameManager : MonoBehaviour
 
 	void FirstSpawnBox()
 	{
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			for (int z = 0; z < 3; z++)
 			{
@@ -118,7 +123,7 @@ public class SortGameManager : MonoBehaviour
 
 		foreach (tsInfo go in tsPrefabs)
 		{
-			if(go.id == index1)
+			if (go.id == index1)
 			{
 				spawnList.Add(go);
 				spawnList.Add(go);
@@ -138,7 +143,7 @@ public class SortGameManager : MonoBehaviour
 
 		BringTempToGame(spawnList);
 		ClearEmptySlot();
-		foreach(BoxInfo box in allBoxList)
+		foreach (BoxInfo box in allBoxList)
 		{
 			box.UpdateBoxCount();
 		}
@@ -146,9 +151,9 @@ public class SortGameManager : MonoBehaviour
 
 	void ClearEmptySlot()
 	{
-		foreach(tsInfo go in allTSList)
+		foreach (tsInfo go in allTSList)
 		{
-			if(go.id == -1)
+			if (go.id == -1)
 			{
 				go.ClearThis();
 			}
@@ -166,7 +171,7 @@ public class SortGameManager : MonoBehaviour
 			{
 				while (randomNumbers.Count < 3)
 				{
-					if(listTemp.Count > 3)
+					if (listTemp.Count > 3)
 					{
 						int newNumber = Random.Range(0, listTemp.Count);
 						if (!randomNumbers.Contains(newNumber))
@@ -176,7 +181,7 @@ public class SortGameManager : MonoBehaviour
 					}
 					else
 					{
-						for(int x =  0; x < listTemp.Count; x++)
+						for (int x = 0; x < listTemp.Count; x++)
 						{
 							randomNumbers.Add(x);
 						}
@@ -217,7 +222,7 @@ public class SortGameManager : MonoBehaviour
 	public void UpdateColAndCheck(int col, int value)
 	{
 		colsCount[col] += value;
-		if(colsCount[col] > 6)
+		if (colsCount[col] > 6)
 		{
 			EndGame();
 		}
