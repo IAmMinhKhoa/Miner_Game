@@ -8,6 +8,11 @@ public class SortGameScore : MonoBehaviour
     public TextMeshProUGUI highScoreText, currentScoreText, endScoreText;
 	public float currentScore;
 
+	private void Start()
+	{
+		highScoreText.text = "High Score: " + PlayerPrefs.GetFloat("minigameSortHighScore", 0);
+	}
+
 	public void CheckSetHighScore()
 	{
 		float lastHighScore = PlayerPrefs.GetFloat("minigameSortHighScore", 0);
@@ -15,6 +20,7 @@ public class SortGameScore : MonoBehaviour
 		{
 			endScoreText.text = "New High Score: " + currentScore;
 			PlayerPrefs.SetFloat("minigameSortHighScore", currentScore);
+			highScoreText.text = "High Score: " + PlayerPrefs.GetFloat("minigameSortHighScore", 0);
 		}
 		else
 		{
