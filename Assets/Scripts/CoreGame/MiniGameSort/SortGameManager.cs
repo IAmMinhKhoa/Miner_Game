@@ -78,6 +78,11 @@ public class SortGameManager : MonoBehaviour
 
 	void ClearAll()
 	{
+		clawPos = 0;
+		for(int i = 0; i < 3; i++)
+		{
+			colsCount[i] = 0;
+		}
 		if(allBoxList != null) allBoxList.Clear();
 		if(allTSList != null) allTSList.Clear();
 		foreach(Transform go in boxParent)
