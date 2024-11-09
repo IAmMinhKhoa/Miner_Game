@@ -2,13 +2,16 @@ using DG.Tweening;
 using NOOD.Sound;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FruitCombiner : MonoBehaviour
 {
     public GameObject combineFX;
     public ListFruit FruitList;
-    private void OnCollisionEnter2D(Collision2D collision)
+	public TMP_Text combo_lb;
+	
+	private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<FruitInfo>() != null)
         {
@@ -40,6 +43,33 @@ public class FruitCombiner : MonoBehaviour
 						}
 						Destroy(FX, 3f); // Hủy đối tượng FX sau 3 giây
 					}
+					ComboMergeManager.Instance.comboCount++;
+					ComboMergeManager.Instance.comboTime = ComboMergeManager.Instance.maxComboTime;
+					//
+					TMP_Text newFruitComboLb = newFruit.GetComponent<FruitCombiner>().combo_lb;
+					ComboUI.Instance.transform.position = newFruitComboLb.transform.position;
+					if (ComboMergeManager.Instance.comboCount > 0 && ComboMergeManager.Instance.comboCount <= 5)
+					{
+						ComboUI.Instance.combo_lb.text = "<color=#0092ff>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
+					}
+					else if (ComboMergeManager.Instance.comboCount > 5 && ComboMergeManager.Instance.comboCount <= 10)
+					{
+						ComboUI.Instance.combo_lb.text = "<color=#00ff3c>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
+					}
+					else if (ComboMergeManager.Instance.comboCount > 10 && ComboMergeManager.Instance.comboCount <= 15)
+					{
+						ComboUI.Instance.combo_lb.text = "<color=#ff003d>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
+					}
+					else if (ComboMergeManager.Instance.comboCount > 15 && ComboMergeManager.Instance.comboCount <= 20)
+					{
+						ComboUI.Instance.combo_lb.text = "<color=#bd4dff>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
+					}
+					else
+					{
+						ComboUI.Instance.combo_lb.text = "<color=#ff9700>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
+					}	
+					ComboUI.Instance.ShowComboUI();
+					ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
 
 				}
 				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
@@ -48,4 +78,5 @@ public class FruitCombiner : MonoBehaviour
 
 
     }
+	
 }
