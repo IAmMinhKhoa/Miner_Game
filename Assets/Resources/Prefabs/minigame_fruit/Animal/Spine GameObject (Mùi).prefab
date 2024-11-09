@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6045124755124062074}
   - component: {fileID: 2335971092233644452}
   - component: {fileID: 8432786593374402167}
-  - component: {fileID: 4454495933266875748}
+  - component: {fileID: -2796989416914119000}
   m_Layer: 8
   m_Name: "Spine GameObject (M\xF9i)"
   m_TagString: fruit
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 143.3, y: 53.3, z: 0}
-  m_LocalScale: {x: 0.0624, y: 0.0624, z: 0.0624}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9036647698622848835}
@@ -93,7 +93,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!60 &4454495933266875748
+--- !u!60 &-2796989416914119000
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,44 +137,30 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 8.209377, y: 1.2609115}
-      - {x: 7.764155, y: 2.364912}
-      - {x: 6.8185225, y: 2.0395885}
-      - {x: 5.9842806, y: 2.9769497}
-      - {x: 5.404986, y: 4.720151}
-      - {x: 4.0924606, y: 5.813695}
-      - {x: 2.3784056, y: 6.278904}
-      - {x: 0.79054826, y: 5.597658}
-      - {x: -0.84496653, y: 5.6473346}
-      - {x: -2.2657185, y: 6.432271}
-      - {x: -4.308584, y: 5.9934683}
-      - {x: -5.6182337, y: 4.56883}
-      - {x: -6.6378074, y: 2.39797}
-      - {x: -7.6294537, y: 1.9806026}
-      - {x: -8.048848, y: 1.4523389}
-      - {x: -8.020443, y: 0.50611603}
-      - {x: -6.6953287, y: -0.4289992}
-      - {x: -6.214995, y: -0.95088494}
-      - {x: -5.9174275, y: -2.2611685}
-      - {x: -5.7975087, y: -3.8888657}
-      - {x: -4.633803, y: -5.085013}
-      - {x: -3.724443, y: -5.867254}
-      - {x: -2.6579173, y: -6.081786}
-      - {x: -1.8302553, y: -5.8406777}
-      - {x: -0.2569239, y: -6.0550914}
-      - {x: 0.4644604, y: -6.191796}
-      - {x: 0.341802, y: -5.760762}
-      - {x: 1.4262093, y: -5.9535985}
-      - {x: 1.681508, y: -5.561764}
-      - {x: 2.4052038, y: -5.9771667}
-      - {x: 3.2805183, y: -5.871933}
-      - {x: 4.564577, y: -5.1584134}
-      - {x: 5.448029, y: -4.1300163}
-      - {x: 5.972231, y: -2.6320484}
-      - {x: 5.7340198, y: -1.731384}
-      - {x: 6.0658827, y: -0.9967905}
-      - {x: 6.686868, y: -0.91688645}
-      - {x: 7.6440077, y: 0.20068717}
+    - - {x: -0.04194641, y: 1.8879662}
+      - {x: -1.1305084, y: 2.0652733}
+      - {x: -2.395462, y: 0.7750282}
+      - {x: -2.651123, y: 0.180336}
+      - {x: -1.9790497, y: -0.41008377}
+      - {x: -2.0259705, y: -0.9123459}
+      - {x: -1.6389313, y: -1.5235176}
+      - {x: -0.7967224, y: -1.8622627}
+      - {x: 0.74365234, y: -2.0481339}
+      - {x: 1.4522705, y: -1.7118111}
+      - {x: 2.0585785, y: -1.2089195}
+      - {x: 1.8812714, y: -0.62706375}
+      - {x: 2.205902, y: -0.3456154}
+      - {x: 2.6261292, y: 0.098911285}
+      - {x: 2.5979004, y: 0.75767136}
+      - {x: 2.069641, y: 0.73018646}
+      - {x: 1.8132172, y: 1.5366135}
+      - {x: 0.97779846, y: 2.0898018}
+      - {x: 0.17816162, y: 1.8843803}
+      - {x: -0.021896362, y: 1.87677}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
 --- !u!1 &6028295617408396734
 GameObject:
@@ -210,7 +196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.027, y: 10.67}
+  m_AnchoredPosition: {x: -0.027, y: 4.2}
   m_SizeDelta: {x: 265.471, y: 126.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3506255600701764946
@@ -474,7 +460,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d10932d8674db194b896d1319ec71119, type: 2}
+  - {fileID: 2100000, guid: 23199924e9662364682885e89302fbb3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -508,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: c6bb74b81118b474f81e3381ce1599f8, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: c1ef9b38f9aed744dacd3ee20a2386f3, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -536,6 +522,6 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 1
   unscaledTime: 0
-  _animationName: Active
+  _animationName: animation
   loop: 1
   timeScale: 1

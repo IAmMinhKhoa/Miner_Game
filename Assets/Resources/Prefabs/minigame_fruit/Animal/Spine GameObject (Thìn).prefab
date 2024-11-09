@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.027, y: 6.96}
+  m_AnchoredPosition: {x: -0.027, y: 3.65}
   m_SizeDelta: {x: 265.471, y: 126.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9047530546307188095
@@ -298,7 +298,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b591791ded7da774a89869ecc625eac4, type: 2}
+  - {fileID: 2100000, guid: 5ef556b3004c5544980412ace31091d2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 1314ccb7d6e9af44aa3eb64d36a4eafe, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 8d904aecb6922ba4dbc677922ea032ce, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -360,7 +360,7 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 1
   unscaledTime: 0
-  _animationName: Active
+  _animationName: animation
   loop: 1
   timeScale: 1
 --- !u!1 &6417677530340032801
@@ -374,8 +374,8 @@ GameObject:
   - component: {fileID: 2365809827046983925}
   - component: {fileID: 3146129473039590689}
   - component: {fileID: 6916082381547248739}
-  - component: {fileID: 1503682375763921136}
   - component: {fileID: 8069607108761193585}
+  - component: {fileID: 7234102566527696833}
   m_Layer: 8
   m_Name: "Spine GameObject (Th\xECn)"
   m_TagString: fruit
@@ -393,7 +393,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 112.7, y: 34.4, z: 0}
-  m_LocalScale: {x: 0.0624, y: 0.0624, z: 0.0624}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3824651405657259936}
@@ -429,7 +429,34 @@ MonoBehaviour:
   combineFX: {fileID: 6796615680555203098, guid: 49152c5f7c083f24dbd05559054c040a, type: 3}
   FruitList: {fileID: 11400000, guid: 4fc6092abd49c47469a74028f1a7be14, type: 2}
   combo_lb: {fileID: 6033517684098420116}
---- !u!60 &1503682375763921136
+--- !u!50 &8069607108761193585
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6417677530340032801}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.01
+  m_GravityScale: 0.8
+  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!60 &7234102566527696833
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -473,69 +500,33 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 5.1372957, y: -0.07821046}
-      - {x: 4.8937273, y: 0.8490948}
-      - {x: 5.0076394, y: 1.284528}
-      - {x: 4.9088383, y: 2.0234663}
-      - {x: 4.5112047, y: 2.686094}
-      - {x: 4.788548, y: 3.6974192}
-      - {x: 4.61802, y: 4.5082483}
-      - {x: 3.9542832, y: 4.769896}
-      - {x: 2.8851418, y: 4.5580845}
-      - {x: 2.0038192, y: 3.750761}
-      - {x: 1.1853124, y: 3.8635495}
-      - {x: 0.43692085, y: 4.781476}
-      - {x: -0.5084445, y: 4.7169113}
-      - {x: -1.2595588, y: 3.7792761}
-      - {x: -1.9379044, y: 3.7332497}
-      - {x: -2.4674506, y: 4.4250565}
-      - {x: -3.6748874, y: 4.879963}
-      - {x: -4.747972, y: 4.4977746}
-      - {x: -4.6432076, y: 3.328429}
-      - {x: -4.622437, y: 2.1459184}
-      - {x: -4.9489336, y: 1.1853411}
-      - {x: -5.0927567, y: 0.2785445}
-      - {x: -5.166631, y: -0.32971698}
-      - {x: -5.253229, y: -1.0791698}
-      - {x: -4.7175393, y: -1.9406929}
-      - {x: -4.33643, y: -2.9216049}
-      - {x: -3.67334, y: -3.278454}
-      - {x: -2.9898362, y: -3.8608844}
-      - {x: -1.633844, y: -4.7106657}
-      - {x: -0.16969985, y: -4.915865}
-      - {x: 0.68878627, y: -4.7559834}
-      - {x: 2.4732175, y: -4.191184}
-      - {x: 3.024996, y: -3.612356}
-      - {x: 3.8464453, y: -3.0691545}
-      - {x: 4.402585, y: -2.991781}
-      - {x: 4.5280304, y: -2.372029}
-      - {x: 4.8383937, y: -1.8434285}
-      - {x: 5.2225056, y: -0.6238706}
+    - - {x: -0.034118652, y: 1.499279}
+      - {x: -0.13600922, y: 1.490181}
+      - {x: -0.3838501, y: 1.0658722}
+      - {x: -0.72789764, y: 1.1769562}
+      - {x: -1.0553894, y: 1.4915161}
+      - {x: -1.5190277, y: 1.4189796}
+      - {x: -1.4056168, y: 1.031044}
+      - {x: -1.3976059, y: 1.031044}
+      - {x: -1.6562805, y: -0.07304382}
+      - {x: -1.3964996, y: -0.8637924}
+      - {x: -0.79408264, y: -1.2839241}
+      - {x: -0.08306122, y: -1.4729233}
+      - {x: 0.49944305, y: -1.3771553}
+      - {x: 1.3149872, y: -0.9182663}
+      - {x: 1.5928497, y: -0.5389328}
+      - {x: 1.5285339, y: 0.18122482}
+      - {x: 1.399025, y: 0.856617}
+      - {x: 1.5125504, y: 1.1346893}
+      - {x: 1.4290848, y: 1.4648705}
+      - {x: 1.0372009, y: 1.4708214}
+      - {x: 0.6501999, y: 1.1010628}
+      - {x: 0.3623047, y: 1.0797577}
+      - {x: 0.28982544, y: 1.21064}
+      - {x: 0.17660522, y: 1.4437943}
+      - {x: -0.016021729, y: 1.4804611}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
---- !u!50 &8069607108761193585
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6417677530340032801}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.01
-  m_GravityScale: 0.8
-  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 0

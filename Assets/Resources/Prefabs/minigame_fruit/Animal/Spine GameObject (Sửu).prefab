@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4731029605070998182}
   - component: {fileID: 9098424090865386915}
   - component: {fileID: 906941604192362584}
-  - component: {fileID: 3149773661593778428}
   - component: {fileID: 4815288214863074684}
   - component: {fileID: 4576889231029564331}
+  - component: {fileID: 5621160490663182274}
   m_Layer: 8
   m_Name: "Spine GameObject (S\u1EEDu)"
   m_TagString: fruit
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 63.5, y: 34.1, z: 0}
-  m_LocalScale: {x: 0.0624, y: 0.0624, z: 0.0624}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5909741751262747530}
@@ -67,7 +67,42 @@ MonoBehaviour:
   combineFX: {fileID: 6796615680555203098, guid: 49152c5f7c083f24dbd05559054c040a, type: 3}
   FruitList: {fileID: 11400000, guid: 4fc6092abd49c47469a74028f1a7be14, type: 2}
   combo_lb: {fileID: 8683188610918456709}
---- !u!60 &3149773661593778428
+--- !u!50 &4815288214863074684
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487326211944693004}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.01
+  m_GravityScale: 0.8
+  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!33 &4576889231029564331
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487326211944693004}
+  m_Mesh: {fileID: 0}
+--- !u!60 &5621160490663182274
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,75 +146,22 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.7884345, y: 2.6385038}
-      - {x: 1.2019631, y: 2.9264586}
-      - {x: 0.84636617, y: 3.0079536}
-      - {x: 0.18184304, y: 2.993541}
-      - {x: -0.23542118, y: 2.9251308}
-      - {x: -0.69035786, y: 3.0187244}
-      - {x: -1.1796542, y: 2.9746742}
-      - {x: -1.6373165, y: 2.7835543}
-      - {x: -2.1788983, y: 2.6358492}
-      - {x: -2.6902714, y: 2.501547}
-      - {x: -3.0937896, y: 2.0362425}
-      - {x: -3.2957938, y: 1.0909607}
-      - {x: -3.3054602, y: 0.5679614}
-      - {x: -3.4376528, y: 0.001975894}
-      - {x: -3.3439386, y: -0.39300418}
-      - {x: -3.1514695, y: -0.6586298}
-      - {x: -2.8583117, y: -0.7387428}
-      - {x: -2.5786934, y: -1.5599861}
-      - {x: -2.0927653, y: -2.0387282}
-      - {x: -1.7190397, y: -2.3397837}
-      - {x: -1.1528021, y: -2.6659355}
-      - {x: -0.437759, y: -2.9691966}
-      - {x: 0.72267187, y: -2.8951914}
-      - {x: 1.7504479, y: -2.3915045}
-      - {x: 2.3516905, y: -2.0166821}
-      - {x: 2.5620296, y: -1.5536091}
-      - {x: 2.749929, y: -1.1454531}
-      - {x: 3.4009678, y: -0.24690817}
-      - {x: 3.253501, y: 0.44977373}
-      - {x: 3.2139075, y: 0.7479241}
-      - {x: 3.259509, y: 1.3999513}
-      - {x: 2.9648395, y: 2.3100426}
-      - {x: 2.435847, y: 2.6217084}
+    - - {x: 1.0350227, y: 0.6349869}
+      - {x: 0.8550453, y: 0.8405609}
+      - {x: 0.5845642, y: 0.8386154}
+      - {x: 0.3269577, y: 0.97808075}
+      - {x: 0, y: 1}
+      - {x: -0.81417084, y: 0.8762474}
+      - {x: -1.0206366, y: 0.7195165}
+      - {x: -1.1808777, y: -0.0034217834}
+      - {x: -0.85510254, y: -0.5002289}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.010662079, y: -0.9968834}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 1.0461235, y: -0.21763611}
+      - {x: 1.1162949, y: -0.0057868958}
+      - {x: 1.0067129, y: 0.21857065}
   m_UseDelaunayMesh: 0
---- !u!50 &4815288214863074684
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2487326211944693004}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.01
-  m_GravityScale: 0.8
-  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 0
---- !u!33 &4576889231029564331
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2487326211944693004}
-  m_Mesh: {fileID: 0}
 --- !u!1 &6930268781813585811
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +326,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e82f921c98ffb4f4d8a25093ec435452, type: 2}
+  - {fileID: 2100000, guid: e0ece3760e77c02418faffbb3f8d98f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 29afa322985328a4ba4eefc5948d1e8e, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 226d1137294333241ab7c8381c64957a, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -406,7 +388,7 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 1
   unscaledTime: 0
-  _animationName: Active
+  _animationName: Idle
   loop: 1
   timeScale: 1
 --- !u!1 &8179120850492740895
@@ -443,7 +425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.027, y: 6.24}
+  m_AnchoredPosition: {x: -0.027, y: 3.14}
   m_SizeDelta: {x: 265.471, y: 126.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &693079988432062482
