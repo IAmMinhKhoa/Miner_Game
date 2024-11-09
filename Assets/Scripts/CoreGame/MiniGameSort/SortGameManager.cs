@@ -1,8 +1,9 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.VersionControl;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 public class SortGameManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class SortGameManager : MonoBehaviour
 	public Transform[] clawPosList;
 	private int clawPos;
 	public GameObject clawObject, StartUI, EndUI;
+	public Camera cameraGameSort;
 	void Awake()
 	{
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
@@ -54,6 +56,20 @@ public class SortGameManager : MonoBehaviour
 		newTs1 = Instantiate(tsPrefabs[randomNumbers[0]]);
 		newTs2 = Instantiate(tsPrefabs[randomNumbers[1]]);
 		newTs3 = Instantiate(tsPrefabs[randomNumbers[2]]);
+
+		//add curent camera to bottle
+		try
+		{
+			newTs1.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+			newTs2.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+			newTs3.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+		}
+		catch (System.Exception)
+		{
+
+			Debug.LogError("Can't get component DragDrop");
+		}
+
 
 		allTSList.Add(newTs1);
 		allTSList.Add(newTs2);
@@ -123,7 +139,18 @@ public class SortGameManager : MonoBehaviour
 
 		foreach (tsInfo go in tsPrefabs)
 		{
-			if(go.id == index1)
+			try
+			{
+				go.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+			
+			}
+			catch (System.Exception)
+			{
+
+				Debug.LogError("Can't get component DragDrop");
+			}
+
+			if (go.id == index1)
 			{
 				spawnList.Add(go);
 				spawnList.Add(go);
@@ -239,5 +266,9 @@ public class SortGameManager : MonoBehaviour
 	BoxInfo GetRandomBoxInGame()
 	{
 		return allBoxList[Random.Range(0, allBoxList.Count)];
+	}
+	public void OnClickBack()
+	{
+		SceneManager.UnloadScene("MinigameSort");
 	}
 }

@@ -7,7 +7,7 @@ public class DragDrop : MonoBehaviour
 	Collider2D collider2d;
 	tsInfo tsInfo;
 	public bool isDragging, isDrop, isHittingSomething;
-
+	public Camera cameraGameSort;
 	void Awake()
 	{
 		isDrop = false;
@@ -51,8 +51,8 @@ public class DragDrop : MonoBehaviour
 	Vector3 MouseWorldPosition()
 	{
 		var mouseScreenPos = Input.mousePosition;
-		mouseScreenPos.z = Camera.main.WorldToScreenPoint(transform.position).z;
-		return Camera.main.ScreenToWorldPoint(mouseScreenPos);
+		mouseScreenPos.z = cameraGameSort.WorldToScreenPoint(transform.position).z;
+		return cameraGameSort.ScreenToWorldPoint(mouseScreenPos);
 	}
 
 
