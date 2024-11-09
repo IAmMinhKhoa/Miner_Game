@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 10645100}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: boxParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 11648354}
   - component: {fileID: 11648353}
   - component: {fileID: 11648355}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StartGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 47357294}
   - component: {fileID: 47357293}
   - component: {fileID: 47357292}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CurrentScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 318428352}
   - component: {fileID: 318428351}
   - component: {fileID: 318428350}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EndGameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -735,7 +735,7 @@ GameObject:
   m_Component:
   - component: {fileID: 448532190}
   - component: {fileID: 448532191}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: claw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -820,12 +820,12 @@ GameObject:
   - component: {fileID: 598894555}
   - component: {fileID: 598894554}
   - component: {fileID: 598894553}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!61 &598894553
 BoxCollider2D:
@@ -932,12 +932,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598894552}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.2, y: -1.9267, z: -9.926779}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.062099934, y: -1.9267, z: -9.926779}
   m_LocalScale: {x: 5.1349764, y: 0.3432, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1469122253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &685372225
 GameObject:
@@ -948,7 +948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685372226}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: clawPointGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -982,7 +982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 903950402}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: clawPoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1186,7 +1186,7 @@ GameObject:
   - component: {fileID: 1050463628}
   - component: {fileID: 1050463627}
   - component: {fileID: 1050463626}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1330,7 +1330,7 @@ GameObject:
   - component: {fileID: 1257896134}
   - component: {fileID: 1257896136}
   - component: {fileID: 1257896135}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1464,7 +1464,7 @@ GameObject:
   - component: {fileID: 1292976187}
   - component: {fileID: 1292976189}
   - component: {fileID: 1292976188}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1597,7 +1597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1312986244}
   - component: {fileID: 1312986245}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: currentUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1644,7 +1644,7 @@ GameObject:
   - component: {fileID: 1393325355}
   - component: {fileID: 1393325354}
   - component: {fileID: 1393325353}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EndGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1747,7 +1747,7 @@ GameObject:
   - component: {fileID: 1469122253}
   - component: {fileID: 1469122252}
   - component: {fileID: 1469122254}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MinigameSorting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1798,6 +1798,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 598894555}
   - {fileID: 948609728}
   - {fileID: 685372226}
   - {fileID: 1554804079}
@@ -1830,7 +1831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1476196863}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: clawPoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1864,7 +1865,7 @@ GameObject:
   - component: {fileID: 1554804082}
   - component: {fileID: 1554804081}
   - component: {fileID: 1554804080}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: gameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1953,7 +1954,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1351834511
   m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!1 &1733584138
@@ -1968,7 +1969,7 @@ GameObject:
   - component: {fileID: 1733584142}
   - component: {fileID: 1733584141}
   - component: {fileID: 1733584140}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HighScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2206,7 +2207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2007045153}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: clawPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2240,7 +2241,7 @@ GameObject:
   - component: {fileID: 2034000825}
   - component: {fileID: 2034000824}
   - component: {fileID: 2034000823}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2379,6 +2380,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1933634054}
   - {fileID: 24885427}
-  - {fileID: 598894555}
   - {fileID: 1469122253}
   - {fileID: 969716137}
