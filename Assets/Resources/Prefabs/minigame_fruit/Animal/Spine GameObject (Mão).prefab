@@ -136,7 +136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.027, y: 6.96}
+  m_AnchoredPosition: {x: -0.027, y: 3.38}
   m_SizeDelta: {x: 265.471, y: 126.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3545647458782964358
@@ -247,8 +247,8 @@ GameObject:
   - component: {fileID: 5105955684194573696}
   - component: {fileID: 5636181249193499821}
   - component: {fileID: 4629332126782427114}
-  - component: {fileID: 3965458989404983688}
   - component: {fileID: 6331597326168284150}
+  - component: {fileID: -5785434812745932375}
   m_Layer: 8
   m_Name: "Spine GameObject (M\xE3o)"
   m_TagString: fruit
@@ -266,7 +266,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 75.2, y: 23.9, z: 0}
-  m_LocalScale: {x: 0.0624, y: 0.0624, z: 0.0624}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 965568260328698199}
@@ -302,7 +302,34 @@ MonoBehaviour:
   combineFX: {fileID: 6796615680555203098, guid: 49152c5f7c083f24dbd05559054c040a, type: 3}
   FruitList: {fileID: 11400000, guid: 4fc6092abd49c47469a74028f1a7be14, type: 2}
   combo_lb: {fileID: 7679230167236276327}
---- !u!60 &3965458989404983688
+--- !u!50 &6331597326168284150
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6254463911773616097}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.01
+  m_GravityScale: 0.8
+  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!60 &-5785434812745932375
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -346,63 +373,25 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 4.8571315, y: 1.7435665}
-      - {x: 4.674789, y: 3.8376925}
-      - {x: 4.02875, y: 4.224369}
-      - {x: 1.5191828, y: 3.5578833}
-      - {x: 0.043696243, y: 3.909919}
-      - {x: -1.5062689, y: 3.63612}
-      - {x: -4.009698, y: 4.134785}
-      - {x: -4.6672144, y: 3.766763}
-      - {x: -4.7082634, y: 1.8703197}
-      - {x: -4.5883455, y: 0.74490255}
-      - {x: -4.1525626, y: 0.31077704}
-      - {x: -3.9458551, y: 0.007998377}
-      - {x: -4.365567, y: -1.026786}
-      - {x: -4.5779505, y: -1.8777735}
-      - {x: -4.254815, y: -2.4732997}
-      - {x: -3.4211435, y: -2.7033455}
-      - {x: -2.7732663, y: -3.374157}
-      - {x: -1.2119446, y: -4.071662}
-      - {x: 0.34680223, y: -4.1076508}
-      - {x: 0.8224213, y: -4.123367}
-      - {x: 1.9161905, y: -3.8387427}
-      - {x: 2.9602866, y: -3.2543035}
-      - {x: 3.505012, y: -2.6503928}
-      - {x: 4.3412232, y: -2.3947062}
-      - {x: 4.52925, y: -1.7517576}
-      - {x: 4.5729365, y: -1.1043198}
-      - {x: 4.103389, y: -0.4340343}
-      - {x: 4.1375303, y: 0.20490366}
-      - {x: 4.585241, y: 0.8027163}
+    - - {x: 1.3898697, y: 0.31048584}
+      - {x: 1.5214386, y: 0.7760792}
+      - {x: 1.4215317, y: 1.318634}
+      - {x: 1.1814728, y: 1.2456207}
+      - {x: 0.52259827, y: 1.1096077}
+      - {x: 0.03967285, y: 1.1982784}
+      - {x: -1.5657187, y: 1.2508466}
+      - {x: -1.3855896, y: 0.21532822}
+      - {x: -1.3900146, y: -0.6969757}
+      - {x: -0.97440475, y: -0.9973773}
+      - {x: -0.135939, y: -1.3146265}
+      - {x: 0.7770004, y: -1.1088772}
+      - {x: 1.0340347, y: -0.79445076}
+      - {x: 1.4662399, y: -0.77758026}
+      - {x: 1.3392868, y: -0.567791}
+      - {x: 1.4195099, y: -0.42146873}
+      - {x: 1.2254944, y: 0.055854797}
+      - {x: 1.3872671, y: 0.17021936}
   m_UseDelaunayMesh: 0
---- !u!50 &6331597326168284150
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6254463911773616097}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.01
-  m_GravityScale: 0.8
-  m_Material: {fileID: 6200000, guid: 5e026c618d032f949974582e61b53c64, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!1 &8528497664507294040
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +454,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d778fb1b67392df4b9894cca2da23b7f, type: 2}
+  - {fileID: 2100000, guid: 37c936bb2e38cd34c97751a8c2508b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -499,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 711b957366a52f24eb00a0d2799288a0, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 924bbb91a103e26499d298625a52c7ff, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -527,6 +516,6 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 1
   unscaledTime: 0
-  _animationName: Active
+  _animationName: animation
   loop: 1
   timeScale: 1
