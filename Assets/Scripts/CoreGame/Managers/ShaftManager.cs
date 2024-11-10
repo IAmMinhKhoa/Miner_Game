@@ -61,10 +61,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 		ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
-
-		Shafts.Add(newShaft);
 		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
-
+		Shafts.Add(newShaft);
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
 		newY += roofOffset;
