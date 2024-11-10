@@ -36,20 +36,20 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	private bool isDone = false;
 	public bool IsDone => isDone;
 	[Header("Building Shaft")]
-	public bool isBuilding=false;
+	public bool isBuilding = false;
 	public double TimeBuild = 5f;
 	public double TimeCurrentBuild;
 	private void Start()
 	{
 		//InitializeShafts();
-		_banner.transform.position = new Vector3(firstShaftPosition.x, firstShaftPosition.y - 1.367f, 0);
+		_banner.transform.position = new Vector3(firstShaftPosition.x + 0.02f, firstShaftPosition.y - 1.47f, 0);
 	}
 	protected override void Awake()
 	{
 		isPersistent = false;
 		base.Awake();
 	}
-	
+
 	public void AddShaft()
 	{
 		OnNewShaftCreated?.Invoke();
@@ -93,7 +93,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		isDone = true;
 
 		ValidateTimeOffline();
-		
+
 
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
 	}
@@ -209,7 +209,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
 				shaft.SetDepositValue(currentDeposit);
-				
+
 				shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
 				Shafts.Add(shaft);
 				float newY = shaft.transform.position.y;
@@ -232,9 +232,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public IEnumerator AddShaftAfterCooldown()
 	{
 		isBuilding = true;
-		TimeCurrentBuild =TimeBuild;
+		TimeCurrentBuild = TimeBuild;
 		_roof_Building.SetActive(true);
-		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y+ roofOffsetBuilding,0);
+		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y + roofOffsetBuilding, 0);
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
@@ -247,7 +247,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	}
 	private void ValidateTimeOffline()
 	{
-		
+
 		string lastTimeQuit = PlayFabDataManager.Instance.ContainsKey("LastTimeQuit")
 			? PlayFabDataManager.Instance.GetData("LastTimeQuit")
 			: System.DateTime.Now.ToString(); ;
@@ -268,8 +268,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				StartCoroutine(AddShaftAfterCooldown());
 			}
 		}
-		
-		
+
+
 	}
 	public class Data
 	{
