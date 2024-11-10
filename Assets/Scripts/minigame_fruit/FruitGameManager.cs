@@ -14,17 +14,17 @@ public class FruitGameManager : MonoBehaviour
 
     public GameObject buttonUI, endGameUI;
     public Transform fruitsParent;
-	[SerializeField] private Slider sliderScore;
-	[SerializeField] private TextMeshProUGUI currentScoreText, highScoreText, endGameText;
-	[SerializeField] private Toggle tg1, tg2, tg3, tg4;
-	public Image img1;
+    [SerializeField] private Slider sliderScore;
+    [SerializeField] private TextMeshProUGUI currentScoreText, highScoreText, endGameText;
+    [SerializeField] private Toggle tg1, tg2, tg3, tg4;
+    public Image img1;
 
 
-	public float currentScore;
-	[SerializeField] private UserInput userinp;
-	[SerializeField] private ListFruit fruitList;
-	[SerializeField] private ListImageFruit imgList;
-	private List<orderObject> orderList;
+    public float currentScore;
+    [SerializeField] private UserInput userinp;
+    [SerializeField] private ListFruit fruitList;
+    [SerializeField] private ListImageFruit imgList;
+    private List<orderObject> orderList;
     public bool isPlaying;
 
     public bool isHolding = false;
@@ -32,12 +32,12 @@ public class FruitGameManager : MonoBehaviour
 
     private void Start()
     {
-       orderList = new List<orderObject>();
-
+        orderList = new List<orderObject>();
+        highScoreText.text = PlayerScore.GetHighScore() + "";
     }
     private void Update()
     {
-        highScoreText.text = PlayerScore.GetHighScore()+"";
+
         if (isPlaying)
         {
             //update list order
@@ -61,7 +61,7 @@ public class FruitGameManager : MonoBehaviour
     public void OnClickPlay()
     {
         currentScore = 0;
-		UpdateScore(0);
+        UpdateScore(0);
         buttonUI.SetActive(false);
         isPlaying = true;
         isHolding = false;
@@ -69,21 +69,21 @@ public class FruitGameManager : MonoBehaviour
 
     public void OnClickDrop()
     {
-        if (GameObject.FindWithTag("holdingfruit")  != null)
+        if (GameObject.FindWithTag("holdingfruit") != null)
         {
             GameObject currentFruit = GameObject.FindWithTag("holdingfruit");
             currentFruit.tag = "fruit";
-			Invoke("SetIsHoldingFalse", 1);
+            Invoke("SetIsHoldingFalse", 1);
         }
     }
 
     private orderObject GetRandomFruit()
     {
-		int randomInt = Random.Range(0, 6);
+        int randomInt = Random.Range(0, 6);
         orderObject thisObject = new orderObject();
         thisObject.pref = fruitList.list[randomInt];
         thisObject.img = imgList.sprites[randomInt];
-		Debug.Log(randomInt+"");
+        Debug.Log(randomInt + "");
 
         return thisObject;
     }
@@ -95,7 +95,7 @@ public class FruitGameManager : MonoBehaviour
 
     public void EndingGame()
     {
-		isPlaying = false;
+        isPlaying = false;
         float highScore = PlayerScore.highScore;
         if (currentScore > highScore)
         {
@@ -109,10 +109,10 @@ public class FruitGameManager : MonoBehaviour
         }
         buttonUI.SetActive(true);
         endGameUI.SetActive(false);
-		// GameEnd
-		PawManager.Instance.AddPaw(1000000000);
-		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam {score=(int)currentScore,index=2 };
-		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
+        // GameEnd
+        PawManager.Instance.AddPaw(1000000000);
+        GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = (int)currentScore, index = 2 };
+        DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
         if (fruitsParent.childCount > 0)
         {
             for (int i = 0; i <= fruitsParent.childCount; i++)
@@ -120,11 +120,11 @@ public class FruitGameManager : MonoBehaviour
                 Destroy(fruitsParent.GetChild(i).gameObject);
             }
         }
-		currentScore = 0;
-		UpdateScore(0);
+        currentScore = 0;
+        UpdateScore(0);
 
 
-	}
+    }
 
     public void UpdateLineUI()
     {
@@ -134,28 +134,28 @@ public class FruitGameManager : MonoBehaviour
     public void UpdateScore(float score)
     {
         currentScore += score;
-        currentScoreText.text = currentScore+"";
-		sliderScore.value = currentScore;
+        currentScoreText.text = currentScore + "";
+        sliderScore.value = currentScore;
 
-		switch (currentScore)
-		{
-			case float n when (n >= 450): tg4.isOn = true; break;
-			case float n when (n >= 300): tg3.isOn = true; break;
-			case float n when (n >= 150): tg2.isOn = true; break;
-			case float n when (n >= 0): tg1.isOn = true; break;
-		}
+        switch (currentScore)
+        {
+            case float n when (n >= 3000): tg4.isOn = true; break;
+            case float n when (n >= 2000): tg3.isOn = true; break;
+            case float n when (n >= 1000): tg2.isOn = true; break;
+            case float n when (n >= 0): tg1.isOn = true; break;
+        }
     }
 
-	public float CalcClawLimit(GameObject fruit)
-	{
-		Renderer rd = fruit.GetComponent<Renderer>();
-		if (rd == null) return 0;
-		float width = (rd.bounds.size.x)/2;
-		return width;
-	}
+    public float CalcClawLimit(GameObject fruit)
+    {
+        Renderer rd = fruit.GetComponent<Renderer>();
+        if (rd == null) return 0;
+        float width = (rd.bounds.size.x) / 2;
+        return width;
+    }
 
-	public void OnClickBack()
-	{
-		SceneManager.UnloadScene("DemoMinigame");
-	}
+    public void OnClickBack()
+    {
+        SceneManager.UnloadScene("DemoMinigame");
+    }
 }

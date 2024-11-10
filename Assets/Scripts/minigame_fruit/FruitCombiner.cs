@@ -7,21 +7,22 @@ using UnityEngine;
 
 public class FruitCombiner : MonoBehaviour
 {
-    public GameObject combineFX;
-    public ListFruit FruitList;
+	public GameObject combineFX;
+	public ListFruit FruitList;
 	public TMP_Text combo_lb;
-	
+
 	private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<FruitInfo>() != null)
-        {
-            int otherIndex = collision.gameObject.GetComponent<FruitInfo>().index;
-            if (GetComponent<FruitInfo>().index == otherIndex && otherIndex != FruitList.list.Count)
-            {
-                if(gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
-                {
-                    Destroy(gameObject);
-                    Destroy(collision.gameObject);
+	{
+		if (collision.gameObject.GetComponent<FruitInfo>() != null)
+		{
+			int otherIndex = collision.gameObject.GetComponent<FruitInfo>().index;
+
+			if (GetComponent<FruitInfo>().index == otherIndex && otherIndex != FruitList.list.Count)
+			{
+				if (gameObject.GetInstanceID() < collision.gameObject.GetInstanceID())
+				{
+					Destroy(gameObject);
+					Destroy(collision.gameObject);
 
 
 					SoundManager.PlaySound(SoundEnum.popMerge);
@@ -67,16 +68,19 @@ public class FruitCombiner : MonoBehaviour
 					else
 					{
 						ComboUI.Instance.combo_lb.text = "<color=#ff9700>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}	
+					}
 					ComboUI.Instance.ShowComboUI();
 					ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
 
 				}
-				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(otherIndex);
+				int score = otherIndex;
+				float multipScore = ComboMergeManager.Instance.comboCount;
+				Debug.Log("score game merge animal:" + score + "/" + multipScore);
+				GameObject.FindWithTag("manager").GetComponent<FruitGameManager>().UpdateScore(score * multipScore);
 			}
-        }
+		}
 
 
-    }
-	
+	}
+
 }
