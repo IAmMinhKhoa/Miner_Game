@@ -89,11 +89,8 @@ public class Shaft : MonoBehaviour
         set
         {
             _shaftSkin = value;
-            if (TryGetComponent(out ShaftUI shaftUI))
-            {
-                shaftUI.ChangeSkin(_shaftSkin);
-            }
-        }
+
+		}
 
     }
     public void UpdateUI()
@@ -118,10 +115,6 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
-        if (_brewers.Count > 1)
-        {
-            UpdateUI();
-        }
     }
 
     private void CreateDeposit()
@@ -150,7 +143,8 @@ public class Shaft : MonoBehaviour
         {
             CreateBrewer();
         }
-    }
+		UpdateUI();
+	}
 
     void Update()
     {

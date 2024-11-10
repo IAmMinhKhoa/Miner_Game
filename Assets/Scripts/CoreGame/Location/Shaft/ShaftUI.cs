@@ -314,6 +314,7 @@ public class ShaftUI : MonoBehaviour
             int cartIndex = int.Parse(data.idCart);
             int headIndex = int.Parse(data.characterSkin.idHead);
             int bodyIndex = int.Parse(data.characterSkin.idBody);
+			Debug.Log(headIndex + "--------" + bodyIndex + "---------" + shaft.Brewers);
             foreach (var item in shaft.Brewers)
             {
                 var skeleton = item.CartSkeletonAnimation.skeleton;
