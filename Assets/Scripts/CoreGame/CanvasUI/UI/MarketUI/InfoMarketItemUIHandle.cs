@@ -57,6 +57,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	CharacterScalePosSO bodyElevatorScale;
 	public event Action<MarketPlayItem> OnButtonBuyClick;
 	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
+	[SerializeField] private TMP_Text title_quality;
 
 	MarketPlayItem curItemHandling;
 	bool CurState
@@ -109,20 +110,23 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 
 	public void Init(ItemSize itemSize, MarketPlayItem it)
 	{
-
+		string titleKeyQuality = string.Empty;
 		switch(it.ItemQuality)
 		{
 			case MarketPlayItemQuality.low:
 				quality.sprite = lowQuality;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketMarketGoods);
 				break;
 			case MarketPlayItemQuality.normal:
 				quality.sprite = normalQuality;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketImportedGoods);
 				break;
 			case MarketPlayItemQuality.super:
 				quality.sprite = superQuality;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCrafts);
 				break;
 		}
-
+		title_quality.text = titleKeyQuality;
 		Dictionary<InventoryItemType, string> keyValuePairs = new()
 		{
 			{ InventoryItemType.ShaftBg, "Back Ground Tầng"},
