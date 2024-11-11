@@ -20,6 +20,7 @@ public class SortGameManager : MonoBehaviour
 	private int clawPos;
 	public GameObject clawObject, StartUI, EndUI;
 	public Camera cameraGameSort;
+	public float clawDelayTime;
 	void Awake()
 	{
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
@@ -28,17 +29,18 @@ public class SortGameManager : MonoBehaviour
 			if(go.id != -1) tsPrefabs.Add(go);
 		}
 		clawPos = 0;
+		clawDelayTime = 8f;
 		colsCount = new int[3];
 	}
 
 	void StartDropper()
 	{
-		InvokeRepeating("DropLoop", 8f, 8f);
+		InvokeRepeating("DropLoop", clawDelayTime, clawDelayTime);
 	}
 
 	void DropLoop()
 	{
-		BoxInfo newBox = Instantiate(boxPrefab, clawObject.transform.position, Quaternion.identity, boxParent);
+		BoxInfo newBox = Instantiate(boxPrefab, clawPosList[clawPos].position, Quaternion.identity, boxParent);
 		newBox.col = clawPos;
 		UpdateColAndCheck(clawPos, 1);
 		tsInfo newTs1, newTs2, newTs3;
@@ -95,6 +97,7 @@ public class SortGameManager : MonoBehaviour
 	void ClearAll()
 	{
 		clawPos = 0;
+		clawObject.transform.position = clawPosList[0].position;
 		for(int i = 0; i < 3; i++)
 		{
 			colsCount[i] = 0;
@@ -246,6 +249,13 @@ public class SortGameManager : MonoBehaviour
 
 	}
 
+	public void AdjustClawDelayTime(float newValue)
+	{
+		clawDelayTime *= newValue;
+		CancelInvoke("DropLoop");
+		InvokeRepeating("DropLoop", clawDelayTime, clawDelayTime);
+	}
+
 	public void UpdateColAndCheck(int col, int value)
 	{
 		colsCount[col] += value;
@@ -257,6 +267,7 @@ public class SortGameManager : MonoBehaviour
 
 	void EndGame()
 	{
+		clawDelayTime = 8f;
 		FindObjectOfType<SortGameScore>().CheckSetHighScore();
 		EndUI.SetActive(true);
 		CancelInvoke("DropLoop");
