@@ -37,6 +37,11 @@ public enum LanguageKeys
 	TitleInventoryBody,
 	TitleMarketCartStaff,
 	TitleMarketElevatorStaff,
+	TitleMarketMarketGoods,
+	TitleMarketImportedGoods,
+	TitleMarketCrafts,
+	TitleManagerChooseUIHire,
+	TitleManagerChooseUIRest,
 }
 
 public static class LocalizationManager
@@ -90,6 +95,11 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleInventoryBody, ("home>inventory>Body", "thân hình") },
 			{ LanguageKeys.TitleMarketCartStaff, ("home>market>cartstaff", "nhân viên xe đẩy") },
 			{ LanguageKeys.TitleMarketElevatorStaff, ("home>market>elevatorstaff", "nhân viên thang máy") },
+			{ LanguageKeys.TitleMarketMarketGoods, ("home>marketUI>marketgoods", "hàng chợ") },
+			{ LanguageKeys.TitleMarketImportedGoods, ("home>marketUI>importedgoods", "hàng nhập khẩu") },
+			{ LanguageKeys.TitleMarketCrafts, ("home>marketUI>crafts", "hàng thủ công") },
+			{ LanguageKeys.TitleManagerChooseUIHire, ("home>managerchooseUI>hire", "thuê") },
+			{ LanguageKeys.TitleManagerChooseUIRest, ("home>managerchooseUI>rest", "nghỉ") },
 		};
 		return mappings;
 	}
