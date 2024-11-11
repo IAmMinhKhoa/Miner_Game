@@ -33,6 +33,10 @@ public class SortGameScore : MonoBehaviour
 	{
 		currentScore += add;
 		currentScoreText.text = "Current score: \n" + currentScore;
+		if(currentScore % 500 == 0)
+		{
+			FindObjectOfType<SortGameManager>().AdjustClawDelayTime(0.8f);
+		}
 	}
 
 	public void ResetScore()
