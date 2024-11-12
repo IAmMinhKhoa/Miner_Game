@@ -83,7 +83,7 @@ public class SortGameManager : MonoBehaviour
 
 		if (clawPos != 2) clawPos++;
 		else clawPos = 0;
-		clawObject.transform.DOMove(clawPosList[clawPos].position, 2).SetEase(Ease.OutQuart);
+		clawObject.transform.DOMove(clawPosList[clawPos].position, clawDelayTime/3).SetEase(Ease.OutQuart);
 	}
 
 	public void OnStartClick()
