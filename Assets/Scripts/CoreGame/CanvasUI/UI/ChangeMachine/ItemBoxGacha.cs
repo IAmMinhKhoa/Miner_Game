@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -41,6 +42,7 @@ public class ItemBoxGacha : MonoBehaviour
 	Sprite superType;
 	[SerializeField]
 	Sprite ultraType;
+	
 
 	[Header("Button")]
 	[SerializeField]
@@ -53,7 +55,24 @@ public class ItemBoxGacha : MonoBehaviour
 	[SerializeField]
 	TextMeshProUGUI description;
 
+	[Header("Other")]
+	[SerializeField]
+	GameObject card;
+
 	public event Action OnSkipButtonClick;
+
+	private void OnEnable()
+	{
+		RectTransform _rectTransform = card.GetComponent<RectTransform>();
+		_rectTransform.DOScale(0, 0);
+		_rectTransform.DOScale(1.2f, 0.3f)
+			.SetEase(Ease.OutQuad)
+			.OnComplete(() =>
+			{
+				_rectTransform.DOScale(1, 0.2f).SetEase(Ease.InQuad);
+			});
+	}
+
 	private void Start()
 	{
 		closeUIButton.onClick.AddListener(CloseUIOnClick);

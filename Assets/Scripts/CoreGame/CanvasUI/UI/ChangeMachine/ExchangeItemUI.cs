@@ -1,3 +1,5 @@
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -61,7 +63,13 @@ public class ExchangeItemUI : MonoBehaviour
 		}
 		get => _amountGacha;
 	}
-    void Start()
+
+	private void OnEnable()
+	{
+		FadeInContainer();
+	}
+
+	void Start()
     {
 		closeButton.onClick.AddListener(OnCloseButtonClick);
 		confirmGacha.onClick.AddListener(GachaItem);
@@ -71,6 +79,7 @@ public class ExchangeItemUI : MonoBehaviour
 
 	void OnCloseButtonClick()
 	{
+		FadeOutContainer();
 		gameObject.gameObject.SetActive(false);
 		OnGachaButtonClick = null;
 	}
@@ -79,11 +88,11 @@ public class ExchangeItemUI : MonoBehaviour
 		OnGachaButtonClick?.Invoke(_amountGacha);
 		OnCloseButtonClick();
 	}
-	public void SetUpUI(int  coin, bool isInterior)
+	public void SetUpUI(float coin, bool isInterior)
 	{
 		
 		confirmGacha.interactable = checkCoin();
-		avaliableCoin = coin;
+		avaliableCoin = (int)coin;
 		AmountGacha = 1;
 		cointRemaining.text = (coin >= 300 ? (avaliableCoin - _amountGacha * 300) : coin).ToString();
 		interiorSpine.gameObject.SetActive(isInterior);
@@ -105,4 +114,26 @@ public class ExchangeItemUI : MonoBehaviour
 		AmountGacha--;
 		cointRemaining.text = (avaliableCoin - _amountGacha * 300).ToString();
 	}
+
+	#region AnimateUI
+	[Button]
+	public void FadeInContainer()
+	{
+		gameObject.SetActive(true);
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+
+	}
+	[Button]
+	public void FadeOutContainer()
+	{
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
+		{
+			gameObject.SetActive(false);
+		});
+
+	}
+	#endregion
 }

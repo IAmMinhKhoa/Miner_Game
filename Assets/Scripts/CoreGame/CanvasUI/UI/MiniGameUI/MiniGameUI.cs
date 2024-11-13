@@ -4,6 +4,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class MiniGameUI : MonoBehaviour
 	[SerializeField] private Button btn_back;
 	[SerializeField] private Button btn_redeempoints;
 	[SerializeField] private ChangeMachine redeemPointUI;
+	
 	private CanvasGroup _canvasGroup;
 	private CancellationTokenSource _disableToken;
 	private Vector3 originalScaleRedeemPoints;
@@ -43,6 +45,8 @@ public class MiniGameUI : MonoBehaviour
 		_disableToken = new CancellationTokenSource();
 		btn_back.onClick.AddListener(OnBack);
 		btn_redeempoints.onClick.AddListener(OnRedeempoints);
+
+		
 	}
 	void OnDisable()
 	{

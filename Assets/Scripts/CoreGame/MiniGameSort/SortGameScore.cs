@@ -26,6 +26,7 @@ public class SortGameScore : MonoBehaviour
 		{
 			endScoreText.text = "Your Score: " + currentScore;
 		}
+		UpdateTotalScore(currentScore);
 		ResetScore();
 	}
 
@@ -43,5 +44,11 @@ public class SortGameScore : MonoBehaviour
 	{
 		currentScore = 0;
 		currentScoreText.text = "Current score: \n" + currentScore;
+	}
+
+	public void UpdateTotalScore(float value)
+	{
+		float currentScore = PlayerPrefs.GetFloat("TotalScoreMinigame", 0);
+		PlayerPrefs.SetFloat("TotalScoreMinigame", currentScore + value);
 	}
 }
