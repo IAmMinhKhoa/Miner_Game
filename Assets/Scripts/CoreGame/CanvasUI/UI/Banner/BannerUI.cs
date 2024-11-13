@@ -28,12 +28,8 @@ public class BannerUI : MonoBehaviour
 
 	private void Start()
 	{
-		bannerData = BannerController.Instance.bannerData;
+		Init();
 		RenderColor();
-		PopulateDropdown(dropDownFont, bannerData.dataFontText.Count, "fontcute ");
-		PopulateDropdown(dropDownBrBack, bannerData.dataSprite_1.Count, "mẫu số ");
-		PopulateDropdown(dropDownBrFront, bannerData.dataSprite_2.Count, "mẫu số ");
-
 		if (PlayerPrefs.HasKey("BannerData"))
 		{
 			string json = PlayerPrefs.GetString("BannerData");
@@ -43,9 +39,19 @@ public class BannerUI : MonoBehaviour
 		}
 
 	}
+	private void Init()
+	{
+		string titleKeyBodyFontCute = LocalizationManager.GetLocalizedString(LanguageKeys.TitleBodyFontCute);
+		string titleKeyTemplateNumber = LocalizationManager.GetLocalizedString(LanguageKeys.TitleBodyTemplateNumber);
+		bannerData = BannerController.Instance.bannerData;
+		PopulateDropdown(dropDownFont, bannerData.dataFontText.Count, titleKeyBodyFontCute + " ");
+		PopulateDropdown(dropDownBrBack, bannerData.dataSprite_1.Count, titleKeyTemplateNumber + " ");
+		PopulateDropdown(dropDownBrFront, bannerData.dataSprite_2.Count, titleKeyTemplateNumber + " ");
+	}	
 
 	private void OnEnable()
 	{
+		Init();
 		inputTitle.onValueChanged.AddListener(SetDemoText);
 		dropDownFont.onValueChanged.AddListener(SetTextFont);
 		//dropDownBrBack.onValueChanged.AddListener(index => SetBackgroundImage(_demobackBackground, bannerData.dataSprite_1, index));
