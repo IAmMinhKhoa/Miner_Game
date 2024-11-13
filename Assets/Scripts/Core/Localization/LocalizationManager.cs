@@ -42,6 +42,10 @@ public enum LanguageKeys
 	TitleMarketCrafts,
 	TitleManagerChooseUIHire,
 	TitleManagerChooseUIRest,
+	TitleBodyFontCute,
+	TitleBodyTemplateNumber,
+	TitleExchangeUIRandomInterior,
+	TitleExchangeUIRandomSkin,
 }
 
 public static class LocalizationManager
@@ -100,6 +104,10 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleMarketCrafts, ("home>marketUI>crafts", "hàng thủ công") },
 			{ LanguageKeys.TitleManagerChooseUIHire, ("home>managerchooseUI>hire", "thuê") },
 			{ LanguageKeys.TitleManagerChooseUIRest, ("home>managerchooseUI>rest", "nghỉ") },
+			{ LanguageKeys.TitleBodyFontCute, ("home>banner>bodyFontCute", "phông chữ dễ thương") },
+			{ LanguageKeys.TitleBodyTemplateNumber, ("home>banner>bodyTemplateNumber", "mẫu số") },
+			{ LanguageKeys.TitleExchangeUIRandomInterior, ("home>exchangeItem>RandomInterior", "nội thất ngẫu nhiên") },
+			{ LanguageKeys.TitleExchangeUIRandomSkin, ("home>exchangeItem>RandomSkin", "trang phục ngẫu nhiên") },
 		};
 		return mappings;
 	}
