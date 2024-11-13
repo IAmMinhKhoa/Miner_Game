@@ -25,8 +25,8 @@ public class BannerController : Patterns.Singleton<BannerController>
 		textTitle.text = banner.title;
 		textTitle.color = banner.color;
 		textTitle.font = bannerData.dataFontText[banner.indexFont];
-		backBackground.sprite = bannerData.dataSprite_1[banner.indexBrBack];
-		frontBackground.sprite = bannerData.dataSprite_2[banner.indexBrFront];
+		//backBackground.sprite = bannerData.dataSprite_1[banner.indexBrBack];
+		//frontBackground.sprite = bannerData.dataSprite_2[banner.indexBrFront];
 	}
 	#region Load Method
 

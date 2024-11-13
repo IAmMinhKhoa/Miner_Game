@@ -22,6 +22,7 @@ public class BannerUI : MonoBehaviour
 	[SerializeField] Transform parentListColor;
 
 	BannerSO bannerData;
+	List<ColorButton> listColorButton = new();
 
 	#region Unity Callbacks
 
@@ -47,8 +48,8 @@ public class BannerUI : MonoBehaviour
 	{
 		inputTitle.onValueChanged.AddListener(SetDemoText);
 		dropDownFont.onValueChanged.AddListener(SetTextFont);
-		dropDownBrBack.onValueChanged.AddListener(index => SetBackgroundImage(_demobackBackground, bannerData.dataSprite_1, index));
-		dropDownBrFront.onValueChanged.AddListener(index => SetBackgroundImage(_demofrontBackground, bannerData.dataSprite_2, index));
+		//dropDownBrBack.onValueChanged.AddListener(index => SetBackgroundImage(_demobackBackground, bannerData.dataSprite_1, index));
+		//dropDownBrFront.onValueChanged.AddListener(index => SetBackgroundImage(_demofrontBackground, bannerData.dataSprite_2, index));
 	}
 
 	private void OnDisable()
@@ -65,7 +66,13 @@ public class BannerUI : MonoBehaviour
 
 	private void SetDemoText(string content) => _demoTextTitle.text = content;
 
-	private void SetTextColor(Color newColor) => _demoTextTitle.color = newColor;
+	private void SetTextColor(Color newColor) {
+		_demoTextTitle.color = newColor;
+		foreach(var item in listColorButton)
+		{
+			item.HideBoder();
+		}
+	}
 
 	private void SetTextFont(int index)
 	{
@@ -96,8 +103,8 @@ public class BannerUI : MonoBehaviour
 		_demoTextTitle.text = banner.title;
 		_demoTextTitle.color = banner.color;
 		_demoTextTitle.font = bannerData.dataFontText[banner.indexFont];
-		_demobackBackground.sprite = bannerData.dataSprite_1[banner.indexBrBack];
-		_demofrontBackground.sprite = bannerData.dataSprite_2[banner.indexBrFront];
+		//_demobackBackground.sprite = bannerData.dataSprite_1[banner.indexBrBack];
+		//_demofrontBackground.sprite = bannerData.dataSprite_2[banner.indexBrFront];
 	}
 	#endregion
 
@@ -122,6 +129,7 @@ public class BannerUI : MonoBehaviour
 		{
 			ColorButton colorButton = Instantiate(colorBtnPrefab, parentListColor);
 			colorButton.SetData(color, () => SetTextColor(color));
+			listColorButton.Add(colorButton);
 		}
 	}
 
