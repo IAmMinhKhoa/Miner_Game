@@ -81,14 +81,15 @@ public class ExchangeItemUI : MonoBehaviour
 	}
 	public void SetUpUI(int  coin, bool isInterior)
 	{
-		
+		string titleKeyInterior = LocalizationManager.GetLocalizedString(LanguageKeys.TitleExchangeUIRandomInterior);
+		string titleKeySkin = LocalizationManager.GetLocalizedString(LanguageKeys.TitleExchangeUIRandomSkin);
 		confirmGacha.interactable = checkCoin();
 		avaliableCoin = coin;
 		AmountGacha = 1;
 		cointRemaining.text = (coin >= 300 ? (avaliableCoin - _amountGacha * 300) : coin).ToString();
 		interiorSpine.gameObject.SetActive(isInterior);
 		staffSpine.gameObject.SetActive(!isInterior);
-		itemGacha.text = isInterior ? "Nội thất ngẫu nhiên" : "Trang phục nhân viên ngẫu nhiên";
+		itemGacha.text = isInterior ? titleKeyInterior : titleKeySkin;
 
 		bool checkCoin() {
 			hideImage.gameObject.SetActive(coin < 300);
