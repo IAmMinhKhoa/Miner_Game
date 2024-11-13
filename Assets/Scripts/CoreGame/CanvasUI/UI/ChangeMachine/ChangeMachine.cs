@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using Spine;
 using System;
 using System.Collections;
@@ -49,19 +51,21 @@ public class ChangeMachine : MonoBehaviour
 	ItemBoxGacha staffItemBoxGacha;
 
 
-	int coin = 20000;
+	float coin = 0;
 	private void Start()
 	{
 		interiorToggle.onClick.AddListener(OnInteriorButtonClick);
 		staffToggle.onClick.AddListener(OnStaffButtonClick);
-		CloseUIButton.onClick.AddListener(CloseUI);
+		CloseUIButton.onClick.AddListener(FadeOutContainer);
 		longItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
 		shortItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
 		staffItemBoxGacha.OnSkipButtonClick += OnStaffButtonClick;
 	}
 	private void OnEnable()
 	{
-		currentCoin.text = coin.ToString();	
+		coin = FindObjectOfType<MinigameCoin>().GetTotalScore();
+		currentCoin.text = coin.ToString();
+		FadeInContainer();
 	}
 	private void OnDestroy()
 	{
@@ -71,9 +75,21 @@ public class ChangeMachine : MonoBehaviour
 	}
 	void OnInteriorButtonClick()
 	{
-		exchangeItemUI.gameObject.SetActive(true);
-		exchangeItemUI.SetUpUI(coin, true);
-		exchangeItemUI.OnGachaButtonClick += HandleGachaInterior;
+		RectTransform _rectTransform = interiorToggle.GetComponentInChildren<RectTransform>();
+		Vector3 defaultScale = _rectTransform.localScale;
+		_rectTransform.DOScale(1f, 0.1f)
+			.SetEase(Ease.OutQuad)
+			.OnComplete(() =>
+			{
+				_rectTransform.DOScale(defaultScale, 0.1f).SetEase(Ease.InQuad).OnComplete(() =>
+				{
+					exchangeItemUI.gameObject.SetActive(true);
+					exchangeItemUI.SetUpUI(coin, true);
+					exchangeItemUI.OnGachaButtonClick += HandleGachaInterior;
+				});
+			});
+
+		
 	}
 
 	void HandleGachaInterior(int amount)
@@ -89,6 +105,7 @@ public class ChangeMachine : MonoBehaviour
 		}
 
 		coin -= 300 * amount;
+		FindObjectOfType<MinigameCoin>().UpdateTotalScore(-300 * amount);
 		currentCoin.text = coin.ToString();
 
 		for (int i = 0; i < amount; i++)
@@ -141,6 +158,7 @@ public class ChangeMachine : MonoBehaviour
 		}
 		coin -= 300 * amount;
 		currentCoin.text = coin.ToString();
+		FindObjectOfType<MinigameCoin>().UpdateTotalScore(-300 * amount);
 		for (int i = 0; i < amount; i++)
 		{
 			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
@@ -178,15 +196,51 @@ public class ChangeMachine : MonoBehaviour
 	}
 	void OnStaffButtonClick()
 	{
-		exchangeItemUI.gameObject.SetActive(true);
-		exchangeItemUI.SetUpUI(coin, false);
-		exchangeItemUI.OnGachaButtonClick += HandleGachaStaff;
+		RectTransform _rectTransform = staffToggle.GetComponentInChildren<RectTransform>();
+		Vector3 defaultScale = _rectTransform.localScale;
+		_rectTransform.DOScale(1f, 0.1f)
+			.SetEase(Ease.OutQuad)
+			.OnComplete(() =>
+			{
+				_rectTransform.DOScale(defaultScale, 0.1f).SetEase(Ease.InQuad).OnComplete(() =>
+				{
+					exchangeItemUI.gameObject.SetActive(true);
+					exchangeItemUI.SetUpUI(coin, false);
+					exchangeItemUI.OnGachaButtonClick += HandleGachaStaff;
+				});
+			});
 	}
 	void CloseUI()
 	{
 		gameObject.SetActive(false);
 	}
+
+	#region AnimateUI
+	[Button]
+	public void FadeInContainer()
+	{
+		gameObject.SetActive(true);
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
+		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+
+
+	}
+	[Button]
+	public void FadeOutContainer()
+	{
+		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
+		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
+		{
+			CloseUI();
+		});
+
+	}
+	#endregion
 }
+
+
+
 public struct GachaItemInfor
 {
 	public InventoryItemType type;

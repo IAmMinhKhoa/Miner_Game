@@ -228,7 +228,7 @@ RectTransform:
   m_Father: {fileID: 697814577176442434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2465,7 +2465,7 @@ RectTransform:
   m_Father: {fileID: 1998686375357384385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3329,8 +3329,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 313.44998, y: 0}
-  m_SizeDelta: {x: 626.89996, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4368935696879701963
 MonoBehaviour:
@@ -3561,6 +3561,7 @@ MonoBehaviour:
   cardInfor: {fileID: 2708633113075636614}
   imgBehind: {fileID: 1481545710505442062}
   closeButton: {fileID: 4257548033275752994}
+  FXBackCard: {fileID: 3955919158937574399}
 --- !u!1 &4198827664801968756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3762,8 +3763,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 28, y: 0}
-  m_SizeDelta: {x: 598.89996, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6577891707330814206
 MonoBehaviour:
@@ -4246,9 +4247,9 @@ RectTransform:
   - {fileID: 8973412274541466043}
   m_Father: {fileID: 6560555688021112880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -69.85}
   m_SizeDelta: {x: 292.54, y: 139.7}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2157643384600270699
@@ -5845,7 +5846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6978772603090936084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6784,7 +6785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7818839122171863828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7961,6 +7962,18 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.minScalar
       value: 96
       objectReference: {fileID: 0}
+    - target: {fileID: 538789658086146339, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.12758723
+      objectReference: {fileID: 0}
+    - target: {fileID: 538789658086146339, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.6509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 538789658086146339, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.021493427
+      objectReference: {fileID: 0}
     - target: {fileID: 631169154367360045, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.5
@@ -8214,6 +8227,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
+--- !u!1 &3955919158937574399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1423383973711854943, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
+  m_PrefabInstance: {fileID: 2677072952988984992}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7639989726536776744 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5701677556070963848, guid: 5c1ed38d2def77f41acf5037403d4b82, type: 3}
