@@ -141,7 +141,6 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 			{ InventoryItemType.ShaftCharacterBody, "Nhân Viên Đẩy Xe"},
 			{ InventoryItemType.ElevatorCharacterBody, "Nhân Viên Thang Máy"},
 		};
-		Debug.LogError(itemSize.type.ToString());
 		string titleKey = string.Empty;
 		string titleKeyDesc = string.Empty;
 		string titleKeySubName = string.Empty;

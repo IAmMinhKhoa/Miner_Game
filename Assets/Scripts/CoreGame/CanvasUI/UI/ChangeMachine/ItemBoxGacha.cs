@@ -60,7 +60,7 @@ public class ItemBoxGacha : MonoBehaviour
 	GameObject card;
 
 	public event Action OnSkipButtonClick;
-
+	[SerializeField] private TMP_Text title_quality;
 	private void OnEnable()
 	{
 		RectTransform _rectTransform = card.GetComponent<RectTransform>();
@@ -97,31 +97,35 @@ public class ItemBoxGacha : MonoBehaviour
 		var backgrounds = new[] { lowBg, normalBg, superBg, ultraBg };
 		foreach (var item in items) item.gameObject.SetActive(false);
 		foreach (var bg in backgrounds) bg.gameObject.SetActive(false);
-
+		string titleKeyQuality = string.Empty;
 		switch (itemInfo.skinGachaInfor.quality)
 		{
 			case MarketPlayItemQuality.low:
 				low.gameObject.SetActive(true);
 				lowBg.gameObject.SetActive(true);
 				type.sprite = lowType;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketMarketGoods);
 				break;
 			case MarketPlayItemQuality.normal:
 				normal.gameObject.SetActive(true);
 				normalBg.gameObject.SetActive(true);
 				type.sprite = normalType;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketImportedGoods);
 				break;
 			case MarketPlayItemQuality.super:
 				super.gameObject.SetActive(true);
 				superBg.gameObject.SetActive(true);
 				type.sprite = superType;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCrafts);
 				break;
 			case MarketPlayItemQuality.ultra:
 				ultra.gameObject.SetActive(true);
 				ultraBg.gameObject.SetActive(true);
 				type.sprite = ultraType;
+				titleKeyQuality = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCrafts);
 				break;
 		}
-
+		title_quality.text = titleKeyQuality;
 		skeletonGraphic.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[itemInfo.type];
 		skeletonGraphic.initialSkinName = initialSkiName + itemInfo.skinGachaInfor.ID;
 		skeletonGraphic.Initialize(true);
@@ -145,9 +149,74 @@ public class ItemBoxGacha : MonoBehaviour
 			skeletonGraphic.AnimationState.ClearTrack(0);
 		}
 
-		titile.text = itemInfo.skinGachaInfor.Name;
-		description.text = itemInfo.skinGachaInfor.Description;
+		string titleKey = string.Empty;
+		string titleKeyDesc = string.Empty;
+		string titleKeySubName = string.Empty;
+		switch (itemInfo.type)
+		{
+			case InventoryItemType.ShaftBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftBg);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftBg);
+				break;
+			case InventoryItemType.CounterBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
+				break;
+			case InventoryItemType.ElevatorBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallElevator);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallElevator);
+				break;
+			case InventoryItemType.CounterCart:
+				break;
+			case InventoryItemType.Elevator:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryElevator);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryElevator);
+				break;
+			case InventoryItemType.ShaftSecondBg:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftSecondBg);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryShaftSecondBg);
+				break;
+			case InventoryItemType.ShaftCart:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryCart);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryCart);
+				break;
+			case InventoryItemType.ShaftWaitTable:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWaitTable);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWaitTable);
+				break;
+			case InventoryItemType.ShaftCharacter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCartStaff);
+				break;
+			case InventoryItemType.ElevatorCharacter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryHead);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketElevatorStaff);
+				break;
+			case InventoryItemType.CounterCharacter:
+				break;
+			case InventoryItemType.CounterSecondBg:
+				break;
+			case InventoryItemType.BackElevator:
+				break;
+			case InventoryItemType.ShaftCharacterBody:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketCartStaff);
+				break;
+			case InventoryItemType.ElevatorCharacterBody:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeyDesc = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryBody);
+				titleKeySubName = LocalizationManager.GetLocalizedString(LanguageKeys.TitleMarketElevatorStaff);
+				break;
+		}
 
+
+		//titile.text = itemInfo.skinGachaInfor.Name;
+		//description.text = itemInfo.skinGachaInfor.Description;
+		titile.text = titleKey;
+		description.text = titleKeyDesc;
 		if(isUpdatePos) {
 			var spine = skeletonGraphic.GetComponent<RectTransform>();
 			spine.localScale = itemInfo.skinGachaInfor.ScaleSingle;
