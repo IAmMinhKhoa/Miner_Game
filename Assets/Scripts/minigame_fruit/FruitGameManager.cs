@@ -107,6 +107,7 @@ public class FruitGameManager : MonoBehaviour
         {
             endGameText.text = "Your score:\n" + currentScore;
         }
+		UpdateTotalScore(currentScore);
         buttonUI.SetActive(true);
         endGameUI.SetActive(false);
         // GameEnd
@@ -158,4 +159,10 @@ public class FruitGameManager : MonoBehaviour
     {
         SceneManager.UnloadScene("DemoMinigame");
     }
+
+	private void UpdateTotalScore(float value)
+	{
+		float currentScore = PlayerPrefs.GetFloat("TotalScoreMinigame", 0);
+		PlayerPrefs.SetFloat("TotalScoreMinigame", currentScore + value);
+	}
 }
