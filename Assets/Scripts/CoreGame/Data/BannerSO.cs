@@ -16,13 +16,13 @@ public class BannerSO : ScriptableObject
 	//readonly string folderPath = "Assets/Sprites/Banner/BannerData/Mẫu Trang Trí";
 	private void OnValidate()
 	{
-		UpdateFileList("Assets/Sprites/Banner/BannerData/Mẫu Trang Trí", dataSprite_1);
+		UpdateFileList("Assets/Resources/Sprites/Banner/BannerData/Mẫu Trang Trí", dataSprite_1);
 	}
 	private void UpdateFileList(string folderPath, List<DesignTemplateInfo> dataSprite)
 	{
 		dataSprite.Clear();
-	
-		//SpriteLoader.LoadSpriteFromPath("Assets/Sprites/Banner/BannerData/Mẫu Trang Trí/Vintage Châu Âu/Đỏ - Tím.png");
+
+		_sprite = SpriteLoader.LoadSpriteFromPath("Assets/Sprites/Banner/BannerData/Mẫu Trang Trí/Vintage Châu Âu/Đỏ - Tím.png");
 		if (Directory.Exists(folderPath))
 		{
 			string[] folders = Directory.GetDirectories(folderPath);
