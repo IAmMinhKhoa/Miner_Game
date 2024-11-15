@@ -330,7 +330,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
                     var shaft = ShaftManager.Instance.Shafts[j];
                     q += _pawFloors[j];
                 }
-
+				Debug.Log("Calcute _totalPawTaken :" + ElevatorSystem.Instance.GetPureProductionInCycle() + "/" + n + "/" + _efficiencyElevator);
                 _totalPawTaken = ElevatorSystem.Instance.GetPureProductionInCycle() * n * _efficiencyElevator;
                 floorIndex = i;
                 if (q >= _totalPawTaken)
@@ -342,14 +342,18 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             //Case
             for (int i = 0; i <= floorIndex; i++)
             {
-                if (i == floorIndex)
+			
+				if (i == floorIndex)
                 {
                     _pawFloors[i] -= _totalPawTaken;
                     _pawElevator += _totalPawTaken;
-                }
+					if (_pawFloors[i] <= 0) _pawFloors[i] = 0;
+
+				}
                 else
                 {
-                    _totalPawTaken -= _pawFloors[i];
+					
+					_totalPawTaken -= _pawFloors[i];
                     _pawElevator += _pawFloors[i];
                     _pawFloors[i] = 0;
                 }
