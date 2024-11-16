@@ -16,8 +16,8 @@ public class BannerSO : ScriptableObject
 
 	private void OnValidate()
 	{
-		LoadSpirteData("Sprites/BannerData/Mẫu Trang Trí", dataSprite_1);
-		LoadSpirteData("Sprites/BannerData/Phông Nền", dataSprite_2);
+		LoadSpirteData("Sprites/BannerData/MauTrangTri", dataSprite_1);
+		LoadSpirteData("Sprites/BannerData/PhongNen", dataSprite_2);
 	}
 	void LoadSpirteData(string path, List<DesignTemplateInfo> list)
 	{
