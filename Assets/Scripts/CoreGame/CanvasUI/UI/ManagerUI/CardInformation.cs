@@ -48,6 +48,22 @@ public class CardInformation : MonoBehaviour
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionBear);
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoBear);
 				break;
+			case ManagerSpecie.Goat:
+				titleKey = "Goat";
+				titleQuoest = "animal bubble tea bro";
+				break;
+			case ManagerSpecie.Owl:
+				titleKey = "Owl";
+				titleQuoest = "animal bubble tea bro";
+				break;
+			case ManagerSpecie.Hamster:
+				titleKey = "Hamster";
+				titleQuoest = "animal bubble tea bro";
+				break;
+			default:
+				titleKey = "Animal";
+				titleQuoest = "animal bubble tea bro";
+				break;
 		}
 		_nameText.text = titleKey;
 		_backGroundPanel.sprite = Resources.Load<Sprite>(MainGameData.PanelFrontCardManager[(int)_data.Level]);

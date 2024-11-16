@@ -12,6 +12,11 @@ public enum LanguageKeys
 	TitleManagerSectionTiger,
 	TitleManagerSectionDog,
 	TitleManagerSectionBear,
+
+	TitleManagerSectionOwl,
+	TitleManagerSectionHamster,
+	TitleManagerSectionGoat,
+
 	QuoestCardInfoTiger,
 	QuoestCardInfoDog,
 	QuoestCardInfoBear,
@@ -75,6 +80,11 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleManagerSectionTiger, ("Tiger", "hổ") },
 			{ LanguageKeys.TitleManagerSectionDog, ("Dog", "chó") },
 			{ LanguageKeys.TitleManagerSectionBear, ("Bear", "gấu") },
+			{ LanguageKeys.TitleManagerSectionOwl, ("owl", "cú") },
+			{ LanguageKeys.TitleManagerSectionGoat, ("goat", "dê") },
+			{ LanguageKeys.TitleManagerSectionHamster, ("hamster", "hamster") },
+
+
 			{ LanguageKeys.QuoestCardInfoTiger, ("home>Cardinfo>Quoest>tiger", "\"cậu chỉ sống một lần, nhưng nếu sống đúng cách, một lần là đủ\"") },
 			{ LanguageKeys.QuoestCardInfoDog, ("home>Cardinfo>Quoest>dog", "\"một căn phòng không có sách giống như một cơ thể không có linh hồn\"") },
 			{ LanguageKeys.QuoestCardInfoBear, ("home>Cardinfo>Quoest>bear", "\"hãy là chính mình, vì tất cả những người khác đã được chọn\"") },
