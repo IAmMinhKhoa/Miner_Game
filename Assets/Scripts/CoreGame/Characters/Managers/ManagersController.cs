@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using PlayFab.ClientModels;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -171,19 +172,15 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             < 90 => ManagerLevel.Junior,
             _ => ManagerLevel.Senior
         };
-        /*        BoostType type = UnityEngine.Random.Range(0, 3) switch
-                {
-                    0 => BoostType.Costs,
-                    1 => BoostType.Efficiency,
-                    _ => BoostType.Speed
-                };*/
+		Debug.Log("khoa newManager:" + location);
 
-        var specieDataList = _managerSpecieDataSOList.ToList();
-        var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
+        var specieDataList = _managerSpecieDataSOList.ToList(); //list all data staff of game
+		var specieDataFilterByLocation = specieDataList.FindAll(x=>x.LocationType==location);
+
+		var specieData = specieDataFilterByLocation[UnityEngine.Random.Range(0, specieDataFilterByLocation.Count) ];
 
         var managerData = GetManagerData(location, specieData.BoostType, level);
         var timeData = GetManagerTimeData(level);
-
 
         Manager manager = new();
         manager.SetManagerData(managerData);
