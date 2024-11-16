@@ -4,6 +4,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,8 +14,11 @@ public class MiniGameUI : MonoBehaviour
 	[SerializeField] private float _fadeSpeed = 3f;
 	[SerializeField] private Button miniGame_FlappyBird;
 	[SerializeField] private Button miniGame_Fruit;
+	[SerializeField] private Button miniGame_Puzzle;
 	[SerializeField] private Button btn_back;
 	[SerializeField] private Button btn_redeempoints;
+	[SerializeField] private ChangeMachine redeemPointUI;
+	
 	private CanvasGroup _canvasGroup;
 	private CancellationTokenSource _disableToken;
 	private Vector3 originalScaleRedeemPoints;
@@ -37,9 +41,12 @@ public class MiniGameUI : MonoBehaviour
 		_canvasGroup = this.GetComponent<CanvasGroup>();
 		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(1); });
 		miniGame_Fruit.onClick.AddListener(() => { MiniGame(2); });
+		miniGame_Puzzle.onClick.AddListener(() => { MiniGame(3); });
 		_disableToken = new CancellationTokenSource();
 		btn_back.onClick.AddListener(OnBack);
 		btn_redeempoints.onClick.AddListener(OnRedeempoints);
+
+		
 	}
 	void OnDisable()
 	{
@@ -70,10 +77,10 @@ public class MiniGameUI : MonoBehaviour
 		SkeletonGraphic selectedMachine = game_machine[index - 1];
 		selectedMachine.transform.DOKill();
 		selectedMachine.transform.localScale = originalScalesGameMachine[index - 1];
-		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.2f)
+		selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1] * 1.05f, 0.1f)
 			.OnComplete(() =>
 			{
-				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.2f).OnComplete(() =>
+				selectedMachine.transform.DOScale(originalScalesGameMachine[index - 1], 0.1f).OnComplete(() =>
 				{
 					SceneManager.LoadScene(index, LoadSceneMode.Additive);
 				});
@@ -92,8 +99,9 @@ public class MiniGameUI : MonoBehaviour
 			.OnComplete(() =>
 			{
 				points_redemption_booth.transform.DOScale(originalScaleRedeemPoints, 0.2f);
-				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", false);
+				points_redemption_booth.AnimationState.SetAnimation(0, "Idle", true);
 			});
+		redeemPointUI.gameObject.SetActive(true);
 	}
 	#region AnimateUI
 	[Button]

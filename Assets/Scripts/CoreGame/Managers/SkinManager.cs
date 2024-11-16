@@ -284,7 +284,8 @@ public enum InventoryItemType
 	CounterSecondBg,
 	BackElevator,
 	ShaftCharacterBody,
-	ElevatorCharacterBody
+	ElevatorCharacterBody,
+	Null
 }
 #endregion
 

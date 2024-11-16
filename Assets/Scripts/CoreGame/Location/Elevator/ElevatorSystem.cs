@@ -171,10 +171,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     public double GetTotalNSVersion2()
     {
+		//rule if elvevator not have manager -> NSPaw =0
+		if (managerLocation.Manager == null)
+		{
+			return 0;
+		}
+
         int index = 0;
         int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
         double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
-
         for (int i = 0; i <= maxIndex; i++)
         {
             double moveTime = GetTempMoveTimeInCycle(i) / GetManagerBoost(BoostType.Speed);
@@ -185,6 +190,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
                 var shaft = ShaftManager.Instance.Shafts[j];
                 q += shaft.GetShaftNS() * moveTime;
             }
+            //Debug.Log("q: " + q + "index: " + i + "loadCapacity: " + loadCapacity);
 
             index = i;
             if (q >= loadCapacity)

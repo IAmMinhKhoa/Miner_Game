@@ -247,7 +247,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         // transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        rectTransform.DOLocalMoveX(15f, 0.1f).OnComplete(() =>
+        rectTransform.DOLocalMoveX(80f, 0.1f).OnComplete(() =>
         {
             rectTransform.DOScale(new Vector2(1.06f, 1.06f), 0.1f);
         });
@@ -258,7 +258,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         loadingSwap.SetActive(false);
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.DOLocalMoveX(0, 0.1f).OnComplete(() =>
+        rectTransform.DOLocalMoveX(66.5f, 0.1f).OnComplete(() =>
         {
             rectTransform.DOScale(new Vector2(1f, 1f), 0.06f);
         });

@@ -8,6 +8,7 @@ using Spine.Unity;
 using NOOD.SerializableDictionary;
 using Newtonsoft.Json;
 using Spine;
+using Cysharp.Threading.Tasks;
 
 public class CounterUI : MonoBehaviour
 {
@@ -143,6 +144,27 @@ public class CounterUI : MonoBehaviour
 		OnUpgradeRequest?.Invoke();
 	}
 
+	public void PlayCollectAnimation(bool isBrewing)
+	{
+		Debug.Log("khoa PlayCollectAnimation:"+ isBrewing);
+		if (isBrewing == false && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Idle")
+		{
+			Debug.Log("khoa idel");
+			m_cashierCounter.AnimationState.ClearTrack(0);
+			m_cashierCounter.AnimationState.SetAnimation(0, "Idle", true);
+			//m_managerCounter.AnimationState.SetAnimation(0, "Idle", true);
+			return;
+		}
+		if (isBrewing && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Active")
+		{
+			Debug.Log("khoa acticve");
+			m_cashierCounter.AnimationState.ClearTrack(0);
+			m_cashierCounter.AnimationState.SetAnimation(0, "Active", true);
+		//	m_managerCounter.AnimationState.SetAnimation(0, "Active", true);
+			return;
+		}
+	}
+
 	public void UpdateSkeletonData()
 	{
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
@@ -168,10 +190,8 @@ public class CounterUI : MonoBehaviour
 
 			headSkeleton.Initialize(true);
 			bodySkeleton.Initialize(true);
-
-
 		}
-
+	
 	}
 	public void ChangeSkin(CounterSkin data)
 	{

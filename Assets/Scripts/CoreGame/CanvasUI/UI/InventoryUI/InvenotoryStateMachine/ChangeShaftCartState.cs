@@ -25,7 +25,8 @@ public class ChangeShaftCartState : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
-		itemController.title.text = "Đổi Xe Đẩy Nhân Viên";
+		string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryChangeCartStaff);
+		itemController.title.text = titleKey;
 		int currentFloor = itemController.FloorIndex;
 		var cartSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftCart];
 		itemPrefab.spine.initialSkinName = cartSkeleton.GetSkeletonData(true).Skins.Items[0].Name;

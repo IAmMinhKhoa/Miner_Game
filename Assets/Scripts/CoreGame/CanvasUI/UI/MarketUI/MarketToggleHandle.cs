@@ -21,8 +21,11 @@ public class MarketToggleHandle : MonoBehaviour
 	{
 		if (isOn)
 		{
-
-			OnTabulationClick?.Invoke(itemType);
+			if(itemType != InventoryItemType.Null)
+			{
+				OnTabulationClick?.Invoke(itemType);
+			}
+			
 			if (spine != null)
 			{
 				spine.AnimationState.SetAnimation(0, "Active", true);  // Thay đổi animation của track 0 sang "active"

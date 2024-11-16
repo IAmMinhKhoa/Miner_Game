@@ -16,13 +16,14 @@ namespace UI.Inventory
 
 		public override void SetInfoItem(int headIndex, int bodyIndex, int floor)
 		{
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleShaft);
 			if (type == InventoryItemType.ElevatorCharacter)
 			{
 				base.SetInfoItem(headIndex, bodyIndex, floor);
 				return;
 			}
 			if (floor != -1)
-				floorText.text = "Tầng " + floor;
+				floorText.text = titleKey +" " + floor;
 			
 			head.Skeleton.SetSkin("Head/Skin_"+(headIndex+1));
 			body.Skeleton.SetSkin("Body/Skin_" + (bodyIndex + 1));

@@ -9,6 +9,7 @@ public class GachaController : MonoBehaviour
 	[SerializeField] CardInformation cardInfor;
 	[SerializeField] SpriteRenderer imgBehind;
 	[SerializeField] private Button closeButton;
+	[SerializeField] private GameObject FXBackCard;
 
 	public void OpenFxGacha(Manager data)
 	{
@@ -23,7 +24,7 @@ public class GachaController : MonoBehaviour
 		//	gameObject.SetActive(false);
 		//	container.localRotation = Quaternion.identity;
 		//}));
-
+		SetFXColor((int)data.Level);
 	}
 	private void OnEnable()
 	{
@@ -39,5 +40,30 @@ public class GachaController : MonoBehaviour
 		{
 			gameObject.SetActive(true);
 		});
+	}
+
+	private void SetFXColor(int level)
+	{
+		ParticleSystem fx = FXBackCard.GetComponent<ParticleSystem>();
+		var mainModule = fx.main;
+		switch (level)
+		{
+			case 0:
+			case 1:
+			case 2:
+				mainModule.startColor = new ParticleSystem.MinMaxGradient(new Color32(255, 222, 124, 128));
+				break;
+
+			case 3:
+				mainModule.startColor = new ParticleSystem.MinMaxGradient(new Color32(135, 39, 194, 128));
+				break;
+
+			case 4:
+				mainModule.startColor = new ParticleSystem.MinMaxGradient(new Color32(239, 39, 39, 128));
+				break;
+
+			default:
+				break;
+		}
 	}
 }

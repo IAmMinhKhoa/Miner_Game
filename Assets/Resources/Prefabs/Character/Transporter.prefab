@@ -264,6 +264,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 69131e2bfafe5e24991e8a0d5f0b388b, type: 2}
   isCollecting: 1
   currentProduct: 0
+  forceWorking: 0
   isWorking: 0
   transporterView: {fileID: 2258137804160591822}
   transporterSkeletonAnimation: {fileID: 8863071094220728649}
@@ -343,7 +344,8 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 2100000, guid: 78f79bd1336b6fb46908d3aa4af5124b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -596,8 +598,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 4c083865d78ecac4983012b766d02a72, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -632,7 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 4c2a7ae8ca46c9945970274c3b432271, type: 2}
-  initialSkinName: Tail/Skin_1
+  initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0

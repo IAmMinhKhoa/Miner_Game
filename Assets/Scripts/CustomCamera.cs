@@ -23,7 +23,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	private Vector3 _oldPos;
 	private bool _isOverShooting;
 	private Vector3 _dir;
-
+	public bool preventByMiniGame = false;
 	protected override void Awake()
 	{
 		isPersistent = false;
@@ -41,6 +41,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	}
 	void Update()
 	{
+		if (preventByMiniGame) return;
 		if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
 
 

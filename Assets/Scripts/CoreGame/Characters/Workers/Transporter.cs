@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using NOOD;
 using Spine.Unity;
+using System;
 
 public class Transporter : BaseWorker
 {
@@ -20,7 +21,8 @@ public class Transporter : BaseWorker
     public SkeletonAnimation TailSkeletonAnimation => tailSketonAnimation;
 
     private bool isShowTextNumber = true;
-    public override double ProductPerSecond
+
+	public override double ProductPerSecond
     {
         get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
     }
@@ -34,7 +36,7 @@ public class Transporter : BaseWorker
     {
         get => config.MoveTime / Counter.SpeedBoost;
     }
-
+	public event Action<bool> OnCashier;
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -147,30 +149,38 @@ public class Transporter : BaseWorker
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+          
                 break;
             case WorkerState.Moving:
+				OnCashier?.Invoke(false);
                 if (direction)
                 {
                     transporterView.transform.localScale = new Vector3(1, 1, 1);
+                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active2", true);
                 }
                 else
                 {
                     transporterView.transform.localScale = new Vector3(-1, 1, 1);
+                    cartSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 }
                 numberText.transform.localScale = new Vector3(transporterView.transform.localScale.x, 1f, 1f);
-                cartSkeletonAnimation.AnimationState.SetAnimation(0, (CurrentProduct == 0) ? "Active" : "Active2", true);
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 break;
         }
     }
-
+	
     private async void PlayTextAnimation(double amount, bool reverse = false)
     {
         if (reverse)
         {
-            double temp = amount;
+
+			transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+			double temp = amount;
             double firstValue = amount;
             while (temp > 0)
             {
@@ -179,6 +189,8 @@ public class Transporter : BaseWorker
                 numberText.SetText(Currency.DisplayCurrency(temp));
             }
             numberText.SetText(Currency.DisplayCurrency(0));
+
+			OnCashier?.Invoke(true);
             return;
         }
         else

@@ -124,7 +124,7 @@ public static class MainGameData
         }},
         {ManagerLocation.Counter, new List<string>
         {
-            "quầy bán hàng cấp ",
+			LanguageKeys.TitleUpgradeCounter.Text(),
             "tốc độ thu gom",
             "nhân viên \nvận chuyển",
             "tổng khối lượng \nvận chuyển",
