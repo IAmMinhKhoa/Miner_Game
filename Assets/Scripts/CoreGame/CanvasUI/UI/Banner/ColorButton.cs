@@ -10,6 +10,7 @@ public class ColorButton : MonoBehaviour
 {
 	[SerializeField] Image imgColor;
 	[SerializeField] Button btn;
+	[SerializeField] Image boder;
 	public Action Select;
 	private void Start()
 	{
@@ -26,12 +27,13 @@ public class ColorButton : MonoBehaviour
 		btn.onClick.RemoveAllListeners();
 	}
 
+	public void HideBoder() => boder.gameObject.SetActive(false);
 
 	private void OnSelect()
 	{
 		// Invoke the Select event
 		Select?.Invoke();
-
+		boder.gameObject.SetActive(true);
 		// Create a scale effect using DOTween
 		gameObject.transform.DOScale(Vector3.one * 1.16f, 0.15f) // Scale up to 120% over 0.3 seconds
 			.SetEase(Ease.OutBack) // Use an 'Ease Out Back' effect for a bouncy animation

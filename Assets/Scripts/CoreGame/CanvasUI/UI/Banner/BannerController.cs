@@ -14,6 +14,8 @@ public class BannerController : Patterns.Singleton<BannerController>
 	[SerializeField] GameObject modalUI;
 	[Header("Data")]
 	public BannerSO bannerData;
+
+	public BannerEntity curBannerEntity { set; get; }
 	private void Start()
 	{
 		LoadBannerData();
@@ -25,8 +27,8 @@ public class BannerController : Patterns.Singleton<BannerController>
 		textTitle.text = banner.title;
 		textTitle.color = banner.color;
 		textTitle.font = bannerData.dataFontText[banner.indexFont];
-		backBackground.sprite = bannerData.dataSprite_1[banner.indexBrBack];
-		frontBackground.sprite = bannerData.dataSprite_2[banner.indexBrFront];
+		backBackground.sprite = bannerData.dataSprite_2[banner.IDBack].templateDetails[banner.indexBrBack].sprite;
+		frontBackground.sprite = bannerData.dataSprite_1[banner.IDFront].templateDetails[banner.indexBrFront].sprite;
 	}
 	#region Load Method
 
@@ -37,6 +39,7 @@ public class BannerController : Patterns.Singleton<BannerController>
 		{
 			string json = PlayerPrefs.GetString("BannerData");
 			BannerEntity banner = JsonUtility.FromJson<BannerEntity>(json);
+			curBannerEntity = banner;
 			ApplyToWorldUI(banner);
 			Debug.Log("Data loaded from PlayerPrefs.");
 		}
@@ -50,6 +53,8 @@ public class BannerController : Patterns.Singleton<BannerController>
 				color: Color.white,
 				indexFont: 0,
 				indexBrBack: 0,
+				IDBack : 0,
+				IDFront : 0,
 				indexBrFront: 0
 			);
 
@@ -57,7 +62,7 @@ public class BannerController : Patterns.Singleton<BannerController>
 			string json = JsonUtility.ToJson(initialBanner);
 			PlayerPrefs.SetString("BannerData", json);
 			PlayerPrefs.Save();
-
+			curBannerEntity = initialBanner;
 			// Apply default data to the UI
 			ApplyToWorldUI(initialBanner);
 		}
