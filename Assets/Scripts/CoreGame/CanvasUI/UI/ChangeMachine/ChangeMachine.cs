@@ -128,7 +128,7 @@ public class ChangeMachine : MonoBehaviour
 					listShortItem.Add(initedShortItem);
 					break;
 			}
-			//SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
+			SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
 			listItemAvaliableGacha.Remove(item);
 			if(amount == 1)
 			{

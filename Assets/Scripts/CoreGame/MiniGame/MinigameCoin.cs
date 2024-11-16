@@ -19,7 +19,7 @@ public class MinigameCoin : MonoBehaviour
 	public float GetTotalScore()
 	{
 		//demo 5000 coin
-		return PlayerPrefs.GetFloat("TotalScoreMinigame", 5000);
+		return PlayerPrefs.GetFloat("TotalScoreMinigame", 99999);
 	}
 
 	public void UpdateTotalScore(float value)
