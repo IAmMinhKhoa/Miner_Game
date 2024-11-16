@@ -52,7 +52,7 @@ public class BannerUI : MonoBehaviour
 	private void UpdateDemoImg()
 	{
 		var bn = BannerController.Instance.curBannerEntity;
-		Debug.Log(bn.IDFront + "-" + bn.indexBrFront + "-" + bn.IDBack + "-" + bn.indexBrBack);
+		//Debug.Log(bn.IDFront + "-" + bn.indexBrFront + "-" + bn.IDBack + "-" + bn.indexBrBack);
 		_demobackBackground.sprite = bannerData.dataSprite_2[bn.IDBack].templateDetails[bn.indexBrBack].sprite;
 		_demofrontBackground.sprite = bannerData.dataSprite_1[bn.IDFront].templateDetails[bn.indexBrFront].sprite;
 		dropDownBrBack.value = bn.IDBack;
