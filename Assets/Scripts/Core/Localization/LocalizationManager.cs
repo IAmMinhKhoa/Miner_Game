@@ -20,6 +20,11 @@ public enum LanguageKeys
 	QuoestCardInfoTiger,
 	QuoestCardInfoDog,
 	QuoestCardInfoBear,
+	QuoestCardInfoOwl,
+	QuoestCardInfoHamster,
+	QuoestCardInfoGoat,
+
+
 	BoostCardInFoCost,
 	BoostCardInFoSpeed,
 	BoostCardInFoEfficiency,
@@ -88,6 +93,11 @@ public static class LocalizationManager
 			{ LanguageKeys.QuoestCardInfoTiger, ("home>Cardinfo>Quoest>tiger", "\"cậu chỉ sống một lần, nhưng nếu sống đúng cách, một lần là đủ\"") },
 			{ LanguageKeys.QuoestCardInfoDog, ("home>Cardinfo>Quoest>dog", "\"một căn phòng không có sách giống như một cơ thể không có linh hồn\"") },
 			{ LanguageKeys.QuoestCardInfoBear, ("home>Cardinfo>Quoest>bear", "\"hãy là chính mình, vì tất cả những người khác đã được chọn\"") },
+			{ LanguageKeys.QuoestCardInfoOwl, ("home>cardinfo>quoest>owl", "\"trà bong bóng động vật\"") },
+			{ LanguageKeys.QuoestCardInfoHamster, ("home>cardinfo>quoest>hamster", "\"trà bong bóng động vật\"") },
+			{ LanguageKeys.QuoestCardInfoGoat, ("home>cardinfo>quoest>goat", "\"trà bong bóng động vật\"") },
+
+
 			{ LanguageKeys.BoostCardInFoCost, ("home>Cardinfo>boost>cost", "chi phí") },
 			{ LanguageKeys.BoostCardInFoSpeed, ("home>Cardinfo>boost>speed", "tốc độ di chuyển") },
 			{ LanguageKeys.BoostCardInFoEfficiency, ("home>Cardinfo>boost>Efficiency", "tốc độ đỡ hàng") },

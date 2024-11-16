@@ -49,16 +49,16 @@ public class CardInformation : MonoBehaviour
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoBear);
 				break;
 			case ManagerSpecie.Goat:
-				titleKey = "Goat";
-				titleQuoest = "animal bubble tea bro";
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionGoat);
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoGoat);
 				break;
 			case ManagerSpecie.Owl:
-				titleKey = "Owl";
-				titleQuoest = "animal bubble tea bro";
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionOwl); 
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoOwl);
 				break;
 			case ManagerSpecie.Hamster:
-				titleKey = "Hamster";
-				titleQuoest = "animal bubble tea bro";
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster); 
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoHamster);
 				break;
 			default:
 				titleKey = "Animal";
