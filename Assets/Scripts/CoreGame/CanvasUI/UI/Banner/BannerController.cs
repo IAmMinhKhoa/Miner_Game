@@ -34,9 +34,11 @@ public class BannerController : Patterns.Singleton<BannerController>
 
 	public void LoadBannerData()
 	{
+		
 		// Check if banner data exists in PlayerPrefs
-		if (PlayerPrefs.HasKey("BannerData"))
+		if (PlayerPrefs.HasKey("BannerData") && PlayerPrefs.GetString("BannerData") != "")
 		{
+			Debug.Log("999999999999----- ");
 			string json = PlayerPrefs.GetString("BannerData");
 			BannerEntity banner = JsonUtility.FromJson<BannerEntity>(json);
 			curBannerEntity = banner;
@@ -45,6 +47,7 @@ public class BannerController : Patterns.Singleton<BannerController>
 		}
 		else
 		{
+
 			Debug.Log("No saved data found in PlayerPrefs. Creating initial data.");
 
 			// Create default initial data
@@ -57,12 +60,12 @@ public class BannerController : Patterns.Singleton<BannerController>
 				IDFront : 0,
 				indexBrFront: 0
 			);
-
+			curBannerEntity = initialBanner;
 			// Save initial data to PlayerPrefs
 			string json = JsonUtility.ToJson(initialBanner);
 			PlayerPrefs.SetString("BannerData", json);
 			PlayerPrefs.Save();
-			curBannerEntity = initialBanner;
+			
 			// Apply default data to the UI
 			ApplyToWorldUI(initialBanner);
 		}
