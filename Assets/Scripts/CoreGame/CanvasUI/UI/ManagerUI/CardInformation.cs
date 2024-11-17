@@ -60,6 +60,10 @@ public class CardInformation : MonoBehaviour
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster); 
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoHamster);
 				break;
+			case ManagerSpecie.Pig:
+				titleKey = "Heo";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
 			default:
 				titleKey = "Animal";
 				titleQuoest = "animal bubble tea bro";

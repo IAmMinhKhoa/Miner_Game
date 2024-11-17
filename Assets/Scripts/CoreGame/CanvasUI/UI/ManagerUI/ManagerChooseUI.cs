@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DG.Tweening;
 using NOOD;
 using NOOD.Sound;
@@ -46,7 +47,7 @@ public class ManagerChooseUI : MonoBehaviour
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
-        _hireButton.onClick.AddListener(HireManager);
+        _hireButton.onClick.AddListener(OnHireManagerButtonClicked);
         _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
@@ -61,7 +62,7 @@ public class ManagerChooseUI : MonoBehaviour
         _managerTabUI.onManagerTabChanged -= OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged -= OnLocationTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
-        _hireButton.onClick.RemoveListener(HireManager);
+        _hireButton.onClick.RemoveListener(OnHireManagerButtonClicked);
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
         MergeSuccess -= AfterMegerManager;
@@ -133,8 +134,12 @@ public class ManagerChooseUI : MonoBehaviour
 			_hireButton.interactable = true;
 		}
 	}
+	private async void OnHireManagerButtonClicked()
+	{
+		await HireManager();
+	}
 
-    void HireManager()
+	async Task HireManager()
     {
         if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
         {
@@ -145,10 +150,14 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
+		
 		FxGacha.OpenFxGacha(manager);
 
 		_hireButton.interactable = true;
-    }   
+
+		await Task.Delay(1500);
+		OnRefreshManagerTab?.Invoke(manager.BoostType, false);
+	}   
     void AfterMegerManager(TypeMerge typeMerge)
     {
 		switch (typeMerge)

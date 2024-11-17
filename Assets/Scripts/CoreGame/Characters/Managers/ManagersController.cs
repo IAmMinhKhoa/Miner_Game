@@ -212,7 +212,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType, false);
+        
 
         return manager;
     }

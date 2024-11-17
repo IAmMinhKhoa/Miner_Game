@@ -5,6 +5,7 @@ using System;
 using NOOD.SerializableDictionary;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class ManagerLocationUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ManagerLocationUI : MonoBehaviour
     [SerializeField] Animator animatorTabScroll;
     [SerializeField] private SerializableDictionary<Button, ManagerLocation> _managerTabFilter = new SerializableDictionary<Button, ManagerLocation>();
     private ManagerLocation _currentManagerLocation;
+	
 
     void OnEnable()
     {
@@ -73,25 +75,38 @@ public class ManagerLocationUI : MonoBehaviour
         }
     }
 
-    private void HighlightStateButton(Button button, bool highlight)
-    {
-        var spriteState = button.spriteState;
-        if (highlight)
-        {
-            // Use the pressed sprite as the selected sprite
-         
+	private void HighlightStateButton(Button button, bool highlight)
+	{
+		// Get the SpriteState of the button
+		var spriteState = button.spriteState;
 
-            button.image.sprite = button.spriteState.pressedSprite; // Manually set the pressed sprite as the current sprite
-        }
-        else
-        {
-            // Reset to the normal sprite state
-        
+		if (highlight)
+		{
+			// Use the pressed sprite as the selected sprite
+			button.image.sprite = spriteState.pressedSprite; // Manually set the pressed sprite as the current sprite
 
-            button.image.sprite = button.spriteState.highlightedSprite; // Reset to the highlighted or normal sprite
-        }
-    }
-    private void ScaleButton(Button button, bool scaleUp)
+			// Get the Text or TMP_Text component in the button's child and change its color
+			var text = button.GetComponentInChildren<TMP_Text>();
+			if (text != null)
+			{
+				text.color = Color.white; // Change this to the desired highlight color
+			}
+		}
+		else
+		{
+			// Reset to the normal sprite state
+			button.image.sprite = spriteState.highlightedSprite; // Reset to the highlighted or normal sprite
+
+			// Reset the text color
+			var text = button.GetComponentInChildren<TMP_Text>();
+			if (ColorUtility.TryParseHtmlString("#B89579", out Color customColor))
+			{
+				text.color = customColor; // Set text color to B89579
+			}
+		}
+	}
+
+	private void ScaleButton(Button button, bool scaleUp)
     {
         if (scaleUp)
         {

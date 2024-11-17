@@ -44,6 +44,9 @@ public class ManagerSectionUI : MonoBehaviour
 			case ManagerSpecie.Hamster:
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster);
 				break;
+			case ManagerSpecie.Pig:
+				titleKey = "heo";
+				break;
 		}
 		_sectionText.text = titleKey;
 		await _managerGridUI.ShowMangers(managerDatas);
