@@ -111,7 +111,7 @@ public class SpriteLoader : MonoBehaviour
 {
 	public static Sprite LoadSpriteFromPath(string assetPath)
 	{
-		return AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+		return Resources.Load<Sprite>(assetPath);
 	}
 }
 
