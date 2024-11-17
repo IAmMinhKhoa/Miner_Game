@@ -83,7 +83,7 @@ public class BannerSO : ScriptableObject
 [System.Serializable]
 public struct DesignTemplateInfo
 {
-	[ReadOnly]
+	
 	public int ID;
 	public List<TemplateDetail> templateDetails;
 
@@ -97,7 +97,7 @@ public struct DesignTemplateInfo
 public struct TemplateDetail
 {
 	public Color color;
-	[ReadOnly]
+	
 	public Sprite sprite;
 
 	public TemplateDetail(Color color, Sprite sprite)
@@ -111,7 +111,7 @@ public class SpriteLoader : MonoBehaviour
 {
 	public static Sprite LoadSpriteFromPath(string assetPath)
 	{
-		return AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+		return Resources.Load<Sprite>(assetPath);
 	}
 }
 
