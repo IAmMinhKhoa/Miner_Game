@@ -83,7 +83,7 @@ public class BannerSO : ScriptableObject
 [System.Serializable]
 public struct DesignTemplateInfo
 {
-	[ReadOnly]
+	
 	public int ID;
 	public List<TemplateDetail> templateDetails;
 
@@ -97,7 +97,7 @@ public struct DesignTemplateInfo
 public struct TemplateDetail
 {
 	public Color color;
-	[ReadOnly]
+	
 	public Sprite sprite;
 
 	public TemplateDetail(Color color, Sprite sprite)
