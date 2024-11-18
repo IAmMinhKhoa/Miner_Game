@@ -162,7 +162,7 @@ public class FruitGameManager : MonoBehaviour
 
 	private void UpdateTotalScore(float value)
 	{
-		PlayfabMinigame.Instance.GrantVirtualCurrency((int)currentScore);
+		PlayfabMinigame.Instance.GrantVirtualCurrency((int)value);
 		PlayfabMinigame.Instance.GetVirtualCurrencies();
 	}
 }
