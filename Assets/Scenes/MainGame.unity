@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37089851, g: 0.3783701, b: 0.3572253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &19021190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090230532292586223, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+  m_PrefabInstance: {fileID: 3981675004688389320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &19021197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19021190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5c202f28131b64288de43c4397ab49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 369854984}
+  scoreChangeMachineText: {fileID: 140606837}
 --- !u!1 &31153064
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +269,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31153064}
   m_Mesh: {fileID: 0}
+--- !u!114 &140606837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2889413910656158349, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+  m_PrefabInstance: {fileID: 3981675004688389320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &167468180
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +363,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &369854984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8540996495201449181, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+  m_PrefabInstance: {fileID: 3981675004688389320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &386667340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,7 +2241,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5090230532292586223, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 19021197}
   m_SourcePrefab: {fileID: 100100000, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
 --- !u!1001 &4398975843536615051
 PrefabInstance:

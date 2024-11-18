@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using PlayFab;
+using PlayFab.ClientModels;
 using Sirenix.OdinInspector;
 using Spine;
 using System;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Utilities;
 using UnityEngine.UI;
 
 public class ChangeMachine : MonoBehaviour
@@ -63,9 +66,8 @@ public class ChangeMachine : MonoBehaviour
 	}
 	private void OnEnable()
 	{
-		coin = FindObjectOfType<MinigameCoin>().GetTotalScore();
-		currentCoin.text = coin.ToString();
 		FadeInContainer();
+		GetVirtualCurrencies();
 	}
 	private void OnDestroy()
 	{
@@ -104,9 +106,7 @@ public class ChangeMachine : MonoBehaviour
 			return;
 		}
 
-		coin -= 300 * amount;
-		FindObjectOfType<MinigameCoin>().UpdateTotalScore(-300 * amount);
-		currentCoin.text = coin.ToString();
+		BuyItemFromChangeMachine(300 * amount);
 
 		for (int i = 0; i < amount; i++)
 		{
@@ -156,9 +156,10 @@ public class ChangeMachine : MonoBehaviour
 			Debug.Log($"Số skin có thể quay tối đa là {listItemAvaliableGacha.Count}");
 			return;
 		}
-		coin -= 300 * amount;
-		currentCoin.text = coin.ToString();
-		FindObjectOfType<MinigameCoin>().UpdateTotalScore(-300 * amount);
+
+		BuyItemFromChangeMachine(300 * amount);
+
+
 		for (int i = 0; i < amount; i++)
 		{
 			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
@@ -210,6 +211,38 @@ public class ChangeMachine : MonoBehaviour
 				});
 			});
 	}
+
+	public void BuyItemFromChangeMachine(int price)
+	{
+		var request = new SubtractUserVirtualCurrencyRequest
+		{
+			VirtualCurrency = "MC",
+			Amount = price
+		};
+		PlayFabClientAPI.SubtractUserVirtualCurrency(request, OnBuySuccessID0, OnError);
+	}
+
+	private void OnError(PlayFabError error)
+	{
+		throw new NotImplementedException();
+	}
+
+	private void OnBuySuccessID0(ModifyUserVirtualCurrencyResult result)
+	{
+		GetVirtualCurrencies();
+	}
+
+	public void GetVirtualCurrencies()
+	{
+		PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnGetUserInventorySuccess, OnError);
+	}
+
+	private void OnGetUserInventorySuccess(GetUserInventoryResult result)
+	{
+		coin = result.VirtualCurrency["MC"];
+		PlayfabMinigame.Instance.GetVirtualCurrencies();
+	}
+
 	void CloseUI()
 	{
 		gameObject.SetActive(false);
