@@ -5,6 +5,7 @@ using StateMachine;
 using UI.Inventory;
 using UI.Inventory.PopupOtherItem;
 using Spine.Unity;
+using System.Linq;
 public class ChangWaitalbeState : BaseState<InventoryItemType>
 {
 	readonly PopupOtherItemController itemController;
@@ -32,17 +33,15 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 		itemPrefab.spine.skeletonDataAsset = cartSkeleton;
 		itemPrefab.spine.Initialize(true);
 
-		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Count / 2;
-		items = itemController.Init(itemPrefab, skinAmount);
-		for (int i = 0; i < skinAmount; i++)
+		var skinManager = SkinManager.Instance;
+		List<(string ID, string Name)> listSkin = skinManager.GetListPopupOtherItem(InventoryItemType.ShaftWaitTable);
+	
+		items = itemController.Init(itemPrefab, listSkin.Count);
+		for (int i = 0; i < listSkin.Count; i++)
 		{
 			var _item = items[i].spine;
-		
-
-			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
-			items[i].ChangItemInfo(skinName, i, InventoryItemType.ShaftWaitTable);
-
-			_item.Skeleton.SetSkin("Icon_" + (i + 1));
+			items[i].ChangItemInfo((i+1).ToString(), int.Parse(listSkin[i].ID), InventoryItemType.ShaftWaitTable);
+			_item.Skeleton.SetSkin("Icon_" + listSkin[i].ID);
 			_item.AnimationState.SetAnimation(0, "Icon", false);
 			_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -29f); 
@@ -50,6 +49,7 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 			_item.Skeleton.SetSlotsToSetupPose();
 		}
 	}
+
 	private void ChangeSkin(Item item) 
 	{
 		int index = items.IndexOf(item);

@@ -32,18 +32,21 @@ public class ChangeCounterCartState : BaseState<InventoryItemType>
 		itemPrefab.spine.skeletonDataAsset = cartSkeleton;
 		itemPrefab.spine.Initialize(true);
 
-		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 
-		items = itemController.Init(itemPrefab, skinAmount);
+		var skinManager = SkinManager.Instance;
+		List<(string ID, string Name)> listSkin = skinManager.GetListPopupOtherItem(InventoryItemType.ShaftCart);
+	
+		items = itemController.Init(itemPrefab, listSkin.Count);
 
-		for (int i = 0; i < skinAmount; i++)
+		for (int i = 0; i < listSkin.Count; i++)
 		{
 			var _item = items[i].spine;
-			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
-			items[i].ChangItemInfo(skinName, i, InventoryItemType.ShaftCart);
-			_item.Skeleton.SetSkin("Skin_" + (i + 1));
-			_item.transform.localScale = new Vector3(0.54f, 0.54f, 0.54f);
-			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -65f);
+			
+			items[i].ChangItemInfo((i+1).ToString(), int.Parse(listSkin[i].ID), InventoryItemType.ShaftCart);
+			_item.Skeleton.SetSkin("Icon_" + listSkin[i].ID);
+			_item.AnimationState.SetAnimation(0, "Icon", false);
+			_item.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -15f);
 			items[i].ItemClicked += ChangeSkin;
 			_item.Skeleton.SetSlotsToSetupPose();
 		}

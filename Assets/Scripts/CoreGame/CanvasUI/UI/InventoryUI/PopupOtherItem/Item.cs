@@ -65,9 +65,9 @@ namespace UI.Inventory.PopupOtherItem
 				case InventoryItemType.ElevatorCharacterBody:
 					break;
 			}
-			itemName.text = titleKey + " " + index.ToString();
-			int idInInfor = SkinManager.Instance.ItemBought[itType].IndexOf((index + 1).ToString());
-			if(idInInfor == -1 && index != 0)
+			itemName.text = titleKey + " " + iName;
+			int idInInfor = SkinManager.Instance.ItemBought[itType].IndexOf((index).ToString());
+			if(idInInfor == -1 && index != 1)
 			{
 				clickButton.interactable = false;
 				hideImg.gameObject.SetActive(true);

@@ -111,6 +111,7 @@ public class ChangeMachine : MonoBehaviour
 		for (int i = 0; i < amount; i++)
 		{
 			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
+
 			switch (item.type)
 			{
 				case InventoryItemType.ShaftBg:
@@ -128,7 +129,7 @@ public class ChangeMachine : MonoBehaviour
 					listShortItem.Add(initedShortItem);
 					break;
 			}
-			SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
+			//SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);
 			listItemAvaliableGacha.Remove(item);
 			if(amount == 1)
 			{

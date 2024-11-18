@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1009,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ElevatorSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 4851092297703136131, guid: 84850932782e1f642b14e56bc7cb569a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a3500002d9e3dbf4482586ee293f21a2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1639,6 +1643,18 @@ MonoBehaviour:
   jsonFilePath: Assets/Resources/Json/SkinResources.json
   isDone: 0
   skinGameDataAsset: {fileID: 11400000, guid: 88f75ec785c37854a98990db76021f22, type: 2}
+  skinEvent:
+  - {fileID: 11400000, guid: e7173ecc8a145fc4dac30819ba5ed6d4, type: 2}
+  - {fileID: 11400000, guid: 6c34522552337b9439c94581839cdbc8, type: 2}
+  - {fileID: 11400000, guid: a9d23902daa7c3944a9298dade70ffae, type: 2}
+  - {fileID: 11400000, guid: 8a20bfedc6ff6804cac9ff968ce286c7, type: 2}
+  - {fileID: 11400000, guid: d605c3122b11fc34889e58f797c9f746, type: 2}
+  - {fileID: 11400000, guid: d051d2329301a23459e7e29cbf7319c1, type: 2}
+  - {fileID: 11400000, guid: 4cd95d537fff20f4bbf3d8a8f3ed390b, type: 2}
+  - {fileID: 11400000, guid: 8b3b87ffcdd0cc043bf4eb5e7655ae88, type: 2}
+  - {fileID: 11400000, guid: 1f2169956fb0483459de1f68a098e5be, type: 2}
+  - {fileID: 11400000, guid: 5c2fc19d755534a44917ae8dd3cbc5cf, type: 2}
+  - {fileID: 11400000, guid: 25a9304d49b9a3847be3d9793ae7540e, type: 2}
 --- !u!1 &1574140670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,38 +1797,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b026be2b315436442a2e3bf1501c610d, type: 2}
-    - target: {fileID: 1127493852844216011, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1127493852844216011, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1155388281
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_LocalScale.x
+    - target: {fileID: 1737053363023417869, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367600555359909099, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 1737053363023417869, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 824967ce09325f445a668ae3ba25421c, type: 2}
+    - target: {fileID: 1737053363023417869, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 824967ce09325f445a668ae3ba25421c, type: 2}
     - target: {fileID: 3689301631835646440, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -1874,8 +1870,7 @@ PrefabInstance:
       value: Couter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4568547459196059012, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ed363e75f2493c46b39482df1fbd99f, type: 3}
