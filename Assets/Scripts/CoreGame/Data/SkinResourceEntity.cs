@@ -15,6 +15,14 @@ using UnityEngine;
 		public string desc;
 		public string cost;
 		public string quality;
+	    public DataSkinBase(string id, string name, string desc, string cost, string quality)
+		{
+			this.id = id;
+			this.name = name;
+			this.desc = desc;
+			this.cost = cost;
+			this.quality = quality;
+		}
 	}
 
 

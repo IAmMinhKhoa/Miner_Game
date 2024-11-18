@@ -6,6 +6,7 @@ using PlayFabManager.Data;
 using PlayFab.EconomyModels;
 using UI.Inventory;
 using System;
+using System.Linq;
 public class SkinManager : Patterns.Singleton<SkinManager>
 {
 	public SkinResource skinResource;
@@ -17,6 +18,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	public Dictionary<InventoryItemType, List<string>> ItemBought { private set; get; } = new();
 
 	public SkinDataSO SkinGameDataAsset => skinGameDataAsset;
+	public List<SkinChangeMachineSO> skinEvent;
 
 	protected override void Awake()
 	{
@@ -170,6 +172,57 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			Debug.LogError("JSON file not found in Resources folder!");
 		}
+	}
+
+	public List<(string ID, string Name)> GetListPopupOtherItem(InventoryItemType type)
+	{
+		var skeletonData = SkinGameDataAsset.SkinGameData[type];
+		var listBaseSkin = skinResource.skinWaitTable;
+		List<(string ID, string Name)> listSkin = new();
+		//Lay skin tu file json
+		foreach (var skin in listBaseSkin)
+		{
+			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.id) != null)
+			{
+				listSkin.Add((skin.id, skin.name));
+			}
+		}
+		//lay skin tu SO
+		var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
+		foreach (var skin in listEventSkin)
+		{
+			if(skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
+			{
+				listSkin.Add((skin.ID, skin.Name));
+			}
+		}
+		return listSkin;
+	}
+
+	public List<DataSkinBase> GetListDataSkinBases(InventoryItemType type)
+	{
+		var skeletonData = SkinGameDataAsset.SkinGameData[type];
+		var listBaseSkin = skinResource.skinWaitTable;
+		List<DataSkinBase> listSkin = new();
+		//Lay skin tu file json
+		foreach (var skin in listBaseSkin)
+		{
+			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.id) != null)
+			{
+				listSkin.Add(skin);
+			}
+		}
+		//lay skin tu SO
+		var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
+		foreach (var skin in listEventSkin)
+		{
+			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
+			{
+				var skinData = new DataSkinBase(skin.ID, skin.Name, skin.Description, "", "");
+				listSkin.Add(skinData);
+			}
+		}
+		return listSkin;
 	}
 
 	public void BuyNewSkin(InventoryItemType item, string id)

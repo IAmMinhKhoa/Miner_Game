@@ -34,17 +34,19 @@ namespace UI.Inventory
 			//set data
 			itemPrefab.spine.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.Elevator];
 			itemPrefab.spine.Initialize(true);
-		
-			int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
-			items = itemController.Init(itemPrefab, skinAmount);
-			for (int i = 0; i < skinAmount; i++)
+
+			var skinManager = SkinManager.Instance;
+			List<(string ID, string Name)> listSkin = skinManager.GetListPopupOtherItem(InventoryItemType.Elevator);
+			items = itemController.Init(itemPrefab, listSkin.Count);
+			for (int i = 0; i < listSkin.Count; i++)
 			{
 				var _item = items[i].spine;
 				_item.allowMultipleCanvasRenderers = true;
 				_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 				var skinName = SkinManager.Instance.skinResource.skinBgElevator[i].name;
-				items[i].ChangItemInfo(skinName, i, InventoryItemType.Elevator);
-				_item.Skeleton.SetSkin("Icon_" + (i + 1));
+				items[i].ChangItemInfo((i + 1).ToString(), int.Parse(listSkin[i].ID), InventoryItemType.Elevator);
+				_item.Skeleton.SetSkin("Icon_" + listSkin[i].ID);
+				_item.AnimationState.SetAnimation(0, "Icon", false);
 				items[i].ItemClicked += ChangeSkin;
 				_item.Skeleton.SetSlotsToSetupPose();
 				_item.UpdateMesh();

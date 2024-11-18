@@ -91,8 +91,8 @@ namespace UI.Inventory
 			this.desc = titleKeyDesc;
 			iName = titleKey;
 			nameBgItem.text = titleKey;
-			int idSkinInfo = SkinManager.Instance.ItemBought[itType].IndexOf((index+1).ToString());
-			if(idSkinInfo == -1 && index != 0)
+			int idSkinInfo = SkinManager.Instance.ItemBought[itType].IndexOf((index).ToString());
+			if(idSkinInfo == -1 && index != 1)
 			{
 				click.interactable = false;
 				hideImg.gameObject.SetActive(true);
