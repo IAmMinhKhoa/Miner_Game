@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 8519238632809810080}
   - component: {fileID: 9180311440303180842}
   - component: {fileID: 800790345620324003}
-  - component: {fileID: 812113297448457957}
+  - component: {fileID: 3556766680006338947}
   m_Layer: 5
   m_Name: MiniGameUI
   m_TagString: Untagged
@@ -810,7 +810,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &812113297448457957
+--- !u!114 &3556766680006338947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -819,10 +819,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1906498367702512312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14578a9013bfb2b4c8f71434ab5335a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a5c202f28131b64288de43c4397ab49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinText: {fileID: 3050811161159543946}
+  scoreText: {fileID: 3050811161159543946}
+  scoreChangeMachineText: {fileID: 8415078423073592026}
 --- !u!1 &1997104174742994189
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +907,6 @@ MonoBehaviour:
   referenceSize: {x: 383.86667, y: 757.9}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 384.00006, y: 868.18994}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -1554,7 +1554,6 @@ MonoBehaviour:
   referenceSize: {x: 376.00006, y: 814.99994}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 376.00006, y: 814.99994}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -1862,7 +1861,6 @@ MonoBehaviour:
   referenceSize: {x: 383.86667, y: 757.9}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 384, y: 868.17}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2138,7 +2136,6 @@ MonoBehaviour:
   referenceSize: {x: 376.00003, y: 814.99994}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 376.00003, y: 814.99994}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2522,7 +2519,6 @@ MonoBehaviour:
   referenceSize: {x: 383.86667, y: 757.9}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 384.00006, y: 869.19}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2637,7 +2633,6 @@ MonoBehaviour:
   referenceSize: {x: 376.00006, y: 814.99994}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 376.00006, y: 814.99994}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -2825,7 +2820,6 @@ MonoBehaviour:
   referenceSize: {x: 799, y: 438.3}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 799, y: 976.99994}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3197,7 +3191,6 @@ MonoBehaviour:
   referenceSize: {x: 1087.5, y: 2338.4}
   pivotOffset: {x: 0, y: 0}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 1367.0001, y: 2948}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -3515,7 +3508,6 @@ MonoBehaviour:
   referenceSize: {x: 1095, y: 486.3367}
   pivotOffset: {x: -0.00021925614, y: -201.60364}
   referenceScale: 1
-  layoutScale: 1
   rectTransformSize: {x: 1095, y: 776}
   editReferenceRect: 0
   updateWhenInvisible: 3
@@ -5213,6 +5205,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1002788261627423902, guid: ea01e95ba6730744f928d00af38966a0, type: 3}
   m_PrefabInstance: {fileID: 7327511508355085622}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8415078423073592026 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1258986827856766956, guid: ea01e95ba6730744f928d00af38966a0, type: 3}
+  m_PrefabInstance: {fileID: 7327511508355085622}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8820922672493106300 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2295352069117403466, guid: ea01e95ba6730744f928d00af38966a0, type: 3}

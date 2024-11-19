@@ -15,6 +15,10 @@ public class PlayfabMinigame : MonoBehaviour
 	{
 		Instance = this;
 	}
+	private void OnEnable()
+	{
+		GetVirtualCurrencies();
+	}
 
 	public void GetVirtualCurrencies()
 	{
