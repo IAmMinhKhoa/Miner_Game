@@ -23,7 +23,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	private Vector3 _oldPos;
 	private bool _isOverShooting;
 	private Vector3 _dir;
-	public bool preventByMiniGame = false;
+	public bool PreventScroll { set; get; } = false;
 	protected override void Awake()
 	{
 		isPersistent = false;
@@ -45,12 +45,12 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	}
 	void Update()
 	{
-		if (preventByMiniGame) return;
+		if (PreventScroll) return;
 		if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
 
 
 		// Detect left mouse button press (or touch)
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) && !PreventScroll)
 		{
 			touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			_isDragging = true;

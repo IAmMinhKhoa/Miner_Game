@@ -48,8 +48,13 @@ public class MiniGameUI : MonoBehaviour
 
 		
 	}
+	private void OnEnable()
+	{
+		CustomCamera.Instance.PreventScroll = true;
+	}
 	void OnDisable()
 	{
+		CustomCamera.Instance.PreventScroll = false;
 		_disableToken.Cancel();
 	}
 
