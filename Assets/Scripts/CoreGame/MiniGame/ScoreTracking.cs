@@ -15,7 +15,7 @@ public class ScoreTracking : MonoBehaviour
 			{
 				GameObject go = new GameObject("ScoreTracking");
 				instance = go.AddComponent<ScoreTracking>();
-				DontDestroyOnLoad(go); // Giữ đối tượng này khi chuyển cảnh
+				DontDestroyOnLoad(go);
 			}
 			return instance;
 		}

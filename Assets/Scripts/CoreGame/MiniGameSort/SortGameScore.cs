@@ -26,6 +26,7 @@ public class SortGameScore : MonoBehaviour
 		{
 			endScoreText.text = "Your Score: " + currentScore;
 		}
+		ScoreTracking.Instance.TrackEvent(TrackingEventType.SortGameComplete, currentScore);
 		UpdateTotalScore(currentScore);
 		ResetScore();
 	}
