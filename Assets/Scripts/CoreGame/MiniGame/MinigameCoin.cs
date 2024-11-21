@@ -16,12 +16,6 @@ public class MinigameCoin : MonoBehaviour
 		UpdateUI();
 	}
 
-	public float GetTotalScore()
-	{
-		//demo 5000 coin
-		return PlayerPrefs.GetFloat("TotalScoreMinigame", 99999);
-	}
-
 	public void UpdateTotalScore(float value)
 	{
 		float currentScore = PlayerPrefs.GetFloat("TotalScoreMinigame", 0);
@@ -32,6 +26,7 @@ public class MinigameCoin : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		coinText.text = "" + GetComponent<MinigameCoin>().GetTotalScore();
+		//coinText.text = "" + GetComponent<MinigameCoin>().GetTotalScore();
+		PlayfabMinigame.Instance.GetVirtualCurrencies();
 	}
 }

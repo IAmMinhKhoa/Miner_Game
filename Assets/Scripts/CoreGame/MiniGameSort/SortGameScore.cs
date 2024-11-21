@@ -26,6 +26,7 @@ public class SortGameScore : MonoBehaviour
 		{
 			endScoreText.text = "Your Score: " + currentScore;
 		}
+		ScoreTracking.Instance.TrackEvent(TrackingEventType.SortGameComplete, currentScore);
 		UpdateTotalScore(currentScore);
 		ResetScore();
 	}
@@ -48,7 +49,7 @@ public class SortGameScore : MonoBehaviour
 
 	public void UpdateTotalScore(float value)
 	{
-		float currentScore = PlayerPrefs.GetFloat("TotalScoreMinigame", 0);
-		PlayerPrefs.SetFloat("TotalScoreMinigame", currentScore + value);
+		PlayfabMinigame.Instance.GrantVirtualCurrency((int)value);
+		PlayfabMinigame.Instance.GetVirtualCurrencies();
 	}
 }

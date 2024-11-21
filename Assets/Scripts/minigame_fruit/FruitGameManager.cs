@@ -110,8 +110,9 @@ public class FruitGameManager : MonoBehaviour
 		UpdateTotalScore(currentScore);
         buttonUI.SetActive(true);
         endGameUI.SetActive(false);
-        // GameEnd
-        PawManager.Instance.AddPaw(1000000000);
+		ScoreTracking.Instance.TrackEvent(TrackingEventType.MergeGameComplete, currentScore);
+		// GameEnd
+		PawManager.Instance.AddPaw(1000000000);
         GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = (int)currentScore, index = 2 };
         DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
         if (fruitsParent.childCount > 0)
@@ -162,7 +163,7 @@ public class FruitGameManager : MonoBehaviour
 
 	private void UpdateTotalScore(float value)
 	{
-		float currentScore = PlayerPrefs.GetFloat("TotalScoreMinigame", 0);
-		PlayerPrefs.SetFloat("TotalScoreMinigame", currentScore + value);
+		PlayfabMinigame.Instance.GrantVirtualCurrency((int)value);
+		PlayfabMinigame.Instance.GetVirtualCurrencies();
 	}
 }
