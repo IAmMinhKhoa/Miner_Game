@@ -71,7 +71,7 @@ public class ShaftUI : MonoBehaviour
         ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
 
         //First init Data frame by current lvl of shaft
-        UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
+        //UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
 
 
@@ -80,7 +80,7 @@ public class ShaftUI : MonoBehaviour
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
-        m_levelText.text = m_shaftUpgrade.CurrentLevel.ToString();
+        m_levelText.text ="Lv. " + m_shaftUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
     }
 
@@ -192,7 +192,7 @@ public class ShaftUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
-            UpdateFrameButtonUpgrade(level);
+            //UpdateFrameButtonUpgrade(level);
 
         }
     }
