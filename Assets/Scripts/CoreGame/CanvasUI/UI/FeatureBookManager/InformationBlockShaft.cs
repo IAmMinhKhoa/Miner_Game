@@ -102,7 +102,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         {
             ValidateData(manager);
             ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
-        }
+		}
         else
         {
             _icon.sprite = iconDefault;
@@ -203,6 +203,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         if (IsDroppingOutside(eventData.pointerEnter))
         {
             ManagersController.Instance.UnassignManager(shaft.ManagerLocation.Manager);
+			shaft.AddManagerButtonInteract(true);
         }
         else if (IsSwappingManager(eventData))
         {

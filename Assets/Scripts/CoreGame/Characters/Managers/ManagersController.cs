@@ -280,7 +280,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         var managerOldLocation = manager.Location;
         var locationOldManager = newLocation.Manager;
-
+	
         if (managerOldLocation != null && locationOldManager != null)
         {
             locationOldManager.AssignManager(managerOldLocation);

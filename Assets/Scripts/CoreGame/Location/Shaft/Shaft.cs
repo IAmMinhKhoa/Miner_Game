@@ -135,9 +135,20 @@ public class Shaft : MonoBehaviour
     void Awake()
     {
         CreateDeposit();
-    }
+		managerLocation.OnChangeManager += SetManager;
 
-    void Start()
+	}
+
+	private void SetManager(Manager manager)
+	{
+		if (manager == null)
+		{
+		//	Debug.Log("999999");
+		}
+		AddManagerButtonInteract(false);
+	}
+
+	void Start()
     {
         for (int i = 0; i < numberBrewer; i++)
         {
@@ -184,6 +195,13 @@ public class Shaft : MonoBehaviour
             await UniTask.Delay(100);
         }
     }
+	public void AddManagerButtonInteract(bool isShowing)
+	{
+		if (TryGetComponent(out ShaftUI shaftUI))
+		{
+			shaftUI.AddManagerButtonInteract(isShowing);
+		}
+	}
 }
 
 
