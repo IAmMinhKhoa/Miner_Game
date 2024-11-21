@@ -184,6 +184,13 @@ public class Shaft : MonoBehaviour
             await UniTask.Delay(100);
         }
     }
+	public void AddManagerButtonInteract(bool isShowing)
+	{
+		if (TryGetComponent(out ShaftUI shaftUI))
+		{
+			shaftUI.AddManagerButtonInteract(isShowing);
+		}
+	}
 }
 
 
