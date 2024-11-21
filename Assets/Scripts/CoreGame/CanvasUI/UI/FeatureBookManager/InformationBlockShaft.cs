@@ -102,9 +102,6 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         {
             ValidateData(manager);
             ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
-			shaft.AddManagerButtonInteract(false);
-			
-
 		}
         else
         {
