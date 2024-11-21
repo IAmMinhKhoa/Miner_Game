@@ -282,11 +282,11 @@ public class UpgradeUI : MonoBehaviour
 		switch (locationType)
 		{
 			case ManagerLocation.Shaft:
-				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft, parameters: new object[] { level + 1 });
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft);
 				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft);
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0] + (level + 1).ToString();
+				//titleText.text = $"{MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0]} {level}";
 				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
@@ -299,7 +299,7 @@ public class UpgradeUI : MonoBehaviour
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
 				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
 				numberOrSpeedPanel.SetActive(false);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0] + (level + 1).ToString();
+				//titleText.text = $"{MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0]} {level}";
 				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
@@ -313,7 +313,7 @@ public class UpgradeUI : MonoBehaviour
 				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
 				currentLevel = level;
 				numberOrSpeedPanel.SetActive(true);
-				titleText.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0] + (level+1).ToString();
+				//titleText.text = $"{MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0]} {level}";
 				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0];
 				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
@@ -323,7 +323,7 @@ public class UpgradeUI : MonoBehaviour
 				numberOrSpeed.text = number + "NV";
 				break;
 		}
-		titleText.text = titleKey;
+		titleText.text = $"{titleKey} {level + 1}";
 		currentTitleText = currentTitlekey;
 		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
 		totalProduction.text = Currency.DisplayCurrency(total);
