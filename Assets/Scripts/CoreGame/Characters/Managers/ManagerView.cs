@@ -11,14 +11,14 @@ public class ManagerView : MonoBehaviour
 
     private Manager m_manager;
 
-    void OnEnable()
+/*    void OnEnable()
     {
         FindAnyObjectByType<ElevatorUI>().ShowManagerButton(false);
     }
     void OnDisable()
     {
         FindAnyObjectByType<ElevatorUI>().ShowManagerButton(true);
-    }
+    }*/
 
     void Update()
     {
