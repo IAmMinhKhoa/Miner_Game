@@ -52,7 +52,7 @@ public class CounterUI : MonoBehaviour
 	{
 		m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
 		m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
-		m_levelText.text = m_counterUpgrade.CurrentLevel.ToString();
+		m_levelText.text ="Lv. " + m_counterUpgrade.CurrentLevel.ToString();
 	}
 
 	void OnEnable()

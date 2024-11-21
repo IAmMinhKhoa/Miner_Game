@@ -51,7 +51,7 @@ public class ElevatorUI : MonoBehaviour
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-        m_levelText.text = m_elevatorUpgrade.CurrentLevel.ToString();
+        m_levelText.text = "Lv. " + m_elevatorUpgrade.CurrentLevel.ToString();
     }
 
     void OnEnable()
