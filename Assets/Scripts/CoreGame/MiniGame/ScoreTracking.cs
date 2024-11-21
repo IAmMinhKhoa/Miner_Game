@@ -24,29 +24,15 @@ public class ScoreTracking : MonoBehaviour
 	public void TrackEvent(TrackingEventType eventType, float content)
 	{
 
-		var eventData = new Dictionary<string, object>
+		PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
 		{
-			{ "EventType", eventType.ToString() },
-			{ "Score", content }
-		};
-
-		var request = new WriteClientPlayerEventRequest
-		{
-			EventName = eventType.ToString(),
-			Body = eventData
-		};
-
-		PlayFabClientAPI.WritePlayerEvent(request, OnEventTracked, OnEventError);
+			
+			Statistics = new List<StatisticUpdate> {
+		new StatisticUpdate { StatisticName = eventType.ToString(), Value = (int)content },
 	}
-
-	private void OnEventTracked(WriteEventResponse response)
-	{
-		Debug.Log("Sự kiện đã được ghi nhận thành công!");
-	}
-
-	private void OnEventError(PlayFabError error)
-	{
-		Debug.LogError("Lỗi khi ghi nhận sự kiện: " + error.ErrorMessage);
+		},
+		result => { Debug.Log("User statistics updated"); },
+		error => { Debug.LogError(error.GenerateErrorReport()); });
 	}
 }
 

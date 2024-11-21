@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UI.Inventory.PopupOtherItem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ namespace UI.Inventory
     public class InventoryUIManager : MonoBehaviour
 	{
 		[Header("UI")]
+		[SerializeField] private TextMeshProUGUI activeTextNoiThat;
+		[SerializeField] private TextMeshProUGUI activeTextNhanVien;
         [SerializeField] private Toggle tgNoiThat;
         [SerializeField] private Toggle tgNhanVien;
         [SerializeField] private GameObject pnNoiThat;
@@ -134,6 +137,14 @@ namespace UI.Inventory
 			HandleCounterIUI();
 			isFirstTimeOpen = false;
 			contentFitterRefresh.RefreshContentFitters();
+			if (pnNhanVien.activeInHierarchy)
+			{
+				activeTextNoiThat.gameObject.SetActive(false);
+			}
+			else
+			{
+				activeTextNhanVien.gameObject.SetActive(false);
+			}
 		}
 
 		private void TabStaff_OnTabStaffDisable()
@@ -249,11 +260,14 @@ namespace UI.Inventory
 			if(pnNhanVien.activeInHierarchy)
 			{
 				LoadListShaft();
+				activeTextNhanVien.gameObject.SetActive(true);
+				activeTextNoiThat.gameObject.SetActive(false);
 			}
 			else
 			{
 				UnLoadListShaft();
-				
+				activeTextNhanVien.gameObject.SetActive(false);
+				activeTextNoiThat.gameObject.SetActive(true);
 			}
 			contentRefreshTabNV.RefreshContentFitters();
 
