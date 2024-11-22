@@ -138,7 +138,10 @@ public class Shaft : MonoBehaviour
 		managerLocation.OnChangeManager += SetManager;
 
 	}
-
+	private void OnDestroy()
+	{
+		managerLocation.OnChangeManager -= SetManager;
+	}
 	private void SetManager(Manager manager)
 	{
 		if (manager == null)

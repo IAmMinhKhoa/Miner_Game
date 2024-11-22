@@ -1,0 +1,103 @@
+{
+"skeleton": {
+	"hash": "EK+Kn1lwpC4",
+	"spine": "4.2.37",
+	"x": -102.5,
+	"y": -38,
+	"width": 205,
+	"height": 76,
+	"fps": 24,
+	"images": "./image/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Posi", "parent": "root" },
+	{ "name": "line", "parent": "Posi", "x": -107.14, "y": 1.95 }
+],
+"slots": [
+	{ "name": "nang cap_on", "bone": "Posi", "attachment": "nang cap_on" },
+	{ "name": "mask", "bone": "Posi", "attachment": "mask" },
+	{ "name": "light", "bone": "line", "attachment": "light", "blend": "screen" },
+	{ "name": "line", "bone": "line", "attachment": "line", "blend": "screen" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"light": {
+				"light": { "x": -107.95, "y": -0.41, "width": 214, "height": 85 }
+			},
+			"line": {
+				"line": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 0, 2, 3, 0, 1, 2 ],
+					"vertices": [ 2.5, -44, -2.5, -44, -2.5, 44, 2.5, 44 ],
+					"hull": 4,
+					"edges": [ 0, 2, 2, 4, 4, 6, 0, 6 ],
+					"width": 5,
+					"height": 88
+				}
+			},
+			"mask": {
+				"mask": {
+					"type": "clipping",
+					"end": "line",
+					"vertexCount": 17,
+					"vertices": [ -88.23, 37.04, 87.69, 36.99, 91.37, 36.86, 97.97, 32.68, 101.36, 28, 102.67, 23.69, 102.74, -24.19, 98.61, -32.18, 91.25, -37.17, 88, -37.11, -87.53, -36.93, -91.09, -36.89, -98.4, -31.62, -101.59, -24.78, -101.69, 24.69, -97.58, 32.63, -91.28, 36.83 ],
+					"color": "ce3a3aff"
+				}
+			},
+			"nang cap_on": {
+				"nang cap_on": { "width": 205, "height": 76 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"slots": {
+			"light": {
+				"rgba": [
+					{ "time": 0.9583, "color": "ffffffff" },
+					{ "time": 1.25, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"line": {
+				"translate": [
+					{
+						"x": -7.43,
+						"curve": [ 0.786, -6.22, 0.538, 360.16, 0.417, 0, 0.833, 0 ]
+					},
+					{ "time": 1.25, "x": 360.16, "curve": "stepped" },
+					{ "time": 2.9167, "x": 360.16 }
+				]
+			}
+		},
+		"attachments": {
+			"default": {
+				"line": {
+					"line": {
+						"deform": [
+							{ "time": 0.3333 },
+							{
+								"time": 0.375,
+								"vertices": [ 7.45264, 0, -3.13794, 0, -3.13794, 0, 7.45264 ],
+								"curve": "stepped"
+							},
+							{
+								"time": 0.6667,
+								"vertices": [ 7.45264, 0, -3.13794, 0, -3.13794, 0, 7.45264 ]
+							},
+							{ "time": 0.7083 }
+						]
+					}
+				}
+			}
+		}
+	}
+}
+}

@@ -73,6 +73,7 @@ public class ElevatorUI : MonoBehaviour
         //m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
     }
 
+	public void AddManagerInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private async void ElevatorSystem_OnElevatorControllerArriveHandler()
     {
         m_refrigeratorAnimation.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Active", true);

@@ -46,7 +46,6 @@ public class ManagerPanelUI : MonoBehaviour
         if (_manager.IsAssigned)
         {
             managersController.UnassignManager(_manager);
-			Debug.Log("-99999");
         }
         else
         {

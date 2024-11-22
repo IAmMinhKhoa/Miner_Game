@@ -20,6 +20,7 @@ public class CounterUI : MonoBehaviour
 	[SerializeField] private Button m_boostButton;
 	[SerializeField] private Button m_workerButton;
 
+
 	[Header("UI Text")]
 	[SerializeField] private TextMeshProUGUI m_pawText;
 	[SerializeField] private TextMeshProUGUI m_levelText;
@@ -92,6 +93,8 @@ public class CounterUI : MonoBehaviour
 		//tableAnimation.Initialize(true, true);
 	}
 
+	public void AddManagerInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
+	
 	void CallUpgrade()
 	{
 		if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)

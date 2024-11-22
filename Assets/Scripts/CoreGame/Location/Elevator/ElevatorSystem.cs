@@ -118,13 +118,28 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         isPersistent = false;
         base.Awake();
+		managerLocation.OnChangeManager += SetManager;
     }
-    void Start()
+
+	private void SetManager(Manager manager)
+	{
+		if (TryGetComponent(out ElevatorUI elevatorUI))
+		{
+			elevatorUI.AddManagerInteract(manager == null);
+		}
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+	}
+	void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
-
-    private void ElevatorDeposit_OnChangePawHandler(double value)
+	
+	private void ElevatorDeposit_OnChangePawHandler(double value)
     {
         if (value > 0)
         {
