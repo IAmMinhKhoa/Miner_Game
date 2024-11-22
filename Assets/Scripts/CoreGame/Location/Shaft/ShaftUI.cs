@@ -21,7 +21,6 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private Button m_managerButton;
     [SerializeField] private Button m_boostButton;
     [SerializeField] private Button m_workerButton;
-	[SerializeField] private Button m_addManagerButton;
 
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI m_pawText;
@@ -51,7 +50,7 @@ public class ShaftUI : MonoBehaviour
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
-	public void AddManagerButtonInteract(bool isShowing) => m_addManagerButton.gameObject.SetActive(isShowing);
+	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
 
 

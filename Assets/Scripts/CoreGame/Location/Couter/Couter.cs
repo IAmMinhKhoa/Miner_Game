@@ -70,9 +70,19 @@ public class Counter : Patterns.Singleton<Counter>
     {
         isPersistent = false;
         base.Awake();
+		m_managerLocation.OnChangeManager += SetManager;
 
     }
-    public void UpdateUI()
+
+	private void SetManager(Manager manager)
+	{
+		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+		{
+			counterUI.AddManagerInteract(manager == null);
+		}
+	}
+
+	public void UpdateUI()
     {
         if (TryGetComponent<CounterUI>(out CounterUI counterUI))
         {
