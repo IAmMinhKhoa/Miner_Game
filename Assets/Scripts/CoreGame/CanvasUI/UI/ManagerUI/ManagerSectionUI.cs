@@ -47,6 +47,12 @@ public class ManagerSectionUI : MonoBehaviour
 			case ManagerSpecie.Pig:
 				titleKey = "heo";
 				break;
+			case ManagerSpecie.Chicken:
+				titleKey = "gà";
+				break;
+			case ManagerSpecie.Monkey:
+				titleKey = "khỉ";
+				break;
 		}
 		_sectionText.text = titleKey;
 		await _managerGridUI.ShowMangers(managerDatas);

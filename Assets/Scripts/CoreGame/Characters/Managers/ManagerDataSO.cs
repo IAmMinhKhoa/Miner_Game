@@ -43,5 +43,7 @@ public enum ManagerSpecie
 	Owl,
 	Hamster,
 	Goat,
-		Pig
+	Pig,
+	Chicken,
+	Monkey
 }

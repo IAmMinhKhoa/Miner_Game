@@ -64,6 +64,14 @@ public class CardInformation : MonoBehaviour
 				titleKey = "Heo";
 				titleQuoest = "tôi là điệp viên đến từ runeseeker";
 				break;
+			case ManagerSpecie.Chicken:
+				titleKey = "Gà";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
+			case ManagerSpecie.Monkey:
+				titleKey = "Khỉ";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
 			default:
 				titleKey = "Animal";
 				titleQuoest = "animal bubble tea bro";
