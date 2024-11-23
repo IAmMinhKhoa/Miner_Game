@@ -32,7 +32,7 @@ public class BannerSO : ScriptableObject
 			for(int i = 0; i < sprites.Count; i++) 
 			{
 				var template = sprites[i];
-			//	Color color = tmpList.Count > 0 ? tmpList[ID].templateDetails[i].color : Color.white;
+				Color color = tmpList.Count > 0 ? tmpList[ID].templateDetails[i].color : Color.white;
 				templateDetails.Add(new TemplateDetail(Color.white, template));
 			}
 			list.Add(new DesignTemplateInfo(ID++, templateDetails));
