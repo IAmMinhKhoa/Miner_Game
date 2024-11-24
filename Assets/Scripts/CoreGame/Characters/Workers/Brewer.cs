@@ -26,7 +26,7 @@ public class Brewer : BaseWorker
     public bool isBrewing = false;
     public override double ProductPerSecond
     {
-        get => config.ProductPerSecond * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost;
+        get => config.ProductPerSecond * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost * CurrentShaft.GetGlobalBoost();
     }
 
     public override float WorkingTime

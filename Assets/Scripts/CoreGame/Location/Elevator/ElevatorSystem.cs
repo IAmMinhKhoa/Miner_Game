@@ -118,28 +118,28 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         isPersistent = false;
         base.Awake();
-		managerLocation.OnChangeManager += SetManager;
+        managerLocation.OnChangeManager += SetManager;
     }
 
-	private void SetManager(Manager manager)
-	{
-		if (TryGetComponent(out ElevatorUI elevatorUI))
-		{
-			elevatorUI.AddManagerInteract(manager == null);
-		}
-	}
+    private void SetManager(Manager manager)
+    {
+        if (TryGetComponent(out ElevatorUI elevatorUI))
+        {
+            elevatorUI.AddManagerInteract(manager == null);
+        }
+    }
 
-	protected override void OnDestroy()
-	{
-		base.OnDestroy();
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
 
-	}
-	void Start()
+    }
+    void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
-	
-	private void ElevatorDeposit_OnChangePawHandler(double value)
+
+    private void ElevatorDeposit_OnChangePawHandler(double value)
     {
         if (value > 0)
         {
@@ -186,11 +186,11 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     public double GetTotalNSVersion2()
     {
-		//rule if elvevator not have manager -> NSPaw =0
-		if (managerLocation.Manager == null)
-		{
-			return 0;
-		}
+        //rule if elvevator not have manager -> NSPaw =0
+        if (managerLocation.Manager == null)
+        {
+            return 0;
+        }
 
         int index = 0;
         int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
@@ -214,7 +214,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             }
         }
 
-        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
+        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency) * GetGlobalBoost();
+    }
+
+    public float GetGlobalBoost()
+    {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public void Save()

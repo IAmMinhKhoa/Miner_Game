@@ -22,9 +22,9 @@ public class Transporter : BaseWorker
 
     private bool isShowTextNumber = true;
 
-	public override double ProductPerSecond
+    public override double ProductPerSecond
     {
-        get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost;
+        get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost * Counter.GetGlobalBoost();
     }
 
     public override float WorkingTime
@@ -36,7 +36,7 @@ public class Transporter : BaseWorker
     {
         get => config.MoveTime / Counter.SpeedBoost;
     }
-	public event Action<bool> OnCashier;
+    public event Action<bool> OnCashier;
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -149,10 +149,10 @@ public class Transporter : BaseWorker
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
                 cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-          
+
                 break;
             case WorkerState.Moving:
-				OnCashier?.Invoke(false);
+                OnCashier?.Invoke(false);
                 if (direction)
                 {
                     transporterView.transform.localScale = new Vector3(1, 1, 1);
@@ -170,17 +170,17 @@ public class Transporter : BaseWorker
                 break;
         }
     }
-	
+
     private async void PlayTextAnimation(double amount, bool reverse = false)
     {
         if (reverse)
         {
 
-			transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-			headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-			tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-			cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
-			double temp = amount;
+            transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+            headSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+            tailSketonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+            cartSkeletonAnimation.AnimationState.SetAnimation(0, "Idle", true);
+            double temp = amount;
             double firstValue = amount;
             while (temp > 0)
             {
@@ -190,7 +190,7 @@ public class Transporter : BaseWorker
             }
             numberText.SetText(Currency.DisplayCurrency(0));
 
-			OnCashier?.Invoke(true);
+            OnCashier?.Invoke(true);
             return;
         }
         else

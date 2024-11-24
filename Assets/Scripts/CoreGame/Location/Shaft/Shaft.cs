@@ -64,7 +64,12 @@ public class Shaft : MonoBehaviour
 
     public double GetShaftNS()
     {
-        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed) * GetGlobalBoost();
+    }
+
+    public float GetGlobalBoost()
+    {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public float SpeedBoost
@@ -135,23 +140,23 @@ public class Shaft : MonoBehaviour
     void Awake()
     {
         CreateDeposit();
-		managerLocation.OnChangeManager += SetManager;
+        managerLocation.OnChangeManager += SetManager;
 
-	}
-	private void OnDestroy()
-	{
-		managerLocation.OnChangeManager -= SetManager;
-	}
-	private void SetManager(Manager manager)
-	{
-		if (manager == null)
-		{
-		//	Debug.Log("999999");
-		}
-		AddManagerButtonInteract(false);
-	}
+    }
+    private void OnDestroy()
+    {
+        managerLocation.OnChangeManager -= SetManager;
+    }
+    private void SetManager(Manager manager)
+    {
+        if (manager == null)
+        {
+            //	Debug.Log("999999");
+        }
+        AddManagerButtonInteract(false);
+    }
 
-	void Start()
+    void Start()
     {
         for (int i = 0; i < numberBrewer; i++)
         {
@@ -198,13 +203,13 @@ public class Shaft : MonoBehaviour
             await UniTask.Delay(100);
         }
     }
-	public void AddManagerButtonInteract(bool isShowing)
-	{
-		if (TryGetComponent(out ShaftUI shaftUI))
-		{
-			shaftUI.AddManagerButtonInteract(isShowing);
-		}
-	}
+    public void AddManagerButtonInteract(bool isShowing)
+    {
+        if (TryGetComponent(out ShaftUI shaftUI))
+        {
+            shaftUI.AddManagerButtonInteract(isShowing);
+        }
+    }
 }
 
 

@@ -24,7 +24,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #if UNITY_ANDROID
 	private string _adBannerUnitId = "ca-app-pub-3940256099942544/6300978111";
 #elif UNITY_IPHONE
-      private string _adBannerUnitId = "ca-app-pub-3940256099942544/2934735716";
+	private string _adBannerUnitId = "ca-app-pub-3940256099942544/2934735716";
 #else
         private string _adBannerUnitId = "unused";
 #endif
@@ -36,7 +36,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #if UNITY_ANDROID
 	private string _adInterstitialUnitId = "ca-app-pub-3940256099942544/1033173712";
 #elif UNITY_IPHONE
-          private string _adInterstitialUnitId = "ca-app-pub-3940256099942544/4411468910";
+	private string _adInterstitialUnitId = "ca-app-pub-3940256099942544/4411468910";
 #else
           private string _adInterstitialUnitId = "unused";
 #endif
@@ -46,7 +46,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 #if UNITY_ANDROID
 	private string _adRewardedUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IPHONE
-      private string _adRewardedUnitId = "ca-app-pub-3940256099942544/1712485313";
+	private string _adRewardedUnitId = "ca-app-pub-3940256099942544/1712485313";
 #else
       private string _adRewardedUnitId = "unused";
 #endif
@@ -90,7 +90,7 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 			});
 	}
 
-	public void ShowRewardedAd()
+	public void ShowRewardedAd(Action continueAction)
 	{
 		const string rewardMsg =
 			"Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
@@ -99,8 +99,8 @@ public class AdsManager : Patterns.Singleton<AdsManager>
 		{
 			_rewardedAd.Show((Reward reward) =>
 			{
-				
 				Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+				continueAction.Invoke();
 			});
 		}
 	}

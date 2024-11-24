@@ -20,7 +20,7 @@ public class ElevatorController : BaseWorker
     public double MaxCapacity { get; private set; }
     public override double ProductPerSecond
     {
-        get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
+        get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost * elevator.GetGlobalBoost();
     }
 
     public override float WorkingTime

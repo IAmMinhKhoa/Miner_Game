@@ -70,19 +70,19 @@ public class Counter : Patterns.Singleton<Counter>
     {
         isPersistent = false;
         base.Awake();
-		m_managerLocation.OnChangeManager += SetManager;
+        m_managerLocation.OnChangeManager += SetManager;
 
     }
 
-	private void SetManager(Manager manager)
-	{
-		if (TryGetComponent<CounterUI>(out CounterUI counterUI))
-		{
-			counterUI.AddManagerInteract(manager == null);
-		}
-	}
+    private void SetManager(Manager manager)
+    {
+        if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+        {
+            counterUI.AddManagerInteract(manager == null);
+        }
+    }
 
-	public void UpdateUI()
+    public void UpdateUI()
     {
         if (TryGetComponent<CounterUI>(out CounterUI counterUI))
         {
@@ -97,7 +97,7 @@ public class Counter : Patterns.Singleton<Counter>
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
-		transporter.OnCashier += CountTransporterInCashier;
+        transporter.OnCashier += CountTransporterInCashier;
         _transporters.Add(transporter);
         if (_transporters.Count > 1)
         {
@@ -135,14 +135,16 @@ public class Counter : Patterns.Singleton<Counter>
 
     public double GetTotalNS()
     {
-		if (ManagerLocation.Manager == null)
-		{
-			return 0;
-		}
-        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
+        if (ManagerLocation.Manager == null)
+        {
+            return 0;
+        }
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed) * GetGlobalBoost();
     }
-    void Start()
+
+    public float GetGlobalBoost()
     {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public void InitializeCounter()
@@ -175,8 +177,8 @@ public class Counter : Patterns.Singleton<Counter>
 
     private bool Load()
     {
-		GetComponent<CounterUI>().UpdateSkeletonData();
-		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
+        GetComponent<CounterUI>().UpdateSkeletonData();
+        if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Counter");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
@@ -213,35 +215,35 @@ public class Counter : Patterns.Singleton<Counter>
         }
     }
 
-	private int _outCashier;
-	private int outCashier
-	{
-		get => _outCashier;
-		set
-		{
-			_outCashier = value;
-			if (_outCashier == _transporters.Count)
-			{
-				GetComponent<CounterUI>().PlayCollectAnimation(false);
-				_outCashier = 0;
-			}
-		}
-	}
+    private int _outCashier;
+    private int outCashier
+    {
+        get => _outCashier;
+        set
+        {
+            _outCashier = value;
+            if (_outCashier == _transporters.Count)
+            {
+                GetComponent<CounterUI>().PlayCollectAnimation(false);
+                _outCashier = 0;
+            }
+        }
+    }
 
-	public void CountTransporterInCashier(bool isOnCashier)
-	{
-	
-		if (isOnCashier)
-		{
-			GetComponent<CounterUI>().PlayCollectAnimation(true);
-		}
-		else
-		{
-			outCashier++; 
-		}
-	}
+    public void CountTransporterInCashier(bool isOnCashier)
+    {
 
-	class Data
+        if (isOnCashier)
+        {
+            GetComponent<CounterUI>().PlayCollectAnimation(true);
+        }
+        else
+        {
+            outCashier++;
+        }
+    }
+
+    class Data
     {
         public double boostScale;
         public double elevatorDeposit;
