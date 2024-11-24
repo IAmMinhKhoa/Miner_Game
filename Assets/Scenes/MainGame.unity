@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -637,7 +638,7 @@ MonoBehaviour:
   - total: 10
     name_pool: Click
     elements: []
-    preFab: {fileID: 454407552317777554, guid: bd8501e348d630247aa59fd0f9b2701a, type: 3}
+    preFab: {fileID: 2466368332110162522, guid: d821ff0ef3276874d80fce9b512f5fe3, type: 3}
     index: -1
 --- !u!4 &571836507
 Transform:
@@ -971,37 +972,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.056, y: -4.8275, z: 0}
   m_LocalScale: {x: 0.19783516, y: 0.22803046, z: 1.2289501}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &852793950
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 852793951}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &852793951
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852793950}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -3.49, z: -0.00922085}
-  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1729,6 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7339c853f4ce54e0aa7639f27912f4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentBoostValue: 1
 --- !u!1 &1574140670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a23462f442194441adaea5d0573a022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fxClickPrefab: {fileID: 454407552317777554, guid: bd8501e348d630247aa59fd0f9b2701a, type: 3}
+  fxClickPrefab: {fileID: 2466368332110162522, guid: d821ff0ef3276874d80fce9b512f5fe3, type: 3}
   mainCamera: {fileID: 1174195255}
 --- !u!1001 &1709222670
 PrefabInstance:
@@ -2230,14 +2201,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3303989557666025140, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 83.84485
-      objectReference: {fileID: 0}
-    - target: {fileID: 3398950061863464571, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -170.87192
-      objectReference: {fileID: 0}
     - target: {fileID: 4344351614460640615, guid: d3a172e871f233a4eb55462f5cefe428, type: 3}
       propertyPath: m_Name
       value: GameUI
@@ -2391,4 +2354,3 @@ SceneRoots:
   - {fileID: 318521339}
   - {fileID: 571836507}
   - {fileID: 555560274}
-  - {fileID: 852793951}
