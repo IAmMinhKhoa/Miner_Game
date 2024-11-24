@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Linq;
 
 public class BannerUI : MonoBehaviour
 {
 	[Header("UI Element")]
-	
+	[SerializeField] Sprite imgCircle;
 	[SerializeField] TMP_Text _demoTextTitle;
 	[SerializeField] Image _demobackBackground;
 	[SerializeField] Image _demofrontBackground;
@@ -115,7 +116,15 @@ public class BannerUI : MonoBehaviour
 	void InitDetailDropDown(List<DesignTemplateInfo> templateInfos, int ID, TMP_Dropdown dropdownDetail, bool isFront)
 	{
 		string titleKeyTemplateNumber = LocalizationManager.GetLocalizedString(LanguageKeys.TitleBodyTemplateNumber);
-		PopulateDropdown(dropdownDetail, templateInfos[ID].templateDetails.Count, titleKeyTemplateNumber + " ");
+		//PopulateDropdown(dropdownDetail, templateInfos[ID].templateDetails.Count, titleKeyTemplateNumber + " ");
+
+		List<Color> tempColor = new List<Color>();
+		foreach(TemplateDetail templateInfo in templateInfos[ID].templateDetails)
+		{
+			tempColor.Add(templateInfo.color);
+		}
+
+		PopulateDropdownDetailColor(dropdownDetail, tempColor);
 
 		if (isFront)
 		{
@@ -185,6 +194,43 @@ public class BannerUI : MonoBehaviour
 		}
 		dropdown.AddOptions(options);
 	}
+	private void PopulateDropdownDetailColor(TMP_Dropdown dropdown, List<Color> colors)
+	{
+		// Xóa tất cả các options cũ
+		dropdown.ClearOptions();
+
+		// Tạo các options mới
+		List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+		foreach (Color color in colors)
+		{
+			TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
+
+			Texture2D texture = new Texture2D(1, 1);
+			texture.SetPixel(0, 0, color);
+			texture.Apply();
+
+			Sprite colorSprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
+			option.image = colorSprite;
+
+			options.Add(option);
+		}
+		dropdown.AddOptions(options);
+
+		// Cập nhật giao diện
+		UpdateDropdownVisual(dropdown, colors);
+	}
+	private void UpdateDropdownVisual(TMP_Dropdown dropdown, List<Color> colors)
+	{
+		// Tùy chỉnh cách hiển thị của dropdown
+		for (int i = 0; i < dropdown.options.Count; i++)
+		{
+			var item = dropdown.options[i];
+			var color = colors[i];
+			// Tô background hoặc viền cho item (nếu cần)
+			// Tùy chỉnh theo yêu cầu
+		}
+	}
+
 
 	private void RenderColor()
 	{
