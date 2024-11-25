@@ -10,6 +10,30 @@ public class MarketUIHandler : MonoBehaviour
 	[SerializeField] private GameObject pnNoiThat, pnNhanVien, pnHotContentNT, pnContentNT, pnHotContentNV, pnContentNV;
 	[SerializeField] private Button btExit;
 
+	[SerializeField] private Transform sideTab1, sideTab2;
+
+	private void OnEnable()
+	{
+		StartCoroutine(OnEnableSideTab(sideTab1));
+		StartCoroutine(OnEnableSideTab(sideTab2));
+	}
+
+	IEnumerator OnEnableSideTab(Transform sideTab)
+	{
+		foreach (Transform item in sideTab)
+		{
+			item.DOScale(0, 0f);
+			item.rotation = Quaternion.Euler(new Vector3(0f, 0, 90f));
+		}
+		foreach (Transform item in sideTab)
+		{
+			item.DOScale(1f, 0.5f);
+			item.DORotate(Vector3.zero, 0.5f);
+			yield return new WaitForSeconds(0.05f);
+		}
+		
+	}
+
 	private void Start()
 	{
 		tgNhanVien.onValueChanged.AddListener(delegate
