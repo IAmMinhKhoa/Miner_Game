@@ -44,7 +44,7 @@ public class PlayfabMinigame : MonoBehaviour
 
 	private void OnGetUserInventorySuccess(GetUserInventoryResult result)
 	{
-		scoreText.text = result.VirtualCurrency["MC"] + "";
+		scoreText.text = "Xu: "+result.VirtualCurrency["MC"] + "";
 		scoreChangeMachineText.text = result.VirtualCurrency["MC"] + "";
 	}
 
