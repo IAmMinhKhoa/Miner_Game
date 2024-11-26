@@ -94,7 +94,7 @@ public class BankUI : MonoBehaviour
         gameObject.SetActive(true);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-        gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
         _isShowRequest = true;
         _canvasGroup.interactable = true;
 
