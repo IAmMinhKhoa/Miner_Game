@@ -30,7 +30,7 @@ public class FruitInfo : MonoBehaviour
         }
         else
         {
-            //rb.isKinematic = false;
+			//rb.isKinematic = false;
 			rb.simulated = true;
             GetComponent<FruitCombiner>().enabled = true;
         }

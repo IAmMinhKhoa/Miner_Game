@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using PlayFabManager.Data;
 using System.Collections;
@@ -30,7 +31,48 @@ public class FruitGameManager : MonoBehaviour
     public bool isHolding = false;
 
 
-    private void Start()
+	[Header("Button")]
+	[SerializeField] Button boomPower;
+	[SerializeField] Button upGradePower;
+	[SerializeField] Button freeGravity;
+
+	private void Awake()
+	{
+		boomPower.onClick.AddListener(TriggerBoomPower);
+		upGradePower.onClick.AddListener(TriggerUpGradePower);
+		freeGravity.onClick.AddListener(TriggerFreeGravityPower);
+	}
+
+	
+
+	private void OnDestroy()
+	{
+		boomPower.onClick.RemoveAllListeners();
+		upGradePower.onClick.RemoveAllListeners();
+		freeGravity.onClick.RemoveAllListeners();
+	}
+	private void TriggerBoomPower()
+	{
+		if (fruitsParent.childCount > 1 && MiniGameFruitManager.Instance.isPowerActive == false)
+		{
+			MiniGameFruitManager.Instance.isBoomPowerActive = true;
+		}
+			
+	}
+	private void TriggerUpGradePower()
+	{
+		if (fruitsParent.childCount > 1 && MiniGameFruitManager.Instance.isPowerActive == false)
+		{
+			MiniGameFruitManager.Instance.isUpgradePowerActive = true;
+		}
+
+	}
+	private void TriggerFreeGravityPower()
+	{
+		MiniGameFruitManager.Instance.TriggerFreeGravityPower().Forget();
+	}
+
+	private void Start()
     {
         orderList = new List<orderObject>();
         highScoreText.text = PlayerScore.GetHighScore() + "";
