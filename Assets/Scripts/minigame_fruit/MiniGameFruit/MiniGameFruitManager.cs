@@ -19,6 +19,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 	{
 		isPersistent = false;
 		base.Awake();
+		
 	}
 	public bool isBoomPowerActive
 	{
@@ -82,7 +83,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 	}
 	public async UniTask TriggerFreeGravityPower()
 	{
-		float duration = 2f;
+		float duration = 4f;
 		float timeElapsed = 0f;
 		isPowerActive = true;
 		while(timeElapsed < duration)
@@ -90,14 +91,13 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 			timeElapsed += Time.deltaTime;
 
 			Vector3 acceleration = Input.acceleration;
-
-			Vector3 newGravity = new Vector3(acceleration.x, -acceleration.y, acceleration.z);
-
-			Physics.gravity = Vector3.Lerp(Physics.gravity, newGravity * 9.8f, gravityChangeSpeed * Time.deltaTime);
+			Debug.Log(acceleration);
+			Vector2 newGravity = new Vector2(acceleration.x, acceleration.y).normalized * 9.8f;
+			Physics2D.gravity = newGravity;
 
 			await UniTask.Yield(PlayerLoopTiming.Update);
 		}
-		Physics.gravity = new Vector3(0f, -9.8f, 0f);
+		Physics2D.gravity = new Vector2(0f, -9.8f);
 		isPowerActive = false;
 	}
 

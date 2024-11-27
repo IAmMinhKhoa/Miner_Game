@@ -71,7 +71,7 @@ public class FruitCombiner : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.GetComponent<FruitInfo>() != null)
+		if (collision.gameObject.GetComponent<FruitInfo>() != null && !MiniGameFruitManager.Instance.isPowerActive)
 		{
 			int otherIndex = collision.gameObject.GetComponent<FruitInfo>().index;
 
