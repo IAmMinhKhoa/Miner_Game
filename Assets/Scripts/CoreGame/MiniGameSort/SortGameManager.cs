@@ -37,6 +37,10 @@ public class SortGameManager : MonoBehaviour
 	{
 		InvokeRepeating("DropLoop", clawDelayTime, clawDelayTime);
 	}
+	public void StartDropper1()
+	{
+		InvokeRepeating("DropLoop", 0f, clawDelayTime);
+	}
 
 	void DropLoop()
 	{
@@ -272,6 +276,14 @@ public class SortGameManager : MonoBehaviour
 		EndUI.SetActive(true);
 		CancelInvoke("DropLoop");
 		ClearAll();
+	}
+
+	public void AdjustAllDragCode(bool value)
+	{
+		foreach(tsInfo t in allTSList)
+		{
+			if(t != null) t.gameObject.GetComponent<DragDrop>().enabled = value;
+		}
 	}
 
 	BoxInfo GetRandomBoxInGame()

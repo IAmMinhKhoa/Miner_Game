@@ -43,12 +43,17 @@ public class BoxInfo : MonoBehaviour
 
 			if (slot1.id == slot2.id && slot2.id == slot3.id)
 			{
-				Instantiate(FX, transform.position, Quaternion.identity);
-				FindObjectOfType<SortGameScore>().UpdateCurrentScore(100);
-				FindObjectOfType<SortGameManager>().UpdateColAndCheck(col, -1);
-				Destroy(gameObject);
+				DestroyBox();
 			}
 		}
+	}
+
+	public void DestroyBox()
+	{
+		Instantiate(FX, transform.position, Quaternion.identity);
+		FindObjectOfType<SortGameScore>().UpdateCurrentScore(100);
+		FindObjectOfType<SortGameManager>().UpdateColAndCheck(col, -1);
+		Destroy(gameObject);
 	}
 
 }
