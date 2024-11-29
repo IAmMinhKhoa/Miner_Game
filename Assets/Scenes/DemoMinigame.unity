@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 902706490941404164, guid: 9c54019d6fdcdcf439cae45df371d8e5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1088445651}
     - target: {fileID: 2621358330271204044, guid: 9c54019d6fdcdcf439cae45df371d8e5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -260,11 +264,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c54019d6fdcdcf439cae45df371d8e5, type: 3}
---- !u!1 &221093187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4468291236334895286, guid: 9c54019d6fdcdcf439cae45df371d8e5, type: 3}
-  m_PrefabInstance: {fileID: 221093186}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &749913100
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startBoomPosition: {fileID: 2068373494}
   boom: {fileID: 1028734295}
-  topBar: {fileID: 221093187}
   gravityChangeSpeed: 4
 --- !u!4 &749913102
 Transform:
