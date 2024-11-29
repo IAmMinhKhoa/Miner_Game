@@ -107,26 +107,7 @@ public class FruitCombiner : MonoBehaviour
 					//
 					TMP_Text newFruitComboLb = newFruit.GetComponent<FruitCombiner>().combo_lb;
 					ComboUI.Instance.transform.position = newFruitComboLb.transform.position;
-					if (ComboMergeManager.Instance.comboCount > 0 && ComboMergeManager.Instance.comboCount <= 5)
-					{
-						ComboUI.Instance.combo_lb.text = "<color=#0092ff>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}
-					else if (ComboMergeManager.Instance.comboCount > 5 && ComboMergeManager.Instance.comboCount <= 10)
-					{
-						ComboUI.Instance.combo_lb.text = "<color=#00ff3c>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}
-					else if (ComboMergeManager.Instance.comboCount > 10 && ComboMergeManager.Instance.comboCount <= 15)
-					{
-						ComboUI.Instance.combo_lb.text = "<color=#ff003d>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}
-					else if (ComboMergeManager.Instance.comboCount > 15 && ComboMergeManager.Instance.comboCount <= 20)
-					{
-						ComboUI.Instance.combo_lb.text = "<color=#bd4dff>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}
-					else
-					{
-						ComboUI.Instance.combo_lb.text = "<color=#ff9700>" + "Combo x" + ComboMergeManager.Instance.comboCount.ToString() + "</color>";
-					}
+					ComboUI.Instance.UpdateComboUI(ComboMergeManager.Instance.comboCount);
 					ComboUI.Instance.ShowComboUI();
 					ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
 

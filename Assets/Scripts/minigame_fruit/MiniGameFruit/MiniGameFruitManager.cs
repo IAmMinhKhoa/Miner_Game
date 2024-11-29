@@ -10,6 +10,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 	GameObject startBoomPosition;
 	[SerializeField]
 	GameObject boom;
+	[SerializeField] GameObject topBar;
 	public float gravityChangeSpeed = 1.0f;
 	private bool IsBoomPowerActive = false;
 	private bool IsUpgradePowerActive = false;
@@ -86,6 +87,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 		float duration = 4f;
 		float timeElapsed = 0f;
 		isPowerActive = true;
+		topBar.SetActive(true);
 		while(timeElapsed < duration)
 		{
 			timeElapsed += Time.deltaTime;
@@ -99,6 +101,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 		}
 		Physics2D.gravity = new Vector2(0f, -9.8f);
 		isPowerActive = false;
+		topBar.SetActive(false);
 	}
 
 

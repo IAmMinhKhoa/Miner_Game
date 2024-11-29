@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3658349404583030766}
@@ -44,7 +44,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489971449172289023}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 0.8
   simulationSpeed: 1
   stopAction: 1
   cullingMode: 0
@@ -119,7 +119,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1372,8 +1372,8 @@ ParticleSystem:
   UVModule:
     serializedVersion: 2
     enabled: 0
-    mode: 1
-    timeMode: 1
+    mode: 0
+    timeMode: 0
     fps: 30
     frameOverTime:
       serializedVersion: 2
@@ -1481,7 +1481,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    speedRange: {x: 0, y: 3}
+    speedRange: {x: 0, y: 1}
     tilesX: 1
     tilesY: 1
     animationType: 0
@@ -1490,9 +1490,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -3350278371835081114, guid: 0f29dbcb3c4fbde4aad87527ad3f87cf, type: 3}
-    - sprite: {fileID: 1725782699178821921, guid: 0f29dbcb3c4fbde4aad87527ad3f87cf, type: 3}
-    - sprite: {fileID: 736268257335125931, guid: 0f29dbcb3c4fbde4aad87527ad3f87cf, type: 3}
+    - sprite: {fileID: 0}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4863,7 +4861,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6433904, y: 0.6433904, z: 0.6433904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466368332110162522}
@@ -5888,8 +5886,8 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.5046442
         - serializedVersion: 3
-          time: 0.2685054
-          value: 0.99401283
+          time: 0.2542537
+          value: 0.69760513
           inSlope: 0.19441351
           outSlope: 0.03527223
           tangentMode: 1
@@ -9699,7 +9697,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 136936093
   m_SortingLayer: 9
-  m_SortingOrder: 999
+  m_SortingOrder: 100
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9760,7 +9758,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6433904, y: 0.6433904, z: 0.6433904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466368332110162522}
@@ -9901,7 +9899,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 60
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -10019,8 +10017,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.3
+      scalar: 0.09
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10397,7 +10395,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 0.88
+    angle: 0.4
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -10483,7 +10481,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.36
+      value: 0.5
       mode: 0
       spread: 0
       speed:
@@ -14589,7 +14587,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 136936093
   m_SortingLayer: 9
-  m_SortingOrder: 999
+  m_SortingOrder: 100
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -14650,7 +14648,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6433904, y: 0.6433904, z: 0.6433904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466368332110162522}
@@ -15667,7 +15665,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0.0683831
-          value: 1
+          value: 0.4940139
           inSlope: 0
           outSlope: 0
           tangentMode: 1
@@ -15676,12 +15674,12 @@ ParticleSystem:
           outWeight: 0.34707227
         - serializedVersion: 3
           time: 1
-          value: 0.0059814453
-          inSlope: -1.0329341
-          outSlope: -1.0329341
+          value: 0.0029907227
+          inSlope: -0.9306215
+          outSlope: -0.9306215
           tangentMode: 0
           weightedMode: 3
-          inWeight: 0.6548002
+          inWeight: 0.5076492
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -19477,7 +19475,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 136936093
   m_SortingLayer: 9
-  m_SortingOrder: 999
+  m_SortingOrder: 100
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

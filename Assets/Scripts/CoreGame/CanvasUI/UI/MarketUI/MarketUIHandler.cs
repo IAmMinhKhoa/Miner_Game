@@ -11,11 +11,11 @@ public class MarketUIHandler : MonoBehaviour
 	[SerializeField] private Button btExit;
 
 	[SerializeField] private Transform sideTab1, sideTab2;
-
-	private void OnEnable()
+	[SerializeField] float _durationSldeTab = 0.07f;
+		private void OnEnable()
 	{
 		StartCoroutine(OnEnableSideTab(sideTab1));
-		StartCoroutine(OnEnableSideTab(sideTab2));
+		StartCoroutine(OnEnableSideTab(sideTab2)); 
 	}
 
 	IEnumerator OnEnableSideTab(Transform sideTab)
@@ -29,7 +29,7 @@ public class MarketUIHandler : MonoBehaviour
 		{
 			item.DOScale(1f, 0.5f);
 			item.DORotate(Vector3.zero, 0.5f);
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(_durationSldeTab);
 		}
 		
 	}
