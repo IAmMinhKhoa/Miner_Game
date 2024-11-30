@@ -38,14 +38,14 @@ public class ToggleBehaviour : MonoBehaviour
 	public void DoAnimate()
 	{	
 		Toggle tg = GetComponent<Toggle>();
-		if (tg.isOn) SoundManager.PlaySound(SoundEnum.click);
+		if (tg.isOn) SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		tg.graphic.GetComponent<PopupToggle>().OnChoosing(tg.isOn);
 
 	}
 
 	public void DoAnimateToggle(bool isActive)
 	{
-		SoundManager.PlaySound(SoundEnum.click);
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		if (isActive) _rectTransform.DOMoveY(1f, 0.6f).SetEase(Ease.OutQuad);
 		else _rectTransform.DOMoveY(_defaultPos.y, 0.6f).SetEase(Ease.OutQuad);
 	}

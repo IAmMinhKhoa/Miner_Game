@@ -74,7 +74,7 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
         {
 			OnButtonClickAnimate();
 
-			SoundManager.PlaySound(SoundEnum.click);
+			SoundManager.PlaySound(clickSoundFx);
             onClickEvent?.Invoke();
         }
 

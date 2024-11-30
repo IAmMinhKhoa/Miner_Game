@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
 using Spine;
+using NOOD.Sound;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -211,7 +212,8 @@ public class ElevatorUI : MonoBehaviour
 
     private void AwakeWorker()
     {
-        m_elevator.AwakeWorker();
+		//SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		m_elevator.AwakeWorker();
     }
 
     #region DEBUG

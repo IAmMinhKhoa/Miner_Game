@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NOOD.Sound;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -36,7 +37,8 @@ public class ManagerPanelUI : MonoBehaviour
 
     private void ClosePanel()
     {
-        gameObject.SetActive(false);
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		gameObject.SetActive(false);
     }
 
     private void HireOrFireManager()

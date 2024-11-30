@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using NOOD;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
+using NOOD.Sound;
 public class UpgradeUI : MonoBehaviour
 {
 	[Header("Localization")]
@@ -62,6 +63,9 @@ public class UpgradeUI : MonoBehaviour
 	[SerializeField]private float currentLevel;
 	private ManagerLocation managerLocation;
 	string currentTitleText;
+	//
+	private float soundCoolDown = 2f;
+	private float lastPlayTime = 0f;
 	void Start()
 	{
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
@@ -118,6 +122,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private async void ClosePanel()
 	{
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		this.transform.DOMove(hideTrans.position, 0.6f).SetEase(Ease.InQuart);
 		while (canvasGroup.alpha > 0)
 		{
@@ -157,6 +162,11 @@ public class UpgradeUI : MonoBehaviour
 
 	private void UpdateUpgradeAmount(float value)
 	{
+		if(Time.time - lastPlayTime>=soundCoolDown)
+		{
+			SoundManager.PlaySound(SoundEnum.heavyWoodDrag6);
+			lastPlayTime = Time.time;
+		}
 		upgradeAmountText.text = "X" + value.ToString();
 		titleText.text = currentTitleText + (value + currentLevel);
 		double cost = UpgradeManager.Instance.GetUpgradeCost((int)value);

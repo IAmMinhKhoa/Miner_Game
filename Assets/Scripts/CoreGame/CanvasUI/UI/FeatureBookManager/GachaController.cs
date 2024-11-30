@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class GachaController : MonoBehaviour
 	{
 		this.closeButton.onClick.AddListener(() =>
 		{
+			SoundManager.PlaySound(SoundEnum.mobileClickBack);
 			gameObject.SetActive(false);
 			container.localRotation = Quaternion.identity;
 		});

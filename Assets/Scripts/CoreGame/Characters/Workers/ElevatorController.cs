@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using NOOD;
+using NOOD.Sound;
 
 public class ElevatorController : BaseWorker
 {
@@ -55,7 +56,7 @@ public class ElevatorController : BaseWorker
 
             if (forceWorking)
             {
-                isWorking = true;
+				isWorking = true;
                 forceWorking = false;
                 MoveToNextShaft();
             }
