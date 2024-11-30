@@ -7,6 +7,8 @@ using System;
 using System.Collections;
 using PlayFabManager.Data;
 using System.Security.Cryptography;
+using UnityEngine.UI;
+using TMPro;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -22,6 +24,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private GameObject _roof;
 	[SerializeField] private GameObject _roof_Building;
 	[SerializeField] private GameObject _banner;
+	[SerializeField] private GameObject endShaftUpgradeEffect;
+	[SerializeField] private GameObject upgradeLoadBar;
 	[Header("Basement")]
 	[SerializeField] public List<Shaft> Shafts = new();
 
@@ -29,6 +33,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private Vector3 firstShaftPosition = new(0.656000018f, -0.0390000008f, 0);
 	[SerializeField] int maxShaftCount = 30;
 	[SerializeField] private double initCost = 10;
+	[Header("Upgrade Bar Image")]
+	[SerializeField] private SpriteRenderer currentLoaded;
+	[Header("Text")]
+	[SerializeField] private TextMeshPro loadedText;
 
 	public double CurrentCost => currentCost;
 
@@ -39,6 +47,9 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public bool isBuilding = false;
 	public double TimeBuild = 5f;
 	public double TimeCurrentBuild;
+	GameObject _endShaftUpgradeEffect;
+
+	Vector2 upgradeBarSize;
 	private void Start()
 	{
 		//InitializeShafts();
@@ -48,6 +59,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	{
 		isPersistent = false;
 		base.Awake();
+		_endShaftUpgradeEffect = Instantiate(endShaftUpgradeEffect);
+		upgradeBarSize = currentLoaded.size;
 	}
 
 	public void AddShaft()
@@ -233,17 +246,33 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	{
 		isBuilding = true;
 		TimeCurrentBuild = TimeBuild;
+		var totalTime = TimeCurrentBuild;
 		_roof_Building.SetActive(true);
 		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y + roofOffsetBuilding, 0);
+
+		upgradeLoadBar.SetActive(true);
+
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
+			currentLoaded.size = new Vector2((float)(1f - TimeCurrentBuild / totalTime) * upgradeBarSize.x, upgradeBarSize.y);
+			loadedText.text = Mathf.FloorToInt((float)(1f - TimeCurrentBuild / totalTime) * 100f) + "%";
 			yield return null;  // Wait for the next frame
 		}
-
+		
 		_roof_Building.SetActive(false);
 		isBuilding = false;
 		AddShaft();  // Call AddShaft after cooldown
+		upgradeLoadBar.SetActive(false);
+		//end upgrade effect
+		Transform lastShaft = Shafts[^1].transform;
+		float endUpgradeEffectDuration = _endShaftUpgradeEffect.GetComponent<ParticleSystem>().main.duration;
+		_endShaftUpgradeEffect.transform.localPosition = new Vector3(0, shaftYOffset, 0) + lastShaft.position;
+		_endShaftUpgradeEffect.SetActive(true);
+
+		yield return new WaitForSeconds(endUpgradeEffectDuration);
+
+		_endShaftUpgradeEffect.SetActive(false);
 	}
 	private void ValidateTimeOffline()
 	{
