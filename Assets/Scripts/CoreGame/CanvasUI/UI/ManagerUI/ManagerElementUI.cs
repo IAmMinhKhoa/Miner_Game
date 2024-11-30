@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,6 +39,7 @@ public class ManagerElementUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
         ManagersController.Instance.OpenManagerDetailPanel(true, _data);
     }
     public void ClearStateCard()

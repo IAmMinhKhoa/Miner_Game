@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -46,6 +47,7 @@ namespace UI.Inventory
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
+			SoundManager.PlaySound(SoundEnum.mobileClickBack);
 			OnItemClick?.Invoke(type, Index);
 		}
 	}
