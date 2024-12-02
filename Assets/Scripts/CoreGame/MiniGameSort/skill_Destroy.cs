@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class skill_Destroy : MonoBehaviour
+public class skill_Destroy : sortGameSkills
 {
 	[SerializeField] private SortGameManager gameManager;
 	public string layerName = "box_SortGame";
@@ -28,14 +28,20 @@ public class skill_Destroy : MonoBehaviour
 					{
 						hit.collider.gameObject.GetComponent<BoxInfo>().DestroyBox();
 						isSkillActivated = false;
-						gameManager.AdjustAllDragCode(!isSkillActivated);
+						StartCoroutine(waitToEnable());
 					}
 				}
 			}
 		}
 	}
 
-	public void ActiveSkill()
+	IEnumerator waitToEnable()
+	{
+		yield return new WaitForSeconds(0.5f);
+		gameManager.AdjustAllDragCode(true);
+	}
+
+	public override void ActiveSkill()
 	{
 		isSkillActivated = !isSkillActivated;
 		gameManager.AdjustAllDragCode(!isSkillActivated);

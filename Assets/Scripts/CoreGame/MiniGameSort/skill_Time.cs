@@ -1,9 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class skill_Time : MonoBehaviour
+public class skill_Time : sortGameSkills
 {
 	[SerializeField] private SortGameManager gameManager;
 	[SerializeField] private TextMeshProUGUI countdownText;
@@ -26,21 +27,21 @@ public class skill_Time : MonoBehaviour
 			}
 			else
 			{
-				gameManager.StartDropper1();
 				isSkillActivated = false;
-				skillActivatedTime = 10f;
 				countdownText.text = "";
 			}
 
 		}
 	}
 
-	public void ActiveSkill()
+	public override void ActiveSkill()
 	{
-		if(!isSkillActivated)
+		if (!isSkillActivated)
 		{
 			isSkillActivated = true;
-			gameManager.CancelInvoke("DropLoop");
+			skillActivatedTime = 10f;
+			gameManager.currentDelayTime = 10f;
 		}
 	}
+
 }

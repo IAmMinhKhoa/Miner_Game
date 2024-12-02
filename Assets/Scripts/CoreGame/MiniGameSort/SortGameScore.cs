@@ -34,7 +34,7 @@ public class SortGameScore : MonoBehaviour
 	public void UpdateCurrentScore(float add)
 	{
 		currentScore += add;
-		currentScoreText.text = "Current score: \n" + currentScore;
+		currentScoreText.text = "Current score: " + currentScore;
 		if(currentScore % 500 == 0)
 		{
 			FindObjectOfType<SortGameManager>().AdjustClawDelayTime(0.8f);
@@ -44,7 +44,7 @@ public class SortGameScore : MonoBehaviour
 	public void ResetScore()
 	{
 		currentScore = 0;
-		currentScoreText.text = "Current score: \n" + currentScore;
+		currentScoreText.text = "Current score: " + currentScore;
 	}
 
 	public void UpdateTotalScore(float value)

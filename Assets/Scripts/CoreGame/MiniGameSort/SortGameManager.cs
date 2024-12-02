@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 
 public class SortGameManager : MonoBehaviour
 {
 	public BoxInfo boxPrefab;
+	private BoxInfo lastBoxWaiting;
 	public List<tsInfo> tsPrefabs;
 	public List<BoxInfo> allBoxList;
 	public List<tsInfo> allTSList;
@@ -18,10 +20,14 @@ public class SortGameManager : MonoBehaviour
 	public List<tsInfo> spawnList;
 	public Transform[] clawPosList;
 	public Transform holdPos;
-	private int clawPos;
+	public int clawPos;
 	public GameObject clawObject, StartUI, EndUI;
 	public Camera cameraGameSort;
-	public float clawDelayTime;
+	public float clawDelayTime, currentDelayTime;
+	private Animator clawAnim;
+
+	[SerializeField] private bool isPlaying = false;
+	public bool isStopped = false;
 	void Awake()
 	{
 		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/newTraSua");
@@ -31,68 +37,62 @@ public class SortGameManager : MonoBehaviour
 		}
 		clawPos = 0;
 		clawDelayTime = 8f;
+		currentDelayTime = clawDelayTime;
 		colsCount = new int[3];
+		clawAnim = clawObject.transform.GetChild(0).GetComponent<Animator>();
+	}
+
+	private void Update()
+	{
+		if (isPlaying && !isStopped)
+		{
+			if(currentDelayTime > 0)
+			{
+				currentDelayTime -= Time.deltaTime;
+			}
+			else
+			{
+				currentDelayTime = clawDelayTime;
+				DropLoop();
+			}
+			Debug.Log(currentDelayTime.ToString());
+		}
 	}
 
 	void StartDropper()
 	{
-		InvokeRepeating("DropLoop", clawDelayTime, clawDelayTime);
-	}
-	public void StartDropper1()
-	{
-		InvokeRepeating("DropLoop", 0f, clawDelayTime);
+		SpawnABox();
+		clawObject.transform.DOLocalMoveY(5.06f, clawDelayTime / 3).SetEase(Ease.OutBack, 1f);
 	}
 
 	void DropLoop()
 	{
-		BoxInfo newBox = Instantiate(boxPrefab, clawPosList[clawPos].position, Quaternion.identity, holdPos);
-		newBox.col = clawPos;
-		UpdateColAndCheck(clawPos, 1);
-		tsInfo newTs1, newTs2, newTs3;
-		List<int> randomNumbers = new List<int>();
 
-		while (randomNumbers.Count < 3)
+		if(lastBoxWaiting != null)
 		{
-			int newNumber = Random.Range(0, tsPrefabs.Count);
-			if (!randomNumbers.Contains(newNumber))
+			clawAnim.SetTrigger("Dropping");
+			lastBoxWaiting.DropThis();
+			UpdateColAndCheck(clawPos, 1);
+
+			clawObject.transform.DOLocalMoveY(7.67f, clawDelayTime / 6).SetEase(Ease.InBack, clawDelayTime / 6).OnComplete(() =>
 			{
-				randomNumbers.Add(newNumber);
-			}
+				SpawnABox();
+				clawObject.transform.DOLocalMove(clawPosList[clawPos].position, 0f).SetDelay(0.1f).OnComplete(() =>
+				{
+					clawObject.transform.DOLocalMoveY(5.06f, clawDelayTime / 3).SetEase(Ease.OutBack, 1f);
+				});
+			});
 		}
 
-		newTs1 = Instantiate(tsPrefabs[randomNumbers[0]]);
-		newTs2 = Instantiate(tsPrefabs[randomNumbers[1]]);
-		newTs3 = Instantiate(tsPrefabs[randomNumbers[2]]);
-
-		//add curent camera to bottle
-		try
-		{
-			newTs1.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
-			newTs2.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
-			newTs3.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
-		}
-		catch (System.Exception)
-		{
-
-			Debug.LogError("Can't get component DragDrop");
-		}
-
-
-		allTSList.Add(newTs1);
-		allTSList.Add(newTs2);
-		allTSList.Add(newTs3);
-
-		newTs1.UpdateBoxParent(0, newBox.gameObject);
-		newTs2.UpdateBoxParent(1, newBox.gameObject);
-		newTs3.UpdateBoxParent(2, newBox.gameObject);
-
+		//claw logic
 		if (clawPos != 2) clawPos++;
 		else clawPos = 0;
-		clawObject.transform.DOMove(clawPosList[clawPos].position, clawDelayTime/3).SetEase(Ease.OutQuart);
 	}
 
 	public void OnStartClick()
 	{
+		isPlaying = true;
+		GetComponent<SortGameScore>().ResetScore();
 		ClearAll();
 		FirstSpawnBox();
 		FirstSpawnTS();
@@ -122,7 +122,10 @@ public class SortGameManager : MonoBehaviour
 			for (int z = 0; z < 3; z++)
 			{
 				BoxInfo newBox = Instantiate(boxPrefab, spawnBoxList[i].position, Quaternion.identity, boxParent);
+				newBox.boxParent = boxParent;
+				newBox.holdPos = holdPos;
 				newBox.col = i;
+				newBox.DropThis();
 				allBoxList.Add(newBox);
 				UpdateColAndCheck(i, 1);
 			}
@@ -182,6 +185,59 @@ public class SortGameManager : MonoBehaviour
 		{
 			box.UpdateBoxCount();
 		}
+	}
+
+	void SpawnABox()
+	{
+		BoxInfo newBox = Instantiate(boxPrefab, spawnBoxList[clawPos].position, Quaternion.identity, boxParent);
+		newBox.col = clawPos;
+		newBox.boxParent = boxParent;
+		newBox.holdPos = holdPos;
+		lastBoxWaiting = newBox;
+		
+		tsInfo newTs1, newTs2, newTs3;
+		List<int> randomNumbers = new List<int>();
+
+		while (randomNumbers.Count < 3)
+		{
+			int newNumber = Random.Range(0, tsPrefabs.Count);
+			if (!randomNumbers.Contains(newNumber))
+			{
+				randomNumbers.Add(newNumber);
+			}
+		}
+
+		newTs1 = Instantiate(tsPrefabs[randomNumbers[0]]);
+		newTs2 = Instantiate(tsPrefabs[randomNumbers[1]]);
+		newTs3 = Instantiate(tsPrefabs[randomNumbers[2]]);
+
+		//add curent camera to bottle
+		try
+		{
+			newTs1.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+			newTs2.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+			newTs3.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
+		}
+		catch (System.Exception)
+		{
+
+			Debug.LogError("Can't get component DragDrop");
+		}
+
+
+		allTSList.Add(newTs1);
+		allTSList.Add(newTs2);
+		allTSList.Add(newTs3);
+
+		newTs1.UpdateBoxParent(0, newBox.gameObject);
+		newTs2.UpdateBoxParent(1, newBox.gameObject);
+		newTs3.UpdateBoxParent(2, newBox.gameObject);
+	}
+
+	public void RecheckClawPosition()
+	{
+		clawObject.transform.DOLocalMoveY(7.67f, 0f);
+		clawObject.transform.DOLocalMove(clawPosList[clawPos].position, 0f);
 	}
 
 	void ClearEmptySlot()
@@ -257,8 +313,6 @@ public class SortGameManager : MonoBehaviour
 	public void AdjustClawDelayTime(float newValue)
 	{
 		clawDelayTime *= newValue;
-		CancelInvoke("DropLoop");
-		InvokeRepeating("DropLoop", clawDelayTime, clawDelayTime);
 	}
 
 	public void UpdateColAndCheck(int col, int value)
@@ -272,10 +326,11 @@ public class SortGameManager : MonoBehaviour
 
 	void EndGame()
 	{
+		isPlaying = false;
+		clawPos = 0;
 		clawDelayTime = 8f;
 		FindObjectOfType<SortGameScore>().CheckSetHighScore();
 		EndUI.SetActive(true);
-		CancelInvoke("DropLoop");
 		ClearAll();
 	}
 
