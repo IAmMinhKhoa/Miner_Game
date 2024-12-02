@@ -17,6 +17,7 @@ public class SortGameManager : MonoBehaviour
 	public Transform boxParent;
 	public List<tsInfo> spawnList;
 	public Transform[] clawPosList;
+	public Transform holdPos;
 	private int clawPos;
 	public GameObject clawObject, StartUI, EndUI;
 	public Camera cameraGameSort;
@@ -44,7 +45,7 @@ public class SortGameManager : MonoBehaviour
 
 	void DropLoop()
 	{
-		BoxInfo newBox = Instantiate(boxPrefab, clawPosList[clawPos].position, Quaternion.identity, boxParent);
+		BoxInfo newBox = Instantiate(boxPrefab, clawPosList[clawPos].position, Quaternion.identity, holdPos);
 		newBox.col = clawPos;
 		UpdateColAndCheck(clawPos, 1);
 		tsInfo newTs1, newTs2, newTs3;

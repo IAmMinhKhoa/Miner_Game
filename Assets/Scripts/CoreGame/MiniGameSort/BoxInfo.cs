@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BoxInfo : MonoBehaviour
 {
+	public bool isWaiting = true;
+
 	public GameObject[] objects;
 	public int col;
 	public bool isFull;
 	public int objectCount;
 	public GameObject FX;
-
+	public Transform boxParent;
 	public List<Transform> slots;
 
 	private void Awake()
