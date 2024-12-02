@@ -24,6 +24,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private GameObject _roof;
 	[SerializeField] private GameObject _roof_Building;
 	[SerializeField] private GameObject _banner;
+	[SerializeField] private GameObject startShaftUpgradeEffect;
 	[SerializeField] private GameObject endShaftUpgradeEffect;
 	[SerializeField] private GameObject upgradeLoadBar;
 	[Header("Basement")]
@@ -48,6 +49,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public double TimeBuild = 5f;
 	public double TimeCurrentBuild;
 	GameObject _endShaftUpgradeEffect;
+	GameObject _startShaftUpgradeEffect;
 
 	Vector2 upgradeBarSize;
 	private void Start()
@@ -60,6 +62,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		isPersistent = false;
 		base.Awake();
 		_endShaftUpgradeEffect = Instantiate(endShaftUpgradeEffect);
+		_startShaftUpgradeEffect = Instantiate(startShaftUpgradeEffect);
+
+		_endShaftUpgradeEffect.SetActive(false);
+		_startShaftUpgradeEffect.SetActive(false);
 		upgradeBarSize = currentLoaded.size;
 	}
 
@@ -252,6 +258,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 		upgradeLoadBar.SetActive(true);
 
+		_startShaftUpgradeEffect.SetActive(true);
+		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);	
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
@@ -264,10 +272,11 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		isBuilding = false;
 		AddShaft();  // Call AddShaft after cooldown
 		upgradeLoadBar.SetActive(false);
+		_startShaftUpgradeEffect.SetActive(false);
 		//end upgrade effect
 		Transform lastShaft = Shafts[^1].transform;
 		float endUpgradeEffectDuration = _endShaftUpgradeEffect.GetComponent<ParticleSystem>().main.duration;
-		_endShaftUpgradeEffect.transform.localPosition = new Vector3(0, shaftYOffset, 0) + lastShaft.position;
+		_endShaftUpgradeEffect.transform.localPosition = lastShaft.position;
 		_endShaftUpgradeEffect.SetActive(true);
 
 		yield return new WaitForSeconds(endUpgradeEffectDuration);
