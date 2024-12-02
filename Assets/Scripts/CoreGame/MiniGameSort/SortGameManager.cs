@@ -23,7 +23,7 @@ public class SortGameManager : MonoBehaviour
 	public float clawDelayTime;
 	void Awake()
 	{
-		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/TraSua");
+		tsInfo[] tempList = Resources.LoadAll<tsInfo>("Prefabs/minigame_sort/newTraSua");
 		foreach (tsInfo go in tempList)
 		{
 			if(go.id != -1) tsPrefabs.Add(go);

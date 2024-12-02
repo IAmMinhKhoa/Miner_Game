@@ -30,7 +30,7 @@ public class DragDrop : MonoBehaviour
 			tsInfo.parentBox.UpdateBoxCount();
 			tsInfo.gameObject.transform.parent = null;
 		}
-		GetComponent<Renderer>().sortingOrder = 5;
+		GetComponentInChildren<Renderer>().sortingOrder = 5;
 	}
 
 	void OnMouseDrag()
@@ -45,7 +45,7 @@ public class DragDrop : MonoBehaviour
 		{
 			StartCoroutine(waiter());
 		}
-		GetComponent<Renderer>().sortingOrder = 3;
+		GetComponentInChildren<Renderer>().sortingOrder = 3;
 	}
 
 	Vector3 MouseWorldPosition()
