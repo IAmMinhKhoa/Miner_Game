@@ -439,7 +439,7 @@ public class SoundSetting : MonoBehaviour
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Debug.Log("khoaa:" + posCam);
         Container.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-        Container.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        Container.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
         
 
     }

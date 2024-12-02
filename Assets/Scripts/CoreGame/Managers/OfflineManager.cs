@@ -24,23 +24,38 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
     private readonly float _maxOfflineTime = 86400 * 30; // 30 days
     private readonly float _minOfflineTime = 1; // 1 second -- for testing
-    // private void OnApplicationPause(bool pause)
-    // {
-    //     if (pause)
-    //     {
-    //         Save();
-    //     }
-    // }
+												// private void OnApplicationPause(bool pause)
+												// {
+												//     if (pause)
+												//     {
+												//         Save();
+												//     }
+												// }
 
-    void OnApplicationQuit()
-    {
-        Debug.Log("Application ending after " + Time.time + " seconds");
-        Save();
-        PlayFabDataManager.Instance.SendDataBeforeExit().Forget();
+	private bool isDataSaved = false;
 
-    }
+	bool ApplicationWantsToQuit()
+	{
+		Debug.Log("Application is trying to quit...");
+		Save();
+		SendDataBeforeQuit().Forget(); // Gửi dữ liệu bất đồng bộ
+		return isDataSaved; // Chỉ thoát khi dữ liệu đã được lưu
+	}
 
-    void OnApplicationFocus(bool focus)
+	private async UniTaskVoid SendDataBeforeQuit()
+	{
+		await PlayFabDataManager.Instance.SendDataBeforeExit();
+		isDataSaved = true;
+		Application.Quit();
+	}
+
+	void OnApplicationQuit()
+	{
+		Application.wantsToQuit += ApplicationWantsToQuit;
+	}
+
+
+	void OnApplicationFocus(bool focus)
     {
         Debug.Log("SYSTEM APPLICATION FOCUS:" + focus);
         bool isPaused = !focus;
