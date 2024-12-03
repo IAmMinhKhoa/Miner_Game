@@ -32,7 +32,7 @@ public class DragDrop : MonoBehaviour
 				tsInfo.parentBox.UpdateBoxCount();
 				tsInfo.gameObject.transform.parent = null;
 			}
-			GetComponent<Renderer>().sortingOrder = 5;
+			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 5;
 		}
 	}
 
@@ -49,11 +49,11 @@ public class DragDrop : MonoBehaviour
 		if (enabled)
 		{
 			isDrop = true;
-			if (!isHittingSomething)
+			if (!isHittingSomething || isDrop)
 			{
 				StartCoroutine(waiter());
 			}
-			GetComponent<Renderer>().sortingOrder = 3;
+			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 3;
 		}
 	}
 

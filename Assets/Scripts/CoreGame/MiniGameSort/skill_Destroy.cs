@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class skill_Destroy : MonoBehaviour
+public class skill_Destroy : sortGameSkills
 {
 	[SerializeField] private SortGameManager gameManager;
 	public string layerName = "box_SortGame";
-	public bool isSkillActivated = false;
 
 
 	void Update()
 	{
-		if (isSkillActivated)
+		if (isUsing)
 		{
 			if (Input.touchCount > 0)
 			{
@@ -21,23 +20,32 @@ public class skill_Destroy : MonoBehaviour
 				{
 					Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-					int layerMask = LayerMask.GetMask(layerName);
+					int layerMask = 1 << LayerMask.NameToLayer(layerName);
 					RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero, Mathf.Infinity, layerMask);
 
 					if (hit.collider != null)
 					{
 						hit.collider.gameObject.GetComponent<BoxInfo>().DestroyBox();
-						isSkillActivated = false;
-						gameManager.AdjustAllDragCode(!isSkillActivated);
+						isUsing = false;
+						StartCoroutine(waitToEnable());
 					}
 				}
 			}
 		}
 	}
 
-	public void ActiveSkill()
+	IEnumerator waitToEnable()
 	{
-		isSkillActivated = !isSkillActivated;
-		gameManager.AdjustAllDragCode(!isSkillActivated);
+		yield return new WaitForSeconds(0.5f);
+		gameManager.AdjustAllDragCode(true);
+	}
+
+	public override void ActiveSkill()
+	{
+		if (!isUsing)
+		{
+			isUsing = true;
+			gameManager.AdjustAllDragCode(!isUsing);
+		}
 	}
 }
