@@ -39,6 +39,11 @@ public class BoxInfo : MonoBehaviour
 		transform.SetParent(boxParent);
 		GetComponent<Rigidbody2D>().isKinematic = false;
 		GetComponent<Collider2D>().isTrigger = false;
+		gameObject.layer = LayerMask.NameToLayer("box_SortGame");
+		foreach (GameObject t in objects)
+		{
+			if (t != null) t.layer = LayerMask.NameToLayer("MinigameScene");
+		}
 	}
 
 	public void UpdateBoxCount()

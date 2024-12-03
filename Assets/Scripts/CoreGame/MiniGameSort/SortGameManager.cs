@@ -195,6 +195,7 @@ public class SortGameManager : MonoBehaviour
 		newBox.boxParent = boxParent;
 		newBox.holdPos = holdPos;
 		lastBoxWaiting = newBox;
+
 		
 		tsInfo newTs1, newTs2, newTs3;
 		List<int> randomNumbers = new List<int>();
@@ -289,6 +290,10 @@ public class SortGameManager : MonoBehaviour
 			newTs1 = Instantiate(newTs1);
 			newTs2 = Instantiate(newTs2);
 			newTs3 = Instantiate(newTs3);
+
+			newTs1.gameObject.layer = LayerMask.NameToLayer("MinigameScene");
+			newTs2.gameObject.layer = LayerMask.NameToLayer("MinigameScene");
+			newTs3.gameObject.layer = LayerMask.NameToLayer("MinigameScene");
 
 			allTSList.Add(newTs1);
 			allTSList.Add(newTs2);
