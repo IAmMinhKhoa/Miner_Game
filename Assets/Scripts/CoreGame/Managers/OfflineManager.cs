@@ -44,16 +44,23 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
 	private async UniTaskVoid SendDataBeforeQuit()
 	{
-		await PlayFabDataManager.Instance.SendDataBeforeExit();
-		isDataSaved = true;
-		Application.Quit();
+		try
+		{
+			await PlayFabDataManager.Instance.SendDataBeforeExit();
+			isDataSaved = true;
+			Debug.Log("Data sent successfully to PlayFab.");
+		}
+		catch (Exception ex)
+		{
+			Debug.LogError($"Error sending data to PlayFab: {ex.Message}");
+			isDataSaved = false;
+		}
 	}
 
-	void OnApplicationQuit()
+	private void Start()
 	{
 		Application.wantsToQuit += ApplicationWantsToQuit;
 	}
-
 
 	void OnApplicationFocus(bool focus)
     {
