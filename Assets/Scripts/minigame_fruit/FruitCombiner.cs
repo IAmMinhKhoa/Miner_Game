@@ -105,11 +105,14 @@ public class FruitCombiner : MonoBehaviour
 					ComboMergeManager.Instance.comboCount++;
 					ComboMergeManager.Instance.comboTime = ComboMergeManager.Instance.maxComboTime;
 					//
-					TMP_Text newFruitComboLb = newFruit.GetComponent<FruitCombiner>().combo_lb;
-					ComboUI.Instance.transform.position = newFruitComboLb.transform.position;
-					ComboUI.Instance.UpdateComboUI(ComboMergeManager.Instance.comboCount);
-					ComboUI.Instance.ShowComboUI();
-					ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
+					if(ComboMergeManager.Instance.comboCount>1)
+					{
+						TMP_Text newFruitComboLb = newFruit.GetComponent<FruitCombiner>().combo_lb;
+						ComboUI.Instance.transform.position = newFruitComboLb.transform.position;
+						ComboUI.Instance.UpdateComboUI(ComboMergeManager.Instance.comboCount);
+						ComboUI.Instance.ShowComboUI();
+						ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
+					}	
 
 				}
 				int score = otherIndex;
