@@ -8,7 +8,7 @@ public class ImageAnimator : MonoBehaviour
 	public RectTransform rectTransform;
 	private void Start()
 	{
-		ComboUI.Instance.OnImageAnimation.AddListener(OnImageAnimation);
+		//ComboUI.Instance.OnImageAnimation.AddListener(OnImageAnimation);
 	}
 
 	private void OnImageAnimation()
