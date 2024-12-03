@@ -6,12 +6,11 @@ public class skill_Destroy : sortGameSkills
 {
 	[SerializeField] private SortGameManager gameManager;
 	public string layerName = "box_SortGame";
-	public bool isSkillActivated = false;
 
 
 	void Update()
 	{
-		if (isSkillActivated)
+		if (isUsing)
 		{
 			if (Input.touchCount > 0)
 			{
@@ -21,13 +20,13 @@ public class skill_Destroy : sortGameSkills
 				{
 					Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-					int layerMask = LayerMask.GetMask(layerName);
+					int layerMask = 1 << LayerMask.NameToLayer(layerName);
 					RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero, Mathf.Infinity, layerMask);
 
 					if (hit.collider != null)
 					{
 						hit.collider.gameObject.GetComponent<BoxInfo>().DestroyBox();
-						isSkillActivated = false;
+						isUsing = false;
 						StartCoroutine(waitToEnable());
 					}
 				}
@@ -43,7 +42,10 @@ public class skill_Destroy : sortGameSkills
 
 	public override void ActiveSkill()
 	{
-		isSkillActivated = !isSkillActivated;
-		gameManager.AdjustAllDragCode(!isSkillActivated);
+		if (!isUsing)
+		{
+			isUsing = true;
+			gameManager.AdjustAllDragCode(!isUsing);
+		}
 	}
 }

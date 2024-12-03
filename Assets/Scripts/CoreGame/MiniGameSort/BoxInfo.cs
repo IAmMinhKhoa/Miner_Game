@@ -71,7 +71,10 @@ public class BoxInfo : MonoBehaviour
 	{
 		foreach(GameObject t in objects)
 		{
-			if(t != null) t.GetComponent<DragDrop>().enabled = false;
+			if(t != null)
+			{
+				if(TryGetComponent<DragDrop>(out DragDrop dropcode)) dropcode.enabled = false;
+			}
 		}
 		GetComponent<SpriteRenderer>().sprite = matchingBoxSprite;
 		float temp = transform.localScale.y;

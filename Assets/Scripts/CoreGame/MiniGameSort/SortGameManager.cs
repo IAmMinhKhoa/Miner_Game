@@ -97,6 +97,7 @@ public class SortGameManager : MonoBehaviour
 		FirstSpawnBox();
 		FirstSpawnTS();
 		StartDropper();
+		GetComponent<SkillsSortGameManager>().OnClickPlay();
 	}
 
 	void ClearAll()
@@ -338,7 +339,10 @@ public class SortGameManager : MonoBehaviour
 	{
 		foreach(tsInfo t in allTSList)
 		{
-			if(t != null) t.gameObject.GetComponent<DragDrop>().enabled = value;
+			if(t != null)
+			{
+				t.gameObject.GetComponent<DragDrop>().enabled = value;
+			}
 		}
 	}
 

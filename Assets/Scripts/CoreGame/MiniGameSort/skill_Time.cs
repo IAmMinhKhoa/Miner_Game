@@ -18,7 +18,7 @@ public class skill_Time : sortGameSkills
 
 	private void Update()
 	{
-		if (isSkillActivated)
+		if (isUsing)
 		{
 			if(skillActivatedTime > 0)
 			{
@@ -27,7 +27,7 @@ public class skill_Time : sortGameSkills
 			}
 			else
 			{
-				isSkillActivated = false;
+				isUsing = false;
 				countdownText.text = "";
 			}
 
@@ -36,9 +36,9 @@ public class skill_Time : sortGameSkills
 
 	public override void ActiveSkill()
 	{
-		if (!isSkillActivated)
+		if (!isUsing)
 		{
-			isSkillActivated = true;
+			isUsing = true;
 			skillActivatedTime = 10f;
 			gameManager.currentDelayTime = 10f;
 		}
