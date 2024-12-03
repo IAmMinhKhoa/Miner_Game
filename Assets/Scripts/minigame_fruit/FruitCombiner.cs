@@ -24,7 +24,6 @@ public class FruitCombiner : MonoBehaviour
 			await MiniGameFruitManager.Instance.TriggerBoomPowerAniamtion(transform.position);
 			MiniGameFruitManager.Instance.isBoomPowerActive = false;
 			Vector3 pos = gameObject.transform.position;
-
 			Destroy(gameObject);
 
 			Color newColor = GetComponent<FruitInfo>().mergeColor;
@@ -87,6 +86,7 @@ public class FruitCombiner : MonoBehaviour
 
 					Vector3 hitpoint = (transform.position + collision.gameObject.transform.position) / 2;
 					GameObject newFruit = Instantiate(FruitList.list[otherIndex], hitpoint, Quaternion.identity, gameObject.transform.parent);
+					hitpoint.y += 1.1f;
 					newFruit.transform.DOScale(0.001f, 0f);
 					newFruit.transform.DOScale(0.2f, 0.5f);
 					Color newColor = GetComponent<FruitInfo>().mergeColor; // Lấy màu từ mergeColor

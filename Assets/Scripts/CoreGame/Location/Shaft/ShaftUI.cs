@@ -127,6 +127,7 @@ public class ShaftUI : MonoBehaviour
     }
     private void ChangePawStart(double value)
     {
+		Debug.Log("Change Paw: " + value);
         if (value > 0)
         {
             m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
@@ -152,15 +153,15 @@ public class ShaftUI : MonoBehaviour
         else
         {
             //m_lyNuocHolder.gameObject.SetActive(false);
-            m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+            m_animatorTable.AnimationState.SetAnimation(0, "Idle", true);
         }
     }
     private void ChangePawEleHandler(double value)
     {
-        Debug.Log("Change Paw: " + value);
-        //m_animatorTable.SetTrigger("Shake");
+		Debug.Log("Change Paw: " + value);
+		//m_animatorTable.SetTrigger("Shake");
 
-        if (value > 0)
+		if (value > 0)
         {
             //m_lyNuocHolder.gameObject.SetActive(true);
             m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
