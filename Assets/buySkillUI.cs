@@ -72,7 +72,6 @@ public class buySkillUI : MonoBehaviour
 
 		bool checkCoin()
 		{
-			//hideImage.gameObject.SetActive(coin < 300);
 			return coin >= 300;
 		}
 	}
