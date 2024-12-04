@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class MarketToggleHandle : MonoBehaviour
 
 	private void OnToggleValueChanged(bool isOn, InventoryItemType itemType)
 	{
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		if (isOn)
 		{
 			if(itemType != InventoryItemType.Null)

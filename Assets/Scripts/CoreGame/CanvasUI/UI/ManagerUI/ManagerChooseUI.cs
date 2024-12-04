@@ -189,6 +189,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void ClosePanel()
     {
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		FadeOutContainer();
     }
 

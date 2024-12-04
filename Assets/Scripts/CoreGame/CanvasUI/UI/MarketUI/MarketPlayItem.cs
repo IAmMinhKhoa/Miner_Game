@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -51,6 +52,7 @@ public class MarketPlayItem : MonoBehaviour
 	public SkeletonGraphic SecondSpine => seconSpine;
 	public void OnItemClick()
 	{
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		OnItemIsBought?.Invoke(this);
 	}
 	public void ItemIsBought()

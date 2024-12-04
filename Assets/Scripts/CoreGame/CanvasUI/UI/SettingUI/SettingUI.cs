@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NOOD.Sound;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +59,7 @@ public class SettingUI : MonoBehaviour
 	[Button]
 	public void FadeOutContainer()
 	{
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 		{

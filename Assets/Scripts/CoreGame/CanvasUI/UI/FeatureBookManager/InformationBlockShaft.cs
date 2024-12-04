@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NOOD.Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -98,6 +99,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void SetData(Manager manager) //use in case when drag and drop card to list shaft -> update data to shaft
     {
+		SoundManager.PlaySound(SoundEnum.mobileClickBack);
         if (manager != null)
         {
             ValidateData(manager);
