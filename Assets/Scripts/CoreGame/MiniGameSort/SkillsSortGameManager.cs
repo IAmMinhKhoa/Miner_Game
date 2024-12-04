@@ -14,18 +14,16 @@ public class SkillsSortGameManager : MonoBehaviour
 
 	void Start()
 	{
-		buttons[0].GetComponent<Button>().onClick.AddListener(OnClickSkillFreeze);
-		buttons[1].GetComponent<Button>().onClick.AddListener(OnClickSkillDestroy);
+		skills[0].skillCount = PlayerPrefs.GetInt("sortGameSkill_Freeze", 3);
+		skills[1].skillCount = PlayerPrefs.GetInt("sortGameSkill_Destroy", 3);
+		UpdateSkillCount(0);
+		UpdateSkillCount(1);
 	}
 
 	public void OnClickPlay()
 	{
-		foreach(sortGameSkills sk in skills)
-		{
-			sk.skillCount = 3;
-		}
-		UpdateSkillCount(0);
-		UpdateSkillCount(1);
+		buttons[0].GetComponent<Button>().onClick.AddListener(OnClickSkillFreeze);
+		buttons[1].GetComponent<Button>().onClick.AddListener(OnClickSkillDestroy);
 	}
 
 	void OnClickSkillFreeze()
@@ -39,7 +37,7 @@ public class SkillsSortGameManager : MonoBehaviour
 		{
 			skills[0].ActiveSkill();
 			skills[0].skillCount -= 1;
-			
+			PlayerPrefs.SetInt("sortGameSkill_Freeze", skills[0].skillCount);
 		}
 		UpdateSkillCount(0);
 	}
@@ -55,7 +53,7 @@ public class SkillsSortGameManager : MonoBehaviour
 		{
 			skills[1].ActiveSkill();
 			skills[1].skillCount -= 1;
-			skillCountText[1].text = skills[1].skillCount.ToString();
+			PlayerPrefs.SetInt("sortGameSkill_Destroy", skills[1].skillCount);
 		}
 		UpdateSkillCount(1);
 	}
@@ -65,6 +63,15 @@ public class SkillsSortGameManager : MonoBehaviour
 		if (skills[id].skillCount > 0) buttons[id].GetComponent<Image>().sprite = activeSprites[id];
 		else buttons[id].GetComponent<Image>().sprite = buySprites[id];
 
+
 		skillCountText[id].text = skills[id].skillCount.ToString();
+	}
+
+	public void UpdateAllSkill()
+	{
+		skills[0].skillCount = PlayerPrefs.GetInt("sortGameSkill_Freeze", 3);
+		skills[1].skillCount = PlayerPrefs.GetInt("sortGameSkill_Destroy", 3);
+		UpdateSkillCount(0);
+		UpdateSkillCount(1);
 	}
 }
