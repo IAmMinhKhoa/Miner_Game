@@ -38,7 +38,6 @@ public class BannerController : Patterns.Singleton<BannerController>
 		// Check if banner data exists in PlayerPrefs
 		if (PlayerPrefs.HasKey("BannerData") && PlayerPrefs.GetString("BannerData") != "")
 		{
-			Debug.Log("999999999999----- ");
 			string json = PlayerPrefs.GetString("BannerData");
 			BannerEntity banner = JsonUtility.FromJson<BannerEntity>(json);
 			curBannerEntity = banner;

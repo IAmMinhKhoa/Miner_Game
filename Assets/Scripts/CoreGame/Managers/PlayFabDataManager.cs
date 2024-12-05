@@ -33,7 +33,8 @@ namespace PlayFabManager.Data
 				{ "ManagersController", "" },
 				{ "PawVolume", "" },
 				{ "SkinManager", "" },
-				{ "LastTimeQuit", "" }
+				{ "LastTimeQuit", "" },
+				{ "LastTimeCoinReward", "" }
 			};
 			await Login();
 			await GetDataFromPlayFab();
@@ -134,7 +135,7 @@ namespace PlayFabManager.Data
 			DataDictionary[key] = value;
 		}
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";
-		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : null;
+		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : "";
 		//Su dung de but data lay ve tu playfab
 		/*public void FectchData()
 		{
