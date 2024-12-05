@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37089851, g: 0.3783701, b: 0.3572253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1390,8 +1390,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97.14, y: 0}
-  m_SizeDelta: {x: 270.64, y: 40.74}
+  m_AnchoredPosition: {x: -154.14, y: 0}
+  m_SizeDelta: {x: 384.63, y: 40.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201406444
 MonoBehaviour:
@@ -1745,7 +1745,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1758,7 +1758,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 4ac8de240bc484a4391de6d6aec28018, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -2469,7 +2469,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2482,7 +2482,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 4ac8de240bc484a4391de6d6aec28018, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3903,8 +3903,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97.14, y: 0}
-  m_SizeDelta: {x: 270.64, y: 40.74}
+  m_AnchoredPosition: {x: -134.45, y: 0}
+  m_SizeDelta: {x: 345.25, y: 40.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1011515020
 MonoBehaviour:
@@ -4882,6 +4882,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1159258426}
   - component: {fileID: 1159258428}
+  - component: {fileID: 1159258429}
   m_Layer: 5
   m_Name: pnBuySkillFreeze
   m_TagString: Untagged
@@ -4919,6 +4920,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159258425}
   m_CullTransparentMesh: 1
+--- !u!114 &1159258429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159258425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120446194cce0fa499f9cb7784a7cfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmGacha: {fileID: 410889247}
+  addAmountGachaButton: {fileID: 823568518}
+  removeAmountGachaButton: {fileID: 217338106}
+  addButtonClickable: {fileID: 823568520}
+  removeButtonClickable: {fileID: 217338107}
+  amountGachaText: {fileID: 1343944995}
+  remainText: {fileID: 1386569011}
+  skillCountPref: sortGameSkill_Freeze
 --- !u!1 &1170830174
 GameObject:
   m_ObjectHideFlags: 0
@@ -8177,6 +8198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2026718077}
   - component: {fileID: 2026718079}
+  - component: {fileID: 2026718080}
   m_Layer: 5
   m_Name: pnBuySkillDestroy
   m_TagString: Untagged
@@ -8214,6 +8236,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026718076}
   m_CullTransparentMesh: 1
+--- !u!114 &2026718080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026718076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120446194cce0fa499f9cb7784a7cfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmGacha: {fileID: 207264843}
+  addAmountGachaButton: {fileID: 1128135573}
+  removeAmountGachaButton: {fileID: 1575994155}
+  addButtonClickable: {fileID: 1128135575}
+  removeButtonClickable: {fileID: 1575994156}
+  amountGachaText: {fileID: 202495427}
+  remainText: {fileID: 274742585}
+  skillCountPref: sortGameSkill_Destroy
 --- !u!1 &2034000821
 GameObject:
   m_ObjectHideFlags: 0

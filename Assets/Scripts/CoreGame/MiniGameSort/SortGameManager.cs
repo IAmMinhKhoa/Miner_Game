@@ -55,7 +55,6 @@ public class SortGameManager : MonoBehaviour
 				currentDelayTime = clawDelayTime;
 				DropLoop();
 			}
-			Debug.Log(currentDelayTime.ToString());
 		}
 	}
 
