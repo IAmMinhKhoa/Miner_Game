@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -40,6 +41,7 @@ namespace UI.Inventory
 		}
 		public void CloseUI()
 		{
+			SoundManager.PlaySound(SoundEnum.mobileTexting2);
 			gameObject.SetActive(false);
 		}
     }
