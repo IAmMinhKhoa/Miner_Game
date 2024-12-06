@@ -44,7 +44,7 @@ public class SettingChildButton : MonoBehaviour
 		var selectedLocale = index == 0
 			? LocalizationSettings.AvailableLocales.GetLocale("vi")
 			: LocalizationSettings.AvailableLocales.GetLocale("en");
-
+		ManagersController.Instance.SetLocal(index == 0 ? "vi" : "en");
 		LocalizationSettings.SelectedLocale = selectedLocale;
 	}
 }

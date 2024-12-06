@@ -47,7 +47,6 @@ namespace UI.Inventory
 		{
 			string titleKey = string.Empty;
 			string titleKeyDesc = string.Empty;
-			Debug.LogError(itType.ToString());
 			switch(itType)
 			{
 				case InventoryItemType.ShaftBg:
@@ -88,9 +87,9 @@ namespace UI.Inventory
 					break;
 			}	
 			this.index = index;
-			this.desc = titleKeyDesc;
-			iName = titleKey;
-			nameBgItem.text = titleKey;
+			this.desc = desc;
+			iName = itemName;
+			nameBgItem.text = itemName;
 			int idSkinInfo = SkinManager.Instance.ItemBought[itType].IndexOf((index).ToString());
 			if(idSkinInfo == -1 && index != 1)
 			{

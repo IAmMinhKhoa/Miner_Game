@@ -11,22 +11,47 @@ using UnityEngine;
 	public class DataSkinBase
 	{
 		public string id;
-		public string name;
-		public string desc;
+		public MultipleLanguageContent name;
+		public MultipleLanguageContent desc;
+		public MultipleLanguageContent exp;
 		public string cost;
 		public string quality;
-	    public DataSkinBase(string id, string name, string desc, string cost, string quality)
+		public float value_1;
+		public float value_2;
+		public float value_3;
+	public DataSkinBase(string id, MultipleLanguageContent name, MultipleLanguageContent desc, MultipleLanguageContent exp, string cost, string quality, float expLevel, float workHardLevel, float funnyLevel)
 		{
 			this.id = id;
 			this.name = name;
 			this.desc = desc;
+			this.exp = exp;
 			this.cost = cost;
 			this.quality = quality;
+			this.value_1 = expLevel;
+			this.value_2 = workHardLevel;
+			this.value_3 = funnyLevel;
 		}
 	}
-
-
 	[System.Serializable]
+	public class MultipleLanguageContent
+	{
+		public string vi;
+		public string en;
+
+	public string GetContent(string languageCode)
+	{
+		var languageDictionary = new Dictionary<string, string>
+		{
+			{ "vi",  vi },
+			{ "en", en}
+		};
+
+		return languageDictionary.ContainsKey(languageCode) ? languageDictionary[languageCode] : "";
+	}
+
+}
+
+[System.Serializable]
 	public class SkinResource
 	{
 		public List<DataSkinBase> skinElevator;

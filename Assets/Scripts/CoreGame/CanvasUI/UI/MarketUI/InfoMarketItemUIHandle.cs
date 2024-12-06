@@ -36,16 +36,22 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	Image hideNormalBuyIMG;
 	[SerializeField]
 	Image hideSuperBuyIMG;
+	[Header("Text")]
 	[SerializeField]
 	TextMeshProUGUI title;
 	[SerializeField]
 	TextMeshProUGUI description;
 	[SerializeField]
 	TextMeshProUGUI subNameText;
+	[SerializeField] TextMeshProUGUI exp;
 	[SerializeField]
 	SkeletonGraphic subHead;
 	[SerializeField]
 	SkeletonGraphic subBody;
+	[Header("Slider")]
+	[SerializeField] Slider expSlider;
+	[SerializeField] Slider workeHardSlider;
+	[SerializeField] Slider funnySlider;
 	[Header("Character Skin SO")]
 	[SerializeField]
 	CharacterScalePosSO headShaftScale;
@@ -127,20 +133,20 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 				break;
 		}
 		title_quality.text = titleKeyQuality;
-		Dictionary<InventoryItemType, string> keyValuePairs = new()
-		{
-			{ InventoryItemType.ShaftBg, "Back Ground Tầng"},
-			{ InventoryItemType.CounterBg, "Back Ground Quầy"},
-			{ InventoryItemType.ElevatorBg, "Back Ground Phòng Trà Sữa"},
-			{ InventoryItemType.ShaftCart, "Xe Đẩy"},
-			{ InventoryItemType.Elevator, "Thang Máy"},
-			{ InventoryItemType.ShaftSecondBg, "Nền"},
-			{ InventoryItemType.ShaftWaitTable, "Bàn Chờ"},
-			{ InventoryItemType.ShaftCharacter, "Nhân Viên Đẩy Xe"},
-			{ InventoryItemType.ElevatorCharacter, "Nhân Viên Thang Máy"},
-			{ InventoryItemType.ShaftCharacterBody, "Nhân Viên Đẩy Xe"},
-			{ InventoryItemType.ElevatorCharacterBody, "Nhân Viên Thang Máy"},
-		};
+		//Dictionary<InventoryItemType, string> keyValuePairs = new()
+		//{
+		//	{ InventoryItemType.ShaftBg, "Back Ground Tầng"},
+		//	{ InventoryItemType.CounterBg, "Back Ground Quầy"},
+		//	{ InventoryItemType.ElevatorBg, "Back Ground Phòng Trà Sữa"},
+		//	{ InventoryItemType.ShaftCart, "Xe Đẩy"},
+		//	{ InventoryItemType.Elevator, "Thang Máy"},
+		//	{ InventoryItemType.ShaftSecondBg, "Nền"},
+		//	{ InventoryItemType.ShaftWaitTable, "Bàn Chờ"},
+		//	{ InventoryItemType.ShaftCharacter, "Nhân Viên Đẩy Xe"},
+		//	{ InventoryItemType.ElevatorCharacter, "Nhân Viên Thang Máy"},
+		//	{ InventoryItemType.ShaftCharacterBody, "Nhân Viên Đẩy Xe"},
+		//	{ InventoryItemType.ElevatorCharacterBody, "Nhân Viên Thang Máy"},
+		//};
 		string titleKey = string.Empty;
 		string titleKeyDesc = string.Empty;
 		string titleKeySubName = string.Empty;
@@ -226,8 +232,32 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		var skinInfo = SkinManager.Instance.InfoSkinGame[itemSize.type].Where(x => x.id == it.ID).First();
 		//title.text = skinInfo.name;
 		//description.text = skinInfo.desc;
-		title.text = titleKey +" " + it.ID.ToString();
-		description.text = titleKeyDesc;
+		var skinManager = SkinManager.Instance.InfoSkinGame;
+		title.text = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().name.
+			GetContent(ManagersController.Instance.localSelected);
+		description.text = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().desc.
+			GetContent(ManagersController.Instance.localSelected);
+		if(exp != null)
+		{
+			exp.text = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().exp.
+			GetContent(ManagersController.Instance.localSelected);
+
+			expSlider.value = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().value_1;
+			workeHardSlider.value = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().value_2;
+			funnySlider.value = skinManager[itemSize.type]
+			.Where(x => x.id == it.ID)
+			.First().value_3;
+		}
 		normalCost.text =  Currency.DisplayCurrency(it.Cost);
 		superMoneyCost.text = it.SuperCost.ToString();
 		//if (it.IsItemBougth)

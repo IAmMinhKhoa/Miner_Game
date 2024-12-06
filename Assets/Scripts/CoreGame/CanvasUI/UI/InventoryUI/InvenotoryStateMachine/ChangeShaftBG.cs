@@ -48,7 +48,7 @@ public class ChangeShaftBG : BaseState<InventoryItemType>
 			var _item = bgList.listItem[i];
 			_item.OnBackGroundItemClick += HandleItemClick;
 			var itemInfo = listSkin[i];
-			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.desc, itemInfo.name, InventoryItemType.ShaftBg);
+			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.ShaftBg);
 			_item.bg.gameObject.SetActive(true);
 			ChangeSkin(_item.bg, "Click_" + itemInfo.id);
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(skinData.idSecondBg) + 1));
