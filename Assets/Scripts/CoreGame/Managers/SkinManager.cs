@@ -151,6 +151,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			string jsonContent = jsonFile.text;
 			Debug.Log(jsonContent);
 			skinResource = JsonUtility.FromJson<SkinResource>(jsonContent);
+			Debug.Log(skinResource.skinWaitTable[0].name.GetContent("vi") + " 9999 9 9 000 --");
 			InfoSkinGame = new()
 			{
 				[InventoryItemType.Elevator] = skinResource.skinElevator,
@@ -184,7 +185,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.id) != null)
 			{
-				listSkin.Add((skin.id, skin.name));
+				listSkin.Add((skin.id, skin.name.GetContent(ManagersController.Instance.localSelected)));
 			}
 		}
 		//lay skin tu SO
@@ -202,7 +203,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	public List<DataSkinBase> GetListDataSkinBases(InventoryItemType type)
 	{
 		var skeletonData = SkinGameDataAsset.SkinGameData[type];
-		var listBaseSkin = skinResource.skinWaitTable;
+		List<DataSkinBase> listBaseSkin = InfoSkinGame[type];
 		List<DataSkinBase> listSkin = new();
 		//Lay skin tu file json
 		foreach (var skin in listBaseSkin)
@@ -212,16 +213,16 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				listSkin.Add(skin);
 			}
 		}
-		//lay skin tu SO
-		var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
-		foreach (var skin in listEventSkin)
-		{
-			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
-			{
-				var skinData = new DataSkinBase(skin.ID, skin.Name, skin.Description, "", "");
-				listSkin.Add(skinData);
-			}
-		}
+		////lay skin tu SO
+		//var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
+		//foreach (var skin in listEventSkin)
+		//{
+		//	if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
+		//	{
+		//		var skinData = new DataSkinBase(skin.ID, skin.Name, skin.Description, "", "");
+		//		listSkin.Add(skinData);
+		//	}
+		//}
 		return listSkin;
 	}
 

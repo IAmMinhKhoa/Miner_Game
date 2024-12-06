@@ -16,6 +16,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
     private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
     private List<ManagerTimeDataSO> _managerTimeDataSOList => MainGameData.managerTimeDataSOList;
+	public string localSelected { private set; get; } = "vi";
+
+	public void SetLocal(string localSelected) => this.localSelected = localSelected;
     private double _ShaftHireCost = 100;
     private double _ElevatorHireCost = 1000;
     private double _CounterHireCost = 1000;

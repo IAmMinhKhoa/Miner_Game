@@ -31,7 +31,6 @@ namespace UI.Inventory
 		[SerializeField] TextMeshProUGUI itemName;
 		public void SetItemInfo(int indexSkin, InventoryItemType itType, bool isHeadSkin)
 		{
-			Debug.LogError(itType.ToString());
 			string titleKey = string.Empty;
 			switch (itType)
 			{
