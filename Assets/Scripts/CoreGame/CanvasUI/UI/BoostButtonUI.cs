@@ -60,6 +60,7 @@ public class BoostButtonUI : MonoBehaviour
             cooldownImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][1]);
             activeImage.sprite = Resources.Load<Sprite>(MainGameData.BoostButtonUIs[boostType][0]);
         }
+		
     }
 
     void Update()

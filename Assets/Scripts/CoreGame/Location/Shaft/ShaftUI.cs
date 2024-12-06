@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using NOOD.SerializableDictionary;
 using System.Linq;
 using Spine;
+using DG.Tweening;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -36,10 +37,12 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private SkeletonAnimation m_animatorTable;
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
-    [Header("Skin Object")]
+	[SerializeField] private GameObject costBoostFX;
+	[Header("Skin Object")]
     [SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
     [SerializeField] SkeletonAnimation m_secondbg;
+
 
     public SkeletonAnimation BG => m_br;
     public SkeletonAnimation SecondBG => m_secondbg;
@@ -263,6 +266,10 @@ public class ShaftUI : MonoBehaviour
         if (m_shaft.ManagerLocation.Manager != null)
         {
             m_shaft.ManagerLocation.RunBoost();
+			if (m_shaft.ManagerLocation.doFX)
+			{
+				ProcessBoostUI(m_shaft.ManagerLocation.Manager.BoostType, m_shaft.ManagerLocation.Manager.BoostTime);
+			}
         }
     }
     public void UpdateSkeletonData()
@@ -344,6 +351,54 @@ public class ShaftUI : MonoBehaviour
             }
         }
     }
+
+	void ProcessBoostUI(BoostType boostType, float boostTime)
+	{
+		if(boostType == BoostType.Efficiency)
+		{
+			foreach(Brewer t in m_shaft.Brewers)
+			{
+				t.CartSkeletonAnimation.gameObject.transform.DOScale(0.4f, 0.5f);
+				Invoke("TurnOffEffFx", boostTime * 60);
+			}
+		}
+
+		if(boostType == BoostType.Costs)
+		{
+			costBoostFX.SetActive(true);
+			Invoke("TurnOffCostFx", boostTime * 60);
+		}
+
+		if (boostType == BoostType.Speed)
+		{
+			foreach (Brewer t in m_shaft.Brewers)
+			{
+				t.BoostFx(true);
+				Invoke("TurnOffSpeedFx", boostTime * 60);
+			}
+		}
+	}
+
+	void TurnOffCostFx()
+	{
+		costBoostFX.SetActive(false);
+	}
+
+	void TurnOffSpeedFx()
+	{
+		foreach (Brewer t in m_shaft.Brewers)
+		{
+			t.BoostFx(false);
+		}
+	}
+
+	void TurnOffEffFx()
+	{
+		foreach (Brewer t in m_shaft.Brewers)
+		{
+			t.CartSkeletonAnimation.gameObject.transform.DOScale(0.3f, 0.5f);
+		}
+	}
 
     public void AwakeWorker()
     {
