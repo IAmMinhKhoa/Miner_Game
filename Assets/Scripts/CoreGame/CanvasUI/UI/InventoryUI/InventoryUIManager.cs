@@ -361,7 +361,7 @@ namespace UI.Inventory
 		[Button]
 		public void FadeOutContainer()
 		{
-			SoundManager.PlaySound(SoundEnum.mobileClickBack);
+			SoundManager.PlaySound(SoundEnum.mobileTexting2);
 			Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 			gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 			{

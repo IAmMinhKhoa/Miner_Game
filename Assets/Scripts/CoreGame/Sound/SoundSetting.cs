@@ -446,7 +446,7 @@ public class SoundSetting : MonoBehaviour
     [Button]
     public void FadeOutContainer()
     {
-		SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Container.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {

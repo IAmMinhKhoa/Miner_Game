@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -96,6 +97,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	}
 	public void FadeOutContainer()
 	{
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 		{

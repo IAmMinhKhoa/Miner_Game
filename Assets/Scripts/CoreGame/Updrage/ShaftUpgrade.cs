@@ -7,7 +7,20 @@ public class ShaftUpgrade : BaseUpgrade
 {
 	private Shaft shaft;
 	[SerializeField] private SerializableDictionary<int, int> evolutionLevelDic = new SerializableDictionary<int, int>();
-
+	private Dictionary<int, int> milestoneLevels = new Dictionary<int, int>
+	{
+		{ 10, 4 },
+		{ 25, 4 },
+		{ 50, 4 },
+		{ 100, 4 },
+		{ 200, 4 },
+		{ 300, 4 },
+		{ 400, 4 },
+		{ 500, 4 },
+		{ 600, 4 },
+		{ 700, 4 },
+		{ 800, 4 },
+	};
 	protected override float CostsBoost
 	{
 		get
@@ -23,7 +36,10 @@ public class ShaftUpgrade : BaseUpgrade
 	{
 		float nextScale = GetNextUpgradeScale(CurrentLevel);
 		shaft.LevelBoost *= 1 + nextScale;
-
+		if (milestoneLevels.TryGetValue(CurrentLevel, out int superMoney))
+		{
+			SuperMoneyManager.Instance.AddMoney(superMoney);
+		}	
 		switch (CurrentLevel)
 		{
 			case 10:

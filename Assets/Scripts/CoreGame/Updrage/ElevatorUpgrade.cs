@@ -6,8 +6,37 @@ using UnityEngine.PlayerLoop;
 public class ElevatorUpgrade : BaseUpgrade
 {
     private ElevatorSystem elevatorSystem;
-
-    protected override float CostsBoost
+	private Dictionary<int, int> milestoneLevels = new Dictionary<int, int>
+	{
+		{ 10, 4 },
+		{ 25, 4 },
+		{ 50, 4 },
+		{ 100, 4 },
+		{ 200, 4 },
+		{ 300, 4 },
+		{ 400, 4 },
+		{ 500, 4 },
+		{ 600, 4 },
+		{ 700, 4 },
+		{ 800, 4 },
+		{ 900, 4 },
+		{ 1000, 4 },
+		{ 1100, 4 },
+		{ 1200, 4 },
+		{ 1300, 4 },
+		{ 1400, 4 },
+		{ 1500, 4 },
+		{ 1600, 4 },
+		{ 1700, 4 },
+		{ 1800, 4 },
+		{ 1900, 4 },
+		{ 2000, 4 },
+		{ 2100, 4 },
+		{ 2200, 4 },
+		{ 2300, 4 },
+		{ 2400, 4 },
+	};
+	protected override float CostsBoost
     {
         get => elevatorSystem.CostsBoost;
     }
@@ -21,7 +50,12 @@ public class ElevatorUpgrade : BaseUpgrade
     protected override void RunUpgrade()
     {
         double nextScale = GetMoveTimeScale(CurrentLevel);
-        elevatorSystem.MoveTimeScale *= nextScale;
+		if (milestoneLevels.TryGetValue(CurrentLevel, out int superMoney))
+		{
+			SuperMoneyManager.Instance.AddMoney(superMoney);
+		}
+
+		elevatorSystem.MoveTimeScale *= nextScale;
         elevatorSystem.LoadSpeedScale *= 1 + GetNextLoadingSpeedScale(CurrentLevel);
     }
 

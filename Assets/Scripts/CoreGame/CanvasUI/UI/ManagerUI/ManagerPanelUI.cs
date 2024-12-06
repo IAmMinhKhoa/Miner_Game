@@ -37,7 +37,7 @@ public class ManagerPanelUI : MonoBehaviour
 
     private void ClosePanel()
     {
-		SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		gameObject.SetActive(false);
     }
 
