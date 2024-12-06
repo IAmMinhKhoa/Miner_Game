@@ -39,6 +39,9 @@ public class Brewer : BaseWorker
         get => config.MoveTime / CurrentShaft.SpeedBoost;
     }
 
+	[SerializeField] private ParticleSystem dustFx;
+	private bool isBoostingFX;
+
     void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -116,6 +119,12 @@ public class Brewer : BaseWorker
         numberText.SetText(Currency.DisplayCurrency(max));
     }
 
+	public void BoostFx(bool value)
+	{
+		isBoostingFX = value;
+		GetComponent<TrailRenderer>().enabled = value;
+	}
+
     protected override void PlayAnimation(WorkerState state, bool direction)
     {
         switch (state)
@@ -158,6 +167,12 @@ public class Brewer : BaseWorker
                 brewerSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
+
+				if(isBoostingFX)
+				{
+					dustFx.Play();
+				}
+
                 break;
         }
     }

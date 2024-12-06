@@ -184,6 +184,7 @@ public class Manager
             await UniTask.Yield(cancellationToken.Token);
         }
         _isBoosting = false;
+		Location.doFX = false;
         Cooldown();
     }
     private async UniTaskVoid Cooldown()
@@ -206,7 +207,8 @@ public class Manager
         cancellationToken.Cancel();
         _isBoosting = false;
         currentBoostTime = 0;
-        Cooldown();
+
+		Cooldown();
     }
 
     private void OnDestroy()

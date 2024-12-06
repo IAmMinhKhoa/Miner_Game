@@ -37,6 +37,10 @@ public class Transporter : BaseWorker
         get => config.MoveTime / Counter.SpeedBoost;
     }
     public event Action<bool> OnCashier;
+
+	private bool isBoostingFX;
+	[SerializeField] private ParticleSystem dustFx;
+
     private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -167,7 +171,12 @@ public class Transporter : BaseWorker
                 transporterSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 tailSketonAnimation.AnimationState.SetAnimation(0, "Active", true);
                 headSkeletonAnimation.AnimationState.SetAnimation(0, "Active", true);
-                break;
+
+				if (isBoostingFX)
+				{
+					dustFx.Play();
+				}
+				break;
         }
     }
 
@@ -206,4 +215,10 @@ public class Transporter : BaseWorker
             numberText.SetText(Currency.DisplayCurrency(max));
         }
     }
+
+	public void BoostFx(bool value)
+	{
+		isBoostingFX = value;
+		GetComponent<TrailRenderer>().enabled = value;
+	}
 }

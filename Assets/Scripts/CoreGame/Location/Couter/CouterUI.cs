@@ -9,6 +9,7 @@ using NOOD.SerializableDictionary;
 using Newtonsoft.Json;
 using Spine;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 public class CounterUI : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class CounterUI : MonoBehaviour
 	[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	private Counter m_counter;
 	private CounterUpgrade m_counterUpgrade;
+
+	[SerializeField] private GameObject costBoostFX;
 
 
 	void Awake()
@@ -137,6 +140,55 @@ public class CounterUI : MonoBehaviour
 	{
 		m_counter.RunBoost();
 	}
+
+	void ProcessBoostUI(BoostType boostType, float boostTime)
+	{
+		if (boostType == BoostType.Efficiency)
+		{
+			foreach (Transporter t in m_counter.Transporters)
+			{
+				t.CartSkeletonAnimation.gameObject.transform.DOScale(0.4f, 0.5f);
+				Invoke("TurnOffEffFx", boostTime * 60);
+			}
+		}
+
+		if (boostType == BoostType.Costs)
+		{
+			costBoostFX.SetActive(true);
+			Invoke("TurnOffCostFx", boostTime * 60);
+		}
+
+		if (boostType == BoostType.Speed)
+		{
+			foreach (Transporter t in m_counter.Transporters)
+			{
+				t.BoostFx(true);
+				Invoke("TurnOffSpeedFx", boostTime * 60);
+			}
+		}
+	}
+
+	void TurnOffCostFx()
+	{
+		costBoostFX.SetActive(false);
+	}
+
+	void TurnOffSpeedFx()
+	{
+		foreach (Transporter t in m_counter.Transporters)
+		{
+			t.BoostFx(false);
+		}
+	}
+
+	void TurnOffEffFx()
+	{
+		foreach (Transporter t in m_counter.Transporters)
+		{
+			t.CartSkeletonAnimation.gameObject.transform.DOScale(0.3f, 0.5f);
+		}
+	}
+
 	void OpenManagerPanel()
 	{
 		ManagersController.Instance.OpenManagerPanel(m_counter.ManagerLocation);
