@@ -189,7 +189,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void ClosePanel()
     {
-		SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		FadeOutContainer();
     }
 

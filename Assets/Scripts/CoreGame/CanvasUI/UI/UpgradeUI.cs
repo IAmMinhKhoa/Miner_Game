@@ -122,7 +122,7 @@ public class UpgradeUI : MonoBehaviour
 
 	private async void ClosePanel()
 	{
-		SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		this.transform.DOMove(hideTrans.position, 0.6f).SetEase(Ease.InQuart);
 		while (canvasGroup.alpha > 0)
 		{

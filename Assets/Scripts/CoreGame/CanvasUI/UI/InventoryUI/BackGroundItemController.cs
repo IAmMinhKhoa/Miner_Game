@@ -1,4 +1,5 @@
 
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -77,6 +78,7 @@ namespace UI.Inventory
 		}
 		public void CloseUI()
 		{
+			SoundManager.PlaySound(SoundEnum.mobileTexting2);
 			gameObject.SetActive(false);
 			invetorPanel.SetActive(true);
 		}

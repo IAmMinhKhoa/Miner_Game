@@ -62,6 +62,7 @@ public class PlayList : MonoBehaviour
     }
     public void CloseModal()
     {
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         transform.DOLocalMoveY(posCam.y + 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {
