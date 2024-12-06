@@ -39,9 +39,9 @@ public class MiniGameUI : MonoBehaviour
 	void Awake()
 	{
 		_canvasGroup = this.GetComponent<CanvasGroup>();
-		miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(1); });
-		miniGame_Fruit.onClick.AddListener(() => { MiniGame(2); });
-		miniGame_Puzzle.onClick.AddListener(() => { MiniGame(3); });
+	//	miniGame_FlappyBird.onClick.AddListener(() => { MiniGame(1); });
+		miniGame_Fruit.onClick.AddListener(() => { MiniGame(1); });
+		miniGame_Puzzle.onClick.AddListener(() => { MiniGame(2); });
 		_disableToken = new CancellationTokenSource();
 		btn_back.onClick.AddListener(OnBack);
 		btn_redeempoints.onClick.AddListener(OnRedeempoints);
