@@ -151,7 +151,6 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			string jsonContent = jsonFile.text;
 			Debug.Log(jsonContent);
 			skinResource = JsonUtility.FromJson<SkinResource>(jsonContent);
-			Debug.Log(skinResource.skinWaitTable[0].name.GetContent("vi") + " 9999 9 9 000 --");
 			InfoSkinGame = new()
 			{
 				[InventoryItemType.Elevator] = skinResource.skinElevator,
@@ -189,14 +188,14 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			}
 		}
 		//lay skin tu SO
-		var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
-		foreach (var skin in listEventSkin)
-		{
-			if(skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
-			{
-				listSkin.Add((skin.ID, skin.Name));
-			}
-		}
+		//var listEventSkin = skinEvent.Where(item => item.type == type).First().listSkinGacha;
+		//foreach (var skin in listEventSkin)
+		//{
+		//	if(skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.ID) != null)
+		//	{
+		//		listSkin.Add((skin.ID, skin.Name));
+		//	}
+		//}
 		return listSkin;
 	}
 
@@ -210,6 +209,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		{
 			if (skeletonData.GetSkeletonData(false).FindSkin("Icon_" + skin.id) != null)
 			{
+
 				listSkin.Add(skin);
 			}
 		}
