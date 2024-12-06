@@ -219,6 +219,6 @@ public class Transporter : BaseWorker
 	public void BoostFx(bool value)
 	{
 		isBoostingFX = value;
-		GetComponent<TrailRenderer>().enabled = value;
+		transform.GetChild(0).GetComponent<TrailRenderer>().enabled = value;
 	}
 }
