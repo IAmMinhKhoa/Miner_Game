@@ -139,6 +139,10 @@ public class CounterUI : MonoBehaviour
 	void ActiveBoost()
 	{
 		m_counter.RunBoost();
+		if (m_counter.ManagerLocation.doFX)
+		{
+			ProcessBoostUI(m_counter.ManagerLocation.Manager.BoostType, m_counter.ManagerLocation.Manager.BoostTime);
+		}
 	}
 
 	void ProcessBoostUI(BoostType boostType, float boostTime)
@@ -147,7 +151,7 @@ public class CounterUI : MonoBehaviour
 		{
 			foreach (Transporter t in m_counter.Transporters)
 			{
-				t.CartSkeletonAnimation.gameObject.transform.DOScale(0.4f, 0.5f);
+				t.gameObject.transform.DOScale(1.1f, 0.5f);
 				Invoke("TurnOffEffFx", boostTime * 60);
 			}
 		}
@@ -185,7 +189,7 @@ public class CounterUI : MonoBehaviour
 	{
 		foreach (Transporter t in m_counter.Transporters)
 		{
-			t.CartSkeletonAnimation.gameObject.transform.DOScale(0.3f, 0.5f);
+			t.gameObject.transform.DOScale(1f, 0.5f);
 		}
 	}
 

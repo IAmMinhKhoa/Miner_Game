@@ -358,7 +358,7 @@ public class ShaftUI : MonoBehaviour
 		{
 			foreach(Brewer t in m_shaft.Brewers)
 			{
-				t.CartSkeletonAnimation.gameObject.transform.DOScale(0.4f, 0.5f);
+				t.gameObject.transform.DOScale(0.638f, 0.5f);
 				Invoke("TurnOffEffFx", boostTime * 60);
 			}
 		}
@@ -396,7 +396,7 @@ public class ShaftUI : MonoBehaviour
 	{
 		foreach (Brewer t in m_shaft.Brewers)
 		{
-			t.CartSkeletonAnimation.gameObject.transform.DOScale(0.3f, 0.5f);
+			t.gameObject.transform.DOScale(0.58f, 0.5f);
 		}
 	}
 
