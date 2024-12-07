@@ -9,29 +9,20 @@ using UnityEngine.UI;
 
 public class ItemBoxGacha : MonoBehaviour
 {
-	[SerializeField]
-	Image lowBg;
-	[SerializeField]
-	Image normalBg;
-	[SerializeField]
-	Image superBg;
-	[SerializeField]
-	Image ultraBg;
-	[SerializeField]
-	Image low;
-	[SerializeField]
-	Image normal;
-	[SerializeField]
-	Image super;
-	[SerializeField]
-	Image ultra;
-	[SerializeField]
-	Image type;
-	[SerializeField]
-	SkeletonGraphic skeletonGraphic;
-	[SerializeField]
-	SkeletonGraphic subSkeletonGraphic;
-
+	[SerializeField] Image lowBg;
+	[SerializeField] Image normalBg;
+	[SerializeField] Image superBg;
+	[SerializeField] Image ultraBg;
+	[SerializeField] Image low;
+	[SerializeField] Image normal;
+	[SerializeField] Image super;
+	[SerializeField] Image ultra;
+	[SerializeField] Image type;
+	[Header("Spine")]
+	[SerializeField] SkeletonGraphic skeletonGraphic;
+	[SerializeField] SkeletonGraphic subSkeletonGraphic;
+	[SerializeField] SkeletonGraphic effectSpine1;
+	[SerializeField] SkeletonGraphic effectSpine2;
 
 	[Header("Sprite")]
 	[SerializeField]
@@ -71,6 +62,8 @@ public class ItemBoxGacha : MonoBehaviour
 			{
 				_rectTransform.DOScale(1, 0.2f).SetEase(Ease.InQuad);
 			});
+		effectSpine1.Initialize(true);
+		effectSpine2.Initialize(true);
 	}
 
 	private void Start()
