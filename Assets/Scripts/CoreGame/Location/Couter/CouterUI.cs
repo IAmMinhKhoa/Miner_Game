@@ -43,6 +43,7 @@ public class CounterUI : MonoBehaviour
 	{
 		m_counter = GetComponent<Counter>();
 		m_counterUpgrade = GetComponent<CounterUpgrade>();
+	
 	}
 
 	void Start()
@@ -192,7 +193,12 @@ public class CounterUI : MonoBehaviour
 			t.gameObject.transform.DOScale(1f, 0.5f);
 		}
 	}
-
+	public void TurnOffAllEffect()
+	{
+		TurnOffCostFx();
+		TurnOffSpeedFx();
+		TurnOffEffFx();
+	}
 	void OpenManagerPanel()
 	{
 		ManagersController.Instance.OpenManagerPanel(m_counter.ManagerLocation);

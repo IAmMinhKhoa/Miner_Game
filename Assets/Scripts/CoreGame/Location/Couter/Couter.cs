@@ -79,7 +79,9 @@ public class Counter : Patterns.Singleton<Counter>
         if (TryGetComponent<CounterUI>(out CounterUI counterUI))
         {
             counterUI.AddManagerInteract(manager == null);
-        }
+			counterUI.TurnOffAllEffect();
+
+		}
     }
 
     public void UpdateUI()

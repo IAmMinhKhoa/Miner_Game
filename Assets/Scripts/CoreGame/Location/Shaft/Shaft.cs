@@ -208,6 +208,7 @@ public class Shaft : MonoBehaviour
         if (TryGetComponent(out ShaftUI shaftUI))
         {
             shaftUI.AddManagerButtonInteract(isShowing);
+			shaftUI.TurnOffAllEffect();
         }
     }
 }
