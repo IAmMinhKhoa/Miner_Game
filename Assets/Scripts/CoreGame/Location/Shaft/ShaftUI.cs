@@ -399,8 +399,13 @@ public class ShaftUI : MonoBehaviour
 			t.gameObject.transform.DOScale(0.58f, 0.5f);
 		}
 	}
-
-    public void AwakeWorker()
+	public void TurnOffAllEffect()
+	{
+		TurnOffCostFx();
+		TurnOffSpeedFx();
+		TurnOffEffFx();
+	}
+	public void AwakeWorker()
     {
         m_shaft.AwakeWorker();
     }
