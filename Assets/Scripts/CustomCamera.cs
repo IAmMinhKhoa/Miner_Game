@@ -119,4 +119,11 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		return transform;
 	}
+	public void SetYCamera(float value)
+	{
+		Vector3 position = gameObject.transform.position; // Get the current position
+		position.y = value; // Update the y value
+		gameObject.transform.position = position; // Assign the updated position back to the transform
+	}
+
 }
