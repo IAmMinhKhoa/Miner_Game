@@ -42,7 +42,7 @@ using UnityEngine;
 	{
 		var languageDictionary = new Dictionary<string, string>
 		{
-			{ "vi",  vi },
+			{ "vi",  vi},
 			{ "en", en}
 		};
 
