@@ -55,7 +55,9 @@ public class ShaftUI : MonoBehaviour
 
 	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
-
+	//
+	
+	
 
 
     void Awake()
@@ -354,6 +356,7 @@ public class ShaftUI : MonoBehaviour
 
 	void ProcessBoostUI(BoostType boostType, float boostTime)
 	{
+		Debug.LogError(boostType.ToString());
 		if(boostType == BoostType.Efficiency)
 		{
 			foreach(Brewer t in m_shaft.Brewers)
