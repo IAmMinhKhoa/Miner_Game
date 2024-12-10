@@ -28,7 +28,7 @@ public class PlayfabMinigame : MonoBehaviour
 		try
 		{
 			var inventoryResult = await GetUserInventoryAsync();
-			scoreText.text = "Xu: " + inventoryResult.VirtualCurrency["MC"] + "";
+			scoreText.text = inventoryResult.VirtualCurrency["MC"] + "";
 			scoreChangeMachineText.text = inventoryResult.VirtualCurrency["MC"] + "";
 
 		}
@@ -100,7 +100,7 @@ public class PlayfabMinigame : MonoBehaviour
 	private void OnGetUserInventorySuccess(GetUserInventoryResult result)
 	{
 		Debug.Log("ShowData");
-		scoreText.text = "Xu: "+result.VirtualCurrency["MC"] + "";
+		scoreText.text = result.VirtualCurrency["MC"] + "";
 		scoreChangeMachineText.text = result.VirtualCurrency["MC"] + "";
 	}
 
