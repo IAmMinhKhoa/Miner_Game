@@ -79,6 +79,7 @@ public class MiniGameUI : MonoBehaviour
 	}
 	public void MiniGame(int index)
 	{
+		CustomCamera.Instance.SetYCamera(0);
 		SkeletonGraphic selectedMachine = game_machine[index - 1];
 		selectedMachine.transform.DOKill();
 		selectedMachine.transform.localScale = originalScalesGameMachine[index - 1];
