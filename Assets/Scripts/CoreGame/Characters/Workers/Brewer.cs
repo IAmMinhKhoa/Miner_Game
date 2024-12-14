@@ -126,7 +126,7 @@ public class Brewer : BaseWorker
 		isBoostingFX = value;
 		ghostHead.enabled = value;
 		ghostBody.enabled = value;
-		GetComponent<TrailRenderer>().enabled = value;
+	
 	}
 
     protected override void PlayAnimation(WorkerState state, bool direction)

@@ -224,6 +224,6 @@ public class Transporter : BaseWorker
 		isBoostingFX = value;
 		ghostBody.enabled = value;
 		ghostHead.enabled = value;
-		transform.GetChild(0).GetComponent<TrailRenderer>().enabled = value;
+
 	}
 }
