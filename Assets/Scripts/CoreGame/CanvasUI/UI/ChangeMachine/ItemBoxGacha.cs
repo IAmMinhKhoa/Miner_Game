@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -208,9 +209,17 @@ public class ItemBoxGacha : MonoBehaviour
 
 		//titile.text = itemInfo.skinGachaInfor.Name;
 		//description.text = itemInfo.skinGachaInfor.Description;
-		titile.text = titleKey;
-		description.text = titleKeyDesc;
-		if(isUpdatePos) {
+		titile.text = SkinManager.Instance.InfoSkinGame[itemInfo.type]
+			.Where(x => x.id == itemInfo.skinGachaInfor.ID)
+			.First()
+			.name
+			.GetContent(ManagersController.Instance.localSelected);
+		description.text = SkinManager.Instance.InfoSkinGame[itemInfo.type]
+			.Where(x => x.id == itemInfo.skinGachaInfor.ID)
+			.First()
+			.desc
+			.GetContent(ManagersController.Instance.localSelected);
+		if (isUpdatePos) {
 			var spine = skeletonGraphic.GetComponent<RectTransform>();
 			spine.localScale = itemInfo.skinGachaInfor.ScaleSingle;
 			spine.anchoredPosition = itemInfo.skinGachaInfor.PositonSingle;

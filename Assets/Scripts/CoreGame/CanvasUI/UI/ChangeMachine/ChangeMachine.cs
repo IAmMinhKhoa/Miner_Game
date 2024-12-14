@@ -118,13 +118,19 @@ public class ChangeMachine : MonoBehaviour
 				case InventoryItemType.CounterBg:
 				case InventoryItemType.ShaftSecondBg:
 					var initedLongItem = Instantiate(longGachaItemPrefab);
-					initedLongItem.InitialData(item, "Click_" + item.skinGachaInfor.ID);
+					if(!initedLongItem.InitialData(item, "Click_" + item.skinGachaInfor.ID))
+					{
+						continue;
+					}
 					initedLongItem.gameObject.SetActive(false);
 					listLongItem.Add(initedLongItem);
 					break;
 				default:
 					var initedShortItem = Instantiate(shortGachaItemPrefab);
-					initedShortItem.InitialData(item, "Icon_" + item.skinGachaInfor.ID);
+					if(!initedShortItem.InitialData(item, "Icon_" + item.skinGachaInfor.ID))
+					{
+						continue;
+					}
 					initedShortItem.gameObject.SetActive(false);
 					listShortItem.Add(initedShortItem);
 					break;

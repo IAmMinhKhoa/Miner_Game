@@ -16,7 +16,7 @@ public class ShortGachaItem : MonoBehaviour
 	Image super;
 	[SerializeField]
 	Image ultra;
-	public void InitialData(GachaItemInfor itemInfo, string SkinName)
+	public bool InitialData(GachaItemInfor itemInfo, string SkinName)
 	{
 		switch(itemInfo.skinGachaInfor.quality)
 		{
@@ -35,6 +35,9 @@ public class ShortGachaItem : MonoBehaviour
 		}
 
 		skeletonGraphic.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[itemInfo.type];
+
+		if (skeletonGraphic.Skeleton.Data.FindSkin(SkinName) == null) return false;
+
 		skeletonGraphic.initialSkinName = SkinName;
 
 		skeletonGraphic.Initialize(true);
@@ -50,6 +53,8 @@ public class ShortGachaItem : MonoBehaviour
 		var spine = skeletonGraphic.GetComponent<RectTransform>();
 		spine.localScale = itemInfo.skinGachaInfor.Scale;
 		spine.anchoredPosition = itemInfo.skinGachaInfor.Positon;
+
+		return true;
 
 	}
 }

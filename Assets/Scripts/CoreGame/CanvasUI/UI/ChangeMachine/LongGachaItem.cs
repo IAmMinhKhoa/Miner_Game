@@ -17,7 +17,7 @@ public class LongGachaItem : MonoBehaviour
 	[SerializeField]
 	Image ultra;
 
-	public void InitialData(GachaItemInfor itemInfo, string SkinName)
+	public bool InitialData(GachaItemInfor itemInfo, string SkinName)
 	{
 		switch (itemInfo.skinGachaInfor.quality)
 		{
@@ -35,7 +35,12 @@ public class LongGachaItem : MonoBehaviour
 				break;
 		}
 		skeletonGraphic.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[itemInfo.type];
+
+		if (skeletonGraphic.Skeleton.Data.FindSkin(SkinName) == null) return false;
+
 		skeletonGraphic.initialSkinName = SkinName;
 		skeletonGraphic.Initialize(true);
+
+		return true;
 	}
 }
