@@ -41,7 +41,9 @@ public class Brewer : BaseWorker
 
 	[SerializeField] private ParticleSystem dustFx;
 	private bool isBoostingFX;
-
+	[Header("GHOST")]
+	public SkeletonGhost ghostBody;
+	public SkeletonGhost ghostHead;
     void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -122,6 +124,8 @@ public class Brewer : BaseWorker
 	public void BoostFx(bool value)
 	{
 		isBoostingFX = value;
+		ghostHead.enabled = value;
+		ghostBody.enabled = value;
 		GetComponent<TrailRenderer>().enabled = value;
 	}
 

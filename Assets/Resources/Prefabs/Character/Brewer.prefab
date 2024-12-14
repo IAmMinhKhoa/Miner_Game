@@ -114,6 +114,8 @@ MonoBehaviour:
   isWorking: 0
   isBrewing: 0
   dustFx: {fileID: 6587229959826032915}
+  ghostBody: {fileID: 9089447765391968306}
+  ghostHead: {fileID: 2682146913646879309}
 --- !u!210 &27116481471074452
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -378,6 +380,7 @@ GameObject:
   - component: {fileID: 4574408985844283093}
   - component: {fileID: 2839969315365380026}
   - component: {fileID: 2060241167989254282}
+  - component: {fileID: 2682146913646879309}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -493,6 +496,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2881489137049614026}
   m_Mesh: {fileID: 0}
+--- !u!114 &2682146913646879309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2881489137049614026}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ef700919b979d4cae56bdbd8031f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostingEnabled: 1
+  spawnInterval: 0.033333335
+  maximumGhosts: 30
+  fadeSpeed: 7
+  ghostShader: {fileID: 4800000, guid: 0b70700c0ace2364f8e1e71d82e5c21f, type: 3}
+  color:
+    serializedVersion: 2
+    rgba: 2302920
+  additive: 1
+  textureFade: 1
+  sortWithDistanceOnly: 0
+  zOffset: 0
 --- !u!1 &4339138156999781052
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +693,7 @@ GameObject:
   - component: {fileID: 2582832857957475501}
   - component: {fileID: 4035152046039072823}
   - component: {fileID: 5660440282007217607}
+  - component: {fileID: 9089447765391968306}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -781,6 +809,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8311745741711398855}
   m_Mesh: {fileID: 0}
+--- !u!114 &9089447765391968306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8311745741711398855}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ef700919b979d4cae56bdbd8031f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostingEnabled: 1
+  spawnInterval: 0.3
+  maximumGhosts: 30
+  fadeSpeed: 7
+  ghostShader: {fileID: 4800000, guid: 0b70700c0ace2364f8e1e71d82e5c21f, type: 3}
+  color:
+    serializedVersion: 2
+    rgba: 2302920
+  additive: 1
+  textureFade: 1
+  sortWithDistanceOnly: 0
+  zOffset: 0
 --- !u!1001 &4955739842453992745
 PrefabInstance:
   m_ObjectHideFlags: 0

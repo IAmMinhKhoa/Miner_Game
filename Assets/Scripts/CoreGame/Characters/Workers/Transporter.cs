@@ -40,8 +40,11 @@ public class Transporter : BaseWorker
 
 	private bool isBoostingFX;
 	[SerializeField] private ParticleSystem dustFx;
+	[Header("GHOST")]
+	public SkeletonGhost ghostBody;
+	public SkeletonGhost ghostHead;
 
-    private void Start()
+	private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
         numberText.transform.SetParent(transporterView.transform);
@@ -219,6 +222,8 @@ public class Transporter : BaseWorker
 	public void BoostFx(bool value)
 	{
 		isBoostingFX = value;
+		ghostBody.enabled = value;
+		ghostHead.enabled = value;
 		transform.GetChild(0).GetComponent<TrailRenderer>().enabled = value;
 	}
 }
