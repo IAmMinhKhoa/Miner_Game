@@ -52,6 +52,12 @@ public class ChangeMachine : MonoBehaviour
 	ItemBoxGacha shortItemBoxGacha;
 	[SerializeField]
 	ItemBoxGacha staffItemBoxGacha;
+	[SerializeField] BuyableGachaItem buyableGachaItem;
+	[Header("GameOBJ")]
+	[SerializeField] GameObject containerSpecialSkin;
+
+
+	List<BuyableGachaItem> buyableGachaItems = new();
 
 
 	float coin = 0;
@@ -68,7 +74,54 @@ public class ChangeMachine : MonoBehaviour
 	{
 		FadeInContainer();
 		GetVirtualCurrencies();
+		InitBuyableGachaItem();
 	}
+
+	private void InitBuyableGachaItem()
+	{
+		foreach(var item in buyableGachaItems)
+		{
+			Destroy(item.gameObject);
+		}
+		buyableGachaItems.Clear();
+		foreach(var it in interior)
+		{
+			foreach(var item in it.listSkinGacha)
+			{
+				if(item.isSpecialSKin)
+				{
+					var skinSpecial = Instantiate(buyableGachaItem, containerSpecialSkin.transform);
+					skinSpecial.InfoItem = new GachaItemInfor(it.type, item);
+					skinSpecial.Init("Icon_" + item.ID);
+					skinSpecial.buyItemClicked += BuyItem;
+					buyableGachaItems.Add(skinSpecial);
+				}
+			}
+		}
+		foreach (var it in staff)
+		{
+			foreach (var item in it.listSkinGacha)
+			{
+				if (item.isSpecialSKin)
+				{
+					var skinSpecial = Instantiate(buyableGachaItem, containerSpecialSkin.transform);
+					skinSpecial.InfoItem = new GachaItemInfor(it.type, item);
+					skinSpecial.InitStaff();
+					skinSpecial.buyItemClicked += BuyItem;
+					buyableGachaItems.Add(skinSpecial);
+				}
+			}
+		}
+	}
+
+	private void BuyItem(BuyableGachaItem item)
+	{
+		GetVirtualCurrencies();
+		if (coin < item.Itemprice) return;
+		SkinManager.Instance.BuyNewSkin(item.InfoItem.type, item.InfoItem.skinGachaInfor.ID);
+		item.ItemBougth(true);
+	}
+
 	private void OnDestroy()
 	{
 		longItemBoxGacha.OnSkipButtonClick -= OnInteriorButtonClick;
@@ -108,7 +161,7 @@ public class ChangeMachine : MonoBehaviour
 
 		BuyItemFromChangeMachine(300 * amount);
 
-		for (int i = 0; i < amount; i++)
+		while(listLongItem.Count + listShortItem.Count < amount)
 		{
 			var item = listItemAvaliableGacha[UnityEngine.Random.Range(0, listItemAvaliableGacha.Count - 1)];
 
@@ -120,19 +173,23 @@ public class ChangeMachine : MonoBehaviour
 					var initedLongItem = Instantiate(longGachaItemPrefab);
 					if(!initedLongItem.InitialData(item, "Click_" + item.skinGachaInfor.ID))
 					{
+						Destroy(initedLongItem.gameObject);
 						continue;
 					}
 					initedLongItem.gameObject.SetActive(false);
 					listLongItem.Add(initedLongItem);
+					Debug.Log(item.type + amount);
 					break;
 				default:
 					var initedShortItem = Instantiate(shortGachaItemPrefab);
 					if(!initedShortItem.InitialData(item, "Icon_" + item.skinGachaInfor.ID))
 					{
+						Destroy(initedShortItem.gameObject);
 						continue;
 					}
 					initedShortItem.gameObject.SetActive(false);
 					listShortItem.Add(initedShortItem);
+					Debug.Log(item.type + amount);
 					break;
 			}
 			//SkinManager.Instance.BuyNewSkin(item.type, item.skinGachaInfor.ID);

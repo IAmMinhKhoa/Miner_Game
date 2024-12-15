@@ -35,13 +35,14 @@ public class ShortGachaItem : MonoBehaviour
 		}
 
 		skeletonGraphic.skeletonDataAsset = SkinManager.Instance.SkinGameDataAsset.SkinGameData[itemInfo.type];
-
 		if (skeletonGraphic.Skeleton.Data.FindSkin(SkinName) == null) return false;
 
 		skeletonGraphic.initialSkinName = SkinName;
 
 		skeletonGraphic.Initialize(true);
+
 		var iconAnimation = skeletonGraphic.skeletonDataAsset.GetSkeletonData(false).FindAnimation("Icon");
+
 		if (iconAnimation != null)
 		{
 			skeletonGraphic.AnimationState.SetAnimation(0, "Icon", false);

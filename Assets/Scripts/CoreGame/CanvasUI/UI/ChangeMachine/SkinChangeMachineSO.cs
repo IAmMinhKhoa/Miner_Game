@@ -9,6 +9,7 @@ public class SkinChangeMachineSO : ScriptableObject
 {
 	public InventoryItemType type;
 	public bool isTheSameValue;
+
 	public List<SkinGachaInfor> listSkinGacha;
 	
 	private void OnValidate()
@@ -32,6 +33,7 @@ public class SkinGachaInfor
 	[Tooltip("Unique identifier for this skin item. This field is required.")]
 	public string ID;
 	public string Name;
+	public bool isSpecialSKin;
 	[TextArea]
 	public string Description;
 	public MarketPlayItemQuality quality;
