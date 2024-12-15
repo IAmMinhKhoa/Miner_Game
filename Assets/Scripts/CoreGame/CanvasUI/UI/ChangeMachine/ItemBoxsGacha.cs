@@ -29,6 +29,7 @@ public class ItemBoxsGacha : MonoBehaviour
 		this.shortItems = shortItems;
 		this.longGachaItems = longGachaItems;
 		this.staffGachaItems = staffItem;
+
 		foreach (var item in shortItems)
 		{
 			item.gameObject.SetActive(true);
