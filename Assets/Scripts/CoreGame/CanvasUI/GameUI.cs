@@ -40,7 +40,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
 		bt_AddCoin.onClickEvent.AddListener(OpenBank);
 		bt_Setting.onClickEvent.AddListener(OpenSetting);
-		//bt_Minigame.onClickEvent.AddListener(OpenMinigame);
+		bt_Minigame.onClickEvent.AddListener(OpenMinigame);
 
 		bt_Manager.onClickEvent.AddListener(OpenBookManager);
 		bt_Inventory.onClickEvent.AddListener(OpenInventory);
