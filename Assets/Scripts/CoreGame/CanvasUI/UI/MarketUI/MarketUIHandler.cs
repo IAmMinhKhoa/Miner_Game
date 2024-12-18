@@ -28,7 +28,7 @@ public class MarketUIHandler : MonoBehaviour
 		foreach (Transform item in sideTab)
 		{
 			item.DOScale(1f, 0.5f);
-			item.DORotate(Vector3.zero, 0.5f);
+			item.DORotate(Vector3.zero, 0.35f);
 			yield return new WaitForSeconds(_durationSldeTab);
 		}
 		
