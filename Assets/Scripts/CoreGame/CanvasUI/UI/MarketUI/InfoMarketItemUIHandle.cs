@@ -310,18 +310,21 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	}
 	void ActiveSubSpine( bool isHead, CharacterScalePosSO listData)
 	{
+
+		Spine.gameObject.SetActive(false);
+
 		CharScaleAndPos it = listData.ListCharScaleAndPos.Where(data => data.ID == curItemHandling.ID).First();
 
 		subHead.skeletonDataAsset = Spine.SkeletonDataAsset;
-		subHead.initialSkinName = "Head/Skin_1";
+		subHead.initialSkinName = isHead ? "Head/Skin_" + curItemHandling.ID : "Head/Skin_1";
 		subBody.skeletonDataAsset = Spine.SkeletonDataAsset;
-		subBody.initialSkinName = "Body/Skin_1";
+		subBody.initialSkinName = isHead ? "Body/Skin_1" : "Body/Skin_"+curItemHandling.ID;
 	
 		subHead.Initialize(true);
 		subBody.Initialize(true);
 
-		subBody.gameObject.SetActive(isHead);
-		subHead.gameObject.SetActive(!isHead);
+		subBody.gameObject.SetActive(true);
+		subHead.gameObject.SetActive(true);
 
 		var transform = Spine.GetComponent<RectTransform>();
 		transform.localScale = it.scale;
