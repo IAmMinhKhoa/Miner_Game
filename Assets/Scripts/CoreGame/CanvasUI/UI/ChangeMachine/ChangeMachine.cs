@@ -26,6 +26,7 @@ public class ChangeMachine : MonoBehaviour
 	Button CloseUIButton;
 	[SerializeField]
 	ItemBoxsGacha itemBoxsGacha;
+	[SerializeField] BuySpecialItemUI buySpecialItemUI;
 	
 
 	[Header("Item Gacha")]
@@ -61,7 +62,7 @@ public class ChangeMachine : MonoBehaviour
 
 
 	float coin = 0;
-	private void Start()
+	private void Awake()
 	{
 		interiorToggle.onClick.AddListener(OnInteriorButtonClick);
 		staffToggle.onClick.AddListener(OnStaffButtonClick);
@@ -69,6 +70,7 @@ public class ChangeMachine : MonoBehaviour
 		longItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
 		shortItemBoxGacha.OnSkipButtonClick += OnInteriorButtonClick;
 		staffItemBoxGacha.OnSkipButtonClick += OnStaffButtonClick;
+		buySpecialItemUI.OnButtonBuyClick += BuyItem;
 	}
 	private void OnEnable()
 	{
@@ -93,7 +95,7 @@ public class ChangeMachine : MonoBehaviour
 					var skinSpecial = Instantiate(buyableGachaItem, containerSpecialSkin.transform);
 					skinSpecial.InfoItem = new GachaItemInfor(it.type, item);
 					skinSpecial.Init("Icon_" + item.ID);
-					skinSpecial.buyItemClicked += BuyItem;
+					skinSpecial.buyItemClicked += OpenSpecialItemUI;
 					buyableGachaItems.Add(skinSpecial);
 				}
 			}
@@ -107,26 +109,36 @@ public class ChangeMachine : MonoBehaviour
 					var skinSpecial = Instantiate(buyableGachaItem, containerSpecialSkin.transform);
 					skinSpecial.InfoItem = new GachaItemInfor(it.type, item);
 					skinSpecial.InitStaff();
-					skinSpecial.buyItemClicked += BuyItem;
+					skinSpecial.buyItemClicked += OpenSpecialItemUI;
 					buyableGachaItems.Add(skinSpecial);
 				}
 			}
 		}
 	}
-
+	//Open UI buy special Item
+	void OpenSpecialItemUI(BuyableGachaItem item)
+	{
+		GetVirtualCurrencies();
+		buySpecialItemUI.Initiallize(item, coin >= item.Itemprice, coin);
+	}
 	private void BuyItem(BuyableGachaItem item)
 	{
 		GetVirtualCurrencies();
 		if (coin < item.Itemprice) return;
 		SkinManager.Instance.BuyNewSkin(item.InfoItem.type, item.InfoItem.skinGachaInfor.ID);
+		BuyItemFromChangeMachine((int)item.Itemprice);
 		item.ItemBougth(true);
 	}
 
 	private void OnDestroy()
 	{
+		interiorToggle.onClick.RemoveAllListeners();
+		staffToggle.onClick.RemoveAllListeners();
+		CloseUIButton.onClick.RemoveAllListeners();
 		longItemBoxGacha.OnSkipButtonClick -= OnInteriorButtonClick;
 		shortItemBoxGacha.OnSkipButtonClick -= OnInteriorButtonClick;
 		staffItemBoxGacha.OnSkipButtonClick -= OnStaffButtonClick;
+		buySpecialItemUI.OnButtonBuyClick -= BuyItem;
 	}
 	void OnInteriorButtonClick()
 	{

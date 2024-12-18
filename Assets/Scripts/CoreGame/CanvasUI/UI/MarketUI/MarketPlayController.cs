@@ -21,6 +21,8 @@ public class MarketPlayController : MonoBehaviour
 	[SerializeField]
 	InfoMarketItemUIHandle nhanVien;
 	[SerializeField]
+	InfoMarketItemUIHandle bodyNhanVien;
+	[SerializeField]
 	InfoMarketItemUIHandle noiThatLong;
 	[SerializeField]
 	InfoMarketItemUIHandle noiThatShort;
@@ -63,9 +65,11 @@ public class MarketPlayController : MonoBehaviour
 		pnNoiThat.BoxIsEnable += SetContent;
 		pnNhanVien.BoxIsEnable += SetContent;
 		nhanVien.OnButtonBuyClick += BuyItem;
+		bodyNhanVien.OnButtonBuyClick += BuyItem;
 		noiThatLong.OnButtonBuyClick += BuyItem;
 		noiThatShort.OnButtonBuyClick += BuyItem;
 		nhanVien.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
+		bodyNhanVien.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		noiThatLong.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		noiThatShort.OnButtonBuyBySuperMoneyClick += BuyBySuperMoneyItem;
 		foreach (var item in listToggle)
@@ -90,9 +94,11 @@ public class MarketPlayController : MonoBehaviour
 		pnNoiThat.BoxIsEnable -= SetContent;
 		pnNhanVien.BoxIsEnable -= SetContent;
 		nhanVien.OnButtonBuyClick -= BuyItem;
+		bodyNhanVien.OnButtonBuyClick -= BuyItem;
 		noiThatLong.OnButtonBuyClick -= BuyItem;
 		noiThatShort.OnButtonBuyClick -= BuyItem;
 		nhanVien.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
+		bodyNhanVien.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
 		noiThatLong.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
 		noiThatShort.OnButtonBuyBySuperMoneyClick -= BuyBySuperMoneyItem;
 		foreach (var item in listToggle)
@@ -115,7 +121,7 @@ public class MarketPlayController : MonoBehaviour
 	private void HanldeListBody(InventoryItemType type)
 	{
 		currentItemShowing = type;
-		curMarketItemHandle = nhanVien;
+		curMarketItemHandle = bodyNhanVien;
 		ClearItem();
 		var skeletonData = SkinManager.Instance.SkinGameDataAsset.SkinGameData[type];
 		var skinData = SkinManager.Instance.InfoSkinGame[type];
@@ -238,9 +244,9 @@ public class MarketPlayController : MonoBehaviour
 		SetDataItem(data);
 		listItem ??= new();
 		HashSet<string> skingBought = new(SkinManager.Instance.ItemBought[currentItemShowing]);
-		var lowSkinList = skinData.Where(it => it.quality == "low").OrderBy(it => skingBought.Contains(it.id)).ToList();
-		var normalSkinList = skinData.Where(it => it.quality == "normal").OrderBy(it => skingBought.Contains(it.id)).ToList();
-		var superSkinList = skinData.Where(it => it.quality == "super").OrderBy(it => skingBought.Contains(it.id)).ToList();
+		var lowSkinList = skinData.Where(it => it.quality == "low" && it.id != "1").OrderBy(it => skingBought.Contains(it.id)).ToList();
+		var normalSkinList = skinData.Where(it => it.quality == "normal" && it.id != "1").OrderBy(it => skingBought.Contains(it.id)).ToList();
+		var superSkinList = skinData.Where(it => it.quality == "super" && it.id != "1").OrderBy(it => skingBought.Contains(it.id)).ToList();
 		
 
 		for (int i = 0; i < lowSkinList.Count(); i++)
