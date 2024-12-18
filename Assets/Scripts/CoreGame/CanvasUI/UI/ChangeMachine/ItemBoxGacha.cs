@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -55,6 +56,7 @@ public class ItemBoxGacha : MonoBehaviour
 	[SerializeField] private TMP_Text title_quality;
 	private void OnEnable()
 	{
+		SoundManager.PlaySound(SoundEnum.epicprize1);
 		RectTransform _rectTransform = card.GetComponent<RectTransform>();
 		_rectTransform.DOScale(0, 0);
 		_rectTransform.DOScale(1.2f, 0.3f)

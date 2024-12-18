@@ -14,5 +14,16 @@ public enum SoundEnum
 	mobileTexting2 = 9,
 	money1 = 10,
 	stickhit = 11,
+	appsuccess1 = 12,
+	epicprize1 = 13,
+	retrobutton1 = 14,
+	retroreward1 = 15,
+	accessdenied = 16,
+	clickdecline = 17,
+	retrostarburst = 18,
+	activationretrobutton = 19,
+	openloot = 20,
+	cardgameuibuttonmechanical = 21,
+	none = 22,
 }
 }

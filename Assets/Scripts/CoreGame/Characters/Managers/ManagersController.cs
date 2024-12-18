@@ -354,11 +354,17 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                firstManager.Level == secondManager.Level &&
                firstManager.Specie == secondManager.Specie;
     }
+	public bool HasAnyManager()
+	{
+		return ShaftManagers.Any(manager => manager.IsAssigned) ||
+			   ElevatorManagers.Any(manager => manager.IsAssigned) ||
+			   CounterManagers.Any(manager => manager.IsAssigned);
+	}
 
-    #endregion
+	#endregion
 
-    #region ----Load Save Region----
-    public async UniTaskVoid Save()
+	#region ----Load Save Region----
+	public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>();
         List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();

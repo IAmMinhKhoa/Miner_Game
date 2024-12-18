@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NOOD.Sound;
 using PlayFab;
 using PlayFab.ClientModels;
 using Sirenix.OdinInspector;
@@ -130,6 +131,7 @@ public class ChangeMachine : MonoBehaviour
 	}
 	void OnInteriorButtonClick()
 	{
+		SoundManager.PlaySound(SoundEnum.openloot);
 		RectTransform _rectTransform = interiorToggle.GetComponentInChildren<RectTransform>();
 		Vector3 defaultScale = _rectTransform.localScale;
 		_rectTransform.DOScale(1f, 0.1f)
@@ -261,6 +263,7 @@ public class ChangeMachine : MonoBehaviour
 	}
 	void OnStaffButtonClick()
 	{
+		SoundManager.PlaySound(SoundEnum.openloot);
 		RectTransform _rectTransform = staffToggle.GetComponentInChildren<RectTransform>();
 		Vector3 defaultScale = _rectTransform.localScale;
 		_rectTransform.DOScale(1f, 0.1f)

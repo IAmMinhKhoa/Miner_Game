@@ -1,4 +1,5 @@
 
+using NOOD.Sound;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -27,6 +28,7 @@ public class BuyableGachaItem : MonoBehaviour
 
 	private void BuyThisItem()
 	{
+		SoundManager.PlaySound(SoundEnum.retroreward1);
 		buyItemClicked?.Invoke(this);
 	}
 
