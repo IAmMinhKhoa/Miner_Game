@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NOOD.Sound;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,10 @@ public class ItemBoxsGacha : MonoBehaviour
 	{
 		closeUI.onClick.AddListener(CloseUI);
 	}
-
+	private void OnEnable()
+	{
+		SoundManager.PlaySound(SoundEnum.epicprize1);
+	}
 	public async UniTask InitialData(List<ShortGachaItem> shortItems, List<LongGachaItem> longGachaItems, List<StaffGachaItem> staffItem)
 	{
 		gameObject.SetActive(true);

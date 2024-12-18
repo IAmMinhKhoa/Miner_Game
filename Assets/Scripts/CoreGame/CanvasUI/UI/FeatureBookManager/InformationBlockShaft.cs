@@ -99,7 +99,6 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void SetData(Manager manager) //use in case when drag and drop card to list shaft -> update data to shaft
     {
-		Debug.LogError("Call");
 		SoundManager.PlaySound(SoundEnum.stickhit);
         if (manager != null)
         {

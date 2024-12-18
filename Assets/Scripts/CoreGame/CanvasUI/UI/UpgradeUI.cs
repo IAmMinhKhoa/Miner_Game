@@ -66,6 +66,8 @@ public class UpgradeUI : MonoBehaviour
 	//
 	private float soundCoolDown = 2f;
 	private float lastPlayTime = 0f;
+	//
+	private bool isClickBtnFast = false;
 	void Start()
 	{
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
@@ -144,6 +146,7 @@ public class UpgradeUI : MonoBehaviour
 		// {
 		// 	btn.image.sprite = btnNormalSprite;
 		// }
+		isClickBtnFast = true;
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
 		{
 			Button button = fastUpgradeButtons[i];
@@ -158,14 +161,18 @@ public class UpgradeUI : MonoBehaviour
 			button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#B9987B");
 		}
 		upgradeSlider.value = btnValue;
+		isClickBtnFast=false;
 	}
 
 	private void UpdateUpgradeAmount(float value)
 	{
-		if(Time.time - lastPlayTime>=soundCoolDown)
+		if(!isClickBtnFast)
 		{
-			SoundManager.PlaySound(SoundEnum.heavyWoodDrag6);
-			lastPlayTime = Time.time;
+			if (Time.time - lastPlayTime >= soundCoolDown)
+			{
+				SoundManager.PlaySound(SoundEnum.heavyWoodDrag6);
+				lastPlayTime = Time.time;
+			}
 		}
 		upgradeAmountText.text = "X" + value.ToString();
 		titleText.text = currentTitleText + (value + currentLevel);

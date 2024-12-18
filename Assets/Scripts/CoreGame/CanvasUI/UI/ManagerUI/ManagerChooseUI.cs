@@ -163,16 +163,16 @@ public class ManagerChooseUI : MonoBehaviour
 		switch (typeMerge)
 		{
 			case TypeMerge.Success:
-				SoundManager.PlaySound(SoundEnum.mergeSuccess);
+				SoundManager.PlaySound(SoundEnum.appsuccess1);
 				break;
 
 			case TypeMerge.FailLevelMax:
-				SoundManager.PlaySound(SoundEnum.mergeFail);
+				SoundManager.PlaySound(SoundEnum.accessdenied);
 				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật đã đạt cấp độ cao nhất");
 				break;
 
 			case TypeMerge.FailNotSameLevel:
-				SoundManager.PlaySound(SoundEnum.mergeFail);
+				SoundManager.PlaySound(SoundEnum.accessdenied);
 				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật có cấp độ khác nhau");
 				break;
 
@@ -184,8 +184,17 @@ public class ManagerChooseUI : MonoBehaviour
 	}
 	private void Boost()
     {
-        ManagersController.Instance.BoostAllManager();
-    }
+		if (ManagersController.Instance.HasAnyManager())
+		{
+			SoundManager.PlaySound(SoundEnum.cartoonButton1);
+		}
+		else
+		{
+			SoundManager.PlaySound(SoundEnum.clickdecline); 
+		}
+
+		ManagersController.Instance.BoostAllManager();
+	}
 
     private void ClosePanel()
     {
