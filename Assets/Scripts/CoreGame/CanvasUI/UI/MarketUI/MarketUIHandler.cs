@@ -11,7 +11,7 @@ public class MarketUIHandler : MonoBehaviour
 	[SerializeField] private Button btExit;
 
 	[SerializeField] private Transform sideTab1, sideTab2;
-	[SerializeField] float _durationSldeTab = 0.07f;
+	[SerializeField] float _durationSldeTab = 0.06f;
 		private void OnEnable()
 	{
 		StartCoroutine(OnEnableSideTab(sideTab1));
@@ -20,18 +20,18 @@ public class MarketUIHandler : MonoBehaviour
 
 	IEnumerator OnEnableSideTab(Transform sideTab)
 	{
+		yield return new WaitForSeconds(0.2f);
+
+		float tempX = sideTab.transform.GetChild(0).position.x;
 		foreach (Transform item in sideTab)
 		{
-			item.DOScale(0, 0f);
-			item.rotation = Quaternion.Euler(new Vector3(0f, 0, 90f));
+			item.position = new Vector3(-1.08501472473f, item.position.y, item.position.z);
 		}
 		foreach (Transform item in sideTab)
 		{
-			item.DOScale(1f, 0.5f);
-			item.DORotate(Vector3.zero, 0.35f);
+			item.DOMoveX(-2.190700054168701f, 0.15f).SetEase(Ease.OutQuad);
 			yield return new WaitForSeconds(_durationSldeTab);
 		}
-		
 	}
 
 	private void Start()
@@ -40,11 +40,13 @@ public class MarketUIHandler : MonoBehaviour
 		{
 			OnChoosingPanel(pnNhanVien, tgNhanVien);
 			tgSideTabHotNV.isOn = true;
+			StartCoroutine(OnEnableSideTab(sideTab1));
 		});
 		tgNoiThat.onValueChanged.AddListener(delegate
 		{
 			OnChoosingPanel(pnNoiThat, tgNoiThat);
 			tgSideTabHotNT.isOn = true;
+			StartCoroutine(OnEnableSideTab(sideTab2));
 		});
 		tgSideTabHotNT.onValueChanged.AddListener(delegate
 		{
