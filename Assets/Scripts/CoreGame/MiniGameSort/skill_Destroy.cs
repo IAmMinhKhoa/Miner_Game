@@ -5,12 +5,16 @@ using UnityEngine;
 public class skill_Destroy : sortGameSkills
 {
 	[SerializeField] private SortGameManager gameManager;
+
+	public GameObject blackCanvas;
+	public GameObject textPanel;
+
 	public string layerName = "box_SortGame";
 
 
 	void Update()
 	{
-		if (isUsing)
+		if (isUsing && !gameManager.isStopped)
 		{
 			if (Input.touchCount > 0)
 			{
@@ -28,6 +32,8 @@ public class skill_Destroy : sortGameSkills
 						hit.collider.gameObject.GetComponent<BoxInfo>().DestroyBox();
 						isUsing = false;
 						StartCoroutine(waitToEnable());
+						blackCanvas.SetActive(false);
+						textPanel.SetActive(false);
 					}
 				}
 			}
@@ -46,6 +52,8 @@ public class skill_Destroy : sortGameSkills
 		{
 			isUsing = true;
 			gameManager.AdjustAllDragCode(!isUsing);
+			blackCanvas.SetActive(true);
+			textPanel.SetActive(true);
 		}
 	}
 }

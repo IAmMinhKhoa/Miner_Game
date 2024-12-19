@@ -99,6 +99,7 @@ public class buySkillUI : MonoBehaviour
 		int count = PlayerPrefs.GetInt(skillCountPref, 0);
 		PlayerPrefs.SetInt(skillCountPref, count + AmountGacha);
 		FindObjectOfType<SkillsSortGameManager>().UpdateAllSkill();
+		transform.root.GetComponent<SortGameManager>().OnClickPause();
 	}
 	public void BuyItem(int price)
 	{
