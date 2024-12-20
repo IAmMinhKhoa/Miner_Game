@@ -22,7 +22,7 @@ public class UserInput : MonoBehaviour
 		if (Input.touchCount > 0 && manager.isPlaying && !MiniGameFruitManager.Instance.isPowerActive)
 		{
 			Touch touch = Input.GetTouch(0);
-			if (touch.position.y < 295) return;
+			if (touch.position.y < 295 || touch.position.y > 2349) return;
 			switch (touch.phase)
 			{
 				case TouchPhase.Began:

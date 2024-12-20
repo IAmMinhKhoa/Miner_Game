@@ -198,6 +198,11 @@ public class FruitGameManager : MonoBehaviour
         return width;
     }
 
+	public void OnClickPause()
+	{
+		StartCoroutine(WaitASec());
+	}
+
     public void OnClickBack()
     {
         SceneManager.UnloadScene("DemoMinigame");
@@ -207,5 +212,11 @@ public class FruitGameManager : MonoBehaviour
 	{
 		PlayfabMinigame.Instance.GrantVirtualCurrency((int)value);
 		PlayfabMinigame.Instance.GetVirtualCurrencies();
+	}
+
+	IEnumerator WaitASec()
+	{
+		yield return new WaitForSeconds(0.3f);
+		isPlaying = !isPlaying;
 	}
 }

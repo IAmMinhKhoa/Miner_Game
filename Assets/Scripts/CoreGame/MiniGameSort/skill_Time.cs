@@ -22,8 +22,11 @@ public class skill_Time : sortGameSkills
 		{
 			if(skillActivatedTime > 0)
 			{
-				skillActivatedTime -= Time.deltaTime;
-				countdownText.text = skillActivatedTime.ToString("F1");
+				if(!gameManager.isStopped)
+				{
+					skillActivatedTime -= Time.deltaTime;
+					countdownText.text = skillActivatedTime.ToString("F1");
+				}
 			}
 			else
 			{

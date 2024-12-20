@@ -12,6 +12,7 @@ public class SkillsSortGameManager : MonoBehaviour
 	public List<Sprite> activeSprites, buySprites;
 	public List<GameObject> panelBuySkills;
 
+
 	void Start()
 	{
 		skills[0].skillCount = PlayerPrefs.GetInt("sortGameSkill_Freeze", 3);
@@ -32,6 +33,7 @@ public class SkillsSortGameManager : MonoBehaviour
 		{
 			//open panel
 			panelBuySkills[0].SetActive(true);
+			GetComponent<SortGameManager>().OnClickPause();
 		}
 		if (skills[0].skillCount > 0 && !skills[0].isUsing)
 		{
@@ -48,6 +50,7 @@ public class SkillsSortGameManager : MonoBehaviour
 		{
 			//open panel
 			panelBuySkills[1].SetActive(true);
+			GetComponent<SortGameManager>().OnClickPause();
 		}
 		if (skills[1].skillCount > 0 && !skills[1].isUsing)
 		{

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public class DragDrop : MonoBehaviour
@@ -32,7 +33,7 @@ public class DragDrop : MonoBehaviour
 				tsInfo.parentBox.UpdateBoxCount();
 				tsInfo.gameObject.transform.parent = null;
 			}
-			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 5;
+			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 10;
 		}
 	}
 
@@ -53,7 +54,7 @@ public class DragDrop : MonoBehaviour
 			{
 				StartCoroutine(waiter());
 			}
-			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 3;
+			transform.GetChild(0).GetComponent<Renderer>().sortingOrder = 7;
 		}
 	}
 

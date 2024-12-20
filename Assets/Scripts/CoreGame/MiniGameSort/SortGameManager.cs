@@ -107,12 +107,19 @@ public class SortGameManager : MonoBehaviour
 		{
 			colsCount[i] = 0;
 		}
-		if(allBoxList != null) allBoxList.Clear();
-		if(allTSList != null) allTSList.Clear();
+		
 		foreach(Transform go in boxParent)
 		{
 			Destroy(go.gameObject);
 		}
+
+		foreach(tsInfo ts in allTSList)
+		{
+			Destroy(ts.gameObject);
+		}
+
+		if (allBoxList != null) allBoxList.Clear();
+		if (allTSList != null) allTSList.Clear();
 	}
 
 	void FirstSpawnBox()
@@ -357,5 +364,11 @@ public class SortGameManager : MonoBehaviour
 	public void OnClickBack()
 	{
 		SceneManager.UnloadScene("MinigameSort");
+	}
+
+	public void OnClickPause()
+	{
+		isStopped = !isStopped;
+		AdjustAllDragCode(!isStopped);
 	}
 }
