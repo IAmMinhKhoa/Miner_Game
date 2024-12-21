@@ -30,7 +30,7 @@ public class MoneyButton : MonoBehaviour
 
     public void OnTransactionComplete()
     {
-        // Player paid money to buy in game money    
+		// Player paid money to buy in game money
         _bankUI.BuyMoney(_moneyReward);
     }
 }
