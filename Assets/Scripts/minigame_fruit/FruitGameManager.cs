@@ -155,7 +155,7 @@ public class FruitGameManager : MonoBehaviour
 		ScoreTracking.Instance.TrackEvent(TrackingEventType.MergeGameComplete, currentScore);
 		// GameEnd
 		PawManager.Instance.AddPaw(1000000000);
-        GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = (int)currentScore, index = 2 };
+        GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = (int)currentScore, index = 1 };
         DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
         if (fruitsParent.childCount > 0)
         {

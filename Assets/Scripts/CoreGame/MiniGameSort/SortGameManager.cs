@@ -342,7 +342,9 @@ public class SortGameManager : MonoBehaviour
 		clawPos = 0;
 		clawDelayTime = 8f;
 		FindObjectOfType<SortGameScore>().CheckSetHighScore();
-		EndUI.SetActive(true);
+		//EndUI.SetActive(true);
+		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = (int)0, index = 2 };
+		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog, gameEndDialogParam);
 		ClearAll();
 	}
 
