@@ -365,7 +365,8 @@ public class SortGameManager : MonoBehaviour
 	}
 	public void OnClickBack()
 	{
-		SceneManager.UnloadScene("MinigameSort");
+		OnClickPause();
+		SceneManager.UnloadSceneAsync("MinigameSort");
 	}
 
 	public void OnClickPause()
