@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: play again
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f6cdfb155711d4fb9108a3b7fe5973, type: 2}
   m_sharedMaterial: {fileID: -7554148397552862891, guid: 61f6cdfb155711d4fb9108a3b7fe5973, type: 2}
@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 8916322263405876541}
   - component: {fileID: 78214558958588519}
   m_Layer: 0
-  m_Name: btn_play_again
+  m_Name: btn_Resume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,9 +495,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3587632768070983790}
-        m_TargetAssemblyTypeName: GameEndDialog, Game
-        m_MethodName: OnPlayAgain
+      - m_Target: {fileID: 6746036116999084719}
+        m_TargetAssemblyTypeName: PauseDialog, Game
+        m_MethodName: OnResume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -699,9 +699,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3587632768070983790}
-        m_TargetAssemblyTypeName: GameEndDialog, Game
-        m_MethodName: OnExit
+      - m_Target: {fileID: 6746036116999084719}
+        m_TargetAssemblyTypeName: PauseDialog, Game
+        m_MethodName: OnBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -990,9 +990,9 @@ GameObject:
   - component: {fileID: 1395657568878885267}
   - component: {fileID: 4417959537483556166}
   - component: {fileID: 6775413418097717289}
-  - component: {fileID: 3587632768070983790}
+  - component: {fileID: 6746036116999084719}
   m_Layer: 0
-  m_Name: GameEndDialog
+  m_Name: PauseDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1056,7 +1056,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3587632768070983790
+--- !u!114 &6746036116999084719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1065,8 +1065,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7244495494520354869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48fc9aa78a59648438bb347a3b876688, type: 3}
+  m_Script: {fileID: 11500000, guid: 3026aceb4c2d8164ea5625d7e25cf3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogIndex: 0
-  score: {fileID: 6039240420577342713}
+  dialogIndex: 1
