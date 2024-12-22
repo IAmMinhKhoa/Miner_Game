@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NOOD.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,8 @@ public class MarketUIHandler : MonoBehaviour
 
 	IEnumerator OnEnableSideTab(Transform sideTab)
 	{
-		yield return new WaitForSeconds(0.35f);
-
+		yield return new WaitForSeconds(0.2f);
+		SoundManager.PlaySound(SoundEnum.insertPaper);
 		float tempX = sideTab.transform.GetChild(0).position.x;
 		foreach (Transform item in sideTab)
 		{
@@ -29,7 +30,7 @@ public class MarketUIHandler : MonoBehaviour
 		}
 		foreach (Transform item in sideTab)
 		{
-			item.DOMoveX(-2.190700054168701f, 0.15f).SetEase(Ease.OutQuad);
+			item.DOMoveX(-2.190700054168701f, 0.3f).SetEase(Ease.OutQuad);
 			yield return new WaitForSeconds(_durationSldeTab);
 		}
 	}
@@ -90,11 +91,10 @@ public class MarketUIHandler : MonoBehaviour
 
 	public void FadeInContainer()
 	{
-		Debug.LogError("call");
 		gameObject.SetActive(true);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-		gameObject.transform.DOLocalMoveX(0, 0.7f).SetEase(Ease.OutQuart);
+		gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
 	}
 	public void FadeOutContainer()
 	{
