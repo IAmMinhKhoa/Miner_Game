@@ -20,7 +20,7 @@ public class MarketUIHandler : MonoBehaviour
 
 	IEnumerator OnEnableSideTab(Transform sideTab)
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(0.35f);
 
 		float tempX = sideTab.transform.GetChild(0).position.x;
 		foreach (Transform item in sideTab)
@@ -90,10 +90,11 @@ public class MarketUIHandler : MonoBehaviour
 
 	public void FadeInContainer()
 	{
+		Debug.LogError("call");
 		gameObject.SetActive(true);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-		gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
+		gameObject.transform.DOLocalMoveX(0, 0.7f).SetEase(Ease.OutQuart);
 	}
 	public void FadeOutContainer()
 	{
