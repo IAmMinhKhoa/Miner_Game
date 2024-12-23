@@ -23,6 +23,8 @@ public class BuySpecialItemUI : MonoBehaviour
 	[SerializeField] RectTransform bgR;
 	public event Action<BuyableGachaItem> OnButtonBuyClick;
 
+	[SerializeField] List<Transform> listGOPopup;
+
 	BuyableGachaItem currentItem;
 
 	private void Awake()
@@ -32,16 +34,43 @@ public class BuySpecialItemUI : MonoBehaviour
 	}
 	public void Initiallize(BuyableGachaItem item, bool isBuyable, float coin)
 	{
+		DOVirtual.DelayedCall(0.5f, () =>
+		{
+			var targetObject = gameObject.GetComponent<RectTransform>();
+			targetObject.DOScale(Vector3.one, 0f); // Đặt kích thước ban đầu
+			gameObject.SetActive(true); // Kích hoạt GameObject
 
-		gameObject.SetActive(true);
-
-		bgR.DOScale(1.2f, 0.2f / 2)
-			.SetEase(Ease.OutQuad)
-			.OnComplete(() =>
+			// Ẩn tất cả popup ban đầu
+			foreach (Transform t in listGOPopup)
 			{
-				bgR.DOScale(Vector3.one, 0.2f / 2).SetEase(Ease.InQuad);
-			});
+				t.gameObject.SetActive(false);
+			}
 
+			// Tạo một sequence để thực hiện hiệu ứng tuần tự
+			Sequence sequence = DOTween.Sequence();
+
+			foreach (Transform bgRect in listGOPopup)
+			{
+				bgRect.localScale = Vector3.zero; // Đặt kích thước ban đầu là 0
+				bgRect.gameObject.SetActive(true); // Kích hoạt đối tượng
+
+				sequence.Append(
+				bgRect.DOScale(Vector3.one, 0.2f) // Hiệu ứng phóng to
+					.SetEase(Ease.OutBounce)
+				);
+
+				sequence.Join(
+					bgRect.DOScale(1.15f, 0.3f) // Hiệu ứng to thêm
+						.SetEase(Ease.OutQuad)
+				);
+
+				sequence.Join(
+					bgRect.DOScale(Vector3.one, 0.2f) // Hiệu ứng trở về kích thước chuẩn
+						.SetEase(Ease.InQuad)
+				);
+
+			}
+		});
 		currentItem = item;
 		Color color = buyButtonIMG.color;
 		color.a = isBuyable ? 0 : 0.75f;
@@ -106,7 +135,14 @@ public class BuySpecialItemUI : MonoBehaviour
 	}
 	void CloseUI()
 	{
-		gameObject.SetActive(false);
+		var targetObject = gameObject.GetComponent<RectTransform>();
+		targetObject.DOScale(Vector3.zero, 0.4f)
+		   .SetEase(Ease.InQuad) // Hiệu ứng easing mềm mại
+		   .OnComplete(() =>
+		   {
+			   // Ẩn đối tượng sau khi hiệu ứng kết thúc
+			   gameObject.SetActive(false);
+		   });
 	}
 
 	//#region AnimateUI
