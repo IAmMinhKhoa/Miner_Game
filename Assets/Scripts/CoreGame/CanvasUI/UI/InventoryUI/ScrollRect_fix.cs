@@ -1,4 +1,4 @@
-using UnityEngine.UI;
+	using UnityEngine.UI;
 
 public class ScrollRect_fix : ScrollRect
 {
