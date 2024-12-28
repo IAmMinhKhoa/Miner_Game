@@ -72,10 +72,8 @@ public class BuySpecialItemUI : MonoBehaviour
 			}
 		});
 		currentItem = item;
-		Color color = buyButtonIMG.color;
-		color.a = isBuyable ? 0 : 0.75f;
 		buyButton.interactable = isBuyable;
-		buyButtonIMG.color = color;
+	
 		currentCoin.text = coin + "";
 
 		var itemInfoJson = SkinManager.Instance.InfoSkinGame[item.InfoItem.type].Where(i => i.id == item.InfoItem.skinGachaInfor.ID).First();
