@@ -12,25 +12,57 @@ public class MarketUIHandler : MonoBehaviour
 	[SerializeField] private Button btExit;
 
 	[SerializeField] private Transform sideTab1, sideTab2;
-	[SerializeField] float _durationSldeTab = 0.06f;
-		private void OnEnable()
+	[SerializeField] float _durationSldeTab = 0.03f;
+	private Coroutine currentCoroutine1, currentCoroutine2;
+	
+
+	private void OnEnable()
 	{
-		StartCoroutine(OnEnableSideTab(sideTab1));
-		StartCoroutine(OnEnableSideTab(sideTab2)); 
+		CheckResetSideTab(1);
+		CheckResetSideTab(2);
+		currentCoroutine1 = StartCoroutine(OnEnableSideTab(sideTab1));
+		currentCoroutine2 = StartCoroutine(OnEnableSideTab(sideTab2)); 
+	}
+
+	private void CheckResetSideTab(int id)
+	{
+		if(id == 1)
+		{
+			if (currentCoroutine1 != null)
+			{
+				StopCoroutine(currentCoroutine1);
+				foreach (Transform item in sideTab1)
+				{
+					DOTween.Kill(item);
+				}
+			}
+		}
+		if(id == 2)
+		{
+			if (currentCoroutine2 != null)
+			{
+				StopCoroutine(currentCoroutine2);
+				foreach (Transform item in sideTab2)
+				{
+					DOTween.Kill(item);
+				}
+			}
+		}
 	}
 
 	IEnumerator OnEnableSideTab(Transform sideTab)
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(0.05f);
 		SoundManager.PlaySound(SoundEnum.insertPaper);
 		float tempX = sideTab.transform.GetChild(0).position.x;
 		foreach (Transform item in sideTab)
 		{
 			item.position = new Vector3(-1.08501472473f, item.position.y, item.position.z);
 		}
+
 		foreach (Transform item in sideTab)
 		{
-			item.DOMoveX(-2.190700054168701f, 0.3f).SetEase(Ease.OutQuad);
+			item.DOMoveX(-2.190700054168701f, 0.25f).SetEase(Ease.OutQuad);
 			yield return new WaitForSeconds(_durationSldeTab);
 		}
 	}
@@ -41,13 +73,15 @@ public class MarketUIHandler : MonoBehaviour
 		{
 			OnChoosingPanel(pnNhanVien, tgNhanVien);
 			tgSideTabHotNV.isOn = true;
-			StartCoroutine(OnEnableSideTab(sideTab1));
+			CheckResetSideTab(1);
+			currentCoroutine1 = StartCoroutine(OnEnableSideTab(sideTab1));
 		});
 		tgNoiThat.onValueChanged.AddListener(delegate
 		{
 			OnChoosingPanel(pnNoiThat, tgNoiThat);
 			tgSideTabHotNT.isOn = true;
-			StartCoroutine(OnEnableSideTab(sideTab2));
+			CheckResetSideTab(2);
+			currentCoroutine2 = StartCoroutine(OnEnableSideTab(sideTab2));
 		});
 		tgSideTabHotNT.onValueChanged.AddListener(delegate
 		{
