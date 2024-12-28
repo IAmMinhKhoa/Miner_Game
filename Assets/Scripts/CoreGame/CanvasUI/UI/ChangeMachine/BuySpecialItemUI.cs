@@ -12,7 +12,6 @@ using UnityEngine.UI;
 public class BuySpecialItemUI : MonoBehaviour
 {
 	[SerializeField] Button closeUI;
-	[SerializeField] Image buyButtonIMG;
 	[SerializeField] Button buyButton;
 	[SerializeField] TextMeshProUGUI currentCoin;
 	[SerializeField] SkeletonGraphic skeletonGraphic;
