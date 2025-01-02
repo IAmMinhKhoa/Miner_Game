@@ -7,6 +7,7 @@ using System.Linq;
 
 public class BannerUI : MonoBehaviour
 {
+	private Vector3 scale_tablet = new Vector3(1f, 1f, 1f);
 	[Header("UI Element")]
 	[SerializeField] Sprite imgCircle;
 	[SerializeField] TMP_Text _demoTextTitle;
@@ -37,6 +38,10 @@ public class BannerUI : MonoBehaviour
 
 	private void Start()
 	{
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
 		Init();
 		RenderColor();
 		if (PlayerPrefs.HasKey("BannerData"))

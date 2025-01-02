@@ -19,6 +19,7 @@ internal enum BahaviorMS
 public class SoundSetting : MonoBehaviour
 {
 
+	private Vector3 scale_tablet= new Vector3(1.2f,1.2f,1.2f);
     [SerializeField] PlayList _playList;
 
     [Header("UI")]
@@ -130,7 +131,13 @@ public class SoundSetting : MonoBehaviour
     }
     private void Start()
     {
-        sliderMusic.value = SoundManager.GlobalMusicVolume;
+		//
+		if(Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
+
+		sliderMusic.value = SoundManager.GlobalMusicVolume;
         sliderSFX.value = SoundManager.GlobalSoundVolume;
 
 

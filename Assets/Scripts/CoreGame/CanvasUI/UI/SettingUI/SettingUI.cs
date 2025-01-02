@@ -11,7 +11,8 @@ using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
-    [SerializeField] private float _fadeSpeed = 3f;
+	private Vector3 scale_tablet = new Vector3(1.2f, 1.2f, 1.2f);
+	[SerializeField] private float _fadeSpeed = 3f;
     [SerializeField] private Button _closeButton;
     private CanvasGroup _canvasGroup;
     private CancellationTokenSource _disableToken;
@@ -22,7 +23,14 @@ public class SettingUI : MonoBehaviour
         _closeButton.onClick.AddListener(FadeOutContainer);
         _disableToken = new CancellationTokenSource();
     }
-    void OnDisable()
+	private void Start()
+	{
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
+	}
+	void OnDisable()
     {
         _disableToken.Cancel();
     }
