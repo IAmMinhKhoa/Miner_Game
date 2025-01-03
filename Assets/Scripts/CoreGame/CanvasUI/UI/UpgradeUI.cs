@@ -13,6 +13,7 @@ using UnityEngine.Localization.Components;
 using NOOD.Sound;
 public class UpgradeUI : MonoBehaviour
 {
+	private Vector3 scale_tablet = new Vector3(1.05f, 1.05f, 1.05f);
 	[Header("Localization")]
 	[SerializeField] private LocalizedString workerNameLocalizedString;
 	[Header("Show Hide Transform")]
@@ -70,6 +71,10 @@ public class UpgradeUI : MonoBehaviour
 	private bool isClickBtnFast = false;
 	void Start()
 	{
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
 		{
 			Button button = fastUpgradeButtons[i];

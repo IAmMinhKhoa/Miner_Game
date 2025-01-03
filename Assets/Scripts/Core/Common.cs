@@ -114,4 +114,14 @@ public static class Common
 	{
 		return LocalizationManager.GetLocalizedString(key, parameters: parameters);
 	}
+	public static bool CheckDevice()
+	{
+		
+		//if(SystemInfo.deviceName.Contains("iPad")|| SystemInfo.deviceModel.Contains("iPad"))
+		//{
+		//	return true;
+		//}
+		//return false;
+		return true;
+	}
 }

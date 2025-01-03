@@ -16,6 +16,7 @@ namespace UI.Inventory
 {
     public class InventoryUIManager : MonoBehaviour
 	{
+		private Vector3 scale_tablet = new Vector3(1.2f, 1.2f, 1.2f);
 		[Header("UI")]
 		[SerializeField] private TextMeshProUGUI activeTextNoiThat;
 		[SerializeField] private TextMeshProUGUI activeTextNhanVien;
@@ -102,6 +103,10 @@ namespace UI.Inventory
 
 		void Start()
         {
+			if (Common.CheckDevice())
+			{
+				gameObject.transform.localScale = scale_tablet;
+			}
 			staffSkinUI.OnUpdateInventoryUI += UpdateStabStaffUI;
 			if (pnNhanVien.TryGetComponent<TabStaff>(out var tabStaff))
 			{

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MarketUIHandler : MonoBehaviour
 {
+	private Vector3 scale_tablet = new Vector3(1.09f, 1.09f, 1.09f);
 	[SerializeField] private Toggle tgNoiThat, tgNhanVien, tgSideTabHotNV, tgSideTabHotNT;
 	[SerializeField] private GameObject pnNoiThat, pnNhanVien, pnHotContentNT, pnContentNT, pnHotContentNV, pnContentNV;
 	[SerializeField] private Button btExit;
@@ -69,6 +70,10 @@ public class MarketUIHandler : MonoBehaviour
 
 	private void Start()
 	{
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
 		tgNhanVien.onValueChanged.AddListener(delegate
 		{
 			OnChoosingPanel(pnNhanVien, tgNhanVien);

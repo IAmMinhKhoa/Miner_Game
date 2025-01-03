@@ -14,7 +14,7 @@ namespace UI.Inventory
 {
     public class StaffSkinUI : MonoBehaviour
     {
-		
+		private Vector3 scale_tablet = new Vector3(0.83f, 0.83f, 0.83f);
 		List<CharacterSkinUI> headCharacter;
 		List<CharacterSkinUI> bodyCharacter;
 
@@ -133,6 +133,13 @@ namespace UI.Inventory
 			currentHeadIndex = headIndex;
 			UpdateBodyModel();
 			UpdateHeadModel();
+		}
+		private void Start()
+		{
+			if (Common.CheckDevice())
+			{
+				gameObject.transform.localScale = scale_tablet;
+			}
 		}
 		private void UpdateElevatorModel()
 		{
