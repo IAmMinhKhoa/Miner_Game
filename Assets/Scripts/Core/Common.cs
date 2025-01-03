@@ -116,12 +116,12 @@ public static class Common
 	}
 	public static bool CheckDevice()
 	{
-		
-		//if(SystemInfo.deviceName.Contains("iPad")|| SystemInfo.deviceModel.Contains("iPad"))
-		//{
-		//	return true;
-		//}
-		//return false;
+
+		if(SystemInfo.deviceName.Contains("iPad")|| SystemInfo.deviceModel.Contains("iPad"))
+		{
 		return true;
+		}
+		return false;
+
 	}
 }

@@ -31,6 +31,12 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		m_upgradePanelTrans = Instantiate(_upgradePanelPref, GameUI.Instance.transform);
 		m_upgradePanel = m_upgradePanelTrans.GetComponentInChildren<UpgradeUI>();
 		ControlPanel(false);
+		if (Common.CheckDevice())
+		{
+			// Gán scale là 0.8
+			_upgradePanelPref.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
+			Debug.Log("Scale has been set to 0.8");
+		}
 	}
 	private void OnEnable()
 	{

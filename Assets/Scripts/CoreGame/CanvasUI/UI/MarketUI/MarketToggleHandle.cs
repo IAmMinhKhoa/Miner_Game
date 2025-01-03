@@ -16,6 +16,14 @@ public class MarketToggleHandle : MonoBehaviour
     {
         toggleHandling = GetComponent<Toggle>();
 		toggleHandling.onValueChanged.AddListener(isOn => OnToggleValueChanged(isOn, itemType));
+		if (Common.CheckDevice())
+		{
+			RectTransform rectTransform = GetComponent<RectTransform>();
+			Vector2 currentPivot = rectTransform.pivot;
+
+			// Đổi giá trị x thành 0 (y giữ nguyên)
+			rectTransform.pivot = new Vector2(0, currentPivot.y);
+		}
     }
 
 	private void OnToggleValueChanged(bool isOn, InventoryItemType itemType)
