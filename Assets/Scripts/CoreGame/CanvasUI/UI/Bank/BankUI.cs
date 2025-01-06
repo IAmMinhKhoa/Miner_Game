@@ -25,7 +25,7 @@ public class MoneyItem
 
 public class BankUI : MonoBehaviour
 {
-	private Vector3 scale_tablet = new Vector3(1.05f, 1.05f, 1.05f);
+	private Vector3 scale_tablet = new Vector3(1f, 1f, 1f);
 	[SerializeField] private RectTransform _content;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private List<Button> _closeButtons;
