@@ -7,6 +7,8 @@ using System;
 using System.Collections;
 using PlayFabManager.Data;
 using System.Security.Cryptography;
+using UnityEngine.UI;
+using TMPro;
 
 public class ShaftManager : Patterns.Singleton<ShaftManager>
 {
@@ -21,7 +23,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private double currentCost = 0;
 	[SerializeField] private GameObject _roof;
 	[SerializeField] private GameObject _roof_Building;
-
+	[SerializeField] private GameObject _banner;
+	[SerializeField] private GameObject startShaftUpgradeEffect;
+	[SerializeField] private GameObject endShaftUpgradeEffect;
+	[SerializeField] private GameObject upgradeLoadBar;
 	[Header("Basement")]
 	[SerializeField] public List<Shaft> Shafts = new();
 
@@ -29,6 +34,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	[SerializeField] private Vector3 firstShaftPosition = new(0.656000018f, -0.0390000008f, 0);
 	[SerializeField] int maxShaftCount = 30;
 	[SerializeField] private double initCost = 10;
+	[Header("Upgrade Bar Image")]
+	[SerializeField] private SpriteRenderer currentLoaded;
+	[Header("Text")]
+	[SerializeField] private TextMeshPro loadedText;
 
 	public double CurrentCost => currentCost;
 
@@ -36,18 +45,30 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	private bool isDone = false;
 	public bool IsDone => isDone;
 	[Header("Building Shaft")]
-	public bool isBuilding=false;
+	public bool isBuilding = false;
 	public double TimeBuild = 5f;
 	public double TimeCurrentBuild;
+	GameObject _endShaftUpgradeEffect;
+	GameObject _startShaftUpgradeEffect;
+
+	Vector2 upgradeBarSize;
 	private void Start()
 	{
 		//InitializeShafts();
+		_banner.transform.position = new Vector3(firstShaftPosition.x + 0.02f, firstShaftPosition.y - 1.47f, 0);
 	}
 	protected override void Awake()
 	{
 		isPersistent = false;
 		base.Awake();
+		_endShaftUpgradeEffect = Instantiate(endShaftUpgradeEffect);
+		_startShaftUpgradeEffect = Instantiate(startShaftUpgradeEffect);
+
+		_endShaftUpgradeEffect.SetActive(false);
+		_startShaftUpgradeEffect.SetActive(false);
+		upgradeBarSize = currentLoaded.size;
 	}
+
 	public void AddShaft()
 	{
 		OnNewShaftCreated?.Invoke();
@@ -59,10 +80,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 		ShaftUpgrade shaftUpgrade = newShaft.GetComponent<ShaftUpgrade>();
 		shaftUpgrade.SetInitialValue(Shafts.Count, CalculateNextShaftCost(), 1);
-
-		Shafts.Add(newShaft);
 		newShaft.shaftSkin = new ShaftSkin(Shafts.Count);
-
+		Shafts.Add(newShaft);
 		newShaft.gameObject.GetComponent<ShaftUI>().NewShaftCostText.text = Currency.DisplayCurrency(CalculateNextShaftCost());
 		float newY = newShaft.transform.position.y;
 		newY += roofOffset;
@@ -93,7 +112,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		isDone = true;
 
 		ValidateTimeOffline();
-		
+
 
 		CustomCamera.Instance.SetMaxY(Shafts[^1].transform.position.y);
 	}
@@ -132,6 +151,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		double totalNS = 0;
 		foreach (Shaft shaft in Shafts)
 		{
+			if (shaft.ManagerLocation.Manager == null) continue;
 			totalNS += shaft.GetShaftNS();
 		}
 		return totalNS;
@@ -175,6 +195,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	private bool Load()
 	{
 		shaftPrefab.gameObject.GetComponent<ShaftUI>().UpdateSkeletonData();
+		Debug.Log(shaftPrefab.gameObject.GetComponent<ShaftUI>().SecondBG.skeleton.Data.Skins.Count);
 		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
 		{
 			string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("ShaftManager");
@@ -207,7 +228,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
 				shaft.SetDepositValue(currentDeposit);
-				
+
 				shaft.gameObject.GetComponent<ShaftUI>().m_buyNewShaftButton.gameObject.SetActive(false);
 				Shafts.Add(shaft);
 				float newY = shaft.transform.position.y;
@@ -230,22 +251,44 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public IEnumerator AddShaftAfterCooldown()
 	{
 		isBuilding = true;
-		TimeCurrentBuild =TimeBuild;
+		TimeCurrentBuild = TimeBuild;
+		var totalTime = TimeCurrentBuild;
 		_roof_Building.SetActive(true);
-		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y+ roofOffsetBuilding,0);
+		_roof.transform.position = new Vector3(_roof.transform.position.x, _roof.transform.position.y + roofOffsetBuilding, 0);
+
+		upgradeLoadBar.SetActive(true);
+
+		_startShaftUpgradeEffect.SetActive(true);
+		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);	
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
+			currentLoaded.size = new Vector2((float)(1f - TimeCurrentBuild / totalTime) * upgradeBarSize.x, upgradeBarSize.y);
+			loadedText.text = Mathf.FloorToInt((float)(1f - TimeCurrentBuild / totalTime) * 100f) + "%";
 			yield return null;  // Wait for the next frame
 		}
-
+		
 		_roof_Building.SetActive(false);
 		isBuilding = false;
 		AddShaft();  // Call AddShaft after cooldown
+		upgradeLoadBar.SetActive(false);
+		_startShaftUpgradeEffect.SetActive(false);
+		//end upgrade effect
+		Transform lastShaft = Shafts[^1].transform;
+		float endUpgradeEffectDuration = _endShaftUpgradeEffect.GetComponent<ParticleSystem>().main.duration;
+		_endShaftUpgradeEffect.transform.localPosition = lastShaft.position;
+		_endShaftUpgradeEffect.SetActive(true);
+
+		yield return new WaitForSeconds(endUpgradeEffectDuration);
+
+		_endShaftUpgradeEffect.SetActive(false);
 	}
 	private void ValidateTimeOffline()
 	{
-		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
+
+		string lastTimeQuit = PlayFabDataManager.Instance.ContainsKey("LastTimeQuit")
+			? PlayFabDataManager.Instance.GetData("LastTimeQuit")
+			: System.DateTime.Now.ToString(); ;
 		System.DateTime lastTime = System.DateTime.Parse(lastTimeQuit);
 		System.TimeSpan timeSpan = System.DateTime.Now - lastTime;
 		double seconds = timeSpan.TotalSeconds;
@@ -263,8 +306,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				StartCoroutine(AddShaftAfterCooldown());
 			}
 		}
-		
-		
+
+
 	}
 	public class Data
 	{

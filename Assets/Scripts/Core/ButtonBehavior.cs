@@ -30,7 +30,6 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
 	[ShowIf("ActiveAniamate")]
 	public float bounceDuration = 0.2f; // Thời gian của hiệu ứng
 
-
 	[Header("Audio")]
     public SoundEnum clickSoundFx = SoundEnum.click;
 
@@ -75,7 +74,7 @@ public class ButtonBehavior : MonoBehaviour, IPointerDownHandler
         {
 			OnButtonClickAnimate();
 
-			SoundManager.PlaySound(SoundEnum.click);
+			SoundManager.PlaySound(clickSoundFx);
             onClickEvent?.Invoke();
         }
 

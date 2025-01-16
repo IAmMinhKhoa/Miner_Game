@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Spine.Unity;
 using Spine;
+using NOOD.Sound;
 namespace UI.Inventory
 {
 	public class DecoratorItem : ItemInventoryUI
@@ -32,6 +33,7 @@ namespace UI.Inventory
 		public int Index { private set; get;} = -1;
 		public override void OnPointerClick(PointerEventData eventData)
 		{
+			SoundManager.PlaySound(SoundEnum.mobileClickBack);
 			OnItemClick?.Invoke(type, Index);
 		}
 		public void ChangeSpineSkin(string skinName)
@@ -41,7 +43,7 @@ namespace UI.Inventory
 				Debug.Log(this.name + " Skin not fond");
 				return;
 			}
-		
+			
 			spine.Skeleton.SetSkin(skinName);
 			spine.Skeleton.SetSlotsToSetupPose();
 		}

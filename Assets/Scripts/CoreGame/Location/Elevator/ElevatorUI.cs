@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using System;
 using Spine;
+using NOOD.Sound;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -44,14 +45,14 @@ public class ElevatorUI : MonoBehaviour
         m_levelText.text = m_elevatorUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
-        UpdateFrameButtonUpgrade(m_elevatorUpgrade.CurrentLevel);
+        //UpdateFrameButtonUpgrade(m_elevatorUpgrade.CurrentLevel);
     }
 
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_elevator.ElevatorDeposit.CurrentPaw);
         m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-        m_levelText.text = m_elevatorUpgrade.CurrentLevel.ToString();
+        m_levelText.text = "Lv. " + m_elevatorUpgrade.CurrentLevel.ToString();
     }
 
     void OnEnable()
@@ -73,6 +74,7 @@ public class ElevatorUI : MonoBehaviour
         //m_elevator.OnElevatorControllerArrive -= ElevatorSystem_OnElevatorControllerArriveHandler;
     }
 
+	public void AddManagerInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private async void ElevatorSystem_OnElevatorControllerArriveHandler()
     {
         m_refrigeratorAnimation.AnimationState.SetAnimation(0, "Tu nhan ly nuoc - Active", true);
@@ -154,7 +156,7 @@ public class ElevatorUI : MonoBehaviour
         m_bgElevator.skeletonDataAsset = skinGameData[InventoryItemType.ElevatorBg];
         m_bgElevator.Initialize(true);
 
-        var controllerView = ElevatorSystem.Instance.ElevatorController.GetComponent<ElevatorControllerView>();
+        var controllerView = ElevatorSystem.Instance.ElevatorPrefabController.GetComponent<ElevatorControllerView>();
         var fontSkeleton = controllerView.FontElevator;
         var backSkeleton = controllerView.BackElevator;
         fontSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.Elevator];
@@ -176,9 +178,12 @@ public class ElevatorUI : MonoBehaviour
     {
 
 		if (data == null) return;
-		m_bgElevator.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
+		int.TryParse(data.idBackGround, out int bgId);
+		m_bgElevator.Skeleton.SetSkin($"Skin_{bgId + 1}");
 
-		int elevatorIndex = int.Parse(data.idFrontElevator);
+
+		int.TryParse(data.idFrontElevator, out int elevatorIndex);
+
 
 		if (ElevatorSystem.Instance.ElevatorController.TryGetComponent<ElevatorControllerView>(out var elevatorControllerView))
 		{
@@ -188,6 +193,7 @@ public class ElevatorUI : MonoBehaviour
 
 			fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
 			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
+	
 			fontSkeleton.SetSlotsToSetupPose();
 			backSkeleton.SetSlotsToSetupPose();
 
@@ -206,7 +212,8 @@ public class ElevatorUI : MonoBehaviour
 
     private void AwakeWorker()
     {
-        m_elevator.AwakeWorker();
+		//SoundManager.PlaySound(SoundEnum.mobileClickBack);
+		m_elevator.AwakeWorker();
     }
 
     #region DEBUG

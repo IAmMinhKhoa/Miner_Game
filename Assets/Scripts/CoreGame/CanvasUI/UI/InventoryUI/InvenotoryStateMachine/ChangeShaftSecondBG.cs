@@ -26,45 +26,43 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 	public override void Enter()
 	{
 		//Cap nhat bottom Skin list
-
 		var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		bgItem.bg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftBg];
 		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftSecondBg];
 		bgItem.bg.Initialize(true);
 		bgItem.secondBg.Initialize(true);
-		
-		int skinAmount = bgItem.secondBg.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
 
-		currenFloor = bgList.Index;
 		bgList.ClearListItem();
-		bgList.Init(bgItem, skinAmount);
-		currentSkinSelect = int.Parse(ShaftManager.Instance.Shafts[currenFloor].shaftSkin.idSecondBg);
+
+		var listSkin = SkinManager.Instance.GetListDataSkinBases(InventoryItemType.ShaftSecondBg);
+
+		bgList.Init(bgItem, listSkin.Count);
+		currentSkinSelect = int.Parse(ShaftManager.Instance.Shafts[currenFloor].shaftSkin.idBackGround);
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
 		var skinData = ShaftManager.Instance.Shafts[currenFloor].shaftSkin;
+
 		for (int i = 0; i < bgList.listItem.Count; i++)
 		{
 			var _item = bgList.listItem[i];
 			_item.OnBackGroundItemClick += HandleItemClick;
-			var itemInfo = SkinManager.Instance.skinResource.skinBgShaft[i];
-			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+
+			var itemInfo = listSkin[i];
+			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.ShaftSecondBg);
 			_item.bg.gameObject.SetActive(false);
-			//ChangeSkin(_item.bg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
-			ChangeSkin(_item.secondBg, "Click_" + (i + 1));
+			//ChangeSkin(_item.bg, "Click_" + (int.Parse(counterSkin.idBackGround) + 1));
+			ChangeSkin(_item.secondBg, "Click_" + itemInfo.id);
 		}
-		//Cap nhat top skinList
-		ShaftUI Ui = ShaftManager.Instance.Shaft.GetComponent<ShaftUI>();
-		SkeletonDataAsset skBgData = Ui.BG.skeletonDataAsset;
-		SkeletonDataAsset skSecondBGData = Ui.SecondBG.skeletonDataAsset;
+
+		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.CounterBg];
+		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.CounterSecondBg];
 
 		var imgSelectedBg = bgList.imgSelectedBg;
-	
-		imgSelectedBg.gameObject.SetActive(false);
-		
-
 		//imgSelectedBg.skeletonDataAsset = skBgData;
 		//imgSelectedBg.Initialize(true);
-		//ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(skinData.idBackGround) + 1));
+		//ChangeSkin(imgSelectedBg, "Click_" + (int.Parse(counterSkin.idBackGround) + 1));
+
+		imgSelectedBg.gameObject.SetActive(false);
 
 		var secondBg = bgList.imgSelectedSecondBg;
 		secondBg.skeletonDataAsset = skSecondBGData;

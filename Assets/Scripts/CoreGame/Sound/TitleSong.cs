@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,9 +37,10 @@ public class TitleSong : MonoBehaviour
 
     public void SetData(Sprite icon, string namesong, string nameAuthor,bool isPlay=false)
     {
+		string titleAuthor = LocalizationManager.GetLocalizedString(LanguageKeys.AuthorPlayList);
         _avatar.sprite = icon;
         _nameSong.text = namesong;
-        _author.text = "Tac Gia : "+ nameAuthor;
+        _author.text = titleAuthor +": " +   nameAuthor;
         IsPlay=isPlay;
 
     }

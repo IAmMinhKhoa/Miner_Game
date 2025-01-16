@@ -1,10 +1,12 @@
 using DG.Tweening;
+using NOOD.Sound;
 using PlayFab.EconomyModels;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UI.Inventory.PopupOtherItem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +16,10 @@ namespace UI.Inventory
 {
     public class InventoryUIManager : MonoBehaviour
 	{
+		private Vector3 scale_tablet = new Vector3(1.2f, 1.2f, 1.2f);
 		[Header("UI")]
+		[SerializeField] private TextMeshProUGUI activeTextNoiThat;
+		[SerializeField] private TextMeshProUGUI activeTextNhanVien;
         [SerializeField] private Toggle tgNoiThat;
         [SerializeField] private Toggle tgNhanVien;
         [SerializeField] private GameObject pnNoiThat;
@@ -60,7 +65,6 @@ namespace UI.Inventory
 		bool isUpdateElevatorSkeletonData = false;
 		private void OnEnable()
 		{
-			
 			ShaftManager.Instance.OnUpdateShaftInventoryUI += HanleUpdateShaftIUI;
 			ElevatorSystem.Instance.OnUpdateElevatorInventoryUI += HandleElevatorIUI;
 			Counter.Instance.OnUpdateCounterInventoryUI += HandleCounterIUI;
@@ -80,8 +84,10 @@ namespace UI.Inventory
 				HandleElevatorIUI();
 				HandleCounterIUI();
 			}
-	
-			
+			for (int i = 0; i < listShaftUI.Count; i++)
+			{
+				listShaftUI[i].SetShaftIndex(i);
+			}
 		}
 
 		private void OnDisable()
@@ -97,6 +103,10 @@ namespace UI.Inventory
 
 		void Start()
         {
+			if (Common.CheckDevice())
+			{
+				gameObject.transform.localScale = scale_tablet;
+			}
 			staffSkinUI.OnUpdateInventoryUI += UpdateStabStaffUI;
 			if (pnNhanVien.TryGetComponent<TabStaff>(out var tabStaff))
 			{
@@ -133,6 +143,14 @@ namespace UI.Inventory
 			HandleCounterIUI();
 			isFirstTimeOpen = false;
 			contentFitterRefresh.RefreshContentFitters();
+			if (pnNhanVien.activeInHierarchy)
+			{
+				activeTextNoiThat.gameObject.SetActive(false);
+			}
+			else
+			{
+				activeTextNhanVien.gameObject.SetActive(false);
+			}
 		}
 
 		private void TabStaff_OnTabStaffDisable()
@@ -183,7 +201,7 @@ namespace UI.Inventory
 		}
 		private void HandleElevatorIUI()
 		{
-			var elevatorSkinData = ElevatorSystem.Instance.elevatorSkin.GetDataSkin();
+			
 			foreach (var item in elevatorItem)
 			{
 				if(isUpdateElevatorSkeletonData == false)
@@ -192,7 +210,7 @@ namespace UI.Inventory
 					item.Spine.skeletonDataAsset = data;
 					item.Spine.Initialize(true);
 				}
-				if(elevatorSkinData.ContainsKey(item.type))
+				if(item.type == InventoryItemType.ElevatorBg)
 				{
 					string skinName = "Icon_" + (int.Parse(ElevatorSystem.Instance.elevatorSkin.idBackGround) + 1);
 					item.ChangeSpineSkin(skinName);
@@ -201,7 +219,8 @@ namespace UI.Inventory
 				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(ElevatorSystem.Instance.elevatorSkin.idFrontElevator);
-					item.ChangeSpineSkin(item.SkinList.Items[indexCart + 1].Name);
+					item.Spine.AnimationState.SetAnimation(0, "Icon", false);
+					item.ChangeSpineSkin("Icon_" +(indexCart + 1));
 				}
 			}
 			isUpdateElevatorSkeletonData = true;
@@ -247,11 +266,14 @@ namespace UI.Inventory
 			if(pnNhanVien.activeInHierarchy)
 			{
 				LoadListShaft();
+				activeTextNhanVien.gameObject.SetActive(true);
+				activeTextNoiThat.gameObject.SetActive(false);
 			}
 			else
 			{
 				UnLoadListShaft();
-				
+				activeTextNhanVien.gameObject.SetActive(false);
+				activeTextNoiThat.gameObject.SetActive(true);
 			}
 			contentRefreshTabNV.RefreshContentFitters();
 
@@ -315,7 +337,6 @@ namespace UI.Inventory
 			listShaftUI.Add(shaft);
 			
 		}
-
 		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
 		{
 			
@@ -338,13 +359,14 @@ namespace UI.Inventory
 			gameObject.SetActive(true);
 			Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 			gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-			gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+			gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
 
 
 		}
 		[Button]
 		public void FadeOutContainer()
 		{
+			SoundManager.PlaySound(SoundEnum.mobileTexting2);
 			Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 			gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 			{

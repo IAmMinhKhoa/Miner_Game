@@ -1,0 +1,193 @@
+{
+"skeleton": {
+	"hash": "F5K4uQ7KDDQ",
+	"spine": "4.2.36",
+	"x": -56,
+	"y": -45.5,
+	"width": 112,
+	"height": 91,
+	"images": "./image/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Asset 132", "parent": "root", "x": -15.7, "y": -8.99 },
+	{ "name": "Asset 131", "parent": "Asset 132", "x": -22.28, "y": 26.51 },
+	{ "name": "Asset 134", "parent": "Asset 132", "x": 1.56, "y": 26.96 },
+	{ "name": "Asset 135", "parent": "Asset 132", "x": 26.51, "y": 25.84 }
+],
+"slots": [
+	{ "name": "Asset 86", "bone": "root", "attachment": "Asset 86" },
+	{ "name": "root", "bone": "Asset 132", "attachment": "root" },
+	{ "name": "Asset 131", "bone": "Asset 131" },
+	{ "name": "Asset 134", "bone": "Asset 134" },
+	{ "name": "Asset 135", "bone": "Asset 135" },
+	{ "name": "Asset 132", "bone": "Asset 132" },
+	{ "name": "Asset 133", "bone": "root" },
+	{ "name": "Asset 136", "bone": "root" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Asset 86": {
+				"Asset 86": { "width": 112, "height": 91 }
+			},
+			"Asset 131": {
+				"Asset 131": { "x": 0.08, "y": 0.51, "width": 19, "height": 26 }
+			},
+			"Asset 132": {
+				"Asset 132": { "x": 15.48, "y": 15.62, "width": 112, "height": 78 }
+			},
+			"Asset 133": {
+				"Asset 133": { "x": 17.56, "y": -26.75, "width": 38, "height": 38 }
+			},
+			"Asset 134": {
+				"Asset 131": { "x": 0.84, "y": 0.06, "width": 19, "height": 26 }
+			},
+			"Asset 135": {
+				"Asset 131": { "x": 0.48, "y": 1.17, "width": 19, "height": 26 }
+			},
+			"Asset 136": {
+				"Asset 133": { "x": -39.27, "y": -32.45, "scaleX": 0.6911, "scaleY": 0.6911, "width": 38, "height": 38 }
+			},
+			"root": {
+				"root": {
+					"type": "clipping",
+					"end": "Asset 135",
+					"vertexCount": 4,
+					"vertices": [ -31.81, 26.9, -44.22, 64.78, 47.58, 68.27, 37.11, 33.1 ],
+					"color": "ce3a3aff"
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"slots": {
+			"Asset 86": {
+				"attachment": [
+					{}
+				]
+			},
+			"Asset 131": {
+				"attachment": [
+					{ "name": "Asset 131" }
+				]
+			},
+			"Asset 132": {
+				"attachment": [
+					{ "name": "Asset 132" }
+				]
+			},
+			"Asset 133": {
+				"attachment": [
+					{ "name": "Asset 133" }
+				]
+			},
+			"Asset 134": {
+				"attachment": [
+					{ "name": "Asset 131" }
+				]
+			},
+			"Asset 135": {
+				"attachment": [
+					{ "name": "Asset 131" }
+				]
+			},
+			"Asset 136": {
+				"attachment": [
+					{ "name": "Asset 133" }
+				]
+			}
+		},
+		"bones": {
+			"Asset 135": {
+				"translate": [
+					{
+						"time": 0.1,
+						"curve": [ 0.191, 0, 0.209, 0, 0.191, 2.7, 0.209, 9.92 ]
+					},
+					{
+						"time": 0.3,
+						"y": 9.92,
+						"curve": [ 0.356, 0, 0.411, 0, 0.356, 9.92, 0.411, 3.31 ]
+					},
+					{ "time": 0.4667 }
+				]
+			},
+			"Asset 134": {
+				"translate": [
+					{
+						"time": 0.0333,
+						"curve": [ 0.124, 0, 0.142, 0, 0.124, 2.7, 0.142, 9.92 ]
+					},
+					{
+						"time": 0.2333,
+						"y": 9.92,
+						"curve": [ 0.289, 0, 0.344, 0, 0.289, 9.92, 0.344, 3.31 ]
+					},
+					{ "time": 0.4 }
+				]
+			},
+			"Asset 132": {
+				"rotate": [
+					{ "value": 1.19 },
+					{ "time": 0.1667, "value": -1.19 },
+					{ "time": 0.3333, "value": 1.19 },
+					{ "time": 0.5, "value": -1.19 },
+					{ "time": 0.6667, "value": 1.19 },
+					{ "time": 0.8333, "value": -1.19 },
+					{ "time": 1, "value": 1.19 }
+				],
+				"translate": [
+					{
+						"curve": [ 0.083, 0, 0.183, -0.03, 0.083, 0, 0.183, -1.49 ]
+					},
+					{
+						"time": 0.2667,
+						"x": -0.03,
+						"y": -1.49,
+						"curve": [ 0.35, -0.03, 0.422, 0, 0.35, -1.49, 0.422, 0 ]
+					},
+					{
+						"time": 0.5,
+						"curve": [ 0.583, 0, 0.683, -0.03, 0.583, 0, 0.683, -1.49 ]
+					},
+					{
+						"time": 0.7667,
+						"x": -0.03,
+						"y": -1.49,
+						"curve": [ 0.85, -0.03, 0.917, 0, 0.85, -1.49, 0.917, 0 ]
+					},
+					{ "time": 1 }
+				]
+			},
+			"Asset 131": {
+				"translate": [
+					{
+						"time": 0.2,
+						"curve": [ 0.291, 0, 0.309, 0, 0.291, 2.7, 0.309, 9.92 ]
+					},
+					{
+						"time": 0.4,
+						"y": 9.92,
+						"curve": [ 0.456, 0, 0.511, 0, 0.456, 9.92, 0.511, 3.31 ]
+					},
+					{ "time": 0.5667 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"Asset 135": {
+				"attachment": [
+					{}
+				]
+			}
+		}
+	}
+}
+}

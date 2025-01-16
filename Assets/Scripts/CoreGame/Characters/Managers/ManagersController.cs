@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using PlayFab.ClientModels;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -15,6 +16,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     private List<ManagerDataSO> _managerDataSOList => MainGameData.managerDataSOList;
     private List<ManagerSpecieDataSO> _managerSpecieDataSOList => MainGameData.managerSpecieDataSOList;
     private List<ManagerTimeDataSO> _managerTimeDataSOList => MainGameData.managerTimeDataSOList;
+	public string localSelected { private set; get; } = "vi";
+
+	public void SetLocal(string localSelected) => this.localSelected = localSelected;
     private double _ShaftHireCost = 100;
     private double _ElevatorHireCost = 1000;
     private double _CounterHireCost = 1000;
@@ -171,19 +175,15 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             < 90 => ManagerLevel.Junior,
             _ => ManagerLevel.Senior
         };
-        /*        BoostType type = UnityEngine.Random.Range(0, 3) switch
-                {
-                    0 => BoostType.Costs,
-                    1 => BoostType.Efficiency,
-                    _ => BoostType.Speed
-                };*/
+		Debug.Log("khoa newManager:" + location);
 
-        var specieDataList = _managerSpecieDataSOList.ToList();
-        var specieData = specieDataList[UnityEngine.Random.Range(0, specieDataList.Count)];
+        var specieDataList = _managerSpecieDataSOList.ToList(); //list all data staff of game
+		var specieDataFilterByLocation = specieDataList.FindAll(x=>x.LocationType==location);
+
+		var specieData = specieDataFilterByLocation[UnityEngine.Random.Range(0, specieDataFilterByLocation.Count) ];
 
         var managerData = GetManagerData(location, specieData.BoostType, level);
         var timeData = GetManagerTimeData(level);
-
 
         Manager manager = new();
         manager.SetManagerData(managerData);
@@ -215,7 +215,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        ManagerChooseUI.OnRefreshManagerTab?.Invoke(manager.BoostType, false);
+        
 
         return manager;
     }
@@ -283,7 +283,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         var managerOldLocation = manager.Location;
         var locationOldManager = newLocation.Manager;
-
+	
         if (managerOldLocation != null && locationOldManager != null)
         {
             locationOldManager.AssignManager(managerOldLocation);
@@ -354,11 +354,17 @@ public class ManagersController : Patterns.Singleton<ManagersController>
                firstManager.Level == secondManager.Level &&
                firstManager.Specie == secondManager.Specie;
     }
+	public bool HasAnyManager()
+	{
+		return ShaftManagers.Any(manager => manager.IsAssigned) ||
+			   ElevatorManagers.Any(manager => manager.IsAssigned) ||
+			   CounterManagers.Any(manager => manager.IsAssigned);
+	}
 
-    #endregion
+	#endregion
 
-    #region ----Load Save Region----
-    public async UniTaskVoid Save()
+	#region ----Load Save Region----
+	public async UniTaskVoid Save()
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>();
         List<ManagerSaveData> saveShaftManagers = new List<ManagerSaveData>();

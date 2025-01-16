@@ -15,7 +15,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	[Header("Camera shake")]
 	[SerializeField] private float _duration = 0.2f;
 	[SerializeField] private float _magnitude = 0.1f;
-
+	[SerializeField] GameObject minYpos;
 	private Camera _camera;
 	private Vector3 touchPos;
 	private bool _isDragging;
@@ -23,7 +23,7 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	private Vector3 _oldPos;
 	private bool _isOverShooting;
 	private Vector3 _dir;
-
+	public bool PreventScroll { set; get; } = false;
 	protected override void Awake()
 	{
 		isPersistent = false;
@@ -35,17 +35,22 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		_camera.orthographicSize = NoodyCustomCode.CalculateOrthoCamSize(_camera, 0).size;
 		float screenHeight = Camera.main.pixelHeight;
+		var mainCamera = Camera.main;
 		//minY = screenHeight * minY / 1920;
-		//minY = maxY;
+		
+
+		minY = minYpos.transform.position.y + mainCamera.orthographicSize;
+
 		ShaftManager.Instance.OnNewShaftCreated += ShaftManager_OnNewShaftCreated;
 	}
 	void Update()
 	{
+		if (PreventScroll) return;
 		if (NoodyCustomCode.IsPointerOverUIElement() == true) return;
 
 
 		// Detect left mouse button press (or touch)
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) && !PreventScroll)
 		{
 			touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			_isDragging = true;
@@ -114,4 +119,11 @@ public class CustomCamera : Patterns.Singleton<CustomCamera>
 	{
 		return transform;
 	}
+	public void SetYCamera(float value)
+	{
+		Vector3 position = gameObject.transform.position; // Get the current position
+		position.y = value; // Update the y value
+		gameObject.transform.position = position; // Assign the updated position back to the transform
+	}
+
 }

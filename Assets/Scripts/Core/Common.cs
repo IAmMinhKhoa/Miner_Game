@@ -26,7 +26,7 @@ public enum SkinShaftMilkCup
 }
 #endregion
 
-public class Common 
+public static class Common 
 {
 
     /// <summary>
@@ -108,6 +108,20 @@ public class Common
 
 		//Debug.Log("Internet connection is available.");
 		return true;
+
+	}
+	public  static string Text(this LanguageKeys key, object[] parameters = null)
+	{
+		return LocalizationManager.GetLocalizedString(key, parameters: parameters);
+	}
+	public static bool CheckDevice()
+	{
+
+		if(SystemInfo.deviceName.Contains("iPad")|| SystemInfo.deviceModel.Contains("iPad"))
+		{
+		return true;
+		}
+		return false;
 
 	}
 }

@@ -90,55 +90,57 @@ namespace NOOD.Sound
         /// <param name="volume"></param>
         public static void PlaySound(SoundEnum soundEnum, Vector3 position, float volume = 1)
         {
-            InitIfNeed();
-            if(soundData == null)
-            {
-                FindSoundData();
-            }
+			if (soundEnum == SoundEnum.none)
+				return;
+			InitIfNeed();
+			if (soundData == null)
+			{
+				FindSoundData();
+			}
 
-            AudioSource soundAudioPayer;
-            SoundPlayer soundPlayer;
-            if (disableSoundPlayers.Any(x => x.soundType == soundEnum))
-            {
-                soundPlayer = disableSoundPlayers.First(x => x.soundType == soundEnum);
-                soundAudioPayer = soundPlayer.GetComponent<AudioSource>();
-                soundPlayer.gameObject.SetActive(true);
+			AudioSource soundAudioPayer;
+			SoundPlayer soundPlayer;
+			if (disableSoundPlayers.Any(x => x.soundType == soundEnum))
+			{
+				soundPlayer = disableSoundPlayers.First(x => x.soundType == soundEnum);
+				soundAudioPayer = soundPlayer.GetComponent<AudioSource>();
+				soundPlayer.gameObject.SetActive(true);
 
-                // Remove when get
-                disableSoundPlayers.Remove(soundPlayer);
-            }
-            else
-            {
-                GameObject newObj = new GameObject("SoundPlayer" + soundEnum.ToString());
-                newObj.transform.SetParent(soundManagerGlobal.transform);
-                soundPlayer = newObj.AddComponent<SoundPlayer>();
-                soundPlayer.soundType = soundEnum;
-                soundAudioPayer = newObj.AddComponent<AudioSource>();
-            }
-            AudioClip audioClip = soundData.soundDic.Dictionary[soundEnum.ToString()];
+				// Remove when get
+				disableSoundPlayers.Remove(soundPlayer);
+			}
+			else
+			{
+				GameObject newObj = new GameObject("SoundPlayer" + soundEnum.ToString());
+				newObj.transform.SetParent(soundManagerGlobal.transform);
+				soundPlayer = newObj.AddComponent<SoundPlayer>();
+				soundPlayer.soundType = soundEnum;
+				soundAudioPayer = newObj.AddComponent<AudioSource>();
+			}
+			AudioClip audioClip = soundData.soundDic.Dictionary[soundEnum.ToString()];
 
-            soundPlayer.transform.position = position;
-            soundAudioPayer.playOnAwake = false;
-            soundAudioPayer.volume = volume;
-            soundAudioPayer.clip = audioClip;
-            soundAudioPayer.Play();
-            Fade(soundAudioPayer, audioClip.length * 0.2f, 1); // Fade time = 20% of sound length
-            enableSoundPlayers.Add(soundPlayer);
+			soundPlayer.transform.position = position;
+			soundAudioPayer.playOnAwake = false;
+			soundAudioPayer.volume = volume;
+			soundAudioPayer.clip = audioClip;
+			soundAudioPayer.Play();
+			Fade(soundAudioPayer, audioClip.length * 0.2f, 1); // Fade time = 20% of sound length
+			enableSoundPlayers.Add(soundPlayer);
 
-            // Add to list when end sound
-            NoodyCustomCode.StartDelayFunction(() =>
-            {
-                if(soundAudioPayer != null)
-                {
-                    Fade(soundAudioPayer, audioClip.length * 0.2f, 0, onComplete: () =>
-                    {
-                        soundAudioPayer.gameObject.SetActive(false);
-                        enableSoundPlayers.Remove(soundPlayer);
-                        disableSoundPlayers.Add(soundPlayer);
-                    });
-                }
-            }, audioClip.length - (audioClip.length * 0.2f)); // Start delay function after 80% time
-        }
+			// Add to list when end sound
+			NoodyCustomCode.StartDelayFunction(() =>
+			{
+				if (soundAudioPayer != null)
+				{
+					Fade(soundAudioPayer, audioClip.length * 0.2f, 0, onComplete: () =>
+					{
+						soundAudioPayer.gameObject.SetActive(false);
+						enableSoundPlayers.Remove(soundPlayer);
+						disableSoundPlayers.Add(soundPlayer);
+					});
+				}
+			}, audioClip.length - (audioClip.length * 0.2f)); // Start delay function after 80% time
+		}
         /// <summary>
         /// Play sound with globalSoundVolume
         /// </summary>

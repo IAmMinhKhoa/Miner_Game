@@ -5,6 +5,7 @@ using StateMachine;
 using UI.Inventory;
 using UI.Inventory.PopupOtherItem;
 using Spine.Unity;
+using System.Linq;
 public class ChangWaitalbeState : BaseState<InventoryItemType>
 {
 	readonly PopupOtherItemController itemController;
@@ -23,7 +24,8 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 
 	public override void Enter()
 	{
-		itemController.title.text = "Đổi Bàn Để Ly Trà Sữa";
+		string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryChangeTableMilkTea);
+		itemController.title.text = titleKey;
 		int currentFloor = itemController.FloorIndex;
 		var cartSkeleton = SkinManager.Instance.SkinGameDataAsset.SkinGameData[InventoryItemType.ShaftWaitTable];
 		//set data
@@ -31,24 +33,23 @@ public class ChangWaitalbeState : BaseState<InventoryItemType>
 		itemPrefab.spine.skeletonDataAsset = cartSkeleton;
 		itemPrefab.spine.Initialize(true);
 
-		int skinAmount = itemPrefab.spine.Skeleton.Data.Skins.Count / 2;
-		items = itemController.Init(itemPrefab, skinAmount);
-		for (int i = 0; i < skinAmount; i++)
+		var skinManager = SkinManager.Instance;
+		List<(string ID, string Name)> listSkin = skinManager.GetListPopupOtherItem(InventoryItemType.ShaftWaitTable);
+	
+		items = itemController.Init(itemPrefab, listSkin.Count);
+		for (int i = 0; i < listSkin.Count; i++)
 		{
 			var _item = items[i].spine;
-		
-
-			var skinName = SkinManager.Instance.skinResource.skinWaitTable[i].name;
-			items[i].ChangItemInfo(skinName);
-
-			_item.Skeleton.SetSkin("Icon_" + (i + 1));
-			_item.AnimationState.SetAnimation(0, "icon", false);
-			_item.transform.localScale = new Vector3(0.26f, 0.26f, 0.26f);
+			items[i].ChangItemInfo((i+1).ToString(), int.Parse(listSkin[i].ID), InventoryItemType.ShaftWaitTable);
+			_item.Skeleton.SetSkin("Icon_" + listSkin[i].ID);
+			_item.AnimationState.SetAnimation(0, "Icon", false);
+			_item.transform.localScale = new Vector3(0.17f, 0.17f, 1f);
 			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -29f); 
 			items[i].ItemClicked += ChangeSkin;
 			_item.Skeleton.SetSlotsToSetupPose();
 		}
 	}
+
 	private void ChangeSkin(Item item) 
 	{
 		int index = items.IndexOf(item);

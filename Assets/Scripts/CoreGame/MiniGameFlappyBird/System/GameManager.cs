@@ -7,30 +7,21 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Patterns.Singleton<GameManager>
 {
-    public InGameUI gameUI;
-    private bool gameover;
-    private void Awake()
-    {
-        Time.timeScale = 1;
-    }
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            gameUI.canvasGroup.alpha = 0;
-            gameUI.gameObject.SetActive(false);
-        }
-    }
-    public IEnumerator GameOver()
-    {
-        Time.timeScale = 0;
-        gameUI.canvasGroup.alpha = 0.5f;
-        gameUI.gameObject.SetActive(true);
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-		//SceneManager.LoadScene(0);
-		Time.timeScale = 1;
-		PoolManager.Instance.dic_pool["Pipe"].DesSpawnedAll();
-		SceneManager.UnloadScene(2);
+	public InGameUI gameUI;
+	private void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			gameUI.canvasGroup.alpha = 0;
+			gameUI.gameObject.SetActive(false);
+		}
 	}
-
+	public void GameOver()
+	{
+		PawManager.Instance.AddPaw(1000000000);
+		Time.timeScale = 0;
+		PoolManager.Instance.dic_pool["Pipe"].DesSpawnedAll();
+		GameEndDialogParam gameEndDialogParam = new GameEndDialogParam { score = PlayerController.score,index=1 };
+		DialogManager.Instance.ShowDialog(DialogIndex.GameEndDialog,gameEndDialogParam);
+	}
 }

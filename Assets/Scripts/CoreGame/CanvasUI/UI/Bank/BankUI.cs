@@ -25,7 +25,8 @@ public class MoneyItem
 
 public class BankUI : MonoBehaviour
 {
-    [SerializeField] private RectTransform _content;
+	private Vector3 scale_tablet = new Vector3(1.05f, 1.05f, 1.05f);
+	[SerializeField] private RectTransform _content;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private List<Button> _closeButtons;
     [SerializeField] private float _fadeSpeed = 0.3f;
@@ -36,7 +37,11 @@ public class BankUI : MonoBehaviour
 
     void Start()
     {
-        _closeButtons.ForEach(x => x.onClick.AddListener(FadeOutContainer));
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
+		_closeButtons.ForEach(x => x.onClick.AddListener(FadeOutContainer));
         if (_isShowRequest == false) // Prevent Hide when press shop button
             FadeOutContainer();
     }
@@ -94,7 +99,7 @@ public class BankUI : MonoBehaviour
         gameObject.SetActive(true);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-        gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
         _isShowRequest = true;
         _canvasGroup.interactable = true;
 

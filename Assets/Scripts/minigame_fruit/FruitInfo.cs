@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FruitInfo : MonoBehaviour
@@ -7,9 +8,10 @@ public class FruitInfo : MonoBehaviour
 
     
     public int index;
+	public Color mergeColor;
 
 
-    private GameObject claw;
+	private GameObject claw;
     private Rigidbody2D rb;
     void Start()
     {
@@ -22,12 +24,14 @@ public class FruitInfo : MonoBehaviour
     {
         if (tag == "holdingfruit")
         {
-            rb.isKinematic = true;
+            //rb.isKinematic = true;
+			rb.simulated = false;
             transform.position = claw.transform.position;
         }
         else
         {
-            rb.isKinematic = false;
+			//rb.isKinematic = false;
+			rb.simulated = true;
             GetComponent<FruitCombiner>().enabled = true;
         }
     }

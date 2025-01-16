@@ -4,13 +4,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NOOD.Sound;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingUI : MonoBehaviour
 {
-    [SerializeField] private float _fadeSpeed = 3f;
+	private Vector3 scale_tablet = new Vector3(1.2f, 1.2f, 1.2f);
+	[SerializeField] private float _fadeSpeed = 3f;
     [SerializeField] private Button _closeButton;
     private CanvasGroup _canvasGroup;
     private CancellationTokenSource _disableToken;
@@ -21,7 +23,14 @@ public class SettingUI : MonoBehaviour
         _closeButton.onClick.AddListener(FadeOutContainer);
         _disableToken = new CancellationTokenSource();
     }
-    void OnDisable()
+	private void Start()
+	{
+		if (Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
+	}
+	void OnDisable()
     {
         _disableToken.Cancel();
     }
@@ -51,13 +60,14 @@ public class SettingUI : MonoBehaviour
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		Debug.Log("khoaa:" + posCam);
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+		gameObject.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
 
 
 	}
 	[Button]
 	public void FadeOutContainer()
 	{
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 		{

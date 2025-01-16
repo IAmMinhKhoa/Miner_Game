@@ -40,4 +40,10 @@ public enum ManagerSpecie
     Tiger,
     Bear,
     Dog,
+	Owl,
+	Hamster,
+	Goat,
+	Pig,
+	Chicken,
+	Monkey
 }

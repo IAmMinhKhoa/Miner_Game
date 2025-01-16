@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NOOD.Sound;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class ManagerPanelUI : MonoBehaviour
     [Header("UI Button")]
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _hireOrFiredButton;
+	[SerializeField] private TMP_Text hireOrRest_lb;
     [SerializeField] private Button _sellButton;
 
 	[Header("UI Anothers")]
@@ -35,7 +37,8 @@ public class ManagerPanelUI : MonoBehaviour
 
     private void ClosePanel()
     {
-        gameObject.SetActive(false);
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
+		gameObject.SetActive(false);
     }
 
     private void HireOrFireManager()
@@ -64,6 +67,7 @@ public class ManagerPanelUI : MonoBehaviour
 
     public void SetManager(Manager manager)
     {
+		string titlekey = string.Empty;
         _manager = manager;
 
 
@@ -83,13 +87,15 @@ public class ManagerPanelUI : MonoBehaviour
 
         if (_manager.IsAssigned)
         {
-            _hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[0];
-        }
+			titlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerChooseUIRest);
+			_hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[0];
+		}
         else
         {
-            _hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[1];
+			titlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerChooseUIHire);
+			_hireOrFiredButton.GetComponent<Image>().sprite = _imgBtnHireFire[1];
         }
-
+		hireOrRest_lb.text = titlekey;
 		refeshInforSize.RefreshContentFitters();
 	}
  

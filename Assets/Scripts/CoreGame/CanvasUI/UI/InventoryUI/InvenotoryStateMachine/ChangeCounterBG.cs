@@ -27,24 +27,30 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 		var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		bgItem.bg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterBg];
 		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterSecondBg];
-		int skinAmount = bgItem.bg.skeletonDataAsset.GetSkeletonData(true).Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+
+
 		bgItem.bg.Initialize(true);
 		bgItem.secondBg.Initialize(true);
 		bgList.ClearListItem();
-		bgList.Init(bgItem, skinAmount);
+
+		var listSkin = SkinManager.Instance.GetListDataSkinBases(InventoryItemType.CounterBg);
+
+		bgList.Init(bgItem, listSkin.Count);
 		currentSkinSelect = int.Parse(Counter.Instance.counterSkin.idBackGround);
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
 		var counterSkin = Counter.Instance.counterSkin;
+
 		for (int i = 0; i < bgList.listItem.Count; i++)
 		{
 			var _item = bgList.listItem[i];
 			_item.OnBackGroundItemClick += HandleItemClick;
+			
 
-			var itemInfo = SkinManager.Instance.skinResource.skinBgCounter[i];
-			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			var itemInfo = listSkin[i];
+			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.ShaftSecondBg);
 			_item.bg.gameObject.SetActive(true);
-			ChangeSkin(_item.bg, "Click_" + (i + 1));
+			ChangeSkin(_item.bg, "Click_" + itemInfo.id);
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
 		}
 
@@ -65,7 +71,8 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 		secondBg.skeletonDataAsset = skSecondBGData;
 		secondBg.Initialize(true);
 		ChangeSkin(secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
-
+		//
+		string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleInventoryWallCouter);
 		bgList.descSelectedBg.text = bgList.listItem[int.Parse(counterSkin.idBackGround)].desc;
 		bgList.tileSelectedBg.text = bgList.listItem[int.Parse(counterSkin.idBackGround)].iName;
 

@@ -8,6 +8,8 @@ using Spine.Unity;
 using NOOD.SerializableDictionary;
 using Newtonsoft.Json;
 using Spine;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 public class CounterUI : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class CounterUI : MonoBehaviour
 	[SerializeField] private Button m_managerButton;
 	[SerializeField] private Button m_boostButton;
 	[SerializeField] private Button m_workerButton;
+
 
 	[Header("UI Text")]
 	[SerializeField] private TextMeshProUGUI m_pawText;
@@ -33,25 +36,28 @@ public class CounterUI : MonoBehaviour
 	private Counter m_counter;
 	private CounterUpgrade m_counterUpgrade;
 
+	[SerializeField] private GameObject costBoostFX;
+
 
 	void Awake()
 	{
 		m_counter = GetComponent<Counter>();
 		m_counterUpgrade = GetComponent<CounterUpgrade>();
+	
 	}
 
 	void Start()
 	{
 		m_levelText.text = m_counterUpgrade.CurrentLevel.ToString();
 		m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
-		UpdateFrameButtonUpgrade(m_counterUpgrade.CurrentLevel);
+		//UpdateFrameButtonUpgrade(m_counterUpgrade.CurrentLevel);
 	}
 
 	void Update()
 	{
 		m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
 		m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
-		m_levelText.text = m_counterUpgrade.CurrentLevel.ToString();
+		m_levelText.text ="Lv. " + m_counterUpgrade.CurrentLevel.ToString();
 	}
 
 	void OnEnable()
@@ -91,6 +97,8 @@ public class CounterUI : MonoBehaviour
 		//tableAnimation.Initialize(true, true);
 	}
 
+	public void AddManagerInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
+	
 	void CallUpgrade()
 	{
 		if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)
@@ -132,6 +140,64 @@ public class CounterUI : MonoBehaviour
 	void ActiveBoost()
 	{
 		m_counter.RunBoost();
+		if (m_counter.ManagerLocation.doFX)
+		{
+			ProcessBoostUI(m_counter.ManagerLocation.Manager.BoostType, m_counter.ManagerLocation.Manager.BoostTime);
+		}
+	}
+
+	void ProcessBoostUI(BoostType boostType, float boostTime)
+	{
+		if (boostType == BoostType.Efficiency)
+		{
+			foreach (Transporter t in m_counter.Transporters)
+			{
+				t.gameObject.transform.DOScale(1.1f, 0.5f);
+				Invoke("TurnOffEffFx", boostTime * 60);
+			}
+		}
+
+		if (boostType == BoostType.Costs)
+		{
+			costBoostFX.SetActive(true);
+			Invoke("TurnOffCostFx", boostTime * 60);
+		}
+
+		if (boostType == BoostType.Speed)
+		{
+			foreach (Transporter t in m_counter.Transporters)
+			{
+				t.BoostFx(true);
+				Invoke("TurnOffSpeedFx", boostTime * 60);
+			}
+		}
+	}
+
+	void TurnOffCostFx()
+	{
+		costBoostFX.SetActive(false);
+	}
+
+	void TurnOffSpeedFx()
+	{
+		foreach (Transporter t in m_counter.Transporters)
+		{
+			t.BoostFx(false);
+		}
+	}
+
+	void TurnOffEffFx()
+	{
+		foreach (Transporter t in m_counter.Transporters)
+		{
+			t.gameObject.transform.DOScale(1f, 0.5f);
+		}
+	}
+	public void TurnOffAllEffect()
+	{
+		TurnOffCostFx();
+		TurnOffSpeedFx();
+		TurnOffEffFx();
 	}
 	void OpenManagerPanel()
 	{
@@ -141,6 +207,27 @@ public class CounterUI : MonoBehaviour
 	public void UpgradeRequest()
 	{
 		OnUpgradeRequest?.Invoke();
+	}
+
+	public void PlayCollectAnimation(bool isBrewing)
+	{
+		Debug.Log("khoa PlayCollectAnimation:"+ isBrewing);
+		if (isBrewing == false && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Idle")
+		{
+			Debug.Log("khoa idel");
+			m_cashierCounter.AnimationState.ClearTrack(0);
+			m_cashierCounter.AnimationState.SetAnimation(0, "Idle", true);
+			//m_managerCounter.AnimationState.SetAnimation(0, "Idle", true);
+			return;
+		}
+		if (isBrewing && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Active")
+		{
+			Debug.Log("khoa acticve");
+			m_cashierCounter.AnimationState.ClearTrack(0);
+			m_cashierCounter.AnimationState.SetAnimation(0, "Active", true);
+		//	m_managerCounter.AnimationState.SetAnimation(0, "Active", true);
+			return;
+		}
 	}
 
 	public void UpdateSkeletonData()
@@ -168,10 +255,8 @@ public class CounterUI : MonoBehaviour
 
 			headSkeleton.Initialize(true);
 			bodySkeleton.Initialize(true);
-
-
 		}
-
+	
 	}
 	public void ChangeSkin(CounterSkin data)
 	{

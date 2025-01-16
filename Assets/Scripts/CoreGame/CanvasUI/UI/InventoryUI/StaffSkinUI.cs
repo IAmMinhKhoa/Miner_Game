@@ -1,3 +1,4 @@
+using NOOD.Sound;
 using Spine;
 using Spine.Unity;
 using System;
@@ -13,7 +14,7 @@ namespace UI.Inventory
 {
     public class StaffSkinUI : MonoBehaviour
     {
-		
+		private Vector3 scale_tablet = new Vector3(0.83f, 0.83f, 0.83f);
 		List<CharacterSkinUI> headCharacter;
 		List<CharacterSkinUI> bodyCharacter;
 
@@ -49,6 +50,11 @@ namespace UI.Inventory
 		[Header("Prefab")]
 		[SerializeField] CharacterSkinUI characterSkinUI;
 
+		[Header("Scale SO")]
+		[SerializeField] CharacterScalePosSO shaftHeadSO;
+		[SerializeField] CharacterScalePosSO shaftBodySO;
+		[SerializeField] CharacterScalePosSO elevatorHeadSO;
+		[SerializeField] CharacterScalePosSO elevatorBodySO;
 
 		public event Action OnUpdateInventoryUI;
 		public SelectFloorHandle SelectFloorHandle => selectFloorHandle;
@@ -128,6 +134,13 @@ namespace UI.Inventory
 			UpdateBodyModel();
 			UpdateHeadModel();
 		}
+		private void Start()
+		{
+			if (Common.CheckDevice())
+			{
+				gameObject.transform.localScale = scale_tablet;
+			}
+		}
 		private void UpdateElevatorModel()
 		{
 			elevatorHeadModel.GetComponent<SkeletonGraphic>().skeletonDataAsset =
@@ -170,12 +183,22 @@ namespace UI.Inventory
 				
 				var item = Instantiate(characterSkinUI, headContent.transform);
 				headCharacter.Add(item);
-				item.SetItemInfo(i);
+				
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
 				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
 				item.OnItemClicked += SetCurHeadIndex;
+				if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacter, true);
+					item.SetScaleAndPos(shaftHeadSO.ListCharScaleAndPos[i]);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacter, true);
+					item.SetScaleAndPos(elevatorHeadSO.ListCharScaleAndPos[i]);
+				}
 
 			}
 
@@ -194,12 +217,22 @@ namespace UI.Inventory
 			{
 				var item = Instantiate(characterSkinUI, bodyContent.transform);
 				bodyCharacter.Add(item);
-				item.SetItemInfo(i);
+				
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
 				item.Spine.GetComponent<RectTransform>().anchoredPosition = pos;
 				item.OnItemClicked += SetCurBodyIndex;
+				if (CurrentItemTypeHandle == InventoryItemType.ShaftCharacter || CurrentItemTypeHandle == InventoryItemType.CounterCharacter)
+				{
+					item.SetItemInfo(i, InventoryItemType.ShaftCharacterBody, false);
+					item.SetScaleAndPos(shaftBodySO.ListCharScaleAndPos[i]);
+				}
+				else
+				{
+					item.SetItemInfo(i, InventoryItemType.ElevatorCharacterBody, false);
+					item.SetScaleAndPos(elevatorBodySO.ListCharScaleAndPos[i]);
+				}
 			}
 
 		}
@@ -233,6 +266,11 @@ namespace UI.Inventory
 			if(CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
 				var spine =	elevatorHeadModel.GetComponent<SkeletonGraphic>();
+				//set animation cho spine
+				SkeletonData skeletonData = spine.Skeleton.Data;
+				string firstAnimationName = skeletonData.Animations.Items[0].Name;
+				spine.AnimationState.SetAnimation(0, firstAnimationName, true);
+
 				spine.Skeleton.SetSkin("Head/Skin_" + (currentHeadIndex + 1));
 				spine.Skeleton.SetSlotsToSetupPose();
 			}
@@ -259,6 +297,10 @@ namespace UI.Inventory
 			if (CurrentItemTypeHandle == InventoryItemType.ElevatorCharacter)
 			{
 				var spine = elevatorBodyModel.GetComponent<SkeletonGraphic>();
+
+				SkeletonData skeletonData = spine.Skeleton.Data;
+				string firstAnimationName = skeletonData.Animations.Items[0].Name;
+				spine.AnimationState.SetAnimation(0, firstAnimationName, true);
 				spine.Skeleton.SetSkin("Body/Skin_" + (currentBodyIndex + 1));
 				spine.Skeleton.SetSlotsToSetupPose();
 			}
@@ -304,7 +346,7 @@ namespace UI.Inventory
 		}
 		public void CloseUI()
 		{
-		
+			SoundManager.PlaySound(SoundEnum.mobileTexting2);
 			inventoryPanel.SetActive(true);	
 			gameObject.SetActive(false);
 		}

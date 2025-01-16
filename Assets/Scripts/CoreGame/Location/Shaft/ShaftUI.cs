@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using NOOD.SerializableDictionary;
 using System.Linq;
 using Spine;
+using DG.Tweening;
 
 public class ShaftUI : MonoBehaviour
 {
@@ -36,10 +37,12 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private SkeletonAnimation m_animatorTable;
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
-    [Header("Skin Object")]
+	[SerializeField] private GameObject costBoostFX;
+	[Header("Skin Object")]
     [SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
     [SerializeField] SkeletonAnimation m_secondbg;
+
 
     public SkeletonAnimation BG => m_br;
     public SkeletonAnimation SecondBG => m_secondbg;
@@ -50,8 +53,11 @@ public class ShaftUI : MonoBehaviour
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
 
+	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
-
+	//
+	
+	
 
 
     void Awake()
@@ -71,7 +77,7 @@ public class ShaftUI : MonoBehaviour
         ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
 
         //First init Data frame by current lvl of shaft
-        UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
+        //UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
 
 
 
@@ -80,7 +86,7 @@ public class ShaftUI : MonoBehaviour
     void Update()
     {
         m_pawText.text = Currency.DisplayCurrency(m_shaft.CurrentDeposit.CurrentPaw);
-        m_levelText.text = m_shaftUpgrade.CurrentLevel.ToString();
+        m_levelText.text ="Lv. " + m_shaftUpgrade.CurrentLevel.ToString();
         m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
     }
 
@@ -126,6 +132,7 @@ public class ShaftUI : MonoBehaviour
     }
     private void ChangePawStart(double value)
     {
+		Debug.Log("Change Paw: " + value);
         if (value > 0)
         {
             m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
@@ -151,15 +158,15 @@ public class ShaftUI : MonoBehaviour
         else
         {
             //m_lyNuocHolder.gameObject.SetActive(false);
-            m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
+            m_animatorTable.AnimationState.SetAnimation(0, "Idle", true);
         }
     }
     private void ChangePawEleHandler(double value)
     {
-        Debug.Log("Change Paw: " + value);
-        //m_animatorTable.SetTrigger("Shake");
+		Debug.Log("Change Paw: " + value);
+		//m_animatorTable.SetTrigger("Shake");
 
-        if (value > 0)
+		if (value > 0)
         {
             //m_lyNuocHolder.gameObject.SetActive(true);
             m_animatorTable.AnimationState.SetAnimation(0, "Idle 2", true);
@@ -192,7 +199,7 @@ public class ShaftUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
-            UpdateFrameButtonUpgrade(level);
+            //UpdateFrameButtonUpgrade(level);
 
         }
     }
@@ -261,6 +268,10 @@ public class ShaftUI : MonoBehaviour
         if (m_shaft.ManagerLocation.Manager != null)
         {
             m_shaft.ManagerLocation.RunBoost();
+			if (m_shaft.ManagerLocation.doFX)
+			{
+				ProcessBoostUI(m_shaft.ManagerLocation.Manager.BoostType, m_shaft.ManagerLocation.Manager.BoostTime);
+			}
         }
     }
     public void UpdateSkeletonData()
@@ -268,11 +279,15 @@ public class ShaftUI : MonoBehaviour
         var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
         m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
         m_secondbg.skeletonDataAsset = skinGameData[InventoryItemType.ShaftSecondBg];
+		waitTable.skeletonDataAsset = skinGameData[InventoryItemType.ShaftWaitTable];
 
-        m_br.Initialize(true);
+	
+
+		m_br.Initialize(true);
         m_secondbg.Initialize(true);
+		waitTable.Initialize(true);
 
-        var counter = GetComponent<Shaft>();
+		var counter = GetComponent<Shaft>();
 
         foreach (var item in counter.Brewers)
         {
@@ -285,11 +300,8 @@ public class ShaftUI : MonoBehaviour
             var bodySkeleton = item.BodySkeletonAnimation;
             headSkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
             bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
-
             headSkeleton.Initialize(true);
             bodySkeleton.Initialize(true);
-
-
         }
     }
     public void ChangeSkin(ShaftSkin data)
@@ -300,11 +312,20 @@ public class ShaftUI : MonoBehaviour
         m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
         waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
 
-        if (TryGetComponent<Shaft>(out var shaft))
+
+		var animationState = waitTable.AnimationState;
+		animationState.SetAnimation(0, "Active", true);
+
+		m_br.skeleton.SetSlotsToSetupPose();
+		m_secondbg.skeleton.SetSlotsToSetupPose();
+		waitTable.skeleton.SetSlotsToSetupPose();
+
+		if (TryGetComponent<Shaft>(out var shaft))
         {
             int cartIndex = int.Parse(data.idCart);
             int headIndex = int.Parse(data.characterSkin.idHead);
             int bodyIndex = int.Parse(data.characterSkin.idBody);
+
             foreach (var item in shaft.Brewers)
             {
                 var skeleton = item.CartSkeletonAnimation.skeleton;
@@ -333,7 +354,61 @@ public class ShaftUI : MonoBehaviour
         }
     }
 
-    private void AwakeWorker()
+	void ProcessBoostUI(BoostType boostType, float boostTime)
+	{
+		Debug.LogError(boostType.ToString());
+		if(boostType == BoostType.Efficiency)
+		{
+			foreach(Brewer t in m_shaft.Brewers)
+			{
+				t.gameObject.transform.DOScale(0.638f, 0.5f);
+				Invoke("TurnOffEffFx", boostTime * 60);
+			}
+		}
+
+		if(boostType == BoostType.Costs)
+		{
+			costBoostFX.SetActive(true);
+			Invoke("TurnOffCostFx", boostTime * 60);
+		}
+
+		if (boostType == BoostType.Speed)
+		{
+			foreach (Brewer t in m_shaft.Brewers)
+			{
+				t.BoostFx(true);
+				Invoke("TurnOffSpeedFx", boostTime * 60);
+			}
+		}
+	}
+
+	void TurnOffCostFx()
+	{
+		costBoostFX.SetActive(false);
+	}
+
+	void TurnOffSpeedFx()
+	{
+		foreach (Brewer t in m_shaft.Brewers)
+		{
+			t.BoostFx(false);
+		}
+	}
+
+	void TurnOffEffFx()
+	{
+		foreach (Brewer t in m_shaft.Brewers)
+		{
+			t.gameObject.transform.DOScale(0.58f, 0.5f);
+		}
+	}
+	public void TurnOffAllEffect()
+	{
+		TurnOffCostFx();
+		TurnOffSpeedFx();
+		TurnOffEffFx();
+	}
+	public void AwakeWorker()
     {
         m_shaft.AwakeWorker();
     }

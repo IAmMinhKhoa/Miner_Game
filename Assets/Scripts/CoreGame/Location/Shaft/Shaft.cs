@@ -64,7 +64,12 @@ public class Shaft : MonoBehaviour
 
     public double GetShaftNS()
     {
-        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed) * GetGlobalBoost();
+    }
+
+    public float GetGlobalBoost()
+    {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public float SpeedBoost
@@ -89,10 +94,7 @@ public class Shaft : MonoBehaviour
         set
         {
             _shaftSkin = value;
-            if (TryGetComponent(out ShaftUI shaftUI))
-            {
-                shaftUI.ChangeSkin(_shaftSkin);
-            }
+
         }
 
     }
@@ -108,7 +110,9 @@ public class Shaft : MonoBehaviour
     {
 
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
-        float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);
+        /*float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);*/
+        float randomX = 0.5f;
+
         Vector3 spawnPosition = m_brewerLocation.position;
         spawnPosition.x = randomX;
         brewGO.transform.position = spawnPosition;
@@ -116,10 +120,6 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
-        if (_brewers.Count > 1)
-        {
-            UpdateUI();
-        }
     }
 
     private void CreateDeposit()
@@ -140,6 +140,20 @@ public class Shaft : MonoBehaviour
     void Awake()
     {
         CreateDeposit();
+        managerLocation.OnChangeManager += SetManager;
+
+    }
+    private void OnDestroy()
+    {
+        managerLocation.OnChangeManager -= SetManager;
+    }
+    private void SetManager(Manager manager)
+    {
+        if (manager == null)
+        {
+            //	Debug.Log("999999");
+        }
+        AddManagerButtonInteract(false);
     }
 
     void Start()
@@ -148,6 +162,7 @@ public class Shaft : MonoBehaviour
         {
             CreateBrewer();
         }
+        UpdateUI();
     }
 
     void Update()
@@ -186,6 +201,14 @@ public class Shaft : MonoBehaviour
                 brewer.forceWorking = true;
             }
             await UniTask.Delay(100);
+        }
+    }
+    public void AddManagerButtonInteract(bool isShowing)
+    {
+        if (TryGetComponent(out ShaftUI shaftUI))
+        {
+            shaftUI.AddManagerButtonInteract(isShowing);
+			shaftUI.TurnOffAllEffect();
         }
     }
 }

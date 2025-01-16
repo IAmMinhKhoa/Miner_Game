@@ -30,8 +30,54 @@ public class CardInformation : MonoBehaviour
 
 	public void SetData(Manager _data)
 	{
+		string titleKey = string.Empty;
+		string titleQuoest = string.Empty;
+		string titleBoost = string.Empty;
 		RenderStart((int)_data.Level);
-		_nameText.text = _data.Specie.ToString();
+		switch (_data.Specie)
+		{
+			case ManagerSpecie.Tiger:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionTiger);
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoTiger);
+				break;
+			case ManagerSpecie.Dog:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionDog);
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoDog);
+				break;
+			case ManagerSpecie.Bear:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionBear);
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoBear);
+				break;
+			case ManagerSpecie.Goat:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionGoat);
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoGoat);
+				break;
+			case ManagerSpecie.Owl:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionOwl); 
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoOwl);
+				break;
+			case ManagerSpecie.Hamster:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster); 
+				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoHamster);
+				break;
+			case ManagerSpecie.Pig:
+				titleKey = "Heo";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
+			case ManagerSpecie.Chicken:
+				titleKey = "Gà";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
+			case ManagerSpecie.Monkey:
+				titleKey = "Khỉ";
+				titleQuoest = "tôi là điệp viên đến từ runeseeker";
+				break;
+			default:
+				titleKey = "Animal";
+				titleQuoest = "animal bubble tea bro";
+				break;
+		}
+		_nameText.text = titleKey;
 		_backGroundPanel.sprite = Resources.Load<Sprite>(MainGameData.PanelFrontCardManager[(int)_data.Level]);
 		_bannerName.sprite = Resources.Load<Sprite>(MainGameData.BannerLevels[(int)_data.Level]);
 		_spineManager.skeletonDataAsset = _data.SkeletonAsset;
@@ -44,20 +90,23 @@ public class CardInformation : MonoBehaviour
 		switch (_data.BoostType)
 		{
 			case BoostType.Costs:
-				_textValueBuffInfo.text = "chi phí: ";
+				titleBoost = LocalizationManager.GetLocalizedString(LanguageKeys.BoostCardInFoCost);
+				_textValueBuffInfo.text = titleBoost;
 				_textValueBuff.text = $"-{_data.BoostValue} %";
 				break;
 			case BoostType.Speed:
-				_textValueBuffInfo.text = "tốc độ di chuyển: ";
+				titleBoost = LocalizationManager.GetLocalizedString(LanguageKeys.BoostCardInFoSpeed);
+				_textValueBuffInfo.text = titleBoost;
 				_textValueBuff.text = $"+{_data.BoostValue} %";
 				break;
 			case BoostType.Efficiency:
-				_textValueBuffInfo.text = "tốc độ dỡ hàng: ";
+				titleBoost = LocalizationManager.GetLocalizedString(LanguageKeys.BoostCardInFoEfficiency);
+				_textValueBuffInfo.text = titleBoost;
 				_textValueBuff.text = $"+{_data.BoostValue} %";
 				break;
 		}
 
-		_textQuoest.text = _data.Quoest;
+		_textQuoest.text = titleQuoest;
 
 
 		if (_data.BoostType == BoostType.Costs)

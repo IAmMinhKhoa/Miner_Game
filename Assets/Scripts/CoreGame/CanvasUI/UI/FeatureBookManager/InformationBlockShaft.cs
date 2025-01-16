@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NOOD.Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -98,11 +99,12 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void SetData(Manager manager) //use in case when drag and drop card to list shaft -> update data to shaft
     {
+		SoundManager.PlaySound(SoundEnum.stickhit);
         if (manager != null)
         {
             ValidateData(manager);
             ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
-        }
+		}
         else
         {
             _icon.sprite = iconDefault;
@@ -203,6 +205,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         if (IsDroppingOutside(eventData.pointerEnter))
         {
             ManagersController.Instance.UnassignManager(shaft.ManagerLocation.Manager);
+			shaft.AddManagerButtonInteract(true);
         }
         else if (IsSwappingManager(eventData))
         {
@@ -247,7 +250,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         // transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f);
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        rectTransform.DOLocalMoveX(15f, 0.1f).OnComplete(() =>
+        rectTransform.DOLocalMoveX(80f, 0.1f).OnComplete(() =>
         {
             rectTransform.DOScale(new Vector2(1.06f, 1.06f), 0.1f);
         });
@@ -258,7 +261,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     {
         loadingSwap.SetActive(false);
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.DOLocalMoveX(0, 0.1f).OnComplete(() =>
+        rectTransform.DOLocalMoveX(66.5f, 0.1f).OnComplete(() =>
         {
             rectTransform.DOScale(new Vector2(1f, 1f), 0.06f);
         });

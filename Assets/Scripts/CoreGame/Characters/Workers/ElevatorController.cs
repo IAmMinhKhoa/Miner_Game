@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using NOOD;
+using NOOD.Sound;
 
 public class ElevatorController : BaseWorker
 {
@@ -20,7 +21,7 @@ public class ElevatorController : BaseWorker
     public double MaxCapacity { get; private set; }
     public override double ProductPerSecond
     {
-        get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost;
+        get => config.ProductPerSecond * elevator.LoadSpeedScale * elevator.EfficiencyBoost * elevator.SpeedBoost * elevator.GetGlobalBoost();
     }
 
     public override float WorkingTime
@@ -55,7 +56,7 @@ public class ElevatorController : BaseWorker
 
             if (forceWorking)
             {
-                isWorking = true;
+				isWorking = true;
                 forceWorking = false;
                 MoveToNextShaft();
             }

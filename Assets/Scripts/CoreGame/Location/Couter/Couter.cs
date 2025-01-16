@@ -70,8 +70,20 @@ public class Counter : Patterns.Singleton<Counter>
     {
         isPersistent = false;
         base.Awake();
+        m_managerLocation.OnChangeManager += SetManager;
 
     }
+
+    private void SetManager(Manager manager)
+    {
+        if (TryGetComponent<CounterUI>(out CounterUI counterUI))
+        {
+            counterUI.AddManagerInteract(manager == null);
+			counterUI.TurnOffAllEffect();
+
+		}
+    }
+
     public void UpdateUI()
     {
         if (TryGetComponent<CounterUI>(out CounterUI counterUI))
@@ -87,8 +99,9 @@ public class Counter : Patterns.Singleton<Counter>
         transporterGO.transform.SetParent(m_transporterLocation);
         Transporter transporter = transporterGO.GetComponent<Transporter>();
         transporter.Counter = this;
+        transporter.OnCashier += CountTransporterInCashier;
         _transporters.Add(transporter);
-        if (_transporters.Count >= 1)
+        if (_transporters.Count > 1)
         {
             UpdateUI();
             transporter.HideNumberText();
@@ -124,10 +137,16 @@ public class Counter : Patterns.Singleton<Counter>
 
     public double GetTotalNS()
     {
-        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed);
+        if (ManagerLocation.Manager == null)
+        {
+            return 0;
+        }
+        return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed) * GetGlobalBoost();
     }
-    void Start()
+
+    public float GetGlobalBoost()
     {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public void InitializeCounter()
@@ -160,6 +179,7 @@ public class Counter : Patterns.Singleton<Counter>
 
     private bool Load()
     {
+        GetComponent<CounterUI>().UpdateSkeletonData();
         if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("Counter"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Counter");
@@ -169,9 +189,6 @@ public class Counter : Patterns.Singleton<Counter>
             CounterUpgrade upgrader = gameObject.GetComponent<CounterUpgrade>();
             upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
-
-            GetComponent<CounterUI>().UpdateSkeletonData();
-
             int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
             for (int i = 0; i < numberWorker; i++)
             {
@@ -197,6 +214,34 @@ public class Counter : Patterns.Singleton<Counter>
                 transporter.forceWorking = true;
             }
             await UniTask.Delay(100);
+        }
+    }
+
+    private int _outCashier;
+    private int outCashier
+    {
+        get => _outCashier;
+        set
+        {
+            _outCashier = value;
+            if (_outCashier == _transporters.Count)
+            {
+                GetComponent<CounterUI>().PlayCollectAnimation(false);
+                _outCashier = 0;
+            }
+        }
+    }
+
+    public void CountTransporterInCashier(bool isOnCashier)
+    {
+
+        if (isOnCashier)
+        {
+            GetComponent<CounterUI>().PlayCollectAnimation(true);
+        }
+        else
+        {
+            outCashier++;
         }
     }
 

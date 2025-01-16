@@ -15,6 +15,7 @@ namespace PlayFabManager.Data
 		private LoaddingScreenManager prefab;
 		private LoaddingScreenManager loadingScene;
 		private bool isDataLoaded = false;
+		public string accountID;
 		private void OnEnable()
 		{
 			loadingScene = Instantiate(prefab, new Vector3(0, -2f, 0), Quaternion.identity);
@@ -32,7 +33,8 @@ namespace PlayFabManager.Data
 				{ "ManagersController", "" },
 				{ "PawVolume", "" },
 				{ "SkinManager", "" },
-				{ "LastTimeQuit", "" }
+				{ "LastTimeQuit", "" },
+				{ "LastTimeCoinReward", "" }
 			};
 			await Login();
 			await GetDataFromPlayFab();
@@ -59,6 +61,7 @@ namespace PlayFabManager.Data
 			try
 			{
 				var result = await taskCompletionSource.Task;
+				accountID=result.PlayFabId;
 			}
 			catch (Exception ex)
 			{
@@ -132,7 +135,7 @@ namespace PlayFabManager.Data
 			DataDictionary[key] = value;
 		}
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key) && DataDictionary[key] != "";
-		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : null;
+		public string GetData(string key) => DataDictionary.ContainsKey(key) ? DataDictionary[key] : "";
 		//Su dung de but data lay ve tu playfab
 		/*public void FectchData()
 		{

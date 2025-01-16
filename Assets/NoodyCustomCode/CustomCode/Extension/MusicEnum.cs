@@ -9,7 +9,5 @@ public enum MusicEnum
 	e = 4,
 	f = 5,
 	g = 6,
-	h = 7,
-	i = 8,
 }
 }

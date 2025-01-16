@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DG.Tweening;
 using NOOD;
 using NOOD.Sound;
@@ -22,7 +23,7 @@ public class ManagerChooseUI : MonoBehaviour
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<TypeMerge> MergeSuccess;
-    
+	private ManagerLocation currentLocation;
 
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
@@ -46,7 +47,7 @@ public class ManagerChooseUI : MonoBehaviour
         _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
-        _hireButton.onClick.AddListener(HireManager);
+        _hireButton.onClick.AddListener(OnHireManagerButtonClicked);
         _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
@@ -61,7 +62,7 @@ public class ManagerChooseUI : MonoBehaviour
         _managerTabUI.onManagerTabChanged -= OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged -= OnLocationTabChanged;
         _closeButton.onClick.RemoveListener(ClosePanel);
-        _hireButton.onClick.RemoveListener(HireManager);
+        _hireButton.onClick.RemoveListener(OnHireManagerButtonClicked);
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
         MergeSuccess -= AfterMegerManager;
@@ -70,19 +71,25 @@ public class ManagerChooseUI : MonoBehaviour
     
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
-		Debug.Log("khoa:" + _manager.Count);
+		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
 		if (_manager == null)
         {
             return;
         }
-        _managerSectionList.ShowManagers(_manager.FindAll(x => x.BoostType == type
-		&&((x.LocationType== ManagerLocation.Shaft&& !x.IsAssigned)
-		||(x.LocationType!=ManagerLocation.Shaft))),forceAnimation);
-    }
-	
-    private void OnLocationTabChanged(ManagerLocation location)
+		_managerSectionList.ShowManagers(
+	   _manager.FindAll(x => x.BoostType == type
+		   && ((x.LocationType == ManagerLocation.Shaft && !x.IsAssigned)
+		   || x.LocationType != ManagerLocation.Shaft)),
+	   forceAnimation);
+
+	}
+
+	private void OnLocationTabChanged(ManagerLocation location)
     {
-        SetupData(location);
+		Debug.Log("khoa OnLocationTabChanged:" + location);
+		currentLocation = location;
+		UpdateUI(PawManager.Instance.CurrentPaw);
+		SetupData(location);
         _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed, true);
     }
 
@@ -127,8 +134,12 @@ public class ManagerChooseUI : MonoBehaviour
 			_hireButton.interactable = true;
 		}
 	}
+	private async void OnHireManagerButtonClicked()
+	{
+		await HireManager();
+	}
 
-    void HireManager()
+	async Task HireManager()
     {
         if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
         {
@@ -139,25 +150,29 @@ public class ManagerChooseUI : MonoBehaviour
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
+		
 		FxGacha.OpenFxGacha(manager);
 
 		_hireButton.interactable = true;
-    }   
+
+		await Task.Delay(1500);
+		OnRefreshManagerTab?.Invoke(manager.BoostType, false);
+	}   
     void AfterMegerManager(TypeMerge typeMerge)
     {
 		switch (typeMerge)
 		{
 			case TypeMerge.Success:
-				SoundManager.PlaySound(SoundEnum.mergeSuccess);
+				SoundManager.PlaySound(SoundEnum.appsuccess1);
 				break;
 
 			case TypeMerge.FailLevelMax:
-				SoundManager.PlaySound(SoundEnum.mergeFail);
+				SoundManager.PlaySound(SoundEnum.accessdenied);
 				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật đã đạt cấp độ cao nhất");
 				break;
 
 			case TypeMerge.FailNotSameLevel:
-				SoundManager.PlaySound(SoundEnum.mergeFail);
+				SoundManager.PlaySound(SoundEnum.accessdenied);
 				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật có cấp độ khác nhau");
 				break;
 
@@ -169,11 +184,21 @@ public class ManagerChooseUI : MonoBehaviour
 	}
 	private void Boost()
     {
-        ManagersController.Instance.BoostAllManager();
-    }
+		if (ManagersController.Instance.HasAnyManager())
+		{
+			SoundManager.PlaySound(SoundEnum.cartoonButton1);
+		}
+		else
+		{
+			SoundManager.PlaySound(SoundEnum.clickdecline); 
+		}
+
+		ManagersController.Instance.BoostAllManager();
+	}
 
     private void ClosePanel()
     {
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		FadeOutContainer();
     }
 

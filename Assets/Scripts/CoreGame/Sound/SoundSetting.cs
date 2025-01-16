@@ -19,6 +19,7 @@ internal enum BahaviorMS
 public class SoundSetting : MonoBehaviour
 {
 
+	private Vector3 scale_tablet= new Vector3(1.2f,1.2f,1.2f);
     [SerializeField] PlayList _playList;
 
     [Header("UI")]
@@ -130,7 +131,13 @@ public class SoundSetting : MonoBehaviour
     }
     private void Start()
     {
-        sliderMusic.value = SoundManager.GlobalMusicVolume;
+		//
+		if(Common.CheckDevice())
+		{
+			gameObject.transform.localScale = scale_tablet;
+		}
+
+		sliderMusic.value = SoundManager.GlobalMusicVolume;
         sliderSFX.value = SoundManager.GlobalSoundVolume;
 
 
@@ -439,13 +446,14 @@ public class SoundSetting : MonoBehaviour
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Debug.Log("khoaa:" + posCam);
         Container.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-        Container.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
+        Container.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
         
 
     }
     [Button]
     public void FadeOutContainer()
     {
+		SoundManager.PlaySound(SoundEnum.mobileTexting2);
         Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
         Container.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
         {

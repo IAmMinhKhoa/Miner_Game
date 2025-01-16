@@ -1,0 +1,183 @@
+{
+"skeleton": {
+	"hash": "Hoza9HC41kc",
+	"spine": "4.2.36",
+	"x": -55,
+	"y": -43,
+	"width": 110,
+	"height": 86,
+	"images": "./image/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "line", "parent": "root", "x": -217.34, "y": -4.33 },
+	{ "name": "Asset 84", "parent": "root" },
+	{ "name": "ban 2", "parent": "root", "x": -219.43, "y": -4.54 },
+	{ "name": "ban 3", "parent": "root", "x": -218.05, "y": -4.83 },
+	{ "name": "Asset 85", "parent": "root", "x": -222.32 }
+],
+"slots": [
+	{ "name": "Asset 126", "bone": "root", "attachment": "Asset 126" },
+	{ "name": "mask ban", "bone": "root" },
+	{ "name": "Asset 84", "bone": "Asset 84" },
+	{ "name": "Asset 85", "bone": "Asset 85" },
+	{ "name": "line", "bone": "line" },
+	{ "name": "ban 2", "bone": "ban 2" },
+	{ "name": "ban 3", "bone": "ban 3" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Asset 84": {
+				"Asset 84": { "width": 109, "height": 86 }
+			},
+			"Asset 85": {
+				"Asset 84": { "width": 109, "height": 86 }
+			},
+			"Asset 126": {
+				"Asset 126": { "width": 110, "height": 86 }
+			},
+			"ban 2": {
+				"ban 2": { "scaleX": 0.305, "scaleY": 0.305, "width": 537, "height": 253 }
+			},
+			"ban 3": {
+				"ban 3": { "scaleX": 0.305, "scaleY": 0.305, "width": 547, "height": 253 }
+			},
+			"line": {
+				"line": { "scaleX": 0.305, "scaleY": 0.305, "width": 549, "height": 249 }
+			},
+			"mask ban": {
+				"mask ban": {
+					"type": "clipping",
+					"end": "ban 3",
+					"vertexCount": 4,
+					"vertices": [ -96.18, 56.83, -96.18, -79.06, 89.34, -79.36, 89.64, 56.83 ],
+					"color": "ce3a3aff"
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"slots": {
+			"Asset 84": {
+				"attachment": [
+					{ "name": "Asset 84" },
+					{ "time": 1 }
+				]
+			},
+			"Asset 85": {
+				"attachment": [
+					{ "name": "Asset 84" },
+					{ "time": 4.1 }
+				]
+			},
+			"Asset 126": {
+				"attachment": [
+					{}
+				]
+			},
+			"ban 2": {
+				"attachment": [
+					{ "time": 1.7333, "name": "ban 2" },
+					{ "time": 3.0667 }
+				]
+			},
+			"ban 3": {
+				"attachment": [
+					{ "time": 2.7667, "name": "ban 3" },
+					{ "time": 4.1 }
+				]
+			},
+			"line": {
+				"attachment": [
+					{ "time": 0.6667, "name": "line" },
+					{ "time": 2 }
+				]
+			},
+			"mask ban": {
+				"attachment": [
+					{ "name": "mask ban" }
+				]
+			}
+		},
+		"bones": {
+			"Asset 84": {
+				"translate": [
+					{
+						"time": 0.6667,
+						"curve": [ 0.778, 0, 0.889, 134.93, 0.778, 0, 0.889, 0 ]
+					},
+					{ "time": 1, "x": 202.4 }
+				]
+			},
+			"line": {
+				"translate": [
+					{
+						"time": 0.6667,
+						"curve": [ 0.778, 71.82, 0.889, 215.46, 0.778, 0, 0.889, 0 ]
+					},
+					{ "time": 1, "x": 215.46, "curve": "stepped" },
+					{
+						"time": 1.6667,
+						"x": 215.46,
+						"curve": [ 1.778, 215.46, 1.889, 353.87, 1.778, 0, 1.889, 0 ]
+					},
+					{ "time": 2, "x": 423.08 }
+				]
+			},
+			"ban 2": {
+				"translate": [
+					{
+						"time": 1.7333,
+						"curve": [ 1.844, 72.42, 1.956, 217.27, 1.844, 0, 1.956, 0 ]
+					},
+					{ "time": 2.0667, "x": 217.27, "curve": "stepped" },
+					{
+						"time": 2.7333,
+						"x": 217.27,
+						"curve": [ 2.844, 217.27, 2.956, 356.22, 2.844, 0, 2.956, 0 ]
+					},
+					{ "time": 3.0667, "x": 425.7 }
+				]
+			},
+			"ban 3": {
+				"translate": [
+					{
+						"time": 2.7667,
+						"curve": [ 2.878, 71.79, 2.989, 215.37, 2.878, 0, 2.989, 0 ]
+					},
+					{ "time": 3.1, "x": 215.37, "curve": "stepped" },
+					{
+						"time": 3.7667,
+						"x": 215.37,
+						"curve": [ 3.878, 215.37, 3.989, 356.43, 3.878, 0, 3.989, 0 ]
+					},
+					{ "time": 4.1, "x": 426.96 }
+				]
+			},
+			"Asset 85": {
+				"translate": [
+					{
+						"time": 3.7667,
+						"curve": [ 3.878, 0, 3.989, 222.32, 3.878, 0, 3.989, 0 ]
+					},
+					{ "time": 4.1, "x": 222.32 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"Asset 85": {
+				"attachment": [
+					{}
+				]
+			}
+		}
+	}
+}
+}

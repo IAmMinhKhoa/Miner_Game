@@ -20,14 +20,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     public Transform ElevatorLocation => elevatorLocation;
 
     private ElevatorController elevatorController;
-    public ElevatorController ElevatorController => elevatorPrefab;
+    public ElevatorController ElevatorController => elevatorController;
 
     [SerializeField] private double moveTimeScale = 1;
     [SerializeField] private double loadSpeedScale = 1;
 
     [Header("Prefabs")]
     [SerializeField] private ElevatorController elevatorPrefab;
-    private ElevatorUI elevatorUI;
+    public ElevatorController ElevatorPrefabController => elevatorPrefab;
+
 
     public double MoveTimeScale
     {
@@ -117,6 +118,21 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         isPersistent = false;
         base.Awake();
+        managerLocation.OnChangeManager += SetManager;
+    }
+
+    private void SetManager(Manager manager)
+    {
+        if (TryGetComponent(out ElevatorUI elevatorUI))
+        {
+            elevatorUI.AddManagerInteract(manager == null);
+        }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
     }
     void Start()
     {
@@ -139,9 +155,10 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     {
         if (!Load())
         {
-            CreateElevator();
             gameObject.GetComponent<ElevatorUpgrade>().InitValue(1);
+            CreateElevator();
         }
+
         isDone = true;
     }
 
@@ -169,10 +186,15 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     public double GetTotalNSVersion2()
     {
+        //rule if elvevator not have manager -> NSPaw =0
+        if (managerLocation.Manager == null)
+        {
+            return 0;
+        }
+
         int index = 0;
         int maxIndex = ShaftManager.Instance.Shafts.Count - 1;
         double loadCapacity = GetPureProductionInCycle() * GetManagerBoost(BoostType.Efficiency);
-
         for (int i = 0; i <= maxIndex; i++)
         {
             double moveTime = GetTempMoveTimeInCycle(i) / GetManagerBoost(BoostType.Speed);
@@ -181,17 +203,23 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             for (int j = 0; j <= i; j++)
             {
                 var shaft = ShaftManager.Instance.Shafts[j];
-                q += shaft.GetShaftNS() * moveTime / shaft.GetTrueCycleTime();
+                q += shaft.GetShaftNS() * moveTime;
             }
+            //Debug.Log("q: " + q + "index: " + i + "loadCapacity: " + loadCapacity);
 
+            index = i;
             if (q >= loadCapacity)
             {
-                index = i;
                 break;
             }
         }
 
-        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency);
+        return GetPureProductionInCycle() / GetTempMoveTimeInCycle(index) * GetManagerBoost(BoostType.Speed) * GetManagerBoost(BoostType.Efficiency) * GetGlobalBoost();
+    }
+
+    public float GetGlobalBoost()
+    {
+        return BoostManager.Instance.CurrentBoostValue;
     }
 
     public void Save()
@@ -214,6 +242,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
 
     private bool Load()
     {
+        GetComponent<ElevatorUI>().UpdateSkeletonData();
         if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
         {
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Elevator");
@@ -228,12 +257,14 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
             {
                 ManagersController.Instance.ElevatorManagers[saveData.managerIndex].SetupLocation(managerLocation);
             }
-            GetComponent<ElevatorUI>().UpdateSkeletonData();
+
             CreateElevator();
+
             return true;
         }
         else
         {
+
             return false;
         }
     }

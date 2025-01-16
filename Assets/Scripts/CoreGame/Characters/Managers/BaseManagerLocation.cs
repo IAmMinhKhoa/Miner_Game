@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class BaseManagerLocation : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class BaseManagerLocation : MonoBehaviour
     [SerializeField] private int locationType;
     public ManagerLocation LocationType => (ManagerLocation)locationType;
     private bool isBoosting;
-
+	public bool doFX;
     
 
     public virtual void RunBoost()
@@ -27,7 +28,8 @@ public class BaseManagerLocation : MonoBehaviour
         }
 
         _manager.RunBoost();
-    }
+		doFX = true;
+	}
 
     public void SetManager(Manager manager)
     {

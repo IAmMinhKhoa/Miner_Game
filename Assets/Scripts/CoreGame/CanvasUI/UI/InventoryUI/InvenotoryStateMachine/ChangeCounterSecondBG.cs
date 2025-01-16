@@ -30,10 +30,10 @@ public class ChangeCounterSecondBG : BaseState<InventoryItemType>
 		bgItem.bg.Initialize(true);
 		bgItem.secondBg.Initialize(true);
 
-		int skinAmount = bgItem.secondBg.Skeleton.Data.Skins.Where(skin => skin.Name.StartsWith("Skin_")).Count();
+		var listSkin = SkinManager.Instance.GetListDataSkinBases(InventoryItemType.ShaftSecondBg);
 		
 		bgList.ClearListItem();
-		bgList.Init(bgItem, skinAmount);
+		bgList.Init(bgItem, listSkin.Count);
 		currentSkinSelect = int.Parse(Counter.Instance.counterSkin.idSecondBg);
 		bgList.OnConfirmButtonClick += HandleConfirmButtonClick;
 
@@ -43,11 +43,11 @@ public class ChangeCounterSecondBG : BaseState<InventoryItemType>
 			var _item = bgList.listItem[i];
 			_item.OnBackGroundItemClick += HandleItemClick;
 
-			var itemInfo = SkinManager.Instance.skinResource.skinSecondBgShaft[i];
-			_item.SetItemInfor(i, itemInfo.desc, itemInfo.name);
+			var itemInfo = listSkin[i];
+			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.ShaftSecondBg);
 			_item.bg.gameObject.SetActive(false);
 			//ChangeSkin(_item.bg, "Click_" + (int.Parse(counterSkin.idBackGround) + 1));
-			ChangeSkin(_item.secondBg, "Click_" + (i + 1));
+			ChangeSkin(_item.secondBg, "Click_" + itemInfo.id);
 		}
 
 		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.CounterBg];
@@ -81,7 +81,7 @@ public class ChangeCounterSecondBG : BaseState<InventoryItemType>
 	private void HandleItemClick(int index)
 	{
 		var secondBg = bgList.imgSelectedSecondBg;
-		ChangeSkin(secondBg, "Click_" + (index + 1));
+		ChangeSkin(secondBg, "Click_" + (index));
 		bgList.descSelectedBg.text = bgList.listItem[index].desc;
 		bgList.tileSelectedBg.text = bgList.listItem[index].iName;
 		currentSkinSelect = index;

@@ -1,0 +1,86 @@
+{
+"skeleton": {
+	"hash": "MXOeZveyFyc",
+	"spine": "4.2.36",
+	"x": -736,
+	"y": -687,
+	"width": 1472,
+	"height": 1374,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Layer 67", "parent": "root" },
+	{ "name": "Layer 36", "parent": "Layer 67", "x": 0.5, "y": -51 },
+	{ "name": "Group 11", "parent": "Layer 67", "x": 0.5, "y": 110 }
+],
+"slots": [
+	{ "name": "Layer 67", "bone": "Layer 67", "attachment": "Layer 67" },
+	{ "name": "Layer 34", "bone": "Layer 67", "attachment": "Layer 34" },
+	{ "name": "Layer 86", "bone": "Layer 67", "attachment": "Layer 86" },
+	{ "name": "Layer 85", "bone": "Layer 67", "attachment": "Layer 85" },
+	{ "name": "Group 11", "bone": "Group 11", "attachment": "Group 11" },
+	{ "name": "Layer 36", "bone": "Layer 36", "attachment": "Layer 36" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Group 11": {
+				"Group 11": { "width": 875, "height": 292 }
+			},
+			"Layer 34": {
+				"Layer 34": { "width": 1316, "height": 1294 }
+			},
+			"Layer 36": {
+				"Layer 36": { "width": 581, "height": 150 }
+			},
+			"Layer 67": {
+				"Layer 67": { "width": 1472, "height": 1374 }
+			},
+			"Layer 85": {
+				"Layer 85": { "x": -438.5, "y": -260.5, "width": 515, "height": 633 }
+			},
+			"Layer 86": {
+				"Layer 86": { "x": 436.5, "y": -259.5, "width": 519, "height": 633 }
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"bones": {
+			"Layer 36": {
+				"scale": [
+					{
+						"time": 1.3333,
+						"curve": [ 1.367, 1, 1.4, 1, 1.367, 0.667, 1.4, 0 ]
+					},
+					{
+						"time": 1.4333,
+						"y": 0,
+						"curve": [ 1.467, 1, 1.5, 1, 1.467, 0, 1.5, 0.667 ]
+					},
+					{ "time": 1.5333 }
+				]
+			},
+			"Group 11": {
+				"translate": [
+					{
+						"time": 1.3667,
+						"curve": [ 1.4, 0, 1.433, 0, 1.4, -8.78, 1.433, -26.33 ]
+					},
+					{
+						"time": 1.4667,
+						"y": -26.33,
+						"curve": [ 1.5, 0, 1.533, 0, 1.5, -26.33, 1.533, -8.78 ]
+					},
+					{ "time": 1.5667, "curve": "stepped" },
+					{ "time": 3.6667 }
+				]
+			}
+		}
+	}
+}
+}

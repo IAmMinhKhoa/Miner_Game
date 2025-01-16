@@ -8,9 +8,9 @@ public class PoolManager : Patterns.Singleton<PoolManager>
     public Dictionary<string, BYPool> dic_pool = new Dictionary<string, BYPool>();
     private void Start()
     {
-        foreach(BYPool pool in pool_defaults)
+		foreach (BYPool pool in pool_defaults)
         {
-            Create(pool);
+			Create(pool);
             //Debug.Log("tao pool");
             //Debug.Log(pool.name_pool);
             dic_pool[pool.name_pool] = pool;
@@ -29,11 +29,14 @@ public class PoolManager : Patterns.Singleton<PoolManager>
     }
     protected virtual void Create(BYPool pool)
     {
-        for(int i=0; i<pool.total;i++)
+		GameObject poolParent = new GameObject(pool.name_pool + "_Parent");
+		for (int i=0; i<pool.total;i++)
         {
-            Transform trans = Instantiate(pool.preFab);
+			Transform trans = Instantiate(pool.preFab);
             pool.elements.Add(trans);
-            trans.gameObject.SetActive(false);
+			trans.SetParent(poolParent.transform);
+			trans.gameObject.SetActive(false);
+
         }
     }
 }

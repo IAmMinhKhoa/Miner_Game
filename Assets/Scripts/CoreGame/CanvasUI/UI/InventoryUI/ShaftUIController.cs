@@ -39,6 +39,7 @@ namespace UI.Inventory
 						break;
 					case InventoryItemType.ShaftWaitTable:
 						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idWaitTable) + 1) + "";
+						item.Spine.AnimationState.SetAnimation(0, "Icon", false);
 						item.ChangeSpineSkin("Icon_" + id);
 						break;
 				}
@@ -53,11 +54,11 @@ namespace UI.Inventory
 			}
 			isUpdataDataAsset = true;
 		}
-
 		public void SetShaftIndex(int i)
         {
             index = i;
-            title.text = "Tầng " + (i + 1).ToString();
+			string titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleShaft);
+            title.text = titleKey+" " + (i + 1).ToString();
 			if (items == null) return;
 			foreach (DecoratorItem item in items)
 			{

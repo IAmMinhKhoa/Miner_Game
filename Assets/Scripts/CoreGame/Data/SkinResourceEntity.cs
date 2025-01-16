@@ -11,24 +11,61 @@ using UnityEngine;
 	public class DataSkinBase
 	{
 		public string id;
-		public string name;
-		public string desc;
-		public string quality;
+		public MultipleLanguageContent name;
+		public MultipleLanguageContent desc;
+		public MultipleLanguageContent exp;
 		public string cost;
+		public string quality;
+		public float value_1;
+		public float value_2;
+		public float value_3;
+	public DataSkinBase(string id, MultipleLanguageContent name, MultipleLanguageContent desc, MultipleLanguageContent exp, string cost, string quality, float expLevel, float workHardLevel, float funnyLevel)
+		{
+			this.id = id;
+			this.name = name;
+			this.desc = desc;
+			this.exp = exp;
+			this.cost = cost;
+			this.quality = quality;
+			this.value_1 = expLevel;
+			this.value_2 = workHardLevel;
+			this.value_3 = funnyLevel;
+		}
+	}
+	[System.Serializable]
+	public class MultipleLanguageContent
+	{
+		public string vi;
+		public string en;
+
+	public string GetContent(string languageCode)
+	{
+		var languageDictionary = new Dictionary<string, string>
+		{
+			{ "vi",  vi},
+			{ "en", en}
+		};
+
+		return languageDictionary.ContainsKey(languageCode) ? languageDictionary[languageCode] : "";
 	}
 
+}
 
-	[System.Serializable]
+[System.Serializable]
 	public class SkinResource
 	{
+		public List<DataSkinBase> skinElevator;
 		public List<DataSkinBase> skinBgShaft;
 		public List<DataSkinBase> skinBgCounter;
 		public List<DataSkinBase> skinBgElevator;
 		public List<DataSkinBase> skinSecondBgShaft;
 		public List<DataSkinBase> skinWaitTable;
-		public List<DataSkinBase> skinElevator;
-		public List<DataSkinBase> skinCartCounter;
 		public List<DataSkinBase> skinCartShaft;
+		public List<DataSkinBase> skinCartCounter;
+		public List<DataSkinBase> skinShaftCharacterHead;
+		public List<DataSkinBase> skinShaftCharacterBody;
+		public List<DataSkinBase> skinElevatorCharacterHead;
+		public List<DataSkinBase> skinElevatorCharacterBody;
 
 	/*public List<DataSkinImage> skinMilkCup;
 
