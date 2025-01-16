@@ -49,4 +49,11 @@ public class BYPool
             trans.gameObject.SetActive(false);
         }
     }
+	public void DesSpawnedAll()
+	{
+		foreach (Transform trans in elements)
+		{
+			DesSpawned(trans);
+		}
+	}
 }

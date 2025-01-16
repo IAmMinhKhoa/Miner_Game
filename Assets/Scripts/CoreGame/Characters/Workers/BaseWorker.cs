@@ -18,9 +18,10 @@ public class BaseWorker : MonoBehaviour
     protected WorkerState state = WorkerState.Idle;
     protected bool isArrive = false;
 
-    Vector3 target;    
+    Vector3 target;
     public bool IsArrive => isArrive;
     public bool IsCollecting => isCollecting;
+    public bool forceWorking = false;
     public double CurrentProduct
     {
         get { return currentProduct; }
