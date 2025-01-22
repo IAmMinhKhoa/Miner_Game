@@ -25,6 +25,10 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private ButtonBehavior bt_Inventory;
 	[SerializeField] private ButtonBehavior bt_Store;
 	[SerializeField] private ButtonBehavior bt_Sound;
+	[SerializeField] List<GameObject> buttonesUI;
+
+	[Header("TutorialUI")]
+	[SerializeField] public TutotrialUI tutotrialUI;
 
 	[Header("Prefab Modal")]
 	[SerializeField] private GameObject modal_Inventory;
@@ -101,6 +105,13 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 
 			// Wait for 1 second before the next update
 			yield return new WaitForSeconds(0.5f);
+		}
+	}
+	public void ButtonesInteract(bool enable)
+	{
+		foreach(var button in buttonesUI)
+		{
+			button.SetActive(enable);
 		}
 	}
 }

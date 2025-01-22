@@ -5,15 +5,26 @@ using UnityEngine;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
+	[Header("UI")]
+	[SerializeField] GameUI gameUI;
+	[SerializeField] TutotrialUI tutotrialUI;
+	//[Header("State1")]
+	public bool isTuroialing { set; get; } = false; 
 	protected override void Awake()
 	{
 		isPersistent = false;
 		base.Awake();
+		Triggertutorial(1);
 	}
-	private TutorialStateMachine tutorialStateMachine;
+	private readonly TutorialStateMachine tutorialStateMachine = new();
 	public void Triggertutorial(int state)
 	{
-		tutorialStateMachine.InitState((TutorialState)state);
+		isTuroialing = true; 
+		tutorialStateMachine.InitState((TutorialState)state, this);
+	}
+	public void ShowHideGameUI(bool enable)
+	{
+		gameUI.ButtonesInteract(enable);
 	}
 }
 public enum TutorialState
