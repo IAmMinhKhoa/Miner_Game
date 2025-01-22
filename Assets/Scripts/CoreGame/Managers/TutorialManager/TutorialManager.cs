@@ -7,7 +7,7 @@ public class TutorialManager : Singleton<TutorialManager>
 {
 	[Header("UI")]
 	[SerializeField] GameUI gameUI;
-	[SerializeField] TutotrialUI tutotrialUI;
+
 	//[Header("State1")]
 	public bool isTuroialing { set; get; } = false; 
 	protected override void Awake()
