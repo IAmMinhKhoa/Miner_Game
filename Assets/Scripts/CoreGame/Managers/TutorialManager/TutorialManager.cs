@@ -10,9 +10,10 @@ public class TutorialManager : Singleton<TutorialManager>
 		isPersistent = false;
 		base.Awake();
 	}
+	private TutorialStateMachine tutorialStateMachine;
 	public void Triggertutorial(int state)
 	{
-
+		tutorialStateMachine.InitState((TutorialState)state);
 	}
 }
 public enum TutorialState

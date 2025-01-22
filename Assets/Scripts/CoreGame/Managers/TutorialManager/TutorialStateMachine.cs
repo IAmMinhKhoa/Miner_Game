@@ -4,5 +4,8 @@ using UnityEngine;
 using StateMachine;
 public class TutorialStateMachine : StateManager<TutorialState>
 {
-		
+	public void InitState(TutorialState state)
+	{
+		TransitonToState(state);
+	}
 }
