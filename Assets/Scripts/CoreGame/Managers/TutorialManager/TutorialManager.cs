@@ -6,7 +6,7 @@ using UnityEngine;
 public class TutorialManager : Singleton<TutorialManager>
 {
 	[Header("UI")]
-	[SerializeField] GameUI gameUI;
+	[SerializeField] public GameUI gameUI;
 
 	//[Header("State1")]
 	public bool isTuroialing { set; get; } = false; 
