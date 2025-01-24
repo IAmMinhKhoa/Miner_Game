@@ -10,17 +10,18 @@ public class TutorialManager : Singleton<TutorialManager>
 
 	//[Header("State1")]
 	public bool isTuroialing { set; get; } = false; 
+	public TutorialStateMachine TutorialStateMachine { private set; get; }
 	protected override void Awake()
 	{
 		isPersistent = false;
 		base.Awake();
-		Triggertutorial(1);
 	}
-	private readonly TutorialStateMachine tutorialStateMachine = new();
+	
 	public void Triggertutorial(int state)
 	{
-		isTuroialing = true; 
-		tutorialStateMachine.InitState((TutorialState)state, this);
+		isTuroialing = true;
+		this.TutorialStateMachine = new();
+		TutorialStateMachine.InitState((TutorialState)state, this);
 	}
 	public void ShowHideGameUI(bool enable)
 	{

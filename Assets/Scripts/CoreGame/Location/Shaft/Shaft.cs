@@ -192,8 +192,12 @@ public class Shaft : MonoBehaviour
         return false;
     }
 
-    public async UniTask AwakeWorker()
+    public async UniTask AwakeWorker(bool isActiveFromTutorial = false)
     {
+		if (isActiveFromTutorial)
+		{
+			_brewers[0].SetValueParameterIsRequireCallToTutorial();
+		}
         foreach (var brewer in _brewers)
         {
             if (!brewer.IsWorking)

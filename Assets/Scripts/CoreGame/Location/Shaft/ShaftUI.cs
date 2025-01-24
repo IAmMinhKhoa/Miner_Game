@@ -38,13 +38,16 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[SerializeField] private GameObject costBoostFX;
+	[SerializeField] public ActiveWorker activeWorkerButton;
 	[Header("Skin Object")]
     [SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
     [SerializeField] SkeletonAnimation m_secondbg;
+	
 
 
     public SkeletonAnimation BG => m_br;
+	public GameObject AddShaftPanel => m_buyNewShaftButton.gameObject;
     public SkeletonAnimation SecondBG => m_secondbg;
 
     private SkeletonAnimation tableAnimation;
@@ -410,10 +413,10 @@ public class ShaftUI : MonoBehaviour
 	}
 	public void AwakeWorker()
     {
-        m_shaft.AwakeWorker();
+        m_shaft.AwakeWorker().Forget();
     }
 
-    void OnDestroy()
+	void OnDestroy()
     {
         Destroy(mainPanel);
     }

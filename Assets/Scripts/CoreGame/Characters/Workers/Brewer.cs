@@ -28,8 +28,12 @@ public class Brewer : BaseWorker
     {
         get => config.ProductPerSecond * CurrentShaft.EfficiencyBoost * CurrentShaft.SpeedBoost * CurrentShaft.GetGlobalBoost();
     }
+	bool? isRequireCallToTutorial = null;
 
-    public override float WorkingTime
+	public void SetValueParameterIsRequireCallToTutorial() => isRequireCallToTutorial = true;
+
+
+	public override float WorkingTime
     {
         get => config.WorkingTime / CurrentShaft.SpeedBoost;
     }
@@ -106,6 +110,10 @@ public class Brewer : BaseWorker
         // PlayAnimation();
         // CurrentShaft.gameObject.GetComponent<ShaftUI>().PlayCollectAnimation(false);
         Move(CurrentShaft.BrewerLocation.position);
+		if(isRequireCallToTutorial != null)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
+		}
     }
 
     private async void PlayTextAnimation()
