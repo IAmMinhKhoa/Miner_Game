@@ -40,6 +40,8 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_minigameUI;
 
 	[SerializeField] private GameObject modal_offlineUI;
+
+	public List<GameObject> ButtonesUI => buttonesUI;
 	private void Start()
 	{
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);

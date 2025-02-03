@@ -44,6 +44,8 @@ public class Transporter : BaseWorker
 	public SkeletonGhost ghostBody;
 	public SkeletonGhost ghostHead;
 
+	bool? isRequireCallToTutorial = null;
+	public void SetValueParameterIsRequireCallToTutorial() => isRequireCallToTutorial = true;
 	private void Start()
     {
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -130,6 +132,11 @@ public class Transporter : BaseWorker
         ChangeGoal();
         isWorking = false;
         PlayAnimation(WorkerState.Idle, true);
+		if(isRequireCallToTutorial != null)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
+			isRequireCallToTutorial = null;
+		}
     }
 
     protected override void PlayAnimation(WorkerState state, bool direction)

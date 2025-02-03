@@ -14,13 +14,24 @@ public class TutorialState1 : BaseTutorialState
 
 	public override void Do()
 	{
-		tutorialManager.gameUI.tutorialButton.gameObject.SetActive(true);
+		if(curentStep < 3)
+		{
+			tutorialManager.gameUI.tutorialButton.gameObject.SetActive(true);
+			return;
+		}
+
+		tutorialManager.gameUI.tutotrialUI.TriggerAddCoinEffect();
+		tutorialManager.gameUI.ButtonesUI[1].gameObject.SetActive(true);
+
+
+
 	}
 
 	public override void Enter()
 	{
 		tutorialManager.ShowHideGameUI(false);
 		curentStep = 0;
+		tutorialManager.gameUI.tutotrialUI.gameObject.SetActive(true);
 		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Chuyển trà sửa từ tầng xuống quầy để bán đi");
 		tutorialManager.gameUI.tutorialButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
 
@@ -30,8 +41,6 @@ public class TutorialState1 : BaseTutorialState
 		stepFuncList.Add(Step1);
 		stepFuncList.Add(Step2);
 		stepFuncList.Add(Step3);
-		stepFuncList.Add(Step4);
-		stepFuncList.Add(Step5);
 		tutorialManager.gameUI.tutorialButton.onClick.AddListener(GotoNextStep);
 	}
 
@@ -42,7 +51,6 @@ public class TutorialState1 : BaseTutorialState
 	}
 	public void Step1()
 	{
-		tutorialManager.gameUI.tutotrialUI.HideTutorialText();
 		ShaftManager.Instance.Shafts[0].AwakeWorker(true).Forget();
 		tutorialManager.gameUI.tutorialButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
 	}
@@ -53,19 +61,12 @@ public class TutorialState1 : BaseTutorialState
 	}
 	public void Step3()
 	{
-		Debug.Log("Step3");
-	}
-	public void Step4()
-	{
-		Debug.Log("Step4");
-	}
-	public void Step5()
-	{
-		Debug.Log("Step5");
+		Counter.Instance.AwakeWorker(true).Forget();
 	}
 	
 	public override void Exit()
 	{
-		
+		tutorialManager.gameUI.tutorialButton.onClick.RemoveListener(GotoNextStep);
+		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().activeWorkerButton.isClickable = true;
 	}
 }

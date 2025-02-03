@@ -202,6 +202,7 @@ public class ElevatorController : BaseWorker
 		if (isRequireCallToTutorial != null)
 		{
 			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
+			isRequireCallToTutorial = null;
 		}
 
 	}

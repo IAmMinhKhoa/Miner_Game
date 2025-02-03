@@ -123,7 +123,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         double offlinePaw = PawBonus(seconds);
 		// update ADS double up or something here
 		//  PawManager.Instance.AddPaw(offlinePaw);
-		//TutorialManager.Instance.Triggertutorial(1);
+		TutorialManager.Instance.Triggertutorial(1);
 
         isDone = true;
     }

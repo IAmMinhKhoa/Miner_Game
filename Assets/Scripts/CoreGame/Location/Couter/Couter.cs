@@ -66,7 +66,9 @@ public class Counter : Patterns.Singleton<Counter>
             _counterSkin = value;
         }
     }
-    protected override void Awake()
+
+
+	protected override void Awake()
     {
         isPersistent = false;
         base.Awake();
@@ -205,8 +207,12 @@ public class Counter : Patterns.Singleton<Counter>
         return false;
     }
 
-    public async UniTask AwakeWorker()
+    public async UniTask AwakeWorker(bool isTriggerByTutorial = false)
     {
+		if(isTriggerByTutorial)
+		{
+			_transporters[0].SetValueParameterIsRequireCallToTutorial();
+		}
         foreach (var transporter in _transporters)
         {
             if (!transporter.IsWorking)

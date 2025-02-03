@@ -113,6 +113,7 @@ public class Brewer : BaseWorker
 		if(isRequireCallToTutorial != null)
 		{
 			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
+			isRequireCallToTutorial = null;
 		}
     }
 

@@ -9,7 +9,8 @@ public class TutorialManager : Singleton<TutorialManager>
 	[SerializeField] public GameUI gameUI;
 
 	//[Header("State1")]
-	public bool isTuroialing { set; get; } = false; 
+	public bool isTuroialing {private set; get; } = false;
+	public void EndTutorial() => isTuroialing = false;
 	public TutorialStateMachine TutorialStateMachine { private set; get; }
 	protected override void Awake()
 	{
@@ -23,6 +24,7 @@ public class TutorialManager : Singleton<TutorialManager>
 		this.TutorialStateMachine = new();
 		TutorialStateMachine.InitState((TutorialState)state, this);
 	}
+
 	public void ShowHideGameUI(bool enable)
 	{
 		gameUI.ButtonesInteract(enable);
