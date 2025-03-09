@@ -38,6 +38,9 @@ public class CounterUI : MonoBehaviour
 
 	[SerializeField] private GameObject costBoostFX;
 
+	// public parameter
+	public Button UpgradeButton => m_upgradeButton;
+	public Button ManagerButton => m_managerButton;
 
 	void Awake()
 	{

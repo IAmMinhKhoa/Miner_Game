@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NOOD.Sound;
 using Spine.Unity;
@@ -20,7 +21,6 @@ public class ManagerPanelUI : MonoBehaviour
 	[SerializeField] private Manager _manager;
 	[SerializeField] ContentFitterRefresh refeshInforSize;
 
-
 	void OnEnable()
     {
         _closeButton.onClick.AddListener(ClosePanel);
@@ -39,7 +39,8 @@ public class ManagerPanelUI : MonoBehaviour
     {
 		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		gameObject.SetActive(false);
-    }
+
+	}
 
     private void HireOrFireManager()
     {

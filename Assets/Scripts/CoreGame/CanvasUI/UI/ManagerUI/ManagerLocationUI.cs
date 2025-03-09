@@ -13,9 +13,10 @@ public class ManagerLocationUI : MonoBehaviour
     [SerializeField] Animator animatorTabScroll;
     [SerializeField] private SerializableDictionary<Button, ManagerLocation> _managerTabFilter = new SerializableDictionary<Button, ManagerLocation>();
     private ManagerLocation _currentManagerLocation;
-	
 
-    void OnEnable()
+	public SerializableDictionary<Button, ManagerLocation> ManagerTabFilter => _managerTabFilter;
+
+	void OnEnable()
     {
         OnTabChanged += ChangeTabUI;
         _currentManagerLocation = ManagerLocation.Shaft;
@@ -74,6 +75,7 @@ public class ManagerLocationUI : MonoBehaviour
             }
         }
     }
+
 
 	private void HighlightStateButton(Button button, bool highlight)
 	{

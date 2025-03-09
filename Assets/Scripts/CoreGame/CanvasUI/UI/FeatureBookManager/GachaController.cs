@@ -1,4 +1,5 @@
 using NOOD.Sound;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class GachaController : MonoBehaviour
 	[SerializeField] private Button closeButton;
 	[SerializeField] private GameObject FXBackCard;
 
+	public Action OnUIClose;
 	public void OpenFxGacha(Manager data)
 	{
 		gameObject.SetActive(true);
@@ -34,6 +36,7 @@ public class GachaController : MonoBehaviour
 			SoundManager.PlaySound(SoundEnum.mobileClickBack);
 			gameObject.SetActive(false);
 			container.localRotation = Quaternion.identity;
+			OnUIClose?.Invoke();
 		});
 	}
 	private void OnDisable()

@@ -58,7 +58,9 @@ public class ShaftUI : MonoBehaviour
 
 	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
-	//
+	// public parameter
+	public Button UpgradeButton => m_upgradeButton;
+	public Button ManagerButton => m_managerButton;
 	
 	
 

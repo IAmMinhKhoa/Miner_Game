@@ -29,7 +29,7 @@ public class ManagerSelectionShaft : MonoBehaviour
         }
     }
 
-  
+	public static Action OnShaftManagerAsign;
     private void OnDisable()
     {
         OnReloadManager -= RenderData;
@@ -102,6 +102,8 @@ public class ManagerSelectionShaft : MonoBehaviour
             _btnBottom.gameObject.SetActive(false);
         }
     }
+
+
 
     public void ScrollUp()
     {

@@ -34,7 +34,8 @@ namespace PlayFabManager.Data
 				{ "PawVolume", "" },
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" },
-				{ "LastTimeCoinReward", "" }
+				{ "LastTimeCoinReward", "" },
+				{ "TutorialState", "-1" },
 			};
 			await Login();
 			await GetDataFromPlayFab();
@@ -86,7 +87,7 @@ namespace PlayFabManager.Data
 
 				var keys = new List<string>(DataDictionary.Keys);
 
-				if (result.Data.Count > 0)
+				if (result.Data.Count > 0 && int.Parse(DataDictionary["TutorialState"]) > 2)
 				{
 					foreach (var s in keys)
 					{

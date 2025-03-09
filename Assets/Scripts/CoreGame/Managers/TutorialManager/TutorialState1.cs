@@ -7,7 +7,7 @@ using UnityEngine;
 public class TutorialState1 : BaseTutorialState
 {
 	int curentStep;
-	List<Action> stepFuncList = new();
+	List<Action> stepFuncList;
 	public TutorialState1(TutorialManager tutorialManager) : base(tutorialManager)
 	{
 	}
@@ -16,7 +16,7 @@ public class TutorialState1 : BaseTutorialState
 	{
 		if(curentStep < 3)
 		{
-			tutorialManager.gameUI.tutorialButton.gameObject.SetActive(true);
+			tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(true);
 			return;
 		}
 
@@ -29,11 +29,14 @@ public class TutorialState1 : BaseTutorialState
 
 	public override void Enter()
 	{
+		tutorialManager.SetCurrentState(1);
+		stepFuncList = new();
 		tutorialManager.ShowHideGameUI(false);
 		curentStep = 0;
+		tutorialManager.gameUI.tutotrialUI.CreateTutorialClickNextStepButton();
 		tutorialManager.gameUI.tutotrialUI.gameObject.SetActive(true);
 		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Chuyển trà sửa từ tầng xuống quầy để bán đi");
-		tutorialManager.gameUI.tutorialButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
 
 		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().AddShaftPanel.gameObject.SetActive(false);
 		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().activeWorkerButton.isClickable = false;
@@ -41,23 +44,23 @@ public class TutorialState1 : BaseTutorialState
 		stepFuncList.Add(Step1);
 		stepFuncList.Add(Step2);
 		stepFuncList.Add(Step3);
-		tutorialManager.gameUI.tutorialButton.onClick.AddListener(GotoNextStep);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.onClick.AddListener(GotoNextStep);
 	}
 
 	public void GotoNextStep()
 	{
 		stepFuncList[curentStep++]();
-		tutorialManager.gameUI.tutorialButton.gameObject.SetActive(false);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(false);
 	}
 	public void Step1()
 	{
 		ShaftManager.Instance.Shafts[0].AwakeWorker(true).Forget();
-		tutorialManager.gameUI.tutorialButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
 	}
 	public void Step2()
 	{
 		ElevatorSystem.Instance.AwakeWorker(true);
-		tutorialManager.gameUI.tutorialButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -680);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -680);
 	}
 	public void Step3()
 	{
@@ -66,7 +69,8 @@ public class TutorialState1 : BaseTutorialState
 	
 	public override void Exit()
 	{
-		tutorialManager.gameUI.tutorialButton.onClick.RemoveListener(GotoNextStep);
+		tutorialManager.gameUI.tutotrialUI.DestroyTutorialClickNextStepButton();
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.onClick.RemoveListener(GotoNextStep);
 		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().activeWorkerButton.isClickable = true;
 	}
 }

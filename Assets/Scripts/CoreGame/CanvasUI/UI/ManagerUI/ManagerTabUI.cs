@@ -12,7 +12,9 @@ public class ManagerTabUI : MonoBehaviour
 
     [SerializeField] private SerializableDictionary<Button, BoostType> _managerTabFilter = new SerializableDictionary<Button, BoostType>();
 
-    void OnEnable()
+	public SerializableDictionary<Button, BoostType> ManagerTabFilter => _managerTabFilter;
+
+	void OnEnable()
     {
         onManagerTabChanged += ChangeTabUI;
     }

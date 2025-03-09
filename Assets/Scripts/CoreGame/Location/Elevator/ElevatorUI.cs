@@ -31,7 +31,10 @@ public class ElevatorUI : MonoBehaviour
 
     public SkeletonAnimation BgElevator => m_bgElevator;
 
-    void Awake()
+	// public parameter
+	public Button UpgradeButton => m_upgradeButton;
+	public Button ManagerButton => m_managerButton;
+	void Awake()
     {
         m_elevator = GetComponent<ElevatorSystem>();
         m_elevatorUpgrade = GetComponent<ElevatorUpgrade>();

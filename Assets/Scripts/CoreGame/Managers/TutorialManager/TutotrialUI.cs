@@ -13,12 +13,23 @@ public class TutotrialUI : MonoBehaviour
 	[SerializeField] private RectTransform targetPoint;
 	[SerializeField] private Transform coinParent;
 	[SerializeField] private Button closeTutorialTextButton;
+	[SerializeField] private Button tutorialClickNextStepButton;
 
+	public Button TutorialClickNextStepButton { private set; get; }
 	public Button CloseTutorialTextButton => closeTutorialTextButton;
 
 	private void Awake()
 	{
 		closeTutorialTextButton.onClick.AddListener(CloseTutorialText);
+	}
+	public void CreateTutorialClickNextStepButton()
+	{
+		TutorialClickNextStepButton = Instantiate(tutorialClickNextStepButton, transform);
+		TutorialClickNextStepButton.transform.SetAsFirstSibling();
+	}
+	public void DestroyTutorialClickNextStepButton()
+	{
+		Destroy(TutorialClickNextStepButton);
 	}
 	private void CloseTutorialText()
 	{

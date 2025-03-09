@@ -27,6 +27,7 @@ public enum BoostType
     Costs,
     Speed,
     Efficiency,
+	None
 }
 
 public enum ManagerLocation

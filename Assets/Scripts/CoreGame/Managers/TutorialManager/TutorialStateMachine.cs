@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
 using UnityEditorInternal;
+using System.Linq;
 public class TutorialStateMachine : StateManager<TutorialState>
 {
 	public void InitState(TutorialState state, TutorialManager tutorialManager)
@@ -17,5 +18,4 @@ public class TutorialStateMachine : StateManager<TutorialState>
 	{
 		States[(TutorialState)state].Do();
 	}
-	
 }

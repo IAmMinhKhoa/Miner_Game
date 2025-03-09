@@ -10,6 +10,8 @@ public class TutorialManager : Singleton<TutorialManager>
 
 	//[Header("State1")]
 	public bool isTuroialing {private set; get; } = false;
+	public int currentState { private set; get; } = -1;
+	public void SetCurrentState(int currentState) => this.currentState = currentState;
 	public void EndTutorial() => isTuroialing = false;
 	public TutorialStateMachine TutorialStateMachine { private set; get; }
 	protected override void Awake()
@@ -25,6 +27,7 @@ public class TutorialManager : Singleton<TutorialManager>
 		TutorialStateMachine.InitState((TutorialState)state, this);
 	}
 
+	//Show Hide Game UI
 	public void ShowHideGameUI(bool enable)
 	{
 		gameUI.ButtonesInteract(enable);
