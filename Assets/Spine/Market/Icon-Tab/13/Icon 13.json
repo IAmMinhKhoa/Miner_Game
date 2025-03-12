@@ -1,0 +1,102 @@
+{
+"skeleton": {
+	"hash": "7+h0jU1d35E",
+	"spine": "4.2.38",
+	"x": -43.5,
+	"y": -33,
+	"width": 87,
+	"height": 66,
+	"images": "./image/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Asset 6", "parent": "root", "x": 14.25, "y": 10.52 },
+	{ "name": "Asset 7", "parent": "root", "x": 27.16, "y": 10.52 }
+],
+"slots": [
+	{ "name": "Asset 7", "bone": "root", "attachment": "Asset 7" },
+	{ "name": "root", "bone": "root", "attachment": "root" },
+	{ "name": "Asset 6", "bone": "Asset 6", "attachment": "Asset 6" },
+	{ "name": "Asset 8", "bone": "Asset 7", "attachment": "Asset 6" },
+	{ "name": "Asset 5", "bone": "root", "attachment": "Asset 5" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Asset 5": {
+				"Asset 5": { "width": 87, "height": 66 }
+			},
+			"Asset 6": {
+				"Asset 6": { "x": 0.3, "y": 5.61, "width": 12, "height": 13 }
+			},
+			"Asset 7": {
+				"Asset 7": { "width": 87, "height": 66 }
+			},
+			"Asset 8": {
+				"Asset 6": { "x": 0.3, "y": 5.61, "width": 12, "height": 13 }
+			},
+			"root": {
+				"root": {
+					"type": "clipping",
+					"end": "Asset 8",
+					"vertexCount": 4,
+					"vertices": [ -0.05, 10.15, 0.28, 32.78, -43.48, 33.12, -42.98, 10.15 ],
+					"color": "ce3a3aff"
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"Active": {
+		"slots": {
+			"Asset 7": {
+				"attachment": [
+					{}
+				]
+			}
+		},
+		"bones": {
+			"Asset 6": {
+				"translate": [
+					{
+						"curve": [ 0.111, -15.91, 0.222, -47.72, 0.111, 0, 0.222, 0 ]
+					},
+					{ "time": 0.3333, "x": -47.72 }
+				]
+			},
+			"Asset 7": {
+				"translate": [
+					{
+						"time": 0.1667,
+						"curve": [ 0.278, -14.35, 0.389, -43.06, 0.278, 0, 0.389, 0 ]
+					},
+					{ "time": 0.5, "x": -43.06, "curve": "stepped" },
+					{ "time": 1.3333, "x": -43.06 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"Asset 5": {
+				"attachment": [
+					{}
+				]
+			},
+			"Asset 6": {
+				"attachment": [
+					{}
+				]
+			},
+			"Asset 8": {
+				"attachment": [
+					{}
+				]
+			}
+		}
+	}
+}
+}

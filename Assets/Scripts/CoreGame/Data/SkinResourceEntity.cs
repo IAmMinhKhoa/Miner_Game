@@ -66,6 +66,8 @@ using UnityEngine;
 		public List<DataSkinBase> skinShaftCharacterBody;
 		public List<DataSkinBase> skinElevatorCharacterHead;
 		public List<DataSkinBase> skinElevatorCharacterBody;
+		public List<DataSkinBase> skinShaftBarCounter;
+		public List<DataSkinBase> skinCashierCounter;
 
 	/*public List<DataSkinImage> skinMilkCup;
 

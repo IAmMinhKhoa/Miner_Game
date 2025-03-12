@@ -55,7 +55,8 @@ public class ManagerLocationUI : MonoBehaviour
 
     private void ChangeTabUI(ManagerLocation locationType)
     {
-        if (locationType == ManagerLocation.Shaft)
+		
+		if (locationType == ManagerLocation.Shaft)
         {
             bool currentState = animatorTabScroll.GetBool("active");
             if (currentState != true) animatorTabScroll.SetBool("active", true);

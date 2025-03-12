@@ -21,6 +21,9 @@ public class ManagerPanelUI : MonoBehaviour
 	[SerializeField] private Manager _manager;
 	[SerializeField] ContentFitterRefresh refeshInforSize;
 
+	public event Action OnInteractToTutorialUI;
+	public Button HireOrFiredButton => _hireOrFiredButton;
+
 	void OnEnable()
     {
         _closeButton.onClick.AddListener(ClosePanel);
@@ -39,7 +42,10 @@ public class ManagerPanelUI : MonoBehaviour
     {
 		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		gameObject.SetActive(false);
-
+		if (TutorialManager.Instance.isTuroialing)
+		{
+			OnInteractToTutorialUI?.Invoke();
+		}
 	}
 
     private void HireOrFireManager()
@@ -58,7 +64,10 @@ public class ManagerPanelUI : MonoBehaviour
 		ManagerSelectionShaft.OnReloadManager?.Invoke();
         ClosePanel();
     }
-
+	public void HireManager()
+	{
+		HireOrFireManager();
+	}
     private void SellManager()
     {
         ManagersController.Instance.SellManager(_manager);

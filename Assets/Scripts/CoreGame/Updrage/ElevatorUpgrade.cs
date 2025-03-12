@@ -57,7 +57,11 @@ public class ElevatorUpgrade : BaseUpgrade
 
 		elevatorSystem.MoveTimeScale *= nextScale;
         elevatorSystem.LoadSpeedScale *= 1 + GetNextLoadingSpeedScale(CurrentLevel);
-    }
+		if (TutorialManager.Instance.isTuroialing && TutorialManager.Instance.currentState == 3)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(3);
+		}
+	}
 
     private double GetMoveTimeScale(int level)
     {

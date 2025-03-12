@@ -57,6 +57,10 @@ public class CounterUpgrade : BaseUpgrade
 		{
 			counter.CreateTransporter();
 		}
+		if (TutorialManager.Instance.isTuroialing && TutorialManager.Instance.currentState == 3)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(3);
+		}
 		counter.OnUpgrade?.Invoke(CurrentLevel);
 	}
 

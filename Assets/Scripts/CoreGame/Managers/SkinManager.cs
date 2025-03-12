@@ -73,6 +73,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				{ "idMilkCup", shaft.shaftSkin.idMilkCup },
 				{ "idSecondBg", shaft.shaftSkin.idSecondBg },
 				{"idCart", shaft.shaftSkin.idCart },
+				{"idBarCounter", shaft.shaftSkin.idBarCounter },
 				{"characterSkin", shaft.shaftSkin.characterSkin}
 
 			};
@@ -164,7 +165,9 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				[InventoryItemType.ShaftCharacter] = skinResource.skinShaftCharacterHead,
 				[InventoryItemType.ShaftCharacterBody] = skinResource.skinShaftCharacterBody,
 				[InventoryItemType.ElevatorCharacter] = skinResource.skinElevatorCharacterHead,
-				[InventoryItemType.ElevatorCharacterBody] = skinResource.skinElevatorCharacterBody
+				[InventoryItemType.ElevatorCharacterBody] = skinResource.skinElevatorCharacterBody,
+				[InventoryItemType.BarCounter] = skinResource.skinShaftBarCounter,
+				[InventoryItemType.CashierCounter] = skinResource.skinCashierCounter,
 			};
 			Debug.Log("Data loaded successfully!");
 		}
@@ -264,15 +267,17 @@ public class ShaftSkin : SkinBase
 	public string idWaitTable { get; set; }
 	public string idCart { get; set; }
 	public string idSecondBg { get; set; }
+	public string idBarCounter { get; set; }
 	public CharacterSkin characterSkin { get; set; }
 
-	public ShaftSkin(int index, string idBackGround = "0", string idWaitTable = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0", CharacterSkin characterSkin = null)
+	public ShaftSkin(int index, string idBackGround = "0", string idWaitTable = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0", string idBarCounter = "0", CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.index = index;
 		this.idWaitTable = idWaitTable;
 		this.idCart = idCart;
 		this.idSecondBg = idSecondBg;
+		this.idBarCounter = idBarCounter;
 		this.characterSkin = characterSkin ?? new CharacterSkin();
 	}
 
@@ -299,14 +304,16 @@ public class CounterSkin : SkinBase
 {
 	public string idCart { get; set; }
 	public string idSecondBg { get; set; }
+	public string idCashierCounter { get; set; }
 	public CharacterSkin character { get; set; }
 
-	public CounterSkin(string idBackGround = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0", CharacterSkin characterSkin = null)
+	public CounterSkin(string idBackGround = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0",string idCashierCounter = "",  CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
 		this.idSecondBg = idSecondBg;
+		this.idCashierCounter = idCashierCounter;
 	}
 
 }
@@ -339,7 +346,9 @@ public enum InventoryItemType
 	BackElevator,
 	ShaftCharacterBody,
 	ElevatorCharacterBody,
-	Null
+	Null,
+	BarCounter,
+	CashierCounter
 }
 #endregion
 

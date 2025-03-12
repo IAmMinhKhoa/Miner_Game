@@ -99,7 +99,8 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
     {
         PlayFabDataManager.Instance.GoToMainGame();
 		GetOfflineData();
-		TutorialManager.Instance.Triggertutorial(2);
+		int currentTutorialState = int.Parse(PlayFabDataManager.Instance.GetData("TutorialState"));
+		TutorialManager.Instance.Triggertutorial(currentTutorialState);
 		string lastTimeQuit = PlayFabDataManager.Instance.GetData("LastTimeQuit");
         if (string.IsNullOrEmpty(lastTimeQuit))
         {

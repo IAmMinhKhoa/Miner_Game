@@ -121,17 +121,17 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		foreach(var shaft in ShaftManager.Instance.Shafts)
 		{
 			var shaftUI = shaft.GetComponent<ShaftUI>();
-			shaftUI.ManagerButton.gameObject.SetActive(enable);
+			shaftUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1: 0;
 			shaftUI.UpgradeButton.gameObject.SetActive(enable);
 		}
 		//CounterUI
 		var counterUI = Counter.Instance.GetComponent<CounterUI>();
-		counterUI.ManagerButton.gameObject.SetActive(enable);
+		counterUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1 : 0;
 		counterUI.UpgradeButton.gameObject.SetActive(enable);
 
 		//ElevatorUI
 		var elevatorUI = ElevatorSystem.Instance.GetComponent<ElevatorUI>();
-		elevatorUI.ManagerButton.gameObject.SetActive(enable);
+		elevatorUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1 : 0;
 		elevatorUI.UpgradeButton.gameObject.SetActive(enable);
 	}
 }

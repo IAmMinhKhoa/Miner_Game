@@ -1,76 +1,94 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Plastic.Antlr3.Runtime.Misc;
+using Sirenix.OdinInspector.Editor.GettingStarted;
+using System;
 using UnityEngine;
 
 public class TutorialState1 : BaseTutorialState
 {
-	int curentStep;
-	List<Action> stepFuncList;
-	public TutorialState1(TutorialManager tutorialManager) : base(tutorialManager)
-	{
-	}
+	private int currentStep;
+	private Action[] steps;
+	private TutotrialUI tutorialUI;
+	private ShaftUI shaftUI;
 
-	public override void Do()
-	{
-		if(curentStep < 3)
-		{
-			tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(true);
-			return;
-		}
-
-		tutorialManager.gameUI.tutotrialUI.TriggerAddCoinEffect();
-		tutorialManager.gameUI.ButtonesUI[1].gameObject.SetActive(true);
-
-
-
-	}
+	public TutorialState1(TutorialManager tutorialManager) : base(tutorialManager) { }
 
 	public override void Enter()
 	{
 		tutorialManager.SetCurrentState(1);
-		stepFuncList = new();
 		tutorialManager.ShowHideGameUI(false);
-		curentStep = 0;
-		tutorialManager.gameUI.tutotrialUI.CreateTutorialClickNextStepButton();
-		tutorialManager.gameUI.tutotrialUI.gameObject.SetActive(true);
-		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Chuyển trà sửa từ tầng xuống quầy để bán đi");
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
 
-		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().AddShaftPanel.gameObject.SetActive(false);
-		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().activeWorkerButton.isClickable = false;
+		// Cache UI references
+		tutorialUI = tutorialManager.gameUI.tutotrialUI;
+		shaftUI = ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>();
 
-		stepFuncList.Add(Step1);
-		stepFuncList.Add(Step2);
-		stepFuncList.Add(Step3);
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.onClick.AddListener(GotoNextStep);
+		// Khởi tạo các bước
+		currentStep = 0;
+		steps = new Action[] { Step1, Step2, Step3 };
+
+		// Thiết lập UI
+		SetupTutorialUI();
+		SetupShaftUI();
 	}
 
-	public void GotoNextStep()
+	private void SetupTutorialUI()
 	{
-		stepFuncList[curentStep++]();
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(false);
+		tutorialUI.CreateTutorialClickNextStepButton();
+		tutorialUI.gameObject.SetActive(true);
+		tutorialUI.SetTextTutorial("Chuyển trà sữa từ tầng xuống quầy để bán đi");
+		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
+		tutorialUI.TutorialClickNextStepButton.onClick.AddListener(GotoNextStep);
 	}
-	public void Step1()
+
+	private void SetupShaftUI()
+	{
+		shaftUI.AddShaftPanel.gameObject.SetActive(false);
+		shaftUI.activeWorkerButton.isClickable = false;
+		shaftUI.BuyNewShaftButton.gameObject.SetActive(false);
+	}
+
+	public override void Do()
+	{
+		if (currentStep < steps.Length)
+		{
+			tutorialUI.TutorialClickNextStepButton.gameObject.SetActive(true);
+			return;
+		}
+
+		tutorialUI.TriggerAddCoinEffect();
+		tutorialManager.gameUI.ButtonesUI[1].gameObject.SetActive(true);
+	}
+
+	private void GotoNextStep()
+	{
+		if (currentStep < steps.Length)
+		{
+			steps[currentStep++]();
+			tutorialUI.TutorialClickNextStepButton.gameObject.SetActive(false);
+		}
+	}
+
+	private void Step1()
 	{
 		ShaftManager.Instance.Shafts[0].AwakeWorker(true).Forget();
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
+		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
 	}
-	public void Step2()
+
+	private void Step2()
 	{
 		ElevatorSystem.Instance.AwakeWorker(true);
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -680);
+		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -680);
 	}
-	public void Step3()
+
+	private void Step3()
 	{
 		Counter.Instance.AwakeWorker(true).Forget();
 	}
-	
+
 	public override void Exit()
 	{
-		tutorialManager.gameUI.tutotrialUI.DestroyTutorialClickNextStepButton();
-		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.onClick.RemoveListener(GotoNextStep);
-		ShaftManager.Instance.Shafts[0].GetComponent<ShaftUI>().activeWorkerButton.isClickable = true;
+		tutorialUI.DestroyTutorialClickNextStepButton();
+		tutorialUI.TutorialClickNextStepButton.onClick.RemoveListener(GotoNextStep);
+		shaftUI.activeWorkerButton.isClickable = true;
+		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("TutorialState", "2");
 	}
 }

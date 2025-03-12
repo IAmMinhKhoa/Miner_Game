@@ -53,6 +53,7 @@ public class ManagerChooseUI : MonoBehaviour
 	public Action OnInteractToTutorialManager;
 	public Button HireManagerButton => _hireButton;
 	public ManagerTabUI ManagerTabUI => _managerTabUI;
+	public ManagerSectionList ManagerSectionList => _managerSectionList;
 
 	bool isclosableUI = true;
 
@@ -93,6 +94,7 @@ public class ManagerChooseUI : MonoBehaviour
 
 	private void HandleCloseEventFromFxGacha()
 	{
+		
 		OnInteractToTutorialManager?.Invoke();
 		RemoveListenerFromFxGacha();
 	}
@@ -114,6 +116,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
+		
 		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
 		if (_manager == null)
         {
@@ -158,12 +161,15 @@ public class ManagerChooseUI : MonoBehaviour
 			{
 				case BoostType.Speed:
 					ShowHideBotButton(true, 0);
+					OnManagerTabChanged(BoostType.Speed);
 					break;
 				case BoostType.Costs:
 					ShowHideBotButton(true, 1);
+					OnManagerTabChanged(BoostType.Costs);
 					break;
 				case BoostType.Efficiency:
 					ShowHideBotButton(true, 2);
+					OnManagerTabChanged(BoostType.Efficiency);
 					break;
 			}
 
@@ -357,6 +363,10 @@ public class ManagerChooseUI : MonoBehaviour
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
 		{
+			if (TutorialManager.Instance.isTuroialing)
+			{
+				OnInteractToTutorialManager?.Invoke();
+			}
 			gameObject.SetActive(false);
 		});
 

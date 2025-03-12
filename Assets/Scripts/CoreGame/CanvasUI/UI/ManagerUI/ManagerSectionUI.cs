@@ -13,7 +13,7 @@ public class ManagerSectionUI : MonoBehaviour
     [SerializeField] private ManagerGridUI _managerGridUI;
     private RectTransform _rectTransform;
 	private ManagerSpecie managerSpecieLocation;
-
+	public ManagerGridUI ManagerGridUI => _managerGridUI;
 	private void Awake()
 	{
 		_rectTransform = this.GetComponent<RectTransform>();

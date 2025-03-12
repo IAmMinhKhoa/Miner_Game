@@ -80,7 +80,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         managerDetailPanel = Instantiate(managerDetailPrefab, GameUI.Instance.transform);
         managerDetailPanel.SetActive(false);
 		ManagerPrefab = managerPanel.GetComponent<ManagerChooseUI>();
-		ManagerDetailPrefab = managerDetailPrefab.GetComponent<ManagerPanelUI>();
+		ManagerDetailPrefab = managerDetailPanel.GetComponent<ManagerPanelUI>();
 	}
 
     public void OpenManagerPanel(BaseManagerLocation location = null)

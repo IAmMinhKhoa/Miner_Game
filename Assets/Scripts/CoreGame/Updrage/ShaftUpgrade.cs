@@ -50,7 +50,10 @@ public class ShaftUpgrade : BaseUpgrade
 				shaft.CreateBrewer();
 				break;
 		}
-
+		if(TutorialManager.Instance.isTuroialing && TutorialManager.Instance.currentState == 3)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(3);
+		}
 		shaft.OnUpgrade?.Invoke(CurrentLevel);
 	}
 	private float GetNextUpgradeScale(int CurrentLevel)

@@ -11,6 +11,7 @@ public class TutorialStateMachine : StateManager<TutorialState>
 
 		States.Add(TutorialState.State1, new TutorialState1(tutorialManager));
 		States.Add(TutorialState.State2 , new TutorialState2(tutorialManager));
+		States.Add(TutorialState.State3 , new TutorialState3(tutorialManager));
 
 		TransitonToState(state);
 	}

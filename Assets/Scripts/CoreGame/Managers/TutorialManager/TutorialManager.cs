@@ -9,7 +9,7 @@ public class TutorialManager : Singleton<TutorialManager>
 	[SerializeField] public GameUI gameUI;
 
 	//[Header("State1")]
-	public bool isTuroialing {private set; get; } = false;
+	public bool isTuroialing { private set; get; } = false;
 	public int currentState { private set; get; } = -1;
 	public void SetCurrentState(int currentState) => this.currentState = currentState;
 	public void EndTutorial() => isTuroialing = false;
@@ -19,9 +19,11 @@ public class TutorialManager : Singleton<TutorialManager>
 		isPersistent = false;
 		base.Awake();
 	}
-	
+
 	public void Triggertutorial(int state)
 	{
+		if (state == -1) return;
+		
 		isTuroialing = true;
 		this.TutorialStateMachine = new();
 		TutorialStateMachine.InitState((TutorialState)state, this);
