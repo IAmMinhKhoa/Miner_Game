@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -20,7 +21,6 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     [SerializeField] Sprite iconDefault;
     [SerializeField] GameObject loadingSwap;
 	[SerializeField] GameObject _maskSelect;
-
     private Shaft shaft;
     private GameObject dragObject;
     private Camera mainCamera;
@@ -104,6 +104,11 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         {
             ValidateData(manager);
             ManagersController.Instance.AssignManager(manager, shaft.ManagerLocation);
+			var tutorialManager = TutorialManager.Instance;
+			if(tutorialManager.isTuroialing && tutorialManager.currentState == 2)
+			{
+				tutorialManager.TutorialStateMachine.TriggerClickableStates(2);
+			}
 		}
         else
         {

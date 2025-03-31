@@ -16,6 +16,8 @@ public class ManagerSectionList : MonoBehaviour
     private List<ManagerSpecie> managerSpecies = new List<ManagerSpecie>();
     private List<Manager> managerDatas;
 
+	public List<ManagerSectionUI> ManagerSectionUIList => _managerSectionUIList;
+
 	void Awake()
 	{
 		_rectTransform = this.GetComponent<RectTransform>();

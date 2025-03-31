@@ -34,7 +34,8 @@ namespace PlayFabManager.Data
 				{ "PawVolume", "" },
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" },
-				{ "LastTimeCoinReward", "" }
+				{ "LastTimeCoinReward", "" },
+				{ "TutorialState", "1" },
 			};
 			await Login();
 			await GetDataFromPlayFab();

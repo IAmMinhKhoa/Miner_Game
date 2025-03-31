@@ -35,6 +35,7 @@ public enum LanguageKeys
 	TitleInventoryShaftBg,
 	TitleInventoryShaftCart,
 	TitleInventoryChangeCartCouter,
+	TitleInventoryChangeCashierCouter,
 	TitleInventoryChangeBackGround,
 	TitleInventoryChooseSkinElevator,
 	TitleInventoryChangeCartStaff,
@@ -56,6 +57,7 @@ public enum LanguageKeys
 	TitleBodyTemplateNumber,
 	TitleExchangeUIRandomInterior,
 	TitleExchangeUIRandomSkin,
+	TitleInventoryChangeBarCounter
 }
 
 public static class LocalizationManager
@@ -107,7 +109,9 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleInventoryShaftSecondBg, ("home>inventory>ShaftSecondBg", "tường 2") },
 			{ LanguageKeys.TitleInventoryShaftBg, ("home>inventory>ShaftBg", "tường") },
 			{ LanguageKeys.TitleInventoryChangeCartCouter, ("home>inventory>ChangeCartCouter", "đổi xe đẩy ở quầy") },
+			{ LanguageKeys.TitleInventoryChangeCashierCouter, ("home>inventory>ChangeCartCouter", "Đổi quầy thu tiền") },
 			{ LanguageKeys.TitleInventoryChangeBackGround, ("home>inventory>changebackground", "đổi background phòng chờ trà sữa") },
+			{ LanguageKeys.TitleInventoryChangeBarCounter, ("home>inventory>changebackground", "đổi quầy pha chế") },
 			{ LanguageKeys.TitleInventoryChooseSkinElevator, ("home>inventory>chooseSkinElevator", "chọn skin thang máy") },
 			{ LanguageKeys.TitleInventoryChangeCartStaff, ("home>inventory>changeCartStaff", "đổi xe đẩy nhân viên") },
 			{ LanguageKeys.TitleInventoryChangeTableMilkTea, ("home>inventory>changeTableMilkTea", "đổi bàn để ly trà sữa") },

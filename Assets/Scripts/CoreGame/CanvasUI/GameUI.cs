@@ -25,6 +25,10 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private ButtonBehavior bt_Inventory;
 	[SerializeField] private ButtonBehavior bt_Store;
 	[SerializeField] private ButtonBehavior bt_Sound;
+	[SerializeField] List<GameObject> buttonesUI;
+
+	[Header("TutorialUI")]
+	[SerializeField] public TutotrialUI tutotrialUI;
 
 	[Header("Prefab Modal")]
 	[SerializeField] private GameObject modal_Inventory;
@@ -35,6 +39,9 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_minigameUI;
 
 	[SerializeField] private GameObject modal_offlineUI;
+
+	public List<GameObject> ButtonesUI => buttonesUI;
+	public ButtonBehavior BT_Manager => bt_Manager;
 	private void Start()
 	{
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
@@ -102,5 +109,29 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 			// Wait for 1 second before the next update
 			yield return new WaitForSeconds(0.5f);
 		}
+	}
+	//Show Hide game UI
+	public void ButtonesInteract(bool enable)
+	{
+		foreach(var button in buttonesUI)
+		{
+			button.SetActive(enable);
+		}
+		//Shaft UI button
+		foreach(var shaft in ShaftManager.Instance.Shafts)
+		{
+			var shaftUI = shaft.GetComponent<ShaftUI>();
+			shaftUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1: 0;
+			shaftUI.UpgradeButton.gameObject.SetActive(enable);
+		}
+		//CounterUI
+		var counterUI = Counter.Instance.GetComponent<CounterUI>();
+		counterUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1 : 0;
+		counterUI.UpgradeButton.gameObject.SetActive(enable);
+
+		//ElevatorUI
+		var elevatorUI = ElevatorSystem.Instance.GetComponent<ElevatorUI>();
+		elevatorUI.ManagerButton.gameObject.GetComponent<CanvasGroup>().alpha = enable ? 1 : 0;
+		elevatorUI.UpgradeButton.gameObject.SetActive(enable);
 	}
 }

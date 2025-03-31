@@ -11,7 +11,10 @@ public class ManagerGridUI : MonoBehaviour
     private List<ManagerElementUI> _managerElementUiList = new List<ManagerElementUI>();
     private RectTransform _rectTransform;
 
-    void Awake()
+	public List<ManagerElementUI> ManagerElementUiList => _managerElementUiList;
+
+
+	void Awake()
     {
         _rectTransform = this.GetComponent<RectTransform>();
     }

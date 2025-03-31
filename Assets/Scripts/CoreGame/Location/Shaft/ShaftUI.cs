@@ -38,13 +38,17 @@ public class ShaftUI : MonoBehaviour
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	[SerializeField] private GameObject costBoostFX;
+	[SerializeField] public ActiveWorker activeWorkerButton;
 	[Header("Skin Object")]
     [SerializeField] private SkeletonAnimation m_br;
     [SerializeField] private SpriteRenderer m_waitTable;
     [SerializeField] SkeletonAnimation m_secondbg;
+	[SerializeField] private SkeletonAnimation m_tableAnimation;
 
 
-    public SkeletonAnimation BG => m_br;
+
+	public SkeletonAnimation BG => m_br;
+	public GameObject AddShaftPanel => m_buyNewShaftButton.gameObject;
     public SkeletonAnimation SecondBG => m_secondbg;
 
     private SkeletonAnimation tableAnimation;
@@ -55,12 +59,16 @@ public class ShaftUI : MonoBehaviour
 
 	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
-	//
-	
-	
+	// public parameter
+	public Button UpgradeButton => m_upgradeButton;
+	public Button ManagerButton => m_managerButton;
+	public Button BuyNewShaftButton => m_buyNewShaftButton;
 
 
-    void Awake()
+
+
+
+	void Awake()
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
@@ -127,8 +135,7 @@ public class ShaftUI : MonoBehaviour
 
     private void UpgradeTable(SkeletonDataAsset tableDataAsset)
     {
-        tableAnimation.skeletonDataAsset = tableDataAsset;
-        tableAnimation.Initialize(true, true);
+		return;
     }
     private void ChangePawStart(double value)
     {
@@ -280,12 +287,15 @@ public class ShaftUI : MonoBehaviour
         m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
         m_secondbg.skeletonDataAsset = skinGameData[InventoryItemType.ShaftSecondBg];
 		waitTable.skeletonDataAsset = skinGameData[InventoryItemType.ShaftWaitTable];
+		m_tableAnimation.skeletonDataAsset = skinGameData[InventoryItemType.BarCounter];
 
-	
+
+
 
 		m_br.Initialize(true);
         m_secondbg.Initialize(true);
 		waitTable.Initialize(true);
+		m_tableAnimation.Initialize(true);
 
 		var counter = GetComponent<Shaft>();
 
@@ -311,6 +321,7 @@ public class ShaftUI : MonoBehaviour
         m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
         m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
         waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
+		m_tableAnimation.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBarCounter) + 1));
 
 
 		var animationState = waitTable.AnimationState;
@@ -319,6 +330,7 @@ public class ShaftUI : MonoBehaviour
 		m_br.skeleton.SetSlotsToSetupPose();
 		m_secondbg.skeleton.SetSlotsToSetupPose();
 		waitTable.skeleton.SetSlotsToSetupPose();
+		m_tableAnimation.skeleton.SetSlotsToSetupPose();
 
 		if (TryGetComponent<Shaft>(out var shaft))
         {
@@ -410,10 +422,10 @@ public class ShaftUI : MonoBehaviour
 	}
 	public void AwakeWorker()
     {
-        m_shaft.AwakeWorker();
+        m_shaft.AwakeWorker().Forget();
     }
 
-    void OnDestroy()
+	void OnDestroy()
     {
         Destroy(mainPanel);
     }

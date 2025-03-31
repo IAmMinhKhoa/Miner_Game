@@ -43,6 +43,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 
 	public Shaft Shaft => shaftPrefab;
 	private bool isDone = false;
+
 	public bool IsDone => isDone;
 	[Header("Building Shaft")]
 	public bool isBuilding = false;

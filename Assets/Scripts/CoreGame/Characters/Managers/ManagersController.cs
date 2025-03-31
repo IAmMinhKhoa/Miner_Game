@@ -23,7 +23,12 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     private double _ElevatorHireCost = 1000;
     private double _CounterHireCost = 1000;
 
-    public double CurrentCost
+	public ManagerChooseUI ManagerPrefab { private set; get;}
+	public ManagerPanelUI ManagerDetailPrefab { private set; get; }
+
+
+
+	public double CurrentCost
     {
         get
         {
@@ -70,12 +75,13 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     {
         managerPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerChooseUI");
         managerDetailPrefab = Resources.Load<GameObject>("Prefabs/UI/ManagerPanelUI");
-
-        managerPanel = Instantiate(managerPrefab, GameUI.Instance.transform);
-        managerPanel.SetActive(false);
+		managerPanel = Instantiate(managerPrefab, GameUI.Instance.transform);
+		managerPanel.SetActive(false);
         managerDetailPanel = Instantiate(managerDetailPrefab, GameUI.Instance.transform);
         managerDetailPanel.SetActive(false);
-    }
+		ManagerPrefab = managerPanel.GetComponent<ManagerChooseUI>();
+		ManagerDetailPrefab = managerDetailPanel.GetComponent<ManagerPanelUI>();
+	}
 
     public void OpenManagerPanel(BaseManagerLocation location = null)
     {
@@ -168,8 +174,9 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     private Manager GetNewManagerData(ManagerLocation location)
     {
+		bool isFirstManager = CheckFirstManager();
         int randomValue = UnityEngine.Random.Range(0, 100);
-        ManagerLevel level = randomValue switch
+        ManagerLevel level = isFirstManager ? ManagerLevel.Intern : randomValue switch
         {
             < 65 => ManagerLevel.Intern,
             < 90 => ManagerLevel.Junior,
@@ -180,9 +187,10 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         var specieDataList = _managerSpecieDataSOList.ToList(); //list all data staff of game
 		var specieDataFilterByLocation = specieDataList.FindAll(x=>x.LocationType==location);
 
-		var specieData = specieDataFilterByLocation[UnityEngine.Random.Range(0, specieDataFilterByLocation.Count) ];
+		var specieData = isFirstManager ? specieDataFilterByLocation[1] : specieDataFilterByLocation[UnityEngine.Random.Range(0, specieDataFilterByLocation.Count) ];
 
         var managerData = GetManagerData(location, specieData.BoostType, level);
+
         var timeData = GetManagerTimeData(level);
 
         Manager manager = new();
@@ -192,6 +200,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
         return manager;
     }
+	private bool CheckFirstManager()
+	{
+		return new[] { ShaftManagers, CounterManagers, ElevatorManagers }
+		   .All(list => list.Count == 0);
+	}
 
     public Manager CreateManager()
     {
@@ -215,9 +228,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         }
         PawManager.Instance.RemovePaw(GetHireCost());
         SetNewCost(CurrentManagerLocation.LocationType);
-        
-
-        return manager;
+		return manager;
     }
 
     public double GetHireCost()
@@ -360,6 +371,8 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 			   ElevatorManagers.Any(manager => manager.IsAssigned) ||
 			   CounterManagers.Any(manager => manager.IsAssigned);
 	}
+
+
 
 	#endregion
 

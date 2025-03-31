@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Codice.CM.Client.Differences.Graphic;
 using DG.Tweening;
 using NOOD;
 using NOOD.Sound;
@@ -11,6 +12,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 
 public enum TypeMerge
@@ -27,7 +29,8 @@ public class ManagerChooseUI : MonoBehaviour
 
     [SerializeField] private ManagerTabUI _managerTabUI;
     [SerializeField] private ManagerSectionList _managerSectionList;
-
+	[SerializeField] public ManagerLocationUI _locationTabUI;
+	[SerializeField] public ScrollRect _scrollRect;
     [Header("UI text")]
     [SerializeField] private TextMeshProUGUI _currentCostText;
 
@@ -41,10 +44,24 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private List<Manager> _manager;
 	[SerializeField] DetailNotification NotiWarning;
 	[SerializeField] GachaController FxGacha;
+
+	[Header("UI for Tutorial")]
+	[SerializeField] List<GameObject> topUIButton;
+	[SerializeField] List<GameObject> botUIButton;
+	[SerializeField] Image tutorialLine;
+
+	public Action OnInteractToTutorialManager;
+	public Button HireManagerButton => _hireButton;
+	public ManagerTabUI ManagerTabUI => _managerTabUI;
+	public ManagerSectionList ManagerSectionList => _managerSectionList;
+
+	bool isclosableUI = true;
+
+
 	void OnEnable()
     {
 		FadeInContainer();
-        _managerTabUI.onManagerTabChanged += OnManagerTabChanged;
+		_managerTabUI.onManagerTabChanged += OnManagerTabChanged;
         ManagerLocationUI.OnTabChanged += OnLocationTabChanged;
         _closeButton.onClick.AddListener(ClosePanel);
         _hireButton.onClick.AddListener(OnHireManagerButtonClicked);
@@ -52,9 +69,6 @@ public class ManagerChooseUI : MonoBehaviour
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
 		PawManager.Instance.OnPawChanged += UpdateUI;
-
-		
-
 	}
 
     void OnDisable()
@@ -68,9 +82,41 @@ public class ManagerChooseUI : MonoBehaviour
         MergeSuccess -= AfterMegerManager;
 		PawManager.Instance.OnPawChanged -= UpdateUI;
 	}
-    
+
+	public void AddListenerFromFXGacha()
+	{
+		FxGacha.OnUIClose += HandleCloseEventFromFxGacha;
+	}
+	private void RemoveListenerFromFxGacha()
+	{
+		FxGacha.OnUIClose -= HandleCloseEventFromFxGacha;
+	}
+
+	private void HandleCloseEventFromFxGacha()
+	{
+		
+		OnInteractToTutorialManager?.Invoke();
+		RemoveListenerFromFxGacha();
+	}
+	public void OpenTutorialLine()
+	{
+		isclosableUI = false;
+		tutorialLine.gameObject.SetActive(true);
+		tutorialLine.DOFade(0, 0.3f) // Mờ dần
+		   .SetLoops(-1, LoopType.Yoyo) // Lặp lại
+		   .SetEase(Ease.InOutSine);
+	}
+	public void CloseTutorialLine()
+	{
+		isclosableUI = true;
+		tutorialLine.DOKill(); // Dừng DOTween
+		tutorialLine.color = new Color(tutorialLine.color.r, tutorialLine.color.g, tutorialLine.color.b, 1); // Đặt alpha về 1
+		tutorialLine.gameObject.SetActive(false);
+	}
+
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
+		
 		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
 		if (_manager == null)
         {
@@ -89,11 +135,53 @@ public class ManagerChooseUI : MonoBehaviour
 		Debug.Log("khoa OnLocationTabChanged:" + location);
 		currentLocation = location;
 		UpdateUI(PawManager.Instance.CurrentPaw);
-		SetupData(location);
-        _managerTabUI.onManagerTabChanged?.Invoke(BoostType.Speed, true);
+		SetupData(location);	
+        _managerTabUI.onManagerTabChanged?.Invoke(CheckListManager(), true);
     }
+	private BoostType CheckListManager()
+	{
+		if(!TutorialManager.Instance.isTuroialing)
+		{
+			for (int i = 0; i < botUIButton.Count; i++)
+			{
+				ShowHideBotButton(true, i);
+			}
+			return BoostType.Speed;
+		}
+		BoostType curTypeManager = BoostType.None;
 
-    public void SetupData(ManagerLocation location)
+		for (int i = 0; i < botUIButton.Count; i++)
+		{
+			ShowHideBotButton(false, i);
+		}
+
+		foreach (var manager in _manager)
+		{
+			switch (manager.BoostType)
+			{
+				case BoostType.Speed:
+					ShowHideBotButton(true, 0);
+					OnManagerTabChanged(BoostType.Speed);
+					break;
+				case BoostType.Costs:
+					ShowHideBotButton(true, 1);
+					OnManagerTabChanged(BoostType.Costs);
+					break;
+				case BoostType.Efficiency:
+					ShowHideBotButton(true, 2);
+					OnManagerTabChanged(BoostType.Efficiency);
+					break;
+			}
+
+			if (curTypeManager == BoostType.None)
+			{
+				curTypeManager = manager.BoostType;
+			}
+		}
+
+		return curTypeManager == BoostType.None ? BoostType.Speed : curTypeManager;
+	}
+	public void SetupData(ManagerLocation location)
     {
         _manager = location switch
         {
@@ -103,6 +191,7 @@ public class ManagerChooseUI : MonoBehaviour
             _ => throw new ArgumentOutOfRangeException(nameof(location), location, null)
         };
         Debug.Log("SetupData");
+
         _currentCostText.text = Currency.DisplayCurrency(ManagersController.Instance.CurrentCost);
     
     }
@@ -120,7 +209,8 @@ public class ManagerChooseUI : MonoBehaviour
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
        
         _managerTabUI.onManagerTabChanged?.Invoke(type, foceAnimation);
-		UpdateUI(); //update current paw -> disable button gacha 
+		UpdateUI(); //update current paw -> disable button gacha
+		CheckListManager();
 	}
 	void UpdateUI(double value=0)
 	{
@@ -198,20 +288,74 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void ClosePanel()
     {
+		if (!isclosableUI) return;
 		SoundManager.PlaySound(SoundEnum.mobileTexting2);
 		FadeOutContainer();
     }
+
+	//Hien thi cac UI trong tabs manager
+	public void ShowActiveAllButton()
+	{
+		SetCanvasGroup(_boostButton.gameObject, true);
+	}
+	private void SetCanvasGroup(GameObject obj, bool isShow)
+	{
+		if (obj == null) return;
+		var canvasGroup = obj.GetComponent<CanvasGroup>();
+		if (canvasGroup != null)
+		{
+			canvasGroup.alpha = isShow ? 1 : 0;
+			canvasGroup.interactable = isShow;
+		}
+	}
+
+	private void SetCanvasGroupList(List<GameObject> buttons, bool isShow)
+	{
+		foreach (var button in buttons)
+		{
+			SetCanvasGroup(button, isShow);
+		}
+	}
+
+	public void HideShowAllUITabManagerUI(bool isShow)
+	{
+		SetCanvasGroupList(topUIButton, isShow);
+		SetCanvasGroupList(botUIButton, isShow);
+		SetCanvasGroup(_boostButton.gameObject, isShow);
+	}
+
+	public void ShowHideTopButton(bool isShow, int index)
+	{
+		if (index >= 0 && index < topUIButton.Count)
+		{
+			SetCanvasGroup(topUIButton[index], isShow);
+		}
+	}
+
+	public void ShowHideBotButton(bool isShow, int index)
+	{
+		if (index >= 0 && index < botUIButton.Count)
+		{
+			SetCanvasGroup(botUIButton[index], isShow);
+		}
+	}
 
 	#region AnimateUI
 	[Button]
 	public void FadeInContainer()
 	{
-		gameObject.SetActive(true);
+
+		//gameObject.SetActive(true);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
-		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
-
-
+		gameObject.transform.DOLocalMoveX(0, 0.5f).SetEase(Ease.OutQuart).OnComplete(() =>
+		{
+			if (TutorialManager.Instance.isTuroialing)
+			{
+				OnInteractToTutorialManager?.Invoke();
+			}
+		}
+		);
 	}
 	[Button]
 	public void FadeOutContainer()
@@ -219,6 +363,10 @@ public class ManagerChooseUI : MonoBehaviour
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.5f).SetEase(Ease.InQuart).OnComplete(() =>
 		{
+			if (TutorialManager.Instance.isTuroialing)
+			{
+				OnInteractToTutorialManager?.Invoke();
+			}
 			gameObject.SetActive(false);
 		});
 

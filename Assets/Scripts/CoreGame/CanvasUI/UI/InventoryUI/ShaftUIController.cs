@@ -42,6 +42,11 @@ namespace UI.Inventory
 						item.Spine.AnimationState.SetAnimation(0, "Icon", false);
 						item.ChangeSpineSkin("Icon_" + id);
 						break;
+					case InventoryItemType.BarCounter:
+						id = (int.Parse(ShaftManager.Instance.Shafts[index].shaftSkin.idBarCounter) + 1) + "";
+						item.Spine.AnimationState.SetAnimation(0, "Idle", false);
+						item.ChangeSpineSkin("Icon_" + id);
+						break;
 				}
 				
 				if (item.type == InventoryItemType.ShaftCart)

@@ -29,8 +29,8 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [SerializeField] private ElevatorController elevatorPrefab;
     public ElevatorController ElevatorPrefabController => elevatorPrefab;
 
-
-    public double MoveTimeScale
+	
+	public double MoveTimeScale
     {
         get => moveTimeScale;
         set => moveTimeScale = value;
@@ -269,8 +269,12 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         }
     }
 
-    public void AwakeWorker()
+    public void AwakeWorker(bool isTriggerByTutorial = false)
     {
+		if(isTriggerByTutorial)
+		{
+			elevatorController.SetValueParameterIsRequireCallToTutorial();
+		}
         if (!elevatorController.IsWorking)
         {
             elevatorController.forceWorking = true;

@@ -33,9 +33,10 @@ public class ElevatorController : BaseWorker
     {
         get => config.MoveTime * (float)elevator.MoveTimeScale / elevator.SpeedBoost;
     }
+	bool? isRequireCallToTutorial = null;
+	public void SetValueParameterIsRequireCallToTutorial() => isRequireCallToTutorial = true;
 
-
-    private void Start()
+	private void Start()
     {
         transform.position = elevator.ElevatorLocation.position;
         numberText = GameData.Instance.InstantiatePrefab(PrefabEnum.HeadText).GetComponent<TextMeshPro>();
@@ -197,7 +198,14 @@ public class ElevatorController : BaseWorker
         ChangeGoal();
         isWorking = false;
         PlayAnimation(WorkerState.Idle, false);
-    }
+
+		if (isRequireCallToTutorial != null)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
+			isRequireCallToTutorial = null;
+		}
+
+	}
 
     private async void PlayTextAnimation(double amount, bool reverse = false)
     {
