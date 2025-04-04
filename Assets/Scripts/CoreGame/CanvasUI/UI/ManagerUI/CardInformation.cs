@@ -24,7 +24,7 @@ public class CardInformation : MonoBehaviour
 	[SerializeField] SkeletonGraphic _spineBoost;
 
 	[SerializeField] private SkeletonGraphic _spineManager;
-
+	
 	[SerializeField] List<Image> _starts = new List<Image>();
 	[SerializeField] List<Sprite> _stateStart = new List<Sprite>(); //0 active, 1 unActive
 
@@ -53,11 +53,11 @@ public class CardInformation : MonoBehaviour
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoGoat);
 				break;
 			case ManagerSpecie.Owl:
-				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionOwl);
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionOwl); 
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoOwl);
 				break;
 			case ManagerSpecie.Hamster:
-				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster);
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleManagerSectionHamster); 
 				titleQuoest = LocalizationManager.GetLocalizedString(LanguageKeys.QuoestCardInfoHamster);
 				break;
 			case ManagerSpecie.Pig:
@@ -83,8 +83,8 @@ public class CardInformation : MonoBehaviour
 		_spineManager.skeletonDataAsset = _data.SkeletonAsset;
 		_spineManager.Initialize(true);
 		//set data description
-		_textTimeSkill.text = _data.BoostTime.ToString() + " "+LocalizationManager.GetLocalizedString(LanguageKeys.Minutes);
-		_textTimeCD.text = _data.CooldownTime.ToString() + " "+LocalizationManager.GetLocalizedString(LanguageKeys.Minutes);
+		_textTimeSkill.text = _data.BoostTime.ToString() + " phút";
+		_textTimeCD.text = _data.CooldownTime.ToString() + " phút";
 		//_textValueBuff.text = _data.BoostValue.ToString() + " %";
 
 		switch (_data.BoostType)
@@ -122,7 +122,7 @@ public class CardInformation : MonoBehaviour
 			_spineBoost.AnimationState.SetAnimation(0, "Toc do di chuyen", loop: true);
 		}
 	}
-
+	
 	private void RenderStart(int Currentlevel)
 	{
 		foreach (var item in _starts)

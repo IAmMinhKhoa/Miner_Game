@@ -43,7 +43,7 @@ namespace UI.Inventory
 		[SerializeField] private ContentFitterRefresh contentRefreshTabNV;
 		List<ShaftUIController> listShaftUI = new();
 		List<TabStaffItem> listShaftStaffSkin;
-
+		
 
 
 		[Header("Counter")]
@@ -88,11 +88,6 @@ namespace UI.Inventory
 			{
 				listShaftUI[i].SetShaftIndex(i);
 			}
-
-			StartCoroutine(Common.IeDoSomeThing(1, () =>
-			{
-				contentFitterRefresh.RefreshContentFitters();
-			}));
 		}
 
 		private void OnDisable()
@@ -118,7 +113,7 @@ namespace UI.Inventory
 				tabStaff.OnTabStaffEnable += UpdateStabStaffUI;
 				tabStaff.OnTabStaffDisable += TabStaff_OnTabStaffDisable;
 			}
-
+		
             tgNhanVien.onValueChanged.AddListener(delegate
             {
                 SlideInContainer(pnNhanVien, tgNhanVien);
@@ -132,7 +127,7 @@ namespace UI.Inventory
 			{
 				if (item.type == InventoryItemType.CounterBg || item.type == InventoryItemType.CounterSecondBg)
 				{
-
+					
 					item.OnItemClick += OpenListBg;
 				}
 				else
@@ -156,7 +151,6 @@ namespace UI.Inventory
 			{
 				activeTextNhanVien.gameObject.SetActive(false);
 			}
-			contentFitterRefresh.RefreshContentFitters();
 		}
 
 		private void TabStaff_OnTabStaffDisable()
@@ -171,7 +165,7 @@ namespace UI.Inventory
 
 		private void UpdateStabStaffUI()
 		{
-
+		
 			counterStaffSkin.OnItemClick += OpenStaffSkin;
 			elevatorStaffSkin.OnItemClick += OpenStaffSkin;
 			listShaftStaffSkin ??= new();
@@ -190,7 +184,7 @@ namespace UI.Inventory
 			{
 				elevatorItem.SetInfoItem(int.Parse(elevatorStaff.idHead), int.Parse(elevatorStaff.idBody), -1);
 			}
-
+		
 			for (int i = 0; i < shaftCount; i++)
 			{
 				listShaftStaffSkin[i].OnItemClick += OpenStaffSkin;
@@ -198,7 +192,7 @@ namespace UI.Inventory
 				var shaftStaff = ShaftManager.Instance.Shafts[i].shaftSkin.characterSkin;
 				listShaftStaffSkin[i].SetInfoItem(int.Parse(shaftStaff.idHead), int.Parse(shaftStaff.idBody), i);
 			}
-
+	
 		}
 
 		private void HanleUpdateShaftIUI(int index)
@@ -207,7 +201,7 @@ namespace UI.Inventory
 		}
 		private void HandleElevatorIUI()
 		{
-
+			
 			foreach (var item in elevatorItem)
 			{
 				if(isUpdateElevatorSkeletonData == false)
@@ -233,7 +227,7 @@ namespace UI.Inventory
 		}
 		private void HandleCounterIUI()
 		{
-
+			
 			foreach (var item in counterItem)
 			{
 				if (isUpdateCounterSkeletonData == false)
@@ -294,13 +288,13 @@ namespace UI.Inventory
 		{
 			tgNhanVien.interactable = false;
 			tgNoiThat.interactable = true;
-
+			
 		}
 		public void UnLoadListShaft()
 		{
 			tgNhanVien.interactable = true;
 			tgNoiThat.interactable = false;
-
+			
 		}
 		private void OpenStaffSkin(InventoryItemType type, int index)
 		{
@@ -314,7 +308,7 @@ namespace UI.Inventory
 			}
 		}
 
-
+	
 		private void OpenListBg(InventoryItemType type, int index = -1)
 		{
 			bgList.SetIndex(index);
@@ -325,7 +319,7 @@ namespace UI.Inventory
 				pOIController.FloorIndex = index;
 				inventoryPanel.SetActive(false);
 			}
-
+			
 
 		}
 
@@ -347,17 +341,17 @@ namespace UI.Inventory
 			}
 			shaftCount++;
 			listShaftUI.Add(shaft);
-
+			
 		}
 		private void PopupOrtherItemController(InventoryItemType type, int index = -1)
 		{
-
+			
 			if (TryGetComponent<InventoryUIStateMachine>(out var stateMachine))
 			{
 				pOIController.gameObject.SetActive(true);
 				pOIController.FloorIndex = index;
 				stateMachine.TransitonToState(type);
-
+				
 			}
 		}
 		private void CloseInvetoryUI()

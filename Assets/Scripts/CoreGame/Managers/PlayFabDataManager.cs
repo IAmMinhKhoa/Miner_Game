@@ -14,14 +14,12 @@ namespace PlayFabManager.Data
 		[SerializeField]
 		private LoaddingScreenManager prefab;
 		private LoaddingScreenManager loadingScene;
-		[SerializeField] private Transform gameUI;
 		private bool isDataLoaded = false;
 		public string accountID;
 		private void OnEnable()
 		{
-			loadingScene = Instantiate(prefab, gameUI.transform);
-Debug.Log("on :"+loadingScene.gameObject.name);
-			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
+			loadingScene = Instantiate(prefab, new Vector3(0, -2f, 0), Quaternion.identity);
+			Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
 		public async UniTask LoadData()
@@ -112,11 +110,11 @@ Debug.Log("on :"+loadingScene.gameObject.name);
 			{
 				Debug.LogError($"Login Error: {ex.Message}");
 			}
-
+			
 		}
 		public async UniTask SendDataBeforeExit()
 		{
-
+			
 			var request = new UpdateUserDataRequest { Data = DataDictionary };
 			var taskCompletionSource = new UniTaskCompletionSource<bool>();
 

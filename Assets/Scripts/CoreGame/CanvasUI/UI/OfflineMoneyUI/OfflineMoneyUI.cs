@@ -34,14 +34,7 @@ public class OfflineMoneyUI : MonoBehaviour
 
         //Make time from duration
         TimeSpan time = System.TimeSpan.FromSeconds(money.time);
-        string hourText = LocalizationManager.GetLocalizedString(LanguageKeys.Hour);
-        string minuteText = LocalizationManager.GetLocalizedString(LanguageKeys.Minutes);
-        string secondText = LocalizationManager.GetLocalizedString(LanguageKeys.Seconds);
-
-        m_timeText.text = string.Format("{0:D2} {1} :{2:D2} {3} :{4:D2} {5}",
-	        time.Hours, hourText,
-	        time.Minutes, minuteText,
-	        time.Seconds, secondText);
+        m_timeText.text = string.Format("{0:D2} giờ :{1:D2} phút :{2:D2} giây", time.Hours, time.Minutes, time.Seconds);
     }
 
     public void SetOfflineMoneyText(string text)
@@ -57,7 +50,7 @@ public class OfflineMoneyUI : MonoBehaviour
     void OnDoubleUpButtonClicked()
     {
         m_offlineMoney *= 2;
-
+       
 		StartCoroutine(confirmClaimPaw(m_offlineMoney,50));
     }
 	IEnumerator confirmClaimPaw(double pawOffline, int quantityFx=5)

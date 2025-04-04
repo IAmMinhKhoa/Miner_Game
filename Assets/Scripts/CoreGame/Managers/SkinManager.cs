@@ -30,13 +30,13 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		LoadSkinData(); //fectch data from json
 		LoadAssets(); //get resource by path to list
 
-
+		
 		if (!Load())
 		{
 			ShaftManager.Instance.Shafts[0].shaftSkin = new ShaftSkin(0);
 			ElevatorSystem.Instance.elevatorSkin = new();
 			Counter.Instance.counterSkin = new();
-
+		
 			foreach (InventoryItemType itemType in Enum.GetValues(typeof(InventoryItemType)))
 			{
 				// Thêm từng phần tử của enum vào dictionary
@@ -51,7 +51,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		ElevatorSystem.Instance.UpdateUI();
 		Counter.Instance.UpdateUI();
 
-
+		
 		isDone = true;
 	}
 
@@ -106,7 +106,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	}
 	public bool Load()
 	{
-
+		
 
 		if (PlayFabDataManager.Instance.ContainsKey("SkinManager"))
 		{
@@ -121,7 +121,6 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 			}
 
 			ElevatorSystem.Instance.elevatorSkin = saveData.elevatorSkin;
-			Debug.Log("load skin data:"+saveData.counterSkin.idCashierCounter);
 			Counter.Instance.counterSkin = saveData.counterSkin;
 
 			foreach (var entry in saveData.itemBought)
@@ -129,14 +128,10 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 				// Chuyển đổi key từ chuỗi về enum
 				if (Enum.TryParse(entry.Key, out InventoryItemType itemType))
 				{
-					// Kiểm tra nếu key chưa tồn tại thì mới thêm
-					if (!ItemBought.ContainsKey(itemType))
-					{
-						ItemBought.Add(itemType, entry.Value);
-					}
+					// Thêm vào dictionary ItemBought
+					ItemBought.Add(itemType, entry.Value);
 				}
 			}
-
 
 			isDone = true;
 			return true;
@@ -241,7 +236,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 
 	private void LoadAssets()
 	{
-
+		
 	}
 	#endregion
 }
@@ -286,7 +281,7 @@ public class ShaftSkin : SkinBase
 		this.characterSkin = characterSkin ?? new CharacterSkin();
 	}
 
-
+	
 }
 
 public class ElevatorSkin : SkinBase
@@ -302,7 +297,7 @@ public class ElevatorSkin : SkinBase
 		this.idBackElevator = idBackElevator;
 		this.characterSkin = characterSkin ?? new();
 	}
-
+	
 }
 
 public class CounterSkin : SkinBase
@@ -318,7 +313,6 @@ public class CounterSkin : SkinBase
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
 		this.idSecondBg = idSecondBg;
-		Debug.Log("concac:"+idCashierCounter);
 		this.idCashierCounter = idCashierCounter;
 	}
 
