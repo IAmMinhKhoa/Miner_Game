@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using UnityEngine;
 
 public class skill_Destroy : sortGameSkills
@@ -29,6 +30,7 @@ public class skill_Destroy : sortGameSkills
 
 					if (hit.collider != null)
 					{
+						SoundManager.PlaySound(SoundEnum.explosion);
 						hit.collider.gameObject.GetComponent<BoxInfo>().DestroyBox();
 						isUsing = false;
 						StartCoroutine(waitToEnable());
@@ -53,7 +55,12 @@ public class skill_Destroy : sortGameSkills
 			isUsing = true;
 			gameManager.AdjustAllDragCode(!isUsing);
 			blackCanvas.SetActive(true);
+
 			textPanel.SetActive(true);
+			StartCoroutine(Common.IeDoSomeThing(2, () =>
+			{
+				textPanel.SetActive(false);
+			}));
 		}
 	}
 }

@@ -77,7 +77,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 
 
 			boom.transform.position = worldPosition;
-			boom.transform.localScale = Vector3.Lerp(initialScale, new Vector3(0.2f, 0.2f, 0.2f), t);
+			boom.transform.localScale = Vector3.Lerp(initialScale, new Vector3(0.14f, 0.14f, 0.14f), t);
 
 			await UniTask.Yield(PlayerLoopTiming.Update);
 		}

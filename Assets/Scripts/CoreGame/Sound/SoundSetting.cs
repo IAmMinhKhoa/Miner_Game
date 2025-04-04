@@ -39,7 +39,7 @@ public class SoundSetting : MonoBehaviour
     [SerializeField] ButtonBehavior btnMusic;
     [SerializeField] ButtonBehavior btnSound;
     [Header("SPINE")]
-    #region SPINE 
+    #region SPINE
     [SerializeField] SkeletonGraphic spineDiaThan;
     [SerializeField] SkeletonGraphic spineCanGat;
     [SerializeField] SkeletonGraphic spineRandom;
@@ -81,7 +81,7 @@ public class SoundSetting : MonoBehaviour
         set
         {
             _toggleLoopMusic = value;
-  
+
 
             if (value)
             {
@@ -103,7 +103,7 @@ public class SoundSetting : MonoBehaviour
         set
         {
             _toggleRandomMusic = value;
-          
+
 
             if (value)
             {
@@ -152,8 +152,8 @@ public class SoundSetting : MonoBehaviour
         sliderMusic.onValueChanged.AddListener(ChangeMusicVolume);
         sliderSFX.onValueChanged.AddListener(ChangeSFXVolume);
 
-      
-       
+
+
     }
 
     private void OnDestroy()
@@ -203,17 +203,15 @@ public class SoundSetting : MonoBehaviour
         SoundManager.StopAllMusic();
 		SoundManager.PlayMusic(musicEnum);
 		StartCoroutine(TimmingNextMusic());
-/*
-        if (_coroutineCurrentMusic != null)
-        {
-            StopCoroutine(_coroutineCurrentMusic);
-        }
 
-        _coroutineCurrentMusic = StartCoroutine(TimmingNextMusic());*/
 
 	}
 
-  
+    public void PlayForceMusic(string forceMusic = "")
+    {
+	    PlayMusic(forceMusic: forceMusic);
+    }
+
 
     #region Logic
 
@@ -271,14 +269,14 @@ public class SoundSetting : MonoBehaviour
 	IEnumerator PauseWhileWaiting(float seconds)
 	{
 		float timePassed = 0f;
-		
+
 		while (timePassed < seconds)
 		{
 			if (!TogglePauseMusic)
 			{
-				timePassed += Time.deltaTime; 
+				timePassed += Time.deltaTime;
 			}
-			yield return null;  
+			yield return null;
 		}
 		pauseCoroutine = null;
 	}
@@ -320,7 +318,7 @@ public class SoundSetting : MonoBehaviour
 
     private void nextMusic()
     {
-		
+
         PlayMusic();
         TogglePauseMusic = false;
         spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
@@ -329,7 +327,7 @@ public class SoundSetting : MonoBehaviour
     private void OnClickPreviousMusic()
     {
         PlayMusic(BahaviorMS.OnClickPrevious);
-        
+
         TogglePauseMusic = false;
         spinePause.AnimationState.SetAnimation(0, "PlayStop - Idle Active", false);
         spinePrevious.AnimationState.SetAnimation(0, "PlayBack - Active", false);
@@ -343,13 +341,13 @@ public class SoundSetting : MonoBehaviour
 		spineNext.AnimationState.SetAnimation(0, "PlayNext - Active", false);
 	}
 	private void toggleloopMusic()
-    {      
+    {
         ToggleLoopMusic = !ToggleLoopMusic;
     }
 
     private void toggleRandomMusic()
     {
-     
+
         ToggleRandomMusic = !ToggleRandomMusic;
     }
 
@@ -388,33 +386,33 @@ public class SoundSetting : MonoBehaviour
         _toggleMusic = !_toggleMusic;
         if (!_toggleMusic)
         {
-            
+
             ChangeMusicVolume(0);
             sliderMusic.value = 0;
             btnMusic.SetState(ButtonState.Click);
         }
         else
         {
-            
+
             ChangeMusicVolume(1);
             sliderMusic.value = 1;
             btnMusic.SetState(ButtonState.Default);
         }
-        
+
     }
     public void ToggleSound()
     {
         _togglesound = !_togglesound;
         if (!_togglesound)
         {
-            
+
             ChangeSFXVolume(0);
             sliderSFX.value = 0;
             btnSound.SetState(ButtonState.Click);
         }
         else
         {
-           
+
             ChangeSFXVolume(1);
             sliderSFX.value = 1;
             btnSound.SetState(ButtonState.Default);
@@ -447,7 +445,7 @@ public class SoundSetting : MonoBehaviour
         Debug.Log("khoaa:" + posCam);
         Container.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
         Container.transform.DOLocalMoveX(0, 0.4f).SetEase(Ease.OutQuart);
-        
+
 
     }
     [Button]
@@ -459,7 +457,7 @@ public class SoundSetting : MonoBehaviour
         {
             Container.SetActive(false);
         });
-       
+
     }
     #endregion
 }

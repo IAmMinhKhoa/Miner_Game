@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Patterns.Singleton<GameManager>
 {
 	public InGameUI gameUI;
+
 	private void Update()
 	{
 		if (Input.GetMouseButtonDown(0))

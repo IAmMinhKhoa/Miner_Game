@@ -66,6 +66,8 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 	public event Action<MarketPlayItem> OnButtonBuyBySuperMoneyClick;
 	[SerializeField] private TMP_Text title_quality;
 
+	[SerializeField] ContentFitterRefresh contentRefresh;
+
 	MarketPlayItem curItemHandling;
 	bool CurState
 	{
@@ -224,7 +226,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		Spine.skeletonDataAsset = it.SpineHandling.skeletonDataAsset;
 		Spine.Initialize(true);
 		//
-		
+
 		var transform = Spine.GetComponent<RectTransform>();
 		transform.localScale = itemSize.scale;
 		transform.anchoredPosition = itemSize.pos;
@@ -294,11 +296,12 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 				ActiveSubSpine(false, bodyElevatorScale);
 				break;
 		}
+		contentRefresh.RefreshContentFitters();
 	}
 
 	public void Buy()
 	{
-	
+
 		if(curItemHandling == null) return;
 		if (curItemHandling.Cost > PawManager.Instance.CurrentPaw)
 		{
@@ -319,7 +322,7 @@ public class InfoMarketItemUIHandle : MonoBehaviour
 		subHead.initialSkinName = isHead ? "Head/Skin_" + curItemHandling.ID : "Head/Skin_1";
 		subBody.skeletonDataAsset = Spine.SkeletonDataAsset;
 		subBody.initialSkinName = isHead ? "Body/Skin_1" : "Body/Skin_"+curItemHandling.ID;
-	
+
 		subHead.Initialize(true);
 		subBody.Initialize(true);
 

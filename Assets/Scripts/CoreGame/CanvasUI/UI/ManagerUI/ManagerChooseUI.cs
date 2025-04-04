@@ -21,11 +21,11 @@ public enum TypeMerge
 	FailLevelMax,
 	FailNotSameLevel
 }
-public class ManagerChooseUI : MonoBehaviour    
+public class ManagerChooseUI : MonoBehaviour
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<TypeMerge> MergeSuccess;
-  
+
 
 	private ManagerLocation currentLocation;
 
@@ -76,7 +76,10 @@ public class ManagerChooseUI : MonoBehaviour
 		{
 			ShowActiveAllButton();
 		}
-		
+
+
+
+
 	}
 
     void OnDisable()
@@ -102,7 +105,7 @@ public class ManagerChooseUI : MonoBehaviour
 
 	private void HandleCloseEventFromFxGacha()
 	{
-		
+
 		OnInteractToTutorialManager?.Invoke();
 		RemoveListenerFromFxGacha();
 	}
@@ -124,7 +127,7 @@ public class ManagerChooseUI : MonoBehaviour
 
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
-		
+
 		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
 		if (_manager == null)
         {
@@ -143,7 +146,7 @@ public class ManagerChooseUI : MonoBehaviour
 		Debug.Log("khoa OnLocationTabChanged:" + location);
 		currentLocation = location;
 		UpdateUI(PawManager.Instance.CurrentPaw);
-		SetupData(location);	
+		SetupData(location);
         _managerTabUI.onManagerTabChanged?.Invoke(CheckListManager(), true);
     }
 	private BoostType CheckListManager()
@@ -201,10 +204,10 @@ public class ManagerChooseUI : MonoBehaviour
         Debug.Log("SetupData");
 
         _currentCostText.text = Currency.DisplayCurrency(ManagersController.Instance.CurrentCost);
-    
+
     }
-  
- 
+
+
     public void SetupTab(BoostType type, ManagerLocation managerLocation,bool foceAnimation=true)
     {
         ManagerLocationUI.OnTabChanged?.Invoke(managerLocation);
@@ -215,7 +218,7 @@ public class ManagerChooseUI : MonoBehaviour
     {
 		Debug.Log("refesh :" + type);
         SetupData(ManagersController.Instance.CurrentManagerLocation.LocationType);
-       
+
         _managerTabUI.onManagerTabChanged?.Invoke(type, foceAnimation);
 		UpdateUI(); //update current paw -> disable button gacha
 		CheckListManager();
@@ -234,6 +237,7 @@ public class ManagerChooseUI : MonoBehaviour
 	}
 	private async void OnHireManagerButtonClicked()
 	{
+		SoundManager.PlaySound(SoundEnum.click);
 		await HireManager();
 	}
 
@@ -241,21 +245,22 @@ public class ManagerChooseUI : MonoBehaviour
     {
         if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
         {
+	        SoundManager.PlaySound(SoundEnum.mergeFail);
 			UpdateUI();
 			return;
         }
-        
+        SoundManager.PlaySound(SoundEnum.gacha);
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
-		
+
 		FxGacha.OpenFxGacha(manager);
 
 		_hireButton.interactable = true;
 
 		await Task.Delay(1500);
 		OnRefreshManagerTab?.Invoke(manager.BoostType, false);
-	}   
+	}
     void AfterMegerManager(TypeMerge typeMerge)
     {
 		switch (typeMerge)
@@ -288,7 +293,7 @@ public class ManagerChooseUI : MonoBehaviour
 		}
 		else
 		{
-			SoundManager.PlaySound(SoundEnum.clickdecline); 
+			SoundManager.PlaySound(SoundEnum.clickdecline);
 		}
 
 		ManagersController.Instance.BoostAllManager();

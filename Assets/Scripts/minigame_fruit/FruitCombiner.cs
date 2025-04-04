@@ -24,6 +24,9 @@ public class FruitCombiner : MonoBehaviour
 			await MiniGameFruitManager.Instance.TriggerBoomPowerAniamtion(transform.position);
 			MiniGameFruitManager.Instance.isBoomPowerActive = false;
 			Vector3 pos = gameObject.transform.position;
+			pos.y += 1.5f;
+			gameObject.transform.position = pos;
+
 			Destroy(gameObject);
 
 			Color newColor = GetComponent<FruitInfo>().mergeColor;
@@ -112,7 +115,7 @@ public class FruitCombiner : MonoBehaviour
 						ComboUI.Instance.UpdateComboUI(ComboMergeManager.Instance.comboCount);
 						ComboUI.Instance.ShowComboUI();
 						ComboUI.Instance.Hide(ComboUI.Instance.gameObject, 1f);
-					}	
+					}
 
 				}
 				int score = otherIndex;

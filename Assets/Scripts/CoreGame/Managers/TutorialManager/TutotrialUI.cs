@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public class TutotrialUI : MonoBehaviour
 	[SerializeField] private Transform coinParent;
 	[SerializeField] private Button closeTutorialTextButton;
 	[SerializeField] private Button tutorialClickNextStepButton;
-
+	[SerializeField] private SkeletonGraphic spineChar;
 
 	public Button TutorialClickNextStepButton { private set; get; }
 	public Button CloseTutorialTextButton => closeTutorialTextButton;
@@ -37,7 +38,7 @@ public class TutotrialUI : MonoBehaviour
 		tutorialImgUI.gameObject.SetActive(false);
 		closeTutorialTextButton.gameObject.SetActive(false);
 	}
-	
+
 	private int totalCoins;
 	private int coinsReachedTarget;
 	public void SetTextTutorial(string text)
@@ -46,7 +47,7 @@ public class TutotrialUI : MonoBehaviour
 		tutorialImgUI.gameObject.SetActive(true);
 		tutorialTextUI.text = text;
 	}
-	
+
 	public void TriggerAddCoinEffect()
 	{
 		int coinCount = 5; // Số lượng coin

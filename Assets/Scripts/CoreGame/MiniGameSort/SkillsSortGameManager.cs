@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +38,7 @@ public class SkillsSortGameManager : MonoBehaviour
 		}
 		if (skills[0].skillCount > 0 && !skills[0].isUsing)
 		{
+			SoundManager.PlaySound(SoundEnum.freezerTime);
 			skills[0].ActiveSkill();
 			skills[0].skillCount -= 1;
 			PlayerPrefs.SetInt("sortGameSkill_Freeze", skills[0].skillCount);

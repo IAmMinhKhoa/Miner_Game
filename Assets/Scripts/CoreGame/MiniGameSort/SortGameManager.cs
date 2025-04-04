@@ -1,9 +1,12 @@
+using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 
 public class SortGameManager : MonoBehaviour
@@ -40,6 +43,11 @@ public class SortGameManager : MonoBehaviour
 		currentDelayTime = clawDelayTime;
 		colsCount = new int[3];
 		clawAnim = clawObject.transform.GetChild(0).GetComponent<Animator>();
+	}
+
+	private void Start()
+	{
+		ManagersController.Instance.SoundSetting.PlayForceMusic(forceMusic: "brGame");
 	}
 
 	private void Update()
@@ -107,7 +115,7 @@ public class SortGameManager : MonoBehaviour
 		{
 			colsCount[i] = 0;
 		}
-		
+
 		foreach(Transform go in boxParent)
 		{
 			Destroy(go.gameObject);
@@ -160,7 +168,7 @@ public class SortGameManager : MonoBehaviour
 			try
 			{
 				go.gameObject.GetComponent<DragDrop>().cameraGameSort = cameraGameSort;
-			
+
 			}
 			catch (System.Exception)
 			{
@@ -202,7 +210,7 @@ public class SortGameManager : MonoBehaviour
 		newBox.holdPos = holdPos;
 		lastBoxWaiting = newBox;
 
-		
+
 		tsInfo newTs1, newTs2, newTs3;
 		List<int> randomNumbers = new List<int>();
 
@@ -240,6 +248,7 @@ public class SortGameManager : MonoBehaviour
 		newTs1.UpdateBoxParent(0, newBox.gameObject);
 		newTs2.UpdateBoxParent(1, newBox.gameObject);
 		newTs3.UpdateBoxParent(2, newBox.gameObject);
+		Debug.LogError("spawm box");
 	}
 
 	public void RecheckClawPosition()
@@ -366,6 +375,7 @@ public class SortGameManager : MonoBehaviour
 	public void OnClickBack()
 	{
 		OnClickPause();
+		ManagersController.Instance.SoundSetting.PlayForceMusic(forceMusic: "a");
 		SceneManager.UnloadSceneAsync("MinigameSort");
 	}
 

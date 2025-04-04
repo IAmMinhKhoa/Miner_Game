@@ -43,7 +43,7 @@ public class FruitGameManager : MonoBehaviour
 		freeGravity.onClick.AddListener(TriggerFreeGravityPower);
 	}
 
-	
+
 
 	private void OnDestroy()
 	{
@@ -57,7 +57,7 @@ public class FruitGameManager : MonoBehaviour
 		{
 			MiniGameFruitManager.Instance.isBoomPowerActive = true;
 		}
-			
+
 	}
 	private void TriggerUpGradePower()
 	{
@@ -76,6 +76,7 @@ public class FruitGameManager : MonoBehaviour
     {
         orderList = new List<orderObject>();
         highScoreText.text = PlayerScore.GetHighScore() + "";
+        ManagersController.Instance.SoundSetting.PlayForceMusic(forceMusic: "brGame");
     }
     private void Update()
     {
@@ -205,6 +206,7 @@ public class FruitGameManager : MonoBehaviour
 
     public void OnClickBack()
     {
+	    ManagersController.Instance.SoundSetting.PlayForceMusic(forceMusic: "a");
         SceneManager.UnloadScene("DemoMinigame");
     }
 

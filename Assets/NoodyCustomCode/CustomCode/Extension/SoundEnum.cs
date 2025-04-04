@@ -26,6 +26,9 @@ public enum SoundEnum
 	cardgameuibuttonmechanical = 21,
 	none = 22,
 	coin=23,
-	explosion=24
+	explosion=24,
+	gacha=25,
+	fallbox=26,
+	freezerTime=27,
 }
 }
