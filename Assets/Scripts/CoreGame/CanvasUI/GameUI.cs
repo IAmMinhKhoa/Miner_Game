@@ -30,6 +30,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[Header("TutorialUI")]
 	[SerializeField] public TutotrialUI tutotrialUI;
 	[SerializeField] public GameObject tutorialState3UI;
+	[SerializeField] public GameObject tutorialState2UI;
 
 	[Header("Prefab Modal")]
 	[SerializeField] private GameObject modal_Inventory;
