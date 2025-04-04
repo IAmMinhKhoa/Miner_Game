@@ -32,7 +32,7 @@ public class CounterUI : MonoBehaviour
 	// [Header("Visual object")]
 	// [SerializeField] private GameObject m_quayGiaoNuocHolder;
 	[SerializeField] private SkeletonAnimation m_cashierCounter;
-	[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
+	//[SerializeField] private SerializableDictionary<int, SkeletonDataAsset> skeletonDataAssetDic;
 	private Counter m_counter;
 	private CounterUpgrade m_counterUpgrade;
 
@@ -69,7 +69,7 @@ public class CounterUI : MonoBehaviour
 		m_managerButton.onClick.AddListener(OpenManagerPanel);
 		m_boostButton.onClick.AddListener(ActiveBoost);
 		BaseUpgrade.OnUpgrade += UpdateUpgradeButton;
-		m_counter.OnUpgrade += Counter_OnUpgradeHandler;
+		//m_counter.OnUpgrade += Counter_OnUpgradeHandler;
 		m_workerButton.onClick.AddListener(AwakeWorker);
 	}
 
@@ -79,19 +79,19 @@ public class CounterUI : MonoBehaviour
 		m_managerButton.onClick.RemoveListener(OpenManagerPanel);
 		m_boostButton.onClick.RemoveListener(ActiveBoost);
 		BaseUpgrade.OnUpgrade -= UpdateUpgradeButton;
-		m_counter.OnUpgrade -= Counter_OnUpgradeHandler;
+		//m_counter.OnUpgrade -= Counter_OnUpgradeHandler;
 		m_workerButton.onClick.RemoveListener(AwakeWorker);
 	}
-	private void Counter_OnUpgradeHandler(int currentLevel)
-	{
-		foreach (var item in skeletonDataAssetDic.Dictionary)
-		{
-			if (currentLevel >= item.Key)
-			{
-				UpgradeCounter(item.Value);
-			}
-		}
-	}
+	//private void Counter_OnUpgradeHandler(int currentLevel)
+	//{
+	//	foreach (var item in skeletonDataAssetDic.Dictionary)
+	//	{
+	//		if (currentLevel >= item.Key)
+	//		{
+	//			UpgradeCounter(item.Value);
+	//		}
+	//	}
+	//}
 	private void UpgradeCounter(SkeletonDataAsset tableDataAsset)
 	{
 		m_cashierCounter.skeletonDataAsset = tableDataAsset;
@@ -238,9 +238,11 @@ public class CounterUI : MonoBehaviour
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		m_bgCounter.skeletonDataAsset = skinGameData[InventoryItemType.CounterBg];
 		m_secondBG.skeletonDataAsset = skinGameData[InventoryItemType.CounterSecondBg];
+		m_cashierCounter.skeletonDataAsset = skinGameData[InventoryItemType.CashierCounter];
 
 		m_bgCounter.Initialize(true);
 		m_secondBG.Initialize(true);
+		m_cashierCounter.Initialize(true);
 
 		var counter = GetComponent<Counter>();
 
@@ -273,6 +275,10 @@ public class CounterUI : MonoBehaviour
 		string skinSecondBGName = "Skin_" + (int.Parse(data.idSecondBg) + 1);
 		m_secondBG.Skeleton.SetSkin(skinSecondBGName);
 		m_secondBG.Skeleton.SetSlotsToSetupPose();
+
+		string skinCashiderCounterName = "Skin_" + (int.Parse(data.idCashierCounter) + 1);
+		m_cashierCounter.Skeleton.SetSkin(skinCashiderCounterName);
+		m_cashierCounter.Skeleton.SetSlotsToSetupPose();
 
 		if (TryGetComponent<Counter>(out var counter))
 		{

@@ -11,14 +11,18 @@ public class TutorialState3 : BaseTutorialState
 	public override void Do()
 	{
 		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("TutorialState", "-1");
+		tutorialManager.SetCurrentState(-1);
 		tutorialManager.ShowHideGameUI(true);
+		tutorialManager.EndTutorial();
+		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(false);
+
 	}
 
 	public override void Enter()
 	{
 		tutorialManager.SetCurrentState(3);
 		tutorialManager.ShowHideGameUI(false);
-
+		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(true);
 		//Shaft UI button
 		foreach (var shaft in ShaftManager.Instance.Shafts)
 		{

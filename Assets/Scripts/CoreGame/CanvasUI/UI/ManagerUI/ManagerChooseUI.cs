@@ -25,6 +25,8 @@ public class ManagerChooseUI : MonoBehaviour
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<TypeMerge> MergeSuccess;
+  
+
 	private ManagerLocation currentLocation;
 
     [SerializeField] private ManagerTabUI _managerTabUI;
@@ -69,6 +71,12 @@ public class ManagerChooseUI : MonoBehaviour
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
 		PawManager.Instance.OnPawChanged += UpdateUI;
+
+		if(!TutorialManager.Instance.isTuroialing)
+		{
+			ShowActiveAllButton();
+		}
+		
 	}
 
     void OnDisable()

@@ -89,13 +89,19 @@ namespace PlayFabManager.Data
 
 				if (result.Data.Count > 0)
 				{
-					foreach (var s in keys)
+					if(result.Data.ContainsKey("TutorialState") && result.Data["TutorialState"].Value != "2")
 					{
-						if (result.Data.ContainsKey(s))
+						foreach (var s in keys)
 						{
-							string json = result.Data[s].Value;
-							DataDictionary[s] = json;
+							if (result.Data.ContainsKey(s))
+							{
+								string json = result.Data[s].Value;
+								DataDictionary[s] = json;
+							}
 						}
+					} else
+					{
+						DataDictionary["TutorialState"] = "2";
 					}
 				}
 

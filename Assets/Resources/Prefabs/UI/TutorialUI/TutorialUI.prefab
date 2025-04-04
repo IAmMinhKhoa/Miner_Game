@@ -56,7 +56,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4472193256754037688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69,12 +69,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2365789375198446359}
+  m_Father: {fileID: 1127664759907858358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 1001.42615}
-  m_SizeDelta: {x: 0, y: 1995.0671}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -0.00024414062}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2512076511165767364
 CanvasRenderer:
@@ -192,7 +192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -26.067368}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6765646111494961424
@@ -414,7 +414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2365789375198446359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -428,7 +428,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 70511593752866010}
-  - {fileID: 4472193256754037688}
   m_Father: {fileID: 1127664759907858358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -492,7 +491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1127664759907858358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -500,12 +499,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8813051769337154778}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2365789375198446359}
+  - {fileID: 4472193256754037688}
   - {fileID: 6695643207692063838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -572,3 +572,4 @@ MonoBehaviour:
   coinParent: {fileID: 2185717054437499443}
   closeTutorialTextButton: {fileID: 4546290323019040430}
   tutorialClickNextStepButton: {fileID: 8118636099971588874, guid: d5bb43178b85bf540aea8b4d3b9454a9, type: 3}
+  state3TutorialGO: {fileID: 0}

@@ -15,6 +15,7 @@ public class TutotrialUI : MonoBehaviour
 	[SerializeField] private Button closeTutorialTextButton;
 	[SerializeField] private Button tutorialClickNextStepButton;
 
+
 	public Button TutorialClickNextStepButton { private set; get; }
 	public Button CloseTutorialTextButton => closeTutorialTextButton;
 
@@ -34,15 +35,17 @@ public class TutotrialUI : MonoBehaviour
 	private void CloseTutorialText()
 	{
 		tutorialImgUI.gameObject.SetActive(false);
+		closeTutorialTextButton.gameObject.SetActive(false);
 	}
+	
 	private int totalCoins;
 	private int coinsReachedTarget;
 	public void SetTextTutorial(string text)
 	{
+		closeTutorialTextButton.gameObject.SetActive(true);
 		tutorialImgUI.gameObject.SetActive(true);
 		tutorialTextUI.text = text;
 	}
-
 	
 	public void TriggerAddCoinEffect()
 	{
