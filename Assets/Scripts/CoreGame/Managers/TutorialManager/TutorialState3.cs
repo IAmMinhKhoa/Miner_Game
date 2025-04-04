@@ -14,6 +14,7 @@ public class TutorialState3 : BaseTutorialState
 		tutorialManager.SetCurrentState(-1);
 		tutorialManager.ShowHideGameUI(true);
 		tutorialManager.EndTutorial();
+		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(false);
 
 	}
 
@@ -21,7 +22,7 @@ public class TutorialState3 : BaseTutorialState
 	{
 		tutorialManager.SetCurrentState(3);
 		tutorialManager.ShowHideGameUI(false);
-
+		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(true);
 		//Shaft UI button
 		foreach (var shaft in ShaftManager.Instance.Shafts)
 		{

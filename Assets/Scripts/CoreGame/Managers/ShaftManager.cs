@@ -283,6 +283,11 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		yield return new WaitForSeconds(endUpgradeEffectDuration);
 
 		_endShaftUpgradeEffect.SetActive(false);
+
+		if(Shafts.Count == 2 && TutorialManager.Instance.currentState == 3)
+		{
+			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(3);
+		}
 	}
 	private void ValidateTimeOffline()
 	{

@@ -25,6 +25,8 @@ public class ManagerChooseUI : MonoBehaviour
 {
     public static Action<BoostType,bool> OnRefreshManagerTab;
     public static Action<TypeMerge> MergeSuccess;
+  
+
 	private ManagerLocation currentLocation;
 
     [SerializeField] private ManagerTabUI _managerTabUI;

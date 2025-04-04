@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using PlayFab.ClientModels;
+using PlayFabManager.Data;
 
 public class ManagersController : Patterns.Singleton<ManagersController>
 {
@@ -449,7 +450,8 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             foreach (var managerData in saveData.ShaftManagers)
             {
                 Manager manager = new();
-                manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
+				
+				manager.SetManagerData(GetManagerData(managerData.location, managerData.boostType, managerData.level));
                 manager.SetTimeData(GetManagerTimeData(managerData.level));
                 manager.SetSpecieData(GetManagerSpecieData(managerData.specie));
                 manager.SetCurrentTime(managerData.currentBoostTime, managerData.currentCooldownTime);

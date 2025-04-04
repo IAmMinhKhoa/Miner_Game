@@ -307,7 +307,7 @@ public class CounterSkin : SkinBase
 	public string idCashierCounter { get; set; }
 	public CharacterSkin character { get; set; }
 
-	public CounterSkin(string idBackGround = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0",string idCashierCounter = "",  CharacterSkin characterSkin = null)
+	public CounterSkin(string idBackGround = "0", string idMilkCup = "0", string idCart = "0", string idSecondBg = "0",string idCashierCounter = "0",  CharacterSkin characterSkin = null)
 		: base(idBackGround, idMilkCup)
 	{
 		this.idCart = idCart;
