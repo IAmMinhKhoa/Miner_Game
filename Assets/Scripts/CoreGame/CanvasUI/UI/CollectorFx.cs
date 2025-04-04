@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NOOD.Sound;
 using UnityEngine;
 
 public class CollectorFx : MonoBehaviour
@@ -89,6 +90,7 @@ public class CollectorFx : MonoBehaviour
 				{
 					coin.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
 					{
+						SoundManager.PlaySound(SoundEnum.coin);
 						Destroy(coin);
 					});
 				});

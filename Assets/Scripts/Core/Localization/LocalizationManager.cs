@@ -57,7 +57,11 @@ public enum LanguageKeys
 	TitleBodyTemplateNumber,
 	TitleExchangeUIRandomInterior,
 	TitleExchangeUIRandomSkin,
-	TitleInventoryChangeBarCounter
+	TitleInventoryChangeBarCounter,
+
+	Hour,
+	Minutes,
+	Seconds
 }
 
 public static class LocalizationManager
@@ -132,6 +136,10 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleBodyTemplateNumber, ("home>banner>bodyTemplateNumber", "mẫu số") },
 			{ LanguageKeys.TitleExchangeUIRandomInterior, ("home>exchangeItem>RandomInterior", "nội thất ngẫu nhiên") },
 			{ LanguageKeys.TitleExchangeUIRandomSkin, ("home>exchangeItem>RandomSkin", "trang phục ngẫu nhiên") },
+
+			{ LanguageKeys.Hour, ("common>hours", "giờ") },
+			{ LanguageKeys.Minutes, ("common>minutes", "phút") },
+			{ LanguageKeys.Seconds, ("common>second", "giây") },
 		};
 		return mappings;
 	}

@@ -1,4 +1,5 @@
 using System.Collections;
+using NOOD.Sound;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -25,6 +26,7 @@ public class DragDrop : MonoBehaviour
 	{
 		if (enabled)
 		{
+			SoundManager.PlaySound(SoundEnum.click);
 			isDragging = true;
 			isDrop = false;
 			if (tsInfo.parentBox != null)

@@ -4,68 +4,79 @@ using TMPro;
 using Unity.Plastic.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class LoaddingScreenManager : MonoBehaviour
 {
+	[SerializeField] private Image loadingBar;
 	[SerializeField]
-	private SpriteRenderer notFullLoadingBar;
-	[SerializeField]
-	private SpriteRenderer fullLoadingBar;
-	[SerializeField]
-	TextMeshPro currentLoading;
+	TMP_Text currentLoading;
 	[SerializeField]
 	private int frameRequireToLoad;
-	[SerializeField]
-	private Transform _spineLogo;
+
 	private float currentLoad = 0f;
-	private float totalLoad = 0f;
-	private int framePassed = 0;
-	private bool isLoading = false;
-	private bool allowToLoad;
+
+
+	private float loadingDuration = 5f;  // tổng thời gian loading
+	private float elapsedTime = 0f;
+
+	private float checkInterval = 1f;    // thời gian giữa các lần check mạng
+	private float timer = 0f;
+
+	private bool loadingComplete = false;
+
 	private void Start()
 	{
-		totalLoad = notFullLoadingBar.size.x;
-		if (Common.CheckDevice())
-		{
-			Vector3 currentPosition = _spineLogo.localPosition;
-
-			// Dịch chuyển trục Y trừ xuống 50
-			_spineLogo.localPosition = new Vector3(currentPosition.x, currentPosition.y +2.5f, currentPosition.z);
-			_spineLogo.localScale = new Vector3(0.15f, 0.15f, 0.15f	);
-		}
-
+		loadingBar.fillAmount = 0f;
 	}
+
 	private void Update()
 	{
-		allowToLoad = Common.CheckInternetConnection();
-		if (allowToLoad)
+		if (loadingComplete) return;
+
+		// Tăng thời gian đã trôi qua
+		elapsedTime += Time.deltaTime;
+		float progress = Mathf.Clamp01(elapsedTime / loadingDuration);
+
+		// Cập nhật thanh loading
+		loadingBar.fillAmount = progress;
+
+		// Cập nhật text phần trăm (0–100)
+		int percent = Mathf.RoundToInt(progress * 100f);
+		currentLoading.text ="Loading "+ percent.ToString() + "%";
+
+		// Kiểm tra mạng mỗi 1 giây
+		timer += Time.deltaTime;
+		if (timer >= checkInterval)
 		{
-			if (isLoading == false)
-			{
-				framePassed++;
-				currentLoad += totalLoad * 0.0005f;
-			}
-			fullLoadingBar.size = new Vector2(currentLoad, fullLoadingBar.size.y);
-			currentLoading.text = "Loading " + Mathf.FloorToInt(currentLoad / totalLoad * 100f) + "%";
+			timer = 0f;
+			// (Tuỳ ý) Kiểm tra mạng hoặc xử lý khác ở đây
 		}
-		else
+
+		// Nếu xong thời gian thì kiểm tra điều kiện hoàn tất
+		if (elapsedTime >= loadingDuration)
 		{
-			fullLoadingBar.size = new Vector2(0, fullLoadingBar.size.y);
-			currentLoading.text = "No Internet Connection";
+			loadingComplete = Common.CheckInternetConnection(); // chỉ chuyển scene nếu có mạng
+
+			if (loadingComplete)
+			{
+				Debug.Log("Loading complete!");
+				// TODO: Load scene hoặc hiển thị UI
+			}
+			else
+			{
+				currentLoading.text = "SomeWrong";
+			}
 		}
 	}
+
 	public async UniTask FullLoadingBar()
 	{
-		if(!allowToLoad) return;
-		isLoading = true;
-		float valuePerfamre = (float)((totalLoad - currentLoad) / (frameRequireToLoad - framePassed));
-		while (framePassed <= frameRequireToLoad)
+		while (!loadingComplete)
 		{
-			framePassed++;
-			currentLoad += valuePerfamre;
-			await UniTask.Yield();
+			await UniTask.DelayFrame(1); // Đợi 1 frame rồi tiếp tục (mượt hơn Delay)
 		}
-		fullLoadingBar.size = new Vector2(totalLoad, fullLoadingBar.size.y);
+		loadingBar.fillAmount = 1;
 		await UniTask.Delay(100);
 	}
 }

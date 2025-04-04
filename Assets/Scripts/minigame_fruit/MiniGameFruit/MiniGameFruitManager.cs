@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using UnityEngine;
 
 public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
@@ -10,7 +11,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 	GameObject startBoomPosition;
 	[SerializeField]
 	GameObject boom;
-	[SerializeField] GameObject topBar;
+
 	public float gravityChangeSpeed = 1.0f;
 	private bool IsBoomPowerActive = false;
 	private bool IsUpgradePowerActive = false;
@@ -20,11 +21,11 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 	{
 		isPersistent = false;
 		base.Awake();
-		
+
 	}
 	public bool isBoomPowerActive
 	{
-		get => IsBoomPowerActive; 
+		get => IsBoomPowerActive;
 		set
 		{
 			IsBoomPowerActive = value;
@@ -50,7 +51,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 		float duration = 0.5f;
 		float timeElapsed = 0f;
 		boom.SetActive(true);
-		Vector3 initialScale = new(2f, 2f, 2f);
+		Vector3 initialScale = new(0.1f, 0.1f, 0.1f);
 		while(timeElapsed < duration)
 		{
 
@@ -58,28 +59,29 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 
 			float t = timeElapsed / duration;
 
-			
-			float radiusX = pointB.x - pointA.x; 
+
+			float radiusX = pointB.x - pointA.x;
 			float radiusY = Mathf.Abs(pointB.y - pointA.y);
 
-			
+
 			float angle = Mathf.Lerp(0, Mathf.PI / 2, t);
 
-			
-			float x = pointA.x + radiusX * Mathf.Sin(angle); 
-			float y = pointA.y + radiusY * Mathf.Sin(angle); 
+
+			float x = pointA.x + radiusX * Mathf.Sin(angle);
+			float y = pointA.y + radiusY * Mathf.Sin(angle);
 
 			Vector3 screenPosition = new Vector3(x, y, pointA.z);
 
-			
+
 			Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
 
-			
+
 			boom.transform.position = worldPosition;
-			boom.transform.localScale = Vector3.Lerp(initialScale, new Vector3(0.76f, 0.76f, 0.76f), t);
+			boom.transform.localScale = Vector3.Lerp(initialScale, new Vector3(0.2f, 0.2f, 0.2f), t);
 
 			await UniTask.Yield(PlayerLoopTiming.Update);
 		}
+		SoundManager.PlaySound(SoundEnum.explosion);
 		boom.SetActive(false);
 	}
 	public async UniTask TriggerFreeGravityPower()
@@ -87,7 +89,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 		float duration = 4f;
 		float timeElapsed = 0f;
 		isPowerActive = true;
-		topBar.SetActive(true);
+	//	topBar.SetActive(true);
 		while(timeElapsed < duration)
 		{
 			timeElapsed += Time.deltaTime;
@@ -101,7 +103,7 @@ public class MiniGameFruitManager : Patterns.Singleton<MiniGameFruitManager>
 		}
 		Physics2D.gravity = new Vector2(0f, -9.8f);
 		isPowerActive = false;
-		topBar.SetActive(false);
+	//	topBar.SetActive(false);
 	}
 
 

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using UnityEngine;
 
 public class BoxInfo : MonoBehaviour
@@ -67,6 +68,7 @@ public class BoxInfo : MonoBehaviour
 
 			if (slot1.id == slot2.id && slot2.id == slot3.id)
 			{
+				SoundManager.PlaySound(SoundEnum.explosion);
 				DestroyBox();
 			}
 		}
@@ -94,7 +96,7 @@ public class BoxInfo : MonoBehaviour
 				Destroy(gameObject);
 			});
 		});
-		
+
 	}
 
 }
