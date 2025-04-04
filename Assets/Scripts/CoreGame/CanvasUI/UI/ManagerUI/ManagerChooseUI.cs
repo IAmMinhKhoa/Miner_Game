@@ -69,6 +69,12 @@ public class ManagerChooseUI : MonoBehaviour
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
 		PawManager.Instance.OnPawChanged += UpdateUI;
+
+		if(!TutorialManager.Instance.isTuroialing)
+		{
+			ShowActiveAllButton();
+		}
+		
 	}
 
     void OnDisable()

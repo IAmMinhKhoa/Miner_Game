@@ -323,6 +323,7 @@ public class ShaftUI : MonoBehaviour
         waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
 		m_tableAnimation.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBarCounter) + 1));
 
+		//Debug.Log("Change Skin: " + data.idBackGround + " " + data.idSecondBg + " " + data.idWaitTable + " " + data.idBarCounter);
 
 		var animationState = waitTable.AnimationState;
 		animationState.SetAnimation(0, "Active", true);

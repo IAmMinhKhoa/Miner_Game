@@ -11,7 +11,10 @@ public class TutorialState3 : BaseTutorialState
 	public override void Do()
 	{
 		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("TutorialState", "-1");
+		tutorialManager.SetCurrentState(-1);
 		tutorialManager.ShowHideGameUI(true);
+		tutorialManager.EndTutorial();
+
 	}
 
 	public override void Enter()

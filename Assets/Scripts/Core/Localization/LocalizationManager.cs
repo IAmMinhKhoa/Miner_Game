@@ -108,7 +108,7 @@ public static class LocalizationManager
 			{ LanguageKeys.TitleInventoryWallCouter, ("home>inventory>wallcouter", "tường thu ngân") },
 			{ LanguageKeys.TitleInventoryShaftSecondBg, ("home>inventory>ShaftSecondBg", "tường 2") },
 			{ LanguageKeys.TitleInventoryShaftBg, ("home>inventory>ShaftBg", "tường") },
-			{ LanguageKeys.TitleInventoryChangeCartCouter, ("home>inventory>ChangeCartCouter", "đổi xe đẩy ở quầy") },
+			{ LanguageKeys.TitleInventoryChangeCartCouter, ("home>inventory>ChangeCartCouter", "Đổi quầy thu tiền") },
 			{ LanguageKeys.TitleInventoryChangeCashierCouter, ("home>inventory>ChangeCartCouter", "Đổi quầy thu tiền") },
 			{ LanguageKeys.TitleInventoryChangeBackGround, ("home>inventory>changebackground", "đổi background phòng chờ trà sữa") },
 			{ LanguageKeys.TitleInventoryChangeBarCounter, ("home>inventory>changebackground", "đổi quầy pha chế") },

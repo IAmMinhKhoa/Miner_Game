@@ -58,7 +58,7 @@ public class ChangeShaftBarCounter : BaseState<InventoryItemType>
 			_item.Unselected();
 		}
 		items[index].Selected();
-		ShaftManager.Instance.Shafts[itemController.FloorIndex].shaftSkin.idWaitTable = index.ToString();
+		ShaftManager.Instance.Shafts[itemController.FloorIndex].shaftSkin.idBarCounter = index.ToString();
 		ShaftManager.Instance.Shafts[itemController.FloorIndex].UpdateUI();
 		ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(itemController.FloorIndex);
 	}

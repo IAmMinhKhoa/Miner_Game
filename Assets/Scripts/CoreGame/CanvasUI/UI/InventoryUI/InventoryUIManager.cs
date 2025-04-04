@@ -248,6 +248,12 @@ namespace UI.Inventory
 					item.ChangeSpineSkin(skinName);
 					continue;
 				}
+				if(item.type == InventoryItemType.CashierCounter)
+				{
+					string skinName = "Icon_" + (int.Parse(Counter.Instance.counterSkin.idCashierCounter) + 1);
+					item.ChangeSpineSkin(skinName);
+					continue;
+				}
 				if (item.SkinList != null)
 				{
 					int indexCart = int.Parse(Counter.Instance.counterSkin.idCart);

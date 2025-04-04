@@ -45,8 +45,8 @@ public class ChangeCashierCounter : BaseState<InventoryItemType>
 			items[i].ChangItemInfo((i + 1).ToString(), int.Parse(listSkin[i].ID), InventoryItemType.CashierCounter);
 			_item.Skeleton.SetSkin("Icon_" + listSkin[i].ID);
 			_item.AnimationState.SetAnimation(0, "Idle", false);
-			_item.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -15f);
+			_item.transform.localScale = new Vector3(0.13f, 0.13f, 0.13f);
+			_item.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, -45f);
 			items[i].ItemClicked += ChangeSkin;
 			_item.Skeleton.SetSlotsToSetupPose();
 		}
