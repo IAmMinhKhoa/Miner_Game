@@ -11,7 +11,7 @@ public class PopupToggle : MonoBehaviour
 		if (isOn)
 		{
 			RectTransform _rectTransform = GetComponent<RectTransform>();
-			_rectTransform.DOScale(1.04f, 0.2f)
+			_rectTransform.DOScale(1.1f, 0.2f)
 				.SetEase(Ease.OutQuad);
 		}
 		else

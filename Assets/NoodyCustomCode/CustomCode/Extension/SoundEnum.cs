@@ -1,7 +1,7 @@
 namespace NOOD.Sound
-{
+{ 
 public enum SoundEnum
-{
+{ 
 	click = 0,
 	mergeSuccess = 1,
 	mergeFail = 2,
@@ -25,7 +25,5 @@ public enum SoundEnum
 	openloot = 20,
 	cardgameuibuttonmechanical = 21,
 	none = 22,
-	coin=23,
-	explosion=24
 }
 }

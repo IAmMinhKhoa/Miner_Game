@@ -46,7 +46,7 @@ public class CounterUI : MonoBehaviour
 	{
 		m_counter = GetComponent<Counter>();
 		m_counterUpgrade = GetComponent<CounterUpgrade>();
-
+	
 	}
 
 	void Start()
@@ -101,7 +101,7 @@ public class CounterUI : MonoBehaviour
 	}
 
 	public void AddManagerInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
-
+	
 	void CallUpgrade()
 	{
 		if (PawManager.Instance.CurrentPaw >= m_counterUpgrade.CurrentCost)
@@ -261,7 +261,7 @@ public class CounterUI : MonoBehaviour
 			headSkeleton.Initialize(true);
 			bodySkeleton.Initialize(true);
 		}
-
+	
 	}
 	public void ChangeSkin(CounterSkin data)
 	{

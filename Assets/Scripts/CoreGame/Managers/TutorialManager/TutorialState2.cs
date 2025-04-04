@@ -118,9 +118,11 @@ public class TutorialState2 : BaseTutorialState
 
 	private void ShowTextHireElevator()
 	{
+
 		var managerPrefab = ManagersController.Instance.ManagerPrefab;
 		managerPrefab.OnInteractToTutorialManager -= ShowTextHireElevator;
 		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Thuê quản lý cho cả thang máy và quầy đi");
+		tutorialManager.gameUI.tutorialState2UI.SetActive(true);
 		managerPrefab.OnInteractToTutorialManager += HandleTutorialStep4;
 	}
 
@@ -128,7 +130,7 @@ public class TutorialState2 : BaseTutorialState
 	{
 		var tutorialUI = tutorialManager.gameUI.tutotrialUI;
 		tutorialUI.GetComponent<Image>().raycastTarget = true;
-
+		tutorialManager.gameUI.tutorialState2UI.SetActive(false);
 		var managerPrefab = ManagersController.Instance.ManagerPrefab;
 		managerPrefab.ShowHideTopButton(true, 1);
 		managerPrefab.ShowHideTopButton(true, 2);
