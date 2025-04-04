@@ -26,7 +26,7 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 	{
 		var sourceSkins = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		bgItem.bg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterBg];
-		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.CounterSecondBg];
+		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftSecondBg];
 
 
 		bgItem.bg.Initialize(true);
@@ -48,14 +48,14 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 			
 
 			var itemInfo = listSkin[i];
-			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.ShaftSecondBg);
+			_item.SetItemInfor(int.Parse(itemInfo.id), itemInfo.name.GetContent(ManagersController.Instance.localSelected), itemInfo.desc.GetContent(ManagersController.Instance.localSelected), InventoryItemType.CounterBg);
 			_item.bg.gameObject.SetActive(true);
 			ChangeSkin(_item.bg, "Click_" + itemInfo.id);
 			ChangeSkin(_item.secondBg, "Click_" + (int.Parse(counterSkin.idSecondBg) + 1));
 		}
 
 		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.CounterBg];
-		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.CounterSecondBg];
+		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.ShaftSecondBg];
 
 		var imgSelectedBg = bgList.imgSelectedBg;
 		if (!imgSelectedBg.gameObject.activeInHierarchy)
@@ -87,6 +87,7 @@ public class ChangeCounterBG : BaseState<InventoryItemType>
 
 	private void HandleItemClick(int index)
 	{
+		index--;
 		var imgSelectedBg = bgList.imgSelectedBg;
 		ChangeSkin(imgSelectedBg, "Click_" + (index + 1));
 		bgList.descSelectedBg.text = bgList.listItem[index].desc;

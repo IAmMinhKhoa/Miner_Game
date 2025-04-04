@@ -15,11 +15,11 @@ public class TutotrialUI : MonoBehaviour
 	[SerializeField] private Transform coinParent;
 	[SerializeField] private Button closeTutorialTextButton;
 	[SerializeField] private Button tutorialClickNextStepButton;
-	[SerializeField] private SkeletonGraphic spineChar;
+	
 
 	public Button TutorialClickNextStepButton { private set; get; }
 	public Button CloseTutorialTextButton => closeTutorialTextButton;
-
+	
 	private void Awake()
 	{
 		closeTutorialTextButton.onClick.AddListener(CloseTutorialText);

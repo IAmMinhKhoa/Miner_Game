@@ -55,6 +55,7 @@ namespace UI.Inventory
 		}
 		private void ItemSelected(int index)
 		{
+			index--;
 			for (int i = 0; i < items.Count; i++)
 			{
 				if(i == index)
