@@ -60,8 +60,23 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 	private void Start()
 	{
 		Application.wantsToQuit += ApplicationWantsToQuit;
+		StartCoroutine(Common.IeDoSomeThing(8f, () =>
+		{
+			StartCoroutine(SaveRoutine());
+		}));
 	}
 
+	private IEnumerator SaveRoutine()
+	{
+		while (true)
+		{
+			// Gọi hàm Save
+			Save();
+
+			// Chờ 4 giây trước khi gọi Save lại
+			yield return new WaitForSeconds(4f);
+		}
+	}
 	void OnApplicationFocus(bool focus)
     {
         Debug.Log("SYSTEM APPLICATION FOCUS:" + focus);
@@ -114,7 +129,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 
         if (seconds >= _minOfflineTime)
         {
-			
+
             var offlineMoney = await CaculateOfflinePaw((float)seconds);
 			Debug.Log("Caculate Offline :" + offlineMoney);
 			GameUI.Instance.OpenOffline(offlineMoney);
@@ -124,7 +139,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         double offlinePaw = PawBonus(seconds);
 		// update ADS double up or something here
 		//  PawManager.Instance.AddPaw(offlinePaw);
-	
+
 
         isDone = true;
     }
@@ -365,7 +380,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
             //Case
             for (int i = 0; i <= floorIndex; i++)
             {
-			
+
 				if (i == floorIndex)
                 {
                     _pawFloors[i] -= _totalPawTaken;
@@ -375,7 +390,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 				}
                 else
                 {
-					
+
 					_totalPawTaken -= _pawFloors[i];
                     _pawElevator += _pawFloors[i];
                     _pawFloors[i] = 0;

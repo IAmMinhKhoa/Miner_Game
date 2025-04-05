@@ -245,7 +245,11 @@ public class ManagerChooseUI : MonoBehaviour
 			UpdateUI();
 			return;
         }
-        SoundManager.PlaySound(SoundEnum.gacha);
+
+        StartCoroutine(Common.IeDoSomeThing(0.5f, () =>
+        {
+	        SoundManager.PlaySound(SoundEnum.gacha);
+        }));
         _hireButton.interactable = false;
         Debug.Log("Hire Manager");
         var manager = ManagersController.Instance.CreateManager();
@@ -295,7 +299,7 @@ public class ManagerChooseUI : MonoBehaviour
 		ManagersController.Instance.BoostAllManager();
 	}
 
-    private void ClosePanel()
+    public void ClosePanel()
     {
 		if (!isclosableUI) return;
 		SoundManager.PlaySound(SoundEnum.mobileTexting2);

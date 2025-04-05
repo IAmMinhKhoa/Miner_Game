@@ -127,7 +127,7 @@ public class SoundSetting : MonoBehaviour
     private void Awake()
     {
         SoundManager.InitSoundManager();
-        PlayMusic(forceMusic: "b");
+        PlayMusic(forceMusic: "g");
     }
     private void Start()
     {

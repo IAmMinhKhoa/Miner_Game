@@ -194,5 +194,7 @@ public class TutorialState2 : BaseTutorialState
 
 	public override void Exit() {
 		PlayFabManager.Data.PlayFabDataManager.Instance.SaveData("TutorialState", "3");
+		ManagersController.Instance.ManagerPrefab.HireManagerButton.enabled = true;
+		ManagersController.Instance.ManagerPrefab.ClosePanel();
 	}
 }
