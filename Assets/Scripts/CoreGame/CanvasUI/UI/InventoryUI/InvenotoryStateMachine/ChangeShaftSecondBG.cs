@@ -54,8 +54,8 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 			ChangeSkin(_item.secondBg, "Click_" + itemInfo.id);
 		}
 
-		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.CounterBg];
-		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.CounterSecondBg];
+		SkeletonDataAsset skBgData = sourceSkins[InventoryItemType.ShaftBg];
+		SkeletonDataAsset skSecondBGData = sourceSkins[InventoryItemType.ShaftSecondBg];
 
 		var imgSelectedBg = bgList.imgSelectedBg;
 		//imgSelectedBg.skeletonDataAsset = skBgData;
@@ -83,11 +83,12 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 
 	private void HandleItemClick(int index)
 	{
+
 		var imgSelectedBg = bgList.imgSelectedSecondBg;
-		ChangeSkin(imgSelectedBg, "Click_" + (index + 1));
+		ChangeSkin(imgSelectedBg, "Click_" + (index));
 		bgList.descSelectedBg.text = bgList.listItem[index].desc;
 		bgList.tileSelectedBg.text = bgList.listItem[index].iName;
-		currentSkinSelect = index;
+		currentSkinSelect = index - 1;
 	}
 
 	private void ChangeSkin(SkeletonGraphic target, string skinName)

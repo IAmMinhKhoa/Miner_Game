@@ -87,6 +87,7 @@ public class ChangeShaftBG : BaseState<InventoryItemType>
 
 	private void HandleItemClick(int index)
 	{
+		index--;
 		var imgSelectedBg = bgList.imgSelectedBg;
 		ChangeSkin(imgSelectedBg, "Click_" + (index + 1));
 		bgList.descSelectedBg.text = bgList.listItem[index].desc;

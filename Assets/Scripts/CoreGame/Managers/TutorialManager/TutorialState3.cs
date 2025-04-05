@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialState3 : BaseTutorialState
 {
@@ -14,15 +15,20 @@ public class TutorialState3 : BaseTutorialState
 		tutorialManager.SetCurrentState(-1);
 		tutorialManager.ShowHideGameUI(true);
 		tutorialManager.EndTutorial();
-		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(false);
-
+		tutorialManager.gameUI.tutotrialUI.gameObject.SetActive(false);
+		var state2TutorialUI = tutorialManager.gameUI.tutorialState2UI;
+		state2TutorialUI.SetActive(false);
 	}
 
 	public override void Enter()
 	{
 		tutorialManager.SetCurrentState(3);
 		tutorialManager.ShowHideGameUI(false);
-		tutorialManager.gameUI.tutorialState3UI.gameObject.SetActive(true);
+		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Bạn có thể nâng cấp các bộ phận hoặc mở thêm tầng để tăng thu nhập");
+		tutorialManager.gameUI.tutotrialUI.GetComponent<Image>().raycastTarget = false;
+		var state2TutorialUI = tutorialManager.gameUI.tutorialState2UI;
+		state2TutorialUI.SetActive(true);
+		state2TutorialUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(671, 976);
 		//Shaft UI button
 		foreach (var shaft in ShaftManager.Instance.Shafts)
 		{

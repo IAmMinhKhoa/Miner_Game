@@ -45,6 +45,7 @@ namespace UI.Inventory
 		}
 		public void SetItemInfor(int index, string itemName, string desc, InventoryItemType itType)
 		{
+			//Debug.Log(index + " " + itemName + " " + desc + " " + itType);
 			string titleKey = string.Empty;
 			string titleKeyDesc = string.Empty;
 			switch(itType)
