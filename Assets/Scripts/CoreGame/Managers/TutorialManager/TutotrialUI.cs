@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -15,11 +16,11 @@ public class TutotrialUI : MonoBehaviour
 	[SerializeField] private Transform coinParent;
 	[SerializeField] private Button closeTutorialTextButton;
 	[SerializeField] private Button tutorialClickNextStepButton;
-	
+	[SerializeField] private SkeletonGraphic skeletonGraphic;
 
 	public Button TutorialClickNextStepButton { private set; get; }
 	public Button CloseTutorialTextButton => closeTutorialTextButton;
-	
+
 	private void Awake()
 	{
 		closeTutorialTextButton.onClick.AddListener(CloseTutorialText);
@@ -82,6 +83,7 @@ public class TutotrialUI : MonoBehaviour
 		}
 
 		coin.anchoredPosition = target;
+		SoundManager.PlaySound(SoundEnum.coin);
 		Destroy(coin.gameObject, 0.1f);
 
 		coinsReachedTarget++;
@@ -89,5 +91,19 @@ public class TutotrialUI : MonoBehaviour
 		{
 			TutorialManager.Instance.TutorialStateMachine.TransitonToState((TutorialState)2);
 		}
+	}
+
+	/// <summary>
+	/// Chạy animation Spine trên SkeletonGraphic
+	/// </summary>
+	/// <param name="animationName">Tên animation trong Spine</param>
+	/// <param name="loop">Có lặp lại không</param>
+	public void PlayAnimation(string animationName, bool loop = true)
+	{
+		if (skeletonGraphic == null || skeletonGraphic.AnimationState == null) return;
+		skeletonGraphic.Initialize(true);
+		skeletonGraphic.AnimationState.SetAnimation(0, animationName, loop);
+
+		skeletonGraphic.Update();
 	}
 }

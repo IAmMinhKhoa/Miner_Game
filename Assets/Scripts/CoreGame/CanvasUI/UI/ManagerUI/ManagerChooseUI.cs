@@ -113,22 +113,18 @@ public class ManagerChooseUI : MonoBehaviour
 	{
 		isclosableUI = false;
 		tutorialLine.gameObject.SetActive(true);
-		tutorialLine.DOFade(0, 0.3f) // Mờ dần
-		   .SetLoops(-1, LoopType.Yoyo) // Lặp lại
-		   .SetEase(Ease.InOutSine);
+
 	}
 	public void CloseTutorialLine()
 	{
 		isclosableUI = true;
-		tutorialLine.DOKill(); // Dừng DOTween
-		tutorialLine.color = new Color(tutorialLine.color.r, tutorialLine.color.g, tutorialLine.color.b, 1); // Đặt alpha về 1
 		tutorialLine.gameObject.SetActive(false);
 	}
 
     private void OnManagerTabChanged(BoostType type,bool forceAnimation=true)
     {
 
-		Debug.Log("khoa:" + _manager.Count+"/"+ currentLocation);
+
 		if (_manager == null)
         {
             return;

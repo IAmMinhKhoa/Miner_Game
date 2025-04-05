@@ -116,7 +116,7 @@ public class CounterUI : MonoBehaviour
 		{
 			m_levelText.text = "Level " + level;
 			m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
-			UpdateFrameButtonUpgrade(level);
+			//UpdateFrameButtonUpgrade(level);
 		}
 	}
 	void UpdateFrameButtonUpgrade(int currentLevel)

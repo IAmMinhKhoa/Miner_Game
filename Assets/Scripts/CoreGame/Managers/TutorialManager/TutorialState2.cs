@@ -45,8 +45,8 @@ public class TutorialState2 : BaseTutorialState
 		var tutorialUI = tutorialManager.gameUI.tutotrialUI;
 		tutorialUI.CreateTutorialClickNextStepButton();
 		tutorialUI.gameObject.SetActive(true);
-		tutorialUI.SetTextTutorial("Cho tiền nè thuê nhân viên đi");
-
+		tutorialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle2));
+		tutorialUI.PlayAnimation("idle2");
 		var buttonsUI = tutorialManager.gameUI.ButtonesUI;
 		buttonsUI[3].gameObject.SetActive(true);
 		buttonsUI[1].gameObject.SetActive(true);
@@ -89,8 +89,8 @@ public class TutorialState2 : BaseTutorialState
 
 		managerPrefab.HireManagerButton.onClick.Invoke();
 		tutorialManager.gameUI.tutotrialUI.GetComponent<Image>().raycastTarget = false;
-		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Mỗi quản lý sẽ có sức mạnh riêng càng nhiều sao càng mạnh");
-
+		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle3));
+		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle");
 		managerPrefab.AddListenerFromFXGacha();
 		managerPrefab.OnInteractToTutorialManager += ManagerFXGachaUIIsCloseHandle;
 	}
@@ -112,7 +112,8 @@ public class TutorialState2 : BaseTutorialState
 	{
 		var managerPrefab = ManagersController.Instance.ManagerPrefab;
 		managerPrefab.CloseTutorialLine();
-		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Thoát ra ngoài xem thành quả đi");
+		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle4));
+		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle");
 		managerPrefab.OnInteractToTutorialManager += ShowTextHireElevator;
 	}
 
@@ -120,7 +121,8 @@ public class TutorialState2 : BaseTutorialState
 	{
 		var managerPrefab = ManagersController.Instance.ManagerPrefab;
 		managerPrefab.OnInteractToTutorialManager -= ShowTextHireElevator;
-		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Thuê quản lý cho cả thang máy và quầy đi");
+		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle5));
+		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle");
 		tutorialManager.gameUI.tutorialState2UI.gameObject.SetActive(true);
 		managerPrefab.OnInteractToTutorialManager += HandleTutorialStep4;
 	}

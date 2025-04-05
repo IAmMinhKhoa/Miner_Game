@@ -30,5 +30,6 @@ public enum SoundEnum
 	gacha=25,
 	fallbox=26,
 	freezerTime=27,
+	donetutorial=28
 }
 }

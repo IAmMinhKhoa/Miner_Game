@@ -318,7 +318,7 @@ public class CounterSkin : SkinBase
 		this.idCart = idCart;
 		this.character = characterSkin ?? new CharacterSkin();
 		this.idSecondBg = idSecondBg;
-		Debug.Log("concac:"+idCashierCounter);
+
 		this.idCashierCounter = idCashierCounter;
 	}
 

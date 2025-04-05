@@ -34,7 +34,8 @@ public class TutorialState1 : BaseTutorialState
 	{
 		tutorialUI.CreateTutorialClickNextStepButton();
 		tutorialUI.gameObject.SetActive(true);
-		tutorialUI.SetTextTutorial("Chuyển trà sữa từ tầng xuống quầy để bán đi");
+		tutorialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle1));
+		tutorialUI.PlayAnimation("idle");
 		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -54);
 		tutorialUI.TutorialClickNextStepButton.onClick.AddListener(GotoNextStep);
 	}
@@ -75,8 +76,10 @@ public class TutorialState1 : BaseTutorialState
 
 	private void Step2()
 	{
-		ElevatorSystem.Instance.AwakeWorker(true);
-		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -680);
+
+			ElevatorSystem.Instance.AwakeWorker(true);
+			tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(183, -680);
+
 	}
 
 	private void Step3()

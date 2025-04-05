@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NOOD.Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,8 @@ public class TutorialState3 : BaseTutorialState
 	{
 		tutorialManager.SetCurrentState(3);
 		tutorialManager.ShowHideGameUI(false);
-		tutorialManager.gameUI.tutotrialUI.SetTextTutorial("Bạn có thể nâng cấp các bộ phận hoặc mở thêm tầng để tăng thu nhập");
+		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle6));
+		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle3");
 		tutorialManager.gameUI.tutotrialUI.GetComponent<Image>().raycastTarget = false;
 		var state2TutorialUI = tutorialManager.gameUI.tutorialState2UI;
 		state2TutorialUI.SetActive(true);
@@ -52,11 +54,13 @@ public class TutorialState3 : BaseTutorialState
 		buttonsUI[1].SetActive(true);
 		buttonsUI[4].SetActive(true);
 		buttonsUI[7].SetActive(true);
+
+		SoundManager.PlaySound(SoundEnum.donetutorial);
 		Debug.Log("Tutorial State 3");
 	}
 
 	public override void Exit()
 	{
-		
+
 	}
 }

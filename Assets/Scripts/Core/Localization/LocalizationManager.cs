@@ -61,7 +61,21 @@ public enum LanguageKeys
 
 	Hour,
 	Minutes,
-	Seconds
+	Seconds,
+
+	TutorialTitle1,
+	TutorialTitle2,
+	TutorialTitle3,
+	TutorialTitle4,
+	TutorialTitle5,
+	TutorialTitle6,
+
+	thoigianphache,
+	tongsanluong,
+	totalShippingVolume,
+	transportationStaff,
+	collectionSpeed,
+	elevatorSpeed
 }
 
 public static class LocalizationManager
@@ -140,6 +154,21 @@ public static class LocalizationManager
 			{ LanguageKeys.Hour, ("common>hours", "giờ") },
 			{ LanguageKeys.Minutes, ("common>minutes", "phút") },
 			{ LanguageKeys.Seconds, ("common>second", "giây") },
+
+
+			{ LanguageKeys.TutorialTitle1, ("tutorial>title-1", "Chuyển trà sữa từ tầng xuống quầy để bán đi") },
+			{ LanguageKeys.TutorialTitle2, ("tutorial>title-2", "Cho tiền nè thuê nhân viên đi") },
+			{ LanguageKeys.TutorialTitle3, ("tutorial>title-3", "Mỗi quản lý sẽ có sức mạnh riêng, càng nhiều sao càng mạnh") },
+			{ LanguageKeys.TutorialTitle4, ("tutorial>title-4", "Thoát ra ngoài xem thành quả đi bro") },
+			{ LanguageKeys.TutorialTitle5, ("tutorial>title-5", "Thuê quản lý cho cả thang máy và quầy") },
+			{ LanguageKeys.TutorialTitle6, ("tutorial>title-6", "Bạn có thể nâng cấp toàn các bộ phận hoặc mở thêm tầng để tăng thu nhập") },
+
+			{ LanguageKeys.thoigianphache, ("information>speed-tea", "tốc độ pha chế") },
+			{ LanguageKeys.tongsanluong, ("information>total-product", "tổng sản lượng") },
+			{ LanguageKeys.totalShippingVolume, ("home>UpGradeInfo>totalShippingVolume", "tổng khối lượng \n vận chuyển") },
+			{ LanguageKeys.transportationStaff, ("home>UpGradeInfo>transportationStaff", "nhân viên \n vận chuyển") },
+			{ LanguageKeys.collectionSpeed, ("home>UpGradeInfo>collectionSpeed", "tốc độ thu gom") },
+			{ LanguageKeys.elevatorSpeed, ("information>elevatorSpeed", "tốc độ thang máy") },
 		};
 		return mappings;
 	}

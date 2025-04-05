@@ -112,7 +112,7 @@ public class ElevatorUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_elevatorUpgrade.CurrentCost);
-            UpdateFrameButtonUpgrade(level);
+            //UpdateFrameButtonUpgrade(level);
         }
     }
     void UpdateFrameButtonUpgrade(int currentLevel)
@@ -196,7 +196,7 @@ public class ElevatorUI : MonoBehaviour
 
 			fontSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
 			backSkeleton.SetSkin("Skin_" + (elevatorIndex + 1));
-	
+
 			fontSkeleton.SetSlotsToSetupPose();
 			backSkeleton.SetSlotsToSetupPose();
 

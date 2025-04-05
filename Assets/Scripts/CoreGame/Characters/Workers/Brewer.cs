@@ -112,8 +112,11 @@ public class Brewer : BaseWorker
         Move(CurrentShaft.BrewerLocation.position);
 		if(isRequireCallToTutorial != null)
 		{
+
+			await UniTask.Delay(2000);
 			TutorialManager.Instance.TutorialStateMachine.TriggerClickableStates(1);
 			isRequireCallToTutorial = null;
+
 		}
     }
 
@@ -135,7 +138,7 @@ public class Brewer : BaseWorker
 		isBoostingFX = value;
 		ghostHead.enabled = value;
 		ghostBody.enabled = value;
-	
+
 	}
 
     protected override void PlayAnimation(WorkerState state, bool direction)

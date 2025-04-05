@@ -111,23 +111,24 @@ public static class MainGameData
         {ManagerLocation.Shaft, new List<string>
         {
             "hầm pha chế cấp ",
-            "tốc độ pha chế",
-            "nhân viên \nvận chuyển",
-            "tổng sản lượng",
+            LanguageKeys.thoigianphache.Text(),
+            LanguageKeys.transportationStaff.Text(),
+            LanguageKeys.tongsanluong.Text(),
+
         }},
         {ManagerLocation.Elevator, new List<string>
         {
             "thang máy cấp ",
-            "tốc độ thu gom",
-            "tốc độ thang máy",
-            "tổng khối lượng \nvận chuyển",
+            LanguageKeys.collectionSpeed.Text(),
+            LanguageKeys.elevatorSpeed.Text(),
+            LanguageKeys.totalShippingVolume.Text(),
         }},
         {ManagerLocation.Counter, new List<string>
         {
 			LanguageKeys.TitleUpgradeCounter.Text(),
-            "tốc độ thu gom",
-            "nhân viên \nvận chuyển",
-            "tổng khối lượng \nvận chuyển",
+			LanguageKeys.collectionSpeed.Text(),
+            LanguageKeys.transportationStaff.Text(),
+            LanguageKeys.totalShippingVolume.Text(),
         }}
     };
 }
