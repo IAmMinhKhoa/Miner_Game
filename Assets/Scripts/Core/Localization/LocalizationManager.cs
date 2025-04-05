@@ -165,8 +165,8 @@ public static class LocalizationManager
 
 			{ LanguageKeys.thoigianphache, ("information>speed-tea", "tốc độ pha chế") },
 			{ LanguageKeys.tongsanluong, ("information>total-product", "tổng sản lượng") },
-			{ LanguageKeys.totalShippingVolume, ("home>UpGradeInfo>totalShippingVolume", "tổng khối lượng \n vận chuyển") },
-			{ LanguageKeys.transportationStaff, ("home>UpGradeInfo>transportationStaff", "nhân viên \n vận chuyển") },
+			{ LanguageKeys.totalShippingVolume, ("home>UpGradeInfo>totalShippingVolume", "tổng khối lượng vận chuyển") },
+			{ LanguageKeys.transportationStaff, ("home>UpGradeInfo>transportationStaff", "nhân viên vận chuyển") },
 			{ LanguageKeys.collectionSpeed, ("home>UpGradeInfo>collectionSpeed", "tốc độ thu gom") },
 			{ LanguageKeys.elevatorSpeed, ("information>elevatorSpeed", "tốc độ thang máy") },
 		};
