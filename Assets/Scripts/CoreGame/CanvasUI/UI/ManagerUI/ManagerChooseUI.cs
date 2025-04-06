@@ -221,7 +221,7 @@ public class ManagerChooseUI : MonoBehaviour
 	}
 	void UpdateUI(double value=0)
 	{
-		if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
+		/*if (PawManager.Instance.CurrentPaw < ManagersController.Instance.CurrentCost)
 		{
 			_hireButton.interactable = false;
 			return;
@@ -229,7 +229,7 @@ public class ManagerChooseUI : MonoBehaviour
 		else
 		{
 			_hireButton.interactable = true;
-		}
+		}*/
 	}
 	private async void OnHireManagerButtonClicked()
 	{
