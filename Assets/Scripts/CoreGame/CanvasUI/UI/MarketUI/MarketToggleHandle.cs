@@ -16,7 +16,7 @@ public class MarketToggleHandle : MonoBehaviour
     {
         toggleHandling = GetComponent<Toggle>();
 		toggleHandling.onValueChanged.AddListener(isOn => OnToggleValueChanged(isOn, itemType));
-		if (Common.CheckDevice())
+		if (Common.IsTablet)
 		{
 			RectTransform rectTransform = GetComponent<RectTransform>();
 			Vector2 currentPivot = rectTransform.pivot;
@@ -35,7 +35,7 @@ public class MarketToggleHandle : MonoBehaviour
 			{
 				OnTabulationClick?.Invoke(itemType);
 			}
-			
+
 			if (spine != null)
 			{
 				spine.AnimationState.SetAnimation(0, "Active", true);  // Thay đổi animation của track 0 sang "active"
@@ -46,7 +46,7 @@ public class MarketToggleHandle : MonoBehaviour
 		{
 			if (spine != null)
 			{
-				spine.AnimationState.SetAnimation(0, "Idle", true); 
+				spine.AnimationState.SetAnimation(0, "Idle", true);
 			}
 
 		}

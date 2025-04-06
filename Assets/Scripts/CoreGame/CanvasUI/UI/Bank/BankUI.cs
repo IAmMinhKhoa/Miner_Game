@@ -37,7 +37,7 @@ public class BankUI : MonoBehaviour
 
     void Start()
     {
-		if (Common.CheckDevice())
+		if (Common.IsTablet)
 		{
 			gameObject.transform.localScale = scale_tablet;
 		}

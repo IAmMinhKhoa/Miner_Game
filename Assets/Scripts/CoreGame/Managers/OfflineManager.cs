@@ -7,6 +7,8 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
+
 public class OfflineManager : Patterns.Singleton<OfflineManager>
 {
     #region ----Caculate attribute----
@@ -57,26 +59,35 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
 		}
 	}
 
-	private void Start()
+	private  void Start()
 	{
 		Application.wantsToQuit += ApplicationWantsToQuit;
-		StartCoroutine(Common.IeDoSomeThing(8f, () =>
+		StartCoroutine(Common.IeDoSomeThing(8f,async  () =>
 		{
-			StartCoroutine(SaveRoutine());
+			await SaveAsync();
 		}));
 	}
 
-	private IEnumerator SaveRoutine()
+	private async Task SaveAsync()
 	{
 		while (true)
 		{
 			// Gọi hàm Save
 			Save();
 
-			// Chờ 4 giây trước khi gọi Save lại
-			yield return new WaitForSeconds(4f);
+			// Chờ 0.5 giây
+			await Task.Delay(500);  // Sử dụng Task.Delay thay vì WaitForSeconds
+
+			// Gọi phương thức async và chờ kết quả
+			await PlayFabDataManager.Instance.SendDataBeforeExit();
+
+			// Chờ 3.5 giây trước khi gọi Save lại
+			await Task.Delay(3500); // Sử dụng Task.Delay thay vì WaitForSeconds
 		}
+
+		return;
 	}
+
 	void OnApplicationFocus(bool focus)
     {
         Debug.Log("SYSTEM APPLICATION FOCUS:" + focus);

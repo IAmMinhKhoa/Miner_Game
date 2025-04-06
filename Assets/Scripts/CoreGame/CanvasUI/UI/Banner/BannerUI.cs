@@ -7,7 +7,7 @@ using System.Linq;
 
 public class BannerUI : MonoBehaviour
 {
-	private Vector3 scale_tablet = new Vector3(1f, 1f, 1f);
+	private Vector3 scale_tablet = new Vector3(0.85f, 0.85f, 0.85f);
 	[Header("UI Element")]
 	[SerializeField] Sprite imgCircle;
 	[SerializeField] TMP_Text _demoTextTitle;
@@ -31,14 +31,14 @@ public class BannerUI : MonoBehaviour
 
 	BannerSO bannerData;
 	List<ColorButton> listColorButton = new();
-	
+
 	int curIndexFront = 0;
 	int curIndexBack = 0;
 	#region Unity Callbacks
 
 	private void Start()
 	{
-		if (Common.CheckDevice())
+		if (Common.IsTablet)
 		{
 			gameObject.transform.localScale = scale_tablet;
 		}
@@ -78,7 +78,7 @@ public class BannerUI : MonoBehaviour
 		PopulateDropdown(dropDownBrFront, bannerData.dataSprite_1.Count, titleKeyTemplateNumber + " ");
 		InitDetailDropDown(bannerData.dataSprite_2, 0, dropDownDetailBrBack, false);
 		InitDetailDropDown(bannerData.dataSprite_1, 0, dropDownDetailBrFront, true);
-	}	
+	}
 
 	private void OnEnable()
 	{
@@ -169,7 +169,7 @@ public class BannerUI : MonoBehaviour
 		PlayerPrefs.Save();
 		BannerController.Instance.curBannerEntity = currentBanner;
 		// Apply to world UI
-		
+
 		BannerController.Instance.ApplyToWorldUI(currentBanner);
 		CloseModal();
 	}

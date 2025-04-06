@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Codice.CM.Client.Differences.Graphic;
+
 using DG.Tweening;
 using NOOD;
 using NOOD.Sound;
@@ -233,7 +233,7 @@ public class ManagerChooseUI : MonoBehaviour
 	}
 	private async void OnHireManagerButtonClicked()
 	{
-		SoundManager.PlaySound(SoundEnum.click);
+
 		await HireManager();
 	}
 
@@ -245,7 +245,7 @@ public class ManagerChooseUI : MonoBehaviour
 			UpdateUI();
 			return;
         }
-
+        SoundManager.PlaySound(SoundEnum.click);
         StartCoroutine(Common.IeDoSomeThing(0.5f, () =>
         {
 	        SoundManager.PlaySound(SoundEnum.gacha);

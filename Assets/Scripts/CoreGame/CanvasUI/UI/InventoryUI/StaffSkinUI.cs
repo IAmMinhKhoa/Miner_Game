@@ -25,7 +25,7 @@ namespace UI.Inventory
 		[SerializeField] TypeSpine shaftHeadModel;
 		[SerializeField] TypeSpine shaftBodyModel;
 		[SerializeField] TypeSpine shaftTailModel;
-	
+
 		public TypeSpine ElevatorHeadModel => elevatorHeadModel;
 		public TypeSpine ElevatorHeadModelBodyModel => elevatorBodyModel;
 		public TypeSpine ShaftHeadModel => shaftHeadModel;
@@ -41,7 +41,7 @@ namespace UI.Inventory
 		public GameObject selectFloor;
 		[Header("Content")]
 		[SerializeField] GameObject headContent;
-		[SerializeField] GameObject bodyContent; 
+		[SerializeField] GameObject bodyContent;
 
 		[Header("Inventory Panel")]
 		[SerializeField] GameObject inventoryPanel;
@@ -136,7 +136,7 @@ namespace UI.Inventory
 		}
 		private void Start()
 		{
-			if (Common.CheckDevice())
+			if (Common.IsTablet)
 			{
 				gameObject.transform.localScale = scale_tablet;
 			}
@@ -180,10 +180,10 @@ namespace UI.Inventory
 
 			for (int i = 0; i < skinAmount; i++)
 			{
-				
+
 				var item = Instantiate(characterSkinUI, headContent.transform);
 				headCharacter.Add(item);
-				
+
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
@@ -217,7 +217,7 @@ namespace UI.Inventory
 			{
 				var item = Instantiate(characterSkinUI, bodyContent.transform);
 				bodyCharacter.Add(item);
-				
+
 				item.Spine.Skeleton.SetSkin(initialSkinName + (i + 1));
 				item.Spine.Skeleton.SetSlotsToSetupPose();
 				item.Spine.transform.localScale = scale;
@@ -236,16 +236,16 @@ namespace UI.Inventory
 			}
 
 		}
-	
+
 
 		private void SetCurBodyIndex(int index)
 		{
 			currentBodyIndex = index;
 			for (int i = 0; i < bodyCharacter.Count; i++)
 			{
-				
+
 				if(currentBodyIndex != bodyCharacter[i].Index) bodyCharacter[i].Unselect();
-				else bodyCharacter[i].Select();	
+				else bodyCharacter[i].Select();
 			}
 			UpdateBodyModel();
 		}
@@ -316,7 +316,7 @@ namespace UI.Inventory
 			OnUpdateInventoryUI?.Invoke();
 			OnConfirmButtonClick?.Invoke(currentHeadIndex, currentBodyIndex);
 			CloseUI();
-			
+
 		}
 		public void ClearEvent()
 		{
@@ -335,7 +335,7 @@ namespace UI.Inventory
 					Destroy(item.gameObject);
 				}
 			}
-			
+
 			if(bodyCharacter != null)
 			{
 				foreach (var item in bodyCharacter)
@@ -347,7 +347,7 @@ namespace UI.Inventory
 		public void CloseUI()
 		{
 			SoundManager.PlaySound(SoundEnum.mobileTexting2);
-			inventoryPanel.SetActive(true);	
+			inventoryPanel.SetActive(true);
 			gameObject.SetActive(false);
 		}
 		public void OpenSelecFloorHandle()

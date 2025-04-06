@@ -31,7 +31,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		m_upgradePanelTrans = Instantiate(_upgradePanelPref, GameUI.Instance.transform);
 		m_upgradePanel = m_upgradePanelTrans.GetComponentInChildren<UpgradeUI>();
 		ControlPanel(false);
-		if (Common.CheckDevice())
+		if (Common.IsTablet)
 		{
 			// Gán scale là 0.8
 			_upgradePanelPref.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
@@ -113,7 +113,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
-				m_upgradePanel.SetWorkerInfo(_locationType, "Chó đáng yêu", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Counter:
 				m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);

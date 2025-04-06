@@ -41,7 +41,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_minigameUI;
 
 	[SerializeField] private GameObject modal_offlineUI;
-
+	[SerializeField] private GameObject modal_showEvent;
 	public List<GameObject> ButtonesUI => buttonesUI;
 	public ButtonBehavior BT_Manager => bt_Manager;
 	private void Start()
@@ -57,9 +57,15 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		bt_Sound.onClickEvent.AddListener(OpenSound);
 
 		StartCoroutine(UpdateUIEverySecond());
+		//OpenModalShowEvent();
 	}
 
 	#region EVENT
+
+	public void OpenModalShowEvent()
+	{
+		modal_showEvent.SetActive(true);
+	}
 	private void OpenBookManager()
 	{
 		ManagersController.Instance.OpenManagerPanel();

@@ -72,6 +72,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
     private void Start()
     {
 	    SetLocal("en");
+	    LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale("en");
         Setup();
     }
 

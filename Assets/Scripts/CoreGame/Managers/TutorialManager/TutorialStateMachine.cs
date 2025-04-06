@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
-using UnityEditorInternal;
+
 using System.Linq;
 public class TutorialStateMachine : StateManager<TutorialState>
 {

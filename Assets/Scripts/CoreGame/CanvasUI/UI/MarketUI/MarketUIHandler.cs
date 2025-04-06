@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MarketUIHandler : MonoBehaviour
 {
-	private Vector3 scale_tablet = new Vector3(1.09f, 1.09f, 1.09f);
+	private Vector3 scale_tablet = new Vector3(1f, 1f, 1f);
 	[SerializeField] private Toggle tgNoiThat, tgNhanVien, tgSideTabHotNV, tgSideTabHotNT;
 	[SerializeField] private GameObject pnNoiThat, pnNhanVien, pnHotContentNT, pnContentNT, pnHotContentNV, pnContentNV;
 	[SerializeField] private Button btExit;
@@ -15,14 +15,14 @@ public class MarketUIHandler : MonoBehaviour
 	[SerializeField] private Transform sideTab1, sideTab2;
 	[SerializeField] float _durationSldeTab = 0.03f;
 	private Coroutine currentCoroutine1, currentCoroutine2;
-	
+
 
 	private void OnEnable()
 	{
 		CheckResetSideTab(1);
 		CheckResetSideTab(2);
 		currentCoroutine1 = StartCoroutine(OnEnableSideTab(sideTab1));
-		currentCoroutine2 = StartCoroutine(OnEnableSideTab(sideTab2)); 
+		currentCoroutine2 = StartCoroutine(OnEnableSideTab(sideTab2));
 	}
 
 	private void CheckResetSideTab(int id)
@@ -70,8 +70,9 @@ public class MarketUIHandler : MonoBehaviour
 
 	private void Start()
 	{
-		if (Common.CheckDevice())
+		if (Common.IsTablet)
 		{
+			Debug.Log("modal market reponsive to tablet");
 			gameObject.transform.localScale = scale_tablet;
 		}
 		tgNhanVien.onValueChanged.AddListener(delegate
@@ -102,7 +103,7 @@ public class MarketUIHandler : MonoBehaviour
 		btExit.onClick.AddListener(() => {
 			FadeOutContainer();
 		});
-		
+
 	}
 
 	public void OnChoosingPanel(GameObject panel, Toggle tg)

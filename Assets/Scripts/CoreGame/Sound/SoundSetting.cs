@@ -132,7 +132,7 @@ public class SoundSetting : MonoBehaviour
     private void Start()
     {
 		//
-		if(Common.CheckDevice())
+		if(Common.IsTablet)
 		{
 			gameObject.transform.localScale = scale_tablet;
 		}

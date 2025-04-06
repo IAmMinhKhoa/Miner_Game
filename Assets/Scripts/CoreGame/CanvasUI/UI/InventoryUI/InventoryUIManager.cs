@@ -16,7 +16,7 @@ namespace UI.Inventory
 {
     public class InventoryUIManager : MonoBehaviour
 	{
-		private Vector3 scale_tablet = new Vector3(1.2f, 1.2f, 1.2f);
+		private Vector3 scale_tablet = new Vector3(0.9f, 0.9f, 0.9f);
 		[Header("UI")]
 		[SerializeField] private TextMeshProUGUI activeTextNoiThat;
 		[SerializeField] private TextMeshProUGUI activeTextNhanVien;
@@ -108,8 +108,9 @@ namespace UI.Inventory
 
 		void Start()
         {
-			if (Common.CheckDevice())
+			if (Common.IsTablet)
 			{
+				Debug.Log("modal market reponsive to tablet");
 				gameObject.transform.localScale = scale_tablet;
 			}
 			staffSkinUI.OnUpdateInventoryUI += UpdateStabStaffUI;
@@ -148,14 +149,18 @@ namespace UI.Inventory
 			HandleCounterIUI();
 			isFirstTimeOpen = false;
 			contentFitterRefresh.RefreshContentFitters();
-			if (pnNhanVien.activeInHierarchy)
+			/*if (pnNhanVien.activeInHierarchy)
 			{
 				activeTextNoiThat.gameObject.SetActive(false);
 			}
 			else
 			{
 				activeTextNhanVien.gameObject.SetActive(false);
-			}
+			}*/
+
+				activeTextNhanVien.gameObject.SetActive(false);
+				activeTextNoiThat.gameObject.SetActive(true);
+
 			contentFitterRefresh.RefreshContentFitters();
 		}
 
