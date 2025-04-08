@@ -63,7 +63,7 @@ public class OfflineMoneyUI : MonoBehaviour
 	IEnumerator confirmClaimPaw(double pawOffline, int quantityFx=5)
 	{
 		PawManager.Instance.AddPaw(pawOffline);
-		collectFX.SpawnAndMoveCoin(quantityFx, this.transform,scale:0.8f);
+		 collectFX.SpawnAndMoveCoin(quantityFx, this.transform,scale:0.8f);
 		yield return new WaitForSeconds(3f);
 		// Close offline money UI
 		gameObject.SetActive(false);
@@ -72,6 +72,6 @@ public class OfflineMoneyUI : MonoBehaviour
 	[Button]
 	private void testCollector(int quantity=15)
 	{
-		collectFX.SpawnAndMoveCoin(quantity, this.transform);
+		collectFX.SpawnAndMoveCoin(quantity, this.transform,scale:0.8f);
 	}
 }

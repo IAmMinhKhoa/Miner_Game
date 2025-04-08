@@ -57,6 +57,9 @@ public class TutorialState3 : BaseTutorialState
 
 		SoundManager.PlaySound(SoundEnum.donetutorial);
 		Debug.Log("Tutorial State 3");
+
+		//Mở Khóa button bán quản lý
+		ManagersController.Instance.ManagerDetailPrefab.StateButton(false);
 	}
 
 	public override void Exit()

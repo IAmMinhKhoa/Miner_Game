@@ -22,12 +22,15 @@ public class UserInput : MonoBehaviour
 		if (Input.touchCount > 0 && manager.isPlaying && !MiniGameFruitManager.Instance.isPowerActive)
 		{
 			Touch touch = Input.GetTouch(0);
+			Debug.Log("debug touch minigame:"+touch.phase.ToString()+"/"+touch.position.x +"/"+touch.position.y);
+
 			if (touch.position.y < 295 || touch.position.y > 2349) return;
+
 			switch (touch.phase)
 			{
 				case TouchPhase.Began:
 					touchStartPos = touch.position;
-					
+
 					claw.GetComponent<Renderer>().enabled = true;
 					Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
 					float minX = lpoint.transform.position.x + limit;
@@ -43,7 +46,7 @@ public class UserInput : MonoBehaviour
 					break;
 
 				case TouchPhase.Ended:
-					
+
 					manager.OnClickDrop();
 					claw.GetComponent<Renderer>().enabled = false;
 					break;

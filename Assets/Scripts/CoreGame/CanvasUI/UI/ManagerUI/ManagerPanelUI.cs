@@ -60,7 +60,7 @@ public class ManagerPanelUI : MonoBehaviour
         {
             managersController.AssignManager(_manager, managersController.CurrentManagerLocation);
         }
-	
+
 		ManagerSelectionShaft.OnReloadManager?.Invoke();
         ClosePanel();
     }
@@ -71,7 +71,7 @@ public class ManagerPanelUI : MonoBehaviour
     private void SellManager()
     {
         ManagersController.Instance.SellManager(_manager);
-        ManagerSelectionShaft.OnReloadManager?.Invoke();    
+        ManagerSelectionShaft.OnReloadManager?.Invoke();
         ClosePanel();
     }
 
@@ -108,5 +108,21 @@ public class ManagerPanelUI : MonoBehaviour
 		hireOrRest_lb.text = titlekey;
 		refeshInforSize.RefreshContentFitters();
 	}
- 
+
+    #region BLock Button Sell
+
+    public void StateButton(bool isLock)
+    {
+	    if (isLock)
+	    {
+		    _sellButton.interactable = false;
+	    }
+	    else
+	    {
+		    _sellButton.interactable = true;
+	    }
+    }
+
+
+    #endregion
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using NOOD.Sound;
+using Sirenix.OdinInspector;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -48,49 +50,76 @@ public class TutotrialUI : MonoBehaviour
 		tutorialImgUI.gameObject.SetActive(true);
 		tutorialTextUI.text = text;
 	}
-
+	[Button]
 	public void TriggerAddCoinEffect()
 	{
-		int coinCount = 5; // Số lượng coin
+		int coinCount = 10; // Số lượng coin
 		totalCoins = coinCount;
 		coinsReachedTarget = 0;
 		StartCoroutine(SpawnCoins(coinCount));
 	}
 
+	public float radius = 20f;
+	public float range = 1f;
+	public float duration = 0.3f;
 	private IEnumerator SpawnCoins(int count)
 	{
+		List<GameObject> coinsGO = new List<GameObject>();
 		for (int i = 0; i < count; i++)
 		{
 			GameObject coin = Instantiate(coinPrefab, coinParent);
 			RectTransform coinRect = coin.GetComponent<RectTransform>();
+
+			// Set vị trí ban đầu
 			coinRect.anchoredPosition = spawnPoint.anchoredPosition;
 
-			StartCoroutine(MoveCoin(coinRect, targetPoint.anchoredPosition, 1f));
-			yield return new WaitForSeconds(0.2f);
+			// Random vị trí trong vòng tròn bán kính 100
+
+			Vector2 randomDir = Random.insideUnitCircle.normalized * Random.Range(range, radius);
+
+			Vector2 targetPos = spawnPoint.anchoredPosition + randomDir;
+
+			// Animate tới vị trí xung quanh với easing OutBack
+			coinRect.DOAnchorPos(targetPos, duration)
+				.SetEase(Ease.OutBack)
+				.SetDelay(i * 0.05f); // delay nhẹ cho hiệu ứng tỏa
+
+			coinsGO.Add(coin);
+			yield return new WaitForSeconds(0.1f);
+
 		}
+
+		//
+		foreach (var coin in coinsGO)
+		{
+			RectTransform coinRect = coin.GetComponent<RectTransform>();
+			StartCoroutine(MoveCoin(coinRect, targetPoint, 0.8f));
+			yield return new WaitForSeconds(0.1f);
+		}
+
 	}
 
-	private IEnumerator MoveCoin(RectTransform coin, Vector2 target, float duration)
+	private IEnumerator MoveCoin(RectTransform coin, RectTransform target, float duration)
 	{
-		float elapsedTime = 0;
-		Vector2 startPos = coin.anchoredPosition;
+		// Chuyển vị trí thế giới của target thành vị trí local so với cha của coin
+		Vector2 localTargetPos = coin.parent.InverseTransformPoint(target.position);
 
-		while (elapsedTime < duration)
-		{
-			coin.anchoredPosition = Vector2.Lerp(startPos, target, elapsedTime / duration);
-			elapsedTime += Time.deltaTime;
-			yield return null;
-		}
+		coin.DOAnchorPos(localTargetPos, duration)
+			.SetEase(Ease.InOutCubic)
+			.OnComplete(() =>
+			{
+				SoundManager.PlaySound(SoundEnum.coin);
+				Destroy(coin.gameObject, 0.1f);
 
-		coin.anchoredPosition = target;
-		SoundManager.PlaySound(SoundEnum.coin);
-		Destroy(coin.gameObject, 0.1f);
+				coinsReachedTarget++;
+				if (coinsReachedTarget == totalCoins)
+				{
+					TutorialManager.Instance.TutorialStateMachine.TransitonToState((TutorialState)2);
+				}
+			});
 
-		coinsReachedTarget++;
-		if (coinsReachedTarget == totalCoins)
-		{
-			TutorialManager.Instance.TutorialStateMachine.TransitonToState((TutorialState)2);
-		}
+
+		yield return new WaitForSeconds(0);
 	}
 
 	/// <summary>

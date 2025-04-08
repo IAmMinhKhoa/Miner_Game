@@ -46,7 +46,7 @@ public class ManagerChooseUI : MonoBehaviour
     [SerializeField] private List<Manager> _manager;
 	[SerializeField] DetailNotification NotiWarning;
 	[SerializeField] GachaController FxGacha;
-
+	public ManagerSelectionShaft _managerSelection;
 	[Header("UI for Tutorial")]
 	[SerializeField] List<GameObject> topUIButton;
 	[SerializeField] List<GameObject> botUIButton;
@@ -70,6 +70,7 @@ public class ManagerChooseUI : MonoBehaviour
         _boostButton.onClick.AddListener(Boost);
         OnRefreshManagerTab += RefreshData;
         MergeSuccess += AfterMegerManager;
+
 		PawManager.Instance.OnPawChanged += UpdateUI;
 
 		if(!TutorialManager.Instance.isTuroialing)
@@ -91,6 +92,7 @@ public class ManagerChooseUI : MonoBehaviour
         _boostButton.onClick.RemoveListener(Boost);
         OnRefreshManagerTab -= RefreshData;
         MergeSuccess -= AfterMegerManager;
+
 		PawManager.Instance.OnPawChanged -= UpdateUI;
 	}
 

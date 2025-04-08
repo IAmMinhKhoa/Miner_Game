@@ -27,7 +27,7 @@ public class TutorialState2 : BaseTutorialState
 		PawManager.Instance.RemovePaw(PawManager.Instance.CurrentPaw - 20);
 
 		// Khởi tạo danh sách bước
-		listStep = new List<Action> { Step1, Step2, Step3, Step4, Step5, Step6, Step7, Step8, Step9 };
+		listStep = new List<Action> { Step1, Step2, Step3, Step4,Step4_1, Step5, Step6, Step7, Step8, Step9,Step10 };
 		currentStep = 0;
 
 		// Thiết lập UI ban đầu
@@ -59,6 +59,8 @@ public class TutorialState2 : BaseTutorialState
 		// Disable button thuê quản lý
 		ManagersController.Instance.ManagerPrefab.HireManagerButton.enabled = false;
 		ManagersController.Instance.ManagerPrefab.OnInteractToTutorialManager += ShowNextStepButton;
+		//Khóa button bán quản lý
+		ManagersController.Instance.ManagerDetailPrefab.StateButton(true);
 	}
 
 	private void Step1()
@@ -114,17 +116,27 @@ public class TutorialState2 : BaseTutorialState
 		managerPrefab.CloseTutorialLine();
 		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle4));
 		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle");
+
 		managerPrefab.OnInteractToTutorialManager += ShowTextHireElevator;
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(true);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(265f, 934f);
 	}
 
+	private void Step4_1()
+	{
+		ManagersController.Instance.ManagerPrefab.ClosePanel();
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.gameObject.SetActive(false);
+	}
 	private void ShowTextHireElevator()
 	{
+
 		var managerPrefab = ManagersController.Instance.ManagerPrefab;
 		managerPrefab.OnInteractToTutorialManager -= ShowTextHireElevator;
 		tutorialManager.gameUI.tutotrialUI.SetTextTutorial( LocalizationManager.GetLocalizedString(LanguageKeys.TutorialTitle5));
 		tutorialManager.gameUI.tutotrialUI.PlayAnimation("idle");
 		tutorialManager.gameUI.tutorialState2UI.gameObject.SetActive(true);
 		managerPrefab.OnInteractToTutorialManager += HandleTutorialStep4;
+
 	}
 
 	private void HandleTutorialStep4()
@@ -177,10 +189,17 @@ public class TutorialState2 : BaseTutorialState
 
 	private void Step9()
 	{
-		var tutorialUI = tutorialManager.gameUI.tutotrialUI;
 		var managerPrefab = ManagersController.Instance.ManagerDetailPrefab;
 		managerPrefab.HireOrFiredButton.onClick.Invoke();
 		managerPrefab.gameObject.SetActive(false);
+		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(265f, 934f);
+	}
+
+	private void Step10()
+	{
+		ManagersController.Instance.ManagerPrefab.ClosePanel();
+
+		var tutorialUI = tutorialManager.gameUI.tutotrialUI;
 		tutorialUI.TutorialClickNextStepButton.gameObject.SetActive(false);
 		tutorialUI.GetComponent<Image>().raycastTarget = false;
 		tutorialManager.TutorialStateMachine.TransitonToState(TutorialState.State3);

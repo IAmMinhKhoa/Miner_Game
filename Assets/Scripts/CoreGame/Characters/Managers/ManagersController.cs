@@ -97,6 +97,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
 
     public void OpenManagerPanel(BaseManagerLocation location = null)
     {
+
         // CurrentManagerLocation = location;
         // managerPanel.SetActive(true);
 
@@ -108,9 +109,11 @@ public class ManagersController : Patterns.Singleton<ManagersController>
         // {
         //     managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Costs,CurrentManagerLocation.LocationType);
         // }
+        ManagerLocation roleLocation =(location!=null)?location.LocationType : ManagerLocation.Shaft;
+
         CurrentManagerLocation = ShaftManager.Instance.Shafts[0].ManagerLocation;
         managerPanel.SetActive(true);
-        managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Speed, ManagerLocation.Shaft);
+        managerPanel.GetComponent<ManagerChooseUI>().SetupTab(BoostType.Speed, roleLocation);
     }
 
     public void OpenManagerDetailPanel(bool isOpen, Manager data)

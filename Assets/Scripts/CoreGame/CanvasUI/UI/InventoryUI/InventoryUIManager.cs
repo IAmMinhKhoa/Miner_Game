@@ -208,6 +208,7 @@ namespace UI.Inventory
 
 		private void HanleUpdateShaftIUI(int index)
 		{
+			Debug.Log("debug inventory update:"+index);
 			listShaftUI[index].UpdateShaftUI();
 		}
 		private void HandleElevatorIUI()

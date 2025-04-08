@@ -45,22 +45,26 @@ public class ManagerLocationUI : MonoBehaviour
 
         else
         {
+
             bool currentState= animatorTabScroll.GetBool("active");
             if(currentState!=false) animatorTabScroll.SetBool("active", false);
         }
-        
+
         _currentManagerLocation = managerLocation;
         OnTabChanged?.Invoke(managerLocation);
     }
 
     private void ChangeTabUI(ManagerLocation locationType)
     {
-		
 		if (locationType == ManagerLocation.Shaft)
         {
             bool currentState = animatorTabScroll.GetBool("active");
             if (currentState != true) animatorTabScroll.SetBool("active", true);
         }
+		else
+		{
+			animatorTabScroll.SetBool("active", false);
+		}
 
         foreach (var btn in _managerTabFilter.Dictionary)
         {

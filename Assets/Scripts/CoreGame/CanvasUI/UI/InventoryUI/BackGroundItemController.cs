@@ -61,12 +61,14 @@ namespace UI.Inventory
 				if(i == index)
 				{
 					items[i].Selected();
+			//		currentIndexImage = index;
 				}
 				else
 				{
 					items[i].UnSelected();
 				}
 			}
+		//	Debug.Log("debug select index:"+index);
 		}
 		public void ConfirmButtonClick()
 		{

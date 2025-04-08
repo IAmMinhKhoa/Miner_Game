@@ -5,7 +5,7 @@ using StateMachine;
 using UI.Inventory;
 using Spine.Unity;
 using System.Linq;
-public class ChangeShaftSecondBG : BaseState<InventoryItemType> 
+public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 {
 	BackGroundItemController bgList;
 	BackGroundItem bgItem;
@@ -31,7 +31,7 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 		bgItem.secondBg.skeletonDataAsset = sourceSkins[InventoryItemType.ShaftSecondBg];
 		bgItem.bg.Initialize(true);
 		bgItem.secondBg.Initialize(true);
-
+		currenFloor = bgList.Index;
 		bgList.ClearListItem();
 
 		var listSkin = SkinManager.Instance.GetListDataSkinBases(InventoryItemType.ShaftSecondBg);
@@ -76,6 +76,7 @@ public class ChangeShaftSecondBG : BaseState<InventoryItemType>
 
 	private void HandleConfirmButtonClick()
 	{
+		Debug.Log("debug comfirm button clickl:"+ currenFloor+"/"+currentSkinSelect.ToString());
 		ShaftManager.Instance.Shafts[currenFloor].shaftSkin.idSecondBg = currentSkinSelect.ToString();
 		ShaftManager.Instance.Shafts[currenFloor].UpdateUI();
 		ShaftManager.Instance.OnUpdateShaftInventoryUI?.Invoke(currenFloor);
