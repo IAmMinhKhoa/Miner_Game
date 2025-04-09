@@ -9,7 +9,7 @@ public class IAPManager : MonoBehaviour,IStoreListener
     public static IAPManager Instance { get; private set; }
 
     private IStoreController storeController;
-    private List<string> productIds = new List<string> { "p01", "p02", "p03" };
+    private List<string> productIds = new List<string> { "currency_sp_1", "currency_sp_2", "currency_sp_3","currency_sp_4","currency_sp_5","currency_sp_6" };
 
     private void Awake()
     {
@@ -59,9 +59,7 @@ public class IAPManager : MonoBehaviour,IStoreListener
 
         if (IsInitialized()) return;
 
-        var builder = ConfigurationBuilder.Instance(
-	        StandardPurchasingModule.Instance()
-        );
+        var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
         // Thêm các sản phẩm vào IAP
         foreach (var productId in productIds)
         {
