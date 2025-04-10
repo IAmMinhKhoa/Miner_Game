@@ -25,9 +25,9 @@ public class PawButton : MonoBehaviour
 
     public void SetData(int scaleAmount, int price, BankUI bankUI)
     {
-        _pawReward = scaleAmount * 3600 * OfflineManager.Instance.GetNSPaw();
+        _pawReward = scaleAmount * 3600;
         _price = price;
-        _scaleAmount.text = Currency.DisplayCurrency(_pawReward);
+        _scaleAmount.text = "x"+Currency.DisplayCurrency(_pawReward);
         _priceText.text = $"<sprite name=heart>{price}";
         _bankUI = bankUI;
     }

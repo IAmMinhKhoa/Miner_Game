@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -44,8 +45,10 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_showEvent;
 	public List<GameObject> ButtonesUI => buttonesUI;
 	public ButtonBehavior BT_Manager => bt_Manager;
-	private void Start()
+	private async void Start()
 	{
+
+		Debug.Log(bt_AddHeart.name);
 		bt_AddHeart.onClickEvent.AddListener(OpenBank);
 		bt_AddCoin.onClickEvent.AddListener(OpenBank);
 		bt_Setting.onClickEvent.AddListener(OpenSetting);

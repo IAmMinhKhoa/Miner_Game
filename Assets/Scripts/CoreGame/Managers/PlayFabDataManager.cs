@@ -34,6 +34,7 @@ Debug.Log("on :"+loadingScene.gameObject.name);
 				{ "Counter", "" },
 				{ "ManagersController", "" },
 				{ "PawVolume", "" },
+				{ "Money", "" },
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" },
 				{ "LastTimeCoinReward", "" },
