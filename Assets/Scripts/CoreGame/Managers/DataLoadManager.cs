@@ -21,6 +21,7 @@ public class DataLoadManager : BaseGameManager
         LoadCounterData,
         LoadingCounterData,
         LoadPawData,
+        LoadMoney,
         LoadingPawData,
         LoadOfflineData,
         LoadingOfflineData,
@@ -106,9 +107,13 @@ public class DataLoadManager : BaseGameManager
             case GameState.LoadingPawData:
                 if (CheckPawData())
                 {
-                    SetState(GameState.LoadSkinData);
+                    SetState(GameState.LoadMoney);
                 }
                 break;
+            case GameState.LoadMoney:
+	            LoadMoney();
+	            SetState(GameState.LoadSkinData);
+	            break;
 			case GameState.LoadSkinData:
 				LoadSkinData();
 				SetState(GameState.LoadingSkinData);
@@ -224,7 +229,7 @@ public class DataLoadManager : BaseGameManager
         pawManager.LoadPaw();
     }
 
-    private void MoneyPawData()
+    private void LoadMoney()
     {
         var moneyManager = SuperMoneyManager.Instance;
         moneyManager.LoadMoney();
