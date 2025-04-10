@@ -39,7 +39,7 @@ public class PawManager : Patterns.Singleton<PawManager>
     public void LoadPaw()
     {
         var paw = PlayFabManager.Data.PlayFabDataManager.Instance.GetData(m_pawKey);
-        Debug.Log("Paw from PlayerPrefs:" + paw);
+        Debug.Log("Paw from server:" + paw);
         paw = paw == "" ? m_startingPaw : paw;
 
 

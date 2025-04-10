@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Core;
@@ -69,7 +70,7 @@ public class IAPManager : MonoBehaviour,IStoreListener
         UnityPurchasing.Initialize(this, builder);
     }
 
-    private bool IsInitialized() => storeController != null;
+    public bool IsInitialized() => storeController != null;
 
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
@@ -115,7 +116,40 @@ public class IAPManager : MonoBehaviour,IStoreListener
         }
         string productId = args.purchasedProduct.definition.id;
 
+        if (Enum.TryParse(productId, out IdBundle bundleId))
+        {
+	        int amount = 0;
 
+	        switch (bundleId)
+	        {
+		        case IdBundle.currency_sp_1:
+			        amount = 40;
+			        break;
+		        case IdBundle.currency_sp_2:
+			        amount = 150;
+			        break;
+		        case IdBundle.currency_sp_3:
+			        amount = 400;
+			        break;
+		        case IdBundle.currency_sp_4:
+			        amount = 1000;
+			        break;
+		        case IdBundle.currency_sp_5:
+			        amount = 2500;
+			        break;
+		        case IdBundle.currency_sp_6:
+			        amount = 6000;
+			        break;
+	        }
+
+	        SuperMoneyManager.Instance.AddMoney(amount);
+        }
+        else
+        {
+	        Debug.LogWarning($"Không parse được enum từ productId: {productId}");
+        }
+
+		Debug.Log("Buy item success:"+productId);
         return PurchaseProcessingResult.Complete;
         //return PurchaseProcessingResult.Complete;
     }

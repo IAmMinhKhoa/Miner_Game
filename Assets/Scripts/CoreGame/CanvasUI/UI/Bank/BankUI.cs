@@ -15,12 +15,14 @@ public class PawnItem
     public float ScaleFactor;
 }
 
-[Serializable]
-public class MoneyItem
+public enum IdBundle
 {
-    public float Amount;
-    public float UsdPrice;
-    public float VndPrice;
+	currency_sp_1,
+	currency_sp_2,
+	currency_sp_3,
+	currency_sp_4,
+	currency_sp_5,
+	currency_sp_6
 }
 
 public class BankUI : MonoBehaviour
@@ -31,7 +33,6 @@ public class BankUI : MonoBehaviour
     [SerializeField] private List<Button> _closeButtons;
     [SerializeField] private float _fadeSpeed = 0.3f;
     private bool _isShowRequest;
-    [SerializeField] private SerializableDictionary<MoneyButton, MoneyItem> _moneyStoreButton = new SerializableDictionary<MoneyButton, MoneyItem>();
     [SerializeField] private SerializableDictionary<PawButton, PawnItem> _pawStoreButton = new SerializableDictionary<PawButton, PawnItem>();
 
 
@@ -51,11 +52,11 @@ public class BankUI : MonoBehaviour
         UpdateUI();
     }
 
-    // !Only call this function if transaction success
-    public void BuyMoney(float amount)
+
+    /*public void BuyMoney(float amount)
     {
         SuperMoneyManager.Instance.AddMoney(amount);
-    }
+    }*/
     public void BuyPaw(double amount, float price)
     {
         if (SuperMoneyManager.Instance.SuperMoney >= price)
@@ -78,18 +79,7 @@ public class BankUI : MonoBehaviour
             pair.Key.SetData((int)pair.Value.Amount, (int)pair.Value.ScaleFactor, this);
         }
         CultureInfo userRegion = CultureInfo.CurrentCulture;
-        foreach (var pair in _moneyStoreButton.Dictionary)
-        {
-            // Update super money button
-            if (userRegion.Name == "vi-VN")
-            {
-                pair.Key.SetData(pair.Value.Amount, pair.Value.VndPrice, userRegion, this);
-            }
-            else
-            {
-                pair.Key.SetData(pair.Value.Amount, pair.Value.UsdPrice, userRegion, this);
-            }
-        }
+
     }
 
     #region AnimateUI
