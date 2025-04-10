@@ -37,7 +37,7 @@ public class TutorialState2 : BaseTutorialState
 		tutorialManager.gameUI.tutotrialUI.TutorialClickNextStepButton.onClick.AddListener(GotoNextStep);
 
 		// Cấp tiền cho người chơi
-		PawManager.Instance.AddPaw(2100f);
+		PawManager.Instance.AddPaw(2500f);
 	}
 
 	private void InitializeUI()

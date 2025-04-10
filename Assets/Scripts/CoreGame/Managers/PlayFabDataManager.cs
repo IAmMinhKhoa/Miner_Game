@@ -20,7 +20,6 @@ namespace PlayFabManager.Data
 		private void OnEnable()
 		{
 			loadingScene = Instantiate(prefab, gameUI.transform);
-Debug.Log("on :"+loadingScene.gameObject.name);
 			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
@@ -34,7 +33,6 @@ Debug.Log("on :"+loadingScene.gameObject.name);
 				{ "Counter", "" },
 				{ "ManagersController", "" },
 				{ "PawVolume", "" },
-				{ "Money", "" },
 				{ "SkinManager", "" },
 				{ "LastTimeQuit", "" },
 				{ "LastTimeCoinReward", "" },
