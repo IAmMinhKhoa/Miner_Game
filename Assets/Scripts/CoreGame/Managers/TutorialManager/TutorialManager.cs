@@ -23,7 +23,11 @@ public class TutorialManager : Singleton<TutorialManager>
 	public void Triggertutorial(int state)
 	{
 		if (state == -1) return;
-		
+		if (GameUI.Instance.modal_showEvent != null)
+		{
+			GameUI.Instance.modal_showEvent.GetComponent<ModalShowEvent>().CloseModal();
+		}
+
 		isTuroialing = true;
 		this.TutorialStateMachine = new();
 		TutorialStateMachine.InitState((TutorialState)state, this);

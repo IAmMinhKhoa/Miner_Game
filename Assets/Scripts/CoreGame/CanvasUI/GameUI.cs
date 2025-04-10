@@ -42,7 +42,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] private GameObject modal_minigameUI;
 
 	[SerializeField] private GameObject modal_offlineUI;
-	[SerializeField] private GameObject modal_showEvent;
+	[SerializeField] public GameObject modal_showEvent;
 	public List<GameObject> ButtonesUI => buttonesUI;
 	public ButtonBehavior BT_Manager => bt_Manager;
 	private async void Start()
@@ -67,7 +67,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 
 	public void OpenModalShowEvent()
 	{
-		modal_showEvent.SetActive(true);
+			modal_showEvent.SetActive(true);
 	}
 	private void OpenBookManager()
 	{
