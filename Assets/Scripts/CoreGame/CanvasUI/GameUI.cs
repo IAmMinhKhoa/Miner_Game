@@ -60,7 +60,7 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		bt_Sound.onClickEvent.AddListener(OpenSound);
 
 		StartCoroutine(UpdateUIEverySecond());
-		//OpenModalShowEvent();
+		OpenModalShowEvent();
 	}
 
 	#region EVENT
