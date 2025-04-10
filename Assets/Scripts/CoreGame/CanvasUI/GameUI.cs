@@ -103,6 +103,10 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	{
 		UnityEngine.Debug.Log("OpenOffline");
 		if (money.paw <= 0) return;
+		if (modal_showEvent != null)
+		{
+			modal_showEvent.GetComponent<ModalShowEvent>().CloseModal();
+		}
 		modal_offlineUI.GetComponent<OfflineMoneyUI>().SetOfflineMoney(money);
 		modal_offlineUI.SetActive(true);
 	}
