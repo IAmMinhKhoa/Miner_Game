@@ -17,7 +17,7 @@ namespace PlayFabManager.Data
 		[SerializeField] private Transform gameUI;
 		private bool isDataLoaded = false;
 		public string accountID;
-		private void OnEnable()
+		private void Start()
 		{
 			loadingScene = Instantiate(prefab, gameUI.transform);
 			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
