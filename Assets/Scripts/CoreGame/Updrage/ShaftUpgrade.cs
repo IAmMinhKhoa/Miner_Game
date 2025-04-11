@@ -39,7 +39,7 @@ public class ShaftUpgrade : BaseUpgrade
 		if (milestoneLevels.TryGetValue(CurrentLevel, out int superMoney))
 		{
 			SuperMoneyManager.Instance.AddMoney(superMoney);
-		}	
+		}
 		switch (CurrentLevel)
 		{
 			case 10:
@@ -47,7 +47,7 @@ public class ShaftUpgrade : BaseUpgrade
 			case 100:
 			case 200:
 			case 400:
-				shaft.CreateBrewer();
+				//shaft.CreateBrewer();
 				break;
 		}
 		if(TutorialManager.Instance.isTuroialing && TutorialManager.Instance.currentState == 3)

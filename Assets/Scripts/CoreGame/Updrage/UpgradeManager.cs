@@ -67,9 +67,9 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 			{
 				_baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
 				_locationType = ManagerLocation.Shaft;
-				_brewers = shaft.Brewers;
+				//_brewers = shaft.Brewers;
 				_baseWorkerRef = _brewers.First();
-				_number = shaft.Brewers.Count;
+				//_number = shaft.Brewers.Count;
 				break;
 			}
 		}

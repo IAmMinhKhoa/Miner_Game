@@ -175,7 +175,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				{ "Index", shaft.shaftIndex },
 				{ "LevelBoost", shaft.LevelBoost },
 				{ "IndexBoost", shaft.IndexBoost },
-				{ "Brewers", shaft.Brewers.Count },
+				//{ "Brewers", shaft.Brewers.Count },
 				{ "CurrentDeposit", shaft.CurrentDeposit.CurrentPaw },
 				{"Level", shaft.gameObject.GetComponent<ShaftUpgrade>().CurrentLevel},
 				{"InitCost", shaft.gameObject.GetComponent<ShaftUpgrade>().GetInitialCost()},
@@ -260,7 +260,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		upgradeLoadBar.SetActive(true);
 
 		_startShaftUpgradeEffect.SetActive(true);
-		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);	
+		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
@@ -268,7 +268,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			loadedText.text = Mathf.FloorToInt((float)(1f - TimeCurrentBuild / totalTime) * 100f) + "%";
 			yield return null;  // Wait for the next frame
 		}
-		
+
 		_roof_Building.SetActive(false);
 		isBuilding = false;
 		AddShaft();  // Call AddShaft after cooldown

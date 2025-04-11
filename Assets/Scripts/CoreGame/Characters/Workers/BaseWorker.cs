@@ -111,9 +111,6 @@ public class BaseWorker : MonoBehaviour
         }
 
     }
-
-
-
     protected virtual async void Collect()
     {
         ChangeGoal();

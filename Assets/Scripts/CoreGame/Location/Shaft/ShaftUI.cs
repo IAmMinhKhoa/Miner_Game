@@ -12,7 +12,7 @@ using System.Linq;
 using Spine;
 using DG.Tweening;
 
-public class ShaftUI : MonoBehaviour
+public partial class ShaftUI : MonoBehaviour
 {
     public static Action<int> OnUpgradeRequest;
 
@@ -56,7 +56,7 @@ public class ShaftUI : MonoBehaviour
     public SkeletonAnimation WaitTable => waitTable;
     private ShaftUpgrade m_shaftUpgrade;
     private Shaft m_shaft;
-
+	public Shaft Shaft => m_shaft;
 	public void AddManagerButtonInteract(bool isShowing) => m_managerButton.gameObject.SetActive(isShowing);
     private bool _isBrewing = false;
 	// public parameter
@@ -72,7 +72,6 @@ public class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
-        //m_lyNuocHolder.gameObject.SetActive(false);
         tableAnimation = m_table.GetComponent<SkeletonAnimation>();
     }
 
@@ -83,12 +82,6 @@ public class ShaftUI : MonoBehaviour
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
         m_indexText.text = (m_shaft.shaftIndex + 1).ToString();
         ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
-
-        //First init Data frame by current lvl of shaft
-        //UpdateFrameButtonUpgrade(m_shaftUpgrade.CurrentLevel);
-
-
-
     }
 
     void Update()
@@ -206,33 +199,8 @@ public class ShaftUI : MonoBehaviour
         {
             m_levelText.text = "Level " + level;
             m_costText.text = Currency.DisplayCurrency(m_shaftUpgrade.CurrentCost);
-            //UpdateFrameButtonUpgrade(level);
-
         }
     }
-
-    void UpdateFrameButtonUpgrade(int currentLevel)
-    {
-
-        Image imgButtonUpgrade = m_upgradeButton.GetComponent<Image>();
-        if (currentLevel <= 200)
-        {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][0]);
-        }
-        else if (currentLevel > 200 && currentLevel <= 400)
-        {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][1]);
-        }
-        else if (currentLevel > 400 && currentLevel <= 600)
-        {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][2]);
-        }
-        else if (currentLevel > 600 && currentLevel <= 800)
-        {
-            imgButtonUpgrade.sprite = Resources.Load<Sprite>(MainGameData.FrameLevelButton[ManagerLocation.Shaft][3]);
-        }
-    }
-
 
     void BuyNewShaft()
     {
@@ -257,11 +225,8 @@ public class ShaftUI : MonoBehaviour
             return;
         }
         _isBrewing = true;
-
-        //Debug.Log("Play Active");
         tableAnimation.AnimationState.SetAnimation(0, "Active", false);
         await UniTask.Delay((int)tableAnimation.skeletonDataAsset.GetAnimationStateData().SkeletonData.FindAnimation("Active").Duration * 1000);
-        //Debug.Log("Play Idle");
         _isBrewing = false;
     }
 
@@ -299,7 +264,7 @@ public class ShaftUI : MonoBehaviour
 
 		var counter = GetComponent<Shaft>();
 
-        foreach (var item in counter.Brewers)
+        /*foreach (var item in counter.Brewers)
         {
             var cartSkeleton = item.CartSkeletonAnimation;
 
@@ -312,7 +277,7 @@ public class ShaftUI : MonoBehaviour
             bodySkeleton.skeletonDataAsset = skinGameData[InventoryItemType.ShaftCharacter];
             headSkeleton.Initialize(true);
             bodySkeleton.Initialize(true);
-        }
+        }*/
     }
     public void ChangeSkin(ShaftSkin data)
     {
@@ -333,7 +298,7 @@ public class ShaftUI : MonoBehaviour
 		waitTable.skeleton.SetSlotsToSetupPose();
 		m_tableAnimation.skeleton.SetSlotsToSetupPose();
 
-		if (TryGetComponent<Shaft>(out var shaft))
+		/*if (TryGetComponent<Shaft>(out var shaft))
         {
             int cartIndex = int.Parse(data.idCart);
             int headIndex = int.Parse(data.characterSkin.idHead);
@@ -364,7 +329,7 @@ public class ShaftUI : MonoBehaviour
                     item.TailSkeletonAnimation.gameObject.SetActive(false);
                 }
             }
-        }
+        }*/
     }
 
 	void ProcessBoostUI(BoostType boostType, float boostTime)
@@ -372,11 +337,11 @@ public class ShaftUI : MonoBehaviour
 		Debug.LogError(boostType.ToString());
 		if(boostType == BoostType.Efficiency)
 		{
-			foreach(Brewer t in m_shaft.Brewers)
+			/*foreach(Brewer t in m_shaft.Brewers)
 			{
 				t.gameObject.transform.DOScale(0.638f, 0.5f);
 				Invoke("TurnOffEffFx", boostTime * 60);
-			}
+			}*/
 		}
 
 		if(boostType == BoostType.Costs)
@@ -387,11 +352,11 @@ public class ShaftUI : MonoBehaviour
 
 		if (boostType == BoostType.Speed)
 		{
-			foreach (Brewer t in m_shaft.Brewers)
+			/*foreach (Brewer t in m_shaft.Brewers)
 			{
 				t.BoostFx(true);
 				Invoke("TurnOffSpeedFx", boostTime * 60);
-			}
+			}*/
 		}
 	}
 
@@ -402,18 +367,18 @@ public class ShaftUI : MonoBehaviour
 
 	void TurnOffSpeedFx()
 	{
-		foreach (Brewer t in m_shaft.Brewers)
+		/*foreach (Brewer t in m_shaft.Brewers)
 		{
 			t.BoostFx(false);
-		}
+		}*/
 	}
 
 	void TurnOffEffFx()
 	{
-		foreach (Brewer t in m_shaft.Brewers)
+		/*foreach (Brewer t in m_shaft.Brewers)
 		{
 			t.gameObject.transform.DOScale(0.58f, 0.5f);
-		}
+		}*/
 	}
 	public void TurnOffAllEffect()
 	{
@@ -423,7 +388,7 @@ public class ShaftUI : MonoBehaviour
 	}
 	public void AwakeWorker()
     {
-        m_shaft.AwakeWorker().Forget();
+       // m_shaft.AwakeWorker().Forget();
     }
 
 	void OnDestroy()
@@ -436,14 +401,6 @@ public class ShaftUI : MonoBehaviour
     private void AddLevel(int valueAdd)
     {
         m_shaftUpgrade.Upgrade(valueAdd);
-    }
-    [Button]
-    private void TestChangeSkinShaft(SkinShaftBg value1 = SkinShaftBg.BR1, SkinShaftWaitTable value2 = SkinShaftWaitTable.WT1, SkinShaftMilkCup value3 = SkinShaftMilkCup.MC1)
-    {
-        m_shaft.shaftSkin.idBackGround = ((int)value1).ToString();
-        m_shaft.shaftSkin.idWaitTable = ((int)value2).ToString();
-        m_shaft.shaftSkin.idMilkCup = ((int)value3).ToString();
-        ChangeSkin(m_shaft.shaftSkin);
     }
     #endregion
 }
