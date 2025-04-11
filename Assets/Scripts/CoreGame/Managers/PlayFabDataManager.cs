@@ -41,6 +41,7 @@ namespace PlayFabManager.Data
 			await Login();
 			await GetDataFromPlayFab();
 			await loadingScene.FullLoadingBar();
+			GameUI.Instance.OpenModalShowEvent();
 		}
 		private async UniTask Login()
 		{
