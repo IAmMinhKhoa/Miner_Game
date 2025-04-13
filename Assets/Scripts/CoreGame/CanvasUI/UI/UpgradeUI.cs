@@ -56,8 +56,12 @@ public class UpgradeUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI s_totalProduction;
 
 	[Header("Bar Counter Skin Display")]
+	[SerializeField] private GameObject barCounterSkinPanel;
 	[SerializeField] private SkeletonGraphic barCounterSkeleton;
 
+	[Header("Counter Skin Display")]
+	[SerializeField] private GameObject counterSkinPanel;
+	[SerializeField] private SkeletonGraphic counterSkeletonGraphic;
 
 	private float currentLevel;
 	private ManagerLocation managerLocation;
@@ -70,9 +74,7 @@ public class UpgradeUI : MonoBehaviour
 	void Start()
 	{
 		if (Common.IsTablet)
-		{
 			gameObject.transform.localScale = scale_tablet;
-		}
 
 		for (int i = 0; i < fastUpgradeButtons.Count; i++)
 		{
@@ -81,21 +83,12 @@ public class UpgradeUI : MonoBehaviour
 			int index = i;
 			switch (i)
 			{
-				case 0:
-					button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 1));
-					break;
-				case 1:
-					button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 10));
-					break;
-				case 2:
-					button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 50));
-					break;
-				case 3:
-					button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, upgradeSlider.maxValue));
-					break;
+				case 0: button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 1)); break;
+				case 1: button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 10)); break;
+				case 2: button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, 50)); break;
+				case 3: button.onClick.AddListener(() => OnFastUpgradeButtonPress(index, upgradeSlider.maxValue)); break;
 			}
 		}
-
 		OnFastUpgradeButtonPress(-1, -1);
 	}
 
@@ -158,9 +151,7 @@ public class UpgradeUI : MonoBehaviour
 			{
 				button.image.sprite = btnNormalSprite;
 				if (button.interactable)
-				{
 					button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#B9987B");
-				}
 			}
 		}
 		upgradeSlider.value = btnValue;
@@ -244,6 +235,17 @@ public class UpgradeUI : MonoBehaviour
 		totalProduction.text = Currency.DisplayCurrency(total);
 		workerName.text = name;
 
+		// Ensure only the correct panel is shown
+		if (barCounterSkinPanel != null) barCounterSkinPanel.SetActive(false);
+		if (counterSkinPanel != null) counterSkinPanel.SetActive(false);
+
+		if (locationType == ManagerLocation.Shaft && barCounterSkinPanel != null)
+			barCounterSkinPanel.SetActive(true);
+		else if (locationType == ManagerLocation.Counter && counterSkinPanel != null)
+			counterSkinPanel.SetActive(true);
+
+
+
 		DisplayNextUpgrade(1);
 	}
 
@@ -260,6 +262,7 @@ public class UpgradeUI : MonoBehaviour
 		button.image.color = Color.white;
 		button.GetComponentInChildren<TextMeshProUGUI>().color = NoodyCustomCode.HexToColor("#873C10");
 	}
+
 	public void SetBarCounterData(SkeletonDataAsset dataAsset, string skinName)
 	{
 		if (barCounterSkeleton == null)
@@ -268,19 +271,45 @@ public class UpgradeUI : MonoBehaviour
 			return;
 		}
 
-		barCounterSkeleton.skeletonDataAsset = dataAsset;
-		barCounterSkeleton.Initialize(true);
-
-		if (barCounterSkeleton.Skeleton.Data.FindSkin(skinName) == null)
+		var skeletonData = dataAsset.GetSkeletonData(true);
+		var foundSkin = skeletonData.FindSkin(skinName);
+		if (foundSkin == null)
 		{
-			Debug.LogWarning($"❌ Không tìm thấy skin '{skinName}' trong SkeletonGraphic!");
+			Debug.LogError($"❌ Không tìm thấy skin '{skinName}' trong {dataAsset.name}");
+			foreach (var skin in skeletonData.Skins)
+				Debug.Log($"➡️ Skin có sẵn: {skin.Name}");
 			return;
 		}
 
-		barCounterSkeleton.Skeleton.SetSkin(skinName);
+		barCounterSkeleton.skeletonDataAsset = dataAsset;
+		barCounterSkeleton.Initialize(true);
+		barCounterSkeleton.Skeleton.SetSkin(foundSkin);
 		barCounterSkeleton.Skeleton.SetSlotsToSetupPose();
 		barCounterSkeleton.AnimationState.SetAnimation(0, "Idle", true);
 	}
 
+	public void SetCashierCounterData(SkeletonDataAsset dataAsset, string skinName)
+	{
+		if (counterSkeletonGraphic == null)
+		{
+			Debug.LogWarning("⚠️ counterSkeletonGraphic chưa được gán!");
+			return;
+		}
 
+		var skeletonData = dataAsset.GetSkeletonData(true);
+		var foundSkin = skeletonData.FindSkin(skinName);
+		if (foundSkin == null)
+		{
+			Debug.LogError($"❌ Không tìm thấy skin '{skinName}' trong {dataAsset.name}");
+			foreach (var skin in skeletonData.Skins)
+				Debug.Log($"➡️ Skin có sẵn: {skin.Name}");
+			return;
+		}
+
+		counterSkeletonGraphic.skeletonDataAsset = dataAsset;
+		counterSkeletonGraphic.Initialize(true);
+		counterSkeletonGraphic.Skeleton.SetSkin(foundSkin);
+		counterSkeletonGraphic.Skeleton.SetSlotsToSetupPose();
+		counterSkeletonGraphic.AnimationState.SetAnimation(0, "Idle", true);
+	}
 }

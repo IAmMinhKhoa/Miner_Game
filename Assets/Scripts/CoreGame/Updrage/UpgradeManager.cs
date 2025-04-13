@@ -100,8 +100,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		_transporters = Counter.Instance.Transporters;
 		_baseWorkerRef = _transporters.First();
 		_number = Counter.Instance.Transporters.Count;
+
+		var counterUI = Counter.Instance.GetComponent<CounterUI>();
+		if (counterUI != null)
+		{
+			string skinName = counterUI.GetCurrentCashierCounterSkinName();
+			var dataAsset = counterUI.GetCashierCounterDataAsset();
+			m_upgradePanel.SetCashierCounterData(dataAsset, skinName);
+		}
+
 		ResetPanel();
 	}
+
 
 	private void ControlPanel(bool open)
 	{
