@@ -330,7 +330,8 @@ public partial class ShaftUI : MonoBehaviour
                     item.TailSkeletonAnimation.gameObject.SetActive(false);
                 }
             }
-        }
+        }*/
+
 		var upgradeUI = FindObjectOfType<UpgradeUI>();
 		if (upgradeUI != null)
 		{

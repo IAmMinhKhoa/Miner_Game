@@ -238,7 +238,13 @@ public class UpgradeUI : MonoBehaviour
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][3];
 
-				UpdateEvolutions(currentLevel);
+				// Ensure only the correct panel is shown
+				if (barCounterSkinPanel != null) barCounterSkinPanel.SetActive(false);
+				if (counterSkinPanel != null) counterSkinPanel.SetActive(false);
+				if (locationType == ManagerLocation.Shaft && barCounterSkinPanel != null)
+					barCounterSkinPanel.SetActive(true);
+				else if (locationType == ManagerLocation.Counter && counterSkinPanel != null)
+					counterSkinPanel.SetActive(true);
 				break;
 			case ManagerLocation.Elevator:
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
