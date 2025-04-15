@@ -314,6 +314,24 @@ public class CounterUI : MonoBehaviour
 
 			}
 		}
+		var upgradeUI = FindObjectOfType<UpgradeUI>();
+		if (upgradeUI != null)
+		{
+			string skinName = m_cashierCounter.Skeleton.Skin.Name;
+			SkeletonDataAsset dataAsset = m_cashierCounter.skeletonDataAsset;
+			upgradeUI.SetCashierCounterData(dataAsset, skinName);
+		}
+
+
+	}
+	public SkeletonDataAsset GetCashierCounterDataAsset()
+	{
+		return m_cashierCounter.skeletonDataAsset;
+	}
+
+	public string GetCurrentCashierCounterSkinName()
+	{
+		return m_cashierCounter.Skeleton.Skin.Name;
 	}
 
 	private void AwakeWorker()

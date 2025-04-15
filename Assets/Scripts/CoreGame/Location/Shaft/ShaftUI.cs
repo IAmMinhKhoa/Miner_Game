@@ -47,6 +47,7 @@ public partial class ShaftUI : MonoBehaviour
 
 
 
+
 	public SkeletonAnimation BG => m_br;
 	public GameObject AddShaftPanel => m_buyNewShaftButton.gameObject;
     public SkeletonAnimation SecondBG => m_secondbg;
@@ -329,8 +330,28 @@ public partial class ShaftUI : MonoBehaviour
                     item.TailSkeletonAnimation.gameObject.SetActive(false);
                 }
             }
-        }*/
-    }
+        }
+		var upgradeUI = FindObjectOfType<UpgradeUI>();
+		if (upgradeUI != null)
+		{
+			string skinName = m_tableAnimation.Skeleton.Skin.Name;
+			SkeletonDataAsset dataAsset = m_tableAnimation.skeletonDataAsset;
+			upgradeUI.SetBarCounterData(dataAsset, skinName);
+		}
+
+
+
+	}
+	public SkeletonDataAsset GetTableDataAsset()
+	{
+		return m_tableAnimation.skeletonDataAsset;
+	}
+
+	public string GetCurrentTableSkinName()
+	{
+		return m_tableAnimation.Skeleton.Skin.Name;
+	}
+
 
 	void ProcessBoostUI(BoostType boostType, float boostTime)
 	{

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -60,14 +61,15 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 		bt_Sound.onClickEvent.AddListener(OpenSound);
 
 		StartCoroutine(UpdateUIEverySecond());
-		OpenModalShowEvent();
+
 	}
 
 	#region EVENT
-
+	[Button]
 	public void OpenModalShowEvent()
 	{
-			modal_showEvent.SetActive(true);
+		modal_showEvent.SetActive(true);
+			modal_showEvent.GetComponent<ModalShowEvent>().OpenModal();
 	}
 	private void OpenBookManager()
 	{

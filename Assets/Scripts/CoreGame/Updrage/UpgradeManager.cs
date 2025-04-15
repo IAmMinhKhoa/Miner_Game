@@ -34,7 +34,6 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		ControlPanel(false);
 		if (Common.IsTablet)
 		{
-			// Gán scale là 0.8
 			_upgradePanelPref.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
 			Debug.Log("Scale has been set to 0.8");
 		}
@@ -68,10 +67,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 			{
 				_baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
 				_locationType = ManagerLocation.Shaft;
-				_transportMachine = shaft.transportMachine;
-				//_brewers = shaft.Brewers;
-				//_baseWorkerRef = _brewers.First();
-				//_number = shaft.Brewers.Count;
+				_brewers = shaft.Brewers;
+				_baseWorkerRef = _brewers.First();
+				_number = shaft.Brewers.Count;
+
+				var shaftUI = shaft.GetComponent<ShaftUI>();
+				if (shaftUI != null)
+				{
+					string skinName = shaftUI.GetCurrentTableSkinName();
+					var dataAsset = shaftUI.GetTableDataAsset();
+					m_upgradePanel.SetBarCounterData(dataAsset, skinName);
+				}
+
 				break;
 			}
 		}
@@ -94,8 +101,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		_transporters = Counter.Instance.Transporters;
 		_baseWorkerRef = _transporters.First();
 		_number = Counter.Instance.Transporters.Count;
+
+		var counterUI = Counter.Instance.GetComponent<CounterUI>();
+		if (counterUI != null)
+		{
+			string skinName = counterUI.GetCurrentCashierCounterSkinName();
+			var dataAsset = counterUI.GetCashierCounterDataAsset();
+			m_upgradePanel.SetCashierCounterData(dataAsset, skinName);
+		}
+
 		ResetPanel();
 	}
+
 
 	private void ControlPanel(bool open)
 	{
