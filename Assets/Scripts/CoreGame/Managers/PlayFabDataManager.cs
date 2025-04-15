@@ -20,8 +20,7 @@ namespace PlayFabManager.Data
 		public string accountID;
 		private void Start()
 		{
-			var go = Instantiate(loadingPrefab, gameUI.transform);
-			loadingScene = go.GetComponent<LoaddingScreenManager>();
+			
 			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
@@ -40,6 +39,11 @@ namespace PlayFabManager.Data
 				{ "LastTimeCoinReward", "" },
 				{ "TutorialState", "1" },
 			};
+			if (loadingScene == null)
+			{
+				var go = Instantiate(GameData.Instance.InstantiatePrefab(PrefabEnum.ModelLoading), gameUI);
+				loadingScene = go.GetComponent<LoaddingScreenManager>();
+			}
 			await Login();
 			await GetDataFromPlayFab();
 			await loadingScene.FullLoadingBar();
