@@ -33,7 +33,6 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		ControlPanel(false);
 		if (Common.IsTablet)
 		{
-			// Gán scale là 0.8
 			_upgradePanelPref.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
 			Debug.Log("Scale has been set to 0.8");
 		}
@@ -70,6 +69,15 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 				_brewers = shaft.Brewers;
 				_baseWorkerRef = _brewers.First();
 				_number = shaft.Brewers.Count;
+
+				var shaftUI = shaft.GetComponent<ShaftUI>();
+				if (shaftUI != null)
+				{
+					string skinName = shaftUI.GetCurrentTableSkinName();
+					var dataAsset = shaftUI.GetTableDataAsset();
+					m_upgradePanel.SetBarCounterData(dataAsset, skinName);
+				}
+
 				break;
 			}
 		}
@@ -92,8 +100,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		_transporters = Counter.Instance.Transporters;
 		_baseWorkerRef = _transporters.First();
 		_number = Counter.Instance.Transporters.Count;
+
+		var counterUI = Counter.Instance.GetComponent<CounterUI>();
+		if (counterUI != null)
+		{
+			string skinName = counterUI.GetCurrentCashierCounterSkinName();
+			var dataAsset = counterUI.GetCashierCounterDataAsset();
+			m_upgradePanel.SetCashierCounterData(dataAsset, skinName);
+		}
+
 		ResetPanel();
 	}
+
 
 	private void ControlPanel(bool open)
 	{
@@ -110,7 +128,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		switch (_locationType)
 		{
 			case ManagerLocation.Shaft:
-				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "Mở KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
 				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
