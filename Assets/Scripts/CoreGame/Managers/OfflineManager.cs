@@ -468,9 +468,9 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         //double elevatorPaw = ElevatorSystem.Instance.GetTotalNS();
         double elevatorPaw = ElevatorSystem.Instance.GetTotalNSVersion2();
         double couterPaw = Counter.Instance.GetTotalNS();
-		//Debug.Log("NSPaw Shaft Power: " + shaftPaw);
-		//Debug.Log("NSPaw Elevator Power: " + elevatorPaw);
-		//Debug.Log("NSPaw Counter Power: " + couterPaw);
+		/*Debug.Log("NSPaw Shaft Power: " + shaftPaw);
+		Debug.Log("NSPaw Elevator Power: " + elevatorPaw);
+		Debug.Log("NSPaw Counter Power: " + couterPaw);*/
 		if (shaftPaw > elevatorPaw)
         {
             result = elevatorPaw;

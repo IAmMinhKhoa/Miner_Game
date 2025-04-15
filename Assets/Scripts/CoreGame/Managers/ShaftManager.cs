@@ -173,9 +173,10 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			Dictionary<string, object> shaftData = new Dictionary<string, object>
 			{
 				{ "Index", shaft.shaftIndex },
-				{ "LevelBoost", shaft.LevelBoost },
+				{ "ScaleCakeValue", shaft.ScaleCakeValue },
+				{ "ScaleBakingTime", shaft.ScaleBakingTime },
 				{ "IndexBoost", shaft.IndexBoost },
-				{ "Brewers", shaft.Brewers.Count },
+				//{ "Brewers", shaft.Brewers.Count },
 				{ "CurrentDeposit", shaft.CurrentDeposit.CurrentPaw },
 				{"Level", shaft.gameObject.GetComponent<ShaftUpgrade>().CurrentLevel},
 				{"InitCost", shaft.gameObject.GetComponent<ShaftUpgrade>().GetInitialCost()},
@@ -210,7 +211,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			foreach (ShaftData shaftData in saveData.ShaftsData)
 			{
 				int index = shaftData.Index;
-				double levelBoost = shaftData.LevelBoost;
+				double scaleCakeValue = shaftData.ScaleCakeValue;
+				double scaleBakingTime = shaftData.ScaleBakingTime;
 				double indexBoost = shaftData.IndexBoost;
 				int brewers = shaftData.Brewers;
 				double currentDeposit = shaftData.CurrentDeposit;
@@ -224,7 +226,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				};
 
 				Shaft shaft = Instantiate(shaftPrefab, position, Quaternion.identity);
-				shaft.LevelBoost = levelBoost;
+				shaft.ScaleCakeValue = scaleCakeValue;
+				shaft.ScaleBakingTime = scaleBakingTime;
 				shaft.IndexBoost = indexBoost;
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
@@ -260,7 +263,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 		upgradeLoadBar.SetActive(true);
 
 		_startShaftUpgradeEffect.SetActive(true);
-		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);	
+		_startShaftUpgradeEffect.transform.position = Shafts[^1].transform.position +  new Vector3(0, roofOffset*2, 0);
 		while (TimeCurrentBuild > 0)
 		{
 			TimeCurrentBuild -= Time.deltaTime;
@@ -268,7 +271,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			loadedText.text = Mathf.FloorToInt((float)(1f - TimeCurrentBuild / totalTime) * 100f) + "%";
 			yield return null;  // Wait for the next frame
 		}
-		
+
 		_roof_Building.SetActive(false);
 		isBuilding = false;
 		AddShaft();  // Call AddShaft after cooldown
@@ -327,7 +330,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public class ShaftData
 	{
 		public int Index { get; set; }
-		public double LevelBoost { get; set; }
+		public double ScaleCakeValue { get; set; }
+		public double ScaleBakingTime { get; set; }
 		public double IndexBoost { get; set; }
 		public int Brewers { get; set; }
 		public double CurrentDeposit { get; set; }

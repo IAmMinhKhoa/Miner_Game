@@ -97,7 +97,7 @@ public class ElevatorUpgrade : BaseUpgrade
         Init(1041.67f, level);
     }
 
-    public override double GetProductionScale(int amoutOfNextLevel)
+    public override double GetProductionCakeScale(int amoutOfNextLevel)
     {
         if (amoutOfNextLevel <= 0)
         {

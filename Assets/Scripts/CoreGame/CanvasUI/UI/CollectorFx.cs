@@ -43,10 +43,10 @@ public class CollectorFx : MonoBehaviour
 			// Animate tới vị trí xung quanh với easing OutBack
 			coinRect.DOAnchorPos(targetPos, duration)
 				.SetEase(Ease.OutBack)
-				.SetDelay(i * 0.03f); // delay nhẹ cho hiệu ứng tỏa
+				.SetDelay(i * 0.01f); // delay nhẹ cho hiệu ứng tỏa
 
 			coinsGO.Add(coin);
-			yield return new WaitForSeconds(0.02f);
+			yield return new WaitForSeconds(0.01f);
 
 		}
 
@@ -54,8 +54,8 @@ public class CollectorFx : MonoBehaviour
 		foreach (var coin in coinsGO)
 		{
 			RectTransform coinRect = coin.GetComponent<RectTransform>();
-			StartCoroutine(MoveCoin(coinRect, endPosition, 0.8f));
-			yield return new WaitForSeconds(0.1f);
+			StartCoroutine(MoveCoin(coinRect, endPosition, 0.6f));
+			yield return new WaitForSeconds(0.08f);
 		}
 
 	}

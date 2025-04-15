@@ -84,11 +84,14 @@ public class BaseUpgrade : MonoBehaviour
 		return scale;
 	}
 
-	public virtual double GetProductionScale(int amoutOfNextLevel)
+	public virtual double GetProductionCakeScale(int amoutOfNextLevel) //lấy tỉ lệ giá trị bánh
 	{
 		return 1f;
 	}
-
+	public virtual double GetProductionBakingTime(int amoutOfNextLevel) //lấy tỉ le tốc độ của bánh
+	{
+		return 1f;
+	}
 	public virtual double GetSpeedScale(int amoutOfNextLevel)
 	{
 		return 0f;

@@ -16,6 +16,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 	private BaseUpgrade _baseUpgrade;
 	private ManagerLocation _locationType;
 	private BaseWorker _baseWorkerRef;
+	private TransportMachine _transportMachine;
 	private int _number;
 	private List<Brewer> _brewers;
 	private List<Transporter> _transporters;
@@ -66,9 +67,10 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 			{
 				_baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
 				_locationType = ManagerLocation.Shaft;
-				_brewers = shaft.Brewers;
+				_transportMachine = shaft.transportMachine;
+				/*_brewers = shaft.Brewers;
 				_baseWorkerRef = _brewers.First();
-				_number = shaft.Brewers.Count;
+				_number = shaft.Brewers.Count;*/
 
 				var shaftUI = shaft.GetComponent<ShaftUI>();
 				if (shaftUI != null)
@@ -128,7 +130,8 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		switch (_locationType)
 		{
 			case ManagerLocation.Shaft:
-				m_upgradePanel.SetWorkerInfo(_locationType, "Mở KHÓA QUẦY HÀNG Ở CẤP ", _baseWorkerRef.ProductPerSecond, _brewers.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
+				Debug.Log("khoa check:"+_transportMachine.ValueProduct.ToString("F0"));
+				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _transportMachine.ProductPerSecond, _transportMachine.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
 				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
@@ -208,9 +211,20 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		return amount;
 	}
 
+	public double GetTotalCakeValue(int amount)
+	{
+		return _transportMachine.ValueProduct*(_baseUpgrade.GetProductionCakeScale(amount)-1d);
+	}
+
+	public double GetTotalBakingTime(int amount)
+	{
+		//Debug.Log("khoa check:"+_transportMachine.ProductPerSecond+"/"+_baseUpgrade.GetProductionBakingTime(amount));
+		return _transportMachine.ProductPerSecond*(_baseUpgrade.GetProductionBakingTime(amount)-1d);
+	}
 	public double GetProductIncrement(int amount)
 	{
-		return _baseWorkerRef.ProductPerSecond * (_baseUpgrade.GetProductionScale(amount) - 1d);
+
+		return _baseWorkerRef.ProductPerSecond * (_baseUpgrade.GetProductionCakeScale(amount) - 1d);
 	}
 
 	public int GetWorkerIncrement(int amount, ManagerLocation location)
@@ -227,7 +241,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 	public double GetIncrementTotal(int amount, ManagerLocation location)
 	{
 		var current = _baseWorkerRef.ProductPerSecond * _baseWorkerRef.WorkingTime;
-		var next = current * (_baseUpgrade.GetProductionScale(amount) - 1d);
+		var next = current * (_baseUpgrade.GetProductionCakeScale(amount) - 1d);
 		var incrementWorker = GetWorkerIncrement(amount, location);
 		var currentNumberWorker = location switch
 		{

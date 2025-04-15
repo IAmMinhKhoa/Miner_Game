@@ -113,7 +113,7 @@ public class CounterUpgrade : BaseUpgrade
         };
     }
 
-    public override double GetProductionScale(int amoutOfNextLevel)
+    public override double GetProductionCakeScale(int amoutOfNextLevel)
     {
         if (amoutOfNextLevel <= 0)
         {

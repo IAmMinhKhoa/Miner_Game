@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using NOOD;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Shaft : MonoBehaviour
+public partial class Shaft : MonoBehaviour
 {
     public Action<int> OnUpgrade;
 
@@ -21,21 +22,46 @@ public class Shaft : MonoBehaviour
     public Transform DepositLocation => m_depositLocation;
     public Transform BrewerLocation => m_brewerLocation;
 
+    [FormerlySerializedAs("mScaleCakeValue")]
+    [FormerlySerializedAs("m_levelBoost")]
     [Header("Boost")]
-    [SerializeField] private double m_levelBoost = 1f;
+    [SerializeField] private double m_scaleCakeValue = 1f;
+    [SerializeField] private double m_scaleBakingTime = 1f;
     [SerializeField] private double m_indexBoost = 1f;
     [SerializeField] private double managerBoost = 1f;
-    [SerializeField] private BaseConfig m_config;
+    public CakeConfig Config;
+
+    /*[Header("Brewer")]
+    private List<Brewer> _brewers = new();
+    public List<Brewer> Brewers => _brewers;*/
+    public Deposit CurrentDeposit { get; set; }
+    [Header("Skin")]
+    private ShaftSkin _shaftSkin;
+
+    public ShaftSkin shaftSkin
+    {
+	    get => _shaftSkin;
+	    set
+	    {
+		    _shaftSkin = value;
+
+	    }
+
+    }
 
     public int numberBrewer = 1;
 
-    public double LevelBoost
+    public double ScaleCakeValue
     {
-        get { return m_levelBoost; }
-        set { m_levelBoost = value; }
+        get { return m_scaleCakeValue; }
+        set { m_scaleCakeValue = value; }
     }
-
-    public double IndexBoost
+    public double ScaleBakingTime
+    {
+	    get { return m_scaleBakingTime; }
+	    set { m_scaleBakingTime = value; }
+    }
+    public double IndexBoost //Hệ số scale giá trị cua tầng, tầng cân cao thì hệ số làm càng nhanh và nhiều
     {
         get { return m_indexBoost; }
         set { m_indexBoost = value; }
@@ -43,27 +69,24 @@ public class Shaft : MonoBehaviour
 
     public double EfficiencyBoost
     {
-        get { return IndexBoost * LevelBoost * GetManagerBoost(BoostType.Efficiency); }
+        get { return IndexBoost * ScaleCakeValue * GetManagerBoost(BoostType.Efficiency); }
     }
 
     public double GetPureEfficiencyPerSecond()
     {
-        return _brewers.Count * IndexBoost * LevelBoost * m_config.ProductPerSecond * m_config.WorkingTime
-        / (m_config.WorkingTime + 2d * m_config.MoveTime);
+
+        return IndexBoost*((ScaleCakeValue*Config.Value)/(ScaleBakingTime*Config.ProductPerSecond));
     }
 
-    public double GetCycleTime()
-    {
-        return m_config.WorkingTime + 2d * m_config.MoveTime;
-    }
 
-    public double GetTrueCycleTime()
-    {
-        return GetCycleTime() / GetManagerBoost(BoostType.Speed);
-    }
 
     public double GetShaftNS()
     {
+	    /*Debug.Log("Khoa check NS shaft:\n   "
+	              + "Efficiency per second: " + GetPureEfficiencyPerSecond() + ",\n "
+	              + "Efficiency boost: " + GetManagerBoost(BoostType.Efficiency) + ",\n "
+	              + "Speed boost: " + GetManagerBoost(BoostType.Speed));*/
+
         return GetPureEfficiencyPerSecond() * GetManagerBoost(BoostType.Efficiency) * GetManagerBoost(BoostType.Speed) * GetGlobalBoost();
     }
 
@@ -82,22 +105,7 @@ public class Shaft : MonoBehaviour
         get { return GetManagerBoost(BoostType.Costs); }
     }
 
-    private List<Brewer> _brewers = new();
-    public List<Brewer> Brewers => _brewers;
-    public Deposit CurrentDeposit { get; set; }
-    [Header("Skin")]
-    private ShaftSkin _shaftSkin;
 
-    public ShaftSkin shaftSkin
-    {
-        get => _shaftSkin;
-        set
-        {
-            _shaftSkin = value;
-
-        }
-
-    }
     public void UpdateUI()
     {
         if (TryGetComponent(out ShaftUI shaftUI))
@@ -106,11 +114,11 @@ public class Shaft : MonoBehaviour
         }
     }
 
-    public void CreateBrewer()
+    /*public void CreateBrewer()
     {
 
         GameObject brewGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Brewer);
-        /*float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);*/
+        /*float randomX = UnityEngine.Random.Range(m_brewerLocation.position.x, m_brewLocation.position.x);#1#
         float randomX = 0.5f;
 
         Vector3 spawnPosition = m_brewerLocation.position;
@@ -120,7 +128,7 @@ public class Shaft : MonoBehaviour
         brewGO.GetComponent<Brewer>().CurrentShaft = this;
 
         _brewers.Add(brewGO.GetComponent<Brewer>());
-    }
+    }*/
 
     private void CreateDeposit()
     {
@@ -128,7 +136,6 @@ public class Shaft : MonoBehaviour
         depositGO.transform.position = m_depositLocation.position;
         Deposit deposit = depositGO.GetComponent<Deposit>();
         deposit.transform.SetParent(transform);
-        //Debug.Log("create:" + depositGO);
         CurrentDeposit = deposit;
     }
 
@@ -158,29 +165,25 @@ public class Shaft : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < numberBrewer; i++)
+        /*for (int i = 0; i <  numberBrewer; i++)
         {
             CreateBrewer();
-        }
+        }*/
         UpdateUI();
     }
 
-    void Update()
+    /*void Update()
     {
         gameObject.GetComponent<ShaftUI>().PlayCollectAnimation(IsTableUsing());
-    }
+    }*/
 
     public void SetDepositValue(double value)
     {
         CurrentDeposit.AddPaw(value);
     }
 
-    public void UpgradeTable()
-    {
 
-    }
-
-    private bool IsTableUsing()
+    /*private bool IsTableUsing()
     {
         foreach (var brewer in _brewers)
         {
@@ -206,7 +209,7 @@ public class Shaft : MonoBehaviour
             }
             await UniTask.Delay(100);
         }
-    }
+    }*/
     public void AddManagerButtonInteract(bool isShowing)
     {
         if (TryGetComponent(out ShaftUI shaftUI))

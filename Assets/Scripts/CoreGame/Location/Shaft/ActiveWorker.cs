@@ -9,8 +9,9 @@ public class ActiveWorker : MonoBehaviour
 	public bool isClickable = true;
 	private void OnMouseDown()
 	{
-		if(!isClickable)  return; 
+		if(!isClickable)  return;
 		SoundManager.PlaySound(SoundEnum.mobileClickBack);
 		shaftUI.AwakeWorker();
+	StartCoroutine(	shaftUI.Shaft.transportMachine.SpawnCakesForDuration(2f));
 	}
 }

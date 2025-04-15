@@ -179,10 +179,12 @@ public class UpgradeUI : MonoBehaviour
 		switch (managerLocation)
 		{
 			case ManagerLocation.Shaft:
-			case ManagerLocation.Counter:
-				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement(value)) + "/s";
-				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement(value, managerLocation));
-				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal(value, managerLocation));
+				/*productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value)) + "/s";
+				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
+				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, managerLocation));*/
+				totalProductIncrement.text =Currency.DisplayCurrency(UpgradeManager.Instance.GetTotalCakeValue(value));
+				productIncrement.text ="-"+UpgradeManager.Instance.GetTotalBakingTime(value).ToString("F2");
+
 				break;
 			case ManagerLocation.Elevator:
 				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement(value)) + "/s";
@@ -221,30 +223,69 @@ public class UpgradeUI : MonoBehaviour
 	public void SetWorkerInfo(ManagerLocation locationType, string name, double production, string number, double total, int level)
 	{
 		managerLocation = locationType;
-		currentLevel = level;
+		string titleKey = string.Empty;
+		string currentTitlekey = string.Empty;
+		switch (locationType)
+		{
+			case ManagerLocation.Shaft: //show speed + value of cake
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft);
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeShaft);
+				currentLevel = level;
+				numberOrSpeedPanel.SetActive(false);
 
-		currentTitleText = MainGameData.UpgradeDetailInfo[locationType][0];
-		titleText.text = currentTitleText + (level + 1);
-		s_workerProduction.text = MainGameData.UpgradeDetailInfo[locationType][1];
-		s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[locationType][2];
-		s_totalProduction.text = MainGameData.UpgradeDetailInfo[locationType][3];
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0];
+				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][1];
+				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
+				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][3];
 
-		numberOrSpeedPanel.SetActive(locationType != ManagerLocation.Elevator);
-		workerProduction.text = Currency.DisplayCurrency(production) + "/s";
-		numberOrSpeed.text = number + (locationType == ManagerLocation.Elevator ? " s" : "NV");
-		totalProduction.text = Currency.DisplayCurrency(total);
-		workerName.text = name;
+				// Ensure only the correct panel is shown
+				if (barCounterSkinPanel != null) barCounterSkinPanel.SetActive(false);
+				if (counterSkinPanel != null) counterSkinPanel.SetActive(false);
+				if (locationType == ManagerLocation.Shaft && barCounterSkinPanel != null)
+					barCounterSkinPanel.SetActive(true);
+				else if (locationType == ManagerLocation.Counter && counterSkinPanel != null)
+					counterSkinPanel.SetActive(true);
+				break;
+			case ManagerLocation.Elevator:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeElevator);
+				numberOrSpeedPanel.SetActive(false);
 
-		// Ensure only the correct panel is shown
-		if (barCounterSkinPanel != null) barCounterSkinPanel.SetActive(false);
-		if (counterSkinPanel != null) counterSkinPanel.SetActive(false);
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][0];
+				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][1];
+				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
+				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][3];
+				workerName.text = name;
 
-		if (locationType == ManagerLocation.Shaft && barCounterSkinPanel != null)
-			barCounterSkinPanel.SetActive(true);
-		else if (locationType == ManagerLocation.Counter && counterSkinPanel != null)
-			counterSkinPanel.SetActive(true);
+				numberOrSpeed.text = number + " s";
+				break;
+			case ManagerLocation.Counter:
+				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
+				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
+				currentLevel = level;
+				numberOrSpeedPanel.SetActive(true);
+				//titleText.text = $"{MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0]} {level}";
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0];
+				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
+				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
+				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][3];
+				workerName.text = name;
 
-
+				numberOrSpeed.text = number + "NV";
+				break;
+		}
+		titleText.text = $"{titleKey} {level + 1}";
+		currentTitleText = currentTitlekey;
+		if (locationType == ManagerLocation.Shaft)
+		{
+			workerProduction.text=production.ToString("F2")+ " s/Box";
+			totalProduction.text = Currency.DisplayCurrency(number)+" Paw";
+		}
+		else
+		{
+			workerProduction.text = Currency.DisplayCurrency(production) + "/s";
+			totalProduction.text = Currency.DisplayCurrency(total);
+		}
 
 		DisplayNextUpgrade(1);
 	}

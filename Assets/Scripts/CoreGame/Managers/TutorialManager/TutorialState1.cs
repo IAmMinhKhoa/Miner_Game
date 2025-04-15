@@ -70,7 +70,7 @@ public class TutorialState1 : BaseTutorialState
 
 	private void Step1()
 	{
-		ShaftManager.Instance.Shafts[0].AwakeWorker(true).Forget();
+		//ShaftManager.Instance.Shafts[0].AwakeWorker(true).Forget();
 		tutorialUI.TutorialClickNextStepButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(-420, -190);
 	}
 
