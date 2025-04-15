@@ -6,20 +6,22 @@ using System;
 using System.Collections.Generic;
 using Patterns;
 using Spine;
+using NOOD;
 
 namespace PlayFabManager.Data
 {
 	public class PlayFabDataManager : Singleton<PlayFabDataManager>
 	{
 		[SerializeField]
-		private LoaddingScreenManager prefab;
+		private GameObject loadingPrefab => GameData.Instance.InstantiatePrefab(PrefabEnum.ModelLoading);
 		private LoaddingScreenManager loadingScene;
 		[SerializeField] private Transform gameUI;
 		private bool isDataLoaded = false;
 		public string accountID;
 		private void Start()
 		{
-			loadingScene = Instantiate(prefab, gameUI.transform);
+			var go = Instantiate(loadingPrefab, gameUI.transform);
+			loadingScene = go.GetComponent<LoaddingScreenManager>();
 			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
