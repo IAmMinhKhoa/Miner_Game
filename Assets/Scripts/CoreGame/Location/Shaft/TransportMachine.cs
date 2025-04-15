@@ -13,7 +13,7 @@ public class TransportMachine : MonoBehaviour
 	public Transform _endPoint;    // Điểm kết thúc
 
 	//config
-	public CakeConfig Config;
+	private CakeConfig Config=>CurrentShaft.Config;
 	//----
 	[SerializeField] private bool isWorking = false;
 	public bool IsWorking => isWorking;
@@ -23,14 +23,22 @@ public class TransportMachine : MonoBehaviour
 	public Shaft CurrentShaft;
 
 	//--value capacity & amount product cake
-	public float ValueProduct
+	public double ValueProduct //Giá trị mỗi bánh
 	{
-		get{ return Config.Value; }
+		get
+		{
+	//		Debug.Log("khoa valueproduct :"+ Config.Value*CurrentShaft.ScaleCakeValue);
+			return Config.Value*CurrentShaft.EfficiencyBoost;
+		}
 	}
 
-	public double ProductPerSecond
+	public double ProductPerSecond //Tốc độ sản xuất bánh (cứ <ProductPerSecond> giây sẽ tạo 1 bánh)
 	{
-		get { return Config.ProductPerSecond; }
+		get
+		{
+
+			return  Config.ProductPerSecond /CurrentShaft.ScaleBakingTime/ CurrentShaft.SpeedBoost/CurrentShaft.GetGlobalBoost();
+		}
 	}
 	private void Update()
 	{
@@ -67,8 +75,8 @@ public class TransportMachine : MonoBehaviour
 		while (elapsedTime < duration)
 		{
 			SpawnAndMoveCake();  // Gọi hàm spawn bánh
-			elapsedTime += Config.ProductPerSecond;  // Cộng thêm thời gian giữa các lần spawn
-			yield return new WaitForSeconds(Config.ProductPerSecond); // Chờ theo CakePerSecond trước khi spawn bánh tiếp theo
+			elapsedTime += (float)ProductPerSecond;  // Cộng thêm thời gian giữa các lần spawn
+			yield return new WaitForSeconds((float)ProductPerSecond); // Chờ theo CakePerSecond trước khi spawn bánh tiếp theo
 		}
 
 		isWorking = false;
@@ -78,7 +86,7 @@ public class TransportMachine : MonoBehaviour
 	{
 		isWorking = true;
 		SpawnAndMoveCake();
-		yield return new WaitForSeconds(Config.ProductPerSecond);
+		yield return new WaitForSeconds((float)ProductPerSecond);
 		isWorking = false;
 	}
 	private void SpawnAndMoveCake()
@@ -88,7 +96,7 @@ public class TransportMachine : MonoBehaviour
 
 		// Di chuyển Cake từ _startPoint đến _endPoint bằng DOTween
 		//Multiply by 3 to ensure there are always 3 cakes in the transport machine
-		cake.transform.DOMove(_endPoint.position, Config.ProductPerSecond*3).SetEase(Ease.Linear).OnComplete(() =>
+		cake.transform.DOMove(_endPoint.position, (float)ProductPerSecond*3).SetEase(Ease.Linear).OnComplete(() =>
 		{
 			Deposit();
 			Destroy(cake); // Destroy khi cake di chuyển xong

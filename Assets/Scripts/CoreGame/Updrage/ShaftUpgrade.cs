@@ -34,8 +34,10 @@ public class ShaftUpgrade : BaseUpgrade
 	}
 	protected override void RunUpgrade()
 	{
-		float nextScale = GetNextUpgradeScale(CurrentLevel);
-		shaft.LevelBoost *= 1 + nextScale;
+		float nextScaleCakeValue = GetNextUpgradeCakeValue(CurrentLevel);
+		float nextScaleBakingTime= GetNextUpgradeBakingTime(CurrentLevel);
+		shaft.ScaleCakeValue *= 1 + nextScaleCakeValue;
+		shaft.ScaleBakingTime *= 1 + nextScaleBakingTime;
 		if (milestoneLevels.TryGetValue(CurrentLevel, out int superMoney))
 		{
 			SuperMoneyManager.Instance.AddMoney(superMoney);
@@ -56,23 +58,38 @@ public class ShaftUpgrade : BaseUpgrade
 		}
 		shaft.OnUpgrade?.Invoke(CurrentLevel);
 	}
-	private float GetNextUpgradeScale(int CurrentLevel)
+	private float GetNextUpgradeCakeValue(int CurrentLevel)
 	{
 		return CurrentLevel switch
 		{
 			< 2 => 0,
-			10 or 25 => 1.5f,
-			50 or 100 or 200 or 400 => 2.5f,
+			10 or 25 => 0.48f,
+			50 or 100 or 200 or 400 => 0.87f,
 			_ => CurrentLevel switch
 			{
-				< 10 => 0.098f,
-				< 25 => 0.088f,
+				< 10 => 0.0479f,
+				< 25 => 0.0431f,
 				<= 800 => 0.078f,
 				_ => 0
 			}
 		};
 	}
-
+	private float GetNextUpgradeBakingTime(int CurrentLevel)
+	{
+		return CurrentLevel switch
+		{
+			< 2 => 0,
+			10 or 25 => 0.3243f,
+			50 or 100 or 200 or 400 => 0.6516f,
+			_ => CurrentLevel switch
+			{
+				< 10 => 0.0467f,
+				< 25 => 0.0413f,
+				<= 800 => 0.0369f,
+				_ => 0
+			}
+		};
+	}
 	public override float GetNextUpgradeCostScale(int level)
 	{
 
@@ -120,7 +137,7 @@ public class ShaftUpgrade : BaseUpgrade
 		};
 	}
 
-	public override double GetProductionScale(int amoutOfNextLevel)
+	public override double GetProductionCakeScale(int amoutOfNextLevel)
 	{
 		if (amoutOfNextLevel <= 0)
 		{
@@ -130,9 +147,29 @@ public class ShaftUpgrade : BaseUpgrade
 		double scale = 1.00;
 		for (int i = 1; i <= amoutOfNextLevel; i++)
 		{
-			scale *= 1 + GetNextUpgradeScale(CurrentLevel + i);
+			scale *= 1 + GetNextUpgradeCakeValue(CurrentLevel + i);
+		}
+
+		return scale;
+	}
+
+	public override double GetProductionBakingTime(int amoutOfNextLevel)
+	{
+		if (amoutOfNextLevel <= 0)
+		{
+			return 1d;
+		}
+
+		double scale = 1.00;
+		for (int i = 1; i <= amoutOfNextLevel; i++)
+		{
+			scale *= 1 + GetNextUpgradeBakingTime(CurrentLevel + i);
 		}
 
 		return scale;
 	}
 }
+/*
+ * 1
+ *
+ */

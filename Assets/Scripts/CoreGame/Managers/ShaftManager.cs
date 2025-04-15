@@ -173,7 +173,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			Dictionary<string, object> shaftData = new Dictionary<string, object>
 			{
 				{ "Index", shaft.shaftIndex },
-				{ "LevelBoost", shaft.LevelBoost },
+				{ "ScaleCakeValue", shaft.ScaleCakeValue },
+				{ "ScaleBakingTime", shaft.ScaleBakingTime },
 				{ "IndexBoost", shaft.IndexBoost },
 				//{ "Brewers", shaft.Brewers.Count },
 				{ "CurrentDeposit", shaft.CurrentDeposit.CurrentPaw },
@@ -210,7 +211,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 			foreach (ShaftData shaftData in saveData.ShaftsData)
 			{
 				int index = shaftData.Index;
-				double levelBoost = shaftData.LevelBoost;
+				double scaleCakeValue = shaftData.ScaleCakeValue;
+				double scaleBakingTime = shaftData.ScaleBakingTime;
 				double indexBoost = shaftData.IndexBoost;
 				int brewers = shaftData.Brewers;
 				double currentDeposit = shaftData.CurrentDeposit;
@@ -224,7 +226,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 				};
 
 				Shaft shaft = Instantiate(shaftPrefab, position, Quaternion.identity);
-				shaft.LevelBoost = levelBoost;
+				shaft.ScaleCakeValue = scaleCakeValue;
+				shaft.ScaleBakingTime = scaleBakingTime;
 				shaft.IndexBoost = indexBoost;
 				shaft.numberBrewer = brewers;
 				shaft.gameObject.GetComponent<ShaftUpgrade>().SetInitialValue(index, initCost, level);
@@ -327,7 +330,8 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	public class ShaftData
 	{
 		public int Index { get; set; }
-		public double LevelBoost { get; set; }
+		public double ScaleCakeValue { get; set; }
+		public double ScaleBakingTime { get; set; }
 		public double IndexBoost { get; set; }
 		public int Brewers { get; set; }
 		public double CurrentDeposit { get; set; }

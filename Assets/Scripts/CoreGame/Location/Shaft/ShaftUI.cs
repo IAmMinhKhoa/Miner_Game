@@ -146,7 +146,7 @@ public partial class ShaftUI : MonoBehaviour
 
     private void ChangePawHandler(double value)
     {
-        Debug.Log("Change Paw: " + value);
+
         //m_animatorTable.SetTrigger("Shake");
 
         if (value > 0)
