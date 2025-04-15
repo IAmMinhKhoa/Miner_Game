@@ -8,6 +8,7 @@ public class BYPool
     public int total;
     public string name_pool;
     public List<Transform> elements = new List<Transform>();
+    public Transform parentSpawm;
     public Transform preFab;
     public int index = -1;
     public BYPool()

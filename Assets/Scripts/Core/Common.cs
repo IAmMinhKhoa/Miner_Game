@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -175,5 +176,18 @@ public static class Common
 #endif
 			return false; // Nếu không phải iOS, trả về false
 		}
+	}
+	public static Tween DOFadeSkeletonGraphic(SkeletonGraphic skeletonGraphic, float endAlpha, float duration)
+	{
+		// Lấy màu hiện tại
+		Color color = skeletonGraphic.color;
+		float startAlpha = color.a;
+
+		return DOTween.To(() => startAlpha, x =>
+		{
+			startAlpha = x;
+			color.a = x;
+			skeletonGraphic.color = color;
+		}, endAlpha, duration);
 	}
 }
