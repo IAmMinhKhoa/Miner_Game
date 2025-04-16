@@ -19,7 +19,7 @@ public class MiniGameUI : MonoBehaviour
 	[SerializeField] private Button btn_back;
 	[SerializeField] private Button btn_redeempoints;
 	[SerializeField] private ChangeMachine redeemPointUI;
-	
+
 	private CanvasGroup _canvasGroup;
 	private CancellationTokenSource _disableToken;
 	private Vector3 originalScaleRedeemPoints;
@@ -47,7 +47,7 @@ public class MiniGameUI : MonoBehaviour
 		btn_back.onClick.AddListener(OnBack);
 		btn_redeempoints.onClick.AddListener(OnRedeempoints);
 
-		
+
 	}
 	private void OnEnable()
 	{
@@ -116,7 +116,6 @@ public class MiniGameUI : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
-		Debug.Log("khoaa:" + posCam);
 		gameObject.transform.localPosition = new Vector2(posCam.x - 2000, posCam.y); //Left Screen
 		gameObject.transform.DOLocalMoveX(0, 0.6f).SetEase(Ease.OutQuart);
 
@@ -128,7 +127,7 @@ public class MiniGameUI : MonoBehaviour
 		Vector2 posCam = CustomCamera.Instance.GetCurrentTransform().position;
 		gameObject.transform.DOLocalMoveX(posCam.x - 2000f, 0.6f).SetEase(Ease.InQuart).OnComplete(() =>
 		{
-			gameObject.SetActive(false);
+		Destroy(this.gameObject);
 		});
 
 	}

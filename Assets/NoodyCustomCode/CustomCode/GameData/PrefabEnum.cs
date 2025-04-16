@@ -9,5 +9,10 @@ public enum PrefabEnum
 	Transporter = 4,
 	HeadLoading = 5,
 	ModelLoading = 6,
+	ModalBank = 7,
+	ModalMiniGame = 8,
+	ModalOfflineMoney = 9,
+	ModalSetting = 10,
+	ModalShowEvent = 11,
 }
 }

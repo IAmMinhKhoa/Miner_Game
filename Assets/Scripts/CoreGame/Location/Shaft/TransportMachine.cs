@@ -13,7 +13,6 @@ public class TransportMachine : MonoBehaviour
 	public Transform _startPoint;  // Điểm bắt đầu
 	public Transform _endPoint;    // Điểm kết thúc
 
-	private bool isCreatedPool = false;
 	//config
 	private CakeConfig Config=>CurrentShaft.Config;
 	//----
@@ -55,13 +54,13 @@ public class TransportMachine : MonoBehaviour
 
 		PoolManager.Instance.pool_defaults.Add(poolCake);
 		PoolManager.Instance.InitPool();
-		isCreatedPool = true;
+
 
 	}
 
 	private void Update()
 	{
-		if (!isCreatedPool) return;
+
 		if (!isWorking)
 		{
 			if (CurrentShaft.ManagerLocation.Manager != null)
@@ -105,7 +104,7 @@ public class TransportMachine : MonoBehaviour
 	private IEnumerator SpawmCakePerSecond()
 	{
 		isWorking = true;
-		//SpawnAndMoveCake();
+		SpawnAndMoveCake();
 		yield return new WaitForSeconds((float)ProductPerSecond);
 		isWorking = false;
 	}

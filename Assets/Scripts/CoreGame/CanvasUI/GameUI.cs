@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NOOD;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
@@ -46,6 +47,16 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	[SerializeField] public GameObject modal_showEvent;
 	public List<GameObject> ButtonesUI => buttonesUI;
 	public ButtonBehavior BT_Manager => bt_Manager;
+	protected override void Awake()
+	{
+		base.Awake();
+		/*modal_settingUI = GameData.Instance.InstantiatePrefab(PrefabEnum.ModalSetting);
+		modal_bankUI = GameData.Instance.InstantiatePrefab(PrefabEnum.ModalBank);
+		modal_minigameUI = GameData.Instance.InstantiatePrefab(PrefabEnum.ModalMiniGame);
+		modal_offlineUI = GameData.Instance.InstantiatePrefab(PrefabEnum.ModalOfflineMoney);*/
+
+	}
+
 	private async void Start()
 	{
 
@@ -64,11 +75,19 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 
 	}
 
+	private GameObject InstantiateModal(PrefabEnum prefab)
+	{
+		GameObject mainObj=GameData.Instance.InstantiatePrefab(prefab);
+		mainObj.transform.SetParent(this.transform);
+		mainObj.transform.localScale = Vector3.one;
+		return mainObj;
+	}
 	#region EVENT
 	[Button]
 	public void OpenModalShowEvent()
 	{
-		modal_showEvent.SetActive(true);
+			modal_showEvent=InstantiateModal( PrefabEnum.ModalShowEvent);
+			modal_showEvent.SetActive(true);
 			modal_showEvent.GetComponent<ModalShowEvent>().OpenModal();
 	}
 	private void OpenBookManager()
@@ -89,21 +108,37 @@ public class GameUI : Patterns.Singleton<GameUI> //GAME HUD (MANAGER UI GAME)
 	}
 	public void OpenSetting()
 	{
+		modal_settingUI=InstantiateModal( PrefabEnum.ModalSetting);
 		modal_settingUI.GetComponent<SettingUI>().FadeInContainer();
 	}
 	public void OpenBank()
 	{
+		modal_bankUI=InstantiateModal( PrefabEnum.ModalBank);
 		modal_bankUI.SetActive(true);
 		modal_bankUI.GetComponent<BankUI>().FadeInContainer();
 	}
 	public void OpenMinigame()
 	{
+		modal_minigameUI=InstantiateModal( PrefabEnum.ModalMiniGame);
+
 		modal_minigameUI.SetActive(true);
+		RectTransform rect = modal_minigameUI.GetComponent<RectTransform>();
+		// Đặt anchor về stretch toàn phần
+		rect.anchorMin = Vector2.zero;
+		rect.anchorMax = Vector2.one;
+		rect.offsetMin = Vector2.zero;  // left, bottom
+		rect.offsetMax = Vector2.zero;  // right, top
+
+		// Đảm bảo vị trí Z = 0
+		Vector3 pos = rect.anchoredPosition3D;
+		pos.z = 0;
+		rect.anchoredPosition3D = pos;
 	}
 
 	public async void OpenOffline(OfflineMoneyData money)
 	{
 		UnityEngine.Debug.Log("OpenOffline");
+		modal_showEvent=InstantiateModal( PrefabEnum.ModalOfflineMoney);
 		if (money.paw <= 0) return;
 		if (modal_showEvent != null)
 		{

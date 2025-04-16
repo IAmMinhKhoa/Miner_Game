@@ -574,10 +574,10 @@ RectTransform:
   - {fileID: 4828653896610688390}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 681.48, y: -155}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6649404076442930763
 CanvasRenderer:
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: currency_sp_3
+  productId: currency_sp_6
   buttonType: 0
   consumePurchase: 1
   onTransactionsRestored:
@@ -682,9 +682,9 @@ MonoBehaviour:
   onPurchaseComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1042171622010161317}
+      - m_Target: {fileID: 8987402779550352091}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -714,8 +714,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 1418390250126199602}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 5885854514811528145}
+  _idBundle: 2
+  _moneyReward: 400
 --- !u!114 &2201105399059132756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,10 +775,10 @@ RectTransform:
   - {fileID: 2118967996709444577}
   m_Father: {fileID: 3559249001258478486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 499.1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 435, y: -803.84}
+  m_SizeDelta: {x: 822, y: 499.1}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8276522888352297527
 MonoBehaviour:
@@ -817,7 +818,7 @@ GameObject:
   - component: {fileID: 6455449976441074670}
   - component: {fileID: 4053794225662092307}
   m_Layer: 5
-  m_Name: BankUI
+  m_Name: ModalBank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,38 +870,6 @@ MonoBehaviour:
   - {fileID: 6455449976441074670}
   - {fileID: 4668649110186065289}
   _fadeSpeed: 0.3
-  _moneyStoreButton:
-    _pairs:
-    - _key: {fileID: 1071100372803379595}
-      _value:
-        Amount: 40
-        UsdPrice: 0.99
-        VndPrice: 19999
-    - _key: {fileID: 3685128327149595878}
-      _value:
-        Amount: 150
-        UsdPrice: 1.99
-        VndPrice: 49999
-    - _key: {fileID: 1042171622010161317}
-      _value:
-        Amount: 400
-        UsdPrice: 3.99
-        VndPrice: 99999
-    - _key: {fileID: 6240577233816120376}
-      _value:
-        Amount: 1000
-        UsdPrice: 7.99
-        VndPrice: 199999
-    - _key: {fileID: 5605773388295708319}
-      _value:
-        Amount: 2500
-        UsdPrice: 15.99
-        VndPrice: 399999
-    - _key: {fileID: 8987402779550352091}
-      _value:
-        Amount: 6000
-        UsdPrice: 29.99
-        VndPrice: 799999
   _pawStoreButton:
     _pairs:
     - _key: {fileID: 209516541415073136}
@@ -1118,10 +1087,10 @@ RectTransform:
   - {fileID: 5236038551822423816}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411, y: -504.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8558474524758238830
 CanvasRenderer:
@@ -1217,7 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: currency_sp_5
+  productId: currency_sp_6
   buttonType: 0
   consumePurchase: 1
   onTransactionsRestored:
@@ -1226,9 +1195,9 @@ MonoBehaviour:
   onPurchaseComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5605773388295708319}
+      - m_Target: {fileID: 8987402779550352091}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1258,8 +1227,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 2216526818166365107}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 8185740847333283522}
+  _idBundle: 4
+  _moneyReward: 2500
 --- !u!114 &5798907859485316915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1989,10 +1959,10 @@ RectTransform:
   - {fileID: 3388760035028760818}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 141, y: -490.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4906631457707456019
 CanvasRenderer:
@@ -2088,7 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 5954127903561672415}
+  _scaleAmount: {fileID: 5116702491788146612}
   _priceText: {fileID: 3111871492516181523}
   _pawReward: 0
   _price: 0
@@ -2801,10 +2771,10 @@ RectTransform:
   - {fileID: 1789944194929634835}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 141, y: -141}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1627062907066348959
 CanvasRenderer:
@@ -2900,7 +2870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 3366629064060578335}
+  _scaleAmount: {fileID: 8668479025869380499}
   _priceText: {fileID: 4608426502612885485}
   _pawReward: 0
   _price: 0
@@ -2962,7 +2932,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 1302.9401}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7918419331503115519
 MonoBehaviour:
@@ -3132,10 +3102,10 @@ RectTransform:
   - {fileID: 4603443309001292243}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411, y: -490.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5491160484010320529
 CanvasRenderer:
@@ -3231,7 +3201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 923042309602168194}
+  _scaleAmount: {fileID: 3384651328493511518}
   _priceText: {fileID: 1354585445162347610}
   _pawReward: 0
   _price: 0
@@ -3293,10 +3263,10 @@ RectTransform:
   - {fileID: 4020775603695535547}
   m_Father: {fileID: 3559249001258478486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 735.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 435, y: -30}
+  m_SizeDelta: {x: 822, y: 735.5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5713134388732453855
 MonoBehaviour:
@@ -3628,10 +3598,10 @@ RectTransform:
   - {fileID: 8884368611953414681}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 140.51999, y: -155}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &622889663191824010
 CanvasRenderer:
@@ -3738,7 +3708,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1071100372803379595}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3768,8 +3738,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 3862425880909223285}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 6690140146032733020}
+  _idBundle: 0
+  _moneyReward: 40
 --- !u!114 &4306478825793212344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4816,10 +4787,10 @@ RectTransform:
   - {fileID: 758046400790891067}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 681.48, y: -504.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7521516956279745923
 CanvasRenderer:
@@ -4926,7 +4897,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8987402779550352091}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4956,8 +4927,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 743539441490428674}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 705051245821869327}
+  _idBundle: 5
+  _moneyReward: 6000
 --- !u!114 &7258316575090215040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5258,10 +5230,10 @@ RectTransform:
   - {fileID: 4198411163617446442}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411, y: -155}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4652515122650553218
 CanvasRenderer:
@@ -5357,7 +5329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: currency_sp_2
+  productId: currency_sp_6
   buttonType: 0
   consumePurchase: 1
   onTransactionsRestored:
@@ -5368,7 +5340,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3685128327149595878}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5398,8 +5370,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 1246004530969926099}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 9016895935549195264}
+  _idBundle: 1
+  _moneyReward: 150
 --- !u!114 &917940866232058819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5593,10 +5566,10 @@ RectTransform:
   - {fileID: 5257292679009259397}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 681, y: -490.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5644498846768347153
 CanvasRenderer:
@@ -5692,7 +5665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 2327704618346388202}
+  _scaleAmount: {fileID: 4910845696091606210}
   _priceText: {fileID: 2882553753620541392}
   _pawReward: 0
   _price: 0
@@ -6157,10 +6130,10 @@ RectTransform:
   - {fileID: 7341093182232137118}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 681, y: -141}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6428633943124634381
 CanvasRenderer:
@@ -6256,7 +6229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 8678067905871821225}
+  _scaleAmount: {fileID: 3952301342065495961}
   _priceText: {fileID: 2679694313045584523}
   _pawReward: 0
   _price: 0
@@ -6319,10 +6292,10 @@ RectTransform:
   - {fileID: 8161001042480626765}
   m_Father: {fileID: 6580990048616119999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 411, y: -141}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6354194751837242977
 CanvasRenderer:
@@ -6418,7 +6391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308e80460010a4e60998c5857292c176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scaleAmount: {fileID: 1053115300229756574}
+  _scaleAmount: {fileID: 3110251063543501281}
   _priceText: {fileID: 4542681762355952386}
   _pawReward: 0
   _price: 0
@@ -6883,10 +6856,10 @@ RectTransform:
   - {fileID: 4481472124962634203}
   m_Father: {fileID: 5089309383423264626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 140.51999, y: -504.1}
+  m_SizeDelta: {x: 260, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &979791746705577327
 CanvasRenderer:
@@ -6982,7 +6955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b79b5624d944058bd39aad2b90fb275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: currency_sp_4
+  productId: currency_sp_6
   buttonType: 0
   consumePurchase: 1
   onTransactionsRestored:
@@ -6991,9 +6964,9 @@ MonoBehaviour:
   onPurchaseComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6240577233816120376}
+      - m_Target: {fileID: 8987402779550352091}
         m_TargetAssemblyTypeName: MoneyButton, Game
-        m_MethodName: OnTransactionComplete
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7023,8 +6996,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _priceText: {fileID: 3750141836268780849}
-  _moneyReward: 0
-  _price: 0
+  _rewardText: {fileID: 3121920679646529089}
+  _idBundle: 3
+  _moneyReward: 1000
 --- !u!114 &3834563239004211725
 MonoBehaviour:
   m_ObjectHideFlags: 0
