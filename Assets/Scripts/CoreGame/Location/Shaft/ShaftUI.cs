@@ -11,6 +11,7 @@ using NOOD.SerializableDictionary;
 using System.Linq;
 using Spine;
 using DG.Tweening;
+using NOOD.Sound;
 
 public partial class ShaftUI : MonoBehaviour
 {
@@ -207,11 +208,14 @@ public partial class ShaftUI : MonoBehaviour
     {
         if (PawManager.Instance.CurrentPaw >= ShaftManager.Instance.CurrentCost)
         {
+	        SoundManager.PlaySound(SoundEnum.mergeSuccess);
             PawManager.Instance.RemovePaw(ShaftManager.Instance.CurrentCost);
             StartCoroutine(ShaftManager.Instance.AddShaftAfterCooldown());  // Start cooldown coroutine
             m_buyNewShaftButton.gameObject.SetActive(false);
             PawManager.Instance.OnPawChanged?.Invoke(PawManager.Instance.CurrentPaw);
+            return;
         }
+        SoundManager.PlaySound(SoundEnum.mergeFail);
     }
 
     public async void PlayCollectAnimation(bool isBrewing)

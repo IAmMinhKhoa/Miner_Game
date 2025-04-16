@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PawManager : Patterns.Singleton<PawManager>
 {
@@ -60,6 +61,12 @@ public class PawManager : Patterns.Singleton<PawManager>
     public void CalculateBonus(float offlineTime)
     {
         OfflineManager.Instance.TestPawBonus(offlineTime);
+    }
+    [Button]
+    public void ReloadCurrentScene()
+    {
+	    Scene currentScene = SceneManager.GetActiveScene();
+	    SceneManager.LoadScene(currentScene.buildIndex);
     }
 
 

@@ -75,7 +75,10 @@ public enum LanguageKeys
 	totalShippingVolume,
 	transportationStaff,
 	collectionSpeed,
-	elevatorSpeed
+	elevatorSpeed,
+
+	upgradeCakeValue,
+	upgradeCakeTime,
 }
 
 public static class LocalizationManager
@@ -169,6 +172,9 @@ public static class LocalizationManager
 			{ LanguageKeys.transportationStaff, ("home>UpGradeInfo>transportationStaff", "nhân viên vận chuyển") },
 			{ LanguageKeys.collectionSpeed, ("home>UpGradeInfo>collectionSpeed", "tốc độ thu gom") },
 			{ LanguageKeys.elevatorSpeed, ("information>elevatorSpeed", "tốc độ thang máy") },
+
+			{ LanguageKeys.upgradeCakeTime, ("upgrade>detail>cake-time", "thời gian sản xuất") },
+			{ LanguageKeys.upgradeCakeValue, ("upgrade>detail>cake-value", "giá trị mỗi bánh") },
 		};
 		return mappings;
 	}
