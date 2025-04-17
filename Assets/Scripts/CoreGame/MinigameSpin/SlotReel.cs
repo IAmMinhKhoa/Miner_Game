@@ -5,14 +5,13 @@ using DG.Tweening;
 
 public class SlotReel : MonoBehaviour
 {
+
 	public GameObject symbolPrefab;
 	public Sprite[] symbolSprites;
 	public int symbolCount = 7;
 	public float symbolHeight = 150f;
 	public float gap = 20f;
 	public int? forcedWinSpriteIndex = null;
-	public SymbolSlot CenterSymbol { get; private set; } 
-
 	private float effectiveSpacing => symbolHeight + gap;
 	private float loopHeight => effectiveSpacing * symbolCount;
 	private List<SymbolSlot> symbols = new();
@@ -34,9 +33,8 @@ public class SlotReel : MonoBehaviour
 			Image img = symbol.GetComponent<Image>();
 			if (i == Mathf.RoundToInt(centerIndex) && forcedWinSpriteIndex != null)
 			{
-				img.sprite = symbolSprites[forcedWinSpriteIndex.Value]; 
+				img.sprite = symbolSprites[forcedWinSpriteIndex.Value];
 			}
-
 			else
 			{
 				int r;
@@ -69,14 +67,13 @@ public class SlotReel : MonoBehaviour
 
 	public void StopWithTween(float duration = 0.5f)
 	{
-		Stop(); 
+		Stop();
 
 		SymbolSlot target = null;
 		float offset = 0f;
 
 		if (forcedWinSpriteIndex != null)
 		{
-			
 			foreach (var s in symbols)
 			{
 				Sprite sprite = s.GetComponent<Image>().sprite;
@@ -84,13 +81,12 @@ public class SlotReel : MonoBehaviour
 				if (spriteIndex == forcedWinSpriteIndex.Value)
 				{
 					target = s;
-					offset = s.transform.localPosition.y; 
+					offset = s.transform.localPosition.y;
 					break;
 				}
 			}
 		}
 
-		
 		if (target == null)
 		{
 			float minDistance = float.MaxValue;
@@ -106,7 +102,6 @@ public class SlotReel : MonoBehaviour
 			}
 		}
 
-		
 		if (target != null)
 		{
 			foreach (var s in symbols)
@@ -121,7 +116,6 @@ public class SlotReel : MonoBehaviour
 						if (Mathf.Abs(s.transform.localPosition.y) < 0.01f)
 						{
 							s.transform.DOScale(1.2f, 0.2f).SetLoops(2, LoopType.Yoyo);
-							
 						}
 					});
 			}
@@ -142,6 +136,8 @@ public class SlotReel : MonoBehaviour
 				centerSprite = s.GetComponent<Image>().sprite;
 			}
 		}
+
 		return centerSprite;
 	}
+
 }
