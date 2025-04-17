@@ -66,7 +66,7 @@ public class OfflineMoneyUI : MonoBehaviour
 		 collectFX.SpawnAndMoveCoin(quantityFx, this.transform,scale:0.8f);
 		yield return new WaitForSeconds(3f);
 		// Close offline money UI
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 
 	[Button]

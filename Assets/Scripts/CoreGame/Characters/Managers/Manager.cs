@@ -120,7 +120,7 @@ public class Manager
     {
         Location = location;
         Location.SetManager(this);
-        Debug.Log("Setup Location: " + location.LocationType + "/" + this.IsAssigned);
+      //  Debug.Log("Setup Location: " + location.LocationType + "/" + this.IsAssigned);
         _view = GameObject.Instantiate(Resources.Load<ManagerView>(_specieData.viewPath), ManagersController.Instance.transform);
         _view.transform.position = Location.transform.position;
         _view.SetManager(this);
@@ -136,7 +136,7 @@ public class Manager
 
     public void SwapManager()
     {
-        
+
     }
 
     public void RunBoost()
@@ -150,7 +150,7 @@ public class Manager
         currentCooldownTime = CooldownTime * 60;
         ActiveBoost();
     }
-    
+
     public void SetData(ManagerDataSO data)
     {
         _data = data;
@@ -176,7 +176,7 @@ public class Manager
     #region ---- Private Method ----
     private async UniTaskVoid ActiveBoost()
     {
-        _isBoosting = true;        
+        _isBoosting = true;
         while (currentBoostTime > 0)
         {
          //   Debug.Log("Is Boosting:" + LocationType + "/" + currentBoostTime);

@@ -131,13 +131,13 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		{
 			case ManagerLocation.Shaft:
 				Debug.Log("khoa check:"+_transportMachine.ValueProduct.ToString("F0"));
-				m_upgradePanel.SetWorkerInfo(_locationType, "MỞ KHÓA QUẦY HÀNG Ở CẤP ", _transportMachine.ProductPerSecond, _transportMachine.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _transportMachine.ProductPerSecond, _transportMachine.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
 				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Counter:
-				m_upgradePanel.SetWorkerInfo(_locationType, "Mèo đáng yêu", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 		}
 		ControlPanel(true);

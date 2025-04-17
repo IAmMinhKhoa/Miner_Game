@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -40,8 +41,26 @@ public class TransportMachine : MonoBehaviour
 			return  Config.ProductPerSecond /CurrentShaft.ScaleBakingTime/ CurrentShaft.SpeedBoost/CurrentShaft.GetGlobalBoost();
 		}
 	}
+
+	private void Start()
+	{
+		BYPool poolCake= new BYPool();
+		//tạo pool cake ở đây -> tái sử dụng object
+		poolCake.name_pool = "PoolCake_Shaft_"+CurrentShaft.shaftIndex;
+		poolCake.parentSpawm = this.transform;
+		poolCake.preFab = _prefabCake.transform;
+		poolCake.index = -1;
+		poolCake.total = 5;
+
+		PoolManager.Instance.pool_defaults.Add(poolCake);
+		PoolManager.Instance.InitPool();
+
+
+	}
+
 	private void Update()
 	{
+
 		if (!isWorking)
 		{
 			if (CurrentShaft.ManagerLocation.Manager != null)
@@ -89,17 +108,20 @@ public class TransportMachine : MonoBehaviour
 		yield return new WaitForSeconds((float)ProductPerSecond);
 		isWorking = false;
 	}
+	[Button]
 	private void SpawnAndMoveCake()
 	{
 		// Spawn Cake tại vị trí _startPoint
-		GameObject cake = Instantiate(_prefabCake, _startPoint.position, Quaternion.identity);
-
+		//GameObject cake = Instantiate(_prefabCake, _startPoint.position, Quaternion.identity);
+		Transform cake = PoolManager.Instance.dic_pool["PoolCake_Shaft_"+CurrentShaft.shaftIndex].Spawned();
+		cake.transform.position = _startPoint.position;
 		// Di chuyển Cake từ _startPoint đến _endPoint bằng DOTween
 		//Multiply by 3 to ensure there are always 3 cakes in the transport machine
 		cake.transform.DOMove(_endPoint.position, (float)ProductPerSecond*3).SetEase(Ease.Linear).OnComplete(() =>
 		{
 			Deposit();
-			Destroy(cake); // Destroy khi cake di chuyển xong
+			//Destroy(cake); // Destroy khi cake di chuyển xong
+			PoolManager.Instance.dic_pool["PoolCake_Shaft_"+CurrentShaft.shaftIndex].DesSpawned(cake);
 		});
 	}
 

@@ -64,12 +64,12 @@ public class ShaftUpgrade : BaseUpgrade
 		{
 			< 2 => 0,
 			10 or 25 => 0.48f,
-			50 or 100 or 200 or 400 => 0.87f,
+			50 or 100 or 200 or 400 => 0.75f,
 			_ => CurrentLevel switch
 			{
-				< 10 => 0.0479f,
-				< 25 => 0.0431f,
-				<= 800 => 0.078f,
+				< 10 => 0.0936f,
+				< 25 => 0.0847f,
+				<= 800 => 0.0758f,
 				_ => 0
 			}
 		};
@@ -79,13 +79,13 @@ public class ShaftUpgrade : BaseUpgrade
 		return CurrentLevel switch
 		{
 			< 2 => 0,
-			10 or 25 => 0.3243f,
-			50 or 100 or 200 or 400 => 0.6516f,
+			10 or 25 => 0.25f,
+			50 or 100 or 200 or 400 => 0.5f,
 			_ => CurrentLevel switch
 			{
-				< 10 => 0.0467f,
-				< 25 => 0.0413f,
-				<= 800 => 0.0369f,
+				< 10 => 0.04f,
+				< 25 => 0.03f,
+				<= 800 => 0.02f,
 				_ => 0
 			}
 		};
