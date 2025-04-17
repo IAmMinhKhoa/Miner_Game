@@ -1,35 +1,60 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
+public enum symbolItem
+{
+	item1,
+	item2, 
+	item3
+}
 public class SlotMachine : MonoBehaviour
 {
 	public SlotReel[] reels;
 	public GameObject symbolPrefab;
 	public Sprite[] symbolSprites;
 	public Button spinButton;
+	public float spinSpeed = 3000f;
+	public float stopDelay = 0.6f;
 
-	public float spinSpeed = 300f;
-	public float stopDelay = 0.5f;
 	private int stoppedCount = 0;
+	private List<symbolItem> serverResult;
+	private Dictionary<symbolItem, Sprite> itemToSprite;
 
 	void Start()
 	{
 		spinButton.onClick.AddListener(StartSpin);
+		InitMapping();
 		InitReels();
 	}
 
-	void InitReels(bool? forceWin = null)
+	void InitMapping()
 	{
-		int winSpriteIndex = Random.Range(0, symbolSprites.Length);
-		bool isWin = forceWin ?? (Random.value < 0.5f);
-		for (int i = 0; i < reels.Length; i++)
+		if (symbolSprites.Length != System.Enum.GetValues(typeof(symbolItem)).Length)
 		{
-			reels[i].symbolPrefab = symbolPrefab;
-			reels[i].symbolSprites = symbolSprites;
-			reels[i].forcedWinSpriteIndex = isWin ? winSpriteIndex : (int?)null;
+			
+			return;
+		}
 
-			reels[i].Init();
-			reels[i].SetSpeed(0f);
+		itemToSprite = new Dictionary<symbolItem, Sprite>
+	{
+		{ symbolItem.item1, symbolSprites[0] },
+		{ symbolItem.item2, symbolSprites[1] },
+		{ symbolItem.item3, symbolSprites[2] }
+	};
+	}
+
+	void InitReels()
+	{
+		foreach (var reel in reels)
+		{
+			reel.symbolPrefab = symbolPrefab;
+			reel.symbolSprites = symbolSprites;
+			reel.forcedWinSpriteIndex = null;
+
+			reel.Init();
+			reel.SetSpeed(0f);
 		}
 	}
 
@@ -37,59 +62,93 @@ public class SlotMachine : MonoBehaviour
 	{
 		stoppedCount = 0;
 
-
-		foreach (var reel in reels)
+		serverResult = new List<symbolItem>
+	{
+		symbolItem.item1,
+		symbolItem.item1,
+		symbolItem.item3
+	};
+		for (int i = 0; i < reels.Length; i++)
 		{
-			reel.SetSpeed(spinSpeed);
+			int spriteIndex = (int)serverResult[i];
+			reels[i].forcedWinSpriteIndex = spriteIndex;
+			
+
+			foreach (Transform child in reels[i].transform)
+				child.DOKill();
+			reels[i].Init();
+			reels[i].SetSpeed(spinSpeed);
 		}
 
-		Invoke(nameof(StopSpin), 2f);
+		Invoke(nameof(StopSpin), 2.5f);
 	}
+
 
 	void StopSpin()
 	{
+		const float baseDelay = 0.2f;
 		for (int i = 0; i < reels.Length; i++)
 		{
-			float delay = i * stopDelay;
-			StartCoroutine(SlowDown(reels[i], delay));
+			float delay = baseDelay + i * stopDelay;
+
+			
+			if (i == 1) delay += 0.15f;
+
+			SlowDown(reels[i], delay);
 		}
 	}
 
-	System.Collections.IEnumerator SlowDown(SlotReel reel, float delay)
+
+
+
+	void SlowDown(SlotReel reel, float delay)
 	{
-		yield return new WaitForSeconds(delay);
-
-		float speed = spinSpeed;
-		while (speed > 30f)
+		DOVirtual.DelayedCall(delay, () =>
 		{
-			speed -= 10f;
-			reel.SetSpeed(speed);
-			yield return new WaitForSeconds(0.05f);
-		}
+			reel.SetSpeed(0f);
+			reel.StopWithTween(0.5f);
 
-		reel.SetSpeed(0f);
-		reel.SnapToNearest();
-
-		stoppedCount++;
-		if (stoppedCount == reels.Length)
-		{
-			CheckResult();
-		}
+			stoppedCount++;
+			if (stoppedCount == reels.Length)
+				DOVirtual.DelayedCall(0.6f, CheckResult);
+		});
 	}
 
 	void CheckResult()
 	{
-		Sprite a = reels[0].GetCenterSymbol();
-		Sprite b = reels[1].GetCenterSymbol();
-		Sprite c = reels[2].GetCenterSymbol();
+		var results = new List<symbolItem>();
 
-		if (a == b && b == c)
+		foreach (var reel in reels)
 		{
-			Debug.Log("win");
+			Sprite sprite = reel.GetCenterSymbol();
+			if (sprite == null)
+			{
+				return;
+			}
+
+			int index = symbolSprites.ToList().IndexOf(sprite);
+			if (index >= 0 && index < symbolSprites.Length)
+			{
+				results.Add((symbolItem)index);
+			}
+			else
+			{	
+				return;
+			}
+		}
+
+		if (results.Count != reels.Length)
+		{
+			return;
+		}
+
+		if (results.All(r => r == results[0]))
+		{
+			Debug.Log($"WIN: {results[0]}");
 		}
 		else
 		{
-			Debug.Log("thua");
+			Debug.Log($"LOSE: {string.Join(", ", results)}");
 		}
 	}
 }
