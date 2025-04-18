@@ -273,12 +273,12 @@ public class ManagerChooseUI : MonoBehaviour
 
 			case TypeMerge.FailLevelMax:
 				SoundManager.PlaySound(SoundEnum.accessdenied);
-				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật đã đạt cấp độ cao nhất");
+				NotiWarning.OpenModal(LanguageKeys.mergeManagerDiffLevel.Text());
 				break;
 
 			case TypeMerge.FailNotSameLevel:
 				SoundManager.PlaySound(SoundEnum.accessdenied);
-				NotiWarning.OpenModal("không thể hợp nhất \n2 nhân vật có cấp độ khác nhau");
+				NotiWarning.OpenModal(LanguageKeys.mergeManagerDiffType.Text());
 				break;
 
 			default:

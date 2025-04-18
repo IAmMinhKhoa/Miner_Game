@@ -26,7 +26,7 @@ public class MarketPlayItem : MonoBehaviour
 
 	bool isItemBought = false;
 	public bool IsItemBougth => isItemBought;
-	
+
 	double _cost;
 	public double Cost {
 		get
@@ -36,7 +36,7 @@ public class MarketPlayItem : MonoBehaviour
 		set
 		{
 			_cost = value;
-			costDisplay.text = isItemBought ? "Đã sở hữu": Currency.DisplayCurrency(_cost);
+			costDisplay.text = isItemBought ? LanguageKeys.marketHadBought.Text(): Currency.DisplayCurrency(_cost);
 		}
 	}
 	private double _superCost = 40.0;
@@ -59,7 +59,8 @@ public class MarketPlayItem : MonoBehaviour
 	{
 		isItemBought = true;
 		hideImage.gameObject.SetActive(true);
-		costDisplay.text = "Đã sở hữu";
+		costDisplay.text = LanguageKeys.marketHadBought.Text();
+
 	}
 	public void ActiveSecondSpine()
 	{

@@ -22,7 +22,7 @@ public class MarketToggleHandle : MonoBehaviour
 			Vector2 currentPivot = rectTransform.pivot;
 
 			// Đổi giá trị x thành 0 (y giữ nguyên)
-			rectTransform.pivot = new Vector2(0, currentPivot.y);
+			rectTransform.pivot = new Vector2(0.5f, currentPivot.y);
 		}
     }
 

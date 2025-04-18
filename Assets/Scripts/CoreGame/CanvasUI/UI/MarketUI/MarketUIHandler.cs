@@ -58,18 +58,21 @@ public class MarketUIHandler : MonoBehaviour
 		float tempX = sideTab.transform.GetChild(0).position.x;
 		foreach (Transform item in sideTab)
 		{
-			item.position = new Vector3(-1.08501472473f, item.position.y, item.position.z);
+			RectTransform rectTransform = item.GetComponent<RectTransform>();
+			rectTransform.DOAnchorPos(new Vector2(177, rectTransform.anchoredPosition.y), 0f);
+
 		}
 
 		foreach (Transform item in sideTab)
 		{
-			item.DOMoveX(-2.190700054168701f, 0.25f).SetEase(Ease.OutQuad);
+			item.GetComponent<RectTransform>().DOAnchorPosX(0f, 0.25f).SetEase(Ease.OutQuad);
 			yield return new WaitForSeconds(_durationSldeTab);
 		}
 	}
 
 	private void Start()
 	{
+
 		if (Common.IsTablet)
 		{
 			Debug.Log("modal market reponsive to tablet");

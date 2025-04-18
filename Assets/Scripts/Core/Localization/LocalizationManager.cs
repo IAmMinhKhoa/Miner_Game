@@ -79,6 +79,9 @@ public enum LanguageKeys
 
 	upgradeCakeValue,
 	upgradeCakeTime,
+	marketHadBought,
+	mergeManagerDiffLevel,
+	mergeManagerDiffType
 }
 
 public static class LocalizationManager
@@ -175,6 +178,9 @@ public static class LocalizationManager
 
 			{ LanguageKeys.upgradeCakeTime, ("upgrade>detail>cake-time", "thời gian sản xuất") },
 			{ LanguageKeys.upgradeCakeValue, ("upgrade>detail>cake-value", "giá trị mỗi bánh") },
+			{ LanguageKeys.marketHadBought, ("market>item-Owned", "đã mua") },
+			{ LanguageKeys.mergeManagerDiffLevel, ("merge-manager>warning>max-level", "không thể hợp nhất \n2 nhân vật đã đạt cấp độ cao nhất") },
+			{ LanguageKeys.mergeManagerDiffType, ("merge-manager>warning>diff-type", "không thể hợp nhất \n2 nhân vật có cấp độ khác nhau") },
 		};
 		return mappings;
 	}
