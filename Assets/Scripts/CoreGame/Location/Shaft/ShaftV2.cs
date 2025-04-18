@@ -5,5 +5,5 @@ using UnityEngine;
 
 public partial class Shaft : MonoBehaviour
 {
-	public TransportMachine transportMachine;
+//
 }

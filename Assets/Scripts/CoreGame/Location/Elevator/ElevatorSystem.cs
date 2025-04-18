@@ -12,7 +12,6 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [SerializeField] private Deposit elevatorDeposit;
     [SerializeField] private Transform elevatorLocation;
     [SerializeField] private BaseManagerLocation managerLocation;
-    [SerializeField] private GameObject lyNuocs;
     [SerializeField] private BaseConfig elevatorCtrlConfig;
 
     public BaseManagerLocation ManagerLocation => managerLocation;
@@ -29,7 +28,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
     [SerializeField] private ElevatorController elevatorPrefab;
     public ElevatorController ElevatorPrefabController => elevatorPrefab;
 
-	
+
 	public double MoveTimeScale
     {
         get => moveTimeScale;
@@ -134,7 +133,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         base.OnDestroy();
 
     }
-    void Start()
+    /*void Start()
     {
         elevatorDeposit.OnChangePaw += ElevatorDeposit_OnChangePawHandler;
     }
@@ -149,7 +148,7 @@ public class ElevatorSystem : Patterns.Singleton<ElevatorSystem>
         {
             lyNuocs.SetActive(false);
         }
-    }
+    }*/
 
     public void InitializeElevators()
     {

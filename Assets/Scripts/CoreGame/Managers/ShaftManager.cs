@@ -197,7 +197,7 @@ public class ShaftManager : Patterns.Singleton<ShaftManager>
 	private bool Load()
 	{
 		shaftPrefab.gameObject.GetComponent<ShaftUI>().UpdateSkeletonData();
-		Debug.Log(shaftPrefab.gameObject.GetComponent<ShaftUI>().SecondBG.skeleton.Data.Skins.Count);
+	//	Debug.Log(shaftPrefab.gameObject.GetComponent<ShaftUI>().SecondBG.skeleton.Data.Skins.Count);
 		if (PlayFabManager.Data.PlayFabDataManager.Instance.ContainsKey("ShaftManager"))
 		{
 			string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("ShaftManager");

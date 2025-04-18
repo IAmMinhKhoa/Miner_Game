@@ -23,7 +23,6 @@ public class CounterUI : MonoBehaviour
 
 
 	[Header("UI Text")]
-	[SerializeField] private TextMeshProUGUI m_pawText;
 	[SerializeField] private TextMeshProUGUI m_levelText;
 	[SerializeField] private TextMeshProUGUI m_costText;
 
@@ -58,7 +57,7 @@ public class CounterUI : MonoBehaviour
 
 	void Update()
 	{
-		m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
+		//m_pawText.text = Currency.DisplayCurrency(PawManager.Instance.CurrentPaw);
 		m_costText.text = Currency.DisplayCurrency(m_counterUpgrade.CurrentCost);
 		m_levelText.text ="Lv. " + m_counterUpgrade.CurrentLevel.ToString();
 	}
@@ -151,7 +150,7 @@ public class CounterUI : MonoBehaviour
 
 	void ProcessBoostUI(BoostType boostType, float boostTime)
 	{
-		if (boostType == BoostType.Efficiency)
+		/*if (boostType == BoostType.Efficiency)
 		{
 			foreach (Transporter t in m_counter.Transporters)
 			{
@@ -173,7 +172,7 @@ public class CounterUI : MonoBehaviour
 				t.BoostFx(true);
 				Invoke("TurnOffSpeedFx", boostTime * 60);
 			}
-		}
+		}*/
 	}
 
 	void TurnOffCostFx()
@@ -183,18 +182,18 @@ public class CounterUI : MonoBehaviour
 
 	void TurnOffSpeedFx()
 	{
-		foreach (Transporter t in m_counter.Transporters)
+		/*foreach (Transporter t in m_counter.Transporters)
 		{
 			t.BoostFx(false);
-		}
+		}*/
 	}
 
 	void TurnOffEffFx()
 	{
-		foreach (Transporter t in m_counter.Transporters)
+		/*foreach (Transporter t in m_counter.Transporters)
 		{
 			t.gameObject.transform.DOScale(1f, 0.5f);
-		}
+		}*/
 	}
 	public void TurnOffAllEffect()
 	{
@@ -215,7 +214,7 @@ public class CounterUI : MonoBehaviour
 	public void PlayCollectAnimation(bool isBrewing)
 	{
 		Debug.Log("khoa PlayCollectAnimation:"+ isBrewing);
-		if (isBrewing == false && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Idle")
+		/*if (isBrewing == false && m_cashierCounter.AnimationState.GetCurrent(0).Animation.Name != "Idle")
 		{
 			Debug.Log("khoa idel");
 			m_cashierCounter.AnimationState.ClearTrack(0);
@@ -230,7 +229,7 @@ public class CounterUI : MonoBehaviour
 			m_cashierCounter.AnimationState.SetAnimation(0, "Active", true);
 		//	m_managerCounter.AnimationState.SetAnimation(0, "Active", true);
 			return;
-		}
+		}*/
 	}
 
 	public void UpdateSkeletonData()
@@ -238,15 +237,15 @@ public class CounterUI : MonoBehaviour
 		var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
 		m_bgCounter.skeletonDataAsset = skinGameData[InventoryItemType.CounterBg];
 		m_secondBG.skeletonDataAsset = skinGameData[InventoryItemType.CounterSecondBg];
-		m_cashierCounter.skeletonDataAsset = skinGameData[InventoryItemType.CashierCounter];
+	//	m_cashierCounter.skeletonDataAsset = skinGameData[InventoryItemType.CashierCounter];
 
 		m_bgCounter.Initialize(true);
 		m_secondBG.Initialize(true);
-		m_cashierCounter.Initialize(true);
+		//m_cashierCounter.Initialize(true);
 
 		var counter = GetComponent<Counter>();
 
-		foreach (var item in counter.Transporters)
+		/*foreach (var item in counter.Transporters)
 		{
 			var cartSkeleton = item.CartSkeletonAnimation;
 
@@ -260,7 +259,7 @@ public class CounterUI : MonoBehaviour
 
 			headSkeleton.Initialize(true);
 			bodySkeleton.Initialize(true);
-		}
+		}*/
 
 	}
 	public void ChangeSkin(CounterSkin data)
@@ -280,7 +279,7 @@ public class CounterUI : MonoBehaviour
 		m_cashierCounter.Skeleton.SetSkin(skinCashiderCounterName);
 		m_cashierCounter.Skeleton.SetSlotsToSetupPose();
 
-		if (TryGetComponent<Counter>(out var counter))
+		/*if (TryGetComponent<Counter>(out var counter))
 		{
 
 			int cartIndex = int.Parse(data.idCart);
@@ -313,7 +312,7 @@ public class CounterUI : MonoBehaviour
 				}
 
 			}
-		}
+		}*/
 		var upgradeUI = FindObjectOfType<UpgradeUI>();
 		if (upgradeUI != null)
 		{
@@ -336,6 +335,7 @@ public class CounterUI : MonoBehaviour
 
 	private void AwakeWorker()
 	{
-		m_counter.AwakeWorker();
+		//m_counter.AwakeWorker();
+		m_counter.AwakeWorker().Forget();
 	}
 }

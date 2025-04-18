@@ -58,7 +58,7 @@ public class SuperMoneyManager : MonoBehaviorInstance<SuperMoneyManager>
         }
         else
         {
-	        Debug.LogError("Could not parse paw value from PlayerPrefs");
+	      //  Debug.LogError("Could not parse paw value from PlayerPrefs");
         }
     }
 

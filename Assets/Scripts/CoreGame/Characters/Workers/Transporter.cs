@@ -24,7 +24,7 @@ public class Transporter : BaseWorker
 
     public override double ProductPerSecond
     {
-        get => config.ProductPerSecond * Counter.BoostScale * Counter.EfficiencyBoost * Counter.SpeedBoost * Counter.GetGlobalBoost();
+        get => config.ProductPerSecond * Counter.ScaleCakeValue * Counter.EfficiencyBoost * Counter.SpeedBoost * Counter.GetGlobalBoost();
     }
 
     public override float WorkingTime

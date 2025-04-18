@@ -4,6 +4,7 @@ using UnityEngine;
 using NOOD;
 using System;
 using System.Linq;
+using Sirenix.Serialization;
 
 public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 {
@@ -16,7 +17,8 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 	private BaseUpgrade _baseUpgrade;
 	private ManagerLocation _locationType;
 	private BaseWorker _baseWorkerRef;
-	private TransportMachine _transportMachine;
+	private TransportMachineShaft _transportMachineShaft;
+	private TransportMachineCounter _transportMachineCounter;
 	private int _number;
 	private List<Brewer> _brewers;
 	private List<Transporter> _transporters;
@@ -67,18 +69,18 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 			{
 				_baseUpgrade = shaft.GetComponent<ShaftUpgrade>();
 				_locationType = ManagerLocation.Shaft;
-				_transportMachine = shaft.transportMachine;
+				_transportMachineShaft = shaft.transportMachine;
 				/*_brewers = shaft.Brewers;
 				_baseWorkerRef = _brewers.First();
 				_number = shaft.Brewers.Count;*/
 
-				var shaftUI = shaft.GetComponent<ShaftUI>();
+				/*var shaftUI = shaft.GetComponent<ShaftUI>();
 				if (shaftUI != null)
 				{
 					string skinName = shaftUI.GetCurrentTableSkinName();
 					var dataAsset = shaftUI.GetTableDataAsset();
 					m_upgradePanel.SetBarCounterData(dataAsset, skinName);
-				}
+				}*/
 
 				break;
 			}
@@ -99,7 +101,8 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 	{
 		_baseUpgrade = Counter.Instance.gameObject.GetComponent<CounterUpgrade>();
 		_locationType = ManagerLocation.Counter;
-		_transporters = Counter.Instance.Transporters;
+		_transportMachineCounter = Counter.Instance.transportMachine;
+		/*_transporters = Counter.Instance.Transporters;
 		_baseWorkerRef = _transporters.First();
 		_number = Counter.Instance.Transporters.Count;
 
@@ -109,7 +112,7 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 			string skinName = counterUI.GetCurrentCashierCounterSkinName();
 			var dataAsset = counterUI.GetCashierCounterDataAsset();
 			m_upgradePanel.SetCashierCounterData(dataAsset, skinName);
-		}
+		}*/
 
 		ResetPanel();
 	}
@@ -130,14 +133,14 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 		switch (_locationType)
 		{
 			case ManagerLocation.Shaft:
-				Debug.Log("khoa check:"+_transportMachine.ValueProduct.ToString("F0"));
-				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _transportMachine.ProductPerSecond, _transportMachine.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
+				Debug.Log("khoa check:"+_transportMachineShaft.ValueProduct.ToString("F0"));
+				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _transportMachineShaft.ProductPerSecond, _transportMachineShaft.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Elevator:
 				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _baseWorkerRef.MoveTime.ToString("F2"), GetTotalProduction(), _baseUpgrade.CurrentLevel);
 				break;
 			case ManagerLocation.Counter:
-				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _baseWorkerRef.ProductPerSecond, _transporters.Count.ToString(), GetTotalProduction(), _baseUpgrade.CurrentLevel);
+				m_upgradePanel.SetWorkerInfo(_locationType, "!!! Upgrade !!!", _transportMachineCounter.ProductPerSecond, _transportMachineCounter.ValueProduct.ToString("F0"), 111, _baseUpgrade.CurrentLevel);
 				break;
 		}
 		ControlPanel(true);
@@ -213,13 +216,16 @@ public class UpgradeManager : Patterns.Singleton<UpgradeManager>
 
 	public double GetTotalCakeValue(int amount)
 	{
-		return _transportMachine.ValueProduct*(_baseUpgrade.GetProductionCakeScale(amount)-1d);
+		if(_locationType == ManagerLocation.Shaft)return _transportMachineShaft.ValueProduct*(_baseUpgrade.GetProductionCakeScale(amount)-1d);
+		else return  _transportMachineCounter.ValueProduct*(_baseUpgrade.GetProductionCakeScale(amount)-1d);
+
 	}
 
 	public double GetTotalBakingTime(int amount)
 	{
-		//Debug.Log("khoa check:"+_transportMachine.ProductPerSecond+"/"+_baseUpgrade.GetProductionBakingTime(amount));
-		return _transportMachine.ProductPerSecond*(_baseUpgrade.GetProductionBakingTime(amount)-1d);
+		if(_locationType == ManagerLocation.Shaft)return _transportMachineShaft.ProductPerSecond*(_baseUpgrade.GetProductionBakingTime(amount)-1d);
+		else return  _transportMachineCounter.ProductPerSecond*(_baseUpgrade.GetProductionBakingTime(amount)-1d);
+
 	}
 	public double GetProductIncrement(int amount)
 	{

@@ -20,13 +20,12 @@ namespace PlayFabManager.Data
 		public string accountID;
 		private void Start()
 		{
-			
+
 			//Camera.main.cullingMask = LayerMask.GetMask("LoadingScene");
 		}
 		private Dictionary<string, string> DataDictionary;
 		public async UniTask LoadData()
 		{
-
 			DataDictionary = new()
 			{
 				{ "ShaftManager", "" },
@@ -34,7 +33,7 @@ namespace PlayFabManager.Data
 				{ "Counter", "" },
 				{ "ManagersController", "" },
 				{ "PawVolume", "" },
-				{ "SkinManager", "" },
+			//	{ "SkinManager", "" },
 				{ "LastTimeQuit", "" },
 				{ "LastTimeCoinReward", "" },
 				{ "TutorialState", "1" },
@@ -164,7 +163,8 @@ namespace PlayFabManager.Data
 		{
 			isDataLoaded = true;
 			Camera.main.cullingMask = -1;
-			loadingScene.gameObject.SetActive(false);
+			Destroy(loadingScene.gameObject);
+			//loadingScene.gameObject.SetActive(false);
 		}
 	}
 }

@@ -116,7 +116,7 @@ public class OfflineManager : Patterns.Singleton<OfflineManager>
         ManagersController.Instance.Save();
         PawManager.Instance.Save();
         SuperMoneyManager.Instance.Save();
-        SkinManager.Instance.Save();
+      //  SkinManager.Instance.Save();
         PlayFabDataManager.Instance.SaveData("LastTimeQuit", System.DateTime.Now.ToString());
 
     }

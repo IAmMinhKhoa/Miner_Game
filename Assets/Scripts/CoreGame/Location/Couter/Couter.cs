@@ -5,6 +5,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine.Serialization;
 
 public class Counter : Patterns.Singleton<Counter>
 {
@@ -15,25 +16,37 @@ public class Counter : Patterns.Singleton<Counter>
     [SerializeField] private Transform m_depositLocation;
     [SerializeField] private Transform m_transporterLocation;
     [SerializeField] private BaseManagerLocation m_managerLocation;
-    [SerializeField] private BaseConfig couterConfig;
+    public TransportConfig Config;
+    public TransportMachineCounter transportMachine;
     public BaseManagerLocation ManagerLocation => m_managerLocation;
 
     public Transform CounterLocation => m_counterLocation;
     public Transform DepositLocation => m_depositLocation;
     public Transform TransporterLocation => m_transporterLocation;
 
+    [FormerlySerializedAs("m_boostScale")]
     [Header("Boost")]
-    [SerializeField] private double m_boostScale = 1f;
+    [SerializeField] private double mScaleCakeValue = 1f;
+    [SerializeField] private double m_scaleCakeValue = 1f;
+    [SerializeField] private double m_scaleBakingTime = 1f;
 
-    public double BoostScale
+    public double ScaleBakingTime
     {
-        get { return m_boostScale; }
-        set { m_boostScale = value; }
+	    get { return m_scaleBakingTime; }
+	    set
+	    {
+		    m_scaleBakingTime = value;
+	    }
+    }
+    public double ScaleCakeValue
+    {
+        get { return mScaleCakeValue; }
+        set { mScaleCakeValue = value; }
     }
 
     public double EfficiencyBoost
     {
-        get { return GetManagerBoost(BoostType.Efficiency); }
+        get { return  ScaleCakeValue *GetManagerBoost(BoostType.Efficiency); }
     }
 
     public float SpeedBoost
@@ -46,8 +59,8 @@ public class Counter : Patterns.Singleton<Counter>
         get { return GetManagerBoost(BoostType.Costs); }
     }
 
-    private List<Transporter> _transporters = new();
-    public List<Transporter> Transporters => _transporters;
+    /*private List<Transporter> _transporters = new();
+    public List<Transporter> Transporters => _transporters;*/
 
     public Deposit CounterDeposit { get; set; }
 
@@ -95,7 +108,7 @@ public class Counter : Patterns.Singleton<Counter>
     }
     public void CreateTransporter()
     {
-        Debug.Log("Create Transporter");
+        /*Debug.Log("Create Transporter");
         GameObject transporterGO = GameData.Instance.InstantiatePrefab(PrefabEnum.Transporter);
         transporterGO.transform.position = m_counterLocation.position;
         transporterGO.transform.SetParent(m_transporterLocation);
@@ -107,7 +120,7 @@ public class Counter : Patterns.Singleton<Counter>
         {
             UpdateUI();
             transporter.HideNumberText();
-        }
+        }*/
     }
 
     private void CreateDeposit()
@@ -133,8 +146,7 @@ public class Counter : Patterns.Singleton<Counter>
 
     public double GetPureEfficiencyPerSecond()
     {
-        return Transporters.Count * m_boostScale * couterConfig.ProductPerSecond * couterConfig.WorkingTime
-        / (2f * (couterConfig.WorkingTime + couterConfig.MoveTime));
+	    return ((ScaleCakeValue*Config.Value)/(ScaleBakingTime*Config.ProductPerSecond));
     }
 
     public double GetTotalNS()
@@ -158,7 +170,7 @@ public class Counter : Patterns.Singleton<Counter>
             Debug.Log("Count Init");
             CreateDeposit();
             gameObject.GetComponent<CounterUpgrade>().InitValue(1);
-            CreateTransporter();
+            //CreateTransporter();
         }
         isDone = true;
     }
@@ -167,7 +179,8 @@ public class Counter : Patterns.Singleton<Counter>
     {
         Dictionary<string, object> saveData = new Dictionary<string, object>
         {
-            { "boostScale", m_boostScale },
+            { "scaleCakeValue", ScaleCakeValue },
+            { "scaleBakingTime", ScaleBakingTime },
             {"level", gameObject.GetComponent<CounterUpgrade>().CurrentLevel},
             {"managerIndex", m_managerLocation.Manager != null ? m_managerLocation.Manager.Index : -1}
         };
@@ -187,15 +200,16 @@ public class Counter : Patterns.Singleton<Counter>
             string json = PlayFabManager.Data.PlayFabDataManager.Instance.GetData("Counter");
             Data saveData = JsonConvert.DeserializeObject<Data>(json);
 
-            m_boostScale = saveData.boostScale;
+            ScaleCakeValue = saveData.scaleCakeValue;
+            ScaleBakingTime = saveData.scaleBakingTime;
             CounterUpgrade upgrader = gameObject.GetComponent<CounterUpgrade>();
             upgrader.InitValue(saveData.level);
             ElevatorDeposit = ElevatorSystem.Instance.ElevatorDeposit;
-            int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
+            /*int numberWorker = upgrader.GetNumberWorkerAtLevel(saveData.level);
             for (int i = 0; i < numberWorker; i++)
             {
                 CreateTransporter();
-            }
+            }*/
 
             if (saveData.managerIndex != -1)
             {
@@ -209,7 +223,7 @@ public class Counter : Patterns.Singleton<Counter>
 
     public async UniTask AwakeWorker(bool isTriggerByTutorial = false)
     {
-		if(isTriggerByTutorial)
+		/*if(isTriggerByTutorial)
 		{
 			_transporters[0].SetValueParameterIsRequireCallToTutorial();
 		}
@@ -220,7 +234,9 @@ public class Counter : Patterns.Singleton<Counter>
                 transporter.forceWorking = true;
             }
             await UniTask.Delay(100);
-        }
+        }*/
+
+		StartCoroutine(transportMachine.SpawnCakesForDuration(2f));
     }
 
     private int _outCashier;
@@ -230,11 +246,11 @@ public class Counter : Patterns.Singleton<Counter>
         set
         {
             _outCashier = value;
-            if (_outCashier == _transporters.Count)
+            /*if (_outCashier == _transporters.Count)
             {
                 GetComponent<CounterUI>().PlayCollectAnimation(false);
                 _outCashier = 0;
-            }
+            }*/
         }
     }
 
@@ -253,7 +269,8 @@ public class Counter : Patterns.Singleton<Counter>
 
     class Data
     {
-        public double boostScale;
+        public double scaleCakeValue;
+        public double scaleBakingTime;
         public double elevatorDeposit;
         public int transporter;
         public int level;

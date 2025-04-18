@@ -192,9 +192,8 @@ public class UpgradeUI : MonoBehaviour
 				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal(value, managerLocation));
 				break;
 			case ManagerLocation.Counter:
-				productIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetProductIncrement((int)value)) + "/s";
-				speedIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetWorkerIncrement((int)value, managerLocation));
-				totalProductIncrement.text = Currency.DisplayCurrency(UpgradeManager.Instance.GetIncrementTotal((int)value, managerLocation));
+				totalProductIncrement.text ="+"+Currency.DisplayCurrency(UpgradeManager.Instance.GetTotalCakeValue(value));
+				productIncrement.text ="-"+UpgradeManager.Instance.GetTotalBakingTime(value).ToString("F2");
 				break;
 		}
 	}
@@ -242,7 +241,7 @@ public class UpgradeUI : MonoBehaviour
 				s_workerProduction.text = LanguageKeys.upgradeCakeTime.Text();
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
 				s_totalProduction.text = LanguageKeys.upgradeCakeValue.Text();
-				Debug.LogError("khoa:"+s_workerProduction.text+"/"+s_totalProduction.text+"/"+s_numberOrSpeed.text);
+//				Debug.LogError("khoa:"+s_workerProduction.text+"/"+s_totalProduction.text+"/"+s_numberOrSpeed.text);
 				//các text ở đây đang bị đè bởi component localize, chờ final design rồi sửa
 
 				//Debug.LogError("khoa:"+s_workerProduction.text+"/"+s_totalProduction.text);
@@ -257,27 +256,22 @@ public class UpgradeUI : MonoBehaviour
 				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][2];
 				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Elevator][3];
 				workerName.text = name;
-				Debug.LogError("khoa:"+s_workerProduction.text+"/"+s_totalProduction.text+"/"+s_numberOrSpeed.text);
 				numberOrSpeed.text = number + " s";
 				break;
 			case ManagerLocation.Counter:
 				titleKey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
 				currentTitlekey = LocalizationManager.GetLocalizedString(LanguageKeys.TitleUpgradeCounter);
 				currentLevel = level;
-				numberOrSpeedPanel.SetActive(true);
-				//titleText.text = $"{MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0]} {level}";
-				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][0];
-				s_workerProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][1];
-				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][2];
-				s_totalProduction.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Counter][3];
-				workerName.text = name;
-				Debug.LogError("khoa:"+s_workerProduction.text+"/"+s_totalProduction.text+"/"+s_numberOrSpeed.text);
-				numberOrSpeed.text = number + "NV";
+				numberOrSpeedPanel.SetActive(false);
+				currentTitleText = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][0];
+				s_workerProduction.text = LanguageKeys.upgradeCakeTime.Text();
+				s_numberOrSpeed.text = MainGameData.UpgradeDetailInfo[ManagerLocation.Shaft][2];
+				s_totalProduction.text = LanguageKeys.upgradeCakeValue.Text();
 				break;
 		}
 		titleText.text = $"{titleKey} {level + 1}";
 		currentTitleText = currentTitlekey;
-		if (locationType == ManagerLocation.Shaft)
+		if (locationType == ManagerLocation.Shaft || locationType == ManagerLocation.Counter)
 		{
 			workerProduction.text=production.ToString("F2")+ " s";
 			totalProduction.text = Currency.DisplayCurrency(number)+" Paw";

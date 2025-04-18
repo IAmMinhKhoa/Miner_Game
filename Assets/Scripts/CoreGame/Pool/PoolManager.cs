@@ -20,12 +20,12 @@ public class PoolManager : Patterns.Singleton<PoolManager>
 	    {
 		    if (dic_pool.ContainsKey(pool.name_pool))
 		    {
-			    Debug.LogWarning($"Pool '{pool.name_pool}' đã tồn tại, bỏ qua không tạo lại.");
+			 //   Debug.LogWarning($"Pool '{pool.name_pool}' đã tồn tại, bỏ qua không tạo lại.");
 			    continue;
 		    }
 
 		    Create(pool);
-		    Debug.Log("Tạo pool: " + pool.name_pool);
+//		    Debug.Log("Tạo pool: " + pool.name_pool);
 		    dic_pool[pool.name_pool] = pool;
 	    }
 

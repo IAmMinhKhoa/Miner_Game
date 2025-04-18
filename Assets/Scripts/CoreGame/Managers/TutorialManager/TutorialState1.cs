@@ -84,7 +84,7 @@ public class TutorialState1 : BaseTutorialState
 
 	private void Step3()
 	{
-		Counter.Instance.AwakeWorker(true).Forget();
+	//	Counter.Instance.AwakeWorker(true).Forget();
 	}
 
 	public override void Exit()

@@ -197,7 +197,7 @@ public class ManagersController : Patterns.Singleton<ManagersController>
             < 90 => ManagerLevel.Junior,
             _ => ManagerLevel.Senior
         };
-		Debug.Log("khoa newManager:" + location);
+	//		Debug.Log("khoa newManager:" + location);
 
         var specieDataList = _managerSpecieDataSOList.ToList(); //list all data staff of game
 		var specieDataFilterByLocation = specieDataList.FindAll(x=>x.LocationType==location);

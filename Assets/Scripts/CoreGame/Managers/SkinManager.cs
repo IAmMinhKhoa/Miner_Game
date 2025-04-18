@@ -27,6 +27,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 	}
 	public void InitData()//INIT find data SO
 	{
+		/*
 		LoadSkinData(); //fectch data from json
 		LoadAssets(); //get resource by path to list
 
@@ -50,6 +51,7 @@ public class SkinManager : Patterns.Singleton<SkinManager>
 		}
 		ElevatorSystem.Instance.UpdateUI();
 		Counter.Instance.UpdateUI();
+		*/
 
 
 		isDone = true;

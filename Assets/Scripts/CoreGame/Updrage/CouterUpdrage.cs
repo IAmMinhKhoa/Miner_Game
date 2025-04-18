@@ -47,8 +47,12 @@ public class CounterUpgrade : BaseUpgrade
     }
     protected override void RunUpgrade()
     {
-		float nextScale = GetNextExtractionSpeedScale(CurrentLevel);
-		counter.BoostScale *= 1 + nextScale;
+	    float nextScaleCakeValue = GetNextUpgradeCakeValue(CurrentLevel);
+	    float nextScaleBakingTime= GetNextUpgradeBakingTime(CurrentLevel);
+	    counter.ScaleCakeValue *= 1 + nextScaleCakeValue;
+	    counter.ScaleBakingTime *= 1 + nextScaleBakingTime;
+
+
 		if (milestoneLevels.TryGetValue(CurrentLevel, out int superMoney))
 		{
 			SuperMoneyManager.Instance.AddMoney(superMoney);
@@ -64,7 +68,7 @@ public class CounterUpgrade : BaseUpgrade
 		counter.OnUpgrade?.Invoke(CurrentLevel);
 	}
 
-    private float GetNextExtractionSpeedScale(int level)
+    private float GetNextUpgradeCakeValue(int level)
     {
         return level switch
         {
@@ -79,7 +83,22 @@ public class CounterUpgrade : BaseUpgrade
             }
         };
     }
-
+    private float GetNextUpgradeBakingTime(int CurrentLevel)
+    {
+	    return CurrentLevel switch
+	    {
+		    < 2 => 0,
+		    10 or 25 => 0.25f,
+		    50 or 100 or 200 or 400 => 0.5f,
+		    _ => CurrentLevel switch
+		    {
+			    < 10 => 0.04f,
+			    < 25 => 0.03f,
+			    <= 800 => 0.02f,
+			    _ => 0
+		    }
+	    };
+    }
     private bool IsNeedCreateTransporter(int level)
     {
         return level == 10 || level == 100 || level == 300 || level == 500;
@@ -123,9 +142,25 @@ public class CounterUpgrade : BaseUpgrade
         double scale = 1.00;
         for (int i = 1; i <= amoutOfNextLevel; i++)
         {
-            scale *= 1 + GetNextExtractionSpeedScale(CurrentLevel + i);
+            scale *= 1 + GetNextUpgradeCakeValue(CurrentLevel + i);
         }
 
         return scale;
+    }
+
+    public override double GetProductionBakingTime(int amoutOfNextLevel)
+    {
+	    if (amoutOfNextLevel <= 0)
+	    {
+		    return 1d;
+	    }
+
+	    double scale = 1.00;
+	    for (int i = 1; i <= amoutOfNextLevel; i++)
+	    {
+		    scale *= 1 + GetNextUpgradeBakingTime(CurrentLevel + i);
+	    }
+
+	    return scale;
     }
 }

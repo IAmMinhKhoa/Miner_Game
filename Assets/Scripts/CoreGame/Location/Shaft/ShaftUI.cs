@@ -74,16 +74,16 @@ public partial class ShaftUI : MonoBehaviour
     {
         m_shaft = GetComponent<Shaft>();
         m_shaftUpgrade = GetComponent<ShaftUpgrade>();
-        tableAnimation = m_table.GetComponent<SkeletonAnimation>();
+      //  tableAnimation = m_table.GetComponent<SkeletonAnimation>();
     }
 
     void Start()
     {
-        m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
-        m_shaft.CurrentDeposit.OnChangePawEle += ChangePawEleHandler;
+      //  m_shaft.CurrentDeposit.OnChangePaw += ChangePawHandler;
+      //s  m_shaft.CurrentDeposit.OnChangePawEle += ChangePawEleHandler;
         mainPanel.transform.SetParent(GameWorldUI.Instance.transform, true);
         m_indexText.text = (m_shaft.shaftIndex + 1).ToString();
-        ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
+        //ChangePawStart(m_shaft.CurrentDeposit.CurrentPaw);
     }
 
     void Update()
@@ -256,16 +256,16 @@ public partial class ShaftUI : MonoBehaviour
         var skinGameData = SkinManager.Instance.SkinGameDataAsset.SkinGameData;
         m_br.skeletonDataAsset = skinGameData[InventoryItemType.ShaftBg];
         m_secondbg.skeletonDataAsset = skinGameData[InventoryItemType.ShaftSecondBg];
-		waitTable.skeletonDataAsset = skinGameData[InventoryItemType.ShaftWaitTable];
-		m_tableAnimation.skeletonDataAsset = skinGameData[InventoryItemType.BarCounter];
+		/*waitTable.skeletonDataAsset = skinGameData[InventoryItemType.ShaftWaitTable];
+		m_tableAnimation.skeletonDataAsset = skinGameData[InventoryItemType.BarCounter];*/
 
 
 
 
 		m_br.Initialize(true);
         m_secondbg.Initialize(true);
-		waitTable.Initialize(true);
-		m_tableAnimation.Initialize(true);
+		/*waitTable.Initialize(true);
+		m_tableAnimation.Initialize(true);*/
 
 		var counter = GetComponent<Shaft>();
 
@@ -290,18 +290,18 @@ public partial class ShaftUI : MonoBehaviour
 
         m_br.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBackGround) + 1));
         m_secondbg.Skeleton.SetSkin("Skin_" + (int.Parse(data.idSecondBg) + 1));
-        waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
-		m_tableAnimation.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBarCounter) + 1));
+        /*waitTable.Skeleton.SetSkin("Skin_" + (int.Parse(data.idWaitTable) + 1));
+		m_tableAnimation.Skeleton.SetSkin("Skin_" + (int.Parse(data.idBarCounter) + 1));*/
 
 		//Debug.Log("Change Skin: " + data.idBackGround + " " + data.idSecondBg + " " + data.idWaitTable + " " + data.idBarCounter);
 
-		var animationState = waitTable.AnimationState;
-		animationState.SetAnimation(0, "Active", true);
+		/*var animationState = waitTable.AnimationState;
+		animationState.SetAnimation(0, "Active", true);*/
 
 		m_br.skeleton.SetSlotsToSetupPose();
 		m_secondbg.skeleton.SetSlotsToSetupPose();
-		waitTable.skeleton.SetSlotsToSetupPose();
-		m_tableAnimation.skeleton.SetSlotsToSetupPose();
+		/*waitTable.skeleton.SetSlotsToSetupPose();
+		m_tableAnimation.skeleton.SetSlotsToSetupPose();*/
 
 		/*if (TryGetComponent<Shaft>(out var shaft))
         {
@@ -336,6 +336,7 @@ public partial class ShaftUI : MonoBehaviour
             }
         }*/
 
+		/*
 		var upgradeUI = FindObjectOfType<UpgradeUI>();
 		if (upgradeUI != null)
 		{
@@ -343,6 +344,7 @@ public partial class ShaftUI : MonoBehaviour
 			SkeletonDataAsset dataAsset = m_tableAnimation.skeletonDataAsset;
 			upgradeUI.SetBarCounterData(dataAsset, skinName);
 		}
+		*/
 
 
 
@@ -415,6 +417,7 @@ public partial class ShaftUI : MonoBehaviour
 	public void AwakeWorker()
     {
        // m_shaft.AwakeWorker().Forget();
+
     }
 
 	void OnDestroy()

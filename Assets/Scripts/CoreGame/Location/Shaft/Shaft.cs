@@ -22,15 +22,13 @@ public partial class Shaft : MonoBehaviour
     public Transform DepositLocation => m_depositLocation;
     public Transform BrewerLocation => m_brewerLocation;
 
-    [FormerlySerializedAs("mScaleCakeValue")]
-    [FormerlySerializedAs("m_levelBoost")]
     [Header("Boost")]
     [SerializeField] private double m_scaleCakeValue = 1f;
     [SerializeField] private double m_scaleBakingTime = 1f;
     [SerializeField] private double m_indexBoost = 1f;
     [SerializeField] private double managerBoost = 1f;
-    public CakeConfig Config;
-
+    public TransportConfig Config;
+    public TransportMachineShaft transportMachine;
     /*[Header("Brewer")]
     private List<Brewer> _brewers = new();
     public List<Brewer> Brewers => _brewers;*/
