@@ -34,9 +34,15 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
     private void Start()
     {
         mainCamera = Camera.main;
+        if (Common.IsTablet)
+        {
+	        RectTransform rectTransform = GetComponent<RectTransform>();
+	        Vector2 currentPivot = rectTransform.pivot; // Lấy giá trị pivot hiện tại
+	        rectTransform.pivot = new Vector2(-0.1132658f, currentPivot.y);
+        }
 
 	}
-	
+
 
 	public void SetDataInit(Shaft shaft)
     {
@@ -93,7 +99,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         else
         {
             _icon.sprite = iconDefault;
-          
+
         }
     }
 
@@ -113,7 +119,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         else
         {
             _icon.sprite = iconDefault;
-           
+
         }
     }
     private void ValidateData(Manager _data)
@@ -173,7 +179,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         if (shaft.ManagerLocation.Manager == null) return;
 
         HandleDrop(eventData);
-	
+
 		DestroyDragObject();
         isDragging = false;
     }
@@ -291,7 +297,7 @@ public class InformationBlockShaft : MonoBehaviour, IPointerClickHandler, IPoint
         var currentManager = eventData.pointerDrag.GetComponent<InformationBlockShaft>().shaft.ManagerLocation.Manager;
         targetBlockShaft.SetData(currentManager);
 
-      
+
         ManagerSelectionShaft.OnReloadManager?.Invoke();
     }
 

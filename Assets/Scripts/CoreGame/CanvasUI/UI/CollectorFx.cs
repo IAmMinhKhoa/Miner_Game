@@ -50,7 +50,6 @@ public class CollectorFx : MonoBehaviour
 
 		}
 
-		//
 		foreach (var coin in coinsGO)
 		{
 			RectTransform coinRect = coin.GetComponent<RectTransform>();
@@ -65,13 +64,17 @@ public class CollectorFx : MonoBehaviour
 		// Chuyển vị trí thế giới của target thành vị trí local so với cha của coin
 		Vector2 localTargetPos = coin.parent.InverseTransformPoint(target.position);
 
-		coin.DOAnchorPos(localTargetPos, duration)
+		Sequence scaleAndMove  = DOTween.Sequence();
+		scaleAndMove.Join(coin.DOAnchorPos(localTargetPos, duration)
 			.SetEase(Ease.InOutCubic)
 			.OnComplete(() =>
 			{
 				SoundManager.PlaySound(SoundEnum.coin);
 				Destroy(coin.gameObject, 0.1f);
-			});
+			}));
+		scaleAndMove.Join(coin.DOScale(0.4f, duration));
+		scaleAndMove.Play();
+
 
 
 		yield return new WaitForSeconds(0);
